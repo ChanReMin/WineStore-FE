@@ -1,24 +1,25 @@
-import type { Metadata, Viewport } from 'next';
-import { Inter, Roboto_Mono } from 'next/font/google';
-import './globals.css';
+import type { Metadata, Viewport } from "next";
+import { Inter, Roboto_Mono } from "next/font/google";
+import "./globals.css";
 import {
   absoluteUrl,
   defaultStructuredData,
   seoConfig,
   seoVerification,
   themeColor,
-} from '@/config/seo';
-import Header from '@/components/header';
-import Footer from '@/components/Footer/Footer';
+} from "@/config/seo";
+import Header from "@/components/header";
+import Footer from "@/components/Footer/Footer";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Inter({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Roboto_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 const structuredData = JSON.stringify(defaultStructuredData);
@@ -34,19 +35,19 @@ export const metadata: Metadata = {
   keywords: seoConfig.keywords,
   authors: [{ name: seoConfig.siteName }],
   creator: seoConfig.siteName,
-  publisher: 'Wine Store Co., Ltd.',
-  category: 'ecommerce',
+  publisher: "Wine Store Co., Ltd.",
+  category: "ecommerce",
   alternates: {
-    canonical: absoluteUrl('/'),
+    canonical: absoluteUrl("/"),
     languages: {
-      'vi-VN': absoluteUrl('/vi'),
-      'en-US': absoluteUrl('/en'),
+      "vi-VN": absoluteUrl("/vi"),
+      "en-US": absoluteUrl("/en"),
     },
   },
   openGraph: {
     title: `${seoConfig.siteName} - ${seoConfig.tagline}`,
     description: seoConfig.description,
-    url: absoluteUrl('/'),
+    url: absoluteUrl("/"),
     siteName: seoConfig.siteName,
     images: [
       {
@@ -57,10 +58,10 @@ export const metadata: Metadata = {
       },
     ],
     locale: seoConfig.locale,
-    type: 'website',
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     site: seoConfig.twitterHandle,
     creator: seoConfig.twitterHandle,
     title: `${seoConfig.siteName} - ${seoConfig.tagline}`,
@@ -74,25 +75,25 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
   verification: seoVerification,
   icons: {
-    icon: '/favicon.ico',
-    shortcut: ['/favicon.ico'],
-    apple: '/apple-touch-icon.png',
+    icon: "/favicon.ico",
+    shortcut: ["/favicon.ico"],
+    apple: "/apple-touch-icon.png",
   },
-  manifest: '/site.webmanifest',
+  manifest: "/site.webmanifest",
 };
 
 export const viewport: Viewport = {
   themeColor,
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  colorScheme: 'dark',
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -110,9 +111,11 @@ export default function RootLayout({
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
-        <Header />
-        {children}
-         <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
