@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "./auth/AuthModal";
 import UserMenu from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
+import LocationModal from "./homepage/LocationModal";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -39,12 +40,58 @@ export default function Header() {
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
     "login",
   );
+  const [userCity, setUserCity] = useState<string>("");
+  const [userLocation, setUserLocation] = useState<{
+    city: string;
+    district: string;
+    store: string;
+  } | null>(null);
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
   const baseLink = "transition-all hover:opacity-70";
 
   const openAuthModal = (mode: "login" | "register") => {
     setAuthModalMode(mode);
     setIsAuthModalOpen(true);
+  };
+
+  const openLocationModal = () => {
+    setIsLocationModalOpen(true);
+  };
+
+  // Load location from localStorage on mount
+  useEffect(() => {
+    const location = localStorage.getItem('location');
+    if (location) {
+      try {
+        const data = JSON.parse(location);
+        setUserCity(data.city);
+        setUserLocation(data);
+      } catch (e) {
+        console.error('Failed to parse location data');
+      }
+    }
+
+    // Listen for location updates
+    const handleLocationUpdate = (event: CustomEvent) => {
+      setUserCity(event.detail.city);
+      setUserLocation(event.detail);
+    };
+
+    window.addEventListener('locationUpdated', handleLocationUpdate as EventListener);
+
+    return () => {
+      window.removeEventListener('locationUpdated', handleLocationUpdate as EventListener);
+    };
+  }, []);
+
+  const handleLocationComplete = (data: { city: string; district: string; store: string }) => {
+    localStorage.setItem('location', JSON.stringify(data));
+    setIsLocationModalOpen(false);
+    setUserCity(data.city);
+
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new CustomEvent('locationUpdated', { detail: data }));
   };
 
   return (
@@ -59,18 +106,18 @@ export default function Header() {
           className="mx-auto flex items-center justify-between px-6 py-6"
           variants={itemVariants}
         >
-        {/* LEFT: Search */}
-        <motion.form
+        {/* LEFT: Logo */}
+        <motion.div
           className="flex flex-1 items-center justify-start text-[22px]"
           variants={itemVariants}
         >
           <Link
-                href="/"
-                className="font-semibold uppercase text-[#33391d]"
-              >
-                Wine Store
-              </Link>
-        </motion.form>
+            href="/"
+            className="font-semibold uppercase text-[#33391d]"
+          >
+            Wine Store
+          </Link>
+        </motion.div>
 
         {/* CENTER: Nav + Logo */}
         <motion.nav
@@ -145,11 +192,60 @@ export default function Header() {
           </ul>
         </motion.nav>
 
-        {/* RIGHT: Auth or User Menu */}
+        {/* RIGHT: Location + Auth or User Menu */}
         <motion.div
           className="flex flex-1 items-center justify-end gap-6"
           variants={itemVariants}
         >
+          {/* Location Indicator - Clickable */}
+          {userCity && (
+            <motion.button
+              type="button"
+              onClick={openLocationModal}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group flex items-center gap-1.5 rounded-sm border border-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
+              title="Thay đổi địa chỉ"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 transition-transform group-hover:scale-110"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              <span className="font-medium">{userCity}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </motion.button>
+          )}
+
           {isAuthenticated ? (
             <>
               {/* Cart Dropdown for authenticated users */}
@@ -192,6 +288,14 @@ export default function Header() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         initialMode={authModalMode}
+      />
+
+      {/* Location Modal - For changing location */}
+      <LocationModal
+        isOpen={isLocationModalOpen}
+        onComplete={handleLocationComplete}
+        onClose={() => setIsLocationModalOpen(false)}
+        defaultValues={userLocation}
       />
     </>
   );
