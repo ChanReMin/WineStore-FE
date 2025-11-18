@@ -11,6 +11,8 @@ import {
 import Header from "@/components/header";
 import Footer from "@/components/Footer/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -115,6 +117,19 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={3500}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            limit={3}
+          />
         </AuthProvider>
       </body>
     </html>

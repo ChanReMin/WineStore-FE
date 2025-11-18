@@ -21,14 +21,13 @@ interface User {
 }
 
 interface RegisterData {
-  username: string;
   email: string;
   password: string;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-  date_of_birth: string;
-  gender: number;
+  first_name?: string;
+  last_name?: string;
+  phone_number?: string;
+  date_of_birth?: string;
+  gender?: number;
 }
 
 interface AuthContextType {
@@ -106,13 +105,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const mockUser: User = {
         id: Date.now().toString(),
-        username: data.username,
+        username: data.email.split("@")[0],
         email: data.email,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        phone_number: data.phone_number,
-        date_of_birth: data.date_of_birth,
-        gender: data.gender,
+        first_name: data.first_name || "",
+        last_name: data.last_name || "",
+        phone_number: data.phone_number || "",
+        date_of_birth: data.date_of_birth || "",
+        gender: data.gender || 0,
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.email}`,
       };
 
