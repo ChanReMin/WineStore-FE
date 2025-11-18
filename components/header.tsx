@@ -3,6 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import AuthModal from "./auth/AuthModal";
+import UserMenu from "./auth/UserMenu";
+import CartDropdown from "./auth/CartDropdown";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -20,54 +25,51 @@ const headerVariants: any = {
 
 const itemVariants: any = {
   hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeInOut" } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeInOut" },
+  },
 };
 
 export default function Header() {
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
+    "login",
+  );
 
   const baseLink = "transition-all hover:opacity-70";
 
+  const openAuthModal = (mode: "login" | "register") => {
+    setAuthModalMode(mode);
+    setIsAuthModalOpen(true);
+  };
+
   return (
-    <motion.header
-      className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-amber-50/95 backdrop-blur-md"
-      variants={headerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.div
-        className="mx-auto flex items-center justify-between px-6 py-6"
-        variants={itemVariants}
+    <>
+      <motion.header
+        className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-amber-50/95 backdrop-blur-md"
+        variants={headerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        {/* LEFT: Search */}
-        <motion.form
-          className="flex flex-1 items-center justify-start"
+        <motion.div
+          className="mx-auto flex items-center justify-between px-6 py-6"
           variants={itemVariants}
         >
-          <div className="flex items-center gap-2 text-[11px] text-neutral-700">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-3.5 w-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-            >
-              <circle cx="11" cy="11" r="6" />
-              <line x1="16" y1="16" x2="21" y2="21" />
-            </svg>
-
-            <input
-              type="text"
-              placeholder="Search..."
-              className="
-                w-28 bg-transparent 
-                text-[16px] italic tracking-wide
-                placeholder:italic placeholder:text-neutral-500
-                focus:outline-none
-              "
-            />
-          </div>
+        {/* LEFT: Search */}
+        <motion.form
+          className="flex flex-1 items-center justify-start text-[22px]"
+          variants={itemVariants}
+        >
+          <Link
+                href="/"
+                className="font-semibold uppercase text-[#33391d]"
+              >
+                Wine Store
+              </Link>
         </motion.form>
 
         {/* CENTER: Nav + Logo */}
@@ -99,15 +101,6 @@ export default function Header() {
                 }`}
               >
                 About
-              </Link>
-            </motion.li>
-
-            <motion.li
-              className="text-[22px] tracking-[0.35em]"
-              variants={itemVariants}
-            >
-              <Link href="/" className="font-semibold text-[#33391d] uppercase">
-                Wine Store
               </Link>
             </motion.li>
 
@@ -152,24 +145,54 @@ export default function Header() {
           </ul>
         </motion.nav>
 
-        {/* RIGHT: Cart + Menu */}
+        {/* RIGHT: Auth or User Menu */}
         <motion.div
           className="flex flex-1 items-center justify-end gap-6"
           variants={itemVariants}
         >
-          <button className="text-[16px] italic text-neutral-700">
-            Cart (0)
-          </button>
+          {isAuthenticated ? (
+            <>
+              {/* Cart Dropdown for authenticated users */}
+              <CartDropdown />
 
-          <button
-            aria-label="Open menu"
-            className="flex flex-col gap-[5px] transition-transform duration-200 hover:scale-105"
-          >
-            <span className="h-px w-7 bg-black" />
-            <span className="h-px w-7 bg-black" />
-          </button>
+              {/* User Menu */}
+              <UserMenu />
+            </>
+          ) : (
+            <>
+              {/* Login Button */}
+              <motion.button
+                type="button"
+                onClick={() => openAuthModal("login")}
+                className="text-[14px] uppercase tracking-[0.2em] text-neutral-700 transition-opacity hover:opacity-70"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Login
+              </motion.button>
+
+              {/* Register Button */}
+              <motion.button
+                type="button"
+                onClick={() => openAuthModal("register")}
+                className="border border-[#33391d] bg-[#33391d] px-5 py-2 text-[14px] uppercase tracking-[0.2em] text-amber-50 transition-all hover:bg-[#2a2f18]"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Register
+              </motion.button>
+            </>
+          )}
         </motion.div>
-      </motion.div>
-    </motion.header>
+        </motion.div>
+      </motion.header>
+
+      {/* Auth Modal - Rendered outside header to cover full viewport */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        initialMode={authModalMode}
+      />
+    </>
   );
 }
