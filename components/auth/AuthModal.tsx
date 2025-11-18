@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -17,11 +18,10 @@ export default function AuthModal({
 }: AuthModalProps) {
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [formData, setFormData] = useState({
-    // Login fields
+    // Required fields
     email: "",
     password: "",
-    // Register fields
-    username: "",
+    // Optional fields for register
     first_name: "",
     last_name: "",
     phone_number: "",
@@ -45,76 +45,71 @@ export default function AuthModal({
     // Validation
     const newErrors: Record<string, string> = {};
 
+    // Common validation for both login and register
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    // Optional validation for register mode
     if (mode === "register") {
-      // Register validation
-      if (!formData.username.trim()) {
-        newErrors.username = "Username is required";
-      } else if (formData.username.length < 3) {
-        newErrors.username = "Username must be at least 3 characters";
-      }
-      if (!formData.first_name.trim()) {
-        newErrors.first_name = "First name is required";
-      }
-      if (!formData.last_name.trim()) {
-        newErrors.last_name = "Last name is required";
-      }
-      if (!formData.phone_number.trim()) {
-        newErrors.phone_number = "Phone number is required";
-      } else if (!/^[0-9]{10,11}$/.test(formData.phone_number)) {
+      if (formData.phone_number && !/^[0-9]{10,11}$/.test(formData.phone_number)) {
         newErrors.phone_number = "Phone number must be 10-11 digits";
-      }
-      if (!formData.date_of_birth) {
-        newErrors.date_of_birth = "Date of birth is required";
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = "Email is required";
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = "Email is invalid";
-      }
-      if (!formData.password) {
-        newErrors.password = "Password is required";
-      } else if (formData.password.length < 6) {
-        newErrors.password = "Password must be at least 6 characters";
-      }
-    } else {
-      // Login validation
-      if (!formData.email.trim()) {
-        newErrors.email = "Email is required";
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = "Email is invalid";
-      }
-      if (!formData.password) {
-        newErrors.password = "Password is required";
-      } else if (formData.password.length < 6) {
-        newErrors.password = "Password must be at least 6 characters";
       }
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      
+      // Show toast only for validation errors (not for required fields)
+      const validationErrors = Object.entries(newErrors).filter(
+        ([key, value]) => !value.includes("required")
+      );
+      
+      if (validationErrors.length > 0) {
+        const firstValidationError = validationErrors[0][1];
+        toast.error(firstValidationError, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+      
       return;
     }
 
     try {
       if (mode === "login") {
         await login(formData.email, formData.password);
+        toast.success("Login successful! Welcome back.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
         await register({
-          username: formData.username,
           email: formData.email,
           password: formData.password,
           first_name: formData.first_name,
           last_name: formData.last_name,
           phone_number: formData.phone_number,
           date_of_birth: formData.date_of_birth,
-          gender: Number.parseInt(formData.gender),
+          gender: formData.gender ? Number.parseInt(formData.gender) : 0,
+        });
+        toast.success("Account created successfully! Welcome to Wine Store.", {
+          position: "top-right",
+          autoClose: 3000,
         });
       }
       onClose();
       setFormData({
         email: "",
         password: "",
-        username: "",
         first_name: "",
         last_name: "",
         phone_number: "",
@@ -122,8 +117,9 @@ export default function AuthModal({
         gender: "0",
       });
     } catch (error: any) {
-      setErrors({
-        submit: error.message || "Something went wrong. Please try again.",
+      toast.error(error.message || "Something went wrong. Please try again.", {
+        position: "top-right",
+        autoClose: 4000,
       });
     }
   };
@@ -144,7 +140,6 @@ export default function AuthModal({
     setFormData({
       email: "",
       password: "",
-      username: "",
       first_name: "",
       last_name: "",
       phone_number: "",
@@ -235,7 +230,7 @@ export default function AuthModal({
                 </motion.div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                   {/* Register fields - only for register */}
                   <AnimatePresence mode="wait">
                     {mode === "register" && (
@@ -246,30 +241,6 @@ export default function AuthModal({
                         transition={{ duration: 0.3 }}
                         className="space-y-4"
                       >
-                        {/* Username */}
-                        <div>
-                          <label
-                            htmlFor="username"
-                            className="block text-xs uppercase tracking-wider text-neutral-700"
-                          >
-                            Username
-                          </label>
-                          <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
-                            placeholder="Your username"
-                          />
-                          {errors.username && (
-                            <p className="mt-1 text-xs italic text-red-600">
-                              {errors.username}
-                            </p>
-                          )}
-                        </div>
-
                         {/* First Name & Last Name */}
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div>
@@ -277,7 +248,7 @@ export default function AuthModal({
                               htmlFor="first_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              First Name
+                              First Name <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="text"
@@ -288,18 +259,13 @@ export default function AuthModal({
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                               placeholder="John"
                             />
-                            {errors.first_name && (
-                              <p className="mt-1 text-xs italic text-red-600">
-                                {errors.first_name}
-                              </p>
-                            )}
                           </div>
                           <div>
                             <label
                               htmlFor="last_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Last Name
+                              Last Name <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="text"
@@ -310,11 +276,6 @@ export default function AuthModal({
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                               placeholder="Doe"
                             />
-                            {errors.last_name && (
-                              <p className="mt-1 text-xs italic text-red-600">
-                                {errors.last_name}
-                              </p>
-                            )}
                           </div>
                         </div>
 
@@ -333,10 +294,14 @@ export default function AuthModal({
                               name="email"
                               value={formData.email}
                               onChange={handleChange}
-                              className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                errors.email && errors.email.includes("required")
+                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                              }`}
                               placeholder="your@email.com"
                             />
-                            {errors.email && (
+                            {errors.email && errors.email.includes("required") && (
                               <p className="mt-1 text-xs italic text-red-600">
                                 {errors.email}
                               </p>
@@ -347,7 +312,7 @@ export default function AuthModal({
                               htmlFor="phone_number"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Phone Number
+                              Phone Number <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="tel"
@@ -358,11 +323,6 @@ export default function AuthModal({
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                               placeholder="0123456789"
                             />
-                            {errors.phone_number && (
-                              <p className="mt-1 text-xs italic text-red-600">
-                                {errors.phone_number}
-                              </p>
-                            )}
                           </div>
                         </div>
 
@@ -373,7 +333,7 @@ export default function AuthModal({
                               htmlFor="date_of_birth"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Date of Birth
+                              Date of Birth <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="date"
@@ -381,20 +341,16 @@ export default function AuthModal({
                               name="date_of_birth"
                               value={formData.date_of_birth}
                               onChange={handleChange}
-                              className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                              max={new Date().toISOString().split("T")[0]}
+                              className="mt-1 w-full cursor-pointer border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                             />
-                            {errors.date_of_birth && (
-                              <p className="mt-1 text-xs italic text-red-600">
-                                {errors.date_of_birth}
-                              </p>
-                            )}
                           </div>
                           <div>
                             <label
                               htmlFor="gender"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Gender
+                              Gender <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <select
                               id="gender"
@@ -459,10 +415,14 @@ export default function AuthModal({
                           name="email"
                           value={formData.email}
                           onChange={handleChange}
-                          className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                          className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                            errors.email && errors.email.includes("required")
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                              : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                          }`}
                           placeholder="your@email.com"
                         />
-                        {errors.email && (
+                        {errors.email && errors.email.includes("required") && (
                           <p className="mt-1 text-xs italic text-red-600">
                             {errors.email}
                           </p>
@@ -483,20 +443,20 @@ export default function AuthModal({
                           name="password"
                           value={formData.password}
                           onChange={handleChange}
-                          className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                          className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                            errors.password && errors.password.includes("required")
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                              : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                          }`}
                           placeholder="••••••••"
                         />
-                        {errors.password && (
+                        {errors.password && errors.password.includes("required") && (
                           <p className="mt-1 text-xs italic text-red-600">
                             {errors.password}
                           </p>
                         )}
                       </div>
                     </>
-                  )}
-
-                  {errors.submit && (
-                    <p className="text-xs italic text-red-600">{errors.submit}</p>
                   )}
 
                   {/* Submit button */}
