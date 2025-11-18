@@ -126,6 +126,19 @@ export default function Header() {
 
             <motion.li variants={itemVariants}>
               <Link
+                href="/blog"
+                className={`${baseLink} ${
+                  pathname.startsWith("/blog")
+                    ? "line-through decoration-1 decoration-neutral-900"
+                    : ""
+                }`}
+              >
+                Blog
+              </Link>
+            </motion.li>
+
+            <motion.li variants={itemVariants}>
+              <Link
                 href="/shop"
                 className={`${baseLink} ${
                   pathname.startsWith("/shop")
