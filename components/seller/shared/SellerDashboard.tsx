@@ -1,10 +1,10 @@
 "use client";
 
 import { mockOverview, mockRevenue, mockOrders, mockInventory } from "@/lib/sellerDashboard";
-import OverviewCards from "./OverviewCards";
-import RevenueChart from "./RevenueChart";
-import LatestOrdersTable from "./LatestOrdersTable";
-import InventoryAlerts from "./InventoryAlerts";
+import OverviewCards from "../dashboard/OverviewCards";
+import RevenueChart from "../dashboard/RevenueChart";
+import LatestOrdersTable from "../dashboard/LatestOrdersTable";
+import InventoryAlerts from "../dashboard/InventoryAlerts";
 
 export default function SellerDashboard() {
   const totalProducts = mockInventory.data.length;

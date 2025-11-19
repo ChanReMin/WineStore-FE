@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import SellerSidebar from "@/components/seller/SellerSidebar";
-import SellerHeader from "@/components/seller/SellerHeader";
+import SellerSidebar from "@/components/seller/shared/SellerSidebar";
+import SellerHeader from "@/components/seller/shared/SellerHeader";
 
 export default function SellerLayout({
   children,
