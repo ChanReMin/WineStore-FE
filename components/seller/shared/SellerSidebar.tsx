@@ -50,7 +50,16 @@ const menuItems: MenuItem[] = [
   {
     icon: Warehouse,
     label: "Inventory Management",
-    href: "/seller/inventory",
+    children: [
+      {
+        label: "Tồn kho",
+        href: "/seller/inventory",
+      },
+      {
+        label: "Lịch sử xuất nhập",
+        href: "/seller/inventory-logs",
+      },
+    ],
   },
   {
     icon: Gift,
