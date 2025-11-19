@@ -1,15 +1,22 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Wine, Utensils, BookOpen, Award, Thermometer, Globe } from 'lucide-react';
+import { motion } from "framer-motion";
+import {
+  Wine,
+  Utensils,
+  BookOpen,
+  Award,
+  Thermometer,
+  Globe,
+} from "lucide-react";
 
 const categories = [
-  { id: 'all', label: 'TẤT CẢ', icon: Wine },
-  { id: 'tasting', label: 'THƯỞNG THỨC', icon: Award },
-  { id: 'pairing', label: 'KẾT HỢP MÓN ĂN', icon: Utensils },
-  { id: 'storage', label: 'BẢO QUẢN', icon: Thermometer },
-  { id: 'education', label: 'KIẾN THỨC', icon: BookOpen },
-  { id: 'regions', label: 'VÙNG MIỀN', icon: Globe },
+  { id: "all", label: "TẤT CẢ", icon: Wine },
+  { id: "tasting", label: "THƯỞNG THỨC", icon: Award },
+  { id: "pairing", label: "KẾT HỢP MÓN ĂN", icon: Utensils },
+  { id: "storage", label: "BẢO QUẢN", icon: Thermometer },
+  { id: "education", label: "KIẾN THỨC", icon: BookOpen },
+  { id: "regions", label: "VÙNG MIỀN", icon: Globe },
 ];
 
 interface BlogCategoriesProps {
@@ -17,7 +24,10 @@ interface BlogCategoriesProps {
   onSelectCategory: (category: string) => void;
 }
 
-export default function BlogCategories({ selectedCategory, onSelectCategory }: BlogCategoriesProps) {
+export default function BlogCategories({
+  selectedCategory,
+  onSelectCategory,
+}: BlogCategoriesProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,7 +38,7 @@ export default function BlogCategories({ selectedCategory, onSelectCategory }: B
       {categories.map((category, index) => {
         const Icon = category.icon;
         const isSelected = selectedCategory === category.id;
-        
+
         return (
           <motion.button
             key={category.id}
@@ -40,9 +50,10 @@ export default function BlogCategories({ selectedCategory, onSelectCategory }: B
             onClick={() => onSelectCategory(category.id)}
             className={`
               group relative px-6 md:px-8 py-3 text-[10px] md:text-[11px] tracking-[0.25em] uppercase transition-all duration-300
-              ${isSelected 
-                ? 'bg-[#3b4417] text-white' 
-                : 'bg-white text-[#3b4417] border border-[#c8c8a3] hover:border-[#3b4417]'
+              ${
+                isSelected
+                  ? "bg-[#3b4417] text-white"
+                  : "bg-white text-[#3b4417] border border-[#c8c8a3] hover:border-[#3b4417]"
               }
             `}
           >
@@ -50,7 +61,7 @@ export default function BlogCategories({ selectedCategory, onSelectCategory }: B
               <Icon className="w-3.5 h-3.5" strokeWidth={1.5} />
               {category.label}
             </span>
-            
+
             {/* Decorative corners */}
             {!isSelected && (
               <>

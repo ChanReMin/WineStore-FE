@@ -35,8 +35,8 @@ export default function Difference() {
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              In a world of mass-market wine retailers, we stand apart through our
-              unwavering commitment to quality, authenticity, and customer
+              In a world of mass-market wine retailers, we stand apart through
+              our unwavering commitment to quality, authenticity, and customer
               experience. Here's what sets us apart:
             </p>
 

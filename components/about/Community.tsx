@@ -8,19 +8,22 @@ const INITIATIVES = [
   {
     icon: Wine,
     title: "Monthly Tastings",
-    description: "Free wine tasting events featuring new arrivals and seasonal selections",
+    description:
+      "Free wine tasting events featuring new arrivals and seasonal selections",
     stat: "500+ Events",
   },
   {
     icon: GraduationCap,
     title: "Wine Education",
-    description: "WSET-certified courses and masterclasses for all experience levels",
+    description:
+      "WSET-certified courses and masterclasses for all experience levels",
     stat: "2,000+ Students",
   },
   {
     icon: Users,
     title: "Wine Club",
-    description: "Exclusive member benefits, early access, and personalized curation",
+    description:
+      "Exclusive member benefits, early access, and personalized curation",
     stat: "10,000+ Members",
   },
   {
@@ -51,9 +54,9 @@ export default function Community() {
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              We believe wine is best enjoyed together. That's why we've created a
-              vibrant community of enthusiasts, collectors, and curious beginners
-              who share a passion for exceptional wines.
+              We believe wine is best enjoyed together. That's why we've created
+              a vibrant community of enthusiasts, collectors, and curious
+              beginners who share a passion for exceptional wines.
             </p>
 
             {/* Initiatives */}
@@ -71,7 +74,11 @@ export default function Community() {
                     className="group flex gap-4"
                   >
                     <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#3b4417] transition-colors group-hover:bg-[#4a5520]">
-                      <Icon size={24} strokeWidth={1.5} className="text-white" />
+                      <Icon
+                        size={24}
+                        strokeWidth={1.5}
+                        className="text-white"
+                      />
                     </div>
                     <div className="flex-1">
                       <div className="flex items-baseline justify-between">

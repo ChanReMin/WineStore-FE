@@ -56,7 +56,7 @@ export default function Testimonials() {
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.3em] text-[#3b4417] uppercase">
             What Our Clients Say
           </h2>
-          
+
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
             <span className="h-px w-16 bg-[#d4d6b4]" />
             <span>Trusted by wine lovers worldwide</span>
@@ -124,7 +124,7 @@ export default function Testimonials() {
               </div>
 
               {/* Hover Border Effect */}
-             <div className="absolute inset-0 z-0 border-2 border-transparent transition-colors group-hover:border-[#d4d6b4]" />
+              <div className="absolute inset-0 z-0 border-2 border-transparent transition-colors group-hover:border-[#d4d6b4]" />
             </motion.div>
           ))}
         </motion.div>

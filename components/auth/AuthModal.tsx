@@ -27,6 +27,8 @@ export default function AuthModal({
     phone_number: "",
     date_of_birth: "",
     gender: "0",
+    // Role for testing
+    role: "seller" as "customer" | "seller" | "admin",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { login, register, isLoading } = useAuth();
@@ -60,19 +62,22 @@ export default function AuthModal({
 
     // Optional validation for register mode
     if (mode === "register") {
-      if (formData.phone_number && !/^[0-9]{10,11}$/.test(formData.phone_number)) {
+      if (
+        formData.phone_number &&
+        !/^[0-9]{10,11}$/.test(formData.phone_number)
+      ) {
         newErrors.phone_number = "Phone number must be 10-11 digits";
       }
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      
+
       // Show toast only for validation errors (not for required fields)
       const validationErrors = Object.entries(newErrors).filter(
         ([key, value]) => !value.includes("required")
       );
-      
+
       if (validationErrors.length > 0) {
         const firstValidationError = validationErrors[0][1];
         toast.error(firstValidationError, {
@@ -80,13 +85,13 @@ export default function AuthModal({
           autoClose: 3000,
         });
       }
-      
+
       return;
     }
 
     try {
       if (mode === "login") {
-        await login(formData.email, formData.password);
+        await login(formData.email, formData.password, formData.role);
         toast.success("Login successful! Welcome back.", {
           position: "top-right",
           autoClose: 3000,
@@ -100,6 +105,7 @@ export default function AuthModal({
           phone_number: formData.phone_number,
           date_of_birth: formData.date_of_birth,
           gender: formData.gender ? Number.parseInt(formData.gender) : 0,
+          role: formData.role,
         });
         toast.success("Account created successfully! Welcome to Wine Store.", {
           position: "top-right",
@@ -115,6 +121,7 @@ export default function AuthModal({
         phone_number: "",
         date_of_birth: "",
         gender: "0",
+        role: "seller",
       });
     } catch (error: any) {
       toast.error(error.message || "Something went wrong. Please try again.", {
@@ -125,7 +132,7 @@ export default function AuthModal({
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
@@ -145,6 +152,7 @@ export default function AuthModal({
       phone_number: "",
       date_of_birth: "",
       gender: "0",
+      role: "seller",
     });
   };
 
@@ -165,15 +173,17 @@ export default function AuthModal({
           {/* Modal - Centered in viewport with scroll and responsive width */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
+            animate={{
+              opacity: 1,
+              scale: 1,
               y: 0,
             }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className={`fixed left-1/2 top-1/2 z-9999 max-h-[90vh] w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto px-4 transition-all duration-300 ${
-              mode === "register" ? "max-w-xl lg:max-w-2xl" : "max-w-md lg:max-w-lg"
+              mode === "register"
+                ? "max-w-xl lg:max-w-2xl"
+                : "max-w-md lg:max-w-lg"
             }`}
           >
             <div className="relative overflow-hidden rounded-sm border border-neutral-300 bg-amber-50 shadow-2xl ">
@@ -248,7 +258,10 @@ export default function AuthModal({
                               htmlFor="first_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              First Name <span className="text-neutral-400">(Optional)</span>
+                              First Name{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="text"
@@ -265,7 +278,10 @@ export default function AuthModal({
                               htmlFor="last_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Last Name <span className="text-neutral-400">(Optional)</span>
+                              Last Name{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="text"
@@ -295,24 +311,29 @@ export default function AuthModal({
                               value={formData.email}
                               onChange={handleChange}
                               className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.email && errors.email.includes("required")
+                                errors.email &&
+                                errors.email.includes("required")
                                   ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                                   : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                               }`}
                               placeholder="your@email.com"
                             />
-                            {errors.email && errors.email.includes("required") && (
-                              <p className="mt-1 text-xs italic text-red-600">
-                                {errors.email}
-                              </p>
-                            )}
+                            {errors.email &&
+                              errors.email.includes("required") && (
+                                <p className="mt-1 text-xs italic text-red-600">
+                                  {errors.email}
+                                </p>
+                              )}
                           </div>
                           <div>
                             <label
                               htmlFor="phone_number"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Phone Number <span className="text-neutral-400">(Optional)</span>
+                              Phone Number{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="tel"
@@ -333,7 +354,10 @@ export default function AuthModal({
                               htmlFor="date_of_birth"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Date of Birth <span className="text-neutral-400">(Optional)</span>
+                              Date of Birth{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="date"
@@ -350,7 +374,10 @@ export default function AuthModal({
                               htmlFor="gender"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Gender <span className="text-neutral-400">(Optional)</span>
+                              Gender{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <select
                               id="gender"
@@ -369,6 +396,41 @@ export default function AuthModal({
                               </p>
                             )}
                           </div>
+                        </div>
+
+                        {/* Role Selector - For Testing */}
+                        <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
+                          <div className="mb-2 flex items-center gap-2">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+                              🧪 Test Mode
+                            </span>
+                          </div>
+                          <label
+                            htmlFor="role"
+                            className="block text-xs uppercase tracking-wider text-neutral-700"
+                          >
+                            Account Role
+                          </label>
+                          <select
+                            id="role"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
+                          >
+                            <option value="customer">
+                              👤 Customer (No seller access)
+                            </option>
+                            <option value="seller">
+                              🏪 Seller (Full seller access)
+                            </option>
+                            <option value="admin">
+                              👑 Admin (Full access)
+                            </option>
+                          </select>
+                          <p className="mt-2 text-xs italic text-neutral-600">
+                            Select role to test different access levels
+                          </p>
                         </div>
 
                         {/* Password field - inside register block */}
@@ -444,17 +506,52 @@ export default function AuthModal({
                           value={formData.password}
                           onChange={handleChange}
                           className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                            errors.password && errors.password.includes("required")
+                            errors.password &&
+                            errors.password.includes("required")
                               ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                               : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                           }`}
                           placeholder="••••••••"
                         />
-                        {errors.password && errors.password.includes("required") && (
-                          <p className="mt-1 text-xs italic text-red-600">
-                            {errors.password}
-                          </p>
-                        )}
+                        {errors.password &&
+                          errors.password.includes("required") && (
+                            <p className="mt-1 text-xs italic text-red-600">
+                              {errors.password}
+                            </p>
+                          )}
+                      </div>
+
+                      {/* Role Selector - For Testing */}
+                      <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+                            🧪 Test Mode
+                          </span>
+                        </div>
+                        <label
+                          htmlFor="role"
+                          className="block text-xs uppercase tracking-wider text-neutral-700"
+                        >
+                          Account Role
+                        </label>
+                        <select
+                          id="role"
+                          name="role"
+                          value={formData.role}
+                          onChange={handleChange}
+                          className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
+                        >
+                          <option value="customer">
+                            👤 Customer (No seller access)
+                          </option>
+                          <option value="seller">
+                            🏪 Seller (Full seller access)
+                          </option>
+                          <option value="admin">👑 Admin (Full access)</option>
+                        </select>
+                        <p className="mt-2 text-xs italic text-neutral-600">
+                          Select role to test different access levels
+                        </p>
                       </div>
                     </>
                   )}

@@ -40,7 +40,8 @@ export default function Mission() {
             What Drives Us
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Our foundation is built on three core pillars that guide every decision we make
+            Our foundation is built on three core pillars that guide every
+            decision we make
           </p>
         </motion.div>
 

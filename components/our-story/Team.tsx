@@ -34,7 +34,7 @@ const TEAM_MEMBERS = [
     role: "Marketing Manager",
     bio: "Specializes in digital marketing for luxury brands. Wine enthusiast.",
     image: "/team/member-5.jpg",
-  }
+  },
 ];
 
 export default function Team() {
@@ -53,7 +53,8 @@ export default function Team() {
             Meet Our Team
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Passionate experts dedicated to helping you discover your perfect wine
+            Passionate experts dedicated to helping you discover your perfect
+            wine
           </p>
         </motion.div>
 
@@ -76,10 +77,10 @@ export default function Team() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                
+
                 {/* Social Links */}
                 <div className="absolute bottom-4 left-4 flex gap-3 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                   <motion.button

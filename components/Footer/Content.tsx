@@ -18,8 +18,8 @@ const SectionTop = () => {
           Wine Store
         </h2>
         <p className="text-sm text-[#e5ddc7]">
-          Boutique wine store curating small-batch labels, cellar-aged
-          classics and everyday bottles for unhurried evenings.
+          Boutique wine store curating small-batch labels, cellar-aged classics
+          and everyday bottles for unhurried evenings.
         </p>
         <p className="text-xs italic text-[#c6bda0]">
           Slowly curated. Thoughtfully poured.

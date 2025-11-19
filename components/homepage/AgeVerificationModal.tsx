@@ -27,15 +27,15 @@ export default function AgeVerificationModal({
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
+            animate={{
+              opacity: 1,
+              scale: 1,
               y: 0,
             }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            transition={{ 
-              duration: 0.5, 
-              ease: [0.16, 1, 0.3, 1] // Custom easing for smooth feel
+            transition={{
+              duration: 0.5,
+              ease: [0.16, 1, 0.3, 1], // Custom easing for smooth feel
             }}
             className="fixed left-1/2 top-1/2 z-9999 w-full max-w-md -translate-x-1/2 -translate-y-1/2 px-4"
           >
@@ -58,11 +58,11 @@ export default function AgeVerificationModal({
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  transition={{ 
-                    duration: 0.6, 
+                  transition={{
+                    duration: 0.6,
                     delay: 0.3,
                     type: "spring",
-                    stiffness: 200
+                    stiffness: 200,
                   }}
                   className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#33391d]/10"
                 >

@@ -86,7 +86,9 @@ export default function CartDropdown() {
                 <circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
-              <p className="mt-4 text-sm text-neutral-600">Your cart is empty</p>
+              <p className="mt-4 text-sm text-neutral-600">
+                Your cart is empty
+              </p>
               <p className="mt-1 text-xs italic text-neutral-500">
                 Add some wines to get started
               </p>

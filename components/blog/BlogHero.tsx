@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Wine, BookOpen } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Wine, BookOpen } from "lucide-react";
 
 export default function BlogHero() {
   return (
@@ -11,12 +11,12 @@ export default function BlogHero() {
         <motion.div
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           className="h-full w-full"
         >
           <div
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: 'url(/wines/wine-1.jpg)' }}
+            style={{ backgroundImage: "url(/wines/wine-1.jpg)" }}
           />
           <div className="absolute inset-0 bg-black/40" />
         </motion.div>
@@ -27,7 +27,7 @@ export default function BlogHero() {
         <motion.div
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
+          transition={{ duration: 1, ease: "easeInOut" }}
           className="text-center text-white"
         >
           {/* Icon */}
@@ -60,7 +60,8 @@ export default function BlogHero() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-6 max-w-2xl mx-auto text-sm md:text-base text-white/85 tracking-wider leading-relaxed"
           >
-            Khám phá nghệ thuật thưởng thức rượu vang qua những bài viết chuyên sâu
+            Khám phá nghệ thuật thưởng thức rượu vang qua những bài viết chuyên
+            sâu
             <br className="hidden md:block" />
             từ các chuyên gia sommelier và những người đam mê rượu vang
           </motion.p>
@@ -75,7 +76,9 @@ export default function BlogHero() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+              onClick={() =>
+                window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
+              }
               className="group inline-flex items-center gap-3 border-2 border-white/60 bg-white/10 px-12 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
             >
               KHÁM PHÁ NGAY

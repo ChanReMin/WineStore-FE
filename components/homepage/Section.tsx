@@ -33,8 +33,7 @@ export default function ParallaxCellarSection() {
           <p className="mt-4 max-w-xl text-[1.1rem] leading-relaxed text-white tracking-widest">
             From sun-drenched vineyards to candlelit tastings, every bottle on
             our shelves carries the patience of time and the craft of the
-            winemaker. Scroll to explore the stories behind our favorite
-            labels.
+            winemaker. Scroll to explore the stories behind our favorite labels.
           </p>
         </div>
       </div>

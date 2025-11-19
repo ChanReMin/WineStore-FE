@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import type { BlogPost } from '@/lib/blogData';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
+import type { BlogPost } from "@/lib/blogData";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -35,10 +35,10 @@ export default function BlogCard({ post, index }: BlogCardProps) {
               className="object-cover"
             />
           </motion.div>
-          
+
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all duration-500" />
-          
+
           {/* Category Badge */}
           <div className="absolute top-6 left-6">
             <span className="bg-white/90 backdrop-blur-sm px-4 py-2 text-[10px] tracking-[0.25em] uppercase text-[#3b4417] font-medium">

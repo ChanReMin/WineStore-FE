@@ -18,6 +18,7 @@ interface User {
   date_of_birth: string;
   gender: number; // 0=unknown, 1=male, 2=female
   avatar?: string;
+  role?: "customer" | "seller" | "admin"; // Role của user
 }
 
 interface RegisterData {
@@ -28,12 +29,17 @@ interface RegisterData {
   phone_number?: string;
   date_of_birth?: string;
   gender?: number;
+  role?: "customer" | "seller" | "admin";
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (
+    email: string,
+    password: string,
+    role?: "customer" | "seller" | "admin"
+  ) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
@@ -58,24 +64,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (
+    email: string,
+    password: string,
+    role: "customer" | "seller" | "admin" = "seller"
+  ) => {
     setIsLoading(true);
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Mock: Lấy user từ localStorage nếu có
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user.email === email) {
-          setUser(user);
-          return;
-        }
-      }
-
-      // Nếu không tìm thấy, báo lỗi (trong production)
-      // Tạm thời cho phép login với mock data
+      // Mock: Tạo user mới với role từ form
+      // Trong test mode, luôn tạo user mới với role được chọn
       const mockUser: User = {
         id: Date.now().toString(),
         username: email.split("@")[0],
@@ -86,8 +86,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         date_of_birth: "",
         gender: 0,
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
+        role: role, // Sử dụng role từ form
       };
-      
+
       setUser(mockUser);
       localStorage.setItem("user", JSON.stringify(mockUser));
     } catch (error) {
@@ -103,6 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+      // Sử dụng role từ form (mặc định là seller để test)
       const mockUser: User = {
         id: Date.now().toString(),
         username: data.email.split("@")[0],
@@ -113,6 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         date_of_birth: data.date_of_birth || "",
         gender: data.gender || 0,
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.email}`,
+        role: data.role || "seller",
       };
 
       setUser(mockUser);

@@ -1,8 +1,11 @@
-import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { generateMetadata as generateSEOMetadata, generateBreadcrumbStructuredData } from '@/config/seo';
-import { blogPosts } from '@/lib/blogData';
-import BlogDetailClient from '@/components/blog/BlogDetailClient';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import {
+  generateMetadata as generateSEOMetadata,
+  generateBreadcrumbStructuredData,
+} from "@/config/seo";
+import { blogPosts } from "@/lib/blogData";
+import BlogDetailClient from "@/components/blog/BlogDetailClient";
 
 interface BlogDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -14,7 +17,9 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: BlogDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
 
@@ -40,28 +45,28 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const breadcrumbData = generateBreadcrumbStructuredData([
-    { name: 'Trang chủ', url: '/' },
-    { name: 'Blog', url: '/blog' },
+    { name: "Trang chủ", url: "/" },
+    { name: "Blog", url: "/blog" },
     { name: post.title, url: `/blog/${post.slug}` },
   ]);
 
   const articleStructuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     image: post.image,
     datePublished: post.date,
     author: {
-      '@type': 'Person',
+      "@type": "Person",
       name: post.author,
     },
     publisher: {
-      '@type': 'Organization',
-      name: 'Wine Store',
+      "@type": "Organization",
+      name: "Wine Store",
       logo: {
-        '@type': 'ImageObject',
-        url: '/icons/logo.svg',
+        "@type": "ImageObject",
+        url: "/icons/logo.svg",
       },
     },
   };
@@ -74,7 +79,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleStructuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleStructuredData),
+        }}
       />
       <BlogDetailClient post={post} />
     </>
