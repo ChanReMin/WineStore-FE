@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import CountUp from "../CountUp";
 
 export default function Philosophy() {
   return (
@@ -16,7 +17,7 @@ export default function Philosophy() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <Image
                 src="/hero/slide-1.jpg"
                 alt="Wine philosophy"
@@ -90,7 +91,14 @@ export default function Philosophy() {
               ].map((stat, index) => (
                 <div key={index}>
                   <p className="text-[36px] md:text-[44px] font-bold text-[#3b4417]">
-                    {stat.number}
+                    <CountUp
+                    from={0}
+                    to={parseInt(stat.number.replace("+", "").replace("K", "000"))}
+                    separator=","
+                    direction="up"
+                    duration={1}
+                    className="count-up-text"
+                    />+
                   </p>
                   <p className="mt-1 text-[13px] tracking-[0.2em] text-neutral-500 uppercase">
                     {stat.label}

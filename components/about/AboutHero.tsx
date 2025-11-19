@@ -1,15 +1,35 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Award, Globe, Heart, Users, Sparkles } from "lucide-react";
+import { Award, Globe, Heart, Users } from "lucide-react";
 import { useRef } from "react";
 
 const STATS = [
-  { icon: Users, number: "50K+", label: "Happy Customers", color: "from-blue-400 to-blue-600" },
-  { icon: Globe, number: "30+", label: "Countries", color: "from-green-400 to-green-600" },
-  { icon: Award, number: "100+", label: "Awards", color: "from-yellow-400 to-yellow-600" },
-  { icon: Heart, number: "50+", label: "Years Experience", color: "from-red-400 to-red-600" },
+  { icon: Users, number: "50K+", label: "Happy Customers" },
+  { icon: Globe, number: "30+", label: "Countries" },
+  { icon: Award, number: "100+", label: "Awards" },
+  { icon: Heart, number: "50+", label: "Years Experience" },
 ];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any },
+  },
+};
 
 export default function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,62 +38,49 @@ export default function AboutHero() {
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative w-full overflow-hidden bg-gradient-to-br from-[#3b4417] via-[#4a5520] to-[#3b4417] py-24 md:py-32">
-      {/* Animated Background with Wine Bottle Shapes */}
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute"
-            initial={{
-              x: Math.random() * 100 + "%",
-              y: Math.random() * 100 + "%",
-              scale: Math.random() * 0.5 + 0.5,
-            }}
-            animate={{
-              y: [null, (Math.random() - 0.5) * 100 + "%"],
-              x: [null, (Math.random() - 0.5) * 50 + "%"],
-              rotate: [0, 360],
-              opacity: [0, 0.3, 0],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: "linear",
-            }}
-          >
-            <Sparkles size={Math.random() * 20 + 10} className="text-white/20" />
-          </motion.div>
-        ))}
-      </div>
+    <section ref={containerRef} className="relative w-full overflow-hidden bg-[#120906] py-32 md:py-40">
+      {/* Subtle gradient overlay */}
+       <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/hero/slide-5.jpg')" }}
+      />
+      
+      {/* Animated grain texture */}
+      <motion.div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E\")",
+        }}
+      />
 
       <div className="relative z-10 mx-auto max-w-6xl px-4">
         <motion.div
           style={{ y, opacity }}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
         >
-          {/* Badge */}
+          {/* Decorative line */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6 inline-block"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-8 flex items-center justify-center gap-4"
           >
-            <span className="rounded-full border border-white/30 bg-white/10 px-6 py-2 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm uppercase">
-              Premium Wine Retail
+            <span className="h-px w-16 md:w-24 bg-white/20" />
+            <span className="text-[11px] tracking-[0.3em] text-white/60 uppercase italic">
+              estd 1970
             </span>
+            <span className="h-px w-16 md:w-24 bg-white/30" />
           </motion.div>
 
           {/* Main Heading */}
-          <h1 className="text-[36px] md:text-[52px] lg:text-[64px] font-bold leading-tight tracking-[0.1em] text-white uppercase">
+          <h1 className="text-[40px] md:text-[56px] lg:text-[68px] font-semibold leading-[1.1] tracking-[0.15em] text-white uppercase">
             About Wine Store
           </h1>
 
@@ -82,7 +89,7 @@ export default function AboutHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mx-auto mt-6 max-w-3xl text-[18px] leading-relaxed text-white/90"
+            className="mx-auto mt-8 max-w-3xl text-[17px] md:text-[18px] leading-relaxed text-white/90 tracking-wide"
           >
             We're more than a wine shop—we're your trusted partner in discovering
             exceptional wines from around the world. With expert curation,
@@ -90,52 +97,39 @@ export default function AboutHero() {
             wine accessible to everyone.
           </motion.p>
 
-          {/* Stats Grid with Counter Animation */}
+          {/* Stats Grid */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-16 grid grid-cols-2 gap-8 lg:grid-cols-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="mt-20 grid grid-cols-2 gap-6 md:gap-8 lg:grid-cols-4"
           >
             {STATS.map((stat, index) => {
               const Icon = stat.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
-                  whileHover={{ y: -8, scale: 1.08 }}
+                  variants={itemVariants}
+                  whileHover={{ y: -6 }}
                   className="group relative"
                 >
-                  {/* Gradient Glow Effect */}
-                  <motion.div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${stat.color} opacity-0 blur-xl transition-opacity group-hover:opacity-30`}
-                  />
-                  
-                  <div className="relative flex flex-col items-center rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-all group-hover:border-white/30 group-hover:bg-white/10">
+                  <div className="relative flex flex-col items-center border border-white/10 bg-white/5 p-8 backdrop-blur-sm transition-all duration-300 group-hover:border-white/30 group-hover:bg-white/20">
+                    {/* Icon */}
                     <motion.div
-                      whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.2 }}
+                      whileHover={{ rotate: [0, -8, 8, -8, 0], scale: 1.15 }}
                       transition={{ duration: 0.5 }}
-                      className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm"
+                      className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#f5f3e8]/30 transition-colors group-hover:bg-[#f5f3e8]/30"
                     >
-                      <Icon size={28} strokeWidth={1.5} className="text-white" />
+                      <Icon size={26} strokeWidth={1.5} className="text-white" />
                     </motion.div>
                     
-                    <motion.p
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ 
-                        type: "spring",
-                        stiffness: 200,
-                        delay: 0.8 + index * 0.1 
-                      }}
-                      className="text-[36px] md:text-[44px] font-bold text-white"
-                    >
+                    {/* Number */}
+                    <p className="text-[38px] md:text-[42px] font-bold text-white">
                       {stat.number}
-                    </motion.p>
+                    </p>
                     
-                    <p className="mt-1 text-[13px] tracking-[0.2em] text-white/70 uppercase">
+                    {/* Label */}
+                    <p className="mt-2 text-[12px] tracking-[0.2em] text-white uppercase">
                       {stat.label}
                     </p>
                   </div>

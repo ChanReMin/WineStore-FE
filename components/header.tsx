@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "./auth/AuthModal";
 import UserMenu from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
-import LocationModal from "./homepage/LocationModal";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -59,7 +58,6 @@ export default function Header() {
     setIsLocationModalOpen(true);
   };
 
-  // Load location from localStorage on mount
   useEffect(() => {
     const location = localStorage.getItem('location');
     if (location) {
@@ -85,15 +83,6 @@ export default function Header() {
     };
   }, []);
 
-  const handleLocationComplete = (data: { city: string; district: string; store: string }) => {
-    localStorage.setItem('location', JSON.stringify(data));
-    setIsLocationModalOpen(false);
-    setUserCity(data.city);
-
-    // Dispatch custom event to notify other components
-    window.dispatchEvent(new CustomEvent('locationUpdated', { detail: data }));
-  };
-
   return (
     <>
       <motion.header
@@ -106,25 +95,25 @@ export default function Header() {
           className="mx-auto flex items-center justify-between px-6 py-6"
           variants={itemVariants}
         >
-        {/* LEFT: Logo */}
-        <motion.div
+        {/* LEFT: Search */}
+        <motion.form
           className="flex flex-1 items-center justify-start text-[22px]"
           variants={itemVariants}
         >
           <Link
-            href="/"
-            className="font-semibold uppercase text-[#33391d]"
-          >
-            Wine Store
-          </Link>
-        </motion.div>
+                href="/"
+                className="font-semibold uppercase text-[#33391d]"
+              >
+                Wine Store
+              </Link>
+        </motion.form>
 
         {/* CENTER: Nav + Logo */}
         <motion.nav
           className="flex flex-1 items-center justify-center text-gray-800"
           variants={itemVariants}
         >
-          <ul className="flex items-center gap-10 text-[14px] tracking-[0.25em] uppercase">
+         <ul className="flex items-center gap-10 text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">
             <motion.li variants={itemVariants}>
               <Link
                 href="/"
@@ -192,13 +181,12 @@ export default function Header() {
           </ul>
         </motion.nav>
 
-        {/* RIGHT: Location + Auth or User Menu */}
+        {/* RIGHT: Auth or User Menu */}
         <motion.div
           className="flex flex-1 items-center justify-end gap-6"
           variants={itemVariants}
         >
-          {/* Location Indicator - Clickable */}
-          {userCity && (
+           {userCity && (
             <motion.button
               type="button"
               onClick={openLocationModal}
@@ -206,7 +194,7 @@ export default function Header() {
               animate={{ opacity: 1, x: 0 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group flex items-center gap-1.5 rounded-sm border border-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
+              className="group flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
               title="Thay đổi địa chỉ"
             >
               <svg
@@ -228,24 +216,9 @@ export default function Header() {
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span className="font-medium">{userCity}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3 opacity-50 transition-opacity group-hover:opacity-100"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+              <span className="text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">{userCity}</span>
             </motion.button>
           )}
-
           {isAuthenticated ? (
             <>
               {/* Cart Dropdown for authenticated users */}
@@ -288,14 +261,6 @@ export default function Header() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         initialMode={authModalMode}
-      />
-
-      {/* Location Modal - For changing location */}
-      <LocationModal
-        isOpen={isLocationModalOpen}
-        onComplete={handleLocationComplete}
-        onClose={() => setIsLocationModalOpen(false)}
-        defaultValues={userLocation}
       />
     </>
   );
