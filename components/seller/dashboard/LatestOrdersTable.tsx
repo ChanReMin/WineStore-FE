@@ -61,19 +61,33 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
     >
       <Card className="border-[#d4d6b4]">
         <CardHeader>
-          <CardTitle className="text-[#3b4417] tracking-wide">Đơn hàng mới nhất</CardTitle>
+          <CardTitle className="text-[#3b4417] tracking-wide">
+            Đơn hàng mới nhất
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow className="border-[#d4d6b4]">
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Mã đơn</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Khách hàng</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Trạng thái</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Thanh toán</TableHead>
-                  <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">Tổng tiền</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Ngày tạo</TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Mã đơn
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Khách hàng
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Trạng thái
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Thanh toán
+                  </TableHead>
+                  <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Tổng tiền
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Ngày tạo
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -87,7 +101,9 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                     </TableCell>
                     <TableCell>
                       <div>
-                        <p className="font-medium text-[#3b4417]">{order.customer.name}</p>
+                        <p className="font-medium text-[#3b4417]">
+                          {order.customer.name}
+                        </p>
                         <p className="text-sm text-[#7a8451]">
                           {order.customer.email}
                         </p>
@@ -101,8 +117,8 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                     <TableCell>
                       <Badge
                         className={
-                          order.payment_status === 1 
-                            ? "bg-[#3b4417] text-white border-[#3b4417]" 
+                          order.payment_status === 1
+                            ? "bg-[#3b4417] text-white border-[#3b4417]"
                             : "bg-gray-100 text-gray-700 border-gray-300"
                         }
                       >

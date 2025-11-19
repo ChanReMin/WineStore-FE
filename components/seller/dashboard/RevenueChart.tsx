@@ -1,9 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Line, ComposedChart } from "recharts";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Line,
+  ComposedChart,
+} from "recharts";
 
 interface ChartDataPoint {
   date: string;
@@ -50,7 +69,9 @@ export default function RevenueChart({
     >
       <Card className="border-[#d4d6b4]">
         <CardHeader>
-          <CardTitle className="text-[#3b4417] tracking-wide">Doanh thu 7 ngày qua</CardTitle>
+          <CardTitle className="text-[#3b4417] tracking-wide">
+            Doanh thu 7 ngày qua
+          </CardTitle>
           <CardDescription className="flex gap-6 text-sm text-[#7a8451]">
             <span>
               Tổng doanh thu:{" "}
@@ -62,7 +83,10 @@ export default function RevenueChart({
               </span>
             </span>
             <span>
-              Tổng đơn hàng: <span className="font-semibold text-[#3b4417]">{totalOrders}</span>
+              Tổng đơn hàng:{" "}
+              <span className="font-semibold text-[#3b4417]">
+                {totalOrders}
+              </span>
             </span>
           </CardDescription>
         </CardHeader>

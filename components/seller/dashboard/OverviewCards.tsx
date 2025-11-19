@@ -64,10 +64,16 @@ export default function OverviewCards({
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-[#7a8451] mb-1 tracking-wide uppercase text-[11px]">{card.title}</p>
-                  <p className="text-2xl font-bold text-[#3b4417]">{card.value}</p>
+                  <p className="text-sm text-[#7a8451] mb-1 tracking-wide uppercase text-[11px]">
+                    {card.title}
+                  </p>
+                  <p className="text-2xl font-bold text-[#3b4417]">
+                    {card.value}
+                  </p>
                 </div>
-                <div className={`${card.bgColor} p-3 rounded-full transition-transform hover:scale-110`}>
+                <div
+                  className={`${card.bgColor} p-3 rounded-full transition-transform hover:scale-110`}
+                >
                   <card.icon className={`w-6 h-6 ${card.color}`} />
                 </div>
               </div>
