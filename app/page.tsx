@@ -24,37 +24,62 @@ const displaySerif = Playfair_Display({
 });
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  // Check if preloader should be shown (only on first load in session)
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem("preloaderShown");
+    }
+    return true;
+  });
   const [showAgeModal, setShowAgeModal] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
 
 
-  useEffect(() => {
+useEffect(() => {
   (async () => {
-    const LocomotiveScroll = (await import("locomotive-scroll")).default as any;
+    const LocomotiveScroll = (await import("locomotive-scroll")).default;
     new LocomotiveScroll();
 
+    const hasSeenPreloader = sessionStorage.getItem("preloaderShown");
+    const hasVerifiedAge = localStorage.getItem("age");
+    const storedLocation = localStorage.getItem("location");
+
+    // Hàm xử lý việc hiển thị modal (tránh trùng logic)
+    const handleModals = (delay: number) => {
+      setTimeout(() => {
+        // Nếu chưa xác minh tuổi → bật age modal
+        if (!hasVerifiedAge) {
+          setShowAgeModal(true);
+          return;
+        }
+
+        // Nếu đã xác minh tuổi → kiểm tra location
+        if (hasVerifiedAge === "true" && !storedLocation) {
+          setShowLocationModal(true);
+        }
+      }, delay);
+    };
+
+    document.body.style.cursor = "default";
+
+    // --- Nếu preloader đã hiển thị ---
+    if (hasSeenPreloader) {
+      handleModals(500);
+      return;
+    }
+
+    // --- Lần đầu trong session → hiển thị preloader ---
     setTimeout(() => {
       setIsLoading(false);
+      sessionStorage.setItem("preloaderShown", "true");
       document.body.style.cursor = "default";
       window.scrollTo(0, 0);
 
-      // Check localStorage for existing data
-      const hasVerifiedAge = localStorage.getItem("age");
-      const storedLocation = localStorage.getItem("location");
-      const showModalDelay = 1500;
-
-      // Only show age modal if user hasn't verified age yet
-      if (!hasVerifiedAge) {
-        setTimeout(() => setShowAgeModal(true), showModalDelay);
-      } 
-      // Only show location modal if age is verified AND is adult AND no location saved
-      else if (hasVerifiedAge === 'true' && !storedLocation) {
-        setTimeout(() => setShowLocationModal(true), showModalDelay);
-      }
+      handleModals(1500);
     }, 2000);
   })();
 }, []);
+
 
 
   const handleAgeVerification = (isAdult: boolean) => {

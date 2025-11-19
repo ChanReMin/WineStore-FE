@@ -81,11 +81,11 @@ export default function Testimonials() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -8, scale: 1.02 }}
               onHoverStart={() => setActiveIndex(index)}
-              className="group relative bg-[#fdfbf5] p-8 transition-shadow hover:shadow-xl"
+              className="group relative z-10 bg-[#fdfbf5] p-8 transition-shadow hover:shadow-xl"
             >
               {/* Quote Icon */}
-              <div className="absolute -top-4 left-8">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3b4417] transition-transform group-hover:scale-110">
+              <div className="absolute -top-4 left-8 z-20">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3b4417] transition-transform group-hover:scale-110 z-50">
                   <Quote size={20} className="text-white" fill="white" />
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function Testimonials() {
               </div>
 
               {/* Hover Border Effect */}
-              <div className="absolute inset-0 border-2 border-transparent transition-colors group-hover:border-[#d4d6b4]" />
+             <div className="absolute inset-0 z-0 border-2 border-transparent transition-colors group-hover:border-[#d4d6b4]" />
             </motion.div>
           ))}
         </motion.div>

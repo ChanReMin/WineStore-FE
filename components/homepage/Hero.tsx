@@ -76,7 +76,7 @@ export default function Hero() {
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* BACKGROUND + ANIMATION */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <AnimatePresence custom={direction}>
           <motion.div
             key={current.image}
@@ -86,10 +86,10 @@ export default function Hero() {
             animate="center"
             exit="exit"
             transition={{ duration: 1, ease: "easeInOut" }}
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
           >
             <div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center pointer-events-none"
               style={{ backgroundImage: `url(${current.image})` }}
             />
           </motion.div>
@@ -126,7 +126,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row z-20"
           >
             <motion.a
               href="/shop"
@@ -154,13 +154,13 @@ export default function Hero() {
       </div>
 
       {/* NÚT TRÁI / PHẢI */}
-      <div className="absolute inset-y-0 z-20 flex w-full items-center justify-between px-6 md:px-10">
+      <div className="absolute inset-y-0 z-20 flex w-full items-center justify-between px-6 md:px-10 pointer-events-none">
         <motion.button
           type="button"
           onClick={prev}
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.05 }}
-          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer"
+          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto"
         >
           <ChevronLeft size={32} strokeWidth={1.25} />
         </motion.button>
@@ -170,7 +170,7 @@ export default function Hero() {
           onClick={next}
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.05 }}
-          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer"
+          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto"
         >
           <ChevronRight size={32} strokeWidth={1.25} />
         </motion.button>
