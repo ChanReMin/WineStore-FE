@@ -50,7 +50,8 @@ export default function Process() {
             Our Process
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            From vineyard to your glass, every step is designed to deliver excellence
+            From vineyard to your glass, every step is designed to deliver
+            excellence
           </p>
         </motion.div>
 
@@ -74,7 +75,11 @@ export default function Process() {
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       className="flex h-20 w-20 items-center justify-center rounded-full bg-[#3b4417] transition-colors group-hover:bg-[#4a5520]"
                     >
-                      <Icon size={36} strokeWidth={1.5} className="text-white" />
+                      <Icon
+                        size={36}
+                        strokeWidth={1.5}
+                        className="text-white"
+                      />
                     </motion.div>
                     <div className="mt-4 text-[48px] font-bold text-[#3b4417]/10">
                       {step.number}

@@ -78,7 +78,7 @@ export default function FeaturedProducts() {
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.3em] text-[#3b4417] uppercase">
             Featured Wines
           </h2>
-          
+
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
             <span className="h-px w-16 bg-[#d4d6b4]" />
             <span>Handpicked by our sommeliers</span>
@@ -86,7 +86,8 @@ export default function FeaturedProducts() {
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-neutral-600">
-            Discover our carefully curated selection of exceptional wines from renowned vineyards around the world.
+            Discover our carefully curated selection of exceptional wines from
+            renowned vineyards around the world.
           </p>
         </motion.div>
 
@@ -120,10 +121,10 @@ export default function FeaturedProducts() {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                
+
                 {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
-                
+
                 {/* Quick Add Button */}
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}

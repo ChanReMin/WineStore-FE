@@ -56,8 +56,9 @@ export default function CTASection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/85">
-            Browse our curated collection of premium wines from around the world. 
-            Whether you're a connoisseur or just beginning your journey, we have something special for you.
+            Browse our curated collection of premium wines from around the
+            world. Whether you're a connoisseur or just beginning your journey,
+            we have something special for you.
           </p>
 
           {/* CTA Buttons */}
@@ -93,7 +94,8 @@ export default function CTASection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 text-[13px] text-white/60"
           >
-            ✓ Free shipping on orders over $200 • ✓ 30-day return policy • ✓ Secure checkout
+            ✓ Free shipping on orders over $200 • ✓ 30-day return policy • ✓
+            Secure checkout
           </motion.p>
         </motion.div>
       </div>

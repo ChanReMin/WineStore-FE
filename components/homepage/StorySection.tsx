@@ -18,7 +18,11 @@ const containerVariants: Variants = {
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any },
+  },
 };
 
 export default function StorySection() {
@@ -65,10 +69,7 @@ export default function StorySection() {
           </div>
 
           {/* READ MORE BUTTON */}
-          <motion.div
-            className="mt-10"
-            variants={itemVariants}
-          >
+          <motion.div className="mt-10" variants={itemVariants}>
             <motion.button
               type="button"
               whileHover={{ scale: 1.04, y: -2 }}
@@ -81,9 +82,7 @@ export default function StorySection() {
               <span className="pointer-events-none absolute left-0 bottom-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
               <span className="pointer-events-none absolute right-0 top-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
 
-              <span className="relative bg-white px-4 py-1">
-                READ MORE
-              </span>
+              <span className="relative bg-white px-4 py-1">READ MORE</span>
             </motion.button>
           </motion.div>
         </motion.div>

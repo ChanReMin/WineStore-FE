@@ -87,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         gender: 0,
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
       };
-      
+
       setUser(mockUser);
       localStorage.setItem("user", JSON.stringify(mockUser));
     } catch (error) {

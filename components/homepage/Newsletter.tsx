@@ -23,9 +23,12 @@ export default function Newsletter() {
     <section className="relative w-full overflow-hidden bg-[#3b4417] py-20 md:py-28">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
 
       <div className="relative mx-auto max-w-4xl px-4 text-center">
@@ -58,7 +61,8 @@ export default function Newsletter() {
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-white/80">
-            Subscribe to receive curated wine recommendations, exclusive discounts, and invitations to private tastings.
+            Subscribe to receive curated wine recommendations, exclusive
+            discounts, and invitations to private tastings.
           </p>
 
           {/* Form */}
@@ -104,7 +108,8 @@ export default function Newsletter() {
             </div>
 
             <p className="mt-4 text-[12px] text-white/60">
-              By subscribing, you agree to our Privacy Policy and consent to receive updates.
+              By subscribing, you agree to our Privacy Policy and consent to
+              receive updates.
             </p>
           </motion.form>
 
@@ -130,12 +135,14 @@ export default function Newsletter() {
               >
                 <p className="text-[32px] md:text-[40px] font-bold text-white">
                   <CountUp
-                  from={0}
-                  to={parseInt(stat.number.replace("+", "").replace("K", "000"))}
-                  separator=","
-                  direction="up"
-                  duration={1}
-                  className="count-up-text"
+                    from={0}
+                    to={parseInt(
+                      stat.number.replace("+", "").replace("K", "000")
+                    )}
+                    separator=","
+                    direction="up"
+                    duration={1}
+                    className="count-up-text"
                   />
                 </p>
                 <p className="mt-1 text-[12px] tracking-[0.2em] text-white/70 uppercase">
