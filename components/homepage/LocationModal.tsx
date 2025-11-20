@@ -69,11 +69,7 @@ const STORES: Record<string, string[]> = {
     "Wine Store Vĩnh Hòa",
     "Wine Store Phước Long",
   ],
-  Huế: [
-    "Wine Store Phú Nhuận",
-    "Wine Store Phú Hội",
-    "Wine Store Thuận Thành",
-  ],
+  Huế: ["Wine Store Phú Nhuận", "Wine Store Phú Hội", "Wine Store Thuận Thành"],
   "Vũng Tàu": [
     "Wine Store Trung Tâm",
     "Wine Store Bà Rịa",
