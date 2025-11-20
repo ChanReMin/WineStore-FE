@@ -4,7 +4,10 @@ export interface Product {
   name: string;
   price: number;
   category: string;
+  category_id: number;
   brand: string;
+  brand_id: number;
+  concentration: number;
   status: number;
   status_text: string;
   total_inventory: number;

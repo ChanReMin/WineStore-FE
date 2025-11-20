@@ -14,11 +14,27 @@ import type { ProductFormData } from "@/types/productForm";
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [brandFilter, setBrandFilter] = useState("all");
+  const [priceFrom, setPriceFrom] = useState("");
+  const [priceTo, setPriceTo] = useState("");
+  const [concentrationFrom, setConcentrationFrom] = useState("");
+  const [concentrationTo, setConcentrationTo] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  // Filter products based on search and status
+  // Clear all filters
+  const handleClearFilters = () => {
+    setCategoryFilter("all");
+    setBrandFilter("all");
+    setPriceFrom("");
+    setPriceTo("");
+    setConcentrationFrom("");
+    setConcentrationTo("");
+  };
+
+  // Filter products based on all criteria
   const filteredProducts = useMemo(() => {
     let filtered = mockProductList.data.products;
 
@@ -26,6 +42,44 @@ export default function ProductsPage() {
     if (statusFilter !== "all") {
       filtered = filtered.filter(
         (product) => product.status === Number.parseInt(statusFilter)
+      );
+    }
+
+    // Filter by category
+    if (categoryFilter !== "all") {
+      filtered = filtered.filter(
+        (product) => product.category_id === Number.parseInt(categoryFilter)
+      );
+    }
+
+    // Filter by brand
+    if (brandFilter !== "all") {
+      filtered = filtered.filter(
+        (product) => product.brand_id === Number.parseInt(brandFilter)
+      );
+    }
+
+    // Filter by price range
+    if (priceFrom !== "") {
+      const minPrice = Number.parseFloat(priceFrom);
+      filtered = filtered.filter((product) => product.price >= minPrice);
+    }
+    if (priceTo !== "") {
+      const maxPrice = Number.parseFloat(priceTo);
+      filtered = filtered.filter((product) => product.price <= maxPrice);
+    }
+
+    // Filter by concentration range
+    if (concentrationFrom !== "") {
+      const minConcentration = Number.parseFloat(concentrationFrom);
+      filtered = filtered.filter(
+        (product) => product.concentration >= minConcentration
+      );
+    }
+    if (concentrationTo !== "") {
+      const maxConcentration = Number.parseFloat(concentrationTo);
+      filtered = filtered.filter(
+        (product) => product.concentration <= maxConcentration
       );
     }
 
@@ -41,7 +95,16 @@ export default function ProductsPage() {
     }
 
     return filtered;
-  }, [searchQuery, statusFilter]);
+  }, [
+    searchQuery,
+    statusFilter,
+    categoryFilter,
+    brandFilter,
+    priceFrom,
+    priceTo,
+    concentrationFrom,
+    concentrationTo,
+  ]);
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -53,7 +116,16 @@ export default function ProductsPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, statusFilter]);
+  }, [
+    searchQuery,
+    statusFilter,
+    categoryFilter,
+    brandFilter,
+    priceFrom,
+    priceTo,
+    concentrationFrom,
+    concentrationTo,
+  ]);
 
   // Handlers
   const handleCreateProduct = async (data: ProductFormData) => {
@@ -113,6 +185,19 @@ export default function ProductsPage() {
         onSearchChange={setSearchQuery}
         statusFilter={statusFilter}
         onStatusChange={setStatusFilter}
+        categoryFilter={categoryFilter}
+        onCategoryChange={setCategoryFilter}
+        brandFilter={brandFilter}
+        onBrandChange={setBrandFilter}
+        priceFrom={priceFrom}
+        onPriceFromChange={setPriceFrom}
+        priceTo={priceTo}
+        onPriceToChange={setPriceTo}
+        concentrationFrom={concentrationFrom}
+        onConcentrationFromChange={setConcentrationFrom}
+        concentrationTo={concentrationTo}
+        onConcentrationToChange={setConcentrationTo}
+        onClearFilters={handleClearFilters}
         summary={mockProductList.data.summary}
       />
 

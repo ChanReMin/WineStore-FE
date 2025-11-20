@@ -107,7 +107,7 @@ export default function RevenueChart({
                 axisLine={false}
                 tickMargin={8}
                 style={{ fontSize: "12px", fill: "#7a8451" }}
-                tickFormatter={(value) => `${value}tr`}
+                tickFormatter={(value: number) => `${value}tr`}
               />
               <YAxis
                 yAxisId="right"
