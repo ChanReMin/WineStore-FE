@@ -52,7 +52,9 @@ const getStatusBadge = (status: string) => {
       </Badge>
     );
   }
-  return <Badge className="bg-[#3b4417] text-white border-[#3b4417]">Đủ hàng</Badge>;
+  return (
+    <Badge className="bg-[#3b4417] text-white border-[#3b4417]">Đủ hàng</Badge>
+  );
 };
 
 export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
@@ -78,12 +80,24 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
             <Table>
               <TableHeader>
                 <TableRow className="border-[#d4d6b4]">
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Sản phẩm</TableHead>
-                  <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">Giá</TableHead>
-                  <TableHead className="text-center text-[#7a8451] uppercase text-[11px] tracking-wider">Tồn kho</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Kho</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Trạng thái</TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">Cập nhật</TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Sản phẩm
+                  </TableHead>
+                  <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Giá
+                  </TableHead>
+                  <TableHead className="text-center text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Tồn kho
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Kho
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Trạng thái
+                  </TableHead>
+                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    Cập nhật
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -118,7 +132,9 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
                     </TableCell>
                     <TableCell>
                       <div>
-                        <p className="font-medium text-[#3b4417]">{item.warehouse.name}</p>
+                        <p className="font-medium text-[#3b4417]">
+                          {item.warehouse.name}
+                        </p>
                         <p className="text-sm text-[#7a8451]">
                           {item.warehouse.location}
                         </p>

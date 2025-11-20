@@ -275,16 +275,16 @@ export default function Header() {
         onComplete={(data) => {
           // Save to localStorage
           localStorage.setItem("location", JSON.stringify(data));
-          
+
           // Update state
           setUserCity(data.city);
           setUserLocation(data);
-          
+
           // Dispatch custom event for other components
           window.dispatchEvent(
             new CustomEvent("locationUpdated", { detail: data })
           );
-          
+
           // Close modal
           setIsLocationModalOpen(false);
         }}
