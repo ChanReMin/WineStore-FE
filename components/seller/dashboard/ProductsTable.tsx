@@ -9,6 +9,7 @@ import {
   Calendar,
   Package,
   CheckCircle,
+  Tag,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import {
@@ -23,6 +24,7 @@ import ProductStatusBadge from "./ProductStatusBadge";
 import ProductDetailModal from "./ProductDetailModal";
 import ProductFormModal from "./ProductFormModal";
 import DeleteProductModal from "./DeleteProductModal";
+import AddPromotionToProductModal from "./AddPromotionToProductModal";
 import type { Product } from "@/types/product";
 import type { ProductFormData } from "@/types/productForm";
 
@@ -30,18 +32,21 @@ interface ProductsTableProps {
   products: Product[];
   onEdit?: (id: number, data: ProductFormData) => Promise<void>;
   onDelete?: (id: number) => Promise<void>;
+  onAddPromotion?: (productId: number, promotionIds: number[]) => void;
 }
 
 export default function ProductsTable({
   products,
   onEdit,
   onDelete,
+  onAddPromotion,
 }: ProductsTableProps) {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddPromotionModalOpen, setIsAddPromotionModalOpen] = useState(false);
 
   const handleViewDetails = (product: Product) => {
     setSelectedProduct(product);
@@ -56,6 +61,17 @@ export default function ProductsTable({
   const handleDelete = (product: Product) => {
     setSelectedProduct(product);
     setIsDeleteModalOpen(true);
+  };
+
+  const handleAddPromotion = (product: Product) => {
+    setSelectedProduct(product);
+    setIsAddPromotionModalOpen(true);
+  };
+
+  const handleAddPromotionConfirm = (productId: number, promotionIds: number[]) => {
+    if (onAddPromotion) {
+      onAddPromotion(productId, promotionIds);
+    }
   };
 
   const handleEditSubmit = async (data: ProductFormData) => {
@@ -201,6 +217,15 @@ export default function ProductsTable({
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
+                      onClick={() => handleAddPromotion(product)}
+                      className="p-2 rounded-lg hover:bg-amber-50 text-amber-600 transition-colors"
+                      title="Thêm khuyến mãi"
+                    >
+                      <Tag className="w-4 h-4" />
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => handleEdit(product)}
                       className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
                       title="Chỉnh sửa"
@@ -290,6 +315,13 @@ export default function ProductsTable({
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteConfirm}
         product={selectedProduct}
+      />
+
+      <AddPromotionToProductModal
+        isOpen={isAddPromotionModalOpen}
+        onClose={() => setIsAddPromotionModalOpen(false)}
+        product={selectedProduct}
+        onConfirm={handleAddPromotionConfirm}
       />
     </Card>
   );

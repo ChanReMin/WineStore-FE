@@ -200,7 +200,7 @@ export default function InventoryTable({
                             className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors"
                             title="Nhập kho"
                           >
-                            <TrendingUp className="w-4 h-4" />
+                            <TrendingUp className="w-6 h-6" />
                           </motion.button>
                           <motion.button
                             whileHover={{ scale: 1.1 }}
@@ -209,7 +209,7 @@ export default function InventoryTable({
                             className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
                             title="Xuất kho"
                           >
-                            <TrendingDown className="w-4 h-4" />
+                            <TrendingDown className="w-6 h-6" />
                           </motion.button>
                         </>
                       )}

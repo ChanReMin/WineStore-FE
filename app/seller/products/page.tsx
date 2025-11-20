@@ -149,6 +149,15 @@ export default function ProductsPage() {
     alert(`Xóa sản phẩm #${id} thành công! (Mock)`);
   };
 
+  const handleAddPromotionToProduct = (productId: number, promotionIds: number[]) => {
+    console.log("Adding promotions to product:", { productId, promotionIds });
+    // TODO: Call API POST /seller/products/{productId}/promotions
+    // await addPromotionsToProduct(productId, promotionIds);
+    alert(
+      `Đã thêm ${promotionIds.length} khuyến mãi vào sản phẩm #${productId}! (Mock)`
+    );
+  };
+
   return (
     <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
       {/* Header */}
@@ -214,6 +223,7 @@ export default function ProductsPage() {
         products={paginatedProducts}
         onEdit={handleEditProduct}
         onDelete={handleDeleteProduct}
+        onAddPromotion={handleAddPromotionToProduct}
       />
 
       {/* Pagination */}

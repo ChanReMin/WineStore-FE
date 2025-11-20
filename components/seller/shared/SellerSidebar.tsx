@@ -66,16 +66,6 @@ const menuItems: MenuItem[] = [
     label: "Promotions",
     href: "/seller/promotions",
   },
-  {
-    icon: Users,
-    label: "Customers",
-    href: "/seller/customers",
-  },
-  {
-    icon: BarChart3,
-    label: "Analytics & Reports",
-    href: "/seller/analytics",
-  },
 ];
 
 interface SellerSidebarProps {
@@ -100,6 +90,11 @@ export default function SellerSidebar({
 
   const isActive = (href?: string) => {
     if (!href) return false;
+    // Exact match for root seller path
+    if (href === "/seller") {
+      return pathname === "/seller";
+    }
+    // For other paths, check exact match or starts with path + /
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 

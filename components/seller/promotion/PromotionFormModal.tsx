@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Tag, Calendar, Percent, DollarSign, Package, Save } from "lucide-react";
+import { X, Tag, Percent, DollarSign, Package, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import DatePicker from "@/components/ui/date-picker";
+import ProductSelector from "./ProductSelector";
 import {
   Select,
   SelectContent,
@@ -14,6 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { promotionSchema } from "@/lib/validations/promotion";
+import { z } from "zod";
+import { toast } from "react-toastify";
 import type { PromotionFormData } from "@/types/promotion";
 import { mockPromotions } from "@/lib/promotions.mock";
 
@@ -66,28 +71,30 @@ export default function PromotionFormModal({
   }, [existingPromotion]);
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    try {
+      promotionSchema.parse(formData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {};
+        error.issues.forEach((err: z.ZodIssue) => {
+          if (err.path[0]) {
+            newErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(newErrors);
 
-    if (!formData.code.trim()) newErrors.code = "Mã khuyến mãi là bắt buộc";
-    if (!formData.name.trim()) newErrors.name = "Tên khuyến mãi là bắt buộc";
-    if (formData.discount_value <= 0)
-      newErrors.discount_value = "Giá trị giảm phải lớn hơn 0";
-    if (formData.discount_type === 1 && formData.discount_value > 100)
-      newErrors.discount_value = "Phần trăm giảm không được vượt quá 100%";
-    if (!formData.start_date) newErrors.start_date = "Ngày bắt đầu là bắt buộc";
-    if (!formData.end_date) newErrors.end_date = "Ngày kết thúc là bắt buộc";
-    if (
-      formData.start_date &&
-      formData.end_date &&
-      new Date(formData.start_date) >= new Date(formData.end_date)
-    ) {
-      newErrors.end_date = "Ngày kết thúc phải sau ngày bắt đầu";
+        // Show first error in toast
+        const firstError = error.issues[0];
+        toast.error(firstError.message, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return false;
+      }
+      return false;
     }
-    if (formData.max_usage <= 0)
-      newErrors.max_usage = "Số lượt sử dụng phải lớn hơn 0";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -286,38 +293,25 @@ export default function PromotionFormModal({
                 <Label htmlFor="start_date" className="text-[#3b4417] font-semibold">
                   Ngày bắt đầu *
                 </Label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                  <Input
-                    id="start_date"
-                    type="date"
-                    value={formData.start_date}
-                    onChange={(e) => handleChange("start_date", e.target.value)}
-                    className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
-                  />
-                </div>
-                {errors.start_date && (
-                  <p className="text-xs text-red-600">{errors.start_date}</p>
-                )}
+                <DatePicker
+                  value={formData.start_date}
+                  onChange={(date) => handleChange("start_date", date)}
+                  placeholder="Chọn ngày bắt đầu"
+                  error={errors.start_date}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="end_date" className="text-[#3b4417] font-semibold">
                   Ngày kết thúc *
                 </Label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                  <Input
-                    id="end_date"
-                    type="date"
-                    value={formData.end_date}
-                    onChange={(e) => handleChange("end_date", e.target.value)}
-                    className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
-                  />
-                </div>
-                {errors.end_date && (
-                  <p className="text-xs text-red-600">{errors.end_date}</p>
-                )}
+                <DatePicker
+                  value={formData.end_date}
+                  onChange={(date) => handleChange("end_date", date)}
+                  placeholder="Chọn ngày kết thúc"
+                  minDate={formData.start_date || undefined}
+                  error={errors.end_date}
+                />
               </div>
             </div>
 
