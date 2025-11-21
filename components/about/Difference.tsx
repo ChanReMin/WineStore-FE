@@ -51,7 +51,7 @@ export default function Difference() {
                   transition={{ duration: 0.5, delay: index * 0.05 }}
                   className="flex items-start gap-3"
                 >
-                  <div className="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#3b4417]">
+                  <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#3b4417]">
                     <Check size={14} strokeWidth={3} className="text-white" />
                   </div>
                   <p className="text-[16px] text-neutral-700">{feature}</p>
@@ -83,7 +83,7 @@ export default function Difference() {
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="relative aspect-[4/5] overflow-hidden"
+                  className="relative aspect-4/5 overflow-hidden"
                 >
                   <Image
                     src="/hero/slide-2.jpg"
@@ -96,7 +96,7 @@ export default function Difference() {
               <div className="space-y-4 pt-12">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
-                  className="relative aspect-[4/5] overflow-hidden"
+                  className="relative aspect-4/5 overflow-hidden"
                 >
                   <Image
                     src="/hero/slide-3.jpg"

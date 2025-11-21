@@ -106,10 +106,10 @@ export default function ProductsTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Package className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          Không tìm thấy sản phẩm
+          No products found
         </h3>
         <p className="text-[#7a8451]">
-          Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác
+          Try changing the filter or searching with a different keyword
         </p>
       </Card>
     );
@@ -123,25 +123,25 @@ export default function ProductsTable({
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">ID</TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Sản phẩm
+                Product
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Giá
+                Price
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Danh mục
+                Category
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Tồn kho
+                Inventory
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Trạng thái
+                Status
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Ngày tạo
+                Created Date
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Thao tác
+                Actions
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -210,7 +210,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleViewDetails(product)}
                       className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
-                      title="Xem chi tiết"
+                      title="View Details"
                     >
                       <Eye className="w-4 h-4" />
                     </motion.button>
@@ -219,7 +219,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleAddPromotion(product)}
                       className="p-2 rounded-lg hover:bg-amber-50 text-amber-600 transition-colors"
-                      title="Thêm khuyến mãi"
+                      title="Add Promotion"
                     >
                       <Tag className="w-4 h-4" />
                     </motion.button>
@@ -228,7 +228,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleEdit(product)}
                       className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                      title="Chỉnh sửa"
+                      title="Edit"
                     >
                       <Edit className="w-4 h-4" />
                     </motion.button>
@@ -237,7 +237,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleDelete(product)}
                       className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                      title="Xóa"
+                      title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />
                     </motion.button>
@@ -256,11 +256,11 @@ export default function ProductsTable({
             <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
             <div>
               <p className="font-medium text-[#3b4417] mb-1">
-                Thông tin phê duyệt
+                Approval Information
               </p>
               <p className="text-[#7a8451]">
-                Sản phẩm đã được duyệt sẽ hiển thị cho khách hàng. Sản phẩm chờ
-                duyệt cần được Admin xét duyệt trước khi bán.
+                Approved products will be displayed to customers. Products waiting
+                for approval need to be approved by Admin before selling.
               </p>
             </div>
           </div>

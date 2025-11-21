@@ -11,12 +11,12 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { id: "all", label: "TẤT CẢ", icon: Wine },
-  { id: "tasting", label: "THƯỞNG THỨC", icon: Award },
-  { id: "pairing", label: "KẾT HỢP MÓN ĂN", icon: Utensils },
-  { id: "storage", label: "BẢO QUẢN", icon: Thermometer },
-  { id: "education", label: "KIẾN THỨC", icon: BookOpen },
-  { id: "regions", label: "VÙNG MIỀN", icon: Globe },
+  { id: "all", label: "ALL", icon: Wine },
+  { id: "tasting", label: "TASTING", icon: Award },
+  { id: "pairing", label: "DISH COMBINATIONS", icon: Utensils },
+  { id: "storage", label: "STORAGE", icon: Thermometer },
+  { id: "education", label: "EDUCATION", icon: BookOpen },
+  { id: "regions", label: "REGIONS", icon: Globe },
 ];
 
 interface BlogCategoriesProps {

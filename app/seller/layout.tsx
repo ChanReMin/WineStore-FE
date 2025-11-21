@@ -76,13 +76,13 @@ export default function SellerLayout({
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold text-neutral-900">
-              Truy cập bị từ chối
+              Access denied
             </h2>
             <p className="mt-2 text-sm text-neutral-600">
-              Bạn không có quyền truy cập vào trang Seller Dashboard.
+              You do not have permission to access the seller dashboard.
             </p>
             <p className="mt-1 text-xs text-neutral-500">
-              Đang chuyển hướng về trang chủ...
+              Redirecting to homepage...
             </p>
           </div>
         </div>

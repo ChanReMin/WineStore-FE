@@ -17,13 +17,13 @@ interface ProductFormModalProps {
 
 // Mock data - Replace with API
 const CATEGORIES = [
-  { id: 1, name: "Vang Pháp" },
-  { id: 2, name: "Vang Ý" },
-  { id: 3, name: "Vang Úc" },
-  { id: 4, name: "Vang Mỹ" },
-  { id: 5, name: "Vang Chile" },
-  { id: 6, name: "Vang Argentina" },
-  { id: 7, name: "Vang Tây Ban Nha" },
+  { id: 1, name: "French Wine" },
+  { id: 2, name: "Italy Wine" },
+  { id: 3, name: "Australian Wine" },
+  { id: 4, name: "American Wine" },
+  { id: 5, name: "Chile Wine" },
+  { id: 6, name: "Argentina Wine" },
+  { id: 7, name: "Spanish Wine" },
 ];
 
 const BRANDS = [
@@ -36,7 +36,7 @@ const BRANDS = [
   { id: 7, name: "Opus One" },
 ];
 
-const WINE_TYPES = ["Vang đỏ", "Vang trắng", "Vang hồng", "Vang sủi"];
+const WINE_TYPES = ["Red Wine", "White Wine", "Rosé Wine", "Sparkling Wine"];
 
 export default function ProductFormModal({
   isOpen,
@@ -158,13 +158,13 @@ export default function ProductFormModal({
                   <div>
                     <h2 className="text-2xl font-bold text-[#3b4417]">
                       {mode === "create"
-                        ? "Thêm sản phẩm mới"
-                        : "Chỉnh sửa sản phẩm"}
+                        ? "Add New Product"
+                        : "Edit Product"}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
                       {mode === "create"
-                        ? "Sản phẩm sẽ chờ Admin phê duyệt"
-                        : "Cập nhật thông tin sản phẩm"}
+                        ? "Product will await Admin approval"
+                        : "Update product information"}
                     </p>
                   </div>
                 </div>
@@ -187,12 +187,12 @@ export default function ProductFormModal({
                   <div>
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                       <Package className="w-5 h-5" />
-                      Thông tin cơ bản
+                      Basic Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Tên sản phẩm <span className="text-red-600">*</span>
+                          Product Name <span className="text-red-600">*</span>
                         </label>
                         <input
                           type="text"
@@ -207,7 +207,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Giá (VNĐ) <span className="text-red-600">*</span>
+                          Price (VND) <span className="text-red-600">*</span>
                         </label>
                         <div className="relative">
                           <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
@@ -226,7 +226,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Danh mục <span className="text-red-600">*</span>
+                          Category <span className="text-red-600">*</span>
                         </label>
                         <select
                           name="category_id"
@@ -245,7 +245,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Thương hiệu <span className="text-red-600">*</span>
+                          Brand <span className="text-red-600">*</span>
                         </label>
                         <select
                           name="brand_id"
@@ -264,7 +264,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Loại vang <span className="text-red-600">*</span>
+                          Wine Type <span className="text-red-600">*</span>
                         </label>
                         <select
                           name="wine_type"
@@ -283,7 +283,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Quốc gia <span className="text-red-600">*</span>
+                          Country <span className="text-red-600">*</span>
                         </label>
                         <input
                           type="text"
@@ -302,12 +302,12 @@ export default function ProductFormModal({
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                       <Wine className="w-5 h-5" />
-                      Chi tiết rượu vang
+                      Wine Details
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Giống nho
+                          Grape Variety
                         </label>
                         <input
                           type="text"
@@ -321,7 +321,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Nồng độ (%)
+                          Concentration (%)
                         </label>
                         <input
                           type="number"
@@ -338,7 +338,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Dung tích (ml)
+                          Capacity (ml)
                         </label>
                         <input
                           type="number"
@@ -353,7 +353,7 @@ export default function ProductFormModal({
 
                       <div className="md:col-span-3">
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Vùng sản xuất
+                          Production Area
                         </label>
                         <input
                           type="text"
@@ -370,12 +370,12 @@ export default function ProductFormModal({
                   {/* Storage Instructions */}
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                      Hướng dẫn bảo quản
+                      Storage Instructions
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Nhiệt độ lý tưởng
+                          Ideal Temperature
                         </label>
                         <input
                           type="text"
@@ -389,7 +389,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Độ ẩm
+                          Humidity
                         </label>
                         <input
                           type="text"
@@ -403,7 +403,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Tránh ánh sáng
+                          Avoid Light
                         </label>
                         <input
                           type="text"
@@ -417,7 +417,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Đặt chai
+                          Place the Bottle Horizontally
                         </label>
                         <input
                           type="text"
@@ -431,7 +431,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Tránh rung động
+                          Avoid Vibration
                         </label>
                         <input
                           type="text"
@@ -445,7 +445,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Sau khi mở
+                          After Opening
                         </label>
                         <input
                           type="text"
@@ -459,7 +459,7 @@ export default function ProductFormModal({
 
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Tủ rượu
+                          Wine Cabinet
                         </label>
                         <input
                           type="text"
@@ -476,12 +476,12 @@ export default function ProductFormModal({
                   {/* Images & Description */}
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                      Hình ảnh & Mô tả
+                      Images & Description
                     </h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Hình ảnh sản phẩm{" "}
+                          Product Images{" "}
                           <span className="text-red-600">*</span>
                         </label>
                         <ImageUpload
@@ -496,7 +496,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Mô tả chi tiết
+                          Detailed Description
                         </label>
                         <textarea
                           name="description"
@@ -520,7 +520,7 @@ export default function ProductFormModal({
                   disabled={isSubmitting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   type="submit"
@@ -531,12 +531,12 @@ export default function ProductFormModal({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Đang lưu...
+                      Saving...
                     </>
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      {mode === "create" ? "Tạo sản phẩm" : "Cập nhật"}
+                      {mode === "create" ? "Create Product" : "Update Product"}
                     </>
                   )}
                 </button>

@@ -13,20 +13,20 @@ export default function SellerHeader() {
   const notifications = [
     {
       id: 1,
-      text: "Bạn có 10 đơn hàng mới cần xác nhận",
-      time: "5 phút trước",
+      text: "You have 5 new orders",
+      time: "5 minutes ago",
       unread: true,
     },
     {
       id: 2,
-      text: "15 sản phẩm đang chờ duyệt",
-      time: "1 giờ trước",
+      text: "15 products pending approval",
+      time: "1 hour ago",
       unread: true,
     },
     {
       id: 3,
-      text: "5 sản phẩm sắp hết hàng",
-      time: "2 giờ trước",
+      text: "5 products low in stock",
+      time: "2 hours ago",
       unread: false,
     },
   ];
@@ -68,7 +68,7 @@ export default function SellerHeader() {
                 >
                   <div className="border-b border-neutral-200 p-4">
                     <h3 className="font-semibold text-neutral-900">
-                      Thông báo
+                      Notifications
                     </h3>
                   </div>
                   <div className="dropdown-content max-h-96 overflow-y-auto">
@@ -91,7 +91,7 @@ export default function SellerHeader() {
                       type="button"
                       className="text-sm font-medium text-[#33391d] hover:underline"
                     >
-                      Xem tất cả thông báo
+                      View all notifications
                     </button>
                   </div>
                 </motion.div>
@@ -139,13 +139,13 @@ export default function SellerHeader() {
                       type="button"
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
                     >
-                      Hồ sơ của tôi
+                      My Profile
                     </button>
                     <button
                       type="button"
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
                     >
-                      Cài đặt
+                      Settings
                     </button>
                     <hr className="my-2 border-neutral-200" />
                     <button
@@ -153,7 +153,7 @@ export default function SellerHeader() {
                       onClick={logout}
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-red-600 transition-colors hover:bg-red-50"
                     >
-                      Đăng xuất
+                      Logout
                     </button>
                   </div>
                 </motion.div>

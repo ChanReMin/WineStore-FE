@@ -18,11 +18,11 @@ export default function ProductDetailDemoPage() {
           className="mb-8 flex items-center gap-2 text-sm text-neutral-600"
         >
           <Link href="/" className="hover:text-[#33391d]">
-            Trang chủ
+            Home Page
           </Link>
           <span>/</span>
           <Link href="/products-demo" className="hover:text-[#33391d]">
-            Sản phẩm
+            Products Demo
           </Link>
           <span>/</span>
           <span className="text-neutral-800">{product.name}</span>

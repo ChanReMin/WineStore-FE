@@ -5,7 +5,7 @@ import BlogListingClient from "@/components/blog/BlogListingClient";
 export const metadata: Metadata = generateMetadata({
   title: "Wine Knowledge Blog",
   description:
-    "Khám phá kiến thức về rượu vang, từ cách phân biệt các loại vang, nghệ thuật thưởng thức đến cách bảo quản và kết hợp với món ăn.",
+    "Discover knowledge about wine, from how to distinguish types of wine, the art of enjoying it, to how to preserve it and combine it with dishes.",
   path: "/blog",
   keywords: [
     "wine knowledge",

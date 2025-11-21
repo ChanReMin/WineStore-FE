@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Download, FileText } from "lucide-react";
 import { mockOrderList } from "@/lib/orders.mock";
 import OrderFilters from "@/components/seller/order/OrderFilters";
 import OrdersTable from "@/components/seller/order/OrdersTable";
@@ -10,6 +9,7 @@ import OrderPagination from "@/components/seller/order/OrderPagination";
 import UpdateOrderStatusModal from "@/components/seller/order/UpdateOrderStatusModal";
 import OrderDetailModal from "@/components/seller/order/OrderDetailModal";
 import type { Order } from "@/types/order";
+import { toast } from "react-toastify";
 
 export default function OrdersPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,10 +81,9 @@ export default function OrdersPage() {
     status: number,
     note: string
   ) => {
-    console.log("Update order status:", { orderId, status, note });
     // TODO: Call API PUT /seller/orders/{orderId}/status
-    alert(
-      `Cập nhật trạng thái đơn #${orderId} thành ${status}${note ? ` - Ghi chú: ${note}` : ""} (Mock)`
+    toast.success(
+      `Updated order #${orderId} status to ${status}${note ? ` - Note: ${note}` : ""} (Mock)`
     );
   };
 
@@ -107,7 +106,7 @@ export default function OrdersPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Quản lý đơn hàng
+            Order Management
           </h1>
           <p className="text-[#7a8451]">
             Theo dõi và xử lý đơn hàng của khách hàng
@@ -119,28 +118,28 @@ export default function OrdersPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
-          { label: "Tổng đơn", value: summary.total, color: "bg-[#f5f3e8]" },
+          { label: "Total orders", value: summary.total, color: "bg-[#f5f3e8]" },
           {
-            label: "Chờ xác nhận",
+            label: "Pending",
             value: summary.pending,
             color: "bg-amber-50",
           },
           {
-            label: "Đang xử lý",
+            label: "Processing",
             value: summary.processing,
             color: "bg-blue-50",
           },
           {
-            label: "Đang giao",
+            label: "Shipping",
             value: summary.shipping,
             color: "bg-purple-50",
           },
           {
-            label: "Hoàn thành",
+            label: "Completed",
             value: summary.completed,
             color: "bg-emerald-50",
           },
-          { label: "Đã hủy", value: summary.cancelled, color: "bg-red-50" },
+          { label: "Cancelled", value: summary.cancelled, color: "bg-red-50" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}

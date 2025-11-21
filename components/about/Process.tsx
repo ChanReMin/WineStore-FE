@@ -36,7 +36,7 @@ const STEPS = [
 
 export default function Process() {
   return (
-    <section className="w-full bg-gradient-to-b from-white to-[#fdfbf5] py-24 md:py-32">
+    <section className="w-full bg-linear-to-b from-white to-[#fdfbf5] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
         <motion.div
@@ -102,7 +102,7 @@ export default function Process() {
                         whileInView={{ height: "100%" }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="absolute left-10 top-24 hidden w-px bg-gradient-to-b from-[#3b4417] to-transparent md:block"
+                        className="absolute left-10 top-24 hidden w-px bg-linear-to-b from-[#3b4417] to-transparent md:block"
                         style={{ height: "calc(100% + 3rem)" }}
                       />
                     )}

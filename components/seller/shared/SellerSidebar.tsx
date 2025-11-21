@@ -52,18 +52,18 @@ const menuItems: MenuItem[] = [
     label: "Inventory Management",
     children: [
       {
-        label: "Tồn kho",
+        label: "Inventory",
         href: "/seller/inventory",
       },
       {
-        label: "Lịch sử xuất nhập",
+        label: "Inventory Logs",
         href: "/seller/inventory-logs",
       },
     ],
   },
   {
     icon: Gift,
-    label: "Promotions",
+    label: "Promotions & Discounts",
     href: "/seller/promotions",
   },
 ];

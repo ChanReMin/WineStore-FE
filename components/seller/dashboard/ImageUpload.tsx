@@ -75,10 +75,6 @@ export default function ImageUpload({
           const compressedSize = getBase64Size(base64);
           const compressedSizeMB = compressedSize / (1024 * 1024);
 
-          console.log(
-            `Original: ${formatFileSize(file.size)}, Compressed: ${formatFileSize(compressedSize)}`
-          );
-
           // If still too large after compression, show error
           if (compressedSizeMB > maxSizeMB) {
             setError(

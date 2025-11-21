@@ -191,7 +191,7 @@ export default function FAQ() {
                   <motion.div
                     animate={{ rotate: openIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex-shrink-0"
+                    className="shrink-0"
                   >
                     {openIndex === index ? (
                       <Minus size={24} className="text-[#3b4417]" />

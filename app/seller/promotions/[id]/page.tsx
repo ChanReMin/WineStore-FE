@@ -63,7 +63,6 @@ export default function PromotionDetailPage() {
     
     // Simulate API call
     setTimeout(() => {
-      console.log("Delete promotion:", promotionId);
       setIsDeleting(false);
       setIsDeleteModalOpen(false);
       router.push("/seller/promotions");
@@ -85,14 +84,14 @@ export default function PromotionDetailPage() {
             className="border-[#d4d6b4] text-[#3b4417] hover:bg-[#f5f3e8]"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Quay lại
+            Come back
           </Button>
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide">
-              Chi tiết khuyến mãi
+              Promotion details
             </h1>
             <p className="text-[#7a8451] mt-1">
-              Thông tin và thống kê chi tiết
+              Detailed information and statistics
             </p>
           </div>
         </div>
@@ -103,7 +102,7 @@ export default function PromotionDetailPage() {
             className="border-[#d4d6b4] text-blue-600 hover:bg-blue-50"
           >
             <Edit className="w-4 h-4 mr-2" />
-            Chỉnh sửa
+            Edit
           </Button>
           <Button
             onClick={handleDelete}
@@ -111,7 +110,7 @@ export default function PromotionDetailPage() {
             className="border-red-200 text-red-600 hover:bg-red-50"
           >
             <Trash2 className="w-4 h-4 mr-2" />
-            Xóa
+            Delete
           </Button>
         </div>
       </motion.div>
@@ -250,11 +249,11 @@ export default function PromotionDetailPage() {
           <ChartContainer
             config={{
               usage_count: {
-                label: "Lượt sử dụng",
+                label: "Usage count",
                 color: "#3b4417",
               },
               discount_amount: {
-                label: "Giảm giá (VNĐ)",
+                label: "Discount (VND)",
                 color: "#d4af37",
               },
             }}

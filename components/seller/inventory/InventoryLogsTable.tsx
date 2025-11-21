@@ -48,10 +48,10 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
       <Card className="p-12 text-center border-[#d4d6b4]">
         <FileText className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          Không có lịch sử
+          No inventory transactions recorded
         </h3>
         <p className="text-[#7a8451]">
-          Chưa có giao dịch xuất nhập kho nào được ghi nhận
+          No inventory transactions recorded
         </p>
       </Card>
     );
@@ -64,25 +64,25 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Thời gian
+                Timestamp
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Loại
+                Type
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Sản phẩm
+                Product
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Kho
+                Warehouse
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-center">
-                Số lượng
+                Quantity
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Người thực hiện
+                User
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Ghi chú
+                Note
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -139,7 +139,7 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                     </div>
                   ) : (
                     <span className="text-sm text-[#7a8451] italic">
-                      Không có ghi chú
+                      No notes
                     </span>
                   )}
                 </TableCell>
@@ -153,23 +153,23 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
       <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <p className="text-[#7a8451] mb-1">Tổng giao dịch</p>
+            <p className="text-[#7a8451] mb-1">Total Transactions</p>
             <p className="text-xl font-bold text-[#3b4417]">{logs.length}</p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Nhập kho</p>
+            <p className="text-[#7a8451] mb-1">Stock In</p>
             <p className="text-xl font-bold text-emerald-600">
               {logs.filter((l) => l.type === "IN").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Xuất kho</p>
+            <p className="text-[#7a8451] mb-1">Stock Out</p>
             <p className="text-xl font-bold text-red-600">
               {logs.filter((l) => l.type === "OUT").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Khác</p>
+            <p className="text-[#7a8451] mb-1">Others</p>
             <p className="text-xl font-bold text-blue-600">
               {
                 logs.filter((l) => l.type === "ADJUST" || l.type === "RETURN")

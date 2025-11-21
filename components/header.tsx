@@ -194,7 +194,7 @@ export default function Header() {
             {userCity && (
               <motion.button
                 type="button"
-                onClick={openLocationModal}
+                onClick={() => setIsLocationModalOpen(true)}
                 initial={{ opacity: 0, x: 10 }}
                 animate={{ opacity: 1, x: 0 }}
                 whileHover={{ scale: 1.05 }}

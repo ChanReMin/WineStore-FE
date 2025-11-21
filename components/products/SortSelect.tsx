@@ -60,7 +60,7 @@ export default function SortSelect({ value, onChange }: SortSelectProps) {
           onChange={(e) => onChange(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="appearance-none border-2 border-neutral-200 bg-gradient-to-br from-white to-[#fdfbf5] pl-5 pr-12 py-4 text-[14px] text-[#3b4417] font-medium transition-all cursor-pointer shadow-sm hover:border-[#d4af37]/50 focus:border-[#d4af37] focus:outline-none focus:shadow-lg focus:shadow-[#d4af37]/20 min-w-[200px]"
+          className="appearance-none border-2 border-neutral-200 bg-linear-to-br from-white to-[#fdfbf5] pl-5 pr-12 py-4 text-[14px] text-[#3b4417] font-medium transition-all cursor-pointer shadow-sm hover:border-[#d4af37]/50 focus:border-[#d4af37] focus:outline-none focus:shadow-lg focus:shadow-[#d4af37]/20 min-w-[200px]"
         >
           {SORT_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
@@ -89,7 +89,7 @@ export default function SortSelect({ value, onChange }: SortSelectProps) {
 
         {/* Animated Border */}
         <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#d4af37] via-[#f4e5a1] to-[#d4af37]"
+          className="absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-[#d4af37] via-[#f4e5a1] to-[#d4af37]"
           initial={{ width: 0, opacity: 0 }}
           animate={{
             width: isFocused ? "100%" : 0,

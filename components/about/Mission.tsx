@@ -84,7 +84,7 @@ export default function Mission() {
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.3 + index * 0.1 }}
-                  className="mt-6 h-px bg-gradient-to-r from-[#3b4417] to-transparent"
+                  className="mt-6 h-px bg-linear-to-r from-[#3b4417] to-transparent"
                 />
               </motion.div>
             );

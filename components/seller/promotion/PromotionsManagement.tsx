@@ -65,7 +65,6 @@ export default function PromotionsManagement() {
     
     // Simulate API call
     setTimeout(() => {
-      console.log("Deleting promotion:", promotionToDelete.id);
       // TODO: Call API to delete
       setIsDeleting(false);
       setIsDeleteModalOpen(false);

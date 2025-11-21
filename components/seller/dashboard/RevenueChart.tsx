@@ -70,11 +70,11 @@ export default function RevenueChart({
       <Card className="border-[#d4d6b4]">
         <CardHeader>
           <CardTitle className="text-[#3b4417] tracking-wide">
-            Doanh thu 7 ngày qua
+            Revenue in the last 7 days
           </CardTitle>
           <CardDescription className="flex gap-6 text-sm text-[#7a8451]">
             <span>
-              Tổng doanh thu:{" "}
+              Total Revenue:{" "}
               <span className="font-semibold text-[#3b4417]">
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -83,7 +83,7 @@ export default function RevenueChart({
               </span>
             </span>
             <span>
-              Tổng đơn hàng:{" "}
+              Total Orders:{" "}
               <span className="font-semibold text-[#3b4417]">
                 {totalOrders}
               </span>
@@ -123,7 +123,7 @@ export default function RevenueChart({
                 dataKey="revenueInMillions"
                 fill="#3b4417"
                 radius={[8, 8, 0, 0]}
-                name="Doanh thu (triệu VND)"
+                name="Revenue (million VND)"
               />
               <Line
                 yAxisId="right"
@@ -132,7 +132,7 @@ export default function RevenueChart({
                 stroke="#d4af37"
                 strokeWidth={3}
                 dot={{ fill: "#d4af37", r: 4 }}
-                name="Đơn hàng"
+                name="Orders"
               />
             </ComposedChart>
           </ChartContainer>

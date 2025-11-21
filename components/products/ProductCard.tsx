@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag, MapPin, Star, Sparkles } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface Product {
   id: number;
@@ -58,7 +59,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           >
             <div className="relative">
               <div className="absolute inset-0 bg-[#d4af37] blur-sm" />
-              <span className="relative block bg-gradient-to-br from-[#3b4417] to-[#2a2f18] px-4 py-2 text-[10px] tracking-[0.25em] text-white uppercase shadow-lg">
+              <span className="relative block bg-linear-to-br from-[#3b4417] to-[#2a2f18] px-4 py-2 text-[10px] tracking-[0.25em] text-white uppercase shadow-lg">
                 -{discount}%
               </span>
             </div>
@@ -73,7 +74,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             transition={{ delay: index * 0.08 + 0.4 }}
             className="absolute right-4 top-4 z-20"
           >
-            <div className="flex items-center gap-1 bg-gradient-to-r from-[#d4af37] to-[#f4e5a1] px-3 py-1.5 shadow-lg">
+            <div className="flex items-center gap-1 bg-linear-to-r from-[#d4af37] to-[#f4e5a1] px-3 py-1.5 shadow-lg">
               <Sparkles size={12} className="text-[#3b4417]" />
               <span className="text-[9px] tracking-[0.2em] text-[#3b4417] uppercase font-semibold">
                 Premium
@@ -83,7 +84,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         )}
 
         {/* Image Container */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-50">
+        <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">
           <Image
             src={product.thumbnail}
             alt={product.name}
@@ -94,14 +95,14 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           />
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100" />
 
           {/* Shimmer Effect on Hover */}
           <motion.div
             initial={{ x: "-100%" }}
             whileHover={{ x: "100%" }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
           />
 
           {/* Quick Add Button */}
@@ -109,7 +110,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              alert(`Đã thêm "${product.name}" vào giỏ hàng!`);
+              toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -131,7 +132,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         </div>
 
         {/* Content */}
-        <div className="relative p-6 bg-gradient-to-b from-white to-[#fdfbf5]">
+        <div className="relative p-6 bg-linear-to-b from-white to-[#fdfbf5]">
           {/* Brand with Icon */}
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#7b5b2c]">
@@ -153,11 +154,11 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
           {/* Decorative Divider */}
           <div className="mt-3 flex items-center gap-2">
-            <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent" />
+            <span className="h-px flex-1 bg-linear-to-r from-transparent via-[#d4af37]/30 to-transparent" />
           </div>
 
           {/* Name */}
-          <h3 className="mt-4 line-clamp-2 min-h-[3.5rem] text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#d4af37] leading-snug">
+          <h3 className="mt-4 line-clamp-2 min-h-14 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#d4af37] leading-snug">
             {product.name}
           </h3>
 

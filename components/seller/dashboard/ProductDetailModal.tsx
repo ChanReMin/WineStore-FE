@@ -143,7 +143,7 @@ export default function ProductDetailModal({
                       </div>
                       <div>
                         <p className="text-sm text-[#7a8451] mb-1">
-                          Thương hiệu
+                          Brand
                         </p>
                         <p className="text-lg font-semibold text-[#3b4417]">
                           {product.brand}
@@ -156,7 +156,7 @@ export default function ProductDetailModal({
                 {/* Timeline */}
                 <div className="border-t border-[#e8e6dc] pt-6">
                   <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                    Lịch sử
+                    History
                   </h3>
                   <div className="space-y-4">
                     {/* Created */}
@@ -166,7 +166,7 @@ export default function ProductDetailModal({
                       </div>
                       <div>
                         <p className="font-medium text-[#3b4417]">
-                          Sản phẩm được tạo
+                          Product created
                         </p>
                         <p className="text-sm text-[#7a8451]">
                           {formatDate(product.created_at)}
@@ -182,10 +182,10 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Đang chờ phê duyệt
+                            Pending Approval
                           </p>
                           <p className="text-sm text-[#7a8451]">
-                            Sản phẩm đang chờ Admin xét duyệt
+                            The product is awaiting Admin approval
                           </p>
                         </div>
                       </div>
@@ -198,12 +198,12 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Đã được phê duyệt
+                            Approved
                           </p>
                           <p className="text-sm text-[#7a8451]">
                             {formatDate(product.approved_at)}
                             {product.approved_by &&
-                              ` bởi ${product.approved_by}`}
+                              ` by ${product.approved_by}`}
                           </p>
                         </div>
                       </div>
@@ -216,12 +216,12 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Sản phẩm bị cấm
+                            Product banned
                           </p>
                           <p className="text-sm text-[#7a8451]">
-                            Sản phẩm không được phép bán
+                            The product is not allowed to be sold
                             {product.approved_by &&
-                              ` bởi ${product.approved_by}`}
+                              ` by ${product.approved_by}`}
                           </p>
                         </div>
                       </div>
@@ -236,11 +236,10 @@ export default function ProductDetailModal({
                       <Clock className="w-5 h-5 text-amber-600 mt-0.5" />
                       <div>
                         <p className="font-medium text-amber-900 mb-1">
-                          Lưu ý về sản phẩm chờ duyệt
+                          Note on pending product approval
                         </p>
                         <p className="text-sm text-amber-700">
-                          Sản phẩm này chưa hiển thị cho khách hàng. Bạn có thể
-                          chỉnh sửa sản phẩm trong khi chờ Admin phê duyệt.
+                         This product is not yet visible to customers. You can edit products while waiting for Admin approval.
                         </p>
                       </div>
                     </div>
@@ -253,11 +252,11 @@ export default function ProductDetailModal({
                       <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
                       <div>
                         <p className="font-medium text-emerald-900 mb-1">
-                          Sản phẩm đang hoạt động
+                          Product is live
                         </p>
                         <p className="text-sm text-emerald-700">
-                          Sản phẩm này đang hiển thị cho khách hàng và có thể
-                          được mua.
+                          This product is visible to customers and is available
+                          to be purchased.
                         </p>
                       </div>
                     </div>
@@ -271,7 +270,7 @@ export default function ProductDetailModal({
                   onClick={onClose}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium"
                 >
-                  Đóng
+                  Close
                 </button>
                 {onEdit && (
                   <button
@@ -281,7 +280,7 @@ export default function ProductDetailModal({
                     }}
                     className="px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium"
                   >
-                    Chỉnh sửa
+                    Edit
                   </button>
                 )}
               </div>

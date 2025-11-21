@@ -24,7 +24,7 @@ export default function PromotionStatusBadge({
     if (status === 0) {
       return {
         icon: XCircle,
-        text: "Không hoạt động",
+        text: "Inactive",
         bg: "bg-gray-50",
         textColor: "text-gray-700",
         border: "border-gray-200",
@@ -36,7 +36,7 @@ export default function PromotionStatusBadge({
     if (now < start) {
       return {
         icon: Clock,
-        text: "Sắp diễn ra",
+        text: "Upcoming",
         bg: "bg-blue-50",
         textColor: "text-blue-700",
         border: "border-blue-200",
@@ -48,7 +48,7 @@ export default function PromotionStatusBadge({
     if (now > end) {
       return {
         icon: XCircle,
-        text: "Đã hết hạn",
+        text: "Expired",
         bg: "bg-red-50",
         textColor: "text-red-700",
         border: "border-red-200",
@@ -59,7 +59,7 @@ export default function PromotionStatusBadge({
     // Active and running
     return {
       icon: CheckCircle,
-      text: "Đang hoạt động",
+      text: "Active",
       bg: "bg-emerald-50",
       textColor: "text-emerald-700",
       border: "border-emerald-200",

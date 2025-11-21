@@ -93,7 +93,7 @@ export default function UpdateInventoryModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#3b4417]">
-                      Cập nhật tồn kho
+                      Update Inventory
                     </h2>
                     <p className="text-sm text-[#7a8451]">
                       {item.product.name}
@@ -114,7 +114,7 @@ export default function UpdateInventoryModal({
                 {/* Current Stock Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">Kho</p>
+                    <p className="text-sm text-[#7a8451] mb-1">Warehouse</p>
                     <p className="font-semibold text-[#3b4417]">
                       {item.warehouse.name}
                     </p>
@@ -123,12 +123,12 @@ export default function UpdateInventoryModal({
                     </p>
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">Tồn kho hiện tại</p>
+                    <p className="text-sm text-[#7a8451] mb-1">Current Stock</p>
                     <p className="text-3xl font-bold text-[#3b4417]">
                       {item.quantity_on_hand}
                     </p>
                     <p className="text-sm text-[#7a8451]">
-                      Mức an toàn: {item.safety_stock}
+                      Safety Stock: {item.safety_stock}
                     </p>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default function UpdateInventoryModal({
                 {/* Type Selection */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-3">
-                    Loại giao dịch <span className="text-red-600">*</span>
+                    Transaction Type <span className="text-red-600">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -158,10 +158,10 @@ export default function UpdateInventoryModal({
                           type === "in" ? "text-emerald-700" : "text-[#3b4417]"
                         }`}
                       >
-                        Nhập kho
+                        Stock In
                       </p>
                       <p className="text-sm text-[#7a8451] mt-1">
-                        Thêm sản phẩm vào kho
+                        Add products to warehouse
                       </p>
                     </button>
                     <button
@@ -183,10 +183,10 @@ export default function UpdateInventoryModal({
                           type === "out" ? "text-red-700" : "text-[#3b4417]"
                         }`}
                       >
-                        Xuất kho
+                        Stock Out
                       </p>
                       <p className="text-sm text-[#7a8451] mt-1">
-                        Lấy sản phẩm ra khỏi kho
+                        Remove products from warehouse
                       </p>
                     </button>
                   </div>
@@ -195,7 +195,7 @@ export default function UpdateInventoryModal({
                 {/* Quantity Input */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    Số lượng <span className="text-red-600">*</span>
+                    Quantity <span className="text-red-600">*</span>
                   </label>
                   <input
                     type="number"
@@ -204,11 +204,11 @@ export default function UpdateInventoryModal({
                     value={quantity || ""}
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] text-lg font-semibold"
-                    placeholder="Nhập số lượng..."
+                    placeholder="Enter quantity..."
                   />
                   {type === "out" && quantity > item.quantity_on_hand && (
                     <p className="text-sm text-red-600 mt-1">
-                      Số lượng xuất không được vượt quá tồn kho hiện tại
+                      Quantity exceeds current stock!
                     </p>
                   )}
                 </div>
@@ -223,7 +223,7 @@ export default function UpdateInventoryModal({
                     onChange={(e) => setNote(e.target.value)}
                     rows={3}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] resize-none"
-                    placeholder="Nhập ghi chú về giao dịch..."
+                    placeholder="Enter transaction notes..."
                   />
                 </div>
 
@@ -236,7 +236,7 @@ export default function UpdateInventoryModal({
                   >
                     <div className="flex items-start gap-3">
                       <AlertCircle
-                        className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                        className={`w-5 h-5 mt-0.5 shrink-0 ${
                           type === "in" ? "text-emerald-600" : "text-red-600"
                         }`}
                       />
@@ -246,7 +246,7 @@ export default function UpdateInventoryModal({
                             type === "in" ? "text-emerald-900" : "text-red-900"
                           }`}
                         >
-                          Xác nhận {type === "in" ? "nhập" : "xuất"} kho
+                          Confirm {type === "in" ? "Stock In" : "Stock Out"}
                         </p>
                         <p
                           className={`text-sm ${
@@ -284,12 +284,12 @@ export default function UpdateInventoryModal({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Đang xử lý...
+                      Processing...
                     </>
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      Xác nhận
+                      Confirm
                     </>
                   )}
                 </button>

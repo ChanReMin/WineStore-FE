@@ -301,8 +301,8 @@ export default function ProductsPage() {
         />
 
         {/* Multi-layer Overlay for Depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#3b4417]/30 via-transparent to-[#3b4417]/30" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/80" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#3b4417]/30 via-transparent to-[#3b4417]/30" />
 
         {/* Animated Decorative Elements */}
         <div className="absolute inset-0 overflow-hidden">
@@ -406,7 +406,7 @@ export default function ProductsPage() {
               <motion.span
                 animate={{ scaleX: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="h-px w-24 md:w-40 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
+                className="h-px w-24 md:w-40 bg-linear-to-r from-transparent via-[#d4af37] to-transparent"
               />
               <span className="text-[12px] italic tracking-[0.3em] text-[#d4af37] font-light">
                 estd 1970
@@ -414,7 +414,7 @@ export default function ProductsPage() {
               <motion.span
                 animate={{ scaleX: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                className="h-px w-24 md:w-40 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
+                className="h-px w-24 md:w-40 bg-linear-to-r from-transparent via-[#d4af37] to-transparent"
               />
             </motion.div>
 
@@ -660,9 +660,9 @@ export default function ProductsPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="hidden w-80 flex-shrink-0 lg:block"
+            className="hidden w-80 shrink-0 lg:block"
           >
-            <div className="sticky top-24 space-y-6 bg-gradient-to-br from-white to-neutral-50 p-8 shadow-lg border border-neutral-100">
+            <div className="sticky top-24 space-y-6 bg-linear-to-br from-white to-neutral-50 p-8 shadow-lg border border-neutral-100">
               {/* Header */}
               <div className="flex items-center justify-between border-b-2 border-[#3b4417]/20 pb-5">
                 <div className="flex items-center gap-3">
@@ -863,7 +863,7 @@ export default function ProductsPage() {
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleReset}
-                className="w-full bg-gradient-to-r from-[#3b4417] to-[#4a5520] px-6 py-4 text-[11px] uppercase tracking-[0.25em] text-white shadow-md transition-all hover:shadow-lg hover:shadow-[#3b4417]/30"
+                className="w-full bg-linear-to-r from-[#3b4417] to-[#4a5520] px-6 py-4 text-[11px] uppercase tracking-[0.25em] text-white shadow-md transition-all hover:shadow-lg hover:shadow-[#3b4417]/30"
               >
                 Reset Filters
               </motion.button>

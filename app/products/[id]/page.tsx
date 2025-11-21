@@ -56,7 +56,7 @@ export default function ProductDetailPage() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Single Image - Elegant & Compact */}
-            <div className="group relative aspect-[3/4] overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-50 shadow-lg">
+            <div className="group relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50 shadow-lg">
               <Image
                 src={product.images[0]}
                 alt={product.name}
@@ -66,7 +66,7 @@ export default function ProductDetailPage() {
                 priority
               />
               {/* Subtle Vignette */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/5 via-transparent to-transparent" />
             </div>
           </motion.div>
 
@@ -420,7 +420,7 @@ export default function ProductDetailPage() {
                           transition={{ delay: i * 0.05 }}
                           className="flex gap-4 rounded-lg bg-neutral-50 p-4"
                         >
-                          <div className="flex-shrink-0 text-[#8b7355]">
+                          <div className="shrink-0 text-[#8b7355]">
                             {item.icon}
                           </div>
                           <div>
@@ -489,7 +489,7 @@ export default function ProductDetailPage() {
                     className="group relative w-full overflow-hidden bg-[#8b7355] py-5 text-sm font-medium uppercase tracking-[0.2em] text-white transition-all hover:bg-[#6d5a43]"
                   >
                     <span className="relative z-10">Add to Cart</span>
-                    <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                    <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </motion.button>
 
                   {/* Secondary Actions */}

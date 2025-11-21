@@ -66,7 +66,7 @@ export const validateImageFile = (
   if (!acceptedFormats.includes(file.type)) {
     return {
       valid: false,
-      error: `Định dạng không hợp lệ. Chỉ chấp nhận: ${acceptedFormats
+      error: `Invalid format. Just accept: ${acceptedFormats
         .map((f) => f.split("/")[1].toUpperCase())
         .join(", ")}`,
     };
@@ -77,7 +77,7 @@ export const validateImageFile = (
   if (fileSizeMB > maxSizeMB) {
     return {
       valid: false,
-      error: `Kích thước file vượt quá ${maxSizeMB}MB. File của bạn: ${fileSizeMB.toFixed(2)}MB`,
+      error: `File size exceeds ${maxSizeMB}MB. Your file: ${fileSizeMB.toFixed(2)}MB`,
     };
   }
 
