@@ -17,7 +17,7 @@ export default function InventoryLogTypeBadge({
       case "IN":
         return {
           icon: TrendingUp,
-          text: "Nhập kho",
+          text: "Stock In",
           bg: "bg-emerald-50",
           textColor: "text-emerald-700",
           border: "border-emerald-200",
@@ -26,7 +26,7 @@ export default function InventoryLogTypeBadge({
       case "OUT":
         return {
           icon: TrendingDown,
-          text: "Xuất kho",
+          text: "Stock Out",
           bg: "bg-red-50",
           textColor: "text-red-700",
           border: "border-red-200",
@@ -35,7 +35,7 @@ export default function InventoryLogTypeBadge({
       case "ADJUST":
         return {
           icon: RefreshCw,
-          text: "Điều chỉnh",
+          text: "Adjust",
           bg: "bg-blue-50",
           textColor: "text-blue-700",
           border: "border-blue-200",
@@ -44,7 +44,7 @@ export default function InventoryLogTypeBadge({
       case "RETURN":
         return {
           icon: RotateCcw,
-          text: "Trả hàng",
+          text: "Return",
           bg: "bg-amber-50",
           textColor: "text-amber-700",
           border: "border-amber-200",

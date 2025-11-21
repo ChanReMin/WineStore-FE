@@ -37,11 +37,11 @@ export default function BlogListingClient() {
             className="text-center mb-12"
           >
             <h2 className="text-[24px] md:text-[32px] tracking-[0.3em] uppercase text-[#3b4417] font-semibold mb-4">
-              KHÁM PHÁ THEO CHỦ ĐỀ
+              EXPLORE BY THEME
             </h2>
             <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
               <span className="h-px w-10 bg-[#4c5b23]" />
-              <span>Chọn chủ đề bạn quan tâm</span>
+              <span>Choose the theme you are interested in</span>
               <span className="h-px w-10 bg-[#4c5b23]" />
             </div>
           </motion.div>
@@ -68,18 +68,17 @@ export default function BlogListingClient() {
               <div>
                 <h2 className="text-[28px] md:text-[36px] lg:text-[42px] leading-tight tracking-[0.25em] uppercase text-[#3b4417] font-semibold">
                   {selectedCategory === "all"
-                    ? "TẤT CẢ BÀI VIẾT"
-                    : "BÀI VIẾT ĐÃ LỌC"}
+                    ? "ALL POSTS"
+                    : "FILTERED POSTS"}
                 </h2>
                 <div className="mt-4 flex items-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
                   <span className="h-px w-10 bg-[#4c5b23]" />
-                  <span>{filteredPosts.length} bài viết</span>
+                  <span>{filteredPosts.length} posts</span>
                 </div>
               </div>
 
               <p className="text-[15px] leading-relaxed text-neutral-600 tracking-wide max-w-xl">
-                Từ nghệ thuật thưởng thức đến bí quyết bảo quản, mỗi bài viết là
-                một hành trình khám phá thế giới rượu vang đầy thú vị.
+                From the art of tasting to storage tips, each article is a journey of discovering the fascinating world of wine.
               </p>
             </div>
           </motion.div>
@@ -104,25 +103,24 @@ export default function BlogListingClient() {
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="text-[28px] md:text-[36px] lg:text-[42px] tracking-[0.3em] uppercase text-white font-semibold mb-6">
-              ĐĂNG KÝ NHẬN BÀI VIẾT MỚI
+              SUBSCRIBE TO NEW POSTS
             </h2>
 
             <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-white/70 mb-8">
               <span className="h-px w-10 bg-white/40" />
-              <span>Mỗi tuần một lần</span>
+              <span>Once a week</span>
               <span className="h-px w-10 bg-white/40" />
             </div>
 
             <p className="text-[15px] leading-relaxed text-white/85 tracking-wide mb-10 max-w-2xl mx-auto">
-              Nhận những bài viết mới nhất về rượu vang, tips thưởng thức và ưu
-              đãi đặc biệt ngay trong hộp thư của bạn.
+              Receive the latest posts about wine, tasting tips, and special offers right in your inbox. Nhận các bài viết mới nhất về rượu vang, mẹo thưởng thức và ưu
             </p>
 
             {/* Form */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto">
               <input
                 type="email"
-                placeholder="NHẬP EMAIL CỦA BẠN..."
+                placeholder="ENTER YOUR EMAIL..."
                 className="flex-1 px-6 py-4 bg-white/10 border border-white/30 text-white placeholder:text-white/50 text-[11px] tracking-[0.2em] uppercase focus:outline-none focus:border-white/60 transition-all duration-300"
               />
               <motion.button
@@ -135,7 +133,7 @@ export default function BlogListingClient() {
             </div>
 
             <p className="mt-6 text-[10px] tracking-[0.2em] uppercase text-white/60">
-              Chúng tôi tôn trọng quyền riêng tư của bạn
+              We respect your privacy
             </p>
           </motion.div>
         </div>

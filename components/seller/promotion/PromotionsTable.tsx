@@ -57,10 +57,10 @@ export default function PromotionsTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Tag className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          Chưa có khuyến mãi
+          There are no promotions yet
         </h3>
         <p className="text-[#7a8451]">
-          Tạo khuyến mãi đầu tiên để thu hút khách hàng
+          Create the first promotion to attract customers
         </p>
       </Card>
     );
@@ -73,22 +73,22 @@ export default function PromotionsTable({
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Mã & Tên
+                Promotion Code
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Giảm giá
+                Discount
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Thời gian
+                Timeframe
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Sử dụng
+                Usage
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Trạng thái
+                Status
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Thao tác
+                Actions
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -171,7 +171,7 @@ export default function PromotionsTable({
                         />
                       </div>
                       <span className="text-xs text-[#7a8451]">
-                        {usagePercent}% đã sử dụng
+                        {usagePercent}% used
                       </span>
                     </div>
                   </TableCell>
@@ -193,7 +193,7 @@ export default function PromotionsTable({
                             onView(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
-                          title="Xem chi tiết"
+                          title="View Details"
                         >
                           <Eye className="w-4 h-4" />
                         </motion.button>
@@ -207,7 +207,7 @@ export default function PromotionsTable({
                             onEdit(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                          title="Chỉnh sửa"
+                          title="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </motion.button>
@@ -221,7 +221,7 @@ export default function PromotionsTable({
                             onDelete(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                          title="Xóa"
+                          title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </motion.button>

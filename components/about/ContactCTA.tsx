@@ -6,7 +6,7 @@ import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 
 export default function ContactCTA() {
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-[#3b4417] via-[#4a5520] to-[#3b4417] py-24 md:py-32">
+    <section className="relative w-full overflow-hidden bg-linear-to-br from-[#3b4417] via-[#4a5520] to-[#3b4417] py-24 md:py-32">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div

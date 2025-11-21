@@ -97,10 +97,10 @@ export default function InventoryLogsPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Lịch sử xuất nhập kho
+            History of warehouse import and export
           </h1>
           <p className="text-[#7a8451]">
-            Theo dõi tất cả giao dịch xuất nhập kho
+            Track all warehouse import and export transactions
           </p>
         </div>
 
@@ -112,7 +112,7 @@ export default function InventoryLogsPage() {
             className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium"
           >
             <Download className="w-4 h-4" />
-            Xuất báo cáo
+            Export Report
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -120,7 +120,7 @@ export default function InventoryLogsPage() {
             className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium"
           >
             <FileText className="w-4 h-4" />
-            In báo cáo
+            Print Report
           </motion.button>
         </div>
       </div>
@@ -129,37 +129,37 @@ export default function InventoryLogsPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
           {
-            label: "Tổng giao dịch",
+            label: "Total Transactions",
             value: summary.total,
             color: "bg-[#f5f3e8]",
             icon: FileText,
           },
           {
-            label: "Nhập kho",
+            label: "Stock In",
             value: summary.in,
             color: "bg-emerald-50",
             icon: TrendingUp,
           },
           {
-            label: "Xuất kho",
+            label: "Stock Out",
             value: summary.out,
             color: "bg-red-50",
             icon: TrendingDown,
           },
           {
-            label: "Điều chỉnh",
+            label: "Adjustments",
             value: summary.adjust,
             color: "bg-blue-50",
             icon: FileText,
           },
           {
-            label: "Trả hàng",
+            label: "Returns",
             value: summary.return,
             color: "bg-amber-50",
             icon: FileText,
           },
           {
-            label: "Tổng nhập",
+            label: "Total Stock In",
             value: `+${summary.totalIn}`,
             color: "bg-emerald-100",
             icon: TrendingUp,

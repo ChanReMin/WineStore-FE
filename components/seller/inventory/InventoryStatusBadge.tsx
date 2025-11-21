@@ -20,7 +20,7 @@ export default function InventoryStatusBadge({
       case "in_stock":
         return {
           icon: CheckCircle,
-          text: "Còn hàng",
+          text: "In Stock",
           bg: "bg-emerald-50",
           textColor: "text-emerald-700",
           border: "border-emerald-200",
@@ -29,7 +29,7 @@ export default function InventoryStatusBadge({
       case "low_stock":
         return {
           icon: AlertTriangle,
-          text: "Sắp hết",
+          text: "Low Stock",
           bg: "bg-amber-50",
           textColor: "text-amber-700",
           border: "border-amber-200",
@@ -38,7 +38,7 @@ export default function InventoryStatusBadge({
       case "out_of_stock":
         return {
           icon: XCircle,
-          text: "Hết hàng",
+          text: "Out of Stock",
           bg: "bg-red-50",
           textColor: "text-red-700",
           border: "border-red-200",

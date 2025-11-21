@@ -107,10 +107,10 @@ export default function AddPromotionToProductModal({
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-[#3b4417]">
-                    Thêm khuyến mãi
+                    Add promotions
                   </h2>
                   <p className="text-sm text-[#7a8451]">
-                    Chọn khuyến mãi áp dụng cho sản phẩm
+                    Select promotions to apply to the product
                   </p>
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default function AddPromotionToProductModal({
 
             {/* Product Info */}
             <div className="p-3 bg-white rounded-lg border border-[#d4d6b4]">
-              <p className="text-sm text-[#7a8451] mb-1">Sản phẩm:</p>
+              <p className="text-sm text-[#7a8451] mb-1">Product:</p>
               <p className="font-semibold text-[#3b4417]">{product.name}</p>
               <p className="text-sm text-[#7a8451] mt-1">
                 {product.brand} • {product.category}
@@ -139,7 +139,7 @@ export default function AddPromotionToProductModal({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
               <input
                 type="text"
-                placeholder="Tìm kiếm khuyến mãi..."
+                placeholder="Search promotions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent text-sm"
@@ -153,8 +153,8 @@ export default function AddPromotionToProductModal({
                   <Tag className="h-12 w-12 mx-auto mb-3 opacity-50" />
                   <p className="text-sm">
                     {searchQuery
-                      ? "Không tìm thấy khuyến mãi"
-                      : "Chưa có khuyến mãi nào đang hoạt động"}
+                      ? "No promotions found"
+                      : "No active promotions available"}
                   </p>
                 </div>
               ) : (
@@ -254,7 +254,7 @@ export default function AddPromotionToProductModal({
           <div className="sticky bottom-0 border-t border-[#d4d6b4] bg-white px-6 py-4">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm text-[#7a8451]">
-                Đã chọn {selectedPromotionIds.length} khuyến mãi
+                Selected {selectedPromotionIds.length} promotions
               </p>
               <div className="flex gap-3">
                 <button

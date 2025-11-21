@@ -71,22 +71,22 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
               <TableHeader>
                 <TableRow className="border-[#d4d6b4]">
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Mã đơn
+                    Order ID
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Khách hàng
+                    Customer
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Trạng thái
+                    Status
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Thanh toán
+                    Payment Status
                   </TableHead>
                   <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Tổng tiền
+                    Total Amount
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Ngày tạo
+                    Created At
                   </TableHead>
                 </TableRow>
               </TableHeader>

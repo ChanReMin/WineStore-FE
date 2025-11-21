@@ -82,7 +82,7 @@ export default function WineJourney() {
         {/* Journey Steps */}
         <div className="relative mt-20">
           {/* Connecting Line */}
-          <div className="absolute left-8 top-0 hidden h-full w-px bg-gradient-to-b from-[#3b4417] via-[#7a8451] to-[#3b4417] md:block" />
+          <div className="absolute left-8 top-0 hidden h-full w-px bg-linear-to-b from-[#3b4417] via-[#7a8451] to-[#3b4417] md:block" />
 
           <div className="space-y-24">
             {JOURNEY_STEPS.map((step, index) => {
@@ -104,7 +104,7 @@ export default function WineJourney() {
                     {/* Image */}
                     <motion.div
                       whileHover={{ scale: 1.05 }}
-                      className={`relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl ${!isEven ? "md:col-start-2" : ""}`}
+                      className={`relative aspect-4/3 overflow-hidden rounded-2xl shadow-2xl ${!isEven ? "md:col-start-2" : ""}`}
                     >
                       <Image
                         src={step.image}
@@ -133,7 +133,7 @@ export default function WineJourney() {
                         <motion.div
                           whileHover={{ rotate: 360, scale: 1.2 }}
                           transition={{ duration: 0.6 }}
-                          className={`mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#3b4417] to-[#4a5520] shadow-lg ${!isEven ? "md:ml-auto" : ""}`}
+                          className={`mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-[#3b4417] to-[#4a5520] shadow-lg ${!isEven ? "md:ml-auto" : ""}`}
                         >
                           <Icon
                             size={36}
@@ -158,7 +158,7 @@ export default function WineJourney() {
                           whileInView={{ width: "100px" }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.8, delay: 0.3 }}
-                          className={`mt-6 h-1 bg-gradient-to-r from-[#3b4417] to-transparent ${!isEven ? "md:ml-auto md:bg-gradient-to-l" : ""}`}
+                          className={`mt-6 h-1 bg-linear-to-r from-[#3b4417] to-transparent ${!isEven ? "md:ml-auto md:bg-linear-to-l" : ""}`}
                         />
                       </motion.div>
                     </div>

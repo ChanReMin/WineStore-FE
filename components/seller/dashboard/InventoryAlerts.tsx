@@ -72,7 +72,7 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-[#3b4417] tracking-wide">
             <AlertTriangle className="w-5 h-5 text-[#d4af37]" />
-            Cảnh báo tồn kho ({alertItems.length})
+             Inventory alert ({alertItems.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -81,22 +81,22 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
               <TableHeader>
                 <TableRow className="border-[#d4d6b4]">
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Sản phẩm
+                    Product
                   </TableHead>
                   <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Giá
+                    Price
                   </TableHead>
                   <TableHead className="text-center text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Tồn kho
+                    Stock
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Kho
+                    Warehouse
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Trạng thái
+                    Status
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Cập nhật
+                    Updated
                   </TableHead>
                 </TableRow>
               </TableHeader>

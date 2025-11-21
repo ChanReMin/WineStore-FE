@@ -36,7 +36,7 @@ const VALUES = [
 
 export default function Values() {
   return (
-    <section className="w-full bg-gradient-to-b from-[#fdfbf5] to-white py-24 md:py-32">
+    <section className="w-full bg-linear-to-b from-[#fdfbf5] to-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
         <motion.div
@@ -70,7 +70,7 @@ export default function Values() {
               >
                 {/* Background Gradient */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${value.color} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
+                  className={`absolute inset-0 bg-linear-to-br ${value.color} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
                 />
 
                 {/* Content */}
@@ -100,7 +100,7 @@ export default function Values() {
                     whileInView={{ width: "100%" }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, delay: 0.3 + index * 0.1 }}
-                    className="mt-6 h-px bg-gradient-to-r from-[#3b4417] to-transparent"
+                    className="mt-6 h-px bg-linear-to-r from-[#3b4417] to-transparent"
                   />
                 </div>
               </motion.div>

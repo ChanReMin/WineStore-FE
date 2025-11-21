@@ -36,13 +36,9 @@ export const mockOrders = {
       {
         id: 101,
         order_code: "ORD-20240126-0001",
-        customer: {
-          id: 1,
-          name: "Nguyen Van A",
-          email: "[a.nguyen@example.com](mailto:a.nguyen@example.com)",
-        },
+        customer: { id: 1, name: "Nguyen Van A", email: "a.nguyen@example.com" },
         status: 1,
-        status_text: "Chờ xác nhận",
+        status_text: "Pending Confirmation",
         payment_status: 1,
         final_amount: 5940000,
         created_at: "2024-01-26T14:12:00Z",
@@ -50,13 +46,9 @@ export const mockOrders = {
       {
         id: 100,
         order_code: "ORD-20240126-0002",
-        customer: {
-          id: 2,
-          name: "Tran Thi B",
-          email: "[tran.b@example.com](mailto:tran.b@example.com)",
-        },
+        customer: { id: 2, name: "Tran Thi B", email: "tran.b@example.com" },
         status: 2,
-        status_text: "Đang xử lý",
+        status_text: "Processing",
         payment_status: 1,
         final_amount: 10692000,
         created_at: "2024-01-26T13:40:00Z",
@@ -64,13 +56,9 @@ export const mockOrders = {
       {
         id: 99,
         order_code: "ORD-20240126-0003",
-        customer: {
-          id: 3,
-          name: "Pham Duc C",
-          email: "[pham.c@example.com](mailto:pham.c@example.com)",
-        },
+        customer: { id: 3, name: "Pham Duc C", email: "pham.c@example.com" },
         status: 4,
-        status_text: "Đang giao hàng",
+        status_text: "Shipping",
         payment_status: 1,
         final_amount: 8200000,
         created_at: "2024-01-26T12:10:00Z",
@@ -78,13 +66,9 @@ export const mockOrders = {
       {
         id: 98,
         order_code: "ORD-20240126-0004",
-        customer: {
-          id: 4,
-          name: "Le Thi D",
-          email: "[le.d@example.com](mailto:le.d@example.com)",
-        },
+        customer: { id: 4, name: "Le Thi D", email: "le.d@example.com" },
         status: 5,
-        status_text: "Hoàn thành",
+        status_text: "Completed",
         payment_status: 1,
         final_amount: 4200000,
         created_at: "2024-01-26T11:20:00Z",
@@ -92,13 +76,9 @@ export const mockOrders = {
       {
         id: 97,
         order_code: "ORD-20240126-0005",
-        customer: {
-          id: 5,
-          name: "Hoang Bao E",
-          email: "[bao.e@example.com](mailto:bao.e@example.com)",
-        },
+        customer: { id: 5, name: "Hoang Bao E", email: "bao.e@example.com" },
         status: 7,
-        status_text: "Đã hủy",
+        status_text: "Cancelled",
         payment_status: 0,
         final_amount: 0,
         created_at: "2024-01-26T10:55:00Z",
@@ -116,7 +96,7 @@ export const mockInventory = {
   data: [
     {
       id: 1,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 1, name: "Château Margaux 2015", price: 5940000 },
       quantity_on_hand: 4,
       safety_stock: 10,
@@ -125,7 +105,7 @@ export const mockInventory = {
     },
     {
       id: 2,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 2, name: "Moët & Chandon Brut Impérial", price: 1890000 },
       quantity_on_hand: 0,
       safety_stock: 5,
@@ -134,12 +114,8 @@ export const mockInventory = {
     },
     {
       id: 3,
-      warehouse: { id: 2, name: "Kho HCM", location: "TP. HCM" },
-      product: {
-        id: 3,
-        name: "Penfolds Bin 389 Cabernet Shiraz",
-        price: 2490000,
-      },
+      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
+      product: { id: 3, name: "Penfolds Bin 389 Cabernet Shiraz", price: 2490000 },
       quantity_on_hand: 3,
       safety_stock: 8,
       status: "low_stock",
@@ -147,3 +123,4 @@ export const mockInventory = {
     },
   ],
 };
+

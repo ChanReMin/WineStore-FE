@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plus, Download, Upload } from "lucide-react";
+import { Plus} from "lucide-react";
 import { mockProductList } from "@/lib/products.mock";
 import ProductSummaryCards from "@/components/seller/dashboard/ProductSummaryCards";
 import ProductFilters from "@/components/seller/dashboard/ProductFilters";
@@ -10,6 +10,7 @@ import ProductsTable from "@/components/seller/dashboard/ProductsTable";
 import ProductPagination from "@/components/seller/dashboard/ProductPagination";
 import ProductFormModal from "@/components/seller/dashboard/ProductFormModal";
 import type { ProductFormData } from "@/types/productForm";
+import { toast } from "react-toastify";
 
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,32 +130,28 @@ export default function ProductsPage() {
 
   // Handlers
   const handleCreateProduct = async (data: ProductFormData) => {
-    console.log("Creating product:", data);
     // TODO: Call API POST /seller/products
     // await createProduct(data);
-    alert("Tạo sản phẩm thành công! (Mock)");
+    toast.success("Create successful products! (Mock)");
   };
 
   const handleEditProduct = async (id: number, data: ProductFormData) => {
-    console.log("Editing product:", id, data);
     // TODO: Call API PUT /seller/products/{id}
     // await updateProduct(id, data);
-    alert(`Cập nhật sản phẩm #${id} thành công! (Mock)`);
+    toast.success(`Updated product #${id} successfully! (Mock)`);
   };
 
   const handleDeleteProduct = async (id: number) => {
-    console.log("Deleting product:", id);
     // TODO: Call API DELETE /seller/products/{id}
     // await deleteProduct(id);
-    alert(`Xóa sản phẩm #${id} thành công! (Mock)`);
+    toast.success(`Deleted product #${id} successfully! (Mock)`);
   };
 
   const handleAddPromotionToProduct = (productId: number, promotionIds: number[]) => {
-    console.log("Adding promotions to product:", { productId, promotionIds });
     // TODO: Call API POST /seller/products/{productId}/promotions
     // await addPromotionsToProduct(productId, promotionIds);
-    alert(
-      `Đã thêm ${promotionIds.length} khuyến mãi vào sản phẩm #${productId}! (Mock)`
+    toast.success(
+      `Added ${promotionIds.length} promotions to product #${productId}! (Mock)`
     );
   };
 
@@ -164,10 +161,10 @@ export default function ProductsPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Quản lý sản phẩm
+            Product Management
           </h1>
           <p className="text-[#7a8451]">
-            Quản lý danh sách sản phẩm và theo dõi trạng thái phê duyệt
+            Manage product list and track approval status
           </p>
         </div>
 
@@ -180,7 +177,7 @@ export default function ProductsPage() {
             className="flex items-center gap-2 px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium shadow-md"
           >
             <Plus className="w-5 h-5" />
-            Thêm sản phẩm
+            Add Product
           </motion.button>
         </div>
       </div>

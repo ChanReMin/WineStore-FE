@@ -224,6 +224,6 @@ const sidebarVariants: Variants = {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

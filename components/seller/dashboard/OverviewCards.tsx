@@ -19,7 +19,7 @@ export default function OverviewCards({
 }: OverviewCardsProps) {
   const cards = [
     {
-      title: "Tổng doanh thu",
+      title: "Total revenue",
       value: new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -29,21 +29,21 @@ export default function OverviewCards({
       bgColor: "bg-[#f5f3e8]",
     },
     {
-      title: "Đơn hàng",
+      title: "Orders",
       value: totalOrders.toString(),
       icon: ShoppingCart,
       color: "text-[#d4af37]",
       bgColor: "bg-[#fdfbf5]",
     },
     {
-      title: "Sản phẩm",
+      title: "Products",
       value: totalProducts.toString(),
       icon: Package,
       color: "text-[#7a8451]",
       bgColor: "bg-[#f5f3e8]",
     },
     {
-      title: "Cảnh báo tồn kho",
+      title: "Stock Alerts",
       value: stockAlerts.toString(),
       icon: AlertTriangle,
       color: "text-orange-600",

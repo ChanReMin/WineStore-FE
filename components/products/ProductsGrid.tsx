@@ -39,7 +39,7 @@ export default function ProductsGrid({
             transition={{ delay: i * 0.05 }}
             className="overflow-hidden bg-white shadow-sm"
           >
-            <div className="relative aspect-[3/4] bg-gradient-to-br from-neutral-100 to-neutral-200">
+            <div className="relative aspect-3/4 bg-linear-to-br from-neutral-100 to-neutral-200">
               {/* Shimmer Effect */}
               <motion.div
                 animate={{
@@ -50,10 +50,10 @@ export default function ProductsGrid({
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                className="absolute inset-0 bg-linear-to-r from-transparent via-white/40 to-transparent"
               />
             </div>
-            <div className="space-y-4 p-6 bg-gradient-to-b from-white to-[#fdfbf5]">
+            <div className="space-y-4 p-6 bg-linear-to-b from-white to-[#fdfbf5]">
               <div className="h-2 w-1/3 bg-neutral-200 rounded" />
               <div className="h-4 w-full bg-neutral-200 rounded" />
               <div className="h-4 w-4/5 bg-neutral-200 rounded" />
@@ -111,7 +111,7 @@ export default function ProductsGrid({
             />
             
             {/* Icon */}
-            <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#fdfbf5] to-white shadow-lg">
+            <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-[#fdfbf5] to-white shadow-lg">
               <Wine size={40} strokeWidth={1.5} className="text-[#7b5b2c]" />
             </div>
           </div>
@@ -127,9 +127,9 @@ export default function ProductsGrid({
           </h3>
           
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#d4af37]/50" />
+            <span className="h-px w-12 bg-linear-to-r from-transparent to-[#d4af37]/50" />
             <Sparkles size={16} className="text-[#d4af37]" />
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#d4af37]/50" />
+            <span className="h-px w-12 bg-linear-to-l from-transparent to-[#d4af37]/50" />
           </div>
 
           <p className="max-w-md text-[15px] leading-relaxed text-neutral-600">

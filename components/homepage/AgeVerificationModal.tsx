@@ -90,7 +90,7 @@ export default function AgeVerificationModal({
                   className="mb-3 text-center"
                 >
                   <h2 className="text-2xl font-semibold tracking-wide text-[#33391d]">
-                    Xác Nhận Độ Tuổi
+                    Age Confirmation
                   </h2>
                 </motion.div>
 
@@ -101,7 +101,7 @@ export default function AgeVerificationModal({
                   transition={{ duration: 0.5, delay: 0.5 }}
                   className="mb-8 text-center text-sm italic text-neutral-600"
                 >
-                  Bạn đã đủ 18 tuổi chưa?
+                  Are you at least 18 years old?
                 </motion.p>
 
                 {/* Buttons */}
@@ -119,7 +119,7 @@ export default function AgeVerificationModal({
                     whileTap={{ scale: 0.97 }}
                     className="border border-neutral-300 bg-white px-6 py-3 text-sm uppercase tracking-widest text-neutral-700 transition-all hover:border-neutral-400 hover:bg-neutral-50"
                   >
-                    Chưa
+                    No
                   </motion.button>
 
                   {/* Yes Button */}
@@ -130,7 +130,7 @@ export default function AgeVerificationModal({
                     whileTap={{ scale: 0.97 }}
                     className="bg-[#33391d] px-6 py-3 text-sm uppercase tracking-widest text-amber-50 transition-all hover:bg-[#2a2f18]"
                   >
-                    Đã đủ
+                    Yes
                   </motion.button>
                 </motion.div>
 
@@ -141,7 +141,7 @@ export default function AgeVerificationModal({
                   transition={{ duration: 0.5, delay: 0.8 }}
                   className="mt-6 text-center text-xs text-neutral-500"
                 >
-                  Bạn phải đủ 18 tuổi để truy cập website này
+                  You must be at least 18 years old to access this website
                 </motion.p>
               </div>
             </div>

@@ -86,7 +86,7 @@ export default function SearchBar({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
-          className={`w-full border-2 bg-gradient-to-br from-white to-[#fdfbf5] px-5 py-4 pl-14 pr-14 text-[14px] text-[#3b4417] placeholder-neutral-400 transition-all duration-300 shadow-sm ${
+          className={`w-full border-2 bg-linear-to-br from-white to-[#fdfbf5] px-5 py-4 pl-14 pr-14 text-[14px] text-[#3b4417] placeholder-neutral-400 transition-all duration-300 shadow-sm ${
             isFocused
               ? "border-[#d4af37] shadow-lg shadow-[#d4af37]/20"
               : "border-neutral-200 hover:border-[#d4af37]/50"
@@ -101,7 +101,7 @@ export default function SearchBar({
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
               onClick={handleClear}
-              className="absolute right-5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#7b5b2c] to-[#3b4417] text-white transition-all hover:scale-110 hover:shadow-md"
+              className="absolute right-5 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-linear-to-br from-[#7b5b2c] to-[#3b4417] text-white transition-all hover:scale-110 hover:shadow-md"
             >
               <X size={14} strokeWidth={2.5} />
             </motion.button>
@@ -110,7 +110,7 @@ export default function SearchBar({
 
         {/* Animated Border */}
         <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#d4af37] via-[#f4e5a1] to-[#d4af37]"
+          className="absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-[#d4af37] via-[#f4e5a1] to-[#d4af37]"
           initial={{ width: 0, opacity: 0 }}
           animate={{
             width: isFocused ? "100%" : 0,
@@ -130,7 +130,7 @@ export default function SearchBar({
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4af37]/10 to-transparent pointer-events-none"
+              className="absolute inset-0 bg-linear-to-r from-transparent via-[#d4af37]/10 to-transparent pointer-events-none"
             />
           )}
         </AnimatePresence>

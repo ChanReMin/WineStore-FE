@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sản phẩm - Wine Store",
   description:
-    "Khám phá bộ sưu tập rượu vang cao cấp từ khắp nơi trên thế giới. Tìm kiếm và lọc theo thương hiệu, giá cả, nồng độ và nhiều tiêu chí khác.",
-  keywords: "rượu vang, wine, vang pháp, vang úc, vang mỹ, rượu cao cấp",
+    "Explore our collection of premium wines from around the world. Search and filter by brand, price, concentration and more.",
+  keywords: "wine, premium wine, French wine, Australian wine, American wine, luxury wine",
   openGraph: {
     title: "Sản phẩm - Wine Store",
     description:
-      "Khám phá bộ sưu tập rượu vang cao cấp từ khắp nơi trên thế giới",
+      "Explore our collection of premium wines from around the world. Search and filter by brand, price, concentration and more.",
     type: "website",
   },
 };

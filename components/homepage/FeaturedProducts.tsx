@@ -114,7 +114,7 @@ export default function FeaturedProducts() {
               </div>
 
               {/* Image */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
+              <div className="relative aspect-3/4 overflow-hidden bg-neutral-100">
                 <Image
                   src={wine.image}
                   alt={wine.name}

@@ -69,7 +69,7 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
                 className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"
                 strokeWidth={1.5}
               />
-              QUAY LẠI BLOG
+              BACK TO THE BLOG
             </Link>
           </motion.div>
 
@@ -153,112 +153,96 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
 
             <div className="space-y-6 text-[#5d4e37] leading-relaxed text-lg">
               <p>
-                Rượu vang không chỉ là một thức uống – đó là sự kết tinh của
-                lịch sử, khí hậu, thổ nhưỡng và bàn tay con người. Mỗi chai vang
-                là một câu chuyện được viết bằng thời gian, là khoảnh khắc giao
-                thoa giữa nghệ thuật và khoa học. Khi hiểu sâu hơn về rượu vang,
-                bạn sẽ khám phá được thế giới hương vị phong phú, tinh tế và đầy
-                chiều sâu, nơi mỗi giọt rượu đều mang trong mình linh hồn của
-                vùng đất nơi chúng được sinh ra.
+                Wine is more than just a drink – it is the crystallization of
+                history, climate, soil and human hands. Every bottle of wine
+                is a story written in time, a moment of intersection
+                intersection between art and science. When understanding wine more deeply,
+                you will discover a world of rich, delicate and filling flavors
+                depth, where every drop of wine carries within its soul
+                the land where they were born.
               </p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                Lịch Sử và Nguồn Gốc
+                History and Origins
               </h2>
               <p>
-                Hành trình của rượu vang bắt đầu hơn 8.000 năm trước tại vùng
-                Caucasus – nơi ngày nay là Gruzia. Từ đó, rượu vang lan rộng đến
-                Ai Cập cổ đại, Hy Lạp, rồi đế chế La Mã – những nền văn minh đã
-                xem vang như biểu tượng của tôn giáo, triết học và sự hưng
-                thịnh. Khi La Mã mở rộng lãnh thổ, nghệ thuật làm vang lan khắp
-                châu Âu, đặc biệt là Pháp, Ý, Tây Ban Nha và Bồ Đào Nha – những
-                quốc gia trở thành cột trụ của ngành rượu vang.
+                The journey of wine began more than 8,000 years ago in the region
+                Caucasus – what is now Georgia. From there, wine spread
+                Ancient Egypt, Greece, then the Roman Empire – civilizations were
+                see the echo as a symbol of religion, philosophy and revival
+                prosperous. As Rome expanded its territory, the art of making wine spread throughout
+                Europe, especially France, Italy, Spain and Portugal – these
+                The country became a pillar of the wine industry.
               </p>
               <p>
-                Mỗi vùng trồng nho có đặc trưng khí hậu riêng: Bordeaux đậm đà
-                phức hợp, Burgundy tinh tế nhẹ nhàng, Napa Valley mạnh mẽ tròn
-                vị. Chính sự đa dạng này tạo ra hàng ngàn phong cách vang khác
-                nhau, hình thành nên văn hóa thưởng vang phong phú trên toàn thế
-                giới.
+                Each wine-growing region has its own unique climate characteristics: Bordeaux is rich and complex, Burgundy is delicate and gentle, Napa Valley is strong and full-bodied. This diversity creates thousands of different wine styles, forming a rich wine culture worldwide.
               </p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                Quy Trình Sản Xuất
+                Production Process
               </h2>
               <p>
-                Đằng sau mỗi chai rượu vang là một quy trình công phu và đầy tâm
-                huyết. Mọi thứ bắt đầu từ việc chăm sóc vườn nho – nơi cây nho
-                hấp thụ ánh sáng, đất mẹ và khí hậu địa phương. Khi đến mùa thu
-                hoạch, từng chùm nho được chọn lọc kỹ lưỡng để đảm bảo chất
-                lượng tốt nhất.
+                Behind every bottle of wine is a meticulous and passionate process. It all starts with vineyard care – where grapevines absorb sunlight, mother soil, and local climate. When harvest season arrives, each bunch of grapes is carefully selected to ensure the best quality.
               </p>
               <p>
-                Sau đó, nho được nghiền ép và đưa vào quá trình lên men. Đối với
-                vang đỏ, nho được giữ nguyên vỏ để tạo màu sắc và cấu trúc
-                tannin. Với vang trắng, vỏ thường được loại bỏ để giữ độ nhẹ
-                nhàng và thanh thoát. Khi quá trình lên men hoàn tất, rượu sẽ
-                tiếp tục được ủ trong thùng gỗ sồi hoặc bồn thép tùy phong cách
-                mong muốn.
+                Then, the grapes are crushed and undergo fermentation. For red wine, the grapes are kept with their skins to create color and tannin structure. For white wine, the skins are usually removed to maintain lightness and freshness. Once fermentation is complete, the wine will continue to be aged in oak barrels or steel tanks depending on the desired style.
               </p>
               <p>
-                Gỗ sồi mang lại hương vanilla, caramel hay khói nhẹ; trong khi
-                bồn thép giúp giữ hương tự nhiên và độ tươi trẻ. Cuối cùng, rượu
-                được lọc, phối trộn (nếu cần) rồi đóng chai. Một số loại cần
-                được “ngủ yên” nhiều năm trước khi sẵn sàng để mở.
+                Oak barrels impart flavors of vanilla, caramel, and light smoke; while steel tanks help preserve natural aromas and freshness. Finally, the wine is filtered, blended (if necessary), and bottled. Some types need to "rest" for many years before they are ready to be opened.
               </p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                Cách Thưởng Thức
+                How to Enjoy
               </h2>
               <p>
-                Để thưởng thức rượu vang trọn vẹn, bạn không chỉ đơn giản rót
-                rồi uống. Nghệ thuật thưởng vang bao gồm bốn yếu tố quan trọng:
-                nhiệt độ, ly rượu, cách xoay ly và sự kết hợp với món ăn. Vang
-                đỏ thường ngon nhất ở 16–18°C, vang trắng ở 8–12°C và vang sủi
-                cần được làm lạnh sâu hơn để giữ được độ tươi và bọt khí sống
-                động.
+                To fully enjoy wine, you don't simply pour it
+                then drink. The art of wine appreciation includes four important elements:
+                temperature, wine glass, how to swirl the glass and food pairing. Echoing
+                Red wine is usually best at 16–18°C, white wine at 8–12°C and sparkling wine
+                Needs deeper cooling to maintain freshness and bubbles
+                dynamic.
               </p>
               <p>
-                Hình dáng ly cũng ảnh hưởng mạnh mẽ đến hương vị: ly dáng bầu
-                cho vang đỏ giúp hương thơm lan tỏa; ly miệng hẹp dành cho vang
-                sủi giúp giữ bọt lâu hơn. Khi xoay ly, bạn giúp giải phóng các
-                phân tử hương, mở ra tầng hương phức hợp hơn trước khi đưa lên
-                mũi và miệng.
+                The shape of the glass also strongly affects the taste: the glass is shaped like a gourd
+                Add red wine to help the aroma spread; narrow-mouthed wine glasses
+                Effervescent helps keep the foam longer. When you rotate the glass, you help release the
+                scent molecules, opening up a more complex flavor layer before being brought up
+                nose and mouth.
               </p>
               <p>
-                Sự kết hợp với món ăn (wine pairing) là nghệ thuật cân bằng vị
-                giác: vang đỏ hợp với thịt đỏ, vang trắng hợp với hải sản và các
-                món nhẹ; vang ngọt đi cùng món tráng miệng hoặc đồ cay rất tuyệt
-                vời. Khi kết hợp đúng, bạn sẽ cảm nhận được sự bùng nổ hương vị
-                đầy bất ngờ.
+                Wine pairing is the art of balancing flavors
+                Taste: red wine goes well with red meat, white wine goes well with seafood and fish
+                light dishes; Sweet wine goes great with dessert or spicy food
+                great. When combined correctly, you will experience an explosion of flavor
+                full of surprises.
               </p>
 
               <div className="bg-linear-to-br from-[#fef8f0] to-[#fff5eb] border-2 border-[#c9a961] rounded-3xl p-10 my-12 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-[#c9a961]/20 to-transparent rounded-bl-full" />
                 <h3 className="font-display-serif text-3xl font-bold text-[#8b4513] mb-4 flex items-center gap-3">
                   <span className="text-4xl">💡</span>
-                  Mẹo từ Chuyên Gia
+                  Expert Tips
                 </h3>
                 <p className="text-[#5d4e37] mb-0 text-lg leading-relaxed relative z-10">
-                  Hãy để rượu vang “thở” trong bình decanter từ 15–30 phút với
-                  vang trẻ, và 1–2 giờ cho vang đỏ lâu năm. Quá trình này giúp
-                  rượu tiếp xúc với oxy, làm mềm tannin và mở ra hương vị tinh
-                  tế hơn. Đối với vang trắng cao cấp, việc cho thở cũng có thể
-                  mang lại hương thơm đậm đà và cấu trúc tốt hơn.
+                  Let the wine "breathe" in the decanter for 15-30 minutes
+                  young wines, and 1–2 hours for older red wines. This process helps
+                  The wine is exposed to oxygen, softening the tannins and opening up refined flavors
+                  more economical. For premium white wines, breathing is also possible
+                  gives rich aroma and better texture.
                 </p>
               </div>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                Kết Luận
+                Conclusion
               </h2>
               <p>
-                Khám phá rượu vang là một cuộc hành trình đầy cảm hứng – nơi bạn
-                càng tìm hiểu, bạn càng muốn học sâu hơn. Mỗi vùng đất, mỗi nhà
-                làm vang và mỗi niên vụ đều mang đến một câu chuyện mới. Khi bạn
-                mở một chai rượu, bạn đang mở ra cả một thế giới văn hóa, lịch
-                sử và tinh hoa nhân loại. Hãy thưởng thức theo cách riêng của
-                bạn, bởi chính cảm nhận cá nhân mới tạo nên trải nghiệm đáng giá
-                nhất.
+                Discovering wine is an inspiring journey – where you are
+                The more you learn, the deeper you want to learn. Every land, every house
+                wine making and each vintage brings a new story. When you
+                When you open a bottle of wine, you are opening up a whole world of culture and history
+                history and quintessence of humanity. Enjoy it in your own way
+                you, because it is your personal feelings that create a valuable experience
+                best.
               </p>
             </div>
           </motion.article>
@@ -295,11 +279,11 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
             >
               <div className="text-center mb-16">
                 <h2 className="text-[28px] md:text-[36px] tracking-[0.3em] uppercase text-[#3b4417] font-semibold mb-4">
-                  BÀI VIẾT LIÊN QUAN
+                  RELATED POSTS
                 </h2>
                 <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
                   <span className="h-px w-10 bg-[#4c5b23]" />
-                  <span>Khám phá thêm</span>
+                  <span>Explore More</span>
                   <span className="h-px w-10 bg-[#4c5b23]" />
                 </div>
               </div>

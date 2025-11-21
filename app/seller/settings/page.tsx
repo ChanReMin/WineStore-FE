@@ -8,9 +8,9 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-900">Cài đặt</h1>
+        <h1 className="text-2xl font-bold text-neutral-900">Settings</h1>
         <p className="mt-1 text-sm text-neutral-600">
-          Quản lý thông tin cửa hàng và tài khoản
+          Manage store and account information
         </p>
       </div>
 
@@ -26,10 +26,10 @@ export default function SettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-neutral-900">
-                Thông tin cửa hàng
+                Store information
               </h3>
               <p className="text-sm text-neutral-600">
-                Cập nhật thông tin và logo
+                Update information and logo
               </p>
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function SettingsPage() {
             href="/seller/settings/store"
             className="mt-4 block w-full rounded-lg border border-neutral-200 py-2 text-center text-sm font-medium text-neutral-700 transition-all hover:bg-neutral-50"
           >
-            Chỉnh sửa
+            Edit
           </Link>
         </motion.div>
 
@@ -52,9 +52,9 @@ export default function SettingsPage() {
               <Lock size={24} className="text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-neutral-900">Đổi mật khẩu</h3>
+              <h3 className="font-semibold text-neutral-900">Change Password</h3>
               <p className="text-sm text-neutral-600">
-                Cập nhật mật khẩu bảo mật
+                Update your secure password
               </p>
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function SettingsPage() {
             href="/seller/settings/password"
             className="mt-4 block w-full rounded-lg border border-neutral-200 py-2 text-center text-sm font-medium text-neutral-700 transition-all hover:bg-neutral-50"
           >
-            Thay đổi
+            Change
           </Link>
         </motion.div>
       </div>

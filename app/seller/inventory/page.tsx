@@ -9,6 +9,7 @@ import InventoryTable from "@/components/seller/inventory/InventoryTable";
 import InventoryPagination from "@/components/seller/inventory/InventoryPagination";
 import UpdateInventoryModal from "@/components/seller/inventory/UpdateInventoryModal";
 import type { InventoryItem } from "@/types/inventory";
+import { toast } from "react-toastify";
 
 export default function InventoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,10 +88,9 @@ export default function InventoryPage() {
     quantity: number,
     note: string
   ) => {
-    console.log("Update inventory:", { itemId, type, quantity, note });
     // TODO: Call API
-    alert(
-      `${type === "in" ? "Nhập" : "Xuất"} kho ${quantity} sản phẩm #${itemId}${note ? ` - ${note}` : ""} (Mock)`
+    toast.success(
+      `${type === "in" ? "Stock In" : "Stock Out"} ${quantity} products #${itemId}${note ? ` - ${note}` : ""} (Mock)`
     );
   };
 
@@ -122,10 +122,10 @@ export default function InventoryPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Quản lý tồn kho
+            Inventory Management
           </h1>
           <p className="text-[#7a8451]">
-            Theo dõi và quản lý tồn kho sản phẩm
+            Track and manage product inventory
           </p>
         </div>
       </div>
@@ -134,31 +134,31 @@ export default function InventoryPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {[
           {
-            label: "Tổng sản phẩm",
+            label: "Total Products",
             value: summary.total,
             color: "bg-[#f5f3e8]",
             icon: Package,
           },
           {
-            label: "Còn hàng",
+            label: "In Stock",
             value: summary.inStock,
             color: "bg-emerald-50",
             icon: Package,
           },
           {
-            label: "Sắp hết",
+            label: "Low Stock",
             value: summary.lowStock,
             color: "bg-amber-50",
             icon: Package,
           },
           {
-            label: "Hết hàng",
+            label: "Out of Stock",
             value: summary.outOfStock,
             color: "bg-red-50",
             icon: Package,
           },
           {
-            label: "Giá trị tồn kho",
+            label: "Inventory Value",
             value: formatPrice(summary.totalValue),
             color: "bg-blue-50",
             icon: Package,

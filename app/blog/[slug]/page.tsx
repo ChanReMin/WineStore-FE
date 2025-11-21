@@ -45,7 +45,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   const breadcrumbData = generateBreadcrumbStructuredData([
-    { name: "Trang chủ", url: "/" },
+    { name: "Home Page", url: "/" },
     { name: "Blog", url: "/blog" },
     { name: post.title, url: `/blog/${post.slug}` },
   ]);

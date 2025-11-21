@@ -66,10 +66,10 @@ export default function DeleteProductModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-red-900">
-                      Xác nhận xóa sản phẩm
+                      Confirm product deletion
                     </h2>
                     <p className="text-sm text-red-700">
-                      Hành động này không thể hoàn tác
+                      This action cannot be undone
                     </p>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export default function DeleteProductModal({
               <div className="p-6 space-y-4">
                 <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                   <p className="text-sm text-[#7a8451] mb-2">
-                    Bạn đang xóa sản phẩm:
+                    You are deleting the product:
                   </p>
                   <div className="space-y-2">
                     <p className="font-semibold text-[#3b4417] text-lg">
@@ -107,14 +107,13 @@ export default function DeleteProductModal({
                     <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
                     <div className="space-y-2">
                       <p className="font-medium text-red-900">
-                        Lưu ý quan trọng:
+                        Important note:
                       </p>
                       <ul className="text-sm text-red-700 space-y-1 list-disc list-inside">
-                        <li>Sản phẩm sẽ bị xóa vĩnh viễn khỏi hệ thống</li>
-                        <li>Dữ liệu không thể khôi phục sau khi xóa</li>
+                        <li>The product will be permanently deleted from the system</li>
+                        <li>Data cannot be recovered after deletion</li>
                         <li>
-                          Nếu có đơn hàng liên quan, vui lòng kiểm tra trước khi
-                          xóa
+                          If there are related orders, please check before deleting
                         </li>
                       </ul>
                     </div>
@@ -122,7 +121,7 @@ export default function DeleteProductModal({
                 </div>
 
                 <p className="text-sm text-[#7a8451]">
-                  Bạn có chắc chắn muốn xóa sản phẩm này không?
+                  Are you sure you want to delete this product?
                 </p>
               </div>
 
@@ -133,7 +132,7 @@ export default function DeleteProductModal({
                   disabled={isDeleting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   onClick={handleConfirm}
@@ -143,12 +142,12 @@ export default function DeleteProductModal({
                   {isDeleting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Đang xóa...
+                      Deleting...
                     </>
                   ) : (
                     <>
                       <Trash2 className="w-5 h-5" />
-                      Xóa sản phẩm
+                      Delete product
                     </>
                   )}
                 </button>

@@ -60,10 +60,9 @@ export default function BlogHero() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-6 max-w-2xl mx-auto text-sm md:text-base text-white/85 tracking-wider leading-relaxed"
           >
-            Khám phá nghệ thuật thưởng thức rượu vang qua những bài viết chuyên
-            sâu
+            Discover the art of enjoying wine through specialized articles deep
             <br className="hidden md:block" />
-            từ các chuyên gia sommelier và những người đam mê rượu vang
+            from sommeliers and wine enthusiasts
           </motion.p>
 
           {/* CTA Button */}
@@ -81,7 +80,7 @@ export default function BlogHero() {
               }
               className="group inline-flex items-center gap-3 border-2 border-white/60 bg-white/10 px-12 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
             >
-              KHÁM PHÁ NGAY
+              EXPLORE NOW
             </motion.button>
           </motion.div>
         </motion.div>

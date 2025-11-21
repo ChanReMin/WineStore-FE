@@ -79,7 +79,7 @@ export default function ProductsDemoPage() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="border-b border-neutral-200 bg-gradient-to-b from-[#33391d] to-[#2a2f18] py-16 text-white"
+        className="border-b border-neutral-200 bg-linear-to-b from-[#33391d] to-[#2a2f18] py-16 text-white"
       >
         <div className="container mx-auto px-6">
           <motion.h1
@@ -88,7 +88,7 @@ export default function ProductsDemoPage() {
             transition={{ delay: 0.1 }}
             className="mb-4 text-center font-serif text-4xl font-bold uppercase tracking-wider md:text-5xl"
           >
-            Bộ sưu tập rượu vang
+            Wine Collection
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -96,7 +96,7 @@ export default function ProductsDemoPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto max-w-2xl text-center text-amber-100"
           >
-            Demo UI với Mock Data - Khám phá những chai rượu vang cao cấp
+            Demo UI with Mock Data - Explore premium wine bottles
           </motion.p>
         </div>
       </motion.section>
@@ -119,31 +119,31 @@ export default function ProductsDemoPage() {
           animate={{ opacity: 1 }}
           className="mb-6 text-sm text-neutral-600"
         >
-          Hiển thị {displayProducts.length} trong tổng số{" "}
-          {filteredProducts.length} sản phẩm
+          Display {displayProducts.length} of{" "}
+          {filteredProducts.length} products
         </motion.div>
 
         {/* Content Grid */}
         <div className="flex gap-8">
           {/* Desktop Sidebar */}
-          <div className="hidden w-64 flex-shrink-0 lg:block">
+          <div className="hidden w-64 shrink-0 lg:block">
             <div className="sticky top-24 space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold uppercase tracking-wider text-neutral-800">
-                  Bộ lọc
+                  Filters
                 </h2>
                 <button
                   onClick={handleReset}
                   className="text-sm text-neutral-600 transition-colors hover:text-[#33391d]"
                 >
-                  Xóa tất cả
+                  Reset All
                 </button>
               </div>
 
               {/* Brand Filter */}
               <div className="space-y-3">
                 <label className="block text-sm font-medium uppercase tracking-wide text-neutral-700">
-                  Thương hiệu
+                  Brand
                 </label>
                 <select
                   value={selectedBrand}
@@ -162,7 +162,7 @@ export default function ProductsDemoPage() {
               {/* Category Filter */}
               <div className="space-y-3">
                 <label className="block text-sm font-medium uppercase tracking-wide text-neutral-700">
-                  Danh mục
+                  Category
                 </label>
                 <select
                   value={selectedCategory}
@@ -186,19 +186,19 @@ export default function ProductsDemoPage() {
               {/* Price Range */}
               <div className="space-y-3">
                 <label className="block text-sm font-medium uppercase tracking-wide text-neutral-700">
-                  Khoảng giá (VNĐ)
+                  Price Range (VND)
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="number"
-                    placeholder="Từ"
+                    placeholder="From"
                     value={priceMin}
                     onChange={(e) => setPriceMin(e.target.value)}
                     className="w-full rounded-sm border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-800 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
                   />
                   <input
                     type="number"
-                    placeholder="Đến"
+                    placeholder="Tos"
                     value={priceMax}
                     onChange={(e) => setPriceMax(e.target.value)}
                     className="w-full rounded-sm border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-800 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
@@ -210,7 +210,7 @@ export default function ProductsDemoPage() {
                 onClick={handleReset}
                 className="w-full border border-[#33391d] bg-[#33391d] px-4 py-3 text-sm uppercase tracking-wider text-amber-50 transition-all hover:bg-[#2a2f18]"
               >
-                Đặt lại bộ lọc
+                Reset the filter
               </button>
             </div>
           </div>

@@ -18,36 +18,36 @@ export default function ProductSummaryCards({
 }: ProductSummaryCardsProps) {
   const cards = [
     {
-      title: "Tổng sản phẩm",
+      title: "Total Products",
       value: summary.total,
       icon: Package,
       color: "text-[#3b4417]",
       bgColor: "bg-[#f5f3e8]",
-      description: "Tất cả sản phẩm",
+      description: "All products listed",
     },
     {
-      title: "Chờ duyệt",
+      title: "Pending",
       value: summary.pending,
       icon: Clock,
       color: "text-amber-600",
       bgColor: "bg-amber-50",
-      description: "Đang chờ Admin",
+      description: "Waiting for Admin",
     },
     {
-      title: "Đang bán",
+      title: "Active",
       value: summary.active,
       icon: CheckCircle,
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
-      description: "Đã được duyệt",
+      description: "Approved",
     },
     {
-      title: "Bị cấm",
+      title: "Banned",
       value: summary.banned,
       icon: XCircle,
       color: "text-red-600",
       bgColor: "bg-red-50",
-      description: "Không được bán",
+      description: "Not allowed to sell",
     },
   ];
 

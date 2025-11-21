@@ -23,10 +23,10 @@ export default function InventoryFilters({
   warehouses,
 }: InventoryFiltersProps) {
   const statusOptions = [
-    { value: "all", label: "Tất cả" },
-    { value: "in_stock", label: "Còn hàng" },
-    { value: "low_stock", label: "Sắp hết" },
-    { value: "out_of_stock", label: "Hết hàng" },
+    { value: "all", label: "All" },
+    { value: "in_stock", label: "In Stock" },
+    { value: "low_stock", label: "Low Stock" },
+    { value: "out_of_stock", label: "Out of Stock" },
   ];
 
   return (
@@ -37,7 +37,7 @@ export default function InventoryFilters({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
           <input
             type="text"
-            placeholder="Tìm kiếm theo tên sản phẩm, kho..."
+            placeholder="Search by product name, warehouse..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -51,7 +51,7 @@ export default function InventoryFilters({
             <div className="flex items-center gap-2 mb-2">
               <Filter className="w-4 h-4 text-[#7a8451]" />
               <span className="text-sm font-medium text-[#3b4417]">
-                Trạng thái tồn kho
+                Inventory Status
               </span>
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -75,7 +75,7 @@ export default function InventoryFilters({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Warehouse className="w-4 h-4 text-[#7a8451]" />
-              <span className="text-sm font-medium text-[#3b4417]">Kho</span>
+              <span className="text-sm font-medium text-[#3b4417]">Warehouse</span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <button
@@ -86,7 +86,7 @@ export default function InventoryFilters({
                     : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                 }`}
               >
-                Tất cả
+                All
               </button>
               {warehouses.map((warehouse) => (
                 <button

@@ -16,6 +16,7 @@ import { AnimatePresence } from "framer-motion";
 import { Playfair_Display } from "next/font/google";
 import { useEffect, useState } from "react";
 import ScrollToTopButton from "@/components/homepage/ScrollToTopButton";
+import { toast } from "react-toastify";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -95,7 +96,7 @@ export default function Home() {
       }
     } else {
       // Show message for underage users
-      alert("Bạn phải đủ 18 tuổi để truy cập website này.");
+      toast.error("You must be at least 18 years old to enter this site.");
     }
   };
 

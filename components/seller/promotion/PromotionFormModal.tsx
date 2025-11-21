@@ -106,7 +106,6 @@ export default function PromotionFormModal({
 
     // Simulate API call
     setTimeout(() => {
-      console.log(isEdit ? "Updating promotion:" : "Creating promotion:", formData);
       setIsSubmitting(false);
       onClose();
     }, 1000);

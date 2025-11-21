@@ -64,7 +64,7 @@ export default function InventoryPagination({
         {onItemsPerPageChange && (
           <div className="flex items-center gap-3 bg-[#fdfbf5] px-4 py-2 rounded-lg border border-[#e8e6dc]">
             <span className="text-sm text-[#7a8451] whitespace-nowrap font-medium">
-              Hiển thị:
+              Display:
             </span>
             <select
               value={itemsPerPage}
@@ -81,7 +81,7 @@ export default function InventoryPagination({
               ))}
             </select>
             <span className="text-sm text-[#7a8451] whitespace-nowrap">
-              / trang
+              / page
             </span>
           </div>
         )}
@@ -96,9 +96,8 @@ export default function InventoryPagination({
           <span className="font-semibold text-[#3b4417]">
             {Math.min(currentPage * itemsPerPage, totalItems)}
           </span>{" "}
-          trong tổng số{" "}
-          <span className="font-semibold text-[#3b4417]">{totalItems}</span> sản
-          phẩm
+          of{" "}
+          <span className="font-semibold text-[#3b4417]">{totalItems}</span> items
         </div>
 
         {/* Right: Pagination */}

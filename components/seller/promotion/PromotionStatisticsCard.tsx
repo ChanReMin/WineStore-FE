@@ -49,10 +49,10 @@ export default function PromotionStatisticsCard({
         <div>
           <h3 className="text-lg font-bold text-[#3b4417] flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Xu hướng sử dụng khuyến mãi
+            Promotion Usage Trend
           </h3>
           <p className="text-sm text-[#7a8451] mt-1">
-            Thống kê 5 ngày gần nhất
+            Statistics for the last 5 days
           </p>
         </div>
         <Calendar className="h-8 w-8 text-[#7a8451] opacity-50" />
@@ -61,11 +61,11 @@ export default function PromotionStatisticsCard({
       <ChartContainer
         config={{
           usage_count: {
-            label: "Lượt sử dụng",
+            label: "Number of uses",
             color: "#3b4417",
           },
           discount_amount: {
-            label: "Giảm giá",
+            label: "Discount Amount",
             color: "#d4af37",
           },
         }}

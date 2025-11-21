@@ -51,10 +51,10 @@ export default function InventoryTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Package className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          Không tìm thấy sản phẩm
+          No inventory items found
         </h3>
         <p className="text-[#7a8451]">
-          Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác
+          Try changing the filter or searching with a different keyword
         </p>
       </Card>
     );
@@ -67,28 +67,28 @@ export default function InventoryTable({
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Sản phẩm
+                Product
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Kho
+                Warehouse
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Tồn kho
+                Stock
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Mức an toàn
+                Safety Stock
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Trạng thái
+                Status
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Giá trị
+                Value
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Cập nhật
+                Updated
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Thao tác
+                Actions
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -198,7 +198,7 @@ export default function InventoryTable({
                             whileTap={{ scale: 0.95 }}
                             onClick={() => onUpdateStock(item)}
                             className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors"
-                            title="Nhập kho"
+                            title="Stock In"
                           >
                             <TrendingUp className="w-6 h-6" />
                           </motion.button>
@@ -207,7 +207,7 @@ export default function InventoryTable({
                             whileTap={{ scale: 0.95 }}
                             onClick={() => onUpdateStock(item)}
                             className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                            title="Xuất kho"
+                            title="Stock Out"
                           >
                             <TrendingDown className="w-6 h-6" />
                           </motion.button>
@@ -226,23 +226,23 @@ export default function InventoryTable({
       <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <p className="text-[#7a8451] mb-1">Tổng sản phẩm</p>
+            <p className="text-[#7a8451] mb-1">Total Products</p>
             <p className="text-xl font-bold text-[#3b4417]">{items.length}</p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Còn hàng</p>
+            <p className="text-[#7a8451] mb-1">In Stock</p>
             <p className="text-xl font-bold text-emerald-600">
               {items.filter((i) => i.status === "in_stock").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Sắp hết</p>
+            <p className="text-[#7a8451] mb-1">Low Stock</p>
             <p className="text-xl font-bold text-amber-600">
               {items.filter((i) => i.status === "low_stock").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Hết hàng</p>
+            <p className="text-[#7a8451] mb-1">Out of Stock</p>
             <p className="text-xl font-bold text-red-600">
               {items.filter((i) => i.status === "out_of_stock").length}
             </p>

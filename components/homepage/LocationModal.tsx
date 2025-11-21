@@ -15,65 +15,39 @@ interface LocationModalProps {
 
 // Mock data - Replace with real API data
 const CITIES = [
-  "Hà Nội",
-  "Hồ Chí Minh",
-  "Đà Nẵng",
-  "Hải Phòng",
-  "Cần Thơ",
-  "Nha Trang",
-  "Huế",
-  "Vũng Tàu",
+  "Ha Noi",
+  "Ho Chi Minh",
+  "Da Nang",
 ];
 
 // Stores organized by city
 const STORES: Record<string, string[]> = {
-  "Hà Nội": [
-    "Wine Store Ba Đình",
-    "Wine Store Hoàn Kiếm",
-    "Wine Store Tây Hồ",
-    "Wine Store Long Biên",
-    "Wine Store Cầu Giấy",
-    "Wine Store Đống Đa",
-    "Wine Store Hai Bà Trưng",
-    "Wine Store Hoàng Mai",
-    "Wine Store Thanh Xuân",
+  "Ha Noi": [
+    "Wine Store Ba Dinh",
+    "Wine Store Hoan Kiem",
+    "Wine Store Tay Ho",
+    "Wine Store Long Bien",
+    "Wine Store CCau Giay",
+    "Wine Store Dong Da",
+    "Wine Store Hai Ba Trung",
+    "Wine Store Hoang Mai",
+    "Wine Store Thanh Xuan",
   ],
-  "Hồ Chí Minh": [
-    "Wine Store Quận 1",
-    "Wine Store Quận 2",
-    "Wine Store Quận 3",
-    "Wine Store Quận 7",
-    "Wine Store Bình Thạnh",
-    "Wine Store Tân Bình",
-    "Wine Store Phú Nhuận",
-    "Wine Store Thủ Đức",
+  "Ho Chi Minh": [
+    "Wine Store Quan 1",
+    "Wine Store Quan 2",
+    "Wine Store Quan 3",
+    "Wine Store Quan 7",
+    "Wine Store Binh Thanh",
+    "Wine Store Tan Binh",
+    "Wine Store Phu Nhuan",
+    "Wine Store Thu Duc",
   ],
-  "Đà Nẵng": [
-    "Wine Store Hải Châu",
-    "Wine Store Thanh Khê",
-    "Wine Store Sơn Trà",
-    "Wine Store Ngũ Hành Sơn",
-  ],
-  "Hải Phòng": [
-    "Wine Store Hồng Bàng",
-    "Wine Store Ngô Quyền",
-    "Wine Store Lê Chân",
-  ],
-  "Cần Thơ": [
-    "Wine Store Ninh Kiều",
-    "Wine Store Cái Răng",
-    "Wine Store Bình Thuỷ",
-  ],
-  "Nha Trang": [
-    "Wine Store Trung Tâm",
-    "Wine Store Vĩnh Hòa",
-    "Wine Store Phước Long",
-  ],
-  Huế: ["Wine Store Phú Nhuận", "Wine Store Phú Hội", "Wine Store Thuận Thành"],
-  "Vũng Tàu": [
-    "Wine Store Trung Tâm",
-    "Wine Store Bà Rịa",
-    "Wine Store Long Điền",
+  "Da Nang": [
+    "Wine Store Hai Chau",
+    "Wine Store Thanh Khe",
+    "Wine Store Son Tra",
+    "Wine Store Ngu Hanh Son",
   ],
 };
 
@@ -131,8 +105,8 @@ export default function LocationModal({
 
     const newErrors: Record<string, string> = {};
 
-    if (!city) newErrors.city = "Vui lòng chọn thành phố";
-    if (!store) newErrors.store = "Vui lòng chọn cửa hàng";
+    if (!city) newErrors.city = "Please select a city";
+    if (!store) newErrors.store = "Please select a store";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

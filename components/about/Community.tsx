@@ -73,7 +73,7 @@ export default function Community() {
                     whileHover={{ x: 8 }}
                     className="group flex gap-4"
                   >
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#3b4417] transition-colors group-hover:bg-[#4a5520]">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#3b4417] transition-colors group-hover:bg-[#4a5520]">
                       <Icon
                         size={24}
                         strokeWidth={1.5}
@@ -130,7 +130,7 @@ export default function Community() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <Image
                 src="/hero/slide-5.jpg"
                 alt="Wine community"

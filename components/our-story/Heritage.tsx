@@ -107,7 +107,7 @@ export default function Heritage() {
                     className="object-cover transition-transform duration-700 hover:scale-110"
                   />
                 </div>
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-4/5 overflow-hidden">
                   <Image
                     src="/hero/slide-3.jpg"
                     alt="Wine tasting"
@@ -117,7 +117,7 @@ export default function Heritage() {
                 </div>
               </div>
               <div className="space-y-4 pt-12">
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-4/5 overflow-hidden">
                   <Image
                     src="/hero/slide-4.jpg"
                     alt="Vineyard"

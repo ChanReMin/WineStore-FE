@@ -23,7 +23,7 @@ export default function SellerDashboard() {
         <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[#3b4417] tracking-wide">
           Dashboard
         </h1>
-        <p className="text-[#7a8451]">Tổng quan hoạt động kinh doanh</p>
+        <p className="text-[#7a8451]">Overview of business activities</p>
       </div>
 
       <OverviewCards

@@ -5,7 +5,7 @@ export const mockInventoryList: InventoryResponse = {
   data: [
     {
       id: 1,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 1, name: "Château Margaux 2015", price: 5_940_000 },
       quantity_on_hand: 50,
       safety_stock: 10,
@@ -14,7 +14,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 2,
-      warehouse: { id: 2, name: "Kho TP.HCM", location: "TP.HCM" },
+      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
       product: { id: 2, name: "Bordeaux 2018", price: 3_500_000 },
       quantity_on_hand: 120,
       safety_stock: 15,
@@ -23,7 +23,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 3,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 3, name: "Château Lafite Rothschild 2016", price: 12_800_000 },
       quantity_on_hand: 8,
       safety_stock: 10,
@@ -32,7 +32,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 4,
-      warehouse: { id: 3, name: "Kho Đà Nẵng", location: "Đà Nẵng" },
+      warehouse: { id: 3, name: "Da Nang Warehouse", location: "Da Nang" },
       product: { id: 4, name: "Barolo DOCG 2017", price: 4_700_000 },
       quantity_on_hand: 0,
       safety_stock: 5,
@@ -41,7 +41,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 5,
-      warehouse: { id: 2, name: "Kho TP.HCM", location: "TP.HCM" },
+      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
       product: { id: 5, name: "Brunello di Montalcino 2016", price: 3_900_000 },
       quantity_on_hand: 34,
       safety_stock: 10,
@@ -50,7 +50,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 6,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 6, name: "Penfolds Grange 2019", price: 6_300_000 },
       quantity_on_hand: 5,
       safety_stock: 10,
@@ -59,7 +59,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 7,
-      warehouse: { id: 2, name: "Kho TP.HCM", location: "TP.HCM" },
+      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
       product: { id: 7, name: "Opus One 2018", price: 9_200_000 },
       quantity_on_hand: 60,
       safety_stock: 20,
@@ -68,7 +68,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 8,
-      warehouse: { id: 3, name: "Kho Đà Nẵng", location: "Đà Nẵng" },
+      warehouse: { id: 3, name: "Da Nang Warehouse", location: "Da Nang" },
       product: { id: 8, name: "Caymus Cabernet Sauvignon 2020", price: 3_200_000 },
       quantity_on_hand: 18,
       safety_stock: 10,
@@ -77,7 +77,7 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 9,
-      warehouse: { id: 2, name: "Kho TP.HCM", location: "TP.HCM" },
+      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
       product: { id: 9, name: "Concha y Toro Don Melchor 2019", price: 2_700_000 },
       quantity_on_hand: 0,
       safety_stock: 10,
@@ -86,12 +86,13 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 10,
-      warehouse: { id: 1, name: "Kho Hà Nội", location: "Hà Nội" },
+      warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
       product: { id: 10, name: "Trapiche Malbec 2021", price: 950_000 },
       quantity_on_hand: 200,
       safety_stock: 20,
       status: "in_stock",
       last_updated_at: "2024-01-10T15:00:00Z",
-    }
+    },
   ],
 };
+
