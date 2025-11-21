@@ -3,6 +3,15 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import {
+  BadgeCheck,
+  Droplet,
+  Filter,
+  Globe2,
+  SlidersHorizontal,
+  Sparkles,
+  Tag,
+} from "lucide-react";
 import SearchBar from "@/components/products/SearchBar";
 import SortSelect from "@/components/products/SortSelect";
 import ProductsGrid from "@/components/products/ProductsGrid";
@@ -187,6 +196,90 @@ export default function ProductsPage() {
   }, []);
 
   const currentSort = `${filters.sort_by}_${filters.sort_order}`;
+  const activeFilterCount = [
+    filters.brand_id,
+    filters.category_id,
+    filters.price_min,
+    filters.price_max,
+    filters.concentration_min,
+    filters.concentration_max,
+  ].filter((value) => value !== undefined && value !== null && value !== "")
+    .length;
+
+  const filterChips = useMemo(
+    () =>
+      [
+        filters.brand_id
+          ? {
+              key: "brand_id",
+              label:
+                MOCK_BRANDS.find((brand) => brand.id === Number(filters.brand_id))
+                  ?.name || "Brand",
+              icon: <Tag className="h-3.5 w-3.5 text-[#7b5b2c]" />,
+              onRemove: () => handleFilterChange({ brand_id: undefined }),
+            }
+          : null,
+        filters.category_id
+          ? {
+              key: "category_id",
+              label:
+                MOCK_CATEGORIES.find((category) => category.id === Number(filters.category_id))
+                  ?.name || "Category",
+              icon: <Globe2 className="h-3.5 w-3.5 text-[#7b5b2c]" />,
+              onRemove: () => handleFilterChange({ category_id: undefined }),
+            }
+          : null,
+        filters.price_min || filters.price_max
+          ? {
+              key: "price",
+              label: `Price $${filters.price_min?.toLocaleString() || "0"} - $${
+                filters.price_max?.toLocaleString() || "∞"
+              }`,
+              icon: <BadgeCheck className="h-3.5 w-3.5 text-[#7b5b2c]" />,
+              onRemove: () =>
+                handleFilterChange({ price_min: undefined, price_max: undefined }),
+            }
+          : null,
+        filters.concentration_min || filters.concentration_max
+          ? {
+              key: "abv",
+              label: `ABV ${filters.concentration_min || 0}% - ${
+                filters.concentration_max || "∞"
+              }%`,
+              icon: <Droplet className="h-3.5 w-3.5 text-[#7b5b2c]" />,
+              onRemove: () =>
+                handleFilterChange({
+                  concentration_min: undefined,
+                  concentration_max: undefined,
+                }),
+            }
+          : null,
+      ].filter(Boolean),
+    [
+      filters.brand_id,
+      filters.category_id,
+      filters.price_min,
+      filters.price_max,
+      filters.concentration_min,
+      filters.concentration_max,
+      handleFilterChange,
+    ]
+  );
+
+  const priceSnapshot = useMemo(() => {
+    if (!filteredProducts.length) {
+      return { min: 0, max: 0, avg: 0 };
+    }
+
+    const prices = filteredProducts.map((product) => product.price);
+    const total = prices.reduce((sum, value) => sum + value, 0);
+
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+      avg: Math.round(total / prices.length),
+    };
+  }, [filteredProducts]);
 
   return (
     <div className={`${displaySerif.variable} min-h-screen bg-[#fdfbf5]`}>
