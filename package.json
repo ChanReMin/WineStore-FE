@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm-run-all dev:server",
+    "dev": "npm-run-all typecheck dev:server",
     "dev:server": "next dev",
     "build": "next build",
     "start": "next start",
@@ -23,6 +23,8 @@
     "node": ">=20 <21 || >=22 <23"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.10",
+    "@tanstack/react-query-devtools": "^5.90.2",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.4",

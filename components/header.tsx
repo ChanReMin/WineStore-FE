@@ -16,10 +16,9 @@ const headerVariants: any = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: "easeInOut",
-      when: "beforeChildren",
-      staggerChildren: 0.08,
+      duration: 0.55,
+      ease: [0.25, 0.1, 0.25, 1],
+      staggerChildren: 0.06,
     },
   },
 };
@@ -29,13 +28,14 @@ const itemVariants: any = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: "easeInOut" },
+    transition: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
 export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
+
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
     "login"
@@ -46,16 +46,13 @@ export default function Header() {
     store: string;
   } | null>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const [isCartOpen, setCartOpen] = useState(false);
 
-  const baseLink = "transition-all hover:opacity-70";
+  const baseLink = "transition-all hover:opacity-60";
 
   const openAuthModal = (mode: "login" | "register") => {
     setAuthModalMode(mode);
     setIsAuthModalOpen(true);
-  };
-
-  const openLocationModal = () => {
-    setIsLocationModalOpen(true);
   };
 
   useEffect(() => {
@@ -70,10 +67,8 @@ export default function Header() {
       }
     }
 
-    // Listen for location updates
     const handleLocationUpdate = (event: CustomEvent) => {
       setUserCity(event.detail.city);
-      setUserLocation(event.detail);
     };
 
     window.addEventListener(
@@ -89,11 +84,18 @@ export default function Header() {
     };
   }, []);
 
+  const handleLocationComplete = (data: { city: string; name: string }) => {
+    localStorage.setItem("location", JSON.stringify(data));
+    setUserCity(data.city);
+    setIsLocationModalOpen(false);
+    window.dispatchEvent(new CustomEvent("locationUpdated", { detail: data }));
+  };
+
   return (
     <>
       <motion.header
-        className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-amber-50/95 backdrop-blur-md"
-        variants={headerVariants}
+        className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-amber-50/95 backdrop-blur-md shadow-sm"
+        variants={headerVariants as any}
         initial="hidden"
         animate="visible"
       >
@@ -261,7 +263,7 @@ export default function Header() {
         </motion.div>
       </motion.header>
 
-      {/* Auth Modal - Rendered outside header to cover full viewport */}
+      {/* AUTH MODAL */}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
