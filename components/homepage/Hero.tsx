@@ -29,7 +29,7 @@ const SLIDES = [
     image: "/hero/slide-5.jpg",
     title: "Elevate Your Wine Experience",
     tagline: "Curated selections for the discerning palate.",
-  }
+  },
 ];
 
 const slideVariants = {

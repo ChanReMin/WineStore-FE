@@ -52,8 +52,8 @@ export default function Heritage() {
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
               What started as a passion project has grown into one of the most
-              respected wine merchants in the industry. Our commitment to quality,
-              authenticity, and customer education remains unchanged.
+              respected wine merchants in the industry. Our commitment to
+              quality, authenticity, and customer education remains unchanged.
             </p>
 
             {/* Features Grid */}

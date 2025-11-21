@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
+import { loginSchema, registerSchema } from "@/lib/validations/auth";
+import { z } from "zod";
+import DatePicker from "@/components/ui/date-picker";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -21,12 +24,15 @@ export default function AuthModal({
     // Required fields
     email: "",
     password: "",
+    confirm_password: "",
     // Optional fields for register
     first_name: "",
     last_name: "",
     phone_number: "",
     date_of_birth: "",
     gender: "0",
+    // Role for testing
+    role: "seller" as "customer" | "seller" | "admin",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { login, register, isLoading } = useAuth();
@@ -42,51 +48,50 @@ export default function AuthModal({
     e.preventDefault();
     setErrors({});
 
-    // Validation
-    const newErrors: Record<string, string> = {};
-
-    // Common validation for both login and register
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-    }
-
-    // Optional validation for register mode
-    if (mode === "register") {
-      if (formData.phone_number && !/^[0-9]{10,11}$/.test(formData.phone_number)) {
-        newErrors.phone_number = "Phone number must be 10-11 digits";
+    try {
+      // Validate with Zod
+      if (mode === "login") {
+        const validatedData = loginSchema.parse({
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        });
+      } else {
+        const validatedData = registerSchema.parse({
+          email: formData.email,
+          password: formData.password,
+          confirm_password: formData.confirm_password,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          phone_number: formData.phone_number,
+          date_of_birth: formData.date_of_birth,
+          gender: formData.gender,
+          role: formData.role,
+        });
       }
-    }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {};
+        error.issues.forEach((err: z.ZodIssue) => {
+          if (err.path[0]) {
+            newErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(newErrors);
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      
-      // Show toast only for validation errors (not for required fields)
-      const validationErrors = Object.entries(newErrors).filter(
-        ([key, value]) => !value.includes("required")
-      );
-      
-      if (validationErrors.length > 0) {
-        const firstValidationError = validationErrors[0][1];
-        toast.error(firstValidationError, {
+        // Show first error in toast
+        const firstError = error.issues[0];
+        toast.error(firstError.message, {
           position: "top-right",
           autoClose: 3000,
         });
+        return;
       }
-      
-      return;
     }
 
     try {
       if (mode === "login") {
-        await login(formData.email, formData.password);
+        await login(formData.email, formData.password, formData.role);
         toast.success("Login successful! Welcome back.", {
           position: "top-right",
           autoClose: 3000,
@@ -100,6 +105,7 @@ export default function AuthModal({
           phone_number: formData.phone_number,
           date_of_birth: formData.date_of_birth,
           gender: formData.gender ? Number.parseInt(formData.gender) : 0,
+          role: formData.role,
         });
         toast.success("Account created successfully! Welcome to Wine Store.", {
           position: "top-right",
@@ -110,11 +116,13 @@ export default function AuthModal({
       setFormData({
         email: "",
         password: "",
+        confirm_password: "",
         first_name: "",
         last_name: "",
         phone_number: "",
         date_of_birth: "",
         gender: "0",
+        role: "seller",
       });
     } catch (error: any) {
       toast.error(error.message || "Something went wrong. Please try again.", {
@@ -125,7 +133,7 @@ export default function AuthModal({
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     if (errors[e.target.name]) {
@@ -140,11 +148,13 @@ export default function AuthModal({
     setFormData({
       email: "",
       password: "",
+      confirm_password: "",
       first_name: "",
       last_name: "",
       phone_number: "",
       date_of_birth: "",
       gender: "0",
+      role: "seller",
     });
   };
 
@@ -165,15 +175,17 @@ export default function AuthModal({
           {/* Modal - Centered in viewport with scroll and responsive width */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
+            animate={{
+              opacity: 1,
+              scale: 1,
               y: 0,
             }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             className={`fixed left-1/2 top-1/2 z-9999 max-h-[90vh] w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto px-4 transition-all duration-300 ${
-              mode === "register" ? "max-w-xl lg:max-w-2xl" : "max-w-md lg:max-w-lg"
+              mode === "register"
+                ? "max-w-xl lg:max-w-2xl"
+                : "max-w-md lg:max-w-lg"
             }`}
           >
             <div className="relative overflow-hidden rounded-sm border border-neutral-300 bg-amber-50 shadow-2xl ">
@@ -248,7 +260,10 @@ export default function AuthModal({
                               htmlFor="first_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              First Name <span className="text-neutral-400">(Optional)</span>
+                              First Name{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="text"
@@ -265,7 +280,10 @@ export default function AuthModal({
                               htmlFor="last_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Last Name <span className="text-neutral-400">(Optional)</span>
+                              Last Name{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="text"
@@ -295,13 +313,13 @@ export default function AuthModal({
                               value={formData.email}
                               onChange={handleChange}
                               className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.email && errors.email.includes("required")
+                                errors.email
                                   ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                                   : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                               }`}
                               placeholder="your@email.com"
                             />
-                            {errors.email && errors.email.includes("required") && (
+                            {errors.email && (
                               <p className="mt-1 text-xs italic text-red-600">
                                 {errors.email}
                               </p>
@@ -312,7 +330,10 @@ export default function AuthModal({
                               htmlFor="phone_number"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Phone Number <span className="text-neutral-400">(Optional)</span>
+                              Phone Number{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <input
                               type="tel"
@@ -320,9 +341,18 @@ export default function AuthModal({
                               name="phone_number"
                               value={formData.phone_number}
                               onChange={handleChange}
-                              className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                errors.phone_number
+                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                              }`}
                               placeholder="0123456789"
                             />
+                            {errors.phone_number && (
+                              <p className="mt-1 text-xs italic text-red-600">
+                                {errors.phone_number}
+                              </p>
+                            )}
                           </div>
                         </div>
 
@@ -331,18 +361,21 @@ export default function AuthModal({
                           <div>
                             <label
                               htmlFor="date_of_birth"
-                              className="block text-xs uppercase tracking-wider text-neutral-700"
+                              className="block text-xs uppercase tracking-wider text-neutral-700 mb-1"
                             >
-                              Date of Birth <span className="text-neutral-400">(Optional)</span>
+                              Date of Birth{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
-                            <input
-                              type="date"
-                              id="date_of_birth"
-                              name="date_of_birth"
+                            <DatePicker
                               value={formData.date_of_birth}
-                              onChange={handleChange}
-                              max={new Date().toISOString().split("T")[0]}
-                              className="mt-1 w-full cursor-pointer border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
+                              onChange={(date) =>
+                                setFormData({ ...formData, date_of_birth: date })
+                              }
+                              placeholder="Chọn ngày sinh"
+                              maxDate={new Date().toISOString().split("T")[0]}
+                              error={errors.date_of_birth}
                             />
                           </div>
                           <div>
@@ -350,7 +383,10 @@ export default function AuthModal({
                               htmlFor="gender"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Gender <span className="text-neutral-400">(Optional)</span>
+                              Gender{" "}
+                              <span className="text-neutral-400">
+                                (Optional)
+                              </span>
                             </label>
                             <select
                               id="gender"
@@ -371,28 +407,95 @@ export default function AuthModal({
                           </div>
                         </div>
 
-                        {/* Password field - inside register block */}
-                        <div>
+                        {/* Role Selector - For Testing */}
+                        <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
+                          <div className="mb-2 flex items-center gap-2">
+                            <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+                              🧪 Test Mode
+                            </span>
+                          </div>
                           <label
-                            htmlFor="password"
+                            htmlFor="role"
                             className="block text-xs uppercase tracking-wider text-neutral-700"
                           >
-                            Password
+                            Account Role
                           </label>
-                          <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
+                          <select
+                            id="role"
+                            name="role"
+                            value={formData.role}
                             onChange={handleChange}
-                            className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
-                            placeholder="••••••••"
-                          />
-                          {errors.password && (
-                            <p className="mt-1 text-xs italic text-red-600">
-                              {errors.password}
-                            </p>
-                          )}
+                            className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
+                          >
+                            <option value="customer">
+                              👤 Customer (No seller access)
+                            </option>
+                            <option value="seller">
+                              🏪 Seller (Full seller access)
+                            </option>
+                            <option value="admin">
+                              👑 Admin (Full access)
+                            </option>
+                          </select>
+                          <p className="mt-2 text-xs italic text-neutral-600">
+                            Select role to test different access levels
+                          </p>
+                        </div>
+
+                        {/* Password & Confirm Password */}
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                          <div>
+                            <label
+                              htmlFor="password"
+                              className="block text-xs uppercase tracking-wider text-neutral-700"
+                            >
+                              Password
+                            </label>
+                            <input
+                              type="password"
+                              id="password"
+                              name="password"
+                              value={formData.password}
+                              onChange={handleChange}
+                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                errors.password
+                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                              }`}
+                              placeholder="••••••••"
+                            />
+                            {errors.password && (
+                              <p className="mt-1 text-xs italic text-red-600">
+                                {errors.password}
+                              </p>
+                            )}
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="confirm_password"
+                              className="block text-xs uppercase tracking-wider text-neutral-700"
+                            >
+                              Confirm Password
+                            </label>
+                            <input
+                              type="password"
+                              id="confirm_password"
+                              name="confirm_password"
+                              value={formData.confirm_password}
+                              onChange={handleChange}
+                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                errors.confirm_password
+                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                              }`}
+                              placeholder="••••••••"
+                            />
+                            {errors.confirm_password && (
+                              <p className="mt-1 text-xs italic text-red-600">
+                                {errors.confirm_password}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </motion.div>
                     )}
@@ -416,13 +519,13 @@ export default function AuthModal({
                           value={formData.email}
                           onChange={handleChange}
                           className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                            errors.email && errors.email.includes("required")
+                            errors.email
                               ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                               : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                           }`}
                           placeholder="your@email.com"
                         />
-                        {errors.email && errors.email.includes("required") && (
+                        {errors.email && (
                           <p className="mt-1 text-xs italic text-red-600">
                             {errors.email}
                           </p>
@@ -444,17 +547,50 @@ export default function AuthModal({
                           value={formData.password}
                           onChange={handleChange}
                           className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                            errors.password && errors.password.includes("required")
+                            errors.password
                               ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                               : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                           }`}
                           placeholder="••••••••"
                         />
-                        {errors.password && errors.password.includes("required") && (
+                        {errors.password && (
                           <p className="mt-1 text-xs italic text-red-600">
                             {errors.password}
                           </p>
                         )}
+                      </div>
+
+                      {/* Role Selector - For Testing */}
+                      <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
+                            🧪 Test Mode
+                          </span>
+                        </div>
+                        <label
+                          htmlFor="role"
+                          className="block text-xs uppercase tracking-wider text-neutral-700"
+                        >
+                          Account Role
+                        </label>
+                        <select
+                          id="role"
+                          name="role"
+                          value={formData.role}
+                          onChange={handleChange}
+                          className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
+                        >
+                          <option value="customer">
+                            👤 Customer (No seller access)
+                          </option>
+                          <option value="seller">
+                            🏪 Seller (Full seller access)
+                          </option>
+                          <option value="admin">👑 Admin (Full access)</option>
+                        </select>
+                        <p className="mt-2 text-xs italic text-neutral-600">
+                          Select role to test different access levels
+                        </p>
                       </div>
                     </>
                   )}

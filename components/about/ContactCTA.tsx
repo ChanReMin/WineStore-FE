@@ -73,8 +73,12 @@ export default function ContactCTA() {
                   <h3 className="text-[18px] font-semibold tracking-wide text-white">
                     {method.title}
                   </h3>
-                  <p className="mt-2 text-[16px] text-white/90">{method.info}</p>
-                  <p className="mt-1 text-[13px] text-white/60">{method.subtext}</p>
+                  <p className="mt-2 text-[16px] text-white/90">
+                    {method.info}
+                  </p>
+                  <p className="mt-1 text-[13px] text-white/60">
+                    {method.subtext}
+                  </p>
                 </motion.div>
               );
             })}

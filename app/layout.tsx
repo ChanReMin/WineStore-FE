@@ -8,8 +8,7 @@ import {
   seoVerification,
   themeColor,
 } from "@/config/seo";
-import Header from "@/components/header";
-import Footer from "@/components/Footer/Footer";
+import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -113,9 +112,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
         <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
           <ToastContainer
             position="top-right"
             autoClose={3500}

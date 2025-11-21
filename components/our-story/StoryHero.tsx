@@ -58,7 +58,8 @@ export default function StoryHero() {
             className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/90"
           >
             A journey through generations of passion, craftsmanship, and an
-            unwavering commitment to bringing the world's finest wines to your table.
+            unwavering commitment to bringing the world's finest wines to your
+            table.
           </motion.p>
         </motion.div>
 
@@ -75,7 +76,9 @@ export default function StoryHero() {
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-white/80 hover:text-white"
           >
-            <span className="text-[11px] tracking-[0.2em] uppercase">Scroll</span>
+            <span className="text-[11px] tracking-[0.2em] uppercase">
+              Scroll
+            </span>
             <ChevronDown size={24} strokeWidth={1.5} />
           </motion.div>
         </motion.button>

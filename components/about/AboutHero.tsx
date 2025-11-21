@@ -42,18 +42,22 @@ export default function AboutHero() {
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative w-full overflow-hidden bg-[#120906] py-32 md:py-40">
+    <section
+      ref={containerRef}
+      className="relative w-full overflow-hidden bg-[#120906] py-32 md:py-40"
+    >
       {/* Subtle gradient overlay */}
-       <div
+      <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/hero/slide-5.jpg')" }}
       />
-      
+
       {/* Animated grain texture */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E\")",
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E\")",
         }}
       />
 
@@ -91,10 +95,10 @@ export default function AboutHero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mx-auto mt-8 max-w-3xl text-[17px] md:text-[18px] leading-relaxed text-white/90 tracking-wide"
           >
-            We're more than a wine shop—we're your trusted partner in discovering
-            exceptional wines from around the world. With expert curation,
-            sustainable practices, and a passion for education, we make premium
-            wine accessible to everyone.
+            We're more than a wine shop—we're your trusted partner in
+            discovering exceptional wines from around the world. With expert
+            curation, sustainable practices, and a passion for education, we
+            make premium wine accessible to everyone.
           </motion.p>
 
           {/* Stats Grid */}
@@ -120,14 +124,18 @@ export default function AboutHero() {
                       transition={{ duration: 0.5 }}
                       className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-[#f5f3e8]/30 transition-colors group-hover:bg-[#f5f3e8]/30"
                     >
-                      <Icon size={26} strokeWidth={1.5} className="text-white" />
+                      <Icon
+                        size={26}
+                        strokeWidth={1.5}
+                        className="text-white"
+                      />
                     </motion.div>
-                    
+
                     {/* Number */}
                     <p className="text-[38px] md:text-[42px] font-bold text-white">
                       {stat.number}
                     </p>
-                    
+
                     {/* Label */}
                     <p className="mt-2 text-[12px] tracking-[0.2em] text-white uppercase">
                       {stat.label}

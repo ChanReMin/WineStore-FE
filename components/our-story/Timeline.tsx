@@ -124,7 +124,9 @@ export default function Timeline() {
                       className="group"
                     >
                       {/* Year badge */}
-                      <div className={`inline-flex items-center gap-3 ${isEven ? "" : "md:flex-row-reverse"}`}>
+                      <div
+                        className={`inline-flex items-center gap-3 ${isEven ? "" : "md:flex-row-reverse"}`}
+                      >
                         <motion.div
                           whileHover={{ rotate: [0, -10, 10, -10, 0] }}
                           transition={{ duration: 0.5 }}
@@ -188,7 +190,9 @@ export default function Timeline() {
                   </motion.div>
 
                   {/* Empty space for alternating layout */}
-                  <div className={`hidden md:block ${isEven ? "md:col-start-2" : "md:col-start-1"}`} />
+                  <div
+                    className={`hidden md:block ${isEven ? "md:col-start-2" : "md:col-start-1"}`}
+                  />
                 </motion.div>
               );
             })}

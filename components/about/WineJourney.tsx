@@ -9,37 +9,43 @@ const JOURNEY_STEPS = [
   {
     icon: Grape,
     title: "Vineyard Selection",
-    description: "We personally visit and evaluate vineyards, assessing terroir, practices, and winemaker philosophy.",
+    description:
+      "We personally visit and evaluate vineyards, assessing terroir, practices, and winemaker philosophy.",
     image: "/hero/slide-1.jpg",
   },
   {
     icon: Droplet,
     title: "Harvest & Production",
-    description: "Monitoring the harvest season and production process to ensure quality standards are met.",
+    description:
+      "Monitoring the harvest season and production process to ensure quality standards are met.",
     image: "/hero/slide-2.jpg",
   },
   {
     icon: BarChart3,
     title: "Quality Testing",
-    description: "Our sommeliers conduct blind tastings and chemical analysis to verify authenticity and quality.",
+    description:
+      "Our sommeliers conduct blind tastings and chemical analysis to verify authenticity and quality.",
     image: "/hero/slide-3.jpg",
   },
   {
     icon: Package,
     title: "Careful Storage",
-    description: "Temperature-controlled facilities maintain optimal conditions at 55°F and 70% humidity.",
+    description:
+      "Temperature-controlled facilities maintain optimal conditions at 55°F and 70% humidity.",
     image: "/hero/slide-4.jpg",
   },
   {
     icon: Truck,
     title: "Carbon-Neutral Shipping",
-    description: "Eco-friendly packaging and climate-controlled transport ensure wines arrive in perfect condition.",
+    description:
+      "Eco-friendly packaging and climate-controlled transport ensure wines arrive in perfect condition.",
     image: "/hero/slide-5.jpg",
   },
   {
     icon: Wine,
     title: "Your Perfect Pour",
-    description: "From our cellar to your glass, every bottle tells a story of passion and craftsmanship.",
+    description:
+      "From our cellar to your glass, every bottle tells a story of passion and craftsmanship.",
     image: "/hero/slide-6.jpg",
   },
 ];
@@ -52,7 +58,10 @@ export default function WineJourney() {
   });
 
   return (
-    <section ref={containerRef} className="relative w-full bg-white py-24 md:py-32">
+    <section
+      ref={containerRef}
+      className="relative w-full bg-white py-24 md:py-32"
+    >
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
         <motion.div
@@ -89,7 +98,9 @@ export default function WineJourney() {
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   className="relative"
                 >
-                  <div className={`grid gap-8 md:grid-cols-2 md:gap-16 ${!isEven ? "md:grid-flow-dense" : ""}`}>
+                  <div
+                    className={`grid gap-8 md:grid-cols-2 md:gap-16 ${!isEven ? "md:grid-flow-dense" : ""}`}
+                  >
                     {/* Image */}
                     <motion.div
                       whileHover={{ scale: 1.05 }}
@@ -101,7 +112,7 @@ export default function WineJourney() {
                         fill
                         className="object-cover"
                       />
-                      
+
                       {/* Overlay Number */}
                       <div className="absolute right-4 top-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#3b4417]/90 backdrop-blur-sm">
                         <span className="text-[24px] font-bold text-white">
@@ -111,7 +122,9 @@ export default function WineJourney() {
                     </motion.div>
 
                     {/* Content */}
-                    <div className={`flex flex-col justify-center ${!isEven ? "md:col-start-1 md:row-start-1 md:text-right" : ""}`}>
+                    <div
+                      className={`flex flex-col justify-center ${!isEven ? "md:col-start-1 md:row-start-1 md:text-right" : ""}`}
+                    >
                       <motion.div
                         whileHover={{ x: isEven ? 8 : -8 }}
                         className="group"
@@ -122,7 +135,11 @@ export default function WineJourney() {
                           transition={{ duration: 0.6 }}
                           className={`mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#3b4417] to-[#4a5520] shadow-lg ${!isEven ? "md:ml-auto" : ""}`}
                         >
-                          <Icon size={36} strokeWidth={1.5} className="text-white" />
+                          <Icon
+                            size={36}
+                            strokeWidth={1.5}
+                            className="text-white"
+                          />
                         </motion.div>
 
                         {/* Title */}

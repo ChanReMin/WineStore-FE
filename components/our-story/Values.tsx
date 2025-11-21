@@ -118,10 +118,10 @@ export default function Values() {
         >
           <blockquote className="text-[20px] md:text-[24px] font-serif italic leading-relaxed text-[#3b4417]">
             "Our mission is simple: to share the world's most exceptional wines
-            with people who appreciate the artistry, tradition, and passion behind
-            every bottle. We believe wine is more than a beverage—it's a bridge
-            between cultures, a celebration of craftsmanship, and a catalyst for
-            unforgettable moments."
+            with people who appreciate the artistry, tradition, and passion
+            behind every bottle. We believe wine is more than a beverage—it's a
+            bridge between cultures, a celebration of craftsmanship, and a
+            catalyst for unforgettable moments."
           </blockquote>
           <p className="mt-6 text-[15px] font-semibold tracking-wide text-neutral-700">
             — Robert Chen, Founder

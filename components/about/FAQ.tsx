@@ -4,7 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, Search, Filter } from "lucide-react";
 import { useState, useMemo } from "react";
 
-const CATEGORIES = ["All", "Products", "Shipping", "Quality", "Services", "Policies"];
+const CATEGORIES = [
+  "All",
+  "Products",
+  "Shipping",
+  "Quality",
+  "Services",
+  "Policies",
+];
 
 const FAQS = [
   {
@@ -64,9 +71,11 @@ export default function FAQ() {
 
   const filteredFAQs = useMemo(() => {
     return FAQS.filter((faq) => {
-      const matchesSearch = faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = activeCategory === "All" || faq.category === activeCategory;
+      const matchesSearch =
+        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        activeCategory === "All" || faq.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, activeCategory]);
@@ -100,7 +109,10 @@ export default function FAQ() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative mt-12"
         >
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" size={20} />
+          <Search
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+            size={20}
+          />
           <input
             type="text"
             placeholder="Search questions..."
@@ -141,7 +153,8 @@ export default function FAQ() {
           animate={{ opacity: 1 }}
           className="mt-6 text-center text-[14px] text-neutral-500"
         >
-          Showing {filteredFAQs.length} {filteredFAQs.length === 1 ? "question" : "questions"}
+          Showing {filteredFAQs.length}{" "}
+          {filteredFAQs.length === 1 ? "question" : "questions"}
         </motion.p>
 
         {/* FAQ List */}
@@ -158,53 +171,55 @@ export default function FAQ() {
             </motion.div>
           ) : (
             filteredFAQs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="border border-neutral-200 bg-[#fdfbf5] transition-colors hover:border-[#3b4417]"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="flex w-full items-center justify-between p-6 text-left transition-colors"
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="border border-neutral-200 bg-[#fdfbf5] transition-colors hover:border-[#3b4417]"
               >
-                <h3 className="pr-8 text-[18px] font-semibold text-[#3b4417]">
-                  {faq.question}
-                </h3>
-                <motion.div
-                  animate={{ rotate: openIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex-shrink-0"
+                <button
+                  onClick={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
+                  className="flex w-full items-center justify-between p-6 text-left transition-colors"
                 >
-                  {openIndex === index ? (
-                    <Minus size={24} className="text-[#3b4417]" />
-                  ) : (
-                    <Plus size={24} className="text-[#3b4417]" />
-                  )}
-                </motion.div>
-              </button>
-
-              <AnimatePresence>
-                {openIndex === index && (
+                  <h3 className="pr-8 text-[18px] font-semibold text-[#3b4417]">
+                    {faq.question}
+                  </h3>
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
+                    animate={{ rotate: openIndex === index ? 180 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
+                    className="flex-shrink-0"
                   >
-                    <div className="border-t border-neutral-200 p-6 pt-4">
-                      <p className="text-[16px] leading-relaxed text-neutral-700">
-                        {faq.answer}
-                      </p>
-                    </div>
+                    {openIndex === index ? (
+                      <Minus size={24} className="text-[#3b4417]" />
+                    ) : (
+                      <Plus size={24} className="text-[#3b4417]" />
+                    )}
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))
+                </button>
+
+                <AnimatePresence>
+                  {openIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="border-t border-neutral-200 p-6 pt-4">
+                        <p className="text-[16px] leading-relaxed text-neutral-700">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))
           )}
         </div>
 

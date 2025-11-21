@@ -57,22 +57,22 @@ export default function Philosophy() {
             <div className="mt-8 space-y-6 text-[17px] leading-relaxed text-neutral-700">
               <p>
                 Founded in 1970, our wine store began with a simple belief: that
-                exceptional wine should be accessible to everyone who appreciates
-                the art of winemaking.
+                exceptional wine should be accessible to everyone who
+                appreciates the art of winemaking.
               </p>
 
               <p>
-                We don't just sell wine—we curate experiences. Each bottle in our
-                collection is carefully selected by our team of expert sommeliers
-                who travel the world to discover hidden gems and establish
-                relationships with passionate winemakers.
+                We don't just sell wine—we curate experiences. Each bottle in
+                our collection is carefully selected by our team of expert
+                sommeliers who travel the world to discover hidden gems and
+                establish relationships with passionate winemakers.
               </p>
 
               <p>
                 From small family vineyards in Burgundy to innovative estates in
-                Napa Valley, we seek out wines that embody authenticity, quality,
-                and a true sense of place. Our mission is to connect you with
-                these stories, one glass at a time.
+                Napa Valley, we seek out wines that embody authenticity,
+                quality, and a true sense of place. Our mission is to connect
+                you with these stories, one glass at a time.
               </p>
             </div>
 
@@ -92,13 +92,16 @@ export default function Philosophy() {
                 <div key={index}>
                   <p className="text-[36px] md:text-[44px] font-bold text-[#3b4417]">
                     <CountUp
-                    from={0}
-                    to={parseInt(stat.number.replace("+", "").replace("K", "000"))}
-                    separator=","
-                    direction="up"
-                    duration={1}
-                    className="count-up-text"
-                    />+
+                      from={0}
+                      to={parseInt(
+                        stat.number.replace("+", "").replace("K", "000")
+                      )}
+                      separator=","
+                      direction="up"
+                      duration={1}
+                      className="count-up-text"
+                    />
+                    +
                   </p>
                   <p className="mt-1 text-[13px] tracking-[0.2em] text-neutral-500 uppercase">
                     {stat.label}

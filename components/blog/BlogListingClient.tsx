@@ -1,25 +1,26 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Playfair_Display } from 'next/font/google';
-import BlogCard from './BlogCard';
-import BlogHero from './BlogHero';
-import BlogCategories from './BlogCategories';
-import { useState } from 'react';
-import { blogPosts } from '@/lib/blogData';
+import { motion } from "framer-motion";
+import { Playfair_Display } from "next/font/google";
+import BlogCard from "./BlogCard";
+import BlogHero from "./BlogHero";
+import BlogCategories from "./BlogCategories";
+import { useState } from "react";
+import { blogPosts } from "@/lib/blogData";
 
 const displaySerif = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-display-serif',
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display-serif",
 });
 
 export default function BlogListingClient() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-  const filteredPosts = selectedCategory === 'all' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category === selectedCategory);
+  const filteredPosts =
+    selectedCategory === "all"
+      ? blogPosts
+      : blogPosts.filter((post) => post.category === selectedCategory);
 
   return (
     <main className={`${displaySerif.variable} min-h-screen bg-white`}>
@@ -45,7 +46,7 @@ export default function BlogListingClient() {
             </div>
           </motion.div>
 
-          <BlogCategories 
+          <BlogCategories
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
           />
@@ -66,7 +67,9 @@ export default function BlogListingClient() {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <h2 className="text-[28px] md:text-[36px] lg:text-[42px] leading-tight tracking-[0.25em] uppercase text-[#3b4417] font-semibold">
-                  {selectedCategory === 'all' ? 'TẤT CẢ BÀI VIẾT' : 'BÀI VIẾT ĐÃ LỌC'}
+                  {selectedCategory === "all"
+                    ? "TẤT CẢ BÀI VIẾT"
+                    : "BÀI VIẾT ĐÃ LỌC"}
                 </h2>
                 <div className="mt-4 flex items-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
                   <span className="h-px w-10 bg-[#4c5b23]" />
@@ -75,8 +78,8 @@ export default function BlogListingClient() {
               </div>
 
               <p className="text-[15px] leading-relaxed text-neutral-600 tracking-wide max-w-xl">
-                Từ nghệ thuật thưởng thức đến bí quyết bảo quản, mỗi bài viết là một hành trình 
-                khám phá thế giới rượu vang đầy thú vị.
+                Từ nghệ thuật thưởng thức đến bí quyết bảo quản, mỗi bài viết là
+                một hành trình khám phá thế giới rượu vang đầy thú vị.
               </p>
             </div>
           </motion.div>
@@ -111,8 +114,8 @@ export default function BlogListingClient() {
             </div>
 
             <p className="text-[15px] leading-relaxed text-white/85 tracking-wide mb-10 max-w-2xl mx-auto">
-              Nhận những bài viết mới nhất về rượu vang, tips thưởng thức và ưu đãi đặc biệt 
-              ngay trong hộp thư của bạn.
+              Nhận những bài viết mới nhất về rượu vang, tips thưởng thức và ưu
+              đãi đặc biệt ngay trong hộp thư của bạn.
             </p>
 
             {/* Form */}

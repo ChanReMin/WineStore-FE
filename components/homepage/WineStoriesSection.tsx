@@ -81,7 +81,6 @@ export default function WineStoriesSection() {
         {/* Timeline + Grapes */}
         <div className="relative mt-16 md:mt-20">
           {/* Center grapes illustration */}
-        
 
           <div className="relative grid gap-y-20 md:grid-cols-3 md:gap-x-24 md:gap-y-14 text-left">
             {/* Left column */}
@@ -107,22 +106,22 @@ export default function WineStoriesSection() {
                 </motion.div>
               ))}
             </div>
-            
+
             <motion.div
-                className="pointer-events-none inset-0 hidden items-center justify-center md:flex"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 0.7, scale: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none inset-0 hidden items-center justify-center md:flex"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 0.7, scale: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-            <Image
-              src="/hero/slide-7.jpg" // đổi path theo file của bạn
-              alt="Grapes illustration"
-              width={600}
-              height={600}
-              className="opacity-70"
-            />
-          </motion.div>
+              <Image
+                src="/hero/slide-7.jpg" // đổi path theo file của bạn
+                alt="Grapes illustration"
+                width={600}
+                height={600}
+                className="opacity-70"
+              />
+            </motion.div>
 
             {/* Right column */}
             <div className="space-y-10 md:space-y-16">
