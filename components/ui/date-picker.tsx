@@ -1,0 +1,203 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, addMonths, subMonths, startOfWeek, endOfWeek } from "date-fns";
+import { vi } from "date-fns/locale";
+
+interface DatePickerProps {
+  value: string;
+  onChange: (date: string) => void;
+  placeholder?: string;
+  minDate?: string;
+  maxDate?: string;
+  disabled?: boolean;
+  error?: string;
+}
+
+export default function DatePicker({
+  value,
+  onChange,
+  placeholder = "Chọn ngày",
+  minDate,
+  maxDate,
+  disabled = false,
+  error,
+}: DatePickerProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(value ? new Date(value) : new Date());
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const selectedDate = value ? new Date(value) : null;
+
+  // Close calendar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const handleDateSelect = (date: Date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    onChange(formattedDate);
+    setIsOpen(false);
+  };
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+
+  const isDateDisabled = (date: Date) => {
+    if (minDate && date < new Date(minDate)) return true;
+    if (maxDate && date > new Date(maxDate)) return true;
+    return false;
+  };
+
+  // Get calendar days
+  const monthStart = startOfMonth(currentMonth);
+  const monthEnd = endOfMonth(currentMonth);
+  const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+  const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
+  const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+
+  const weekDays = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Input Trigger */}
+      <button
+        type="button"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        className={`
+          w-full flex items-center gap-2 px-3 py-2.5 rounded-lg border transition-all
+          ${error ? "border-red-500" : "border-[#d4d6b4]"}
+          ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white hover:border-[#3b4417]"}
+          ${isOpen ? "border-[#3b4417] ring-2 ring-[#3b4417]/20" : ""}
+        `}
+      >
+        <Calendar className="h-4 w-4 text-[#7a8451] flex-shrink-0" />
+        <span className={`flex-1 text-left ${value ? "text-[#3b4417]" : "text-[#7a8451]/50"}`}>
+          {value ? format(new Date(value), "dd/MM/yyyy", { locale: vi }) : placeholder}
+        </span>
+      </button>
+
+      {error && (
+        <p className="text-xs text-red-600 mt-1">{error}</p>
+      )}
+
+      {/* Calendar Dropdown */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-50 mt-2 w-full min-w-[320px] bg-white rounded-xl shadow-2xl border border-[#d4d6b4] overflow-hidden"
+          >
+            {/* Calendar Header */}
+            <div className="bg-[#3b4417] text-white px-4 py-3">
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={handlePrevMonth}
+                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <h3 className="font-semibold text-base">
+                  {format(currentMonth, "MMMM yyyy", { locale: vi })}
+                </h3>
+                <button
+                  type="button"
+                  onClick={handleNextMonth}
+                  className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Calendar Grid */}
+            <div className="p-4">
+              {/* Week Days */}
+              <div className="grid grid-cols-7 gap-1 mb-2">
+                {weekDays.map((day) => (
+                  <div
+                    key={day}
+                    className="text-center text-xs font-semibold text-[#7a8451] py-2"
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* Calendar Days */}
+              <div className="grid grid-cols-7 gap-1">
+                {calendarDays.map((day, index) => {
+                  const isCurrentMonth = isSameMonth(day, currentMonth);
+                  const isSelected = selectedDate && isSameDay(day, selectedDate);
+                  const isTodayDate = isToday(day);
+                  const isDisabled = isDateDisabled(day);
+
+                  return (
+                    <motion.button
+                      key={index}
+                      type="button"
+                      onClick={() => !isDisabled && handleDateSelect(day)}
+                      disabled={isDisabled}
+                      whileHover={!isDisabled ? { scale: 1.05 } : {}}
+                      whileTap={!isDisabled ? { scale: 0.95 } : {}}
+                      className={`
+                        aspect-square rounded-lg text-sm font-medium transition-all
+                        ${!isCurrentMonth ? "text-[#7a8451]/30" : ""}
+                        ${isDisabled ? "text-gray-300 cursor-not-allowed" : ""}
+                        ${isSelected
+                          ? "bg-[#3b4417] text-white shadow-md"
+                          : isTodayDate
+                          ? "bg-[#d4af37]/20 text-[#3b4417] font-bold"
+                          : isCurrentMonth && !isDisabled
+                          ? "text-[#3b4417] hover:bg-[#f5f3e8]"
+                          : ""
+                        }
+                      `}
+                    >
+                      {format(day, "d")}
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {/* Today Button */}
+              <div className="mt-4 pt-3 border-t border-[#d4d6b4]">
+                <button
+                  type="button"
+                  onClick={() => handleDateSelect(new Date())}
+                  className="w-full py-2 text-sm font-medium text-[#3b4417] hover:bg-[#f5f3e8] rounded-lg transition-colors"
+                >
+                  Hôm nay
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

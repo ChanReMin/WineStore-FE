@@ -193,3 +193,160 @@ input:focus {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(51, 57, 29, 0.5);
 }
+
+/* ============================================
+   CUSTOM SCROLLBAR - Wine Store Theme
+   Phù hợp với thiết kế homepage sang trọng
+   ============================================ */
+
+/* Scrollbar cho toàn bộ trang */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Track (nền của scrollbar) */
+::-webkit-scrollbar-track {
+  background: #fdfbf5; /* Màu kem nhạt giống background homepage */
+  border-left: 1px solid #e8e6dc; /* Border tinh tế */
+}
+
+/* Thumb (thanh cuộn) */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #3b4417 0%,
+    #4c5b23 50%,
+    #3b4417 100%
+  ); /* Gradient xanh olive */
+  border-radius: 6px;
+  border: 2px solid #fdfbf5; /* Border tạo khoảng cách với track */
+  transition: all 0.3s ease;
+}
+
+/* Thumb khi hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #2a2f18 0%,
+    #3b4417 50%,
+    #2a2f18 100%
+  ); /* Tối hơn khi hover */
+  border-color: #f5f3e8;
+  box-shadow: 0 0 8px rgba(59, 68, 23, 0.3);
+}
+
+/* Thumb khi đang kéo */
+::-webkit-scrollbar-thumb:active {
+  background: #2a2f18; /* Màu đậm nhất khi active */
+  border-color: #e8e6dc;
+}
+
+/* Corner (góc giữa scrollbar dọc và ngang) */
+::-webkit-scrollbar-corner {
+  background: #fdfbf5;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3b4417 #fdfbf5;
+}
+
+/* ============================================
+   SCROLLBAR CHO DARK SECTIONS
+   (Homepage có background #120906)
+   ============================================ */
+
+/* Áp dụng cho các section tối màu */
+.dark-section::-webkit-scrollbar-track,
+[class*="bg-[#120906]"]::-webkit-scrollbar-track {
+  background: #120906;
+  border-left-color: #2a2418;
+}
+
+.dark-section::-webkit-scrollbar-thumb,
+[class*="bg-[#120906]"]::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #f6f3ea 0%,
+    #e5ddc7 50%,
+    #f6f3ea 100%
+  ); /* Màu kem sáng trên nền tối */
+  border-color: #120906;
+}
+
+.dark-section::-webkit-scrollbar-thumb:hover,
+[class*="bg-[#120906]"]::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f6f3ea 50%,
+    #ffffff 100%
+  );
+  box-shadow: 0 0 12px rgba(246, 243, 234, 0.4);
+}
+
+/* ============================================
+   SCROLLBAR CHO SELLER DASHBOARD
+   (Background neutral-50)
+   ============================================ */
+
+.seller-layout::-webkit-scrollbar-track {
+  background: #fafafa; /* neutral-50 */
+  border-left-color: #e5e5e5; /* neutral-200 */
+}
+
+.seller-layout::-webkit-scrollbar-thumb {
+  background: #33391d; /* Màu chính của seller */
+  border-color: #fafafa;
+}
+
+.seller-layout::-webkit-scrollbar-thumb:hover {
+  background: #2a2f18;
+  box-shadow: 0 0 8px rgba(51, 57, 29, 0.3);
+}
+
+/* ============================================
+   SCROLLBAR CHO MODALS & DROPDOWNS
+   ============================================ */
+
+.modal-content::-webkit-scrollbar,
+.dropdown-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track,
+.dropdown-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.dropdown-content::-webkit-scrollbar-thumb {
+  background: rgba(59, 68, 23, 0.4);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover,
+.dropdown-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 68, 23, 0.6);
+  background-clip: padding-box;
+}
+
+/* ============================================
+   SMOOTH SCROLLING
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Tắt smooth scroll khi user prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

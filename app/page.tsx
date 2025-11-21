@@ -99,7 +99,10 @@ export default function Home() {
     }
   };
 
-  const handleLocationComplete = (data: { city: string; name: string }) => {
+  const handleLocationComplete = (data: {
+    city: string;
+    store: string;
+  }) => {
     localStorage.setItem("location", JSON.stringify(data));
     setShowLocationModal(false);
 
@@ -109,7 +112,7 @@ export default function Home() {
 
   return (
     <main
-      className={`${displaySerif.variable} relative flex min-h-screen flex-col overflow-hidden bg-[#120906] text-white`}
+      className={`${displaySerif.variable} dark-section relative flex min-h-screen flex-col overflow-hidden bg-[#120906] text-white`}
     >
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}

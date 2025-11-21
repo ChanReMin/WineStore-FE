@@ -37,8 +37,14 @@ export default function Header() {
   const { isAuthenticated } = useAuth();
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
+    "login"
+  );
   const [userCity, setUserCity] = useState<string>("");
+  const [userLocation, setUserLocation] = useState<{
+    city: string;
+    store: string;
+  } | null>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isCartOpen, setCartOpen] = useState(false);
 
@@ -55,16 +61,27 @@ export default function Header() {
       try {
         const data = JSON.parse(location);
         setUserCity(data.city);
-      } catch {}
+        setUserLocation(data);
+      } catch (e) {
+        console.error("Failed to parse location data");
+      }
     }
 
     const handleLocationUpdate = (event: CustomEvent) => {
       setUserCity(event.detail.city);
     };
 
-    window.addEventListener("locationUpdated", handleLocationUpdate as EventListener);
+    window.addEventListener(
+      "locationUpdated",
+      handleLocationUpdate as EventListener
+    );
 
-    return () => window.removeEventListener("locationUpdated", handleLocationUpdate as EventListener);
+    return () => {
+      window.removeEventListener(
+        "locationUpdated",
+        handleLocationUpdate as EventListener
+      );
+    };
   }, []);
 
   const handleLocationComplete = (data: { city: string; name: string }) => {
@@ -83,53 +100,107 @@ export default function Header() {
         animate="visible"
       >
         <motion.div
-          className="mx-auto flex items-center justify-between px-6 py-5 md:py-6"
-          variants={itemVariants as any}
+          className="mx-auto flex items-center justify-between px-6 py-6"
+          variants={itemVariants}
         >
-          {/* LEFT: Logo */}
-          <motion.div className="flex flex-1 items-center" variants={itemVariants}>
-            <Link href="/" className="font-semibold uppercase text-[22px] text-[#33391d] tracking-wide">
+          {/* LEFT: Search */}
+          <motion.form
+            className="flex flex-1 items-center justify-start text-[22px]"
+            variants={itemVariants}
+          >
+            <Link href="/" className="font-semibold uppercase text-[#33391d]">
               Wine Store
             </Link>
-          </motion.div>
+          </motion.form>
 
-          {/* CENTER: Navigation */}
-          <motion.nav className="hidden md:flex flex-1 justify-center text-gray-800" variants={itemVariants}>
-            <ul className="flex items-center gap-10 text-[13px] tracking-[0.22em] uppercase whitespace-nowrap min-w-fit">
-              {[
-                { label: "Home", path: "/" },
-                { label: "About", path: "/about" },
-                { label: "Our Story", path: "/our-story" },
-                { label: "Blog", path: "/blog" },
-                { label: "Products", path: "/products" },
-              ].map((item) => (
-                <motion.li key={item.path} variants={itemVariants}>
-                  <Link
-                    href={item.path}
-                    className={`${baseLink} ${
-                      pathname === item.path || pathname.startsWith(item.path)
-                        ? "line-through decoration-[1.5px] decoration-neutral-900"
-                        : ""
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                </motion.li>
-              ))}
+          {/* CENTER: Nav + Logo */}
+          <motion.nav
+            className="flex flex-1 items-center justify-center text-gray-800"
+            variants={itemVariants}
+          >
+            <ul className="flex items-center gap-10 text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">
+              <motion.li variants={itemVariants}>
+                <Link
+                  href="/"
+                  className={`${baseLink} ${
+                    pathname === "/"
+                      ? "line-through decoration-1 decoration-neutral-900"
+                      : ""
+                  }`}
+                >
+                  Home
+                </Link>
+              </motion.li>
+
+              <motion.li variants={itemVariants}>
+                <Link
+                  href="/about"
+                  className={`${baseLink} ${
+                    pathname.startsWith("/about")
+                      ? "line-through decoration-1 decoration-neutral-900"
+                      : ""
+                  }`}
+                >
+                  About
+                </Link>
+              </motion.li>
+
+              <motion.li variants={itemVariants}>
+                <Link
+                  href="/our-story"
+                  className={`${baseLink} ${
+                    pathname.startsWith("/our-story")
+                      ? "line-through decoration-1 decoration-neutral-900"
+                      : ""
+                  }`}
+                >
+                  Our Story
+                </Link>
+              </motion.li>
+
+              <motion.li variants={itemVariants}>
+                <Link
+                  href="/blog"
+                  className={`${baseLink} ${
+                    pathname.startsWith("/blog")
+                      ? "line-through decoration-1 decoration-neutral-900"
+                      : ""
+                  }`}
+                >
+                  Blog
+                </Link>
+              </motion.li>
+
+              <motion.li variants={itemVariants}>
+                <Link
+                  href="/shop"
+                  className={`${baseLink} ${
+                    pathname.startsWith("/shop")
+                      ? "line-through decoration-1 decoration-neutral-900"
+                      : ""
+                  }`}
+                >
+                  Shop
+                </Link>
+              </motion.li>
             </ul>
           </motion.nav>
 
-          {/* RIGHT: Location + Auth */}
-          <motion.div className="flex flex-1 items-center justify-end gap-6" variants={itemVariants}>
-            {/* Location Button */}
+          {/* RIGHT: Auth or User Menu */}
+          <motion.div
+            className="flex flex-1 items-center justify-end gap-6"
+            variants={itemVariants}
+          >
             {userCity && (
               <motion.button
                 type="button"
-                onClick={() => setIsLocationModalOpen(true)}
-                whileHover={{ scale: 1.04 }}
+                onClick={openLocationModal}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group flex items-center gap-1.5 rounded px-3 py-1.5 text-sm text-neutral-700 transition-all hover:bg-white/50 hover:border-neutral-300"
-                title="Change location"
+                className="group flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
+                title="Thay đổi địa chỉ"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -139,37 +210,50 @@ export default function Header() {
                   stroke="currentColor"
                   strokeWidth="2"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
                 </svg>
-                <span className="text-[13px] tracking-[0.22em] uppercase">{userCity}</span>
+                <span className="text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">
+                  {userCity}
+                </span>
               </motion.button>
             )}
-
-            {/* Authenticated */}
             {isAuthenticated ? (
               <>
+                {/* Cart Dropdown for authenticated users */}
                 <CartDropdown />
+
+                {/* User Menu */}
                 <UserMenu />
               </>
             ) : (
               <>
+                {/* Login Button */}
                 <motion.button
                   type="button"
                   onClick={() => openAuthModal("login")}
-                  whileHover={{ scale: 1.04 }}
+                  className="text-[14px] uppercase tracking-[0.2em] text-neutral-700 transition-opacity hover:opacity-70"
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="text-[13px] uppercase tracking-[0.22em] text-neutral-700 hover:opacity-70"
                 >
                   Login
                 </motion.button>
 
+                {/* Register Button */}
                 <motion.button
                   type="button"
                   onClick={() => openAuthModal("register")}
-                  whileHover={{ scale: 1.04 }}
+                  className="border border-[#33391d] bg-[#33391d] px-5 py-2 text-[14px] uppercase tracking-[0.2em] text-amber-50 transition-all hover:bg-[#2a2f18]"
+                  whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border border-[#33391d] bg-[#33391d] px-5 py-2 text-[13px] uppercase tracking-[0.22em] text-amber-50 hover:bg-[#2a2f18]"
                 >
                   Register
                 </motion.button>
@@ -186,11 +270,27 @@ export default function Header() {
         initialMode={authModalMode}
       />
 
-      {/* LOCATION MODAL */}
+      {/* Location Modal */}
       <LocationModal
         isOpen={isLocationModalOpen}
-        onComplete={handleLocationComplete}
         onClose={() => setIsLocationModalOpen(false)}
+        onComplete={(data) => {
+          // Save to localStorage
+          localStorage.setItem("location", JSON.stringify(data));
+
+          // Update state
+          setUserCity(data.city);
+          setUserLocation(data);
+
+          // Dispatch custom event for other components
+          window.dispatchEvent(
+            new CustomEvent("locationUpdated", { detail: data })
+          );
+
+          // Close modal
+          setIsLocationModalOpen(false);
+        }}
+        defaultValues={userLocation}
       />
     </>
   );

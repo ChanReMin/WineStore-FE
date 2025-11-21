@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface LocationModalProps {
   isOpen: boolean;
-  onComplete: (data: { city: string; name: string }) => void;
+  onComplete: (data: { city: string; store: string }) => void;
   onClose?: () => void;
   defaultValues?: {
     city: string;
-    name: string;
+    store: string;
   } | null;
 }
 
@@ -25,21 +25,28 @@ const CITIES = [
   "Vũng Tàu",
 ];
 
+// Stores organized by city
 const STORES: Record<string, string[]> = {
   "Hà Nội": [
-    "Wine Store Hoàn Kiếm",
     "Wine Store Ba Đình",
+    "Wine Store Hoàn Kiếm",
+    "Wine Store Tây Hồ",
+    "Wine Store Long Biên",
     "Wine Store Cầu Giấy",
     "Wine Store Đống Đa",
+    "Wine Store Hai Bà Trưng",
+    "Wine Store Hoàng Mai",
     "Wine Store Thanh Xuân",
   ],
   "Hồ Chí Minh": [
     "Wine Store Quận 1",
     "Wine Store Quận 2",
     "Wine Store Quận 3",
+    "Wine Store Quận 7",
     "Wine Store Bình Thạnh",
     "Wine Store Tân Bình",
-    "Wine Store Quận 7",
+    "Wine Store Phú Nhuận",
+    "Wine Store Thủ Đức",
   ],
   "Đà Nẵng": [
     "Wine Store Hải Châu",
@@ -58,15 +65,15 @@ const STORES: Record<string, string[]> = {
     "Wine Store Bình Thuỷ",
   ],
   "Nha Trang": [
-    "Wine Store Nha Trang 1",
-    "Wine Store Nha Trang 2",
+    "Wine Store Trung Tâm",
     "Wine Store Vĩnh Hòa",
+    "Wine Store Phước Long",
   ],
   Huế: ["Wine Store Phú Nhuận", "Wine Store Phú Hội", "Wine Store Thuận Thành"],
   "Vũng Tàu": [
-    "Wine Store Vũng Tàu 1",
-    "Wine Store Vũng Tàu 2",
+    "Wine Store Trung Tâm",
     "Wine Store Bà Rịa",
+    "Wine Store Long Điền",
   ],
 };
 
@@ -77,8 +84,9 @@ export default function LocationModal({
   defaultValues,
 }: LocationModalProps) {
   const [city, setCity] = useState("");
-  const [name, setName] = useState("");
+  const [store, setStore] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [prevCity, setPrevCity] = useState("");
 
   // Load default values from localStorage when modal opens
   useEffect(() => {
@@ -86,7 +94,8 @@ export default function LocationModal({
       // Try to get from defaultValues prop first
       if (defaultValues) {
         setCity(defaultValues.city || "");
-        setName(defaultValues.name || "");
+        setStore(defaultValues.store || "");
+        setPrevCity(defaultValues.city || "");
       } else {
         // Otherwise try to load from localStorage
         const storedLocation = localStorage.getItem("location");
@@ -94,18 +103,28 @@ export default function LocationModal({
           try {
             const parsed = JSON.parse(storedLocation);
             setCity(parsed.city || "");
-            setName(parsed.name || "");
+            setStore(parsed.store || "");
+            setPrevCity(parsed.city || "");
           } catch (e) {
             console.error("Failed to parse location data");
           }
         } else {
           // Reset all fields if no stored location
           setCity("");
-          setName("");
+          setStore("");
+          setPrevCity("");
         }
       }
     }
   }, [isOpen, defaultValues]);
+
+  // Reset store when city changes (only if actually changed by user)
+  useEffect(() => {
+    if (city && city !== prevCity && prevCity !== "") {
+      setStore("");
+    }
+    setPrevCity(city);
+  }, [city]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,28 +132,32 @@ export default function LocationModal({
     const newErrors: Record<string, string> = {};
 
     if (!city) newErrors.city = "Vui lòng chọn thành phố";
-    if (!name) newErrors.name = "Vui lòng chọn cửa hàng";
+    if (!store) newErrors.store = "Vui lòng chọn cửa hàng";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    onComplete({ city, name });
+    onComplete({ city, store });
   };
 
-  const handleChange = (field: "city" | "name", value: string) => {
+  const handleChange = (field: "city" | "store", value: string) => {
     setErrors((prev) => ({
       ...prev,
       [field]: "",
     }));
 
-    if (field === "city") {
-      setCity(value);
-      // Reset store when city changes
-      setName("");
-    } else {
-      setName(value);
+    switch (field) {
+      case "city":
+        setCity(value);
+        // Khi đổi city → reset store
+        setStore("");
+        break;
+
+      case "store":
+        setStore(value);
+        break;
     }
   };
 
@@ -255,7 +278,7 @@ export default function LocationModal({
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="mb-8 text-center text-sm italic text-neutral-600"
                 >
-                  Vui lòng cung cấp thông tin giao hàng của bạn
+                  Vui lòng cung cấp thông tin địa chỉ để tiếp tục
                 </motion.p>
 
                 {/* Form */}
@@ -323,19 +346,19 @@ export default function LocationModal({
                     transition={{ duration: 0.4, delay: 0.4 }}
                   >
                     <label
-                      htmlFor="name"
+                      htmlFor="store"
                       className="block text-xs uppercase tracking-wider text-neutral-700"
                     >
                       Cửa hàng
                     </label>
                     <div className="relative mt-1">
                       <select
-                        id="name"
-                        value={name}
-                        onChange={(e) => handleChange("name", e.target.value)}
+                        id="store"
+                        value={store}
+                        onChange={(e) => handleChange("store", e.target.value)}
                         disabled={!city}
                         className={`w-full appearance-none border bg-white px-4 py-3 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-2 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400 ${
-                          errors.name
+                          errors.store
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                             : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]/20"
                         }`}
@@ -344,9 +367,9 @@ export default function LocationModal({
                           {city ? "Chọn cửa hàng" : "Chọn thành phố trước"}
                         </option>
                         {city &&
-                          STORES[city]?.map((store) => (
-                            <option key={store} value={store}>
-                              {store}
+                          STORES[city]?.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
                             </option>
                           ))}
                       </select>
@@ -365,13 +388,13 @@ export default function LocationModal({
                         </svg>
                       </div>
                     </div>
-                    {errors.name && (
+                    {errors.store && (
                       <motion.p
                         initial={{ opacity: 0, y: -5 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="mt-1 text-xs italic text-red-600"
                       >
-                        {errors.name}
+                        {errors.store}
                       </motion.p>
                     )}
                   </motion.div>
@@ -384,7 +407,7 @@ export default function LocationModal({
                     transition={{ duration: 0.4, delay: 0.5 }}
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    disabled={!city || !name}
+                    disabled={!city || !store}
                     className="w-full bg-[#33391d] py-3 text-sm uppercase tracking-widest text-amber-50 transition-all hover:bg-[#2a2f18] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
                   >
                     Hoàn tất
