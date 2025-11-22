@@ -32,7 +32,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   );
 
   return (
-    <Link href={`/products/${product.id}`}>
+    <Link href={`/shop/${product.id}`}>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -110,7 +110,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
+              toast.success(` "${product.name}" added to cart!`);
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

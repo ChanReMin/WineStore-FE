@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -40,12 +40,12 @@ interface ProductFilters {
   limit?: number;
 }
 
-export default function ProductsPage() {
+function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Initialize filters from URL
+  // Initialize filters from URL or defaults
   const [filters, setFilters] = useState<ProductFilters>(() => ({
     q: searchParams.get("q") || "",
     brand_id: searchParams.get("brand_id") || undefined,
@@ -143,18 +143,7 @@ export default function ProductsPage() {
     };
   }, [filters]);
 
-  // Update URL when filters change
-  useEffect(() => {
-    const params = new URLSearchParams();
 
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        params.set(key, String(value));
-      }
-    });
-
-    router.push(`/products?${params.toString()}`, { scroll: false });
-  }, [filters, router]);
 
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>) => {
@@ -905,5 +894,18 @@ export default function ProductsPage() {
         }}
       />
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#fdfbf5] flex items-center justify-center">
+      <div className="text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
+        <p className="mt-4 text-sm text-neutral-600">Loading...</p>
+      </div>
+    </div>}>
+      <ShopContent />
+    </Suspense>
   );
 }

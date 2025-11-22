@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import AuthModal from "./auth/AuthModal";
-import UserMenu from "./auth/UserMenu";
+import { UserMenu } from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
 import LocationModal from "./homepage/LocationModal";
 

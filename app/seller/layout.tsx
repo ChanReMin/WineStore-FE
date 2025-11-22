@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import SellerSidebar from "@/components/seller/shared/SellerSidebar";
 import SellerHeader from "@/components/seller/shared/SellerHeader";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function SellerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, user, isLoading: authLoading } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const authLoading = false; // Auth loading is handled by Zustand store
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -29,7 +31,7 @@ export default function SellerLayout({
     }
 
     // Check if user is a seller
-    if (user?.role !== "seller" && user?.role !== "admin") {
+    if (user?.role !== "SELLER" && user?.role !== "ADMIN") {
       // Show error and redirect after 2 seconds
       setIsLoading(false);
       setTimeout(() => {
@@ -45,16 +47,13 @@ export default function SellerLayout({
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-neutral-50">
-        <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-neutral-200 border-t-[#33391d]" />
-          <p className="text-sm text-neutral-600">Đang tải...</p>
-        </div>
+       <LoaderOne />
       </div>
     );
   }
 
   // Access denied for non-sellers
-  if (user?.role !== "seller" && user?.role !== "admin") {
+  if (user?.role !== "SELLER" && user?.role !== "ADMIN") {
     return (
       <div className="flex h-screen items-center justify-center bg-neutral-50">
         <div className="flex flex-col items-center gap-4 rounded-xl border border-red-200 bg-white p-8 shadow-lg">

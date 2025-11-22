@@ -74,9 +74,9 @@ export default function Hero() {
   const current = SLIDES[index];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-black isolate">
       {/* BACKGROUND + ANIMATION */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
         <AnimatePresence custom={direction}>
           <motion.div
             key={current.image}
@@ -97,7 +97,7 @@ export default function Hero() {
       </div>
 
       {/* TEXT GIỮA MỖI SLIDE */}
-      <div className="relative z-10 flex h-full w-full items-center justify-center px-4">
+      <div className="relative flex h-full w-full items-center justify-center px-4">
         <motion.div
           key={index}
           initial={{ opacity: 0, y: -40 }}
@@ -154,7 +154,7 @@ export default function Hero() {
       </div>
 
       {/* NÚT TRÁI / PHẢI */}
-      <div className="absolute inset-y-0 z-20 flex w-full items-center justify-between px-6 md:px-10 pointer-events-none">
+      <div className="absolute inset-y-0 flex w-full items-center justify-between px-6 md:px-10 pointer-events-none">
         <motion.button
           type="button"
           onClick={prev}

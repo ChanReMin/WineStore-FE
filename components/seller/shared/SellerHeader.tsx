@@ -2,7 +2,7 @@
 
 import { Bell, Search, User } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SellerHeader() {
