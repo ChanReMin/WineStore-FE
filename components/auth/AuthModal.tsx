@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "react-toastify";
 import { loginSchema, registerSchema } from "@/lib/validations/auth";
 import { z } from "zod";
@@ -30,9 +30,7 @@ export default function AuthModal({
     last_name: "",
     phone_number: "",
     date_of_birth: "",
-    gender: "0",
-    // Role for testing
-    role: "seller" as "customer" | "seller" | "admin",
+    gender: "1", // 1 = Male by default
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { login, register, isLoading } = useAuth();
@@ -48,87 +46,56 @@ export default function AuthModal({
     e.preventDefault();
     setErrors({});
 
-    try {
-      // Validate with Zod
-      if (mode === "login") {
-        const validatedData = loginSchema.parse({
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-        });
-      } else {
-        const validatedData = registerSchema.parse({
-          email: formData.email,
-          password: formData.password,
-          confirm_password: formData.confirm_password,
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone_number: formData.phone_number,
-          date_of_birth: formData.date_of_birth,
-          gender: formData.gender,
-          role: formData.role,
-        });
-      }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: Record<string, string> = {};
-        error.issues.forEach((err: z.ZodIssue) => {
-          if (err.path[0]) {
-            newErrors[err.path[0].toString()] = err.message;
-          }
-        });
-        setErrors(newErrors);
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      toast.error("Email and password are required", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
 
-        // Show first error in toast
-        const firstError = error.issues[0];
-        toast.error(firstError.message, {
-          position: "top-right",
-          autoClose: 3000,
-        });
-        return;
-      }
+    if (mode === "register" && formData.password !== formData.confirm_password) {
+      toast.error("Confirm password does not match", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
     }
 
     try {
-      if (mode === "login") {
-        await login(formData.email, formData.password, formData.role);
-        toast.success("Login successful! Welcome back.", {
-          position: "top-right",
-          autoClose: 3000,
-        });
-      } else {
-        await register({
-          email: formData.email,
-          password: formData.password,
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone_number: formData.phone_number,
-          date_of_birth: formData.date_of_birth,
-          gender: formData.gender ? Number.parseInt(formData.gender) : 0,
-          role: formData.role,
-        });
-        toast.success("Account created successfully! Welcome to Wine Store.", {
-          position: "top-right",
-          autoClose: 3000,
+      const result = mode === "login" 
+        ? await login({
+            email: formData.email,
+            password: formData.password,
+          })
+        : await register({
+            email: formData.email,
+            password: formData.password,
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            phone_number: formData.phone_number,
+            date_of_birth: formData.date_of_birth,
+            gender: formData.gender ? Number.parseInt(formData.gender) : 1,
+          });
+
+      // Only close modal and reset form if successful
+      if (result?.success) {
+        onClose();
+        setFormData({
+          email: "",
+          password: "",
+          confirm_password: "",
+          first_name: "",
+          last_name: "",
+          phone_number: "",
+          date_of_birth: "",
+          gender: "1",
         });
       }
-      onClose();
-      setFormData({
-        email: "",
-        password: "",
-        confirm_password: "",
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        date_of_birth: "",
-        gender: "0",
-        role: "seller",
-      });
     } catch (error: any) {
-      toast.error(error.message || "Something went wrong. Please try again.", {
-        position: "top-right",
-        autoClose: 4000,
-      });
+      // Error toast is already handled in useAuth hook
+      console.error("Auth error:", error);
     }
   };
 
@@ -153,8 +120,7 @@ export default function AuthModal({
       last_name: "",
       phone_number: "",
       date_of_birth: "",
-      gender: "0",
-      role: "seller",
+      gender: "1",
     });
   };
 
@@ -407,41 +373,6 @@ export default function AuthModal({
                           </div>
                         </div>
 
-                        {/* Role Selector - For Testing */}
-                        <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
-                          <div className="mb-2 flex items-center gap-2">
-                            <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
-                              🧪 Test Mode
-                            </span>
-                          </div>
-                          <label
-                            htmlFor="role"
-                            className="block text-xs uppercase tracking-wider text-neutral-700"
-                          >
-                            Account Role
-                          </label>
-                          <select
-                            id="role"
-                            name="role"
-                            value={formData.role}
-                            onChange={handleChange}
-                            className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
-                          >
-                            <option value="customer">
-                              👤 Customer (No seller access)
-                            </option>
-                            <option value="seller">
-                              🏪 Seller (Full seller access)
-                            </option>
-                            <option value="admin">
-                              👑 Admin (Full access)
-                            </option>
-                          </select>
-                          <p className="mt-2 text-xs italic text-neutral-600">
-                            Select role to test different access levels
-                          </p>
-                        </div>
-
                         {/* Password & Confirm Password */}
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div>
@@ -560,38 +491,6 @@ export default function AuthModal({
                         )}
                       </div>
 
-                      {/* Role Selector - For Testing */}
-                      <div className="rounded-lg border-2 border-dashed border-amber-300 bg-amber-50/50 p-4">
-                        <div className="mb-2 flex items-center gap-2">
-                          <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">
-                            🧪 Test Mode
-                          </span>
-                        </div>
-                        <label
-                          htmlFor="role"
-                          className="block text-xs uppercase tracking-wider text-neutral-700"
-                        >
-                          Account Role
-                        </label>
-                        <select
-                          id="role"
-                          name="role"
-                          value={formData.role}
-                          onChange={handleChange}
-                          className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition-all focus:border-(--wine-burgundy) focus:outline-none focus:ring-1 focus:ring-(--wine-burgundy)"
-                        >
-                          <option value="customer">
-                            👤 Customer (No seller access)
-                          </option>
-                          <option value="seller">
-                            🏪 Seller (Full seller access)
-                          </option>
-                          <option value="admin">👑 Admin (Full access)</option>
-                        </select>
-                        <p className="mt-2 text-xs italic text-neutral-600">
-                          Select role to test different access levels
-                        </p>
-                      </div>
                     </>
                   )}
 
