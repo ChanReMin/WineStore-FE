@@ -17,13 +17,11 @@ import {
 import { Card } from "@/components/ui/card";
 import OrderStatusBadge from "./OrderStatusBadge";
 import PaymentStatusBadge from "./PaymentStatusBadge";
-import type { Order } from "@/types/order";
-
 interface OrderDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  order: Order | null;
-  onUpdateStatus?: (order: Order) => void;
+  order: any | null;
+  onUpdateStatus?: (order: any) => void;
 }
 
 export default function OrderDetailModal({
@@ -52,7 +50,7 @@ export default function OrderDetailModal({
   };
 
   // Mock data for items if not available
-  const orderItems = order.items || [
+  const orderItems = (order as any).items || [
     {
       id: 1,
       product_id: 1,
@@ -71,17 +69,17 @@ export default function OrderDetailModal({
     },
   ];
 
-  const shippingAddress = order.shipping_address || {
-    full_name: order.customer.name,
-    phone: order.customer.phone || "0123456789",
+  const shippingAddress = (order as any).shipping_address || {
+    full_name: (order as any).customer.name,
+    phone: (order as any).customer.phone || "0123456789",
     address: "123 Đường ABC",
     city: "Hà Nội",
     district: "Quận Ba Đình",
     ward: "Phường Điện Biên",
   };
 
-  const subtotal = order.subtotal || order.final_amount;
-  const shippingFee = order.shipping_fee || 0;
+  const subtotal = (order as any).subtotal || order.final_amount;
+  const shippingFee = (order as any).shipping_fee || 0;
   const discountAmount = order.discount_amount || 0;
 
   return (
@@ -224,7 +222,7 @@ export default function OrderDetailModal({
                           </tr>
                         </thead>
                         <tbody className="bg-white">
-                          {orderItems.map((item, index) => (
+                          {orderItems.map((item: any, index: number) => (
                             <tr
                               key={item.id}
                               className={`${

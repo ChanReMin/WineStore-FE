@@ -5,13 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Save, Loader2, Package, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import OrderStatusBadge from "./OrderStatusBadge";
-import type { Order } from "@/types/order";
-
 interface UpdateOrderStatusModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (orderId: number, status: number, note: string) => Promise<void>;
-  order: Order | null;
+  order: any | null;
 }
 
 export default function UpdateOrderStatusModal({

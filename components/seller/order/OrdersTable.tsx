@@ -14,12 +14,10 @@ import {
 } from "@/components/ui/table";
 import OrderStatusBadge from "./OrderStatusBadge";
 import PaymentStatusBadge from "./PaymentStatusBadge";
-import type { Order } from "@/types/order";
-
 interface OrdersTableProps {
-  orders: Order[];
-  onViewDetails?: (order: Order) => void;
-  onUpdateStatus?: (order: Order) => void;
+  orders: any[];
+  onViewDetails?: (order: any) => void;
+  onUpdateStatus?: (order: any) => void;
 }
 
 export default function OrdersTable({

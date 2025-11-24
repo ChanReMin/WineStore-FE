@@ -8,7 +8,7 @@ import OrdersTable from "@/components/seller/order/OrdersTable";
 import OrderPagination from "@/components/seller/order/OrderPagination";
 import UpdateOrderStatusModal from "@/components/seller/order/UpdateOrderStatusModal";
 import OrderDetailModal from "@/components/seller/order/OrderDetailModal";
-import type { Order } from "@/types/order";
+// Removed Order import - using any type for seller orders to avoid conflict with customer Order type
 import { toast } from "react-toastify";
 
 export default function OrdersPage() {
@@ -17,7 +17,7 @@ export default function OrdersPage() {
   const [paymentFilter, setPaymentFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -28,14 +28,14 @@ export default function OrdersPage() {
     // Filter by status
     if (statusFilter !== "all") {
       filtered = filtered.filter(
-        (order) => order.status === Number.parseInt(statusFilter)
+        (order: any) => order.status === Number.parseInt(statusFilter)
       );
     }
 
     // Filter by payment status
     if (paymentFilter !== "all") {
       filtered = filtered.filter(
-        (order) => order.payment_status === Number.parseInt(paymentFilter)
+        (order: any) => order.payment_status === Number.parseInt(paymentFilter)
       );
     }
 
@@ -43,7 +43,7 @@ export default function OrdersPage() {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
-        (order) =>
+        (order: any) =>
           order.order_code.toLowerCase().includes(query) ||
           order.customer.name.toLowerCase().includes(query) ||
           order.customer.email.toLowerCase().includes(query)
@@ -66,12 +66,12 @@ export default function OrdersPage() {
   }, [searchQuery, statusFilter, paymentFilter]);
 
   // Handlers
-  const handleViewDetails = (order: Order) => {
+  const handleViewDetails = (order: any) => {
     setSelectedOrder(order);
     setIsDetailModalOpen(true);
   };
 
-  const handleUpdateStatus = (order: Order) => {
+  const handleUpdateStatus = (order: any) => {
     setSelectedOrder(order);
     setIsUpdateModalOpen(true);
   };
@@ -92,11 +92,11 @@ export default function OrdersPage() {
     const orders = mockOrderList.data.orders;
     return {
       total: orders.length,
-      pending: orders.filter((o) => o.status === 1).length,
-      processing: orders.filter((o) => o.status === 2).length,
-      shipping: orders.filter((o) => o.status === 3).length,
-      completed: orders.filter((o) => o.status === 4).length,
-      cancelled: orders.filter((o) => o.status === 5).length,
+      pending: orders.filter((o: any) => o.status === 1).length,
+      processing: orders.filter((o: any) => o.status === 2).length,
+      shipping: orders.filter((o: any) => o.status === 3).length,
+      completed: orders.filter((o: any) => o.status === 4).length,
+      cancelled: orders.filter((o: any) => o.status === 5).length,
     };
   }, []);
 
