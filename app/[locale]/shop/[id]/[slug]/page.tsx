@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { MOCK_PRODUCT_DETAIL } from "@/lib/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
@@ -15,12 +16,44 @@ const playfair = Playfair_Display({
 
 export default function ProductDetailPage() {
   const t = useTranslations("productDetail");
+  const params = useParams();
+  
+  // Get ID and slug from URL params
+  // URL: /shop/12/chateau-margaux-2015
+  const productId = params.id as string;      // "12"
+  const productSlug = params.slug as string;  // "chateau-margaux-2015"
+  
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "storage"
   >("description");
+  const [product, setProduct] = useState(MOCK_PRODUCT_DETAIL);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const product = MOCK_PRODUCT_DETAIL;
+  // Fetch product by ID from API
+  useEffect(() => {
+    if (!productId) return;
+    
+    const fetchProduct = async () => {
+      setIsLoading(true);
+      try {
+        // TODO: Replace with your actual API call
+        // const response = await axios.get(`/api/products/${productId}`);
+        // setProduct(response.data);
+        
+        // For now, using mock data
+        console.log("Product ID for API:", productId);
+        console.log("Product slug for SEO:", productSlug);
+        setProduct(MOCK_PRODUCT_DETAIL);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProduct();
+  }, [productId, productSlug]);
 
   return (
     <div className="min-h-screen bg-[#faf8f5]">

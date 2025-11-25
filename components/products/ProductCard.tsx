@@ -34,7 +34,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   );
 
   return (
-    <Link href={`/shop/${product.id}`}>
+    <Link href={`/shop/${product.id}/${product.slug}`}>
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
