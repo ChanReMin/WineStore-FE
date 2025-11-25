@@ -2,6 +2,7 @@
 
 import { Search, Filter, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 interface InventoryLogsFiltersProps {
   searchQuery: string;
@@ -22,12 +23,14 @@ export default function InventoryLogsFilters({
   onWarehouseChange,
   warehouses,
 }: InventoryLogsFiltersProps) {
+  const t = useTranslations("seller.inventory.logs.filters");
+  
   const typeOptions = [
-    { value: "all", label: "All" },
-    { value: "IN", label: "In" },
-    { value: "OUT", label: "Out" },
-    { value: "ADJUST", label: "Adjust" },
-    { value: "RETURN", label: "Return" },
+    { value: "all", label: t("all") },
+    { value: "IN", label: t("in") },
+    { value: "OUT", label: t("out") },
+    { value: "ADJUST", label: t("adjust") },
+    { value: "RETURN", label: t("return") },
   ];
 
   return (
@@ -38,7 +41,7 @@ export default function InventoryLogsFilters({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
           <input
             type="text"
-            placeholder="Search by product, user, note..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -52,7 +55,7 @@ export default function InventoryLogsFilters({
             <div className="flex items-center gap-2 mb-2">
               <Filter className="w-4 h-4 text-[#7a8451]" />
               <span className="text-sm font-medium text-[#3b4417]">
-                Transaction Type
+                {t("transactionType")}
               </span>
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -76,7 +79,7 @@ export default function InventoryLogsFilters({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Calendar className="w-4 h-4 text-[#7a8451]" />
-              <span className="text-sm font-medium text-[#3b4417]">Warehouse</span>
+              <span className="text-sm font-medium text-[#3b4417]">{t("warehouse")}</span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <button
@@ -87,7 +90,7 @@ export default function InventoryLogsFilters({
                     : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                 }`}
               >
-                Tất cả
+                {t("all")}
               </button>
               {warehouses.map((warehouse) => (
                 <button

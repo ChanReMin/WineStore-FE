@@ -1,24 +1,6 @@
-import type { Metadata } from "next";
-import { generateMetadata } from "@/config/seo";
-import BlogListingClient from "@/components/blog/BlogListingClient";
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = generateMetadata({
-  title: "Wine Knowledge Blog",
-  description:
-    "Discover knowledge about wine, from how to distinguish types of wine, the art of enjoying it, to how to preserve it and combine it with dishes.",
-  path: "/blog",
-  keywords: [
-    "wine knowledge",
-    "wine education",
-    "wine tasting",
-    "wine pairing",
-    "wine storage",
-    "kiến thức rượu vang",
-    "cách thưởng thức vang",
-    "wine blog",
-  ],
-});
-
-export default function BlogPage() {
-  return <BlogListingClient />;
+// Redirect old /blog to /vi/blog
+export default function BlogRedirect() {
+  redirect('/vi/blog');
 }

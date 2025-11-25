@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import type { CustomerProfile } from "@/types/profile";
 
 interface ProfileHeaderProps {
@@ -8,16 +9,18 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ profile }: ProfileHeaderProps) {
+  const t = useTranslations("profile.header");
+  
   const getGenderText = (gender?: number) => {
     switch (gender) {
       case 1:
-        return "Nam";
+        return t("gender.male");
       case 2:
-        return "Nữ";
+        return t("gender.female");
       case 3:
-        return "Khác";
+        return t("gender.other");
       default:
-        return "Chưa cập nhật";
+        return t("gender.notUpdated");
     }
   };
 

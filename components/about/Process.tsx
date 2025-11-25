@@ -2,39 +2,20 @@
 
 import { motion } from "framer-motion";
 import { Search, Handshake, Package, Sparkles } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const STEPS = [
-  {
-    icon: Search,
-    number: "01",
-    title: "Discover & Curate",
-    description:
-      "Our sommeliers travel the world, visiting vineyards and tasting thousands of wines to find exceptional bottles worth sharing.",
-  },
-  {
-    icon: Handshake,
-    number: "02",
-    title: "Build Relationships",
-    description:
-      "We establish direct partnerships with winemakers, ensuring authenticity, fair pricing, and exclusive access to limited releases.",
-  },
-  {
-    icon: Package,
-    number: "03",
-    title: "Store & Preserve",
-    description:
-      "Every bottle is stored in our temperature-controlled facility, maintaining optimal conditions from vineyard to your door.",
-  },
-  {
-    icon: Sparkles,
-    number: "04",
-    title: "Deliver Excellence",
-    description:
-      "We package with care, ship carbon-neutral, and provide expert guidance to ensure your wine experience is unforgettable.",
-  },
-];
+const ICONS = [Search, Handshake, Package, Sparkles];
+const NUMBERS = ["01", "02", "03", "04"];
 
 export default function Process() {
+  const t = useTranslations('about.process');
+  
+  const STEPS = Array.from({ length: 4 }, (_, index) => ({
+    icon: ICONS[index],
+    number: NUMBERS[index],
+    title: t(`steps.${index}.title`),
+    description: t(`steps.${index}.description`),
+  }));
   return (
     <section className="w-full bg-linear-to-b from-white to-[#fdfbf5] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -47,11 +28,10 @@ export default function Process() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            Our Process
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            From vineyard to your glass, every step is designed to deliver
-            excellence
+            {t('subtitle')}
           </p>
         </motion.div>
 

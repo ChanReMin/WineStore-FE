@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import { profileService } from "@/services/profileService";
 
 interface ChangePasswordModalProps {
@@ -14,6 +15,7 @@ export default function ChangePasswordModal({
   isOpen,
   onClose,
 }: ChangePasswordModalProps) {
+  const t = useTranslations("profile.changePassword");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     old_password: "",
@@ -30,12 +32,12 @@ export default function ChangePasswordModal({
     e.preventDefault();
 
     if (formData.new_password !== formData.confirm_password) {
-      toast.error("Mật khẩu xác nhận không khớp!");
+      toast.error(t("passwordMismatch"));
       return;
     }
 
     if (formData.new_password.length < 8) {
-      toast.error("Mật khẩu mới phải có ít nhất 8 ký tự!");
+      toast.error(t("passwordTooShort"));
       return;
     }
 
@@ -43,11 +45,11 @@ export default function ChangePasswordModal({
 
     try {
       await profileService.changePassword(formData);
-      toast.success("Đổi mật khẩu thành công!");
+      toast.success(t("success"));
       setFormData({ old_password: "", new_password: "", confirm_password: "" });
       onClose();
     } catch (error: any) {
-      toast.error(error.message || "Có lỗi xảy ra. Vui lòng thử lại!");
+      toast.error(error.message || t("error"));
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +79,7 @@ export default function ChangePasswordModal({
             >
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-[#33391d]">
-                  Đổi mật khẩu
+                  {t("title")}
                 </h2>
                 <button
                   onClick={onClose}
@@ -103,7 +105,7 @@ export default function ChangePasswordModal({
                 {/* Old Password */}
                 <div>
                   <label className="mb-2 block text-sm font-medium text-neutral-700">
-                    Mật khẩu cũ
+                    {t("oldPassword")}
                   </label>
                   <div className="relative">
                     <input
@@ -139,7 +141,7 @@ export default function ChangePasswordModal({
                 {/* New Password */}
                 <div>
                   <label className="mb-2 block text-sm font-medium text-neutral-700">
-                    Mật khẩu mới
+                    {t("newPassword")}
                   </label>
                   <div className="relative">
                     <input
@@ -176,7 +178,7 @@ export default function ChangePasswordModal({
                 {/* Confirm Password */}
                 <div>
                   <label className="mb-2 block text-sm font-medium text-neutral-700">
-                    Xác nhận mật khẩu mới
+                    {t("confirmPassword")}
                   </label>
                   <div className="relative">
                     <input
@@ -218,7 +220,7 @@ export default function ChangePasswordModal({
                     disabled={isLoading}
                     className="flex-1 rounded-md bg-[#33391d] px-6 py-2.5 text-white transition-colors hover:bg-[#2a2f18] disabled:opacity-50"
                   >
-                    {isLoading ? "Đang xử lý..." : "Đổi mật khẩu"}
+                    {isLoading ? t("processing") : t("submit")}
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -228,7 +230,7 @@ export default function ChangePasswordModal({
                     disabled={isLoading}
                     className="flex-1 rounded-md border border-neutral-300 px-6 py-2.5 text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50"
                   >
-                    Hủy
+                    {t("cancel")}
                   </motion.button>
                 </div>
               </form>

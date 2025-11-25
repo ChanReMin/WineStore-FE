@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowRight, Calendar, Mail } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 export default function CallToAction() {
+  const t = useTranslations('ourStory.cta');
   return (
     <section className="relative w-full overflow-hidden bg-[#3b4417] py-24 md:py-32">
       {/* Background Pattern */}
@@ -26,13 +28,11 @@ export default function CallToAction() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-tight tracking-[0.15em] text-white uppercase">
-            Experience The Difference
+            {t('title')}
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/85">
-            Visit our flagship store or book a private tasting session with our
-            expert sommeliers. Let us help you discover wines that will create
-            lasting memories.
+            {t('subtitle')}
           </p>
 
           {/* CTA Buttons */}
@@ -42,7 +42,7 @@ export default function CallToAction() {
                 href="/shop"
                 className="group flex items-center gap-3 bg-white px-10 py-5 text-[12px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
               >
-                Explore Our Collection
+                {t('buttons.explore')}
                 <ArrowRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1"
@@ -53,7 +53,7 @@ export default function CallToAction() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <button className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-5 text-[12px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase">
                 <Calendar size={18} />
-                Book a Tasting
+                {t('buttons.bookTasting')}
               </button>
             </motion.div>
           </div>
@@ -68,34 +68,30 @@ export default function CallToAction() {
           >
             <div>
               <p className="text-[13px] tracking-[0.2em] text-white/60 uppercase">
-                Visit Us
+                {t('contact.visit')}
               </p>
-              <p className="mt-2 text-[16px] text-white">
-                123 Wine Street
-                <br />
-                San Francisco, CA 94102
+              <p className="mt-2 text-[16px] text-white whitespace-pre-line">
+                {t('contact.address')}
               </p>
             </div>
 
             <div>
               <p className="text-[13px] tracking-[0.2em] text-white/60 uppercase">
-                Contact
+                {t('contact.contact')}
               </p>
-              <p className="mt-2 text-[16px] text-white">
-                +1 (555) 123-4567
+              <p className="mt-2 text-[16px] text-white whitespace-pre-line">
+                {t('contact.phone')}
                 <br />
-                hello@winestore.com
+                {t('contact.email')}
               </p>
             </div>
 
             <div>
               <p className="text-[13px] tracking-[0.2em] text-white/60 uppercase">
-                Hours
+                {t('contact.hours')}
               </p>
-              <p className="mt-2 text-[16px] text-white">
-                Mon-Sat: 10am - 8pm
-                <br />
-                Sunday: 12pm - 6pm
+              <p className="mt-2 text-[16px] text-white whitespace-pre-line">
+                {t('contact.hoursText')}
               </p>
             </div>
           </motion.div>

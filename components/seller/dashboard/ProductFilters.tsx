@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, Filter, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 
 // Mock data - sẽ thay thế bằng API sau
@@ -66,11 +67,13 @@ export default function ProductFilters({
   onClearFilters,
   summary,
 }: ProductFiltersProps) {
+  const t = useTranslations("seller.products");
+  
   const statusOptions = [
-    { value: "all", label: "All", count: summary.total },
-    { value: "1", label: "Pending", count: summary.pending },
-    { value: "2", label: "On sale", count: summary.active },
-    { value: "3", label: "Banned", count: summary.banned },
+    { value: "all", labelKey: "filters.all", count: summary.total },
+    { value: "1", labelKey: "summary.pending", count: summary.pending },
+    { value: "2", labelKey: "filters.onSale", count: summary.active },
+    { value: "3", labelKey: "summary.banned", count: summary.banned },
   ];
 
   const hasActiveFilters =
@@ -92,7 +95,7 @@ export default function ProductFilters({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -114,7 +117,7 @@ export default function ProductFilters({
                       : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                   }`}
                 >
-                  {option.label}
+                  {t(option.labelKey)}
                   <span className="ml-2 opacity-75">({option.count})</span>
                 </button>
               ))}
@@ -127,14 +130,14 @@ export default function ProductFilters({
           {/* Category Filter */}
           <div>
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
-              Category
+              {t("filters.category")}
             </label>
             <select
               value={categoryFilter}
               onChange={(e) => onCategoryChange(e.target.value)}
               className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
             >
-              <option value="all">Tất cả danh mục</option>
+              <option value="all">{t("filters.allCategories")}</option>
               {mockCategories.map((cat) => (
                 <option key={cat.id} value={cat.id.toString()}>
                   {cat.name}
@@ -146,14 +149,14 @@ export default function ProductFilters({
           {/* Brand Filter */}
           <div>
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
-              Brand
+              {t("filters.brand")}
             </label>
             <select
               value={brandFilter}
               onChange={(e) => onBrandChange(e.target.value)}
               className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
             >
-              <option value="all">All Brands</option>
+              <option value="all">{t("filters.allBrands")}</option>
               {mockBrands.map((brand) => (
                 <option key={brand.id} value={brand.id.toString()}>
                   {brand.name}
@@ -165,19 +168,19 @@ export default function ProductFilters({
           {/* Price Range */}
           <div>
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
-              Price (VND)
+              {t("filters.price")}
             </label>
             <div className="flex gap-2">
               <input
                 type="number"
-                placeholder="From"
+                placeholder={t("filters.from")}
                 value={priceFrom}
                 onChange={(e) => onPriceFromChange(e.target.value)}
                 className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
               />
               <input
                 type="number"
-                placeholder="To"
+                placeholder={t("filters.to")}
                 value={priceTo}
                 onChange={(e) => onPriceToChange(e.target.value)}
                 className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -188,12 +191,12 @@ export default function ProductFilters({
           {/* Concentration Range */}
           <div>
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
-              Concentration (%)
+              {t("filters.concentration")}
             </label>
             <div className="flex gap-2">
               <input
                 type="number"
-                placeholder="From"
+                placeholder={t("filters.from")}
                 value={concentrationFrom}
                 onChange={(e) => onConcentrationFromChange(e.target.value)}
                 step="0.1"
@@ -203,7 +206,7 @@ export default function ProductFilters({
               />
               <input
                 type="number"
-                placeholder="To"
+                placeholder={t("filters.to")}
                 value={concentrationTo}
                 onChange={(e) => onConcentrationToChange(e.target.value)}
                 step="0.1"
@@ -223,7 +226,7 @@ export default function ProductFilters({
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#7a8451] hover:text-[#3b4417] hover:bg-[#f5f3e8] rounded-lg transition-all"
             >
               <X className="w-4 h-4" />
-              Clear Filters
+              {t("filters.clearFilters")}
             </button>
           </div>
         )}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { orderService } from "@/services/orderService";
@@ -15,6 +16,7 @@ import OrderDetailModal from "@/components/orders/OrderDetailModal";
 import OrderStats from "@/components/orders/OrderStats";
 
 export default function OrdersPage() {
+  const t = useTranslations("orders");
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -59,7 +61,7 @@ export default function OrdersPage() {
       setTotalItems(response.pagination.total_items);
       setAllOrders(allOrdersResponse.orders);
     } catch (error) {
-      toast.error("Không thể tải danh sách đơn hàng");
+      toast.error(t("error"));
     } finally {
       setIsLoading(false);
     }
@@ -100,9 +102,9 @@ export default function OrdersPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold text-[#33391d]">Đơn hàng của tôi</h1>
+          <h1 className="text-3xl font-bold text-[#33391d]">{t("title")}</h1>
           <p className="mt-2 text-neutral-600">
-            Quản lý và theo dõi đơn hàng của bạn
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -148,7 +150,7 @@ export default function OrdersPage() {
           className="mb-6 rounded-lg bg-white p-4 shadow-sm"
         >
           <p className="text-sm text-neutral-600">
-            Tìm thấy <span className="font-semibold text-[#33391d]">{totalItems}</span> đơn hàng
+            {t("found")} <span className="font-semibold text-[#33391d]">{totalItems}</span> {t("order")}
           </p>
         </motion.div>
 
@@ -208,7 +210,7 @@ export default function OrdersPage() {
               disabled={currentPage === 1}
               className="rounded-md border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Trước
+              {t("previous")}
             </motion.button>
 
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -234,7 +236,7 @@ export default function OrdersPage() {
               disabled={currentPage === totalPages}
               className="rounded-md border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sau
+              {t("next")}
             </motion.button>
           </motion.div>
         )}

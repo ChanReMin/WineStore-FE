@@ -3,35 +3,18 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Wine, Globe, Award, Heart } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const FEATURES = [
-  {
-    icon: Wine,
-    title: "Curated Selection",
-    description:
-      "Every wine is personally tasted and approved by our master sommeliers",
-  },
-  {
-    icon: Globe,
-    title: "Global Network",
-    description:
-      "Direct partnerships with over 100 vineyards across 30 countries",
-  },
-  {
-    icon: Award,
-    title: "Award-Winning",
-    description:
-      "Recognized internationally for excellence in wine retail and education",
-  },
-  {
-    icon: Heart,
-    title: "Passion-Driven",
-    description:
-      "Three generations of family dedication to the art of winemaking",
-  },
-];
+const ICONS = [Wine, Globe, Award, Heart];
 
 export default function Heritage() {
+  const t = useTranslations('ourStory.heritage');
+  
+  const FEATURES = Array.from({ length: 4 }, (_, index) => ({
+    icon: ICONS[index],
+    title: t(`features.${index}.title`),
+    description: t(`features.${index}.description`),
+  }));
   return (
     <section className="relative w-full overflow-hidden bg-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -45,15 +28,13 @@ export default function Heritage() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-tight tracking-wide text-[#3b4417] uppercase">
-              Heritage &
+              {t('title')}
               <br />
-              Excellence
+              {t('titleLine2')}
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              What started as a passion project has grown into one of the most
-              respected wine merchants in the industry. Our commitment to
-              quality, authenticity, and customer education remains unchanged.
+              {t('subtitle')}
             </p>
 
             {/* Features Grid */}

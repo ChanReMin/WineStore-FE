@@ -28,11 +28,10 @@ export async function generateMetadata({
   }
 
   return generateSEOMetadata({
-    title: post.title,
-    description: post.excerpt,
+    title: `Blog - ${slug}`,
+    description: "Wine Store Blog",
     path: `/blog/${post.slug}`,
     image: post.image,
-    keywords: post.tags,
   });
 }
 
@@ -47,19 +46,18 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const breadcrumbData = generateBreadcrumbStructuredData([
     { name: "Home Page", url: "/" },
     { name: "Blog", url: "/blog" },
-    { name: post.title, url: `/blog/${post.slug}` },
+    { name: post.slug, url: `/blog/${post.slug}` },
   ]);
 
   const articleStructuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
+    headline: post.slug,
+    description: "Wine Store Blog Post",
     image: post.image,
-    datePublished: post.date,
     author: {
       "@type": "Person",
-      name: post.author,
+      name: "Wine Store",
     },
     publisher: {
       "@type": "Organization",

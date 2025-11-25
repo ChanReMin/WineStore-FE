@@ -4,53 +4,27 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Grape, Droplet, BarChart3, Package, Truck, Wine } from "lucide-react";
 import { useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from 'next-intl';
 
-const JOURNEY_STEPS = [
-  {
-    icon: Grape,
-    title: "Vineyard Selection",
-    description:
-      "We personally visit and evaluate vineyards, assessing terroir, practices, and winemaker philosophy.",
-    image: "/hero/slide-1.jpg",
-  },
-  {
-    icon: Droplet,
-    title: "Harvest & Production",
-    description:
-      "Monitoring the harvest season and production process to ensure quality standards are met.",
-    image: "/hero/slide-2.jpg",
-  },
-  {
-    icon: BarChart3,
-    title: "Quality Testing",
-    description:
-      "Our sommeliers conduct blind tastings and chemical analysis to verify authenticity and quality.",
-    image: "/hero/slide-3.jpg",
-  },
-  {
-    icon: Package,
-    title: "Careful Storage",
-    description:
-      "Temperature-controlled facilities maintain optimal conditions at 55°F and 70% humidity.",
-    image: "/hero/slide-4.jpg",
-  },
-  {
-    icon: Truck,
-    title: "Carbon-Neutral Shipping",
-    description:
-      "Eco-friendly packaging and climate-controlled transport ensure wines arrive in perfect condition.",
-    image: "/hero/slide-5.jpg",
-  },
-  {
-    icon: Wine,
-    title: "Your Perfect Pour",
-    description:
-      "From our cellar to your glass, every bottle tells a story of passion and craftsmanship.",
-    image: "/hero/slide-6.jpg",
-  },
+const ICONS = [Grape, Droplet, BarChart3, Package, Truck, Wine];
+const IMAGES = [
+  "/hero/slide-1.jpg",
+  "/hero/slide-2.jpg",
+  "/hero/slide-3.jpg",
+  "/hero/slide-4.jpg",
+  "/hero/slide-5.jpg",
+  "/hero/slide-6.jpg",
 ];
 
 export default function WineJourney() {
+  const t = useTranslations('about.wineJourney');
+  
+  const JOURNEY_STEPS = Array.from({ length: 6 }, (_, index) => ({
+    icon: ICONS[index],
+    title: t(`steps.${index}.title`),
+    description: t(`steps.${index}.description`),
+    image: IMAGES[index],
+  }));
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -72,10 +46,10 @@ export default function WineJourney() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            The Wine Journey
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Follow a bottle's path from vineyard to your table
+            {t('subtitle')}
           </p>
         </motion.div>
 

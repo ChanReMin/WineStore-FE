@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 // animation variants
 const containerVariants: Variants = {
@@ -26,6 +27,8 @@ const itemVariants: Variants = {
 };
 
 export default function StorySection() {
+  const t = useTranslations('home.story');
+  
   return (
     <section className="w-full bg-white py-32 md:py-36">
       <motion.div
@@ -37,35 +40,21 @@ export default function StorySection() {
       >
         {/* LEFT: BIG HEADING */}
         <motion.div variants={itemVariants} className="md:w-1/2">
-          <h2 className="text-[28px] leading-[1.3] tracking-widest text-[#3b4417] md:text-[34px] lg:text-[40px] uppercase font-semibold">
-            INSIDE EVERY BOTTLE
-            <br />
-            THERE IS A STORY.
-            <br />
-            DISCOVER OUR WINES.
+          <h2 className="text-[28px] leading-[1.3] tracking-widest text-[#3b4417] md:text-[34px] lg:text-[40px] uppercase font-semibold whitespace-pre-line">
+            {t('heading')}
           </h2>
 
           <div className="mt-6 flex items-center gap-3 text-sm italic text-[#4c5b23]">
             <span className="h-px w-10 bg-[#4c5b23]" />
-            <span>Château Boutique Wine Store</span>
+            <span>{t('subtitle')}</span>
           </div>
         </motion.div>
 
         {/* RIGHT: TEXT + BUTTON */}
         <motion.div variants={itemVariants} className="md:w-1/2">
           <div className="space-y-4 text-[18px] leading-relaxed text-neutral-700 tracking-widest">
-            <p className="">
-              At Château, we believe every bottle should feel like an invitation
-              to slow down. Our shelves are curated with small-batch European
-              estates and New World discoveries, each chosen for balance,
-              character, and a true sense of place.
-            </p>
-            <p>
-              Whether you're pairing with dinner, celebrating a milestone, or
-              simply exploring something new, our team is here to guide you with
-              honest recommendations, tasting notes, and easy food-pairing
-              tips—so finding the right wine feels effortless.
-            </p>
+            <p>{t('paragraph1')}</p>
+            <p>{t('paragraph2')}</p>
           </div>
 
           {/* READ MORE BUTTON */}
@@ -82,7 +71,7 @@ export default function StorySection() {
               <span className="pointer-events-none absolute left-0 bottom-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
               <span className="pointer-events-none absolute right-0 top-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
 
-              <span className="relative bg-white px-4 py-1">READ MORE</span>
+              <span className="relative bg-white px-4 py-1">{t('readMore')}</span>
             </motion.button>
           </motion.div>
         </motion.div>

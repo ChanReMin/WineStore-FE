@@ -2,6 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { DollarSign, Clock, CheckCircle, RefreshCw } from "lucide-react";
 
 interface PaymentStatusBadgeProps {
@@ -11,12 +12,14 @@ interface PaymentStatusBadgeProps {
 export default function PaymentStatusBadge({
   status,
 }: PaymentStatusBadgeProps) {
+  const t = useTranslations("seller.orders.payment");
+  
   const getPaymentStatus = () => {
     switch (status) {
       case 1: // Chờ thanh toán
         return {
           icon: Clock,
-          text: "Chờ thanh toán",
+          textKey: "pending",
           bg: "bg-amber-50",
           textColor: "text-amber-700",
           border: "border-amber-200",
@@ -25,7 +28,7 @@ export default function PaymentStatusBadge({
       case 2: // Đã thanh toán
         return {
           icon: DollarSign,
-          text: "Đã thanh toán",
+          textKey: "paid",
           bg: "bg-blue-50",
           textColor: "text-blue-700",
           border: "border-blue-200",
@@ -34,7 +37,7 @@ export default function PaymentStatusBadge({
       case 3: // Hoàn thành
         return {
           icon: CheckCircle,
-          text: "Hoàn thành",
+          textKey: "completed",
           bg: "bg-emerald-50",
           textColor: "text-emerald-700",
           border: "border-emerald-200",
@@ -43,7 +46,7 @@ export default function PaymentStatusBadge({
       case 4: // Đã hoàn tiền
         return {
           icon: RefreshCw,
-          text: "Đã hoàn tiền",
+          textKey: "refunded",
           bg: "bg-red-50",
           textColor: "text-red-700",
           border: "border-red-200",
@@ -52,7 +55,7 @@ export default function PaymentStatusBadge({
       default:
         return {
           icon: Clock,
-          text: "Không xác định",
+          textKey: "unknown",
           bg: "bg-gray-50",
           textColor: "text-gray-700",
           border: "border-gray-200",
@@ -75,7 +78,7 @@ export default function PaymentStatusBadge({
       )}
     >
       <Icon className={cn("w-3.5 h-3.5", paymentStatus.iconColor)} />
-      {paymentStatus.text}
+      {t(paymentStatus.textKey)}
     </Badge>
   );
 }

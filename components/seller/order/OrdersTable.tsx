@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, Edit, Calendar, User, ShoppingBag } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -25,6 +26,7 @@ export default function OrdersTable({
   onViewDetails,
   onUpdateStatus,
 }: OrdersTableProps) {
+  const t = useTranslations("seller.orders");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   const formatPrice = (price: number) => {
@@ -49,10 +51,10 @@ export default function OrdersTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <ShoppingBag className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          Không tìm thấy đơn hàng
+          {t("table.noOrders")}
         </h3>
         <p className="text-[#7a8451]">
-          Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác
+          {t("table.tryChangingFilter")}
         </p>
       </Card>
     );
@@ -65,25 +67,25 @@ export default function OrdersTable({
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Mã đơn
+                {t("table.orderCode")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Khách hàng
+                {t("table.customer")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Trạng thái
+                {t("table.orderStatus")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Thanh toán
+                {t("table.paymentStatus")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Tổng tiền
+                {t("table.totalAmount")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Ngày đặt
+                {t("table.createdAt")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Thao tác
+                {t("table.actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -145,7 +147,7 @@ export default function OrdersTable({
                         whileTap={{ scale: 0.95 }}
                         onClick={() => onViewDetails(order)}
                         className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
-                        title="Xem chi tiết"
+                        title={t("table.viewDetails")}
                       >
                         <Eye className="w-4 h-4" />
                       </motion.button>
@@ -156,7 +158,7 @@ export default function OrdersTable({
                         whileTap={{ scale: 0.95 }}
                         onClick={() => onUpdateStatus(order)}
                         className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                        title="Cập nhật trạng thái"
+                        title={t("table.updateStatus")}
                       >
                         <Edit className="w-4 h-4" />
                       </motion.button>

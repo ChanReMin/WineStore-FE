@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 interface OrderStatsProps {
   stats: {
@@ -14,9 +15,11 @@ interface OrderStatsProps {
 }
 
 export default function OrderStats({ stats }: OrderStatsProps) {
+  const t = useTranslations("orders.stats");
+  
   const statItems = [
     {
-      label: "Tổng đơn",
+      label: t("total"),
       value: stats.total,
       icon: (
         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,7 +31,7 @@ export default function OrderStats({ stats }: OrderStatsProps) {
       textColor: "text-blue-900",
     },
     {
-      label: "Chờ xác nhận",
+      label: t("pending"),
       value: stats.pending,
       icon: (
         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,7 +43,7 @@ export default function OrderStats({ stats }: OrderStatsProps) {
       textColor: "text-yellow-900",
     },
     {
-      label: "Đang giao",
+      label: t("shipping"),
       value: stats.shipping,
       icon: (
         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,7 +55,7 @@ export default function OrderStats({ stats }: OrderStatsProps) {
       textColor: "text-purple-900",
     },
     {
-      label: "Đã giao",
+      label: t("delivered"),
       value: stats.delivered,
       icon: (
         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -9,15 +9,10 @@ import {
   Thermometer,
   Globe,
 } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const categories = [
-  { id: "all", label: "ALL", icon: Wine },
-  { id: "tasting", label: "TASTING", icon: Award },
-  { id: "pairing", label: "DISH COMBINATIONS", icon: Utensils },
-  { id: "storage", label: "STORAGE", icon: Thermometer },
-  { id: "education", label: "EDUCATION", icon: BookOpen },
-  { id: "regions", label: "REGIONS", icon: Globe },
-];
+const ICONS = [Wine, Award, Utensils, Thermometer, BookOpen, Globe];
+const CATEGORY_IDS = ["all", "tasting", "pairing", "storage", "education", "regions"];
 
 interface BlogCategoriesProps {
   selectedCategory: string;
@@ -28,6 +23,13 @@ export default function BlogCategories({
   selectedCategory,
   onSelectCategory,
 }: BlogCategoriesProps) {
+  const t = useTranslations('blog.categories');
+  
+  const categories = CATEGORY_IDS.map((id, index) => ({
+    id,
+    label: t(id),
+    icon: ICONS[index],
+  }));
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

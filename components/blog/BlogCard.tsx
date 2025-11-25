@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blogData";
+import { useTranslations } from 'next-intl';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -12,6 +13,21 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, index }: BlogCardProps) {
+  const t = useTranslations('blog');
+  const tPosts = useTranslations('blog.posts');
+  
+  // Get translated category label
+  const getCategoryLabel = (label: string) => {
+    return t(`detail.categoryLabels.${label}` as any) || label;
+  };
+  
+  // Get post data from translations
+  const title = tPosts(`${post.postIndex}.title`);
+  const excerpt = tPosts(`${post.postIndex}.excerpt`);
+  const author = tPosts(`${post.postIndex}.author`);
+  const date = tPosts(`${post.postIndex}.date`);
+  const readTime = tPosts(`${post.postIndex}.readTime`);
+  
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -30,7 +46,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           >
             <Image
               src={post.image}
-              alt={post.title}
+              alt={title}
               fill
               className="object-cover"
             />
@@ -42,7 +58,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           {/* Category Badge */}
           <div className="absolute top-6 left-6">
             <span className="bg-white/90 backdrop-blur-sm px-4 py-2 text-[10px] tracking-[0.25em] uppercase text-[#3b4417] font-medium">
-              {post.categoryLabel}
+              {getCategoryLabel(post.categoryLabel)}
             </span>
           </div>
         </div>
@@ -53,28 +69,28 @@ export default function BlogCard({ post, index }: BlogCardProps) {
           <div className="flex items-center gap-4 text-[10px] tracking-[0.2em] uppercase text-neutral-500">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5" strokeWidth={1.5} />
-              {post.date}
+              {date}
             </span>
             <span className="h-px w-4 bg-neutral-300" />
             <span className="flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" strokeWidth={1.5} />
-              {post.readTime}
+              {readTime}
             </span>
           </div>
 
           {/* Title */}
           <h3 className="text-[20px] md:text-[24px] leading-tight tracking-[0.05em] uppercase text-[#3b4417] group-hover:text-[#4c5b23] transition-colors duration-300 font-semibold">
-            {post.title}
+            {title}
           </h3>
 
           {/* Excerpt */}
           <p className="text-[15px] leading-relaxed text-neutral-600 tracking-wide line-clamp-3">
-            {post.excerpt}
+            {excerpt}
           </p>
 
           {/* Read More */}
           <div className="flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[#3b4417] group-hover:gap-3 transition-all duration-300">
-            <span>ĐỌC THÊM</span>
+            <span>{t('card.readMore')}</span>
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
           </div>
         </div>

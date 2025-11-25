@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { ShoppingBag, MapPin, Star, Sparkles } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -27,6 +28,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index }: ProductCardProps) {
+  const t = useTranslations("shop.product");
   const discount = Math.round(
     ((product.base_price - product.price) / product.base_price) * 100
   );
@@ -60,7 +62,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             <div className="relative">
               <div className="absolute inset-0 bg-[#d4af37] blur-sm" />
               <span className="relative block bg-linear-to-br from-[#3b4417] to-[#2a2f18] px-4 py-2 text-[10px] tracking-[0.25em] text-white uppercase shadow-lg">
-                -{discount}%
+                -{discount}% {t("save")}
               </span>
             </div>
           </motion.div>
@@ -77,7 +79,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             <div className="flex items-center gap-1 bg-linear-to-r from-[#d4af37] to-[#f4e5a1] px-3 py-1.5 shadow-lg">
               <Sparkles size={12} className="text-[#3b4417]" />
               <span className="text-[9px] tracking-[0.2em] text-[#3b4417] uppercase font-semibold">
-                Premium
+                {t("premium")}
               </span>
             </div>
           </motion.div>
@@ -127,7 +129,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               hover:bg-[#3b4417] hover:text-white"
           >
             <ShoppingBag size={14} strokeWidth={1.5} />
-            Add to Cart
+            {t("addToCart")}
           </motion.button>
         </div>
 
@@ -188,7 +190,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               whileHover={{ x: 4 }}
               className="flex items-center gap-1 text-[10px] uppercase tracking-[0.2em] text-[#7b5b2c] group-hover:text-[#d4af37] transition-colors"
             >
-              <span>View</span>
+              <span>{t("view")}</span>
               <svg
                 className="h-3 w-3"
                 fill="none"

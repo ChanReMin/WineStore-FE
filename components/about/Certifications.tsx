@@ -2,44 +2,23 @@
 
 import { motion } from "framer-motion";
 import { Award, Leaf, Shield, Star } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const CERTIFICATIONS = [
-  {
-    icon: Award,
-    title: "Wine Spectator Award",
-    year: "2020-2024",
-    description: "Excellence in Wine Retail",
-  },
-  {
-    icon: Leaf,
-    title: "Certified B Corporation",
-    year: "2021",
-    description: "Sustainable Business Practices",
-  },
-  {
-    icon: Shield,
-    title: "ISO 9001 Certified",
-    year: "2019",
-    description: "Quality Management System",
-  },
-  {
-    icon: Star,
-    title: "Decanter Retailer Award",
-    year: "2023",
-    description: "Outstanding Customer Service",
-  },
-];
-
-const PARTNERS = [
-  "Wine Spectator",
-  "Decanter Magazine",
-  "James Suckling",
-  "Robert Parker Wine Advocate",
-  "Jancis Robinson",
-  "Vinous",
-];
+const ICONS = [Award, Leaf, Shield, Star];
 
 export default function Certifications() {
+  const t = useTranslations('about.certifications');
+  
+  const CERTIFICATIONS = Array.from({ length: 4 }, (_, index) => ({
+    icon: ICONS[index],
+    title: t(`items.${index}.title`),
+    year: t(`items.${index}.year`),
+    description: t(`items.${index}.description`),
+  }));
+  
+  const PARTNERS = Array.from({ length: 6 }, (_, index) => 
+    t(`partners.list.${index}`)
+  );
   return (
     <section className="w-full bg-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -52,10 +31,10 @@ export default function Certifications() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            Awards & Recognition
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Trusted by industry leaders and certified for excellence
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -104,7 +83,7 @@ export default function Certifications() {
           className="mt-20 border-t border-neutral-200 pt-12"
         >
           <p className="text-center text-[13px] tracking-[0.2em] text-neutral-500 uppercase">
-            Trusted By Industry Leaders
+            {t('partners.title')}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">

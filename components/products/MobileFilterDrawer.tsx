@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { MOCK_BRANDS, MOCK_CATEGORIES } from "@/lib/mockData";
 
@@ -33,6 +34,8 @@ export default function MobileFilterDrawer({
   onFilterChange,
   onReset,
 }: MobileFilterDrawerProps) {
+  const t = useTranslations("shop.filters");
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -68,7 +71,7 @@ export default function MobileFilterDrawer({
             {/* Header */}
             <div className="mb-8 flex items-center justify-between border-b border-neutral-200 pb-6">
               <h2 className="text-[18px] font-semibold uppercase tracking-[0.3em] text-[#3b4417]">
-                Filters
+                {t("title")}
               </h2>
               <button
                 onClick={onClose}
@@ -95,14 +98,14 @@ export default function MobileFilterDrawer({
               {/* Brand Filter */}
               <div className="space-y-3">
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
-                  Brand
+                  {t("brand")}
                 </label>
                 <select
                   value={filters.brand_id || ""}
                   onChange={(e) => onFilterChange({ brand_id: e.target.value })}
                   className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
                 >
-                  <option value="">All Brands</option>
+                  <option value="">{t("allBrands")}</option>
                   {MOCK_BRANDS.map((brand) => (
                     <option key={brand.id} value={brand.id}>
                       {brand.name}
@@ -114,7 +117,7 @@ export default function MobileFilterDrawer({
               {/* Category Filter */}
               <div className="space-y-3">
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
-                  Category
+                  {t("category")}
                 </label>
                 <select
                   value={filters.category_id || ""}
@@ -123,7 +126,7 @@ export default function MobileFilterDrawer({
                   }
                   className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
                 >
-                  <option value="">All Categories</option>
+                  <option value="">{t("allCategories")}</option>
                   {MOCK_CATEGORIES.map((category) => (
                     <optgroup key={category.id} label={category.name}>
                       <option value={category.id}>{category.name}</option>
@@ -140,12 +143,12 @@ export default function MobileFilterDrawer({
               {/* Price Range */}
               <div className="space-y-3">
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
-                  Price Range
+                  {t("priceRange")}
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="number"
-                    placeholder="Min"
+                    placeholder={t("min")}
                     value={filters.price_min || ""}
                     onChange={(e) =>
                       onFilterChange({
@@ -156,7 +159,7 @@ export default function MobileFilterDrawer({
                   />
                   <input
                     type="number"
-                    placeholder="Max"
+                    placeholder={t("max")}
                     value={filters.price_max || ""}
                     onChange={(e) =>
                       onFilterChange({
@@ -171,13 +174,13 @@ export default function MobileFilterDrawer({
               {/* Concentration Range */}
               <div className="space-y-3">
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
-                  ABV (Alcohol %)
+                  {t("abv")}
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="number"
                     step="0.1"
-                    placeholder="Min"
+                    placeholder={t("min")}
                     value={filters.concentration_min || ""}
                     onChange={(e) =>
                       onFilterChange({
@@ -189,7 +192,7 @@ export default function MobileFilterDrawer({
                   <input
                     type="number"
                     step="0.1"
-                    placeholder="Max"
+                    placeholder={t("max")}
                     value={filters.concentration_max || ""}
                     onChange={(e) =>
                       onFilterChange({
@@ -205,7 +208,7 @@ export default function MobileFilterDrawer({
                 onClick={onReset}
                 className="w-full bg-[#3b4417] px-6 py-4 text-[11px] uppercase tracking-[0.25em] text-white transition-all hover:bg-[#2a2f18]"
               >
-                Reset Filters
+                {t("reset")}
               </button>
             </div>
           </motion.div>

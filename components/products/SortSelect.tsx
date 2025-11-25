@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ChevronDown, ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 
@@ -9,17 +10,18 @@ interface SortSelectProps {
   onChange: (value: string) => void;
 }
 
-const SORT_OPTIONS = [
-  { value: "created_at_desc", label: "Newest Arrivals", icon: "✨" },
-  { value: "created_at_asc", label: "Classic Collection", icon: "🏛️" },
-  { value: "price_asc", label: "Price: Low → High", icon: "💰" },
-  { value: "price_desc", label: "Price: High → Low", icon: "💎" },
-  { value: "name_asc", label: "Name: A → Z", icon: "🔤" },
-  { value: "name_desc", label: "Name: Z → A", icon: "🔡" },
-];
-
 export default function SortSelect({ value, onChange }: SortSelectProps) {
+  const t = useTranslations("shop.sort");
   const [isFocused, setIsFocused] = useState(false);
+  
+  const SORT_OPTIONS = [
+    { value: "created_at_desc", label: t("newest"), icon: "✨" },
+    { value: "created_at_asc", label: t("oldest"), icon: "🏛️" },
+    { value: "price_asc", label: t("priceAsc"), icon: "💰" },
+    { value: "price_desc", label: t("priceDesc"), icon: "💎" },
+    { value: "name_asc", label: t("nameAsc"), icon: "🔤" },
+    { value: "name_desc", label: t("nameDesc"), icon: "🔡" },
+  ];
 
   return (
     <motion.div
@@ -31,7 +33,7 @@ export default function SortSelect({ value, onChange }: SortSelectProps) {
       <div className="hidden sm:flex items-center gap-2 text-[#7b5b2c]">
         <ArrowUpDown size={16} strokeWidth={1.5} />
         <label className="text-[11px] font-semibold uppercase tracking-[0.25em]">
-          Sort By
+          {t("sortBy")}
         </label>
       </div>
 

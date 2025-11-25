@@ -3,19 +3,21 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Check } from "lucide-react";
-
-const FEATURES = [
-  "Expert sommeliers with 50+ years combined experience",
-  "Direct relationships with 100+ vineyards worldwide",
-  "Temperature-controlled storage for optimal preservation",
-  "Exclusive access to limited-edition and rare vintages",
-  "Complimentary wine education and tasting events",
-  "Carbon-neutral shipping and eco-friendly packaging",
-  "30-day satisfaction guarantee on all purchases",
-  "Personalized recommendations powered by AI and expertise",
-];
+import { useTranslations } from 'next-intl';
 
 export default function Difference() {
+  const t = useTranslations('about.difference');
+  
+  const FEATURES = [
+    t('features.0'),
+    t('features.1'),
+    t('features.2'),
+    t('features.3'),
+    t('features.4'),
+    t('features.5'),
+    t('features.6'),
+    t('features.7'),
+  ];
   return (
     <section className="w-full bg-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -29,15 +31,13 @@ export default function Difference() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-tight tracking-wide text-[#3b4417] uppercase">
-              What Makes Us
+              {t('title')}
               <br />
-              Different
+              {t('titleLine2')}
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              In a world of mass-market wine retailers, we stand apart through
-              our unwavering commitment to quality, authenticity, and customer
-              experience. Here's what sets us apart:
+              {t('subtitle')}
             </p>
 
             {/* Features List */}
@@ -127,11 +127,9 @@ export default function Difference() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="absolute -bottom-6 -left-6 bg-[#3b4417] p-8 text-white shadow-2xl"
             >
-              <p className="text-[48px] font-bold">50+</p>
+              <p className="text-[48px] font-bold">{t('badge.number')}</p>
               <p className="text-[14px] tracking-[0.2em] uppercase">
-                Years of
-                <br />
-                Excellence
+                {t('badge.text')}
               </p>
             </motion.div>
           </motion.div>

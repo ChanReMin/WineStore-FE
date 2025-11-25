@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Save, Loader2, Wine, DollarSign, Package } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import ImageUpload from "./ImageUpload";
 import type { ProductFormData } from "@/types/productForm";
@@ -45,6 +46,7 @@ export default function ProductFormModal({
   initialData,
   mode,
 }: ProductFormModalProps) {
+  const t = useTranslations("seller.products.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<ProductFormData>({
     category_id: initialData?.category_id || 1,
@@ -158,13 +160,13 @@ export default function ProductFormModal({
                   <div>
                     <h2 className="text-2xl font-bold text-[#3b4417]">
                       {mode === "create"
-                        ? "Add New Product"
-                        : "Edit Product"}
+                        ? t("addNewProduct")
+                        : t("editProduct")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
                       {mode === "create"
-                        ? "Product will await Admin approval"
-                        : "Update product information"}
+                        ? t("awaitApproval")
+                        : t("updateInfo")}
                     </p>
                   </div>
                 </div>
@@ -187,12 +189,12 @@ export default function ProductFormModal({
                   <div>
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                       <Package className="w-5 h-5" />
-                      Basic Information
+                      {t("basicInfo")}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Product Name <span className="text-red-600">*</span>
+                          {t("productName")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <input
                           type="text"
@@ -207,7 +209,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Price (VND) <span className="text-red-600">*</span>
+                          {t("priceVND")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <div className="relative">
                           <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
@@ -226,7 +228,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Category <span className="text-red-600">*</span>
+                          {t("category")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="category_id"
@@ -245,7 +247,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Brand <span className="text-red-600">*</span>
+                          {t("brand")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="brand_id"
@@ -264,7 +266,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Wine Type <span className="text-red-600">*</span>
+                          {t("wineType")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="wine_type"
@@ -283,7 +285,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Country <span className="text-red-600">*</span>
+                          {t("country")} <span className="text-red-600">{t("required")}</span>
                         </label>
                         <input
                           type="text"
@@ -302,12 +304,12 @@ export default function ProductFormModal({
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                       <Wine className="w-5 h-5" />
-                      Wine Details
+                      {t("wineDetails")}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Grape Variety
+                          {t("grapeVariety")}
                         </label>
                         <input
                           type="text"
@@ -321,7 +323,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Concentration (%)
+                          {t("concentration")}
                         </label>
                         <input
                           type="number"
@@ -338,7 +340,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Capacity (ml)
+                          {t("capacity")}
                         </label>
                         <input
                           type="number"
@@ -353,7 +355,7 @@ export default function ProductFormModal({
 
                       <div className="md:col-span-3">
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Production Area
+                          {t("productionArea")}
                         </label>
                         <input
                           type="text"
@@ -370,12 +372,12 @@ export default function ProductFormModal({
                   {/* Storage Instructions */}
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                      Storage Instructions
+                      {t("storageInstructions")}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Ideal Temperature
+                          {t("idealTemperature")}
                         </label>
                         <input
                           type="text"
@@ -389,7 +391,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Humidity
+                          {t("humidity")}
                         </label>
                         <input
                           type="text"
@@ -403,7 +405,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Avoid Light
+                          {t("avoidLight")}
                         </label>
                         <input
                           type="text"
@@ -417,7 +419,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Place the Bottle Horizontally
+                          {t("placeBottleHorizontally")}
                         </label>
                         <input
                           type="text"
@@ -431,7 +433,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Avoid Vibration
+                          {t("avoidVibration")}
                         </label>
                         <input
                           type="text"
@@ -445,7 +447,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          After Opening
+                          {t("afterOpening")}
                         </label>
                         <input
                           type="text"
@@ -459,7 +461,7 @@ export default function ProductFormModal({
 
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Wine Cabinet
+                          {t("wineCabinet")}
                         </label>
                         <input
                           type="text"
@@ -476,13 +478,13 @@ export default function ProductFormModal({
                   {/* Images & Description */}
                   <div className="border-t border-[#e8e6dc] pt-6">
                     <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                      Images & Description
+                      {t("imagesDescription")}
                     </h3>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Product Images{" "}
-                          <span className="text-red-600">*</span>
+                          {t("productImages")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <ImageUpload
                           value={formData.images}
@@ -496,7 +498,7 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          Detailed Description
+                          {t("detailedDescription")}
                         </label>
                         <textarea
                           name="description"
@@ -520,7 +522,7 @@ export default function ProductFormModal({
                   disabled={isSubmitting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
                 <button
                   type="submit"
@@ -531,12 +533,12 @@ export default function ProductFormModal({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Saving...
+                      {t("saving")}
                     </>
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      {mode === "create" ? "Create Product" : "Update Product"}
+                      {mode === "create" ? t("createProduct") : t("updateProduct")}
                     </>
                   )}
                 </button>

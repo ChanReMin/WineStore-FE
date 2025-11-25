@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Search, Filter, Download } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { mockGetPromotions } from "@/lib/promotions.mock";
 import PromotionsTable from "./PromotionsTable";
 import PromotionFormModal from "./PromotionFormModal";
@@ -22,6 +23,7 @@ import {
 } from "@/components/ui/select";
 
 export default function PromotionsManagement() {
+  const t = useTranslations("seller.promotions");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -104,10 +106,10 @@ export default function PromotionsManagement() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide">
-            Quản lý khuyến mãi
+            {t("title")}
           </h1>
           <p className="text-[#7a8451] mt-1">
-            Tạo và quản lý các chương trình khuyến mãi
+            {t("subtitle")}
           </p>
         </div>
         <Button
@@ -115,7 +117,7 @@ export default function PromotionsManagement() {
           className="bg-[#3b4417] hover:bg-[#2a2f18] text-amber-50 shadow-md hover:shadow-lg transition-all"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Tạo khuyến mãi
+          {t("addPromotion")}
         </Button>
       </motion.div>
 
@@ -131,7 +133,7 @@ export default function PromotionsManagement() {
           <div className="relative flex-3">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7a8451]" />
             <Input
-              placeholder="Tìm theo tên hoặc mã..."
+              placeholder={t("filters.searchPlaceholder")}
               value={searchQuery}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
               className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
@@ -142,12 +144,12 @@ export default function PromotionsManagement() {
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="flex flex-1 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]">
               <Filter className="w-4 h-4 mr-2 text-[#7a8451]" />
-              <SelectValue placeholder="Trạng thái" />
+              <SelectValue placeholder={t("filters.statusPlaceholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả</SelectItem>
-              <SelectItem value="1">Đang hoạt động</SelectItem>
-              <SelectItem value="0">Không hoạt động</SelectItem>
+              <SelectItem value="all">{t("filters.all")}</SelectItem>
+              <SelectItem value="1">{t("filters.active")}</SelectItem>
+              <SelectItem value="0">{t("filters.inactive")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -162,13 +164,13 @@ export default function PromotionsManagement() {
       >
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
-            Tổng khuyến mãi
+            {t("summary.total")}
           </p>
           <p className="text-2xl font-bold text-[#3b4417]">{promotions.length}</p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
-            Đang hoạt động
+            {t("summary.active")}
           </p>
           <p className="text-2xl font-bold text-green-600">
             {promotions.filter((p) => p.status === 1).length}
@@ -176,7 +178,7 @@ export default function PromotionsManagement() {
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
-            Tổng lượt sử dụng
+            {t("summary.totalUsage")}
           </p>
           <p className="text-2xl font-bold text-[#3b4417]">
             {promotions.reduce((sum, p) => sum + p.used_count, 0)}
@@ -184,7 +186,7 @@ export default function PromotionsManagement() {
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
-            Còn lại
+            {t("summary.remaining")}
           </p>
           <p className="text-2xl font-bold text-orange-600">
             {promotions.reduce((sum, p) => sum + (p.max_usage - p.used_count), 0)}

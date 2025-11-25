@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { mockOrderList } from "@/lib/orders.mock";
 import OrderFilters from "@/components/seller/order/OrderFilters";
 import OrdersTable from "@/components/seller/order/OrdersTable";
@@ -12,6 +13,7 @@ import OrderDetailModal from "@/components/seller/order/OrderDetailModal";
 import { toast } from "react-toastify";
 
 export default function OrdersPage() {
+  const t = useTranslations("seller.orders");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [paymentFilter, setPaymentFilter] = useState("all");
@@ -106,10 +108,10 @@ export default function OrdersPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Order Management
+            {t("title")}
           </h1>
           <p className="text-[#7a8451]">
-            Theo dõi và xử lý đơn hàng của khách hàng
+            {t("subtitle")}
           </p>
         </div>
         
@@ -118,37 +120,37 @@ export default function OrdersPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
-          { label: "Total orders", value: summary.total, color: "bg-[#f5f3e8]" },
+          { labelKey: "summary.totalOrders", value: summary.total, color: "bg-[#f5f3e8]" },
           {
-            label: "Pending",
+            labelKey: "summary.pending",
             value: summary.pending,
             color: "bg-amber-50",
           },
           {
-            label: "Processing",
+            labelKey: "summary.processing",
             value: summary.processing,
             color: "bg-blue-50",
           },
           {
-            label: "Shipping",
+            labelKey: "summary.shipping",
             value: summary.shipping,
             color: "bg-purple-50",
           },
           {
-            label: "Completed",
+            labelKey: "summary.completed",
             value: summary.completed,
             color: "bg-emerald-50",
           },
-          { label: "Cancelled", value: summary.cancelled, color: "bg-red-50" },
+          { labelKey: "summary.cancelled", value: summary.cancelled, color: "bg-red-50" },
         ].map((stat, index) => (
           <motion.div
-            key={stat.label}
+            key={stat.labelKey}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
             className={`${stat.color} border border-[#e8e6dc] rounded-lg p-4`}
           >
-            <p className="text-sm text-[#7a8451] mb-1">{stat.label}</p>
+            <p className="text-sm text-[#7a8451] mb-1">{t(stat.labelKey)}</p>
             <p className="text-2xl font-bold text-[#3b4417]">{stat.value}</p>
           </motion.div>
         ))}

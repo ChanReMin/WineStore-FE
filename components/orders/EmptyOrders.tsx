@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 export default function EmptyOrders() {
+  const t = useTranslations("orders.empty");
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -39,7 +41,7 @@ export default function EmptyOrders() {
         transition={{ delay: 0.3 }}
         className="mt-6 text-xl font-semibold text-neutral-900"
       >
-        Chưa có đơn hàng nào
+        {t("title")}
       </motion.h3>
 
       <motion.p
@@ -48,7 +50,7 @@ export default function EmptyOrders() {
         transition={{ delay: 0.4 }}
         className="mt-2 text-neutral-600"
       >
-        Hãy khám phá bộ sưu tập rượu vang cao cấp của chúng tôi
+        {t("description")}
       </motion.p>
 
       <motion.div
@@ -63,7 +65,7 @@ export default function EmptyOrders() {
             whileTap={{ scale: 0.95 }}
             className="rounded-md bg-[#33391d] px-8 py-3 font-medium text-white transition-colors hover:bg-[#2a2f18]"
           >
-            Khám phá ngay
+            {t("button")}
           </motion.button>
         </Link>
       </motion.div>

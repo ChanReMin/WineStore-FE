@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import InventoryStatusBadge from "./InventoryStatusBadge";
 import type { InventoryItem } from "@/types/inventory";
+import { useTranslations } from "next-intl";
 
 interface InventoryTableProps {
   items: InventoryItem[];
@@ -24,6 +25,7 @@ export default function InventoryTable({
   items,
   onUpdateStock,
 }: InventoryTableProps) {
+  const t = useTranslations("seller.inventory.table");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   const formatPrice = (price: number) => {
@@ -51,10 +53,10 @@ export default function InventoryTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Package className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          No inventory items found
+          {t("noItems")}
         </h3>
         <p className="text-[#7a8451]">
-          Try changing the filter or searching with a different keyword
+          {t("tryChanging")}
         </p>
       </Card>
     );
@@ -67,28 +69,28 @@ export default function InventoryTable({
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Product
+                {t("product")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Warehouse
+                {t("warehouse")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Stock
+                {t("stock")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Safety Stock
+                {t("safetyStock")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Status
+                {t("status")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Value
+                {t("value")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Updated
+                {t("updated")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Actions
+                {t("actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -198,7 +200,7 @@ export default function InventoryTable({
                             whileTap={{ scale: 0.95 }}
                             onClick={() => onUpdateStock(item)}
                             className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors"
-                            title="Stock In"
+                            title={t("stockIn")}
                           >
                             <TrendingUp className="w-6 h-6" />
                           </motion.button>
@@ -207,7 +209,7 @@ export default function InventoryTable({
                             whileTap={{ scale: 0.95 }}
                             onClick={() => onUpdateStock(item)}
                             className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                            title="Stock Out"
+                            title={t("stockOut")}
                           >
                             <TrendingDown className="w-6 h-6" />
                           </motion.button>
@@ -226,23 +228,23 @@ export default function InventoryTable({
       <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <p className="text-[#7a8451] mb-1">Total Products</p>
+            <p className="text-[#7a8451] mb-1">{t("totalProducts")}</p>
             <p className="text-xl font-bold text-[#3b4417]">{items.length}</p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">In Stock</p>
+            <p className="text-[#7a8451] mb-1">{t("inStock")}</p>
             <p className="text-xl font-bold text-emerald-600">
               {items.filter((i) => i.status === "in_stock").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Low Stock</p>
+            <p className="text-[#7a8451] mb-1">{t("lowStock")}</p>
             <p className="text-xl font-bold text-amber-600">
               {items.filter((i) => i.status === "low_stock").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Out of Stock</p>
+            <p className="text-[#7a8451] mb-1">{t("outOfStock")}</p>
             <p className="text-xl font-bold text-red-600">
               {items.filter((i) => i.status === "out_of_stock").length}
             </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -48,11 +49,12 @@ const getStatusColor = (status: number) => {
   }
 };
 
-const getPaymentStatusText = (status: number) => {
-  return status === 1 ? "Đã thanh toán" : "Chưa thanh toán";
-};
-
 export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
+  const t = useTranslations("seller.dashboard.latestOrders");
+  
+  const getPaymentStatusText = (status: number) => {
+    return status === 1 ? t("paid") : t("unpaid");
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -62,7 +64,7 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
       <Card className="border-[#d4d6b4]">
         <CardHeader>
           <CardTitle className="text-[#3b4417] tracking-wide">
-            Đơn hàng mới nhất
+            {t("title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -71,22 +73,22 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
               <TableHeader>
                 <TableRow className="border-[#d4d6b4]">
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Order ID
+                    {t("orderId")}
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Customer
+                    {t("customer")}
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Status
+                    {t("status")}
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Payment Status
+                    {t("paymentStatus")}
                   </TableHead>
                   <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Total Amount
+                    {t("totalAmount")}
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    Created At
+                    {t("createdAt")}
                   </TableHead>
                 </TableRow>
               </TableHeader>

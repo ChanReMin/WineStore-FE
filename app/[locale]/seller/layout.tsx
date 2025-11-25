@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslations } from "next-intl";
 import SellerSidebar from "@/components/seller/shared/SellerSidebar";
 import SellerHeader from "@/components/seller/shared/SellerHeader";
 import { LoaderOne } from "@/components/ui/loader";
@@ -13,6 +14,9 @@ export default function SellerLayout({
   children: React.ReactNode;
 }) {
   const { isAuthenticated, user } = useAuth();
+  const params = useParams();
+  const locale = params.locale as string;
+  const t = useTranslations("seller.layout");
   const authLoading = false; // Auth loading is handled by Zustand store
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +30,7 @@ export default function SellerLayout({
 
     // Check if user is authenticated
     if (!isAuthenticated) {
-      router.push("/");
+      router.push(`/${locale}`);
       return;
     }
 
@@ -35,7 +39,7 @@ export default function SellerLayout({
       // Show error and redirect after 2 seconds
       setIsLoading(false);
       setTimeout(() => {
-        router.push("/");
+        router.push(`/${locale}`);
       }, 2000);
       return;
     }
@@ -75,13 +79,13 @@ export default function SellerLayout({
           </div>
           <div className="text-center">
             <h2 className="text-xl font-bold text-neutral-900">
-              Access denied
+              {t("accessDenied")}
             </h2>
             <p className="mt-2 text-sm text-neutral-600">
-              You do not have permission to access the seller dashboard.
+              {t("noPermission")}
             </p>
             <p className="mt-1 text-xs text-neutral-500">
-              Redirecting to homepage...
+              {t("redirecting")}
             </p>
           </div>
         </div>

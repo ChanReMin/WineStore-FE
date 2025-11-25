@@ -3,33 +3,14 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 
-const SLIDES = [
-  {
-    image: "/hero/slide-1.jpg",
-    title: "Meet Our Winemakers",
-    tagline: "Handcrafted in small batches, poured with passion.",
-  },
-  {
-    image: "/hero/slide-2.jpg",
-    title: "From Vineyard to Glass",
-    tagline: "Single-estate wines curated for every occasion.",
-  },
-  {
-    image: "/hero/slide-3.jpg",
-    title: "Discover Your New Favorite Bottle",
-    tagline: "Boutique labels, limited releases, timeless evenings.",
-  },
-  {
-    image: "/hero/slide-4.jpg",
-    title: "Savor the Art of Winemaking",
-    tagline: "Exquisite flavors, unforgettable moments.",
-  },
-  {
-    image: "/hero/slide-5.jpg",
-    title: "Elevate Your Wine Experience",
-    tagline: "Curated selections for the discerning palate.",
-  },
+const SLIDE_IMAGES = [
+  "/hero/slide-1.jpg",
+  "/hero/slide-2.jpg",
+  "/hero/slide-3.jpg",
+  "/hero/slide-4.jpg",
+  "/hero/slide-5.jpg",
 ];
 
 const slideVariants = {
@@ -48,30 +29,33 @@ const slideVariants = {
 };
 
 export default function Hero() {
+  const t = useTranslations('home.hero');
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0); // 1: next, -1: prev
 
   const prev = () => {
     setDirection(-1);
-    setIndex((i) => (i - 1 + SLIDES.length) % SLIDES.length);
+    setIndex((i) => (i - 1 + SLIDE_IMAGES.length) % SLIDE_IMAGES.length);
   };
 
   const next = () => {
     setDirection(1);
-    setIndex((i) => (i + 1) % SLIDES.length);
+    setIndex((i) => (i + 1) % SLIDE_IMAGES.length);
   };
 
   // ===== AUTOPLAY: tự chuyển slide mỗi 6 giây =====
   useEffect(() => {
     const timer = setInterval(() => {
       setDirection(1); // đi tới
-      setIndex((i) => (i + 1) % SLIDES.length);
+      setIndex((i) => (i + 1) % SLIDE_IMAGES.length);
     }, 6000); // 6000ms = 6 giây
 
     return () => clearInterval(timer); // cleanup khi unmount
   }, []);
 
-  const current = SLIDES[index];
+  const currentImage = SLIDE_IMAGES[index];
+  const currentTitle = t(`slides.${index}.title`);
+  const currentTagline = t(`slides.${index}.tagline`);
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black isolate">
@@ -79,7 +63,7 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none">
         <AnimatePresence custom={direction}>
           <motion.div
-            key={current.image}
+            key={currentImage}
             custom={direction}
             variants={slideVariants}
             initial="enter"
@@ -90,7 +74,7 @@ export default function Hero() {
           >
             <div
               className="absolute inset-0 bg-cover bg-center pointer-events-none"
-              style={{ backgroundImage: `url(${current.image})` }}
+              style={{ backgroundImage: `url(${currentImage})` }}
             />
           </motion.div>
         </AnimatePresence>
@@ -106,18 +90,18 @@ export default function Hero() {
           className="text-center text-white"
         >
           <h2 className="text-[26px] md:text-[40px] lg:text-[52px] font-semibold tracking-[0.35em] uppercase">
-            {current.title}
+            {currentTitle}
           </h2>
 
           <div className="mt-4 flex flex-col items-center gap-2">
             <div className="flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]">
               <span className="h-px w-16 md:w-24 bg-white/70" />
-              <span>estd 1970</span>
+              <span>{t('estd')}</span>
               <span className="h-px w-16 md:w-24 bg-white/70" />
             </div>
 
             <p className="mt-1 max-w-xl text-xs md:text-sm text-white/85">
-              {current.tagline}
+              {currentTagline}
             </p>
           </div>
 
@@ -134,7 +118,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="group flex items-center gap-3 bg-white px-10 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
             >
-              Shop Now
+              {t('shopNow')}
               <ChevronRight
                 size={16}
                 className="transition-transform group-hover:translate-x-1"
@@ -147,7 +131,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
             >
-              Our Story
+              {t('ourStory')}
             </motion.a>
           </motion.div>
         </motion.div>

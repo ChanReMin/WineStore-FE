@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ORDER_STATUS } from "@/types/order";
 
 interface OrderFiltersProps {
@@ -8,16 +9,17 @@ interface OrderFiltersProps {
   onStatusChange: (status: number | null) => void;
 }
 
-const statusOptions = [
-  { value: null, label: "Tất cả" },
-  { value: ORDER_STATUS.PENDING, label: "Chờ xác nhận" },
-  { value: ORDER_STATUS.PROCESSING, label: "Đang xử lý" },
-  { value: ORDER_STATUS.SHIPPING, label: "Đang giao" },
-  { value: ORDER_STATUS.DELIVERED, label: "Đã giao" },
-  { value: ORDER_STATUS.CANCELLED, label: "Đã hủy" },
-];
-
 export default function OrderFilters({ selectedStatus, onStatusChange }: OrderFiltersProps) {
+  const t = useTranslations("orders.filters");
+  
+  const statusOptions = [
+    { value: null, label: t("all") },
+    { value: ORDER_STATUS.PENDING, label: t("pending") },
+    { value: ORDER_STATUS.PROCESSING, label: t("processing") },
+    { value: ORDER_STATUS.SHIPPING, label: t("shipping") },
+    { value: ORDER_STATUS.DELIVERED, label: t("delivered") },
+    { value: ORDER_STATUS.CANCELLED, label: t("cancelled") },
+  ];
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}

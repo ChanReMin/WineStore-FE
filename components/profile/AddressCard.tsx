@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import type { Address } from "@/types/profile";
 
 interface AddressCardProps {
@@ -14,6 +15,7 @@ export default function AddressCard({
   onEdit,
   onDelete,
 }: AddressCardProps) {
+  const t = useTranslations("profile.addresses.card");
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -30,7 +32,7 @@ export default function AddressCard({
           animate={{ x: 0 }}
           className="absolute right-0 top-0 rounded-bl-lg bg-[#33391d] px-3 py-1 text-xs font-medium text-white"
         >
-          Mặc định
+          {t("default")}
         </motion.div>
       )}
 
@@ -93,7 +95,7 @@ export default function AddressCard({
                 d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
               />
             </svg>
-            Sửa
+            {t("edit")}
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -114,7 +116,7 @@ export default function AddressCard({
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
-            Xóa
+            {t("delete")}
           </motion.button>
         </div>
       </div>

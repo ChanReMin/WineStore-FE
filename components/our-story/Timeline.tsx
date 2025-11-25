@@ -2,45 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Wine, Sparkles } from "lucide-react";
-
-const MILESTONES = [
-  {
-    year: "1970",
-    title: "The Beginning",
-    description:
-      "Founded by wine enthusiast Robert Chen in a small storefront in downtown. Started with just 50 carefully selected bottles from France and Italy.",
-  },
-  {
-    year: "1985",
-    title: "Expansion & Recognition",
-    description:
-      "Opened our second location and received the prestigious Wine Merchant of the Year award. Expanded collection to include New World wines.",
-  },
-  {
-    year: "1998",
-    title: "Digital Revolution",
-    description:
-      "Launched our online platform, making premium wines accessible nationwide. Introduced virtual tastings and sommelier consultations.",
-  },
-  {
-    year: "2010",
-    title: "Global Partnerships",
-    description:
-      "Established direct relationships with over 100 vineyards worldwide. Began exclusive import program for rare and limited-edition wines.",
-  },
-  {
-    year: "2018",
-    title: "Sustainability Initiative",
-    description:
-      "Committed to eco-friendly practices. Partnered exclusively with organic and biodynamic vineyards. Achieved carbon-neutral shipping.",
-  },
-  {
-    year: "2024",
-    title: "Innovation & Growth",
-    description:
-      "Launched AI-powered wine recommendation system. Opened flagship tasting room and wine education center. Serving 50,000+ wine lovers globally.",
-  },
-];
+import { useTranslations } from 'next-intl';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -63,6 +25,13 @@ const itemVariants = {
 };
 
 export default function Timeline() {
+  const t = useTranslations('ourStory.timeline');
+  
+  const MILESTONES = Array.from({ length: 6 }, (_, index) => ({
+    year: t(`milestones.${index}.year`),
+    title: t(`milestones.${index}.title`),
+    description: t(`milestones.${index}.description`),
+  }));
   return (
     <section className="w-full bg-[#fdfbf5] py-32 md:py-40">
       <div className="mx-auto max-w-6xl px-4">
@@ -82,10 +51,10 @@ export default function Timeline() {
           </div>
 
           <h2 className="text-[34px] md:text-[44px] lg:text-[52px] font-semibold tracking-[0.15em] text-[#3b4417] uppercase">
-            Our Journey
+            {t('title')}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-neutral-600 tracking-wide">
-            Five decades of passion, growth, and dedication to the art of wine
+            {t('subtitle')}
           </p>
         </motion.div>
 

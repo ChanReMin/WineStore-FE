@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { profileService } from "@/services/profileService";
@@ -15,7 +16,11 @@ import AddressModal from "@/components/profile/AddressModal";
 import ProfileSkeleton from "@/components/profile/ProfileSkeleton";
 
 export default function ProfilePage() {
-  const { isAuthenticated, user } = useAuth();
+  const t = useTranslations("profile");
+  const tSecurity = useTranslations("profile.security");
+  const tAddresses = useTranslations("profile.addresses");
+  const tTabs = useTranslations("profile.tabs");
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
   const [profile, setProfile] = useState<CustomerProfile | null>(null);
@@ -53,21 +58,21 @@ export default function ProfilePage() {
       setProfile(profileData);
       setAddresses(addressesData);
     } catch (error) {
-      toast.error("Không thể tải dữ liệu. Vui lòng thử lại!");
+      toast.error(t("loadError"));
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDeleteAddress = async (id: number) => {
-    if (!confirm("Bạn có chắc muốn xóa địa chỉ này?")) return;
+    if (!confirm(tAddresses("card.deleteConfirm"))) return;
 
     try {
       await profileService.deleteAddress(id);
       setAddresses(addresses.filter((addr) => addr.id !== id));
-      toast.success("Xóa địa chỉ thành công!");
+      toast.success(tAddresses("card.deleteSuccess"));
     } catch (error) {
-      toast.error("Có lỗi xảy ra. Vui lòng thử lại!");
+      toast.error(tAddresses("card.deleteError"));
     }
   };
 
@@ -110,7 +115,7 @@ export default function ProfilePage() {
                 : "text-neutral-600 hover:text-neutral-900"
             }`}
           >
-            Thông tin cá nhân
+            {tTabs("personalInfo")}
             {activeTab === "profile" && (
               <motion.div
                 layoutId="activeTab"
@@ -126,7 +131,7 @@ export default function ProfilePage() {
                 : "text-neutral-600 hover:text-neutral-900"
             }`}
           >
-            Địa chỉ giao hàng
+            {tTabs("addresses")}
             {activeTab === "addresses" && (
               <motion.div
                 layoutId="activeTab"
@@ -138,7 +143,7 @@ export default function ProfilePage() {
             onClick={() => router.push("/profile/orders")}
             className="relative px-6 py-3 text-sm font-medium text-neutral-600 transition-colors hover:text-neutral-900"
           >
-            Đơn hàng của tôi
+            {tTabs("myOrders")}
           </button>
         </motion.div>
 
@@ -164,10 +169,10 @@ export default function ProfilePage() {
                   className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-[#33391d]">
-                    Bảo mật
+                    {tSecurity("title")}
                   </h3>
                   <p className="mb-4 text-sm text-neutral-600">
-                    Thay đổi mật khẩu để bảo vệ tài khoản của bạn
+                    {tSecurity("description")}
                   </p>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -175,7 +180,7 @@ export default function ProfilePage() {
                     onClick={() => setIsPasswordModalOpen(true)}
                     className="rounded-md border border-[#33391d] px-6 py-2 text-sm text-[#33391d] transition-colors hover:bg-[#33391d] hover:text-white"
                   >
-                    Đổi mật khẩu
+                    {tSecurity("changePassword")}
                   </motion.button>
                 </motion.div>
               </motion.div>
@@ -215,7 +220,7 @@ export default function ProfilePage() {
                         d="M12 4v16m8-8H4"
                       />
                     </svg>
-                    Thêm địa chỉ mới
+                    {tAddresses("addNew")}
                   </motion.button>
                 </motion.div>
 
@@ -246,10 +251,10 @@ export default function ProfilePage() {
                       />
                     </svg>
                     <h3 className="mt-4 text-lg font-medium text-neutral-900">
-                      Chưa có địa chỉ nào
+                      {tAddresses("empty.title")}
                     </h3>
                     <p className="mt-2 text-sm text-neutral-600">
-                      Thêm địa chỉ giao hàng để đặt hàng dễ dàng hơn
+                      {tAddresses("empty.description")}
                     </p>
                   </motion.div>
                 ) : (

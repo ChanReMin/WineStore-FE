@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 export const UserMenu = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations('userMenu');
 
   const handleLogout = async () => {
     await logout();
@@ -39,7 +41,7 @@ export const UserMenu = () => {
   // Customer menu items
   menuItems.push(
     {
-      label: "Profile",
+      label: t('profile'),
       href: "/profile",
       icon: (
         <svg
@@ -59,7 +61,7 @@ export const UserMenu = () => {
       ),
     },
     {
-      label: "My Orders",
+      label: t('myOrders'),
       href: "/profile/orders",
       icon: (
         <svg
@@ -84,7 +86,7 @@ export const UserMenu = () => {
   if (user?.role === "SELLER" || user?.role === "ADMIN") {
     menuItems.push(
       {
-        label: "Seller Dashboard",
+        label: t('sellerDashboard'),
         href: "/seller",
         icon: (
           <svg
@@ -103,46 +105,6 @@ export const UserMenu = () => {
           </svg>
         ),
       },
-      {
-        label: "Manage Orders",
-        href: "/seller/orders",
-        icon: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-            />
-          </svg>
-        ),
-      },
-      {
-        label: "Products",
-        href: "/seller/products",
-        icon: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-            />
-          </svg>
-        ),
-      }
     );
   }
 
@@ -270,7 +232,7 @@ export const UserMenu = () => {
                     <div className="my-2 flex items-center gap-2 px-4">
                       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
                       <span className="text-[10px] font-medium uppercase tracking-widest text-neutral-500">
-                        Seller
+                        {t('seller')}
                       </span>
                       <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
                     </div>
@@ -336,7 +298,7 @@ export const UserMenu = () => {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  Logout
+                  {t('logout')}
                 </motion.button>
               </div>
 

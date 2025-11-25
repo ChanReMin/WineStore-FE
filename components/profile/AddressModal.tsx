@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 import type { Address, CreateAddressRequest } from "@/types/profile";
 import { profileService } from "@/services/profileService";
 
@@ -19,6 +20,7 @@ export default function AddressModal({
   onSuccess,
   editAddress,
 }: AddressModalProps) {
+  const t = useTranslations("profile.addresses.modal");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<CreateAddressRequest>({
     full_name: "",
@@ -61,15 +63,15 @@ export default function AddressModal({
     try {
       if (editAddress) {
         await profileService.updateAddress(editAddress.id, formData);
-        toast.success("Cập nhật địa chỉ thành công!");
+        toast.success(t("updateSuccess"));
       } else {
         await profileService.addAddress(formData);
-        toast.success("Thêm địa chỉ thành công!");
+        toast.success(t("addSuccess"));
       }
       onSuccess();
       onClose();
     } catch (error) {
-      toast.error("Có lỗi xảy ra. Vui lòng thử lại!");
+      toast.error(t("error"));
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +101,7 @@ export default function AddressModal({
             >
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-[#33391d]">
-                  {editAddress ? "Chỉnh sửa địa chỉ" : "Thêm địa chỉ mới"}
+                  {editAddress ? t("titleEdit") : t("titleAdd")}
                 </h2>
                 <button
                   onClick={onClose}
@@ -126,7 +128,7 @@ export default function AddressModal({
                   {/* Full Name */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Họ và tên <span className="text-red-500">*</span>
+                      {t("fullName")} <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -142,7 +144,7 @@ export default function AddressModal({
                   {/* Phone */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Số điện thoại <span className="text-red-500">*</span>
+                      {t("phoneNumber")} <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="tel"
@@ -159,7 +161,7 @@ export default function AddressModal({
                 {/* Address Line */}
                 <div>
                   <label className="mb-2 block text-sm font-medium text-neutral-700">
-                    Địa chỉ <span className="text-red-500">*</span>
+                    {t("addressLine")} <span className="text-red-500">{t("required")}</span>
                   </label>
                   <input
                     type="text"
@@ -168,7 +170,7 @@ export default function AddressModal({
                       setFormData({ ...formData, address_line: e.target.value })
                     }
                     required
-                    placeholder="Số nhà, tên đường"
+                    placeholder={t("addressPlaceholder")}
                     className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
                   />
                 </div>
@@ -177,7 +179,7 @@ export default function AddressModal({
                   {/* City */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Thành phố <span className="text-red-500">*</span>
+                      {t("city")} <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -193,7 +195,7 @@ export default function AddressModal({
                   {/* State */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Tỉnh/Thành <span className="text-red-500">*</span>
+                      {t("state")} <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -209,7 +211,7 @@ export default function AddressModal({
                   {/* Country */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      Quốc gia <span className="text-red-500">*</span>
+                      {t("country")} <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -238,7 +240,7 @@ export default function AddressModal({
                     htmlFor="is_default"
                     className="text-sm text-neutral-700"
                   >
-                    Đặt làm địa chỉ mặc định
+                    {t("isDefault")}
                   </label>
                 </div>
 
@@ -252,10 +254,10 @@ export default function AddressModal({
                     className="flex-1 rounded-md bg-[#33391d] px-6 py-2.5 text-white transition-colors hover:bg-[#2a2f18] disabled:opacity-50"
                   >
                     {isLoading
-                      ? "Đang xử lý..."
+                      ? t("processing")
                       : editAddress
-                        ? "Cập nhật"
-                        : "Thêm địa chỉ"}
+                        ? t("update")
+                        : t("submit")}
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -265,7 +267,7 @@ export default function AddressModal({
                     disabled={isLoading}
                     className="flex-1 rounded-md border border-neutral-300 px-6 py-2.5 text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50"
                   >
-                    Hủy
+                    {t("cancel")}
                   </motion.button>
                 </div>
               </form>

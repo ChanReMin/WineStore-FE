@@ -1,25 +1,33 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
+import { NextRequest, NextResponse } from 'next/server';
 
-// NOTE: Middleware này hiện tại không check authentication vì auth state 
-// được lưu trong localStorage (client-side only).
-// Protection được xử lý bởi client-side routing trong các page components.
+const intlMiddleware = createMiddleware(routing);
 
-export function middleware(request: NextRequest) {
-  // Chỉ để placeholder, không block routes
-  // Client-side protection sẽ handle việc redirect
-  return NextResponse.next();
+export default function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Bỏ qua các routes API và static files
+  if (
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.includes('.')
+  ) {
+    return NextResponse.next();
+  }
+  
+  // Áp dụng i18n middleware cho tất cả routes
+  // next-intl sẽ tự động redirect root và các routes không có locale
+  return intlMiddleware(request);
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-  ],
+    // Match all pathnames except for
+    // - … if they start with `/api`, `/_next` or `/_vercel`
+    // - … the ones containing a dot (e.g. `favicon.ico`)
+    '/((?!api|_next|_vercel|.*\\..*).*)',
+  ]
 };
+

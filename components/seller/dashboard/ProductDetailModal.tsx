@@ -13,6 +13,7 @@ import {
   Tag,
   Wine,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import ProductStatusBadge from "./ProductStatusBadge";
 import type { Product } from "@/types/product";
@@ -30,6 +31,8 @@ export default function ProductDetailModal({
   onClose,
   onEdit,
 }: ProductDetailModalProps) {
+  const t = useTranslations("seller.products.detail");
+  
   if (!product) return null;
 
   const formatPrice = (price: number) => {
@@ -104,7 +107,7 @@ export default function ProductDetailModal({
                         <DollarSign className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">Giá bán</p>
+                        <p className="text-sm text-[#7a8451] mb-1">{t("price")}</p>
                         <p className="text-xl font-bold text-[#3b4417]">
                           {formatPrice(product.price)}
                         </p>
@@ -116,9 +119,9 @@ export default function ProductDetailModal({
                         <Package className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">Tồn kho</p>
+                        <p className="text-sm text-[#7a8451] mb-1">{t("inventory")}</p>
                         <p className="text-lg font-semibold text-[#3b4417]">
-                          {product.total_inventory} sản phẩm
+                          {product.total_inventory} {t("products")}
                         </p>
                       </div>
                     </div>
@@ -130,7 +133,7 @@ export default function ProductDetailModal({
                         <Tag className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">Danh mục</p>
+                        <p className="text-sm text-[#7a8451] mb-1">{t("category")}</p>
                         <p className="text-lg font-semibold text-[#3b4417]">
                           {product.category}
                         </p>
@@ -143,7 +146,7 @@ export default function ProductDetailModal({
                       </div>
                       <div>
                         <p className="text-sm text-[#7a8451] mb-1">
-                          Brand
+                          {t("brand")}
                         </p>
                         <p className="text-lg font-semibold text-[#3b4417]">
                           {product.brand}
@@ -156,7 +159,7 @@ export default function ProductDetailModal({
                 {/* Timeline */}
                 <div className="border-t border-[#e8e6dc] pt-6">
                   <h3 className="text-lg font-semibold text-[#3b4417] mb-4">
-                    History
+                    {t("history")}
                   </h3>
                   <div className="space-y-4">
                     {/* Created */}
@@ -166,7 +169,7 @@ export default function ProductDetailModal({
                       </div>
                       <div>
                         <p className="font-medium text-[#3b4417]">
-                          Product created
+                          {t("productCreated")}
                         </p>
                         <p className="text-sm text-[#7a8451]">
                           {formatDate(product.created_at)}
@@ -182,10 +185,10 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Pending Approval
+                            {t("pendingApproval")}
                           </p>
                           <p className="text-sm text-[#7a8451]">
-                            The product is awaiting Admin approval
+                            {t("awaitingAdmin")}
                           </p>
                         </div>
                       </div>
@@ -198,12 +201,12 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Approved
+                            {t("approved")}
                           </p>
                           <p className="text-sm text-[#7a8451]">
                             {formatDate(product.approved_at)}
                             {product.approved_by &&
-                              ` by ${product.approved_by}`}
+                              ` ${t("by")} ${product.approved_by}`}
                           </p>
                         </div>
                       </div>
@@ -216,12 +219,12 @@ export default function ProductDetailModal({
                         </div>
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            Product banned
+                            {t("productBanned")}
                           </p>
                           <p className="text-sm text-[#7a8451]">
-                            The product is not allowed to be sold
+                            {t("notAllowedToSell")}
                             {product.approved_by &&
-                              ` by ${product.approved_by}`}
+                              ` ${t("by")} ${product.approved_by}`}
                           </p>
                         </div>
                       </div>
@@ -236,10 +239,10 @@ export default function ProductDetailModal({
                       <Clock className="w-5 h-5 text-amber-600 mt-0.5" />
                       <div>
                         <p className="font-medium text-amber-900 mb-1">
-                          Note on pending product approval
+                          {t("pendingNote")}
                         </p>
                         <p className="text-sm text-amber-700">
-                         This product is not yet visible to customers. You can edit products while waiting for Admin approval.
+                          {t("pendingDescription")}
                         </p>
                       </div>
                     </div>
@@ -252,11 +255,10 @@ export default function ProductDetailModal({
                       <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
                       <div>
                         <p className="font-medium text-emerald-900 mb-1">
-                          Product is live
+                          {t("productLive")}
                         </p>
                         <p className="text-sm text-emerald-700">
-                          This product is visible to customers and is available
-                          to be purchased.
+                          {t("liveDescription")}
                         </p>
                       </div>
                     </div>
@@ -270,7 +272,7 @@ export default function ProductDetailModal({
                   onClick={onClose}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium"
                 >
-                  Close
+                  {t("close")}
                 </button>
                 {onEdit && (
                   <button
@@ -280,7 +282,7 @@ export default function ProductDetailModal({
                     }}
                     className="px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium"
                   >
-                    Edit
+                    {t("edit")}
                   </button>
                 )}
               </div>

@@ -1,0 +1,1437 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "ourStory": "Our Story",
+    "blog": "Blog",
+    "shop": "Shop",
+    "login": "Login",
+    "register": "Register",
+    "language": "Language"
+  },
+  "header": {
+    "title": "Wine Store",
+    "changeLocation": "Change Location",
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "ourStory": "Our Story",
+      "blog": "Blog",
+      "shop": "Shop"
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register"
+    }
+  },
+  "userMenu": {
+    "profile": "Profile",
+    "myOrders": "My Orders",
+    "sellerDashboard": "Seller Dashboard",
+    "manageOrders": "Manage Orders",
+    "products": "Products",
+    "seller": "Seller",
+    "logout": "Logout"
+  },
+  "cart": {
+    "title": "Cart",
+    "item": "Item",
+    "items": "Items",
+    "empty": {
+      "title": "Your Cart is Empty",
+      "description": "Add some wines to get started",
+      "subtitle": "Discover our premium collection",
+      "button": "Browse Wines"
+    },
+    "subtotal": "Subtotal",
+    "checkout": "Proceed to Checkout",
+    "shippingNote": "Shipping & taxes calculated at checkout"
+  },
+  "home": {
+    "hero": {
+      "slides": {
+        "0": {
+          "title": "Meet Our Winemakers",
+          "tagline": "Handcrafted in small batches, poured with passion."
+        },
+        "1": {
+          "title": "From Vineyard to Glass",
+          "tagline": "Single-estate wines curated for every occasion."
+        },
+        "2": {
+          "title": "Discover Your New Favorite Bottle",
+          "tagline": "Boutique labels, limited releases, timeless evenings."
+        },
+        "3": {
+          "title": "Savor the Art of Winemaking",
+          "tagline": "Exquisite flavors, unforgettable moments."
+        },
+        "4": {
+          "title": "Elevate Your Wine Experience",
+          "tagline": "Curated selections for the discerning palate."
+        }
+      },
+      "estd": "estd 1970",
+      "shopNow": "Shop Now",
+      "ourStory": "Our Story"
+    },
+    "values": {
+      "0": {
+        "title": "Free Shipping",
+        "description": "On orders over $200"
+      },
+      "1": {
+        "title": "Secure Payment",
+        "description": "100% protected checkout"
+      },
+      "2": {
+        "title": "Quality Guarantee",
+        "description": "Authentic wines only"
+      },
+      "3": {
+        "title": "Expert Support",
+        "description": "Sommeliers available 24/7"
+      }
+    },
+    "story": {
+      "heading": "INSIDE EVERY BOTTLE\nTHERE IS A STORY.\nDISCOVER OUR WINES.",
+      "subtitle": "Château Boutique Wine Store",
+      "paragraph1": "At Château, we believe every bottle should feel like an invitation to slow down. Our shelves are curated with small-batch European estates and New World discoveries, each chosen for balance, character, and a true sense of place.",
+      "paragraph2": "Whether you're pairing with dinner, celebrating a milestone, or simply exploring something new, our team is here to guide you with honest recommendations, tasting notes, and easy food-pairing tips—so finding the right wine feels effortless.",
+      "readMore": "READ MORE"
+    },
+    "cta": {
+      "title": "Ready to Discover\nYour Perfect Wine?",
+      "description": "Browse our curated collection of premium wines from around the world. Whether you're a connoisseur or just beginning your journey, we have something special for you.",
+      "shopNow": "Shop Now",
+      "learnMore": "Learn More",
+      "trustIndicator": "✓ Free shipping on orders over $200 • ✓ 30-day return policy • ✓ Secure checkout"
+    },
+    "featured": {
+      "title": "Featured Wines",
+      "subtitle": "Handpicked by our sommeliers",
+      "description": "Discover our carefully curated selection of exceptional wines from renowned vineyards around the world.",
+      "addToCart": "Add to Cart",
+      "exploreAll": "Explore All Wines",
+      "badges": {
+        "bestSeller": "Best Seller",
+        "limited": "Limited",
+        "awardWinner": "Award Winner",
+        "newArrival": "New Arrival"
+      }
+    },
+    "testimonials": {
+      "title": "What Our Clients Say",
+      "subtitle": "Trusted by wine lovers worldwide",
+      "trustBadges": {
+        "0": "Wine Spectator Approved",
+        "1": "Decanter Award Winner",
+        "2": "James Suckling 95+ Points",
+        "3": "Robert Parker Certified"
+      }
+    },
+    "newsletter": {
+      "title": "Join Our Wine Club",
+      "subtitle": "Exclusive offers & tasting notes",
+      "description": "Subscribe to receive curated wine recommendations, exclusive discounts, and invitations to private tastings.",
+      "placeholder": "Enter your email address",
+      "subscribe": "Subscribe",
+      "subscribed": "Subscribed!",
+      "privacy": "By subscribing, you agree to our Privacy Policy and consent to receive updates.",
+      "stats": {
+        "0": "Wine Lovers",
+        "1": "Premium Wines",
+        "2": "Countries"
+      }
+    },
+    "wineStories": {
+      "title": "The Fresh New Wine Stories",
+      "subtitle": "estd 1970",
+      "timeline": {
+        "left": {
+          "0": {
+            "year": "1957",
+            "title": "Purchased Vineyard",
+            "text": "Our story begins with a small hillside vineyard, purchased by the first generation of the family."
+          },
+          "1": {
+            "year": "1976",
+            "title": "First Vintage",
+            "text": "After years of tending the vines, our very first house vintage was bottled and shared with close friends."
+          },
+          "2": {
+            "year": "1990",
+            "title": "Boutique Cellar",
+            "text": "We opened a tiny cellar door, welcoming travelers to taste limited releases straight from the barrel."
+          }
+        },
+        "right": {
+          "0": {
+            "year": "1961",
+            "title": "First Vineyard Harvest",
+            "text": "A remarkable growing season delivered the harvest that would shape our winemaking philosophy."
+          },
+          "1": {
+            "year": "1985",
+            "title": "First Wine Club",
+            "text": "Loyal guests became members of our wine club, receiving curated selections for every season."
+          },
+          "2": {
+            "year": "2011",
+            "title": "Organic Winery",
+            "text": "We completed our transition to a fully organic estate, honoring the land that sustains our vines."
+          }
+        }
+      }
+    },
+    "cellarJourney": {
+      "tagline": "SLOWLY CURATED WINES FOR UNHURRIED EVENINGS.",
+      "title": "A JOURNEY\nTHROUGH OUR CELLAR",
+      "description": "From sun-drenched vineyards to candlelit tastings, every bottle on our shelves carries the patience of time and the craft of the winemaker. Scroll to explore the stories behind our favorite labels."
+    }
+  },
+  "orders": {
+    "title": "My Orders",
+    "subtitle": "Manage and track your orders",
+    "found": "Found",
+    "order": "order",
+    "orders": "orders",
+    "previous": "Previous",
+    "next": "Next",
+    "stats": {
+      "total": "Total Orders",
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipping": "Shipping",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipping": "Shipping",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "card": {
+      "itemsCount": "Items:",
+      "products": "products",
+      "total": "Total:",
+      "discount": "Discount:",
+      "finalAmount": "Final Amount:",
+      "viewDetail": "View Details"
+    },
+    "empty": {
+      "title": "No orders yet",
+      "description": "Explore our premium wine collection",
+      "button": "Explore Now"
+    },
+    "error": "Unable to load orders"
+  },
+  "shop": {
+    "hero": {
+      "title": "Wine",
+      "subtitle": "Collection",
+      "estd": "estd 1970",
+      "description": "Discover premium wines carefully selected from renowned vineyards around the world.",
+      "tagline": "Exquisite flavors, exceptional experience",
+      "exploreNow": "Explore Now"
+    },
+    "search": {
+      "placeholder": "Search premium wines, regions, vintages...",
+      "hint": "Discover exceptional wines from around the world"
+    },
+    "pagination": {
+      "page": "Page",
+      "of": "of"
+    },
+    "filters": {
+      "title": "Filters",
+      "clear": "Clear",
+      "reset": "Reset Filters",
+      "activeFilters": "Active Filters:",
+      "clearAll": "Clear All",
+      "brand": "Brand",
+      "allBrands": "All Brands",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "priceRange": "Price Range",
+      "min": "Min",
+      "max": "Max",
+      "abv": "ABV (Alcohol)",
+      "price": "Price"
+    },
+    "sort": {
+      "sortBy": "Sort By",
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "priceAsc": "Price: Low to High",
+      "priceDesc": "Price: High to Low",
+      "nameAsc": "Name: A-Z",
+      "nameDesc": "Name: Z-A"
+    },
+    "results": {
+      "showing": "Showing",
+      "of": "of",
+      "products": "products"
+    },
+    "product": {
+      "addToCart": "Add to Cart",
+      "view": "View",
+      "premium": "Premium",
+      "save": "Save"
+    }
+  },
+  "seller": {
+    "layout": {
+      "sellerHub": "Seller Hub",
+      "accessDenied": "Access denied",
+      "noPermission": "You do not have permission to access the seller dashboard.",
+      "redirecting": "Redirecting to homepage...",
+      "wineStore": "Wine Store",
+      "sellerAccount": "Seller Account"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "productManagement": "Product Management",
+      "orderManagement": "Order Management",
+      "inventoryManagement": "Inventory Management",
+      "inventory": "Inventory",
+      "inventoryLogs": "Inventory Logs",
+      "promotions": "Promotions & Discounts"
+    },
+    "header": {
+      "notifications": "Notifications",
+      "newOrders": "You have {count} new orders",
+      "pendingProducts": "{count} products pending approval",
+      "lowStock": "{count} products low in stock",
+      "viewAll": "View all notifications",
+      "myProfile": "My Profile",
+      "settings": "Settings",
+      "logout": "Logout",
+      "seller": "Seller",
+      "minutesAgo": "{count} minutes ago",
+      "hoursAgo": "{count} hours ago"
+    },
+    "products": {
+      "title": "Product Management",
+      "subtitle": "Manage product list and track approval status",
+      "addProduct": "Add Product",
+      "searchPlaceholder": "Search products...",
+      "summary": {
+        "totalProducts": "Total Products",
+        "allProductsListed": "All products listed",
+        "pending": "Pending",
+        "waitingForAdmin": "Waiting for Admin",
+        "active": "Active",
+        "approved": "Approved",
+        "banned": "Banned",
+        "notAllowedToSell": "Not allowed to sell"
+      },
+      "filters": {
+        "all": "All",
+        "onSale": "On sale",
+        "category": "Category",
+        "allCategories": "All Categories",
+        "brand": "Brand",
+        "allBrands": "All Brands",
+        "price": "Price (VND)",
+        "from": "From",
+        "to": "To",
+        "concentration": "Concentration (%)",
+        "clearFilters": "Clear Filters"
+      },
+      "table": {
+        "id": "ID",
+        "product": "Product",
+        "price": "Price",
+        "category": "Category",
+        "inventory": "Inventory",
+        "status": "Status",
+        "createdDate": "Created Date",
+        "actions": "Actions",
+        "noProductsFound": "No products found",
+        "tryChangingFilter": "Try changing the filter or searching with a different keyword",
+        "viewDetails": "View Details",
+        "addPromotion": "Add Promotion",
+        "edit": "Edit",
+        "delete": "Delete",
+        "approvalInfo": "Approval Information",
+        "approvalDescription": "Approved products will be displayed to customers. Products waiting for approval need to be approved by Admin before selling."
+      },
+      "form": {
+        "addNewProduct": "Add New Product",
+        "editProduct": "Edit Product",
+        "awaitApproval": "Product will await Admin approval",
+        "updateInfo": "Update product information",
+        "basicInfo": "Basic Information",
+        "productName": "Product Name",
+        "required": "*",
+        "priceVND": "Price (VND)",
+        "category": "Category",
+        "brand": "Brand",
+        "wineType": "Wine Type",
+        "country": "Country",
+        "wineDetails": "Wine Details",
+        "grapeVariety": "Grape Variety",
+        "concentration": "Concentration (%)",
+        "capacity": "Capacity (ml)",
+        "productionArea": "Production Area",
+        "storageInstructions": "Storage Instructions",
+        "idealTemperature": "Ideal Temperature",
+        "humidity": "Humidity",
+        "avoidLight": "Avoid Light",
+        "placeBottleHorizontally": "Place the Bottle Horizontally",
+        "avoidVibration": "Avoid Vibration",
+        "afterOpening": "After Opening",
+        "wineCabinet": "Wine Cabinet",
+        "imagesDescription": "Images & Description",
+        "productImages": "Product Images",
+        "detailedDescription": "Detailed Description",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "createProduct": "Create Product",
+        "updateProduct": "Update Product"
+      },
+      "delete": {
+        "title": "Confirm product deletion",
+        "subtitle": "This action cannot be undone",
+        "deletingProduct": "You are deleting the product:",
+        "importantNote": "Important note:",
+        "permanentDelete": "The product will be permanently deleted from the system",
+        "cannotRecover": "Data cannot be recovered after deletion",
+        "checkOrders": "If there are related orders, please check before deleting",
+        "confirmQuestion": "Are you sure you want to delete this product?",
+        "cancel": "Cancel",
+        "deleting": "Deleting...",
+        "deleteProduct": "Delete product"
+      },
+      "detail": {
+        "price": "Price",
+        "inventory": "Inventory",
+        "products": "products",
+        "category": "Category",
+        "brand": "Brand",
+        "history": "History",
+        "productCreated": "Product created",
+        "pendingApproval": "Pending Approval",
+        "awaitingAdmin": "The product is awaiting Admin approval",
+        "approved": "Approved",
+        "productBanned": "Product banned",
+        "notAllowedToSell": "The product is not allowed to be sold",
+        "by": "by",
+        "pendingNote": "Note on pending product approval",
+        "pendingDescription": "This product is not yet visible to customers. You can edit products while waiting for Admin approval.",
+        "productLive": "Product is live",
+        "liveDescription": "This product is visible to customers and is available to be purchased.",
+        "close": "Close",
+        "edit": "Edit"
+      }
+    },
+    "orders": {
+      "title": "Order Management",
+      "subtitle": "Track and process customer orders",
+      "summary": {
+        "totalOrders": "Total orders",
+        "pending": "Pending",
+        "processing": "Processing",
+        "shipping": "Shipping",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by order code, customer name or email...",
+        "allOrders": "All orders",
+        "allPayments": "All payments",
+        "paid": "Paid",
+        "unpaid": "Unpaid"
+      },
+      "table": {
+        "orderCode": "Order Code",
+        "customer": "Customer",
+        "products": "Products",
+        "totalAmount": "Total Amount",
+        "paymentStatus": "Payment Status",
+        "orderStatus": "Order Status",
+        "createdAt": "Created At",
+        "actions": "Actions",
+        "noOrders": "No orders found",
+        "tryChangingFilter": "Try changing the filter or searching with a different keyword",
+        "viewDetails": "View Details",
+        "updateStatus": "Update Status"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "shipping": "Shipping",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "payment": {
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "pending": "Pending Payment",
+        "completed": "Completed",
+        "refunded": "Refunded",
+        "unknown": "Unknown"
+      },
+      "detail": {
+        "title": "Order Details",
+        "orderStatus": "Order Status",
+        "paymentStatus": "Payment Status",
+        "customerInfo": "Customer Information",
+        "shippingAddress": "Shipping Address",
+        "products": "Products",
+        "product": "Product",
+        "quantity": "Quantity",
+        "unitPrice": "Unit Price",
+        "subtotal": "Subtotal",
+        "shippingFee": "Shipping Fee",
+        "discount": "Discount",
+        "total": "Total",
+        "paymentMethod": "Payment Method",
+        "orderDate": "Order Date",
+        "note": "Note",
+        "close": "Close",
+        "updateStatus": "Update Status",
+        "cod": "COD - Cash on Delivery"
+      },
+      "updateStatus": {
+        "title": "Update Order Status",
+        "currentStatus": "Current status:",
+        "newStatus": "New Status",
+        "required": "*",
+        "noteLabel": "Note (optional)",
+        "notePlaceholder": "Enter note about status update...",
+        "warningTitle": "Warning",
+        "cancelWarning": "You are canceling this order. This action will notify the customer and may affect your rating.",
+        "completeTitle": "Confirm Completion",
+        "completeMessage": "The order will be marked as completed. Customers can review products after completion.",
+        "cancel": "Cancel",
+        "updating": "Updating...",
+        "update": "Update"
+      }
+    },
+    "inventory": {
+      "title": "Inventory Management",
+      "subtitle": "Track and manage product inventory",
+      "summary": {
+        "totalProducts": "Total Products",
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock",
+        "inventoryValue": "Inventory Value"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by product name, warehouse...",
+        "allStatus": "All Status",
+        "allWarehouses": "All Warehouses",
+        "inventoryStatus": "Inventory Status",
+        "warehouse": "Warehouse",
+        "all": "All",
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock"
+      },
+      "table": {
+        "product": "Product",
+        "warehouse": "Warehouse",
+        "onHand": "On Hand",
+        "available": "Available",
+        "reserved": "Reserved",
+        "status": "Status",
+        "lastUpdated": "Last Updated",
+        "actions": "Actions",
+        "noItems": "No items found",
+        "tryChanging": "Try changing filters or search",
+        "updateStock": "Update Stock",
+        "stock": "Stock",
+        "safetyStock": "Safety Stock",
+        "value": "Value",
+        "updated": "Updated",
+        "totalProducts": "Total Products",
+        "stockIn": "Stock In",
+        "stockOut": "Stock Out"
+      },
+      "status": {
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock"
+      },
+      "productStatus": {
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
+      },
+      "updateModal": {
+        "title": "Update Inventory",
+        "warehouse": "Warehouse",
+        "currentStock": "Current Stock",
+        "type": "Transaction Type",
+        "stockIn": "Stock In",
+        "stockInDesc": "Add products to warehouse",
+        "stockOut": "Stock Out",
+        "stockOutDesc": "Remove products from warehouse",
+        "quantity": "Quantity",
+        "note": "Note",
+        "notePlaceholder": "Enter transaction notes...",
+        "cancel": "Cancel",
+        "updating": "Processing...",
+        "update": "Confirm",
+        "required": "*",
+        "confirmStockIn": "Confirm Stock In",
+        "confirmStockOut": "Confirm Stock Out",
+        "stockWillChange": "Stock will change from",
+        "exceedsStock": "Quantity exceeds current stock!"
+      },
+      "logs": {
+        "title": "Inventory Logs",
+        "subtitle": "Track all warehouse import and export transactions",
+        "summary": {
+          "totalTransactions": "Total Transactions",
+          "stockIn": "Stock In",
+          "stockOut": "Stock Out",
+          "adjustments": "Adjustments",
+          "returns": "Returns",
+          "totalStockIn": "Total Stock In"
+        },
+        "exportReport": "Export Report",
+        "printReport": "Print Report",
+        "filters": {
+          "searchPlaceholder": "Search by product, user, note...",
+          "transactionType": "Transaction Type",
+          "warehouse": "Warehouse",
+          "all": "All",
+          "in": "In",
+          "out": "Out",
+          "adjust": "Adjust",
+          "return": "Return"
+        },
+        "table": {
+          "timestamp": "Timestamp",
+          "type": "Type",
+          "product": "Product",
+          "warehouse": "Warehouse",
+          "quantity": "Quantity",
+          "user": "User",
+          "note": "Note",
+          "noTransactions": "No inventory transactions recorded",
+          "noTransactionsDesc": "Inventory transactions will appear here",
+          "noNotes": "No notes",
+          "totalTransactions": "Total Transactions",
+          "stockIn": "Stock In",
+          "stockOut": "Stock Out",
+          "others": "Others"
+        }
+      }
+    },
+    "promotions": {
+      "title": "Promotion Management",
+      "subtitle": "Create and manage promotion campaigns",
+      "addPromotion": "Add Promotion",
+      "summary": {
+        "total": "Total Promotions",
+        "active": "Active",
+        "scheduled": "Scheduled",
+        "expired": "Expired",
+        "totalUsage": "Total Usage",
+        "remaining": "Remaining"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by name or code...",
+        "statusPlaceholder": "Status",
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "table": {
+        "promotionCode": "Promotion Code",
+        "discount": "Discount",
+        "timeframe": "Timeframe",
+        "usage": "Usage",
+        "status": "Status",
+        "actions": "Actions",
+        "noPromotions": "There are no promotions yet",
+        "createFirst": "Create the first promotion to attract customers",
+        "viewDetails": "View Details",
+        "edit": "Edit",
+        "delete": "Delete",
+        "used": "used"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "Business activity overview",
+      "overview": {
+        "totalRevenue": "Total Revenue",
+        "orders": "Orders",
+        "products": "Products",
+        "stockAlerts": "Stock Alerts"
+      },
+      "revenue": {
+        "title": "Revenue in the last 7 days",
+        "totalRevenue": "Total Revenue:",
+        "totalOrders": "Total Orders:",
+        "revenueLabel": "Revenue",
+        "ordersLabel": "Orders"
+      },
+      "latestOrders": {
+        "title": "Latest Orders",
+        "orderId": "Order ID",
+        "customer": "Customer",
+        "status": "Status",
+        "paymentStatus": "Payment Status",
+        "totalAmount": "Total Amount",
+        "createdAt": "Created At",
+        "paid": "Paid",
+        "unpaid": "Unpaid"
+      },
+      "inventory": {
+        "title": "Inventory Alerts",
+        "product": "Product",
+        "price": "Price",
+        "stock": "Stock",
+        "warehouse": "Warehouse",
+        "status": "Status",
+        "updated": "Updated",
+        "outOfStock": "Out of Stock",
+        "lowStock": "Low Stock",
+        "inStock": "In Stock"
+      }
+    }
+  },
+  "productDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "collection": "Collection"
+    },
+    "inStock": "In Stock · Ready to Ship",
+    "available": "available",
+    "tabs": {
+      "description": "Description",
+      "specs": "Specifications",
+      "storage": "Care & Storage"
+    },
+    "specs": {
+      "grapeVariety": "Grape Variety",
+      "region": "Region",
+      "wineType": "Wine Type",
+      "alcoholContent": "Alcohol Content",
+      "volume": "Volume",
+      "servingTemp": "Serving Temperature",
+      "origin": "Origin"
+    },
+    "storage": {
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "light": "Light",
+      "position": "Position",
+      "vibration": "Vibration",
+      "afterOpening": "After Opening"
+    },
+    "quantity": "Quantity",
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "save": "Save",
+    "unavailable": "Currently Unavailable",
+    "trust": {
+      "authentic": "Authentic Guarantee",
+      "freeShipping": "Free Shipping",
+      "returns": "30-Day Returns",
+      "securePayment": "Secure Payment"
+    },
+    "backToCollection": "Back to Collection"
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal information",
+    "header": {
+      "gender": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "notUpdated": "Not updated"
+      }
+    },
+    "tabs": {
+      "personalInfo": "Personal Information",
+      "addresses": "Shipping Addresses",
+      "myOrders": "My Orders"
+    },
+    "form": {
+      "title": "Personal Information",
+      "edit": "Edit",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phoneNumber": "Phone Number",
+      "dateOfBirth": "Date of Birth",
+      "selectDateOfBirth": "Select date of birth",
+      "gender": "Gender",
+      "selectGender": "Select gender",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "updateSuccess": "Profile updated successfully!",
+      "updateError": "An error occurred. Please try again!"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Change your password to protect your account",
+      "changePassword": "Change Password"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "submit": "Change Password",
+      "processing": "Processing...",
+      "cancel": "Cancel",
+      "success": "Password changed successfully!",
+      "error": "An error occurred. Please try again!",
+      "passwordMismatch": "Passwords do not match!",
+      "passwordTooShort": "New password must be at least 8 characters!"
+    },
+    "addresses": {
+      "addNew": "Add New Address",
+      "empty": {
+        "title": "No addresses yet",
+        "description": "Add a shipping address to make ordering easier"
+      },
+      "card": {
+        "default": "Default",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete this address?",
+        "deleteSuccess": "Address deleted successfully!",
+        "deleteError": "An error occurred. Please try again!"
+      },
+      "modal": {
+        "titleAdd": "Add New Address",
+        "titleEdit": "Edit Address",
+        "fullName": "Full Name",
+        "phoneNumber": "Phone Number",
+        "addressLine": "Address",
+        "addressPlaceholder": "Street address",
+        "city": "City",
+        "state": "State/Province",
+        "country": "Country",
+        "isDefault": "Set as default address",
+        "required": "*",
+        "submit": "Add Address",
+        "update": "Update",
+        "processing": "Processing...",
+        "cancel": "Cancel",
+        "addSuccess": "Address added successfully!",
+        "updateSuccess": "Address updated successfully!",
+        "error": "An error occurred. Please try again!"
+      }
+    },
+    "loading": "Loading...",
+    "loadError": "Unable to load data. Please try again!"
+  },
+  "footer": {
+    "brand": {
+      "title": "Wine Store",
+      "description": "Boutique wine store curating small-batch labels, cellar-aged classics and everyday bottles for unhurried evenings.",
+      "tagline": "Slowly curated. Thoughtfully poured."
+    },
+    "cellar": {
+      "title": "Cellar",
+      "shopAll": "Shop All Wines",
+      "newArrivals": "New Arrivals",
+      "limitedReleases": "Limited Releases",
+      "giftSets": "Gift Sets"
+    },
+    "visit": {
+      "title": "Visit Us",
+      "tastingRoom": "Tasting Room",
+      "privateEvents": "Private Events",
+      "wineClub": "Wine Club",
+      "bookTasting": "Book a Tasting"
+    },
+    "stayInTouch": {
+      "title": "Stay in Touch",
+      "ourStory": "Our Story",
+      "journal": "Journal & Pairings",
+      "contact": "Contact",
+      "faq": "FAQ & Shipping"
+    },
+    "info": {
+      "address": "12 Rue des Vignes, French Provence • +33 (0)1 23 45 67 89",
+      "hours": "Open Tue – Sun · 11:00 – 21:30",
+      "copyright": "Château Wine Store. All rights reserved."
+    }
+  },
+  "about": {
+    "hero": {
+      "estd": "estd 1970",
+      "title": "About Wine Store",
+      "subtitle": "We're more than a wine shop—we're your trusted partner in discovering exceptional wines from around the world. With expert curation, sustainable practices, and a passion for education, we make premium wine accessible to everyone.",
+      "stats": {
+        "happyCustomers": "Happy Customers",
+        "countries": "Countries",
+        "awards": "Awards",
+        "yearsExperience": "Years Experience"
+      }
+    },
+    "mission": {
+      "title": "What Drives Us",
+      "subtitle": "Our foundation is built on three core pillars that guide every decision we make",
+      "pillars": {
+        "mission": {
+          "title": "Our Mission",
+          "description": "To democratize access to exceptional wines by connecting passionate winemakers with discerning customers, while fostering education and appreciation for the art of winemaking."
+        },
+        "vision": {
+          "title": "Our Vision",
+          "description": "To become the world's most trusted wine destination, known for authenticity, expertise, and an unwavering commitment to quality and sustainability."
+        },
+        "purpose": {
+          "title": "Our Purpose",
+          "description": "To create meaningful connections through wine—celebrating culture, craftsmanship, and the moments that bring people together around a shared table."
+        }
+      }
+    },
+    "difference": {
+      "title": "What Makes Us",
+      "titleLine2": "Different",
+      "subtitle": "In a world of mass-market wine retailers, we stand apart through our unwavering commitment to quality, authenticity, and customer experience. Here's what sets us apart:",
+      "features": {
+        "0": "Expert sommeliers with 50+ years combined experience",
+        "1": "Direct relationships with 100+ vineyards worldwide",
+        "2": "Temperature-controlled storage for optimal preservation",
+        "3": "Exclusive access to limited-edition and rare vintages",
+        "4": "Complimentary wine education and tasting events",
+        "5": "Carbon-neutral shipping and eco-friendly packaging",
+        "6": "30-day satisfaction guarantee on all purchases",
+        "7": "Personalized recommendations powered by AI and expertise"
+      },
+      "badge": {
+        "number": "50+",
+        "text": "Years of Excellence"
+      }
+    },
+    "wineJourney": {
+      "title": "The Wine Journey",
+      "subtitle": "Follow a bottle's path from vineyard to your table",
+      "steps": {
+        "0": {
+          "title": "Vineyard Selection",
+          "description": "We personally visit and evaluate vineyards, assessing terroir, practices, and winemaker philosophy."
+        },
+        "1": {
+          "title": "Harvest & Production",
+          "description": "Monitoring the harvest season and production process to ensure quality standards are met."
+        },
+        "2": {
+          "title": "Quality Testing",
+          "description": "Our sommeliers conduct blind tastings and chemical analysis to verify authenticity and quality."
+        },
+        "3": {
+          "title": "Careful Storage",
+          "description": "Temperature-controlled facilities maintain optimal conditions at 55°F and 70% humidity."
+        },
+        "4": {
+          "title": "Carbon-Neutral Shipping",
+          "description": "Eco-friendly packaging and climate-controlled transport ensure wines arrive in perfect condition."
+        },
+        "5": {
+          "title": "Your Perfect Pour",
+          "description": "From our cellar to your glass, every bottle tells a story of passion and craftsmanship."
+        }
+      }
+    },
+    "certifications": {
+      "title": "Awards & Recognition",
+      "subtitle": "Trusted by industry leaders and certified for excellence",
+      "items": {
+        "0": {
+          "title": "Wine Spectator Award",
+          "year": "2020-2024",
+          "description": "Excellence in Wine Retail"
+        },
+        "1": {
+          "title": "Certified B Corporation",
+          "year": "2021",
+          "description": "Sustainable Business Practices"
+        },
+        "2": {
+          "title": "ISO 9001 Certified",
+          "year": "2019",
+          "description": "Quality Management System"
+        },
+        "3": {
+          "title": "Decanter Retailer Award",
+          "year": "2023",
+          "description": "Outstanding Customer Service"
+        }
+      },
+      "partners": {
+        "title": "Trusted By Industry Leaders",
+        "list": {
+          "0": "Wine Spectator",
+          "1": "Decanter Magazine",
+          "2": "James Suckling",
+          "3": "Robert Parker Wine Advocate",
+          "4": "Jancis Robinson",
+          "5": "Vinous"
+        }
+      }
+    },
+    "process": {
+      "title": "Our Process",
+      "subtitle": "From vineyard to your glass, every step is designed to deliver excellence",
+      "steps": {
+        "0": {
+          "title": "Discover & Curate",
+          "description": "Our sommeliers travel the world, visiting vineyards and tasting thousands of wines to find exceptional bottles worth sharing."
+        },
+        "1": {
+          "title": "Build Relationships",
+          "description": "We establish direct partnerships with winemakers, ensuring authenticity, fair pricing, and exclusive access to limited releases."
+        },
+        "2": {
+          "title": "Store & Preserve",
+          "description": "Every bottle is stored in our temperature-controlled facility, maintaining optimal conditions from vineyard to your door."
+        },
+        "3": {
+          "title": "Deliver Excellence",
+          "description": "We package with care, ship carbon-neutral, and provide expert guidance to ensure your wine experience is unforgettable."
+        }
+      }
+    },
+    "community": {
+      "title": "Building A",
+      "titleLine2": "Wine Community",
+      "subtitle": "We believe wine is best enjoyed together. That's why we've created a vibrant community of enthusiasts, collectors, and curious beginners who share a passion for exceptional wines.",
+      "initiatives": {
+        "0": {
+          "title": "Monthly Tastings",
+          "description": "Free wine tasting events featuring new arrivals and seasonal selections",
+          "stat": "500+ Events"
+        },
+        "1": {
+          "title": "Wine Education",
+          "description": "WSET-certified courses and masterclasses for all experience levels",
+          "stat": "2,000+ Students"
+        },
+        "2": {
+          "title": "Wine Club",
+          "description": "Exclusive member benefits, early access, and personalized curation",
+          "stat": "10,000+ Members"
+        },
+        "3": {
+          "title": "Vineyard Tours",
+          "description": "Curated trips to renowned wine regions with expert guides",
+          "stat": "50+ Tours/Year"
+        }
+      },
+      "cta": "Join Our Community",
+      "badge": {
+        "number": "50K+",
+        "text": "Community",
+        "textLine2": "Members"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked",
+      "titleLine2": "Questions",
+      "subtitle": "Everything you need to know about Wine Store",
+      "searchPlaceholder": "Search questions...",
+      "categories": {
+        "all": "All",
+        "products": "Products",
+        "shipping": "Shipping",
+        "quality": "Quality",
+        "services": "Services",
+        "policies": "Policies"
+      },
+      "results": {
+        "showing": "Showing",
+        "question": "question",
+        "questions": "questions"
+      },
+      "noResults": "No questions found. Try a different search or category.",
+      "contact": {
+        "text": "Still have questions?",
+        "link": "Contact our team"
+      },
+      "items": {
+        "0": {
+          "question": "What makes your wine selection unique?",
+          "answer": "We personally visit vineyards, taste thousands of wines annually, and only select bottles that meet our strict quality standards. Our sommeliers have direct relationships with over 100 winemakers worldwide, giving us access to exclusive and limited-edition wines you won't find elsewhere.",
+          "category": "products"
+        },
+        "1": {
+          "question": "How do you ensure wine authenticity?",
+          "answer": "Every bottle is sourced directly from vineyards or authorized distributors. We maintain detailed provenance records, store wines in temperature-controlled facilities, and provide certificates of authenticity for rare vintages. Our reputation depends on trust and transparency.",
+          "category": "quality"
+        },
+        "2": {
+          "question": "Do you offer wine education programs?",
+          "answer": "Yes! We offer WSET-certified courses, monthly masterclasses, virtual tastings, and one-on-one sommelier consultations. Whether you're a beginner or advanced enthusiast, we have programs tailored to your level.",
+          "category": "services"
+        },
+        "3": {
+          "question": "What is your return policy?",
+          "answer": "We offer a 30-day satisfaction guarantee. If you're not completely satisfied with your purchase, we'll provide a full refund or exchange. For damaged or defective bottles, we replace them immediately at no cost.",
+          "category": "policies"
+        },
+        "4": {
+          "question": "How do you handle shipping and storage?",
+          "answer": "All wines are stored at optimal temperature (55°F) and humidity. We use specialized packaging and ship via temperature-controlled carriers. Shipping is carbon-neutral, and we offer free shipping on orders over $200.",
+          "category": "shipping"
+        },
+        "5": {
+          "question": "Can I visit your physical store?",
+          "answer": "Absolutely! Our flagship store is open Mon-Sat 10am-8pm, Sunday 12pm-6pm. We offer complimentary tastings, and our sommeliers are always available for personalized recommendations. Book a private tasting session for a more intimate experience.",
+          "category": "services"
+        },
+        "6": {
+          "question": "Do you ship internationally?",
+          "answer": "Yes! We ship to over 30 countries worldwide. International shipping times vary by destination (typically 5-14 business days). All international orders include tracking and insurance.",
+          "category": "shipping"
+        },
+        "7": {
+          "question": "What payment methods do you accept?",
+          "answer": "We accept all major credit cards (Visa, Mastercard, Amex), PayPal, Apple Pay, Google Pay, and bank transfers for large orders. All transactions are secured with 256-bit SSL encryption.",
+          "category": "policies"
+        }
+      }
+    },
+    "contactCTA": {
+      "title": "Let's Connect",
+      "subtitle": "Whether you're looking for the perfect bottle, want to join our wine club, or simply have questions—we're here to help.",
+      "methods": {
+        "0": {
+          "title": "Call Us",
+          "info": "+1 (555) 123-4567",
+          "subtext": "Mon-Sat, 10am-8pm"
+        },
+        "1": {
+          "title": "Email Us",
+          "info": "hello@winestore.com",
+          "subtext": "We reply within 24 hours"
+        },
+        "2": {
+          "title": "Visit Us",
+          "info": "123 Wine Street, SF",
+          "subtext": "See our full collection"
+        }
+      },
+      "buttons": {
+        "browseWines": "Browse Wines",
+        "ourStory": "Our Story"
+      },
+      "socialProof": {
+        "customers": "✓ 50,000+ Happy Customers",
+        "rating": "✓ 4.9/5 Rating",
+        "service": "✓ Award-Winning Service"
+      }
+    }
+  },
+  "ourStory": {
+    "hero": {
+      "since": "Since 1970",
+      "title": "Our Story",
+      "subtitle": "A journey through generations of passion, craftsmanship, and an unwavering commitment to bringing the world's finest wines to your table.",
+      "scroll": "Scroll"
+    },
+    "philosophy": {
+      "title": "Our Philosophy",
+      "quote": "Every bottle\ntells a story",
+      "paragraphs": {
+        "0": "Founded in 1970, our wine store began with a simple belief: that exceptional wine should be accessible to everyone who appreciates the art of winemaking.",
+        "1": "We don't just sell wine—we curate experiences. Each bottle in our collection is carefully selected by our team of expert sommeliers who travel the world to discover hidden gems and establish relationships with passionate winemakers.",
+        "2": "From small family vineyards in Burgundy to innovative estates in Napa Valley, we seek out wines that embody authenticity, quality, and a true sense of place. Our mission is to connect you with these stories, one glass at a time."
+      },
+      "stats": {
+        "years": "Years",
+        "wines": "Wines",
+        "countries": "Countries"
+      }
+    },
+    "timeline": {
+      "title": "Our Journey",
+      "subtitle": "Five decades of passion, growth, and dedication to the art of wine",
+      "milestones": {
+        "0": {
+          "year": "1970",
+          "title": "The Beginning",
+          "description": "Founded by wine enthusiast Robert Chen in a small storefront in downtown. Started with just 50 carefully selected bottles from France and Italy."
+        },
+        "1": {
+          "year": "1985",
+          "title": "Expansion & Recognition",
+          "description": "Opened our second location and received the prestigious Wine Merchant of the Year award. Expanded collection to include New World wines."
+        },
+        "2": {
+          "year": "1998",
+          "title": "Digital Revolution",
+          "description": "Launched our online platform, making premium wines accessible nationwide. Introduced virtual tastings and sommelier consultations."
+        },
+        "3": {
+          "year": "2010",
+          "title": "Global Partnerships",
+          "description": "Established direct relationships with over 100 vineyards worldwide. Began exclusive import program for rare and limited-edition wines."
+        },
+        "4": {
+          "year": "2018",
+          "title": "Sustainability Initiative",
+          "description": "Committed to eco-friendly practices. Partnered exclusively with organic and biodynamic vineyards. Achieved carbon-neutral shipping."
+        },
+        "5": {
+          "year": "2024",
+          "title": "Innovation & Growth",
+          "description": "Launched AI-powered wine recommendation system. Opened flagship tasting room and wine education center. Serving 50,000+ wine lovers globally."
+        }
+      }
+    },
+    "heritage": {
+      "title": "Heritage &",
+      "titleLine2": "Excellence",
+      "subtitle": "What started as a passion project has grown into one of the most respected wine merchants in the industry. Our commitment to quality, authenticity, and customer education remains unchanged.",
+      "features": {
+        "0": {
+          "title": "Curated Selection",
+          "description": "Every wine is personally tasted and approved by our master sommeliers"
+        },
+        "1": {
+          "title": "Global Network",
+          "description": "Direct partnerships with over 100 vineyards across 30 countries"
+        },
+        "2": {
+          "title": "Award-Winning",
+          "description": "Recognized internationally for excellence in wine retail and education"
+        },
+        "3": {
+          "title": "Passion-Driven",
+          "description": "Three generations of family dedication to the art of winemaking"
+        }
+      }
+    },
+    "values": {
+      "title": "Our Core Values",
+      "subtitle": "The principles that guide everything we do",
+      "items": {
+        "0": {
+          "title": "Sustainability",
+          "description": "We prioritize eco-friendly practices and partner exclusively with vineyards committed to organic and biodynamic farming."
+        },
+        "1": {
+          "title": "Community",
+          "description": "Building lasting relationships with winemakers, customers, and wine enthusiasts through education and shared passion."
+        },
+        "2": {
+          "title": "Authenticity",
+          "description": "Every bottle is guaranteed authentic, properly stored, and sourced directly from trusted producers worldwide."
+        },
+        "3": {
+          "title": "Excellence",
+          "description": "Uncompromising standards in selection, service, and expertise. We settle for nothing less than extraordinary."
+        }
+      },
+      "quote": "Our mission is simple: to share the world's most exceptional wines with people who appreciate the artistry, tradition, and passion behind every bottle. We believe wine is more than a beverage—it's a bridge between cultures, a celebration of craftsmanship, and a catalyst for unforgettable moments.",
+      "quoteAuthor": "— Robert Chen, Founder"
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "subtitle": "Passionate experts dedicated to helping you discover your perfect wine",
+      "members": {
+        "0": {
+          "name": "Robert Chen",
+          "role": "Founder & CEO",
+          "bio": "Master Sommelier with 50+ years of experience. Pioneer in sustainable wine retail."
+        },
+        "1": {
+          "name": "Sophie Laurent",
+          "role": "Head Sommelier",
+          "bio": "Certified Wine Educator. Specializes in French and Italian wines."
+        },
+        "2": {
+          "name": "Marcus Williams",
+          "role": "Director of Operations",
+          "bio": "20 years in luxury retail. Expert in customer experience and logistics."
+        },
+        "3": {
+          "name": "Elena Rodriguez",
+          "role": "Wine Buyer",
+          "bio": "Travels globally to source rare vintages. Fluent in 5 languages."
+        },
+        "4": {
+          "name": "Liam O'Connor",
+          "role": "Marketing Manager",
+          "bio": "Specializes in digital marketing for luxury brands. Wine enthusiast."
+        }
+      }
+    },
+    "cta": {
+      "title": "Experience The Difference",
+      "subtitle": "Visit our flagship store or book a private tasting session with our expert sommeliers. Let us help you discover wines that will create lasting memories.",
+      "buttons": {
+        "explore": "Explore Our Collection",
+        "bookTasting": "Book a Tasting"
+      },
+      "contact": {
+        "visit": "Visit Us",
+        "contact": "Contact",
+        "hours": "Hours",
+        "address": "123 Wine Street\nSan Francisco, CA 94102",
+        "phone": "+1 (555) 123-4567",
+        "email": "hello@winestore.com",
+        "hoursText": "Mon-Sat: 10am - 8pm\nSunday: 12pm - 6pm"
+      }
+    }
+  },
+  "blog": {
+    "hero": {
+      "title": "WINE KNOWLEDGE",
+      "journal": "JOURNAL",
+      "subtitle": "Discover the art of enjoying wine through specialized articles deep\nfrom sommeliers and wine enthusiasts",
+      "cta": "EXPLORE NOW",
+      "scroll": "Scroll"
+    },
+    "categories": {
+      "title": "EXPLORE BY THEME",
+      "subtitle": "Choose the theme you are interested in",
+      "all": "ALL",
+      "tasting": "TASTING",
+      "pairing": "DISH COMBINATIONS",
+      "storage": "STORAGE",
+      "education": "EDUCATION",
+      "regions": "REGIONS"
+    },
+    "listing": {
+      "allPosts": "ALL POSTS",
+      "filteredPosts": "FILTERED POSTS",
+      "posts": "posts",
+      "description": "From the art of tasting to storage tips, each article is a journey of discovering the fascinating world of wine."
+    },
+    "newsletter": {
+      "title": "SUBSCRIBE TO NEW POSTS",
+      "subtitle": "Once a week",
+      "description": "Receive the latest posts about wine, tasting tips, and special offers right in your inbox.",
+      "placeholder": "ENTER YOUR EMAIL...",
+      "button": "SUBSCRIBE",
+      "privacy": "We respect your privacy"
+    },
+    "card": {
+      "readMore": "READ MORE"
+    },
+    "detail": {
+      "backToBlog": "BACK TO THE BLOG",
+      "share": "SHARE",
+      "relatedPosts": "RELATED POSTS",
+      "exploreMore": "Explore More",
+      "categoryLabels": {
+        "Knowledge": "Knowledge",
+        "Tasting": "Tasting",
+        "Food Pairing": "Food Pairing",
+        "Storage": "Storage",
+        "Regions": "Regions"
+      },
+      "content": {
+        "headings": {
+          "historyAndOrigins": "History and Origins",
+          "productionProcess": "Production Process",
+          "howToEnjoy": "How to Enjoy",
+          "expertTips": "Expert Tips",
+          "conclusion": "Conclusion"
+        },
+        "intro": "Wine is more than just a drink – it is the crystallization of history, climate, soil and human hands. Every bottle of wine is a story written in time, a moment of intersection between art and science. When understanding wine more deeply, you will discover a world of rich, delicate and filling flavors depth, where every drop of wine carries within its soul the land where they were born.",
+        "historyParagraph1": "The journey of wine began more than 8,000 years ago in the region Caucasus – what is now Georgia. From there, wine spread Ancient Egypt, Greece, then the Roman Empire – civilizations were see the echo as a symbol of religion, philosophy and revival prosperous. As Rome expanded its territory, the art of making wine spread throughout Europe, especially France, Italy, Spain and Portugal – these The country became a pillar of the wine industry.",
+        "historyParagraph2": "Each wine-growing region has its own unique climate characteristics: Bordeaux is rich and complex, Burgundy is delicate and gentle, Napa Valley is strong and full-bodied. This diversity creates thousands of different wine styles, forming a rich wine culture worldwide.",
+        "productionParagraph1": "Behind every bottle of wine is a meticulous and passionate process. It all starts with vineyard care – where grapevines absorb sunlight, mother soil, and local climate. When harvest season arrives, each bunch of grapes is carefully selected to ensure the best quality.",
+        "productionParagraph2": "Then, the grapes are crushed and undergo fermentation. For red wine, the grapes are kept with their skins to create color and tannin structure. For white wine, the skins are usually removed to maintain lightness and freshness. Once fermentation is complete, the wine will continue to be aged in oak barrels or steel tanks depending on the desired style.",
+        "productionParagraph3": "Oak barrels impart flavors of vanilla, caramel, and light smoke; while steel tanks help preserve natural aromas and freshness. Finally, the wine is filtered, blended (if necessary), and bottled. Some types need to rest for many years before they are ready to be opened.",
+        "enjoyParagraph1": "To fully enjoy wine, you don't simply pour it then drink. The art of wine appreciation includes four important elements: temperature, wine glass, how to swirl the glass and food pairing. Red wine is usually best at 16–18°C, white wine at 8–12°C and sparkling wine needs deeper cooling to maintain freshness and bubbles dynamic.",
+        "enjoyParagraph2": "The shape of the glass also strongly affects the taste: the glass is shaped like a gourd Add red wine to help the aroma spread; narrow-mouthed wine glasses Effervescent helps keep the foam longer. When you rotate the glass, you help release the scent molecules, opening up a more complex flavor layer before being brought up nose and mouth.",
+        "enjoyParagraph3": "Wine pairing is the art of balancing flavors Taste: red wine goes well with red meat, white wine goes well with seafood and fish light dishes; Sweet wine goes great with dessert or spicy food great. When combined correctly, you will experience an explosion of flavor full of surprises.",
+        "expertTip": "Let the wine breathe in the decanter for 15-30 minutes for young wines, and 1–2 hours for older red wines. This process helps the wine to be exposed to oxygen, softening the tannins and opening up refined flavors. For premium white wines, breathing also gives rich aroma and better texture.",
+        "conclusionParagraph": "Discovering wine is an inspiring journey – where you are The more you learn, the deeper you want to learn. Every land, every house wine making and each vintage brings a new story. When you When you open a bottle of wine, you are opening up a whole world of culture and history history and quintessence of humanity. Enjoy it in your own way you, because it is your personal feelings that create a valuable experience best."
+      }
+    },
+    "posts": {
+      "0": {
+        "title": "How to Distinguish Red and White Wine",
+        "excerpt": "Learn the basic differences between red and white wine, from production methods to characteristic flavors.",
+        "author": "Sommelier Minh",
+        "date": "15/11/2025",
+        "readTime": "5 min read",
+        "tags": ["red wine", "white wine", "wine basics"]
+      },
+      "1": {
+        "title": "The Art of Wine Tasting Like a Pro",
+        "excerpt": "Discover 5 essential steps to properly enjoy wine: observe, smell, taste, evaluate, and savor.",
+        "author": "Sommelier Linh",
+        "date": "12/11/2025",
+        "readTime": "7 min read",
+        "tags": ["wine tasting", "sommelier tips", "wine appreciation"]
+      },
+      "2": {
+        "title": "Wine and Food Pairing: A Complete Guide",
+        "excerpt": "Tips for pairing wine with dishes to create the perfect culinary experience.",
+        "author": "Chef Hùng",
+        "date": "10/11/2025",
+        "readTime": "8 min read",
+        "tags": ["wine pairing", "food and wine", "culinary"]
+      },
+      "3": {
+        "title": "How to Properly Store Wine at Home",
+        "excerpt": "A detailed guide on ideal temperature, humidity, and location for long-term wine storage.",
+        "author": "Sommelier Minh",
+        "date": "08/11/2025",
+        "readTime": "6 min read",
+        "tags": ["wine storage", "wine cellar", "preservation"]
+      },
+      "4": {
+        "title": "Exploring France's Famous Wine Regions",
+        "excerpt": "A journey through Bordeaux, Burgundy, Champagne, and the most renowned wine regions of France.",
+        "author": "Travel Wine",
+        "date": "05/11/2025",
+        "readTime": "10 min read",
+        "tags": ["french wine", "wine regions", "bordeaux", "burgundy"]
+      },
+      "5": {
+        "title": "Italian Wine: Unique Characteristics and Style",
+        "excerpt": "Learn about the diversity of Italian wines from Tuscany to Piedmont, Veneto, and Sicily.",
+        "author": "Wine Explorer",
+        "date": "03/11/2025",
+        "readTime": "9 min read",
+        "tags": ["italian wine", "tuscany", "wine regions"]
+      },
+      "6": {
+        "title": "Ideal Wine Serving Temperature",
+        "excerpt": "A detailed guide on optimal serving temperatures for different types of wine to fully enjoy their flavors.",
+        "author": "Sommelier Linh",
+        "date": "01/11/2025",
+        "readTime": "5 min read",
+        "tags": ["serving temperature", "wine tips", "wine service"]
+      },
+      "7": {
+        "title": "How to Choose the Right Wine Glass",
+        "excerpt": "The importance of selecting the correct glass and its impact on the wine-tasting experience.",
+        "author": "Sommelier Minh",
+        "date": "28/10/2025",
+        "readTime": "6 min read",
+        "tags": ["wine glasses", "glassware", "wine accessories"]
+      },
+      "8": {
+        "title": "Organic and Biodynamic Wine: The New Trend",
+        "excerpt": "Learn about organic and biodynamic wines, sustainable production methods, and health benefits.",
+        "author": "Green Wine",
+        "date": "25/10/2025",
+        "readTime": "7 min read",
+        "tags": ["organic wine", "biodynamic", "sustainable"]
+      }
+    }
+  }
+}
+

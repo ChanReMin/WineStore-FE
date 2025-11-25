@@ -14,6 +14,7 @@ import {
   FileText,
   DollarSign,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import OrderStatusBadge from "./OrderStatusBadge";
 import PaymentStatusBadge from "./PaymentStatusBadge";
@@ -30,6 +31,8 @@ export default function OrderDetailModal({
   order,
   onUpdateStatus,
 }: OrderDetailModalProps) {
+  const t = useTranslations("seller.orders");
+  
   if (!order) return null;
 
   const formatPrice = (price: number) => {
@@ -111,7 +114,7 @@ export default function OrderDetailModal({
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-[#3b4417]">
-                      Chi tiết đơn hàng
+                      {t("detail.title")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">{order.order_code}</p>
                   </div>
@@ -130,7 +133,7 @@ export default function OrderDetailModal({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                     <p className="text-sm text-[#7a8451] mb-2 font-medium">
-                      Trạng thái đơn hàng
+                      {t("detail.orderStatus")}
                     </p>
                     <OrderStatusBadge
                       status={order.status}
@@ -139,7 +142,7 @@ export default function OrderDetailModal({
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                     <p className="text-sm text-[#7a8451] mb-2 font-medium">
-                      Trạng thái thanh toán
+                      {t("detail.paymentStatus")}
                     </p>
                     <PaymentStatusBadge status={order.payment_status} />
                   </div>
@@ -149,7 +152,7 @@ export default function OrderDetailModal({
                 <div>
                   <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                     <User className="w-5 h-5" />
-                    Thông tin khách hàng
+                    {t("detail.customerInfo")}
                   </h3>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-3">
                     <div className="flex items-center gap-3">
@@ -179,7 +182,7 @@ export default function OrderDetailModal({
                 <div>
                   <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                     <MapPin className="w-5 h-5" />
-                    Địa chỉ giao hàng
+                    {t("detail.shippingAddress")}
                   </h3>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-2">
                     <p className="font-medium text-[#3b4417]">
@@ -200,7 +203,7 @@ export default function OrderDetailModal({
                 <div>
                   <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
                     <Package className="w-5 h-5" />
-                    Sản phẩm ({orderItems.length})
+                    {t("detail.products")} ({orderItems.length})
                   </h3>
                   <div className="border border-[#e8e6dc] rounded-lg overflow-hidden">
                     <div className="overflow-x-auto">
@@ -208,16 +211,16 @@ export default function OrderDetailModal({
                         <thead className="bg-[#f5f3e8]">
                           <tr>
                             <th className="text-left p-4 text-sm font-semibold text-[#3b4417]">
-                              Sản phẩm
+                              {t("detail.product")}
                             </th>
                             <th className="text-center p-4 text-sm font-semibold text-[#3b4417]">
-                              Số lượng
+                              {t("detail.quantity")}
                             </th>
                             <th className="text-right p-4 text-sm font-semibold text-[#3b4417]">
-                              Đơn giá
+                              {t("detail.unitPrice")}
                             </th>
                             <th className="text-right p-4 text-sm font-semibold text-[#3b4417]">
-                              Thành tiền
+                              {t("detail.total")}
                             </th>
                           </tr>
                         </thead>
@@ -263,7 +266,7 @@ export default function OrderDetailModal({
                     {/* Order Summary */}
                     <div className="bg-[#fdfbf5] border-t border-[#e8e6dc] p-4 space-y-2">
                       <div className="flex justify-between text-[#3b4417]">
-                        <span>Tạm tính:</span>
+                        <span>{t("detail.subtotal")}:</span>
                         <span className="font-medium">
                           {formatPrice(subtotal)}
                         </span>
@@ -272,7 +275,7 @@ export default function OrderDetailModal({
                         <div className="flex justify-between text-[#3b4417]">
                           <span className="flex items-center gap-2">
                             <Truck className="w-4 h-4" />
-                            Phí vận chuyển:
+                            {t("detail.shippingFee")}:
                           </span>
                           <span className="font-medium">
                             {formatPrice(shippingFee)}
@@ -281,14 +284,14 @@ export default function OrderDetailModal({
                       )}
                       {discountAmount > 0 && (
                         <div className="flex justify-between text-emerald-600">
-                          <span>Giảm giá:</span>
+                          <span>{t("detail.discount")}:</span>
                           <span className="font-medium">
                             -{formatPrice(discountAmount)}
                           </span>
                         </div>
                       )}
                       <div className="flex justify-between text-lg font-bold text-[#3b4417] pt-2 border-t border-[#e8e6dc]">
-                        <span>Tổng cộng:</span>
+                        <span>{t("detail.total")}:</span>
                         <span className="text-[#d4af37]">
                           {formatPrice(order.final_amount)}
                         </span>
@@ -303,18 +306,18 @@ export default function OrderDetailModal({
                     <div className="flex items-center gap-2 mb-2">
                       <CreditCard className="w-4 h-4 text-[#7a8451]" />
                       <span className="text-sm font-medium text-[#7a8451]">
-                        Phương thức thanh toán
+                        {t("detail.paymentMethod")}
                       </span>
                     </div>
                     <p className="text-[#3b4417] font-medium">
-                      {order.payment_method || "COD - Thanh toán khi nhận hàng"}
+                      {order.payment_method || t("detail.cod")}
                     </p>
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Calendar className="w-4 h-4 text-[#7a8451]" />
                       <span className="text-sm font-medium text-[#7a8451]">
-                        Ngày đặt hàng
+                        {t("detail.orderDate")}
                       </span>
                     </div>
                     <p className="text-[#3b4417] font-medium">
@@ -343,7 +346,7 @@ export default function OrderDetailModal({
                   onClick={onClose}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium"
                 >
-                  Đóng
+                  {t("detail.close")}
                 </button>
                 {onUpdateStatus &&
                   order.status !== 4 &&
@@ -355,7 +358,7 @@ export default function OrderDetailModal({
                       }}
                       className="px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium"
                     >
-                      Cập nhật trạng thái
+                      {t("detail.updateStatus")}
                     </button>
                   )}
               </div>

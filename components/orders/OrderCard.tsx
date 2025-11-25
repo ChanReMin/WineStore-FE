@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import type { Order } from "@/types/order";
 import { formatCurrency } from "@/lib/utils";
 
@@ -31,6 +32,8 @@ const getPaymentStatusColor = (status: number) => {
 };
 
 export default function OrderCard({ order, index }: OrderCardProps) {
+  const t = useTranslations("orders.card");
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -78,12 +81,12 @@ export default function OrderCard({ order, index }: OrderCardProps) {
       {/* Order Info */}
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-neutral-600">Số sản phẩm:</span>
-          <span className="font-medium text-neutral-900">{order.items_count} sản phẩm</span>
+          <span className="text-neutral-600">{t("itemsCount")}</span>
+          <span className="font-medium text-neutral-900">{order.items_count} {t("products")}</span>
         </div>
         
         <div className="flex justify-between text-sm">
-          <span className="text-neutral-600">Tổng tiền:</span>
+          <span className="text-neutral-600">{t("total")}</span>
           <span className="font-medium text-neutral-900">
             {formatCurrency(order.total_amount)}
           </span>
@@ -91,7 +94,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         
         {order.discount_amount > 0 && (
           <div className="flex justify-between text-sm">
-            <span className="text-neutral-600">Giảm giá:</span>
+            <span className="text-neutral-600">{t("discount")}</span>
             <span className="font-medium text-green-600">
               -{formatCurrency(order.discount_amount)}
             </span>
@@ -99,7 +102,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         )}
         
         <div className="flex justify-between border-t border-neutral-200 pt-2">
-          <span className="font-medium text-neutral-900">Thành tiền:</span>
+          <span className="font-medium text-neutral-900">{t("finalAmount")}</span>
           <span className="text-lg font-bold text-[#33391d]">
             {formatCurrency(order.final_amount)}
           </span>
@@ -150,7 +153,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-1 text-sm font-medium text-[#33391d] transition-colors hover:text-[#5a6332]"
           >
-            Xem chi tiết
+            {t("viewDetail")}
             <svg
               className="h-4 w-4"
               fill="none"
