@@ -5,17 +5,30 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useCartStore } from "@/stores/cartStore";
+import { useAuth } from "@/hooks/useAuth";
+import { Trash2, Plus, Minus } from "lucide-react";
+import { toast } from "react-toastify";
+import Image from "next/image";
 
 export default function CartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartItems] = useState<any[]>([]);
   const [mounted, setMounted] = useState(false);
   const t = useTranslations('cart');
+  const { isAuthenticated } = useAuth();
+  const { cart, fetchCart, updateCartItem, removeCartItem, isLoading } = useCartStore();
 
   // Ensure component is mounted (client-side only)
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Fetch cart when authenticated and drawer opens
+  useEffect(() => {
+    if (isAuthenticated && isOpen && !cart) {
+      fetchCart();
+    }
+  }, [isAuthenticated, isOpen, cart, fetchCart]);
 
   // Prevent body scroll when cart is open
   useEffect(() => {
@@ -29,7 +42,26 @@ export default function CartDropdown() {
     };
   }, [isOpen]);
 
-  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const handleUpdateQuantity = async (cartItemId: number, newQuantity: number) => {
+    try {
+      await updateCartItem(cartItemId, newQuantity);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Không thể cập nhật");
+    }
+  };
+
+  const handleRemoveItem = async (cartItemId: number) => {
+    try {
+      await removeCartItem(cartItemId);
+      toast.success("Đã xóa sản phẩm khỏi giỏ hàng");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Không thể xóa");
+    }
+  };
+
+  const cartItems = cart?.items || [];
+  const totalItems = cart?.summary.total_quantity || 0;
+  const subtotal = cart?.summary.subtotal || 0;
 
   return (
     <>
@@ -148,7 +180,7 @@ export default function CartDropdown() {
               </div>
 
               {/* Cart Content */}
-              <div className="flex h-[calc(100%-180px)] flex-col">
+              <div className="flex h-[calc(100%-240px)] flex-col">
                 {cartItems.length === 0 ? (
                   /* Empty State */
                   <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
@@ -242,37 +274,204 @@ export default function CartDropdown() {
                     </motion.div>
                   </div>
                 ) : (
-                  /* Cart Items - For future implementation */
-                  <div className="flex-1 overflow-y-auto p-6">
-                    {/* Cart items will go here */}
+                  /* Cart Items */
+                  <div className="flex-1 overflow-y-auto p-4">
+                    <div className="space-y-3 pb-8">
+                      {cartItems.map((item, index) => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="group relative flex gap-3 rounded-lg border border-neutral-200 bg-white p-3 shadow-sm transition-all hover:border-[#33391d]/30 hover:shadow-md"
+                        >
+                          {/* Remove Button - Top Right */}
+                          <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => handleRemoveItem(item.id)}
+                            disabled={isLoading}
+                            className="absolute right-2 top-2 z-10 rounded-full bg-white p-1 text-neutral-400 shadow-sm transition-colors hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                            title={t('removeItem')}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </motion.button>
+
+                          {/* Product Image */}
+                          <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-md bg-neutral-100">
+                            <Image
+                              src={item.product.image}
+                              alt={item.product.name}
+                              fill
+                              sizes="96px"
+                              className="object-cover transition-transform group-hover:scale-105"
+                            />
+                          </div>
+
+                          {/* Product Info */}
+                          <div className="flex min-w-0 flex-1 flex-col pr-6">
+                            {/* Product Name */}
+                            <h4 className="mb-1.5 line-clamp-2 text-sm font-semibold leading-tight text-[#33391d]">
+                              {item.product.name}
+                            </h4>
+
+                            {/* SKU if available */}
+                            {item.product.sku && (
+                              <p className="mb-1 text-xs text-neutral-400">
+                                SKU: {item.product.sku}
+                              </p>
+                            )}
+
+                            {/* Unit Price */}
+                            <p className="mb-2 text-xs font-medium text-neutral-600">
+                              {item.unit_price.toLocaleString("vi-VN")}₫ {t('perBottle')}
+                            </p>
+
+                            {/* Quantity Controls & Line Total */}
+                            <div className="mt-auto flex items-center justify-between gap-2">
+                              {/* Quantity Selector */}
+                              <div className="flex items-center gap-1 rounded-md border border-neutral-300 bg-white shadow-sm">
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                                  disabled={item.quantity <= 1 || isLoading}
+                                  className="p-1.5 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
+                                  title={t('decreaseQuantity')}
+                                >
+                                  <Minus className="h-3 w-3" />
+                                </motion.button>
+
+                                <span className="min-w-[2rem] text-center text-sm font-semibold text-neutral-900">
+                                  {item.quantity}
+                                </span>
+
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.9 }}
+                                  onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                                  disabled={item.quantity >= item.product.max_quantity || isLoading}
+                                  className="p-1.5 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
+                                  title={t('increaseQuantity')}
+                                >
+                                  <Plus className="h-3 w-3" />
+                                </motion.button>
+                              </div>
+
+                              {/* Line Total */}
+                              <div className="text-right">
+                                <p className="text-sm font-bold text-[#33391d]">
+                                  {item.line_total.toLocaleString("vi-VN")}₫
+                                </p>
+                                {item.quantity > 1 && (
+                                  <p className="text-xs text-neutral-500">
+                                    {item.quantity} × {item.unit_price.toLocaleString("vi-VN")}₫
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Stock Warning */}
+                            {item.quantity >= item.product.max_quantity && (
+                              <p className="mt-1 text-xs text-amber-600">
+                                {t('maxQuantityReached')}
+                              </p>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    {/* Continue Shopping Link */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="mt-4 pb-4 text-center"
+                    >
+                      <Link
+                        href="/shop"
+                        onClick={() => setIsOpen(false)}
+                        className="inline-flex items-center gap-2 text-sm text-neutral-600 transition-colors hover:text-[#33391d]"
+                      >
+                        <svg
+                          className="h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                          />
+                        </svg>
+                        {t('continueShopping')}
+                      </Link>
+                    </motion.div>
                   </div>
                 )}
               </div>
 
               {/* Footer - Checkout Section */}
               {cartItems.length > 0 && (
-                <div className="absolute bottom-0 left-0 right-0 border-t border-neutral-200/60 bg-white/60 p-6 backdrop-blur-sm">
-                  <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm uppercase tracking-widest text-neutral-600">
-                      {t('subtotal')}
-                    </span>
-                    <span className="text-xl font-semibold text-[#33391d]">
-                      $0.00
-                    </span>
+                <div className="absolute bottom-0 left-0 right-0 border-t-2 border-neutral-200 bg-white p-4 shadow-2xl">
+                  {/* Summary */}
+                  <div className="mb-3 space-y-1.5">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-neutral-600">{t('subtotal')} ({totalItems} {t('items')})</span>
+                      <span className="font-semibold text-neutral-900">
+                        {subtotal.toLocaleString("vi-VN")}₫
+                      </span>
+                    </div>
+                    {cart && cart.summary.estimated_shipping > 0 && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-neutral-600">{t('shipping')}</span>
+                        <span className="font-semibold text-neutral-900">
+                          {cart.summary.estimated_shipping.toLocaleString("vi-VN")}₫
+                        </span>
+                      </div>
+                    )}
+                    {cart && cart.summary.estimated_shipping === 0 && subtotal > 0 && (
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-green-600">{t('freeShipping')}</span>
+                        <span className="font-semibold text-green-600">0₫</span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between border-t border-neutral-200 pt-2">
+                      <span className="text-base font-bold uppercase tracking-wide text-neutral-900">
+                        {t('total')}
+                      </span>
+                      <span className="text-2xl font-bold text-[#33391d]">
+                        {(cart?.summary.estimated_total || 0).toLocaleString("vi-VN")}₫
+                      </span>
+                    </div>
                   </div>
 
+                  {/* Checkout Button */}
                   <motion.button
                     type="button"
-                    className="w-full border border-[#33391d] bg-[#33391d] py-3.5 text-[13px] uppercase tracking-[0.2em] text-amber-50 transition-all hover:bg-[#2a2f18]"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setIsOpen(false);
+                      // Navigate to checkout
+                    }}
+                    className="mb-2 w-full bg-[#33391d] py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#2a2f18] hover:shadow-lg"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                   >
-                    {t('checkout')}
+                    {t('checkoutNow')}
                   </motion.button>
 
-                  <p className="mt-3 text-center text-xs text-neutral-500">
-                    {t('shippingNote')}
-                  </p>
+                  {/* View Cart Link */}
+                  <Link
+                    href="/cart"
+                    onClick={() => setIsOpen(false)}
+                    className="block w-full border-2 border-[#33391d] bg-white py-3 text-center text-sm font-semibold uppercase tracking-wider text-[#33391d] transition-all hover:bg-amber-50"
+                  >
+                    {t('viewCart')}
+                  </Link>
                 </div>
               )}
 

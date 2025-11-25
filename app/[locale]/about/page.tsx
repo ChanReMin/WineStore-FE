@@ -10,6 +10,7 @@ import Process from "@/components/about/Process";
 import Community from "@/components/about/Community";
 import FAQ from "@/components/about/FAQ";
 import ContactCTA from "@/components/about/ContactCTA";
+import ScrollToTopButton from "@/components/homepage/ScrollToTopButton";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function AboutPage() {
       <Community />
       <FAQ />
       <ContactCTA />
+      <ScrollToTopButton />
     </main>
   );
 }

@@ -8,6 +8,7 @@ import { MOCK_PRODUCT_DETAIL } from "@/lib/mockData";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -23,7 +24,6 @@ export default function ProductDetailPage() {
   const productId = params.id as string;      // "12"
   const productSlug = params.slug as string;  // "chateau-margaux-2015"
   
-  const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "storage"
   >("description");
@@ -481,51 +481,20 @@ export default function ProductDetailPage() {
               transition={{ delay: 1.0 }}
               className="space-y-6 border-t border-neutral-200/50 pt-8"
             >
-              {/* Quantity Selector - Minimal & Elegant */}
-              <div className="space-y-3">
-                <label className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500">
-                  {t("quantity")}
-                </label>
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center border border-neutral-300 bg-white">
-                    <motion.button
-                      whileHover={{ backgroundColor: "#f5f5f4" }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="px-6 py-3 text-lg text-neutral-600 transition-colors"
-                    >
-                      −
-                    </motion.button>
-                    <span className="min-w-[60px] text-center text-lg font-medium text-neutral-900">
-                      {quantity}
-                    </span>
-                    <motion.button
-                      whileHover={{ backgroundColor: "#f5f5f4" }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="px-6 py-3 text-lg text-neutral-600 transition-colors"
-                    >
-                      +
-                    </motion.button>
-                  </div>
-                  <span className="text-sm text-neutral-400">
-                    {product.inventory.total_quantity} {t("available")}
-                  </span>
-                </div>
-              </div>
+
 
               {/* Premium Action Buttons */}
               {product.inventory.available ? (
                 <div className="space-y-4">
-                  {/* Primary CTA */}
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className="group relative w-full overflow-hidden bg-[#8b7355] py-5 text-sm font-medium uppercase tracking-[0.2em] text-white transition-all hover:bg-[#6d5a43]"
-                  >
-                    <span className="relative z-10">{t("addToCart")}</span>
-                    <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-                  </motion.button>
+                  {/* Add to Cart with Quantity */}
+                  <AddToCartButton
+                    productId={product.id}
+                    productName={product.name}
+                    productSlug={product.name.toLowerCase().replace(/\s+/g, "-")}
+                    productImage={product.images[0]}
+                    productPrice={product.price}
+                    maxQuantity={product.inventory.total_quantity}
+                  />
 
                   {/* Secondary Actions */}
                   <div className="grid grid-cols-2 gap-4">

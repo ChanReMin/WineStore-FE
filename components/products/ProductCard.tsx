@@ -6,6 +6,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { ShoppingBag, MapPin, Star, Sparkles } from "lucide-react";
 import { toast } from "react-toastify";
+import { useCartStore } from "@/stores/cartStore";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface Product {
   id: number;
@@ -29,9 +32,36 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, index }: ProductCardProps) {
   const t = useTranslations("shop.product");
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+  const { addToCart } = useCartStore();
   const discount = Math.round(
     ((product.base_price - product.price) / product.base_price) * 100
   );
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isAuthenticated) {
+      toast.info("Vui lòng đăng nhập để thêm vào giỏ hàng");
+      router.push("/login");
+      return;
+    }
+
+    try {
+      await addToCart(product.id, 1, {
+        name: product.name,
+        slug: product.slug,
+        image: product.thumbnail,
+        price: product.price,
+        max_quantity: 99,
+      });
+      toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng");
+    }
+  };
 
   return (
     <Link href={`/shop/${product.id}/${product.slug}`}>
@@ -67,23 +97,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             </div>
           </motion.div>
         )}
-
-        {/* Premium Badge for high-value items */}
-        {product.price > 1000000 && (
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: index * 0.08 + 0.4 }}
-            className="absolute right-4 top-4 z-20"
-          >
-            <div className="flex items-center gap-1 bg-linear-to-r from-[#d4af37] to-[#f4e5a1] px-3 py-1.5 shadow-lg">
-              <Sparkles size={12} className="text-[#3b4417]" />
-              <span className="text-[9px] tracking-[0.2em] text-[#3b4417] uppercase font-semibold">
-                {t("premium")}
-              </span>
-            </div>
-          </motion.div>
-        )}
+        
 
         {/* Image Container */}
         <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">
@@ -109,11 +123,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
           {/* Quick Add Button */}
           <motion.button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              toast.success(` "${product.name}" added to cart!`);
-            }}
+            onClick={handleAddToCart}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="
@@ -141,17 +151,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               {product.brand.name}
             </p>
             {/* Rating Stars */}
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={11}
-                  fill={i < 4 ? "#d4af37" : "none"}
-                  stroke="#d4af37"
-                  strokeWidth={1.5}
-                />
-              ))}
-            </div>
           </div>
 
           {/* Decorative Divider */}
