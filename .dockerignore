@@ -21,7 +21,6 @@ build
 
 # Local env files
 .env*.local
-.env
 
 # Vercel
 .vercel
