@@ -6,6 +6,10 @@ const nextConfig = {
   // Tắt export mode để support dynamic routes [id]
   // output: 'export',
   // distDir: 'dist',
+
+  // Enable standalone output for Docker
+  output: 'standalone',
+
   images: {
     unoptimized: true,
     remotePatterns: [
