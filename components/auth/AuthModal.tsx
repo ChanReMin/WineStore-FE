@@ -81,17 +81,24 @@ export default function AuthModal({
 
       // Only close modal and reset form if successful
       if (result?.success) {
-        onClose();
-        setFormData({
-          email: "",
-          password: "",
-          confirm_password: "",
-          first_name: "",
-          last_name: "",
-          phone_number: "",
-          date_of_birth: "",
-          gender: "1",
-        });
+        if (mode === "login") {
+          // Close modal after successful login
+          onClose();
+        } else {
+          // Switch to login mode after successful registration
+          setMode("login");
+          // Keep email but clear other fields
+          setFormData({
+            email: formData.email,
+            password: "",
+            confirm_password: "",
+            first_name: "",
+            last_name: "",
+            phone_number: "",
+            date_of_birth: "",
+            gender: "1",
+          });
+        }
       }
     } catch (error: any) {
       // Error toast is already handled in useAuth hook

@@ -35,8 +35,8 @@
   },
   "cart": {
     "title": "Giỏ hàng",
-    "item": "Sản phẩm",
-    "items": "Sản phẩm",
+    "item": "sản phẩm",
+    "items": "sản phẩm",
     "empty": {
       "title": "Giỏ hàng trống",
       "description": "Thêm một số loại rượu vang để bắt đầu",
@@ -44,8 +44,19 @@
       "button": "Duyệt rượu vang"
     },
     "subtotal": "Tạm tính",
+    "shipping": "Phí vận chuyển",
+    "freeShipping": "Miễn phí vận chuyển",
+    "total": "Tổng cộng",
+    "checkoutNow": "Thanh toán ngay",
+    "viewCart": "Xem giỏ hàng",
+    "continueShopping": "Tiếp tục mua sắm",
     "checkout": "Tiến hành thanh toán",
-    "shippingNote": "Phí vận chuyển & thuế được tính khi thanh toán"
+    "shippingNote": "Phí vận chuyển & thuế được tính khi thanh toán",
+    "perBottle": "/ chai",
+    "removeItem": "Xóa sản phẩm",
+    "decreaseQuantity": "Giảm số lượng",
+    "increaseQuantity": "Tăng số lượng",
+    "maxQuantityReached": "Đã đạt số lượng tối đa"
   },
   "home": {
     "hero": {

@@ -38,8 +38,8 @@ export const useAuth = () => {
       const response = await authService.register(data);
       
       if (response.success) {
-        toast.success(response.message || "Registration successful! Please log in.");
-        router.push("/login");
+        toast.success(response.message || "Đăng ký thành công! Vui lòng đăng nhập.");
+        // Don't redirect, let the modal handle switching to login mode
         return { success: true };
       }
     } catch (error: any) {

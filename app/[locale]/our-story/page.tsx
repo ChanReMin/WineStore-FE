@@ -8,6 +8,7 @@ import Heritage from "@/components/our-story/Heritage";
 import Values from "@/components/our-story/Values";
 import Team from "@/components/our-story/Team";
 import CallToAction from "@/components/our-story/CallToAction";
+import ScrollToTopButton from "@/components/homepage/ScrollToTopButton";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function OurStoryPage() {
       <Values />
       <Team />
       <CallToAction />
+      <ScrollToTopButton />
     </main>
   );
 }

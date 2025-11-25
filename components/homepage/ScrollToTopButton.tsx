@@ -54,7 +54,7 @@ export default function ScrollToTopButton() {
           transition={{ duration: 0.3, ease: "easeOut" }}
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          className="fixed bottom-8 right-8 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#3b4417] text-white shadow-xl shadow-black/30 hover:shadow-[0_0_24px_rgba(59,68,23,0.6)]"
+          className="fixed bottom-8 left-8 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#3b4417] text-white shadow-xl shadow-black/30 hover:shadow-[0_0_24px_rgba(59,68,23,0.6)]"
         >
           <ChevronUp size={22} />
         </motion.button>

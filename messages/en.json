@@ -35,8 +35,8 @@
   },
   "cart": {
     "title": "Cart",
-    "item": "Item",
-    "items": "Items",
+    "item": "item",
+    "items": "items",
     "empty": {
       "title": "Your Cart is Empty",
       "description": "Add some wines to get started",
@@ -44,8 +44,19 @@
       "button": "Browse Wines"
     },
     "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "freeShipping": "Free Shipping",
+    "total": "Total",
+    "checkoutNow": "Checkout Now",
+    "viewCart": "View Cart",
+    "continueShopping": "Continue Shopping",
     "checkout": "Proceed to Checkout",
-    "shippingNote": "Shipping & taxes calculated at checkout"
+    "shippingNote": "Shipping & taxes calculated at checkout",
+    "perBottle": "/ bottle",
+    "removeItem": "Remove item",
+    "decreaseQuantity": "Decrease quantity",
+    "increaseQuantity": "Increase quantity",
+    "maxQuantityReached": "Maximum quantity reached"
   },
   "home": {
     "hero": {

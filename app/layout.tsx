@@ -1,12 +1,8 @@
-// Root layout - redirect to locale-specific layout
+// Root layout - minimal wrapper that redirects to locale
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // This is just a wrapper, the actual layout is in [locale]/layout.tsx
   return children;
 }
-
-// Suppress the missing html/body warning since we have them in [locale]/layout.tsx
-export const dynamic = 'force-dynamic';
