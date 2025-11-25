@@ -1,7 +1,7 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { RefreshTokenResponse } from "@/types/auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
 // Tạo axios instance
 export const axiosInstance = axios.create({
