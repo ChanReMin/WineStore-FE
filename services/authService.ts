@@ -10,7 +10,7 @@ export const authService = {
   // Đăng ký
   register: async (data: RegisterRequest) => {
     const response = await axiosInstance.post<LoginResponse>(
-      "/auth/register",
+      "/api/v1/auth/register",
       data
     );
     return response.data;
@@ -19,7 +19,7 @@ export const authService = {
   // Đăng nhập
   login: async (data: LoginRequest) => {
     const response = await axiosInstance.post<LoginResponse>(
-      "/auth/login",
+      "/api/v1/auth/login",
       data,
       {
         withCredentials: false, // Tạm tắt để test CORS
@@ -31,7 +31,7 @@ export const authService = {
   // Làm mới token
   refreshToken: async (refreshToken: string) => {
     const response = await axiosInstance.post<RefreshTokenResponse>(
-      "/auth/refresh",
+      "/api/v1/auth/refresh",
       { refreshToken }
     );
     return response.data;
@@ -39,7 +39,7 @@ export const authService = {
 
   // Đăng xuất
   logout: async () => {
-    const response = await axiosInstance.post("/auth/logout");
+    const response = await axiosInstance.post("/api/v1/auth/logout");
     return response.data;
   },
 };
