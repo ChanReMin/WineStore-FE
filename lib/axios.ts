@@ -91,7 +91,7 @@ axiosInstance.interceptors.response.use(
         }
 
         const response = await axios.post<RefreshTokenResponse>(
-          `${API_URL}/auth/refresh`,
+          `${API_URL}/api/v1/auth/refresh`,
           { refreshToken },
           { withCredentials: true }
         );
