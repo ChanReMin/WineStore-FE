@@ -2,42 +2,9 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
-const TIMELINE_LEFT = [
-  {
-    year: "1957",
-    title: "Purchased Vineyard",
-    text: "Our story begins with a small hillside vineyard, purchased by the first generation of the family.",
-  },
-  {
-    year: "1976",
-    title: "First Vintage",
-    text: "After years of tending the vines, our very first house vintage was bottled and shared with close friends.",
-  },
-  {
-    year: "1990",
-    title: "Boutique Cellar",
-    text: "We opened a tiny cellar door, welcoming travelers to taste limited releases straight from the barrel.",
-  },
-];
 
-const TIMELINE_RIGHT = [
-  {
-    year: "1961",
-    title: "First Vineyard Harvest",
-    text: "A remarkable growing season delivered the harvest that would shape our winemaking philosophy.",
-  },
-  {
-    year: "1985",
-    title: "First Wine Club",
-    text: "Loyal guests became members of our wine club, receiving curated selections for every season.",
-  },
-  {
-    year: "2011",
-    title: "Organic Winery",
-    text: "We completed our transition to a fully organic estate, honoring the land that sustains our vines.",
-  },
-];
 
 const containerVariants: any = {
   hidden: { opacity: 0, y: 40 },
@@ -58,6 +25,8 @@ const itemVariants: any = {
 };
 
 export default function WineStoriesSection() {
+  const t = useTranslations('home.wineStories');
+  
   return (
     <section className="w-full bg-[#fdfbf5] py-20 md:py-28">
       <motion.div
@@ -69,12 +38,12 @@ export default function WineStoriesSection() {
       >
         {/* Heading */}
         <h2 className="text-[22px] md:text-[26px] lg:text-[30px] font-semibold tracking-[0.35em] text-[#3b4417] uppercase">
-          The Fresh New Wine Stories
+          {t('title')}
         </h2>
 
         <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
           <span className="h-px w-16 bg-[#d4d6b4]" />
-          <span>estd 1970</span>
+          <span>{t('subtitle')}</span>
           <span className="h-px w-16 bg-[#d4d6b4]" />
         </div>
 
@@ -85,9 +54,9 @@ export default function WineStoriesSection() {
           <div className="relative grid gap-y-20 md:grid-cols-3 md:gap-x-24 md:gap-y-14 text-left">
             {/* Left column */}
             <div className="space-y-10 md:space-y-16">
-              {TIMELINE_LEFT.map((item) => (
+              {[0, 1, 2].map((index) => (
                 <motion.div
-                  key={item.year}
+                  key={index}
                   variants={itemVariants}
                   whileInView="show"
                   initial="hidden"
@@ -95,13 +64,13 @@ export default function WineStoriesSection() {
                   className="md:text-right"
                 >
                   <p className="text-[28px] font-semibold tracking-[0.2em] text-[#3b4417] uppercase">
-                    {item.year}
+                    {t(`timeline.left.${index}.year`)}
                   </p>
                   <p className="mt-1 text-sm italic text-[#7a8451] text-[17px]">
-                    {item.title}
+                    {t(`timeline.left.${index}.title`)}
                   </p>
                   <p className="mt-3 text-[16px] leading-relaxed text-neutral-700">
-                    {item.text}
+                    {t(`timeline.left.${index}.text`)}
                   </p>
                 </motion.div>
               ))}
@@ -125,22 +94,22 @@ export default function WineStoriesSection() {
 
             {/* Right column */}
             <div className="space-y-10 md:space-y-16">
-              {TIMELINE_RIGHT.map((item) => (
+              {[0, 1, 2].map((index) => (
                 <motion.div
-                  key={item.year}
+                  key={index}
                   variants={itemVariants}
                   whileInView="show"
                   initial="hidden"
                   viewport={{ once: true, amount: 0.4 }}
                 >
                   <p className="text-[28px] font-semibold tracking-[0.2em] text-[#3b4417] uppercase">
-                    {item.year}
+                    {t(`timeline.right.${index}.year`)}
                   </p>
                   <p className="mt-1 text-sm text-[17px] italic text-[#7a8451]">
-                    {item.title}
+                    {t(`timeline.right.${index}.title`)}
                   </p>
                   <p className="mt-3 text-[16px] leading-relaxed text-neutral-700">
-                    {item.text}
+                    {t(`timeline.right.${index}.text`)}
                   </p>
                 </motion.div>
               ))}

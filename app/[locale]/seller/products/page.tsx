@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus} from "lucide-react";
+import { useTranslations } from "next-intl";
 import { mockProductList } from "@/lib/products.mock";
 import ProductSummaryCards from "@/components/seller/dashboard/ProductSummaryCards";
 import ProductFilters from "@/components/seller/dashboard/ProductFilters";
@@ -13,6 +14,7 @@ import type { ProductFormData } from "@/types/productForm";
 import { toast } from "react-toastify";
 
 export default function ProductsPage() {
+  const t = useTranslations("seller.products");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -161,10 +163,10 @@ export default function ProductsPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Product Management
+            {t("title")}
           </h1>
           <p className="text-[#7a8451]">
-            Manage product list and track approval status
+            {t("subtitle")}
           </p>
         </div>
 
@@ -177,7 +179,7 @@ export default function ProductsPage() {
             className="flex items-center gap-2 px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium shadow-md"
           >
             <Plus className="w-5 h-5" />
-            Add Product
+            {t("addProduct")}
           </motion.button>
         </div>
       </div>

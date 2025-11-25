@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Package, Clock, CheckCircle, XCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ProductSummaryCardsProps {
@@ -16,38 +17,40 @@ interface ProductSummaryCardsProps {
 export default function ProductSummaryCards({
   summary,
 }: ProductSummaryCardsProps) {
+  const t = useTranslations("seller.products.summary");
+  
   const cards = [
     {
-      title: "Total Products",
+      titleKey: "totalProducts",
       value: summary.total,
       icon: Package,
       color: "text-[#3b4417]",
       bgColor: "bg-[#f5f3e8]",
-      description: "All products listed",
+      descriptionKey: "allProductsListed",
     },
     {
-      title: "Pending",
+      titleKey: "pending",
       value: summary.pending,
       icon: Clock,
       color: "text-amber-600",
       bgColor: "bg-amber-50",
-      description: "Waiting for Admin",
+      descriptionKey: "waitingForAdmin",
     },
     {
-      title: "Active",
+      titleKey: "active",
       value: summary.active,
       icon: CheckCircle,
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
-      description: "Approved",
+      descriptionKey: "approved",
     },
     {
-      title: "Banned",
+      titleKey: "banned",
       value: summary.banned,
       icon: XCircle,
       color: "text-red-600",
       bgColor: "bg-red-50",
-      description: "Not allowed to sell",
+      descriptionKey: "notAllowedToSell",
     },
   ];
 
@@ -55,7 +58,7 @@ export default function ProductSummaryCards({
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card, index) => (
         <motion.div
-          key={card.title}
+          key={card.titleKey}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
@@ -74,9 +77,9 @@ export default function ProductSummaryCards({
               </div>
               <div>
                 <p className="text-sm font-semibold text-[#3b4417] mb-1">
-                  {card.title}
+                  {t(card.titleKey)}
                 </p>
-                <p className="text-xs text-[#7a8451]">{card.description}</p>
+                <p className="text-xs text-[#7a8451]">{t(card.descriptionKey)}</p>
               </div>
             </CardContent>
           </Card>

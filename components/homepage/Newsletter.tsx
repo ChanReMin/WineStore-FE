@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { Mail, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import CountUp from "../CountUp";
+import { useTranslations } from "next-intl";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const t = useTranslations('home.newsletter');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,18 +53,17 @@ export default function Newsletter() {
 
           {/* Heading */}
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.25em] text-white uppercase">
-            Join Our Wine Club
+            {t('title')}
           </h2>
 
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-white/70">
             <span className="h-px w-16 bg-white/30" />
-            <span>Exclusive offers & tasting notes</span>
+            <span>{t('subtitle')}</span>
             <span className="h-px w-16 bg-white/30" />
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-white/80">
-            Subscribe to receive curated wine recommendations, exclusive
-            discounts, and invitations to private tastings.
+            {t('description')}
           </p>
 
           {/* Form */}
@@ -80,7 +81,7 @@ export default function Newsletter() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
+                  placeholder={t('placeholder')}
                   required
                   className="w-full border border-white/30 bg-white/10 px-6 py-4 text-[14px] text-white placeholder:text-white/50 backdrop-blur-sm transition-all focus:border-white/60 focus:bg-white/15 focus:outline-none"
                 />
@@ -94,10 +95,10 @@ export default function Newsletter() {
                 className="group flex items-center justify-center gap-2 bg-white px-8 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] disabled:opacity-50 uppercase"
               >
                 {isSubmitted ? (
-                  "Subscribed!"
+                  t('subscribed')
                 ) : (
                   <>
-                    Subscribe
+                    {t('subscribe')}
                     <ArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-1"
@@ -108,8 +109,7 @@ export default function Newsletter() {
             </div>
 
             <p className="mt-4 text-[12px] text-white/60">
-              By subscribing, you agree to our Privacy Policy and consent to
-              receive updates.
+              {t('privacy')}
             </p>
           </motion.form>
 
@@ -122,9 +122,9 @@ export default function Newsletter() {
             className="mt-12 grid grid-cols-3 gap-8 border-t border-white/20 pt-12"
           >
             {[
-              { number: "10K+", label: "Wine Lovers" },
-              { number: "500+", label: "Premium Wines" },
-              { number: "50+", label: "Countries" },
+              { number: "10K+", value: 10000 },
+              { number: "500+", value: 500 },
+              { number: "50+", value: 50 },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -136,17 +136,16 @@ export default function Newsletter() {
                 <p className="text-[32px] md:text-[40px] font-bold text-white">
                   <CountUp
                     from={0}
-                    to={parseInt(
-                      stat.number.replace("+", "").replace("K", "000")
-                    )}
+                    to={stat.value}
                     separator=","
                     direction="up"
                     duration={1}
                     className="count-up-text"
                   />
+                  +
                 </p>
                 <p className="mt-1 text-[12px] tracking-[0.2em] text-white/70 uppercase">
-                  {stat.label}
+                  {t(`stats.${index}`)}
                 </p>
               </motion.div>
             ))}

@@ -2,39 +2,25 @@
 
 import { motion } from "framer-motion";
 import { Leaf, Users, Shield, Sparkles } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const VALUES = [
-  {
-    icon: Leaf,
-    title: "Sustainability",
-    description:
-      "We prioritize eco-friendly practices and partner exclusively with vineyards committed to organic and biodynamic farming.",
-    color: "from-green-50 to-emerald-50",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description:
-      "Building lasting relationships with winemakers, customers, and wine enthusiasts through education and shared passion.",
-    color: "from-blue-50 to-indigo-50",
-  },
-  {
-    icon: Shield,
-    title: "Authenticity",
-    description:
-      "Every bottle is guaranteed authentic, properly stored, and sourced directly from trusted producers worldwide.",
-    color: "from-amber-50 to-orange-50",
-  },
-  {
-    icon: Sparkles,
-    title: "Excellence",
-    description:
-      "Uncompromising standards in selection, service, and expertise. We settle for nothing less than extraordinary.",
-    color: "from-purple-50 to-pink-50",
-  },
+const ICONS = [Leaf, Users, Shield, Sparkles];
+const COLORS = [
+  "from-green-50 to-emerald-50",
+  "from-blue-50 to-indigo-50",
+  "from-amber-50 to-orange-50",
+  "from-purple-50 to-pink-50",
 ];
 
 export default function Values() {
+  const t = useTranslations('ourStory.values');
+  
+  const VALUES = Array.from({ length: 4 }, (_, index) => ({
+    icon: ICONS[index],
+    title: t(`items.${index}.title`),
+    description: t(`items.${index}.description`),
+    color: COLORS[index],
+  }));
   return (
     <section className="w-full bg-linear-to-b from-[#fdfbf5] to-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -47,10 +33,10 @@ export default function Values() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            Our Core Values
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            The principles that guide everything we do
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -117,14 +103,10 @@ export default function Values() {
           className="mt-20 border-l-4 border-[#3b4417] bg-[#f5f3e8] p-8 md:p-12"
         >
           <blockquote className="text-[20px] md:text-[24px] font-serif italic leading-relaxed text-[#3b4417]">
-            "Our mission is simple: to share the world's most exceptional wines
-            with people who appreciate the artistry, tradition, and passion
-            behind every bottle. We believe wine is more than a beverage—it's a
-            bridge between cultures, a celebration of craftsmanship, and a
-            catalyst for unforgettable moments."
+            "{t('quote')}"
           </blockquote>
           <p className="mt-6 text-[15px] font-semibold tracking-wide text-neutral-700">
-            — Robert Chen, Founder
+            {t('quoteAuthor')}
           </p>
         </motion.div>
       </div>

@@ -2,9 +2,11 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import { MOCK_PRODUCT_DETAIL } from "@/lib/mockData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
@@ -13,12 +15,45 @@ const playfair = Playfair_Display({
 });
 
 export default function ProductDetailPage() {
+  const t = useTranslations("productDetail");
+  const params = useParams();
+  
+  // Get ID and slug from URL params
+  // URL: /shop/12/chateau-margaux-2015
+  const productId = params.id as string;      // "12"
+  const productSlug = params.slug as string;  // "chateau-margaux-2015"
+  
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "storage"
   >("description");
+  const [product, setProduct] = useState(MOCK_PRODUCT_DETAIL);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const product = MOCK_PRODUCT_DETAIL;
+  // Fetch product by ID from API
+  useEffect(() => {
+    if (!productId) return;
+    
+    const fetchProduct = async () => {
+      setIsLoading(true);
+      try {
+        // TODO: Replace with your actual API call
+        // const response = await axios.get(`/api/products/${productId}`);
+        // setProduct(response.data);
+        
+        // For now, using mock data
+        console.log("Product ID for API:", productId);
+        console.log("Product slug for SEO:", productSlug);
+        setProduct(MOCK_PRODUCT_DETAIL);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProduct();
+  }, [productId, productSlug]);
 
   return (
     <div className="min-h-screen bg-[#faf8f5]">
@@ -31,14 +66,14 @@ export default function ProductDetailPage() {
             className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-neutral-500"
           >
             <Link href="/" className="transition-colors hover:text-[#8b7355]">
-              Home
+              {t("breadcrumb.home")}
             </Link>
             <span className="text-neutral-300">/</span>
             <Link
-              href="/products"
+              href="/shop"
               className="transition-colors hover:text-[#8b7355]"
             >
-              Collection
+              {t("breadcrumb.collection")}
             </Link>
             <span className="text-neutral-300">/</span>
             <span className="text-neutral-800">{product.brand.name}</span>
@@ -174,7 +209,7 @@ export default function ProductDetailPage() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="font-medium">In Stock · Ready to Ship</span>
+                  <span className="font-medium">{t("inStock")}</span>
                 </motion.div>
               )}
             </div>
@@ -189,9 +224,9 @@ export default function ProductDetailPage() {
               {/* Tab Navigation */}
               <div className="flex gap-8 border-b border-neutral-200">
                 {[
-                  { id: "description", label: "Description" },
-                  { id: "specs", label: "Specifications" },
-                  { id: "storage", label: "Care & Storage" },
+                  { id: "description", label: t("tabs.description") },
+                  { id: "specs", label: t("tabs.specs") },
+                  { id: "storage", label: t("tabs.storage") },
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -236,7 +271,7 @@ export default function ProductDetailPage() {
                       <div className="mt-6 grid gap-4 sm:grid-cols-2">
                         <div className="rounded-lg bg-neutral-50 p-4">
                           <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-neutral-900">
-                            Grape Variety
+                            {t("specs.grapeVariety")}
                           </h4>
                           <p className="text-neutral-600">
                             {product.grape_variety}
@@ -244,7 +279,7 @@ export default function ProductDetailPage() {
                         </div>
                         <div className="rounded-lg bg-neutral-50 p-4">
                           <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-neutral-900">
-                            Region
+                            {t("specs.region")}
                           </h4>
                           <p className="text-neutral-600">
                             {product.production_area},{" "}
@@ -258,22 +293,22 @@ export default function ProductDetailPage() {
                   {activeTab === "specs" && (
                     <div className="grid gap-4">
                       {[
-                        { label: "Wine Type", value: product.wine_type },
+                        { label: t("specs.wineType"), value: product.wine_type },
                         {
-                          label: "Alcohol Content",
+                          label: t("specs.alcoholContent"),
                           value: `${product.concentration}%`,
                         },
-                        { label: "Volume", value: `${product.capacity}ml` },
+                        { label: t("specs.volume"), value: `${product.capacity}ml` },
                         {
-                          label: "Serving Temperature",
+                          label: t("specs.servingTemp"),
                           value: product.ideal_temperature,
                         },
                         {
-                          label: "Origin",
+                          label: t("specs.origin"),
                           value: `${product.production_area}, ${product.country_of_production}`,
                         },
                         {
-                          label: "Grape Variety",
+                          label: t("specs.grapeVariety"),
                           value: product.grape_variety,
                         },
                       ].map((spec, i) => (
@@ -314,7 +349,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "Temperature",
+                          title: t("storage.temperature"),
                           text: product.ideal_temperature,
                         },
                         {
@@ -333,7 +368,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "Humidity",
+                          title: t("storage.humidity"),
                           text: product.humidity,
                         },
                         {
@@ -352,7 +387,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "Light",
+                          title: t("storage.light"),
                           text: product.avoid_light,
                         },
                         {
@@ -371,7 +406,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "Position",
+                          title: t("storage.position"),
                           text: product.place_the_bottle_horizontally,
                         },
                         {
@@ -390,7 +425,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "Vibration",
+                          title: t("storage.vibration"),
                           text: product.avoid_vibration,
                         },
                         {
@@ -409,7 +444,7 @@ export default function ProductDetailPage() {
                               />
                             </svg>
                           ),
-                          title: "After Opening",
+                          title: t("storage.afterOpening"),
                           text: product.opened_wine,
                         },
                       ].map((item, i) => (
@@ -449,7 +484,7 @@ export default function ProductDetailPage() {
               {/* Quantity Selector - Minimal & Elegant */}
               <div className="space-y-3">
                 <label className="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500">
-                  Quantity
+                  {t("quantity")}
                 </label>
                 <div className="flex items-center gap-6">
                   <div className="flex items-center border border-neutral-300 bg-white">
@@ -474,7 +509,7 @@ export default function ProductDetailPage() {
                     </motion.button>
                   </div>
                   <span className="text-sm text-neutral-400">
-                    {product.inventory.total_quantity} available
+                    {product.inventory.total_quantity} {t("available")}
                   </span>
                 </div>
               </div>
@@ -488,7 +523,7 @@ export default function ProductDetailPage() {
                     whileTap={{ scale: 0.99 }}
                     className="group relative w-full overflow-hidden bg-[#8b7355] py-5 text-sm font-medium uppercase tracking-[0.2em] text-white transition-all hover:bg-[#6d5a43]"
                   >
-                    <span className="relative z-10">Add to Cart</span>
+                    <span className="relative z-10">{t("addToCart")}</span>
                     <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                   </motion.button>
 
@@ -499,7 +534,7 @@ export default function ProductDetailPage() {
                       whileTap={{ scale: 0.99 }}
                       className="border border-neutral-300 bg-white py-4 text-sm font-medium uppercase tracking-[0.15em] text-neutral-700 transition-all hover:border-neutral-400 hover:bg-neutral-50"
                     >
-                      Buy Now
+                      {t("buyNow")}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.01 }}
@@ -519,23 +554,23 @@ export default function ProductDetailPage() {
                           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                         />
                       </svg>
-                      Save
+                      {t("save")}
                     </motion.button>
                   </div>
                 </div>
               ) : (
                 <div className="border border-rose-200 bg-rose-50 p-4 text-center text-sm font-medium text-rose-700">
-                  Currently Unavailable
+                  {t("unavailable")}
                 </div>
               )}
 
               {/* Trust Indicators */}
               <div className="grid grid-cols-2 gap-4 border-t border-neutral-200/50 pt-6">
                 {[
-                  { icon: "✓", text: "Authentic Guarantee" },
-                  { icon: "🚚", text: "Free Shipping" },
-                  { icon: "↺", text: "30-Day Returns" },
-                  { icon: "🔒", text: "Secure Payment" },
+                  { icon: "✓", text: t("trust.authentic") },
+                  { icon: "🚚", text: t("trust.freeShipping") },
+                  { icon: "↺", text: t("trust.returns") },
+                  { icon: "🔒", text: t("trust.securePayment") },
                 ].map((item, i) => (
                   <div
                     key={i}
@@ -561,7 +596,7 @@ export default function ProductDetailPage() {
           className="text-center"
         >
           <Link
-            href="/products"
+            href="/shop"
             className="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-neutral-600 transition-colors hover:text-neutral-900"
           >
             <svg
@@ -577,7 +612,7 @@ export default function ProductDetailPage() {
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
             </svg>
-            Back to Collection
+            {t("backToCollection")}
           </Link>
         </motion.div>
       </div>

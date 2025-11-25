@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { DollarSign, ShoppingCart, Package, AlertTriangle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -17,9 +18,10 @@ export default function OverviewCards({
   totalProducts,
   stockAlerts,
 }: OverviewCardsProps) {
+  const t = useTranslations("seller.dashboard.overview");
   const cards = [
     {
-      title: "Total revenue",
+      title: t("totalRevenue"),
       value: new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -29,21 +31,21 @@ export default function OverviewCards({
       bgColor: "bg-[#f5f3e8]",
     },
     {
-      title: "Orders",
+      title: t("orders"),
       value: totalOrders.toString(),
       icon: ShoppingCart,
       color: "text-[#d4af37]",
       bgColor: "bg-[#fdfbf5]",
     },
     {
-      title: "Products",
+      title: t("products"),
       value: totalProducts.toString(),
       icon: Package,
       color: "text-[#7a8451]",
       bgColor: "bg-[#f5f3e8]",
     },
     {
-      title: "Stock Alerts",
+      title: t("stockAlerts"),
       value: stockAlerts.toString(),
       icon: AlertTriangle,
       color: "text-orange-600",

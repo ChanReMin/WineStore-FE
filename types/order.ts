@@ -1,80 +1,109 @@
-// types/order.ts
-export interface Customer {
+// Order Types
+export interface Order {
   id: number;
-  name: string;
-  email: string;
-  phone?: string;
-}
-
-export interface ShippingAddress {
-  full_name: string;
-  phone: string;
-  address: string;
-  city: string;
-  district: string;
-  ward: string;
+  order_code: string;
+  status: number;
+  status_text: string;
+  payment_status: number;
+  payment_status_text: string;
+  total_amount: number;
+  discount_amount: number;
+  final_amount: number;
+  created_at: string;
+  items_count: number;
+  paid_at?: string;
+  note?: string;
 }
 
 export interface OrderItem {
   id: number;
   product_id: number;
   product_name: string;
-  product_image?: string;
+  product_image: string;
   quantity: number;
-  price: number;
-  total: number;
+  unit_price: number;
+  line_total: number;
 }
 
-export interface Order {
+export interface ShippingAddress {
+  full_name: string;
+  phone_number: string;
+  address_line: string;
+  city: string;
+}
+
+export interface PaymentMethod {
   id: number;
-  order_code: string;
-  customer: Customer;
-  status: number;
-  status_text: string;
-  payment_status: number;
-  payment_method?: string;
-  final_amount: number;
-  shipping_fee?: number;
-  discount_amount?: number;
-  subtotal?: number;
-  created_at: string;
-  updated_at?: string;
-  shipping_address?: ShippingAddress;
-  items?: OrderItem[];
+  name: string;
+  code: string;
+}
+
+export interface OrderDetail extends Order {
+  shipping_address: ShippingAddress;
+  items: OrderItem[];
+  payment_method: PaymentMethod;
+}
+
+export interface CreateOrderRequest {
+  shipping_address_id: number;
+  payment_method_id: number;
+  promotion_code?: string;
   note?: string;
 }
 
-export interface Pagination {
-  current_page: number;
-  total_pages: number;
+export interface CreateOrderResponse {
+  order_id: number;
+  order_code: string;
+  total_amount: number;
+  discount_amount: number;
+  final_amount: number;
+  status: number;
+  payment_status: number;
+  payment_url?: string;
 }
 
-export interface OrderResponse {
-  success: boolean;
-  data: {
-    orders: Order[];
-    pagination: Pagination;
+export interface OrderListParams {
+  page?: number;
+  limit?: number;
+  status?: number;
+  from_date?: string;
+  to_date?: string;
+}
+
+export interface OrderListResponse {
+  orders: Order[];
+  pagination: {
+    current_page: number;
+    total_pages: number;
+    total_items: number;
   };
 }
 
-export interface OrderStatusUpdate {
-  status: number;
-  note?: string;
-}
+// Order Status Constants
+export const ORDER_STATUS = {
+  PENDING: 1,
+  PROCESSING: 2,
+  SHIPPING: 3,
+  DELIVERED: 4,
+  CANCELLED: 5,
+} as const;
 
-// Order Status
-export enum OrderStatus {
-  PENDING = 1, // Chờ xác nhận
-  PROCESSING = 2, // Đang xử lý
-  SHIPPING = 3, // Đang giao
-  COMPLETED = 4, // Hoàn thành
-  CANCELLED = 5, // Đã hủy
-}
+export const ORDER_STATUS_TEXT: Record<number, string> = {
+  1: "Chờ xác nhận",
+  2: "Đang xử lý",
+  3: "Đang giao hàng",
+  4: "Đã giao hàng",
+  5: "Đã hủy",
+};
 
-// Payment Status
-export enum PaymentStatus {
-  PENDING = 1, // Chờ thanh toán
-  PAID = 2, // Đã thanh toán
-  COMPLETED = 3, // Hoàn thành
-  REFUNDED = 4, // Đã hoàn tiền
-}
+export const PAYMENT_STATUS = {
+  UNPAID: 0,
+  PAID: 1,
+  REFUNDED: 2,
+} as const;
+
+export const PAYMENT_STATUS_TEXT: Record<number, string> = {
+  0: "Chưa thanh toán",
+  1: "Đã thanh toán",
+  2: "Đã hoàn tiền",
+};

@@ -3,15 +3,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Save, Loader2, Package, AlertCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import OrderStatusBadge from "./OrderStatusBadge";
-import type { Order } from "@/types/order";
-
 interface UpdateOrderStatusModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (orderId: number, status: number, note: string) => Promise<void>;
-  order: Order | null;
+  order: any | null;
 }
 
 export default function UpdateOrderStatusModal({
@@ -20,6 +19,7 @@ export default function UpdateOrderStatusModal({
   onSubmit,
   order,
 }: UpdateOrderStatusModalProps) {
+  const t = useTranslations("seller.orders");
   const [selectedStatus, setSelectedStatus] = useState<number>(
     order?.status || 1
   );
@@ -27,11 +27,11 @@ export default function UpdateOrderStatusModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const statusOptions = [
-    { value: 1, label: "Chờ xác nhận", disabled: false },
-    { value: 2, label: "Đang xử lý", disabled: false },
-    { value: 3, label: "Đang giao", disabled: false },
-    { value: 4, label: "Hoàn thành", disabled: false },
-    { value: 5, label: "Đã hủy", disabled: false },
+    { value: 1, labelKey: "status.pending", disabled: false },
+    { value: 2, labelKey: "status.processing", disabled: false },
+    { value: 3, labelKey: "status.shipping", disabled: false },
+    { value: 4, labelKey: "status.completed", disabled: false },
+    { value: 5, labelKey: "status.cancelled", disabled: false },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,7 +81,7 @@ export default function UpdateOrderStatusModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#3b4417]">
-                      Cập nhật trạng thái đơn hàng
+                      {t("updateStatus.title")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
                       {order.order_code}
@@ -102,7 +102,7 @@ export default function UpdateOrderStatusModal({
                 {/* Current Status */}
                 <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                   <p className="text-sm text-[#7a8451] mb-2">
-                    Trạng thái hiện tại:
+                    {t("updateStatus.currentStatus")}
                   </p>
                   <OrderStatusBadge
                     status={order.status}
@@ -113,7 +113,7 @@ export default function UpdateOrderStatusModal({
                 {/* New Status */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-3">
-                    Trạng thái mới <span className="text-red-600">*</span>
+                    {t("updateStatus.newStatus")} <span className="text-red-600">{t("updateStatus.required")}</span>
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {statusOptions.map((option) => (
@@ -128,7 +128,7 @@ export default function UpdateOrderStatusModal({
                             : "border-[#d4d6b4] bg-white text-[#7a8451] hover:border-[#3b4417]"
                         } ${option.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                       >
-                        {option.label}
+                        {t(option.labelKey)}
                       </button>
                     ))}
                   </div>
@@ -137,14 +137,14 @@ export default function UpdateOrderStatusModal({
                 {/* Note */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    Ghi chú (tùy chọn)
+                    {t("updateStatus.noteLabel")}
                   </label>
                   <textarea
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     rows={4}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] resize-none"
-                    placeholder="Nhập ghi chú về cập nhật trạng thái..."
+                    placeholder={t("updateStatus.notePlaceholder")}
                   />
                 </div>
 
@@ -155,12 +155,10 @@ export default function UpdateOrderStatusModal({
                       <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-red-900 mb-1">
-                          Cảnh báo
+                          {t("updateStatus.warningTitle")}
                         </p>
                         <p className="text-sm text-red-700">
-                          Bạn đang hủy đơn hàng này. Hành động này sẽ thông báo
-                          cho khách hàng và có thể ảnh hưởng đến đánh giá của
-                          bạn.
+                          {t("updateStatus.cancelWarning")}
                         </p>
                       </div>
                     </div>
@@ -173,11 +171,10 @@ export default function UpdateOrderStatusModal({
                       <AlertCircle className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-emerald-900 mb-1">
-                          Xác nhận hoàn thành
+                          {t("updateStatus.completeTitle")}
                         </p>
                         <p className="text-sm text-emerald-700">
-                          Đơn hàng sẽ được đánh dấu là hoàn thành. Khách hàng
-                          có thể đánh giá sản phẩm sau khi hoàn thành.
+                          {t("updateStatus.completeMessage")}
                         </p>
                       </div>
                     </div>
@@ -193,7 +190,7 @@ export default function UpdateOrderStatusModal({
                   disabled={isSubmitting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Hủy
+                  {t("updateStatus.cancel")}
                 </button>
                 <button
                   type="submit"
@@ -204,12 +201,12 @@ export default function UpdateOrderStatusModal({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Đang cập nhật...
+                      {t("updateStatus.updating")}
                     </>
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      Cập nhật
+                      {t("updateStatus.update")}
                     </>
                   )}
                 </button>

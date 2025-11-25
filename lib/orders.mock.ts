@@ -1,6 +1,5 @@
-import { OrderResponse } from "@/types/order";
-
-export const mockOrderList: OrderResponse = {
+// Mock data for seller orders - using any type to avoid conflict with customer Order types
+export const mockOrderList: any = {
   success: true,
   data: {
     orders: [

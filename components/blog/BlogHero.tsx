@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Wine, BookOpen } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 export default function BlogHero() {
+  const t = useTranslations('blog.hero');
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background Image */}
@@ -43,13 +45,13 @@ export default function BlogHero() {
 
           {/* Main Title */}
           <h1 className="text-[32px] md:text-[48px] lg:text-[56px] font-semibold tracking-[0.35em] uppercase leading-tight">
-            WINE KNOWLEDGE
+            {t('title')}
           </h1>
 
           {/* Decorative Line */}
           <div className="mt-6 flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]">
             <span className="h-px w-16 md:w-24 bg-white/70" />
-            <span>JOURNAL</span>
+            <span>{t('journal')}</span>
             <span className="h-px w-16 md:w-24 bg-white/70" />
           </div>
 
@@ -60,9 +62,7 @@ export default function BlogHero() {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-6 max-w-2xl mx-auto text-sm md:text-base text-white/85 tracking-wider leading-relaxed"
           >
-            Discover the art of enjoying wine through specialized articles deep
-            <br className="hidden md:block" />
-            from sommeliers and wine enthusiasts
+            {t('subtitle')}
           </motion.p>
 
           {/* CTA Button */}
@@ -80,7 +80,7 @@ export default function BlogHero() {
               }
               className="group inline-flex items-center gap-3 border-2 border-white/60 bg-white/10 px-12 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
             >
-              EXPLORE NOW
+              {t('cta')}
             </motion.button>
           </motion.div>
         </motion.div>
@@ -98,7 +98,7 @@ export default function BlogHero() {
           transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
           className="flex flex-col items-center gap-2 text-white/60"
         >
-          <span className="text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+          <span className="text-[10px] tracking-[0.3em] uppercase">{t('scroll')}</span>
           <div className="h-8 w-px bg-white/40" />
         </motion.div>
       </motion.div>

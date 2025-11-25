@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, Filter, Calendar } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 
 interface OrderFiltersProps {
@@ -20,21 +21,23 @@ export default function OrderFilters({
   paymentFilter,
   onPaymentChange,
 }: OrderFiltersProps) {
+  const t = useTranslations("seller.orders");
+  
   const orderStatusOptions = [
-    { value: "all", label: "Tất cả đơn" },
-    { value: "1", label: "Chờ xác nhận" },
-    { value: "2", label: "Đang xử lý" },
-    { value: "3", label: "Đang giao" },
-    { value: "4", label: "Hoàn thành" },
-    { value: "5", label: "Đã hủy" },
+    { value: "all", labelKey: "filters.allOrders" },
+    { value: "1", labelKey: "status.pending" },
+    { value: "2", labelKey: "status.processing" },
+    { value: "3", labelKey: "status.shipping" },
+    { value: "4", labelKey: "status.completed" },
+    { value: "5", labelKey: "status.cancelled" },
   ];
 
   const paymentStatusOptions = [
-    { value: "all", label: "Tất cả" },
-    { value: "1", label: "Chờ thanh toán" },
-    { value: "2", label: "Đã thanh toán" },
-    { value: "3", label: "Hoàn thành" },
-    { value: "4", label: "Đã hoàn tiền" },
+    { value: "all", labelKey: "filters.allPayments" },
+    { value: "1", labelKey: "payment.unpaid" },
+    { value: "2", labelKey: "payment.paid" },
+    { value: "3", labelKey: "status.completed" },
+    { value: "4", labelKey: "payment.unpaid" },
   ];
 
   return (
@@ -45,7 +48,7 @@ export default function OrderFilters({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
           <input
             type="text"
-            placeholder="Tìm kiếm theo mã đơn, tên khách hàng, email..."
+            placeholder={t("filters.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -73,7 +76,7 @@ export default function OrderFilters({
                       : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                   }`}
                 >
-                  {option.label}
+                  {t(option.labelKey)}
                 </button>
               ))}
             </div>
@@ -98,7 +101,7 @@ export default function OrderFilters({
                       : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                   }`}
                 >
-                  {option.label}
+                  {t(option.labelKey)}
                 </button>
               ))}
             </div>

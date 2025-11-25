@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Edit,
   Trash2,
@@ -41,6 +42,7 @@ export default function ProductsTable({
   onDelete,
   onAddPromotion,
 }: ProductsTableProps) {
+  const t = useTranslations("seller.products.table");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -106,10 +108,10 @@ export default function ProductsTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Package className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          No products found
+          {t("noProductsFound")}
         </h3>
         <p className="text-[#7a8451]">
-          Try changing the filter or searching with a different keyword
+          {t("tryChangingFilter")}
         </p>
       </Card>
     );
@@ -121,27 +123,27 @@ export default function ProductsTable({
         <Table>
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
-              <TableHead className="font-semibold text-[#3b4417]">ID</TableHead>
+              <TableHead className="font-semibold text-[#3b4417]">{t("id")}</TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Product
+                {t("product")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Price
+                {t("price")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Category
+                {t("category")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Inventory
+                {t("inventory")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Status
+                {t("status")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Created Date
+                {t("createdDate")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Actions
+                {t("actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -210,7 +212,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleViewDetails(product)}
                       className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
-                      title="View Details"
+                      title={t("viewDetails")}
                     >
                       <Eye className="w-4 h-4" />
                     </motion.button>
@@ -219,7 +221,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleAddPromotion(product)}
                       className="p-2 rounded-lg hover:bg-amber-50 text-amber-600 transition-colors"
-                      title="Add Promotion"
+                      title={t("addPromotion")}
                     >
                       <Tag className="w-4 h-4" />
                     </motion.button>
@@ -228,7 +230,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleEdit(product)}
                       className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                      title="Edit"
+                      title={t("edit")}
                     >
                       <Edit className="w-4 h-4" />
                     </motion.button>
@@ -237,7 +239,7 @@ export default function ProductsTable({
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleDelete(product)}
                       className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                      title="Delete"
+                      title={t("delete")}
                     >
                       <Trash2 className="w-4 h-4" />
                     </motion.button>
@@ -256,11 +258,10 @@ export default function ProductsTable({
             <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
             <div>
               <p className="font-medium text-[#3b4417] mb-1">
-                Approval Information
+                {t("approvalInfo")}
               </p>
               <p className="text-[#7a8451]">
-                Approved products will be displayed to customers. Products waiting
-                for approval need to be approved by Admin before selling.
+                {t("approvalDescription")}
               </p>
             </div>
           </div>

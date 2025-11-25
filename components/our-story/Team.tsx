@@ -3,41 +3,25 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Mail } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
-const TEAM_MEMBERS = [
-  {
-    name: "Robert Chen",
-    role: "Founder & CEO",
-    bio: "Master Sommelier with 50+ years of experience. Pioneer in sustainable wine retail.",
-    image: "/team/member-1.jpg",
-  },
-  {
-    name: "Sophie Laurent",
-    role: "Head Sommelier",
-    bio: "Certified Wine Educator. Specializes in French and Italian wines.",
-    image: "/team/member-2.jpg",
-  },
-  {
-    name: "Marcus Williams",
-    role: "Director of Operations",
-    bio: "20 years in luxury retail. Expert in customer experience and logistics.",
-    image: "/team/member-3.jpg",
-  },
-  {
-    name: "Elena Rodriguez",
-    role: "Wine Buyer",
-    bio: "Travels globally to source rare vintages. Fluent in 5 languages.",
-    image: "/team/member-4.jpg",
-  },
-  {
-    name: "Liam O'Connor",
-    role: "Marketing Manager",
-    bio: "Specializes in digital marketing for luxury brands. Wine enthusiast.",
-    image: "/team/member-5.jpg",
-  },
+const IMAGES = [
+  "/team/member-1.jpg",
+  "/team/member-2.jpg",
+  "/team/member-3.jpg",
+  "/team/member-4.jpg",
+  "/team/member-5.jpg",
 ];
 
 export default function Team() {
+  const t = useTranslations('ourStory.team');
+  
+  const TEAM_MEMBERS = Array.from({ length: 5 }, (_, index) => ({
+    name: t(`members.${index}.name`),
+    role: t(`members.${index}.role`),
+    bio: t(`members.${index}.bio`),
+    image: IMAGES[index],
+  }));
   return (
     <section className="w-full bg-white py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -50,11 +34,10 @@ export default function Team() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            Meet Our Team
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Passionate experts dedicated to helping you discover your perfect
-            wine
+            {t('subtitle')}
           </p>
         </motion.div>
 

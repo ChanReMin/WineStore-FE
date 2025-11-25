@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import type { InventoryItem } from "@/types/inventory";
+import { useTranslations } from "next-intl";
 
 interface UpdateInventoryModalProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export default function UpdateInventoryModal({
   onSubmit,
   item,
 }: UpdateInventoryModalProps) {
+  const t = useTranslations("seller.inventory.updateModal");
   const [type, setType] = useState<"in" | "out">("in");
   const [quantity, setQuantity] = useState<number>(0);
   const [note, setNote] = useState("");
@@ -93,7 +95,7 @@ export default function UpdateInventoryModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#3b4417]">
-                      Update Inventory
+                      {t("title")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
                       {item.product.name}
@@ -114,7 +116,7 @@ export default function UpdateInventoryModal({
                 {/* Current Stock Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">Warehouse</p>
+                    <p className="text-sm text-[#7a8451] mb-1">{t("warehouse")}</p>
                     <p className="font-semibold text-[#3b4417]">
                       {item.warehouse.name}
                     </p>
@@ -123,7 +125,7 @@ export default function UpdateInventoryModal({
                     </p>
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">Current Stock</p>
+                    <p className="text-sm text-[#7a8451] mb-1">{t("currentStock")}</p>
                     <p className="text-3xl font-bold text-[#3b4417]">
                       {item.quantity_on_hand}
                     </p>
@@ -136,7 +138,7 @@ export default function UpdateInventoryModal({
                 {/* Type Selection */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-3">
-                    Transaction Type <span className="text-red-600">*</span>
+                    {t("type")} <span className="text-red-600">{t("required")}</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -158,10 +160,10 @@ export default function UpdateInventoryModal({
                           type === "in" ? "text-emerald-700" : "text-[#3b4417]"
                         }`}
                       >
-                        Stock In
+                        {t("stockIn")}
                       </p>
                       <p className="text-sm text-[#7a8451] mt-1">
-                        Add products to warehouse
+                        {t("stockInDesc")}
                       </p>
                     </button>
                     <button
@@ -183,10 +185,10 @@ export default function UpdateInventoryModal({
                           type === "out" ? "text-red-700" : "text-[#3b4417]"
                         }`}
                       >
-                        Stock Out
+                        {t("stockOut")}
                       </p>
                       <p className="text-sm text-[#7a8451] mt-1">
-                        Remove products from warehouse
+                        {t("stockOutDesc")}
                       </p>
                     </button>
                   </div>
@@ -195,7 +197,7 @@ export default function UpdateInventoryModal({
                 {/* Quantity Input */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    Quantity <span className="text-red-600">*</span>
+                    {t("quantity")} <span className="text-red-600">{t("required")}</span>
                   </label>
                   <input
                     type="number"
@@ -204,11 +206,11 @@ export default function UpdateInventoryModal({
                     value={quantity || ""}
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] text-lg font-semibold"
-                    placeholder="Enter quantity..."
+                    placeholder={t("notePlaceholder")}
                   />
                   {type === "out" && quantity > item.quantity_on_hand && (
                     <p className="text-sm text-red-600 mt-1">
-                      Quantity exceeds current stock!
+                      {t("exceedsStock")}
                     </p>
                   )}
                 </div>
@@ -216,14 +218,14 @@ export default function UpdateInventoryModal({
                 {/* Note */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    Ghi chú
+                    {t("note")}
                   </label>
                   <textarea
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     rows={3}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] resize-none"
-                    placeholder="Enter transaction notes..."
+                    placeholder={t("notePlaceholder")}
                   />
                 </div>
 
@@ -246,14 +248,14 @@ export default function UpdateInventoryModal({
                             type === "in" ? "text-emerald-900" : "text-red-900"
                           }`}
                         >
-                          Confirm {type === "in" ? "Stock In" : "Stock Out"}
+                          {type === "in" ? t("confirmStockIn") : t("confirmStockOut")}
                         </p>
                         <p
                           className={`text-sm ${
                             type === "in" ? "text-emerald-700" : "text-red-700"
                           }`}
                         >
-                          Tồn kho sẽ thay đổi từ{" "}
+                          {t("stockWillChange")}{" "}
                           <span className="font-semibold">
                             {item.quantity_on_hand}
                           </span>{" "}
@@ -273,7 +275,7 @@ export default function UpdateInventoryModal({
                   disabled={isSubmitting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Hủy
+                  {t("cancel")}
                 </button>
                 <button
                   type="submit"
@@ -284,12 +286,12 @@ export default function UpdateInventoryModal({
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Processing...
+                      {t("updating")}
                     </>
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      Confirm
+                      {t("update")}
                     </>
                   )}
                 </button>

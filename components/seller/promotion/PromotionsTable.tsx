@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import PromotionStatusBadge from "./PromotionStatusBadge";
 import type { Promotion } from "@/types/promotion";
+import { useTranslations } from "next-intl";
 
 interface PromotionsTableProps {
   promotions: Promotion[];
@@ -28,6 +29,7 @@ export default function PromotionsTable({
   onEdit,
   onDelete,
 }: PromotionsTableProps) {
+  const t = useTranslations("seller.promotions.table");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   const formatDate = (dateString: string) => {
@@ -57,10 +59,10 @@ export default function PromotionsTable({
       <Card className="p-12 text-center border-[#d4d6b4]">
         <Tag className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          There are no promotions yet
+          {t("noPromotions")}
         </h3>
         <p className="text-[#7a8451]">
-          Create the first promotion to attract customers
+          {t("createFirst")}
         </p>
       </Card>
     );
@@ -73,22 +75,22 @@ export default function PromotionsTable({
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Promotion Code
+                {t("promotionCode")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Discount
+                {t("discount")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Timeframe
+                {t("timeframe")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Usage
+                {t("usage")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Status
+                {t("status")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-right">
-                Actions
+                {t("actions")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -171,7 +173,7 @@ export default function PromotionsTable({
                         />
                       </div>
                       <span className="text-xs text-[#7a8451]">
-                        {usagePercent}% used
+                        {usagePercent}% {t("used")}
                       </span>
                     </div>
                   </TableCell>
@@ -193,7 +195,7 @@ export default function PromotionsTable({
                             onView(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
-                          title="View Details"
+                          title={t("viewDetails")}
                         >
                           <Eye className="w-4 h-4" />
                         </motion.button>
@@ -207,7 +209,7 @@ export default function PromotionsTable({
                             onEdit(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                          title="Edit"
+                          title={t("edit")}
                         >
                           <Edit className="w-4 h-4" />
                         </motion.button>
@@ -221,7 +223,7 @@ export default function PromotionsTable({
                             onDelete(promo);
                           }}
                           className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
-                          title="Delete"
+                          title={t("delete")}
                         >
                           <Trash2 className="w-4 h-4" />
                         </motion.button>

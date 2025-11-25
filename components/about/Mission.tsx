@@ -2,29 +2,28 @@
 
 import { motion } from "framer-motion";
 import { Target, Eye, Compass } from "lucide-react";
-
-const PILLARS = [
-  {
-    icon: Target,
-    title: "Our Mission",
-    description:
-      "To democratize access to exceptional wines by connecting passionate winemakers with discerning customers, while fostering education and appreciation for the art of winemaking.",
-  },
-  {
-    icon: Eye,
-    title: "Our Vision",
-    description:
-      "To become the world's most trusted wine destination, known for authenticity, expertise, and an unwavering commitment to quality and sustainability.",
-  },
-  {
-    icon: Compass,
-    title: "Our Purpose",
-    description:
-      "To create meaningful connections through wine—celebrating culture, craftsmanship, and the moments that bring people together around a shared table.",
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export default function Mission() {
+  const t = useTranslations('about.mission');
+  
+  const PILLARS = [
+    {
+      icon: Target,
+      title: t('pillars.mission.title'),
+      description: t('pillars.mission.description'),
+    },
+    {
+      icon: Eye,
+      title: t('pillars.vision.title'),
+      description: t('pillars.vision.description'),
+    },
+    {
+      icon: Compass,
+      title: t('pillars.purpose.title'),
+      description: t('pillars.purpose.description'),
+    },
+  ];
   return (
     <section className="w-full bg-[#fdfbf5] py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -37,11 +36,10 @@ export default function Mission() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            What Drives Us
+            {t('title')}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            Our foundation is built on three core pillars that guide every
-            decision we make
+            {t('subtitle')}
           </p>
         </motion.div>
 

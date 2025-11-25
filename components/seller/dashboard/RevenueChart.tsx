@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -36,22 +37,23 @@ interface RevenueChartProps {
   totalOrders: number;
 }
 
-const chartConfig = {
-  revenue: {
-    label: "Doanh thu",
-    color: "#3b4417",
-  },
-  orders: {
-    label: "Đơn hàng",
-    color: "#d4af37",
-  },
-} satisfies ChartConfig;
-
 export default function RevenueChart({
   data,
   totalRevenue,
   totalOrders,
 }: RevenueChartProps) {
+  const t = useTranslations("seller.dashboard.revenue");
+  
+  const chartConfig = {
+    revenue: {
+      label: t("revenueLabel"),
+      color: "#3b4417",
+    },
+    orders: {
+      label: t("ordersLabel"),
+      color: "#d4af37",
+    },
+  } satisfies ChartConfig;
   const formattedData = data.map((item) => ({
     ...item,
     date: new Date(item.date).toLocaleDateString("vi-VN", {
@@ -70,11 +72,11 @@ export default function RevenueChart({
       <Card className="border-[#d4d6b4]">
         <CardHeader>
           <CardTitle className="text-[#3b4417] tracking-wide">
-            Revenue in the last 7 days
+            {t("title")}
           </CardTitle>
           <CardDescription className="flex gap-6 text-sm text-[#7a8451]">
             <span>
-              Total Revenue:{" "}
+              {t("totalRevenue")}{" "}
               <span className="font-semibold text-[#3b4417]">
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -83,7 +85,7 @@ export default function RevenueChart({
               </span>
             </span>
             <span>
-              Total Orders:{" "}
+              {t("totalOrders")}{" "}
               <span className="font-semibold text-[#3b4417]">
                 {totalOrders}
               </span>

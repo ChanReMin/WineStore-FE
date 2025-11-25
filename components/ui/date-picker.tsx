@@ -27,9 +27,19 @@ export default function DatePicker({
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(value ? new Date(value) : new Date());
+  const [inputValue, setInputValue] = useState(value ? format(new Date(value), "dd/MM/yyyy") : "");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const selectedDate = value ? new Date(value) : null;
+
+  // Sync input value with prop value
+  useEffect(() => {
+    if (value) {
+      setInputValue(format(new Date(value), "dd/MM/yyyy"));
+    } else {
+      setInputValue("");
+    }
+  }, [value]);
 
   // Close calendar when clicking outside
   useEffect(() => {
@@ -51,7 +61,45 @@ export default function DatePicker({
   const handleDateSelect = (date: Date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     onChange(formattedDate);
+    setInputValue(format(date, "dd/MM/yyyy"));
     setIsOpen(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    setInputValue(input);
+
+    // Try to parse the input as dd/MM/yyyy
+    const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    const match = input.match(dateRegex);
+
+    if (match) {
+      const [, day, month, year] = match;
+      const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+
+      // Validate the date
+      if (
+        parsedDate.getDate() === Number(day) &&
+        parsedDate.getMonth() === Number(month) - 1 &&
+        parsedDate.getFullYear() === Number(year)
+      ) {
+        // Check if date is within min/max range
+        if (!isDateDisabled(parsedDate)) {
+          const formattedDate = format(parsedDate, "yyyy-MM-dd");
+          onChange(formattedDate);
+          setCurrentMonth(parsedDate);
+        }
+      }
+    }
+  };
+
+  const handleInputBlur = () => {
+    // If input is invalid, reset to the current value
+    if (value) {
+      setInputValue(format(new Date(value), "dd/MM/yyyy"));
+    } else {
+      setInputValue("");
+    }
   };
 
   const handlePrevMonth = () => {
@@ -79,23 +127,33 @@ export default function DatePicker({
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Input Trigger */}
-      <button
-        type="button"
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        disabled={disabled}
-        className={`
-          w-full flex items-center gap-2 px-3 py-2.5 rounded-lg border transition-all
-          ${error ? "border-red-500" : "border-[#d4d6b4]"}
-          ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white hover:border-[#3b4417]"}
-          ${isOpen ? "border-[#3b4417] ring-2 ring-[#3b4417]/20" : ""}
-        `}
-      >
-        <Calendar className="h-4 w-4 text-[#7a8451] flex-shrink-0" />
-        <span className={`flex-1 text-left ${value ? "text-[#3b4417]" : "text-[#7a8451]/50"}`}>
-          {value ? format(new Date(value), "dd/MM/yyyy", { locale: vi }) : placeholder}
-        </span>
-      </button>
+      {/* Input with Calendar Icon */}
+      <div className="relative">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          onFocus={() => !disabled && setIsOpen(true)}
+          disabled={disabled}
+          placeholder={placeholder}
+          className={`
+            w-full pl-10 pr-3 py-2.5 rounded-lg border transition-all
+            ${error ? "border-red-500" : "border-[#d4d6b4]"}
+            ${disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white hover:border-[#3b4417]"}
+            ${isOpen ? "border-[#3b4417] ring-2 ring-[#3b4417]/20" : ""}
+            text-[#3b4417] placeholder:text-[#7a8451]/50
+          `}
+        />
+        <button
+          type="button"
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          disabled={disabled}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a8451]"
+        >
+          <Calendar className="h-4 w-4" />
+        </button>
+      </div>
 
       {error && (
         <p className="text-xs text-red-600 mt-1">{error}</p>

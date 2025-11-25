@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2, AlertTriangle, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import type { Product } from "@/types/product";
 
@@ -19,6 +20,7 @@ export default function DeleteProductModal({
   onConfirm,
   product,
 }: DeleteProductModalProps) {
+  const t = useTranslations("seller.products.delete");
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleConfirm = async () => {
@@ -66,10 +68,10 @@ export default function DeleteProductModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-red-900">
-                      Confirm product deletion
+                      {t("title")}
                     </h2>
                     <p className="text-sm text-red-700">
-                      This action cannot be undone
+                      {t("subtitle")}
                     </p>
                   </div>
                 </div>
@@ -86,7 +88,7 @@ export default function DeleteProductModal({
               <div className="p-6 space-y-4">
                 <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                   <p className="text-sm text-[#7a8451] mb-2">
-                    You are deleting the product:
+                    {t("deletingProduct")}
                   </p>
                   <div className="space-y-2">
                     <p className="font-semibold text-[#3b4417] text-lg">
@@ -107,21 +109,19 @@ export default function DeleteProductModal({
                     <AlertTriangle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
                     <div className="space-y-2">
                       <p className="font-medium text-red-900">
-                        Important note:
+                        {t("importantNote")}
                       </p>
                       <ul className="text-sm text-red-700 space-y-1 list-disc list-inside">
-                        <li>The product will be permanently deleted from the system</li>
-                        <li>Data cannot be recovered after deletion</li>
-                        <li>
-                          If there are related orders, please check before deleting
-                        </li>
+                        <li>{t("permanentDelete")}</li>
+                        <li>{t("cannotRecover")}</li>
+                        <li>{t("checkOrders")}</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
                 <p className="text-sm text-[#7a8451]">
-                  Are you sure you want to delete this product?
+                  {t("confirmQuestion")}
                 </p>
               </div>
 
@@ -132,7 +132,7 @@ export default function DeleteProductModal({
                   disabled={isDeleting}
                   className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
                 <button
                   onClick={handleConfirm}
@@ -142,12 +142,12 @@ export default function DeleteProductModal({
                   {isDeleting ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Deleting...
+                      {t("deleting")}
                     </>
                   ) : (
                     <>
                       <Trash2 className="w-5 h-5" />
-                      Delete product
+                      {t("deleteProduct")}
                     </>
                   )}
                 </button>

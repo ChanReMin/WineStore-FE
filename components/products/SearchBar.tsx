@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { Search, X, Sparkles } from "lucide-react";
 
 interface SearchBarProps {
@@ -13,8 +14,10 @@ interface SearchBarProps {
 export default function SearchBar({
   value,
   onChange,
-  placeholder = "Search premium wines, regions, vintages...",
+  placeholder,
 }: SearchBarProps) {
+  const t = useTranslations("shop.search");
+  const defaultPlaceholder = placeholder || t("placeholder");
   const [localValue, setLocalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -85,7 +88,7 @@ export default function SearchBar({
           onChange={(e) => setLocalValue(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder={placeholder}
+          placeholder={defaultPlaceholder}
           className={`w-full border-2 bg-linear-to-br from-white to-[#fdfbf5] px-5 py-4 pl-14 pr-14 text-[14px] text-[#3b4417] placeholder-neutral-400 transition-all duration-300 shadow-sm ${
             isFocused
               ? "border-[#d4af37] shadow-lg shadow-[#d4af37]/20"
@@ -146,7 +149,7 @@ export default function SearchBar({
             className="absolute left-0 top-full mt-3 flex items-center gap-2 text-[11px] text-[#7b5b2c] italic"
           >
             <Sparkles size={12} className="text-[#d4af37]" />
-            <span>Discover exceptional wines from around the world</span>
+            <span>{t("hint")}</span>
           </motion.div>
         )}
       </AnimatePresence>

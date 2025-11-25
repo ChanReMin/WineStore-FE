@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const FEATURED_WINES = [
   {
@@ -64,6 +65,18 @@ const itemVariants: any = {
 };
 
 export default function FeaturedProducts() {
+  const t = useTranslations('home.featured');
+  
+  const getBadgeText = (badge: string) => {
+    const badgeMap: Record<string, string> = {
+      "Best Seller": t('badges.bestSeller'),
+      "Limited": t('badges.limited'),
+      "Award Winner": t('badges.awardWinner'),
+      "New Arrival": t('badges.newArrival'),
+    };
+    return badgeMap[badge] || badge;
+  };
+  
   return (
     <section className="w-full bg-[#fdfbf5] py-20 md:py-32">
       <div className="mx-auto max-w-7xl px-4">
@@ -76,18 +89,17 @@ export default function FeaturedProducts() {
           className="text-center"
         >
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.3em] text-[#3b4417] uppercase">
-            Featured Wines
+            {t('title')}
           </h2>
 
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
             <span className="h-px w-16 bg-[#d4d6b4]" />
-            <span>Handpicked by our sommeliers</span>
+            <span>{t('subtitle')}</span>
             <span className="h-px w-16 bg-[#d4d6b4]" />
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-neutral-600">
-            Discover our carefully curated selection of exceptional wines from
-            renowned vineyards around the world.
+            {t('description')}
           </p>
         </motion.div>
 
@@ -109,7 +121,7 @@ export default function FeaturedProducts() {
               {/* Badge */}
               <div className="absolute left-4 top-4 z-10">
                 <span className="bg-[#3b4417] px-3 py-1 text-[10px] tracking-[0.2em] text-white uppercase">
-                  {wine.badge}
+                  {getBadgeText(wine.badge)}
                 </span>
               </div>
 
@@ -133,7 +145,7 @@ export default function FeaturedProducts() {
                   className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 bg-white px-6 py-3 text-[11px] tracking-[0.25em] text-[#3b4417] opacity-0 transition-all duration-500 group-hover:opacity-100 uppercase"
                 >
                   <ShoppingBag size={14} />
-                  Add to Cart
+                  {t('addToCart')}
                 </motion.button>
               </div>
 
@@ -190,7 +202,7 @@ export default function FeaturedProducts() {
             <span className="pointer-events-none absolute left-0 bottom-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
             <span className="pointer-events-none absolute right-0 top-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
             <span className="relative bg-[#fdfbf5] px-6 py-2">
-              Explore All Wines
+              {t('exploreAll')}
             </span>
           </motion.button>
         </motion.div>

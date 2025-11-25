@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Download, Upload, Package } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { mockInventoryList } from "@/lib/inventory.mock";
 import InventoryFilters from "@/components/seller/inventory/InventoryFilters";
 import InventoryTable from "@/components/seller/inventory/InventoryTable";
@@ -12,6 +13,7 @@ import type { InventoryItem } from "@/types/inventory";
 import { toast } from "react-toastify";
 
 export default function InventoryPage() {
+  const t = useTranslations("seller.inventory");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [warehouseFilter, setWarehouseFilter] = useState("all");
@@ -122,10 +124,10 @@ export default function InventoryPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
-            Inventory Management
+            {t("title")}
           </h1>
           <p className="text-[#7a8451]">
-            Track and manage product inventory
+            {t("subtitle")}
           </p>
         </div>
       </div>
@@ -134,31 +136,31 @@ export default function InventoryPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {[
           {
-            label: "Total Products",
+            labelKey: "summary.totalProducts",
             value: summary.total,
             color: "bg-[#f5f3e8]",
             icon: Package,
           },
           {
-            label: "In Stock",
+            labelKey: "summary.inStock",
             value: summary.inStock,
             color: "bg-emerald-50",
             icon: Package,
           },
           {
-            label: "Low Stock",
+            labelKey: "summary.lowStock",
             value: summary.lowStock,
             color: "bg-amber-50",
             icon: Package,
           },
           {
-            label: "Out of Stock",
+            labelKey: "summary.outOfStock",
             value: summary.outOfStock,
             color: "bg-red-50",
             icon: Package,
           },
           {
-            label: "Inventory Value",
+            labelKey: "summary.inventoryValue",
             value: formatPrice(summary.totalValue),
             color: "bg-blue-50",
             icon: Package,
@@ -166,13 +168,13 @@ export default function InventoryPage() {
           },
         ].map((stat, index) => (
           <motion.div
-            key={stat.label}
+            key={stat.labelKey}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
             className={`${stat.color} border border-[#e8e6dc] rounded-lg p-4`}
           >
-            <p className="text-sm text-[#7a8451] mb-1">{stat.label}</p>
+            <p className="text-sm text-[#7a8451] mb-1">{t(stat.labelKey)}</p>
             <p
               className={`${stat.isPrice ? "text-xl" : "text-2xl"} font-bold text-[#3b4417]`}
             >

@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/table";
 import InventoryLogTypeBadge from "./InventoryLogTypeBadge";
 import type { InventoryLog } from "@/types/inventoryLog";
+import { useTranslations } from "next-intl";
 
 interface InventoryLogsTableProps {
   logs: InventoryLog[];
 }
 
 export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
+  const t = useTranslations("seller.inventory.logs.table");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   const formatDate = (dateString: string) => {
@@ -48,10 +50,10 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
       <Card className="p-12 text-center border-[#d4d6b4]">
         <FileText className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
-          No inventory transactions recorded
+          {t("noTransactions")}
         </h3>
         <p className="text-[#7a8451]">
-          No inventory transactions recorded
+          {t("noTransactionsDesc")}
         </p>
       </Card>
     );
@@ -64,25 +66,25 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
               <TableHead className="font-semibold text-[#3b4417]">
-                Timestamp
+                {t("timestamp")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Type
+                {t("type")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Product
+                {t("product")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Warehouse
+                {t("warehouse")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417] text-center">
-                Quantity
+                {t("quantity")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                User
+                {t("user")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                Note
+                {t("note")}
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -139,7 +141,7 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                     </div>
                   ) : (
                     <span className="text-sm text-[#7a8451] italic">
-                      No notes
+                      {t("noNotes")}
                     </span>
                   )}
                 </TableCell>
@@ -153,23 +155,23 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
       <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <p className="text-[#7a8451] mb-1">Total Transactions</p>
+            <p className="text-[#7a8451] mb-1">{t("totalTransactions")}</p>
             <p className="text-xl font-bold text-[#3b4417]">{logs.length}</p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Stock In</p>
+            <p className="text-[#7a8451] mb-1">{t("stockIn")}</p>
             <p className="text-xl font-bold text-emerald-600">
               {logs.filter((l) => l.type === "IN").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Stock Out</p>
+            <p className="text-[#7a8451] mb-1">{t("stockOut")}</p>
             <p className="text-xl font-bold text-red-600">
               {logs.filter((l) => l.type === "OUT").length}
             </p>
           </div>
           <div>
-            <p className="text-[#7a8451] mb-1">Others</p>
+            <p className="text-[#7a8451] mb-1">{t("others")}</p>
             <p className="text-xl font-bold text-blue-600">
               {
                 logs.filter((l) => l.type === "ADJUST" || l.type === "RETURN")

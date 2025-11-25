@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 const TESTIMONIALS = [
   {
@@ -41,6 +42,7 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const t = useTranslations('home.testimonials');
 
   return (
     <section className="w-full bg-white py-20 md:py-32">
@@ -54,12 +56,12 @@ export default function Testimonials() {
           className="text-center"
         >
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.3em] text-[#3b4417] uppercase">
-            What Our Clients Say
+            {t('title')}
           </h2>
 
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
             <span className="h-px w-16 bg-[#d4d6b4]" />
-            <span>Trusted by wine lovers worldwide</span>
+            <span>{t('subtitle')}</span>
             <span className="h-px w-16 bg-[#d4d6b4]" />
           </div>
         </motion.div>
@@ -137,12 +139,7 @@ export default function Testimonials() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-16 flex flex-wrap items-center justify-center gap-8 border-t border-neutral-200 pt-12"
         >
-          {[
-            "Wine Spectator Approved",
-            "Decanter Award Winner",
-            "James Suckling 95+ Points",
-            "Robert Parker Certified",
-          ].map((badge, index) => (
+          {[0, 1, 2, 3].map((index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, scale: 0.8 }}
@@ -153,7 +150,7 @@ export default function Testimonials() {
               className="flex items-center gap-2 text-[11px] tracking-[0.2em] text-neutral-500 uppercase"
             >
               <Star size={14} className="text-[#d4af37]" fill="#d4af37" />
-              {badge}
+              {t(`trustBadges.${index}`)}
             </motion.div>
           ))}
         </motion.div>

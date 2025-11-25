@@ -2,6 +2,7 @@
 
 import { Search, Filter, Warehouse } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 
 interface InventoryFiltersProps {
   searchQuery: string;
@@ -22,11 +23,13 @@ export default function InventoryFilters({
   onWarehouseChange,
   warehouses,
 }: InventoryFiltersProps) {
+  const t = useTranslations("seller.inventory.filters");
+  
   const statusOptions = [
-    { value: "all", label: "All" },
-    { value: "in_stock", label: "In Stock" },
-    { value: "low_stock", label: "Low Stock" },
-    { value: "out_of_stock", label: "Out of Stock" },
+    { value: "all", label: t("all") },
+    { value: "in_stock", label: t("inStock") },
+    { value: "low_stock", label: t("lowStock") },
+    { value: "out_of_stock", label: t("outOfStock") },
   ];
 
   return (
@@ -37,7 +40,7 @@ export default function InventoryFilters({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
           <input
             type="text"
-            placeholder="Search by product name, warehouse..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
@@ -51,7 +54,7 @@ export default function InventoryFilters({
             <div className="flex items-center gap-2 mb-2">
               <Filter className="w-4 h-4 text-[#7a8451]" />
               <span className="text-sm font-medium text-[#3b4417]">
-                Inventory Status
+                {t("inventoryStatus")}
               </span>
             </div>
             <div className="flex gap-2 flex-wrap">
@@ -75,7 +78,7 @@ export default function InventoryFilters({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Warehouse className="w-4 h-4 text-[#7a8451]" />
-              <span className="text-sm font-medium text-[#3b4417]">Warehouse</span>
+              <span className="text-sm font-medium text-[#3b4417]">{t("warehouse")}</span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <button
@@ -86,7 +89,7 @@ export default function InventoryFilters({
                     : "bg-[#f5f3e8] text-[#3b4417] hover:bg-[#e8e6dc]"
                 }`}
               >
-                All
+                {t("all")}
               </button>
               {warehouses.map((warehouse) => (
                 <button

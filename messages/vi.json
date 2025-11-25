@@ -1,0 +1,1436 @@
+{
+  "common": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "ourStory": "Câu chuyện",
+    "blog": "Blog",
+    "shop": "Cửa hàng",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "language": "Ngôn ngữ"
+  },
+  "header": {
+    "title": "Wine Store",
+    "changeLocation": "Thay đổi địa chỉ",
+    "nav": {
+      "home": "Trang chủ",
+      "about": "Giới thiệu",
+      "ourStory": "Câu chuyện",
+      "blog": "Blog",
+      "shop": "Cửa hàng"
+    },
+    "auth": {
+      "login": "Đăng nhập",
+      "register": "Đăng ký"
+    }
+  },
+  "userMenu": {
+    "profile": "Hồ sơ",
+    "myOrders": "Đơn hàng của tôi",
+    "sellerDashboard": "Bảng điều khiển người bán",
+    "manageOrders": "Quản lý đơn hàng",
+    "products": "Sản phẩm",
+    "seller": "Người bán",
+    "logout": "Đăng xuất"
+  },
+  "cart": {
+    "title": "Giỏ hàng",
+    "item": "Sản phẩm",
+    "items": "Sản phẩm",
+    "empty": {
+      "title": "Giỏ hàng trống",
+      "description": "Thêm một số loại rượu vang để bắt đầu",
+      "subtitle": "Khám phá bộ sưu tập cao cấp của chúng tôi",
+      "button": "Duyệt rượu vang"
+    },
+    "subtotal": "Tạm tính",
+    "checkout": "Tiến hành thanh toán",
+    "shippingNote": "Phí vận chuyển & thuế được tính khi thanh toán"
+  },
+  "home": {
+    "hero": {
+      "slides": {
+        "0": {
+          "title": "Gặp gỡ các nhà sản xuất rượu",
+          "tagline": "Được làm thủ công theo lô nhỏ, rót với niềm đam mê."
+        },
+        "1": {
+          "title": "Từ vườn nho đến ly",
+          "tagline": "Rượu vang từ điền trang đơn lẻ được tuyển chọn cho mọi dịp."
+        },
+        "2": {
+          "title": "Khám phá chai rượu yêu thích mới",
+          "tagline": "Nhãn hiệu boutique, phiên bản giới hạn, những buổi tối vượt thời gian."
+        },
+        "3": {
+          "title": "Thưởng thức nghệ thuật làm rượu vang",
+          "tagline": "Hương vị tinh tế, khoảnh khắc khó quên."
+        },
+        "4": {
+          "title": "Nâng tầm trải nghiệm rượu vang",
+          "tagline": "Lựa chọn được tuyển chọn cho khẩu vị sành điệu."
+        }
+      },
+      "estd": "thành lập 1970",
+      "shopNow": "Mua ngay",
+      "ourStory": "Câu chuyện"
+    },
+    "values": {
+      "0": {
+        "title": "Miễn phí vận chuyển",
+        "description": "Cho đơn hàng trên $200"
+      },
+      "1": {
+        "title": "Thanh toán an toàn",
+        "description": "Bảo vệ 100% khi thanh toán"
+      },
+      "2": {
+        "title": "Đảm bảo chất lượng",
+        "description": "Chỉ rượu vang chính hãng"
+      },
+      "3": {
+        "title": "Hỗ trợ chuyên gia",
+        "description": "Sommelier có sẵn 24/7"
+      }
+    },
+    "story": {
+      "heading": "BÊN TRONG MỖI CHAI\nLÀ MỘT CÂU CHUYỆN.\nKHÁM PHÁ RƯỢU VANG CỦA CHÚNG TÔI.",
+      "subtitle": "Cửa hàng rượu vang Château Boutique",
+      "paragraph1": "Tại Château, chúng tôi tin rằng mỗi chai rượu nên giống như một lời mời chậm lại. Kệ của chúng tôi được tuyển chọn với các điền trang châu Âu sản xuất nhỏ và những khám phá Tân Thế giới, mỗi loại được chọn vì sự cân bằng, tính cách và cảm giác thực sự về nơi chốn.",
+      "paragraph2": "Cho dù bạn đang kết hợp với bữa tối, kỷ niệm một cột mốc quan trọng, hay đơn giản là khám phá điều gì đó mới, đội ngũ của chúng tôi ở đây để hướng dẫn bạn với các đề xuất trung thực, ghi chú nếm thử và mẹo kết hợp thức ăn dễ dàng—để tìm rượu vang phù hợp trở nên dễ dàng.",
+      "readMore": "ĐỌC THÊM"
+    },
+    "cta": {
+      "title": "Sẵn sàng khám phá\nRượu vang hoàn hảo của bạn?",
+      "description": "Duyệt bộ sưu tập rượu vang cao cấp được tuyển chọn từ khắp nơi trên thế giới. Cho dù bạn là người sành rượu hay mới bắt đầu hành trình, chúng tôi có điều gì đó đặc biệt cho bạn.",
+      "shopNow": "Mua ngay",
+      "learnMore": "Tìm hiểu thêm",
+      "trustIndicator": "✓ Miễn phí vận chuyển cho đơn hàng trên $200 • ✓ Chính sách đổi trả 30 ngày • ✓ Thanh toán an toàn"
+    },
+    "featured": {
+      "title": "Rượu vang nổi bật",
+      "subtitle": "Được chọn lọc bởi các sommelier của chúng tôi",
+      "description": "Khám phá bộ sưu tập được tuyển chọn cẩn thận của chúng tôi về những loại rượu vang đặc biệt từ các vườn nho nổi tiếng trên khắp thế giới.",
+      "addToCart": "Thêm vào giỏ",
+      "exploreAll": "Khám phá tất cả rượu vang",
+      "badges": {
+        "bestSeller": "Bán chạy nhất",
+        "limited": "Giới hạn",
+        "awardWinner": "Đoạt giải",
+        "newArrival": "Hàng mới"
+      }
+    },
+    "testimonials": {
+      "title": "Khách hàng nói gì",
+      "subtitle": "Được tin tưởng bởi những người yêu rượu vang trên toàn thế giới",
+      "trustBadges": {
+        "0": "Được Wine Spectator phê duyệt",
+        "1": "Người chiến thắng giải Decanter",
+        "2": "James Suckling 95+ điểm",
+        "3": "Được Robert Parker chứng nhận"
+      }
+    },
+    "newsletter": {
+      "title": "Tham gia câu lạc bộ rượu vang",
+      "subtitle": "Ưu đãi độc quyền & ghi chú nếm thử",
+      "description": "Đăng ký để nhận đề xuất rượu vang được tuyển chọn, giảm giá độc quyền và lời mời tham dự các buổi nếm thử riêng tư.",
+      "placeholder": "Nhập địa chỉ email của bạn",
+      "subscribe": "Đăng ký",
+      "subscribed": "Đã đăng ký!",
+      "privacy": "Bằng cách đăng ký, bạn đồng ý với Chính sách Bảo mật của chúng tôi và đồng ý nhận cập nhật.",
+      "stats": {
+        "0": "Người yêu rượu vang",
+        "1": "Rượu vang cao cấp",
+        "2": "Quốc gia"
+      }
+    },
+    "wineStories": {
+      "title": "Những câu chuyện rượu vang mới mẻ",
+      "subtitle": "thành lập 1970",
+      "timeline": {
+        "left": {
+          "0": {
+            "year": "1957",
+            "title": "Mua vườn nho",
+            "text": "Câu chuyện của chúng tôi bắt đầu với một vườn nho nhỏ trên sườn đồi, được mua bởi thế hệ đầu tiên của gia đình."
+          },
+          "1": {
+            "year": "1976",
+            "title": "Niên vụ đầu tiên",
+            "text": "Sau nhiều năm chăm sóc cây nho, niên vụ đầu tiên của chúng tôi đã được đóng chai và chia sẻ với những người bạn thân."
+          },
+          "2": {
+            "year": "1990",
+            "title": "Hầm rượu boutique",
+            "text": "Chúng tôi mở một cửa hầm nhỏ, chào đón du khách nếm thử các phiên bản giới hạn trực tiếp từ thùng."
+          }
+        },
+        "right": {
+          "0": {
+            "year": "1961",
+            "title": "Thu hoạch vườn nho đầu tiên",
+            "text": "Một mùa sinh trưởng đáng chú ý mang lại vụ thu hoạch sẽ định hình triết lý làm rượu vang của chúng tôi."
+          },
+          "1": {
+            "year": "1985",
+            "title": "Câu lạc bộ rượu vang đầu tiên",
+            "text": "Khách trung thành trở thành thành viên của câu lạc bộ rượu vang, nhận được các lựa chọn được tuyển chọn cho mỗi mùa."
+          },
+          "2": {
+            "year": "2011",
+            "title": "Nhà máy rượu hữu cơ",
+            "text": "Chúng tôi hoàn thành quá trình chuyển đổi sang một điền trang hoàn toàn hữu cơ, tôn vinh vùng đất nuôi dưỡng cây nho của chúng tôi."
+          }
+        }
+      }
+    },
+    "cellarJourney": {
+      "tagline": "RƯỢU VANG ĐƯỢC TUYỂN CHỌN TỪ TỪ CHO NHỮNG BUỔI TỐI THONG THẢ.",
+      "title": "MỘT HÀNH TRÌNH\nQUA HẦM RƯỢU CỦA CHÚNG TÔI",
+      "description": "Từ những vườn nho ngập nắng đến những buổi nếm thử dưới ánh nến, mỗi chai trên kệ của chúng tôi mang theo sự kiên nhẫn của thời gian và nghề thủ công của người làm rượu. Cuộn để khám phá những câu chuyện đằng sau các nhãn hiệu yêu thích của chúng tôi."
+    }
+  },
+  "orders": {
+    "title": "Đơn hàng của tôi",
+    "subtitle": "Quản lý và theo dõi đơn hàng của bạn",
+    "found": "Tìm thấy",
+    "order": "đơn hàng",
+    "previous": "Trước",
+    "next": "Sau",
+    "stats": {
+      "total": "Tổng đơn",
+      "pending": "Chờ xác nhận",
+      "processing": "Đang xử lý",
+      "shipping": "Đang giao",
+      "delivered": "Đã giao",
+      "cancelled": "Đã hủy"
+    },
+    "filters": {
+      "all": "Tất cả",
+      "pending": "Chờ xác nhận",
+      "processing": "Đang xử lý",
+      "shipping": "Đang giao",
+      "delivered": "Đã giao",
+      "cancelled": "Đã hủy"
+    },
+    "card": {
+      "itemsCount": "Số sản phẩm:",
+      "products": "sản phẩm",
+      "total": "Tổng tiền:",
+      "discount": "Giảm giá:",
+      "finalAmount": "Thành tiền:",
+      "viewDetail": "Xem chi tiết"
+    },
+    "empty": {
+      "title": "Chưa có đơn hàng nào",
+      "description": "Hãy khám phá bộ sưu tập rượu vang cao cấp của chúng tôi",
+      "button": "Khám phá ngay"
+    },
+    "error": "Không thể tải danh sách đơn hàng"
+  },
+  "shop": {
+    "hero": {
+      "title": "Wine",
+      "subtitle": "Collection",
+      "estd": "thành lập 1970",
+      "description": "Khám phá những loại rượu vang cao cấp được tuyển chọn cẩn thận từ các vườn nho nổi tiếng trên khắp thế giới.",
+      "tagline": "Hương vị tinh tế, trải nghiệm đặc biệt",
+      "exploreNow": "Khám phá ngay"
+    },
+    "search": {
+      "placeholder": "Tìm kiếm rượu vang cao cấp, vùng miền, niên vụ...",
+      "hint": "Khám phá những loại rượu vang đặc biệt từ khắp nơi trên thế giới"
+    },
+    "pagination": {
+      "page": "Trang",
+      "of": "trong số"
+    },
+    "filters": {
+      "title": "Bộ lọc",
+      "clear": "Xóa",
+      "reset": "Đặt lại bộ lọc",
+      "activeFilters": "Bộ lọc đang áp dụng:",
+      "clearAll": "Xóa tất cả",
+      "brand": "Thương hiệu",
+      "allBrands": "Tất cả thương hiệu",
+      "category": "Danh mục",
+      "allCategories": "Tất cả danh mục",
+      "priceRange": "Khoảng giá",
+      "min": "Tối thiểu",
+      "max": "Tối đa",
+      "abv": "Nồng độ cồn",
+      "price": "Giá"
+    },
+    "sort": {
+      "sortBy": "Sắp xếp theo",
+      "newest": "Mới nhất",
+      "oldest": "Cũ nhất",
+      "priceAsc": "Giá: Thấp đến Cao",
+      "priceDesc": "Giá: Cao đến Thấp",
+      "nameAsc": "Tên: A-Z",
+      "nameDesc": "Tên: Z-A"
+    },
+    "results": {
+      "showing": "Hiển thị",
+      "of": "trong số",
+      "products": "sản phẩm"
+    },
+    "product": {
+      "addToCart": "Thêm vào giỏ",
+      "view": "Xem",
+      "premium": "Cao cấp",
+      "save": "Tiết kiệm"
+    }
+  },
+  "seller": {
+    "layout": {
+      "sellerHub": "Trung tâm người bán",
+      "accessDenied": "Truy cập bị từ chối",
+      "noPermission": "Bạn không có quyền truy cập bảng điều khiển người bán.",
+      "redirecting": "Đang chuyển hướng về trang chủ...",
+      "wineStore": "Wine Store",
+      "sellerAccount": "Tài khoản người bán"
+    },
+    "sidebar": {
+      "dashboard": "Bảng điều khiển",
+      "productManagement": "Quản lý sản phẩm",
+      "orderManagement": "Quản lý đơn hàng",
+      "inventoryManagement": "Quản lý tồn kho",
+      "inventory": "Tồn kho",
+      "inventoryLogs": "Nhật ký tồn kho",
+      "promotions": "Khuyến mãi & Giảm giá"
+    },
+    "header": {
+      "notifications": "Thông báo",
+      "newOrders": "Bạn có {count} đơn hàng mới",
+      "pendingProducts": "{count} sản phẩm đang chờ duyệt",
+      "lowStock": "{count} sản phẩm sắp hết hàng",
+      "viewAll": "Xem tất cả thông báo",
+      "myProfile": "Hồ sơ của tôi",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất",
+      "seller": "Người bán",
+      "minutesAgo": "{count} phút trước",
+      "hoursAgo": "{count} giờ trước"
+    },
+    "products": {
+      "title": "Quản lý sản phẩm",
+      "subtitle": "Quản lý danh sách sản phẩm và theo dõi trạng thái duyệt",
+      "addProduct": "Thêm sản phẩm",
+      "searchPlaceholder": "Tìm kiếm sản phẩm...",
+      "summary": {
+        "totalProducts": "Tổng sản phẩm",
+        "allProductsListed": "Tất cả sản phẩm đã đăng",
+        "pending": "Chờ duyệt",
+        "waitingForAdmin": "Đang chờ Admin",
+        "active": "Đang bán",
+        "approved": "Đã duyệt",
+        "banned": "Bị cấm",
+        "notAllowedToSell": "Không được phép bán"
+      },
+      "filters": {
+        "all": "Tất cả",
+        "onSale": "Đang bán",
+        "category": "Danh mục",
+        "allCategories": "Tất cả danh mục",
+        "brand": "Thương hiệu",
+        "allBrands": "Tất cả thương hiệu",
+        "price": "Giá (VND)",
+        "from": "Từ",
+        "to": "Đến",
+        "concentration": "Nồng độ (%)",
+        "clearFilters": "Xóa bộ lọc"
+      },
+      "table": {
+        "id": "ID",
+        "product": "Sản phẩm",
+        "price": "Giá",
+        "category": "Danh mục",
+        "inventory": "Tồn kho",
+        "status": "Trạng thái",
+        "createdDate": "Ngày tạo",
+        "actions": "Thao tác",
+        "noProductsFound": "Không tìm thấy sản phẩm",
+        "tryChangingFilter": "Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác",
+        "viewDetails": "Xem chi tiết",
+        "addPromotion": "Thêm khuyến mãi",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "approvalInfo": "Thông tin duyệt",
+        "approvalDescription": "Sản phẩm đã duyệt sẽ được hiển thị cho khách hàng. Sản phẩm chờ duyệt cần được Admin phê duyệt trước khi bán."
+      },
+      "form": {
+        "addNewProduct": "Thêm sản phẩm mới",
+        "editProduct": "Sửa sản phẩm",
+        "awaitApproval": "Sản phẩm sẽ chờ Admin phê duyệt",
+        "updateInfo": "Cập nhật thông tin sản phẩm",
+        "basicInfo": "Thông tin cơ bản",
+        "productName": "Tên sản phẩm",
+        "required": "*",
+        "priceVND": "Giá (VND)",
+        "category": "Danh mục",
+        "brand": "Thương hiệu",
+        "wineType": "Loại rượu",
+        "country": "Quốc gia",
+        "wineDetails": "Chi tiết rượu",
+        "grapeVariety": "Giống nho",
+        "concentration": "Nồng độ (%)",
+        "capacity": "Dung tích (ml)",
+        "productionArea": "Vùng sản xuất",
+        "storageInstructions": "Hướng dẫn bảo quản",
+        "idealTemperature": "Nhiệt độ lý tưởng",
+        "humidity": "Độ ẩm",
+        "avoidLight": "Tránh ánh sáng",
+        "placeBottleHorizontally": "Đặt chai nằm ngang",
+        "avoidVibration": "Tránh rung động",
+        "afterOpening": "Sau khi mở",
+        "wineCabinet": "Tủ rượu",
+        "imagesDescription": "Hình ảnh & Mô tả",
+        "productImages": "Hình ảnh sản phẩm",
+        "detailedDescription": "Mô tả chi tiết",
+        "cancel": "Hủy",
+        "saving": "Đang lưu...",
+        "createProduct": "Tạo sản phẩm",
+        "updateProduct": "Cập nhật sản phẩm"
+      },
+      "delete": {
+        "title": "Xác nhận xóa sản phẩm",
+        "subtitle": "Hành động này không thể hoàn tác",
+        "deletingProduct": "Bạn đang xóa sản phẩm:",
+        "importantNote": "Lưu ý quan trọng:",
+        "permanentDelete": "Sản phẩm sẽ bị xóa vĩnh viễn khỏi hệ thống",
+        "cannotRecover": "Dữ liệu không thể khôi phục sau khi xóa",
+        "checkOrders": "Nếu có đơn hàng liên quan, vui lòng kiểm tra trước khi xóa",
+        "confirmQuestion": "Bạn có chắc chắn muốn xóa sản phẩm này?",
+        "cancel": "Hủy",
+        "deleting": "Đang xóa...",
+        "deleteProduct": "Xóa sản phẩm"
+      },
+      "detail": {
+        "price": "Giá bán",
+        "inventory": "Tồn kho",
+        "products": "sản phẩm",
+        "category": "Danh mục",
+        "brand": "Thương hiệu",
+        "history": "Lịch sử",
+        "productCreated": "Sản phẩm được tạo",
+        "pendingApproval": "Chờ duyệt",
+        "awaitingAdmin": "Sản phẩm đang chờ Admin phê duyệt",
+        "approved": "Đã duyệt",
+        "productBanned": "Sản phẩm bị cấm",
+        "notAllowedToSell": "Sản phẩm không được phép bán",
+        "by": "bởi",
+        "pendingNote": "Lưu ý về sản phẩm chờ duyệt",
+        "pendingDescription": "Sản phẩm này chưa hiển thị cho khách hàng. Bạn có thể chỉnh sửa sản phẩm trong khi chờ Admin phê duyệt.",
+        "productLive": "Sản phẩm đang bán",
+        "liveDescription": "Sản phẩm này đang hiển thị cho khách hàng và có thể được mua.",
+        "close": "Đóng",
+        "edit": "Sửa"
+      }
+    },
+    "orders": {
+      "title": "Quản lý đơn hàng",
+      "subtitle": "Theo dõi và xử lý đơn hàng của khách hàng",
+      "summary": {
+        "totalOrders": "Tổng đơn hàng",
+        "pending": "Chờ xác nhận",
+        "processing": "Đang xử lý",
+        "shipping": "Đang giao",
+        "completed": "Hoàn thành",
+        "cancelled": "Đã hủy"
+      },
+      "filters": {
+        "searchPlaceholder": "Tìm kiếm theo mã đơn, tên hoặc email khách hàng...",
+        "allOrders": "Tất cả đơn hàng",
+        "allPayments": "Tất cả thanh toán",
+        "paid": "Đã thanh toán",
+        "unpaid": "Chưa thanh toán"
+      },
+      "table": {
+        "orderCode": "Mã đơn hàng",
+        "customer": "Khách hàng",
+        "products": "Sản phẩm",
+        "totalAmount": "Tổng tiền",
+        "paymentStatus": "Thanh toán",
+        "orderStatus": "Trạng thái",
+        "createdAt": "Ngày tạo",
+        "actions": "Thao tác",
+        "noOrders": "Không tìm thấy đơn hàng",
+        "tryChangingFilter": "Thử thay đổi bộ lọc hoặc tìm kiếm với từ khóa khác",
+        "viewDetails": "Xem chi tiết",
+        "updateStatus": "Cập nhật trạng thái"
+      },
+      "status": {
+        "pending": "Chờ xác nhận",
+        "processing": "Đang xử lý",
+        "shipping": "Đang giao",
+        "completed": "Hoàn thành",
+        "cancelled": "Đã hủy"
+      },
+      "payment": {
+        "paid": "Đã thanh toán",
+        "unpaid": "Chưa thanh toán",
+        "pending": "Chờ thanh toán",
+        "completed": "Hoàn thành",
+        "refunded": "Đã hoàn tiền",
+        "unknown": "Không xác định"
+      },
+      "detail": {
+        "title": "Chi tiết đơn hàng",
+        "orderStatus": "Trạng thái đơn hàng",
+        "paymentStatus": "Trạng thái thanh toán",
+        "customerInfo": "Thông tin khách hàng",
+        "shippingAddress": "Địa chỉ giao hàng",
+        "products": "Sản phẩm",
+        "product": "Sản phẩm",
+        "quantity": "Số lượng",
+        "unitPrice": "Đơn giá",
+        "subtotal": "Tạm tính",
+        "shippingFee": "Phí vận chuyển",
+        "discount": "Giảm giá",
+        "total": "Tổng cộng",
+        "paymentMethod": "Phương thức thanh toán",
+        "orderDate": "Ngày đặt hàng",
+        "note": "Ghi chú",
+        "close": "Đóng",
+        "updateStatus": "Cập nhật trạng thái",
+        "cod": "COD - Thanh toán khi nhận hàng"
+      },
+      "updateStatus": {
+        "title": "Cập nhật trạng thái đơn hàng",
+        "currentStatus": "Trạng thái hiện tại:",
+        "newStatus": "Trạng thái mới",
+        "required": "*",
+        "noteLabel": "Ghi chú (tùy chọn)",
+        "notePlaceholder": "Nhập ghi chú về cập nhật trạng thái...",
+        "warningTitle": "Cảnh báo",
+        "cancelWarning": "Bạn đang hủy đơn hàng này. Hành động này sẽ thông báo cho khách hàng và có thể ảnh hưởng đến đánh giá của bạn.",
+        "completeTitle": "Xác nhận hoàn thành",
+        "completeMessage": "Đơn hàng sẽ được đánh dấu là hoàn thành. Khách hàng có thể đánh giá sản phẩm sau khi hoàn thành.",
+        "cancel": "Hủy",
+        "updating": "Đang cập nhật...",
+        "update": "Cập nhật"
+      }
+    },
+    "inventory": {
+      "title": "Quản lý tồn kho",
+      "subtitle": "Theo dõi và quản lý tồn kho sản phẩm",
+      "summary": {
+        "totalProducts": "Tổng sản phẩm",
+        "inStock": "Còn hàng",
+        "lowStock": "Sắp hết",
+        "outOfStock": "Hết hàng",
+        "inventoryValue": "Giá trị tồn kho"
+      },
+      "filters": {
+        "searchPlaceholder": "Tìm kiếm theo tên sản phẩm, kho...",
+        "allStatus": "Tất cả trạng thái",
+        "allWarehouses": "Tất cả kho",
+        "inventoryStatus": "Trạng thái tồn kho",
+        "warehouse": "Kho hàng",
+        "all": "Tất cả",
+        "inStock": "Còn hàng",
+        "lowStock": "Sắp hết",
+        "outOfStock": "Hết hàng"
+      },
+      "table": {
+        "product": "Sản phẩm",
+        "warehouse": "Kho",
+        "onHand": "Tồn kho",
+        "available": "Có sẵn",
+        "reserved": "Đã đặt",
+        "status": "Trạng thái",
+        "lastUpdated": "Cập nhật",
+        "actions": "Thao tác",
+        "noItems": "Không tìm thấy sản phẩm",
+        "tryChanging": "Thử thay đổi bộ lọc hoặc tìm kiếm",
+        "updateStock": "Cập nhật tồn kho",
+        "stock": "Tồn kho",
+        "safetyStock": "Tồn kho an toàn",
+        "value": "Giá trị",
+        "updated": "Cập nhật",
+        "totalProducts": "Tổng sản phẩm",
+        "stockIn": "Nhập kho",
+        "stockOut": "Xuất kho"
+      },
+      "status": {
+        "inStock": "Còn hàng",
+        "lowStock": "Sắp hết",
+        "outOfStock": "Hết hàng"
+      },
+      "productStatus": {
+        "pending": "Chờ duyệt",
+        "active": "Đang bán",
+        "banned": "Bị cấm"
+      },
+      "updateModal": {
+        "title": "Cập nhật tồn kho",
+        "warehouse": "Kho hàng",
+        "currentStock": "Tồn kho hiện tại",
+        "type": "Loại giao dịch",
+        "stockIn": "Nhập kho",
+        "stockInDesc": "Thêm sản phẩm vào kho",
+        "stockOut": "Xuất kho",
+        "stockOutDesc": "Lấy sản phẩm ra khỏi kho",
+        "quantity": "Số lượng",
+        "note": "Ghi chú",
+        "notePlaceholder": "Nhập ghi chú về giao dịch...",
+        "cancel": "Hủy",
+        "updating": "Đang xử lý...",
+        "update": "Xác nhận",
+        "required": "*",
+        "confirmStockIn": "Xác nhận nhập kho",
+        "confirmStockOut": "Xác nhận xuất kho",
+        "stockWillChange": "Tồn kho sẽ thay đổi từ",
+        "exceedsStock": "Số lượng vượt quá tồn kho hiện tại!"
+      },
+      "logs": {
+        "title": "Nhật ký tồn kho",
+        "subtitle": "Theo dõi tất cả giao dịch nhập xuất kho",
+        "summary": {
+          "totalTransactions": "Tổng giao dịch",
+          "stockIn": "Nhập kho",
+          "stockOut": "Xuất kho",
+          "adjustments": "Điều chỉnh",
+          "returns": "Trả hàng",
+          "totalStockIn": "Tổng nhập kho"
+        },
+        "exportReport": "Xuất báo cáo",
+        "printReport": "In báo cáo",
+        "filters": {
+          "searchPlaceholder": "Tìm theo sản phẩm, người dùng, ghi chú...",
+          "transactionType": "Loại giao dịch",
+          "warehouse": "Kho hàng",
+          "all": "Tất cả",
+          "in": "Nhập",
+          "out": "Xuất",
+          "adjust": "Điều chỉnh",
+          "return": "Trả hàng"
+        },
+        "table": {
+          "timestamp": "Thời gian",
+          "type": "Loại",
+          "product": "Sản phẩm",
+          "warehouse": "Kho",
+          "quantity": "Số lượng",
+          "user": "Người thực hiện",
+          "note": "Ghi chú",
+          "noTransactions": "Chưa có giao dịch tồn kho nào",
+          "noTransactionsDesc": "Các giao dịch tồn kho sẽ hiển thị ở đây",
+          "noNotes": "Không có ghi chú",
+          "totalTransactions": "Tổng giao dịch",
+          "stockIn": "Nhập kho",
+          "stockOut": "Xuất kho",
+          "others": "Khác"
+        }
+      }
+    },
+    "promotions": {
+      "title": "Quản lý khuyến mãi",
+      "subtitle": "Tạo và quản lý chương trình khuyến mãi",
+      "addPromotion": "Thêm khuyến mãi",
+      "summary": {
+        "total": "Tổng khuyến mãi",
+        "active": "Đang hoạt động",
+        "scheduled": "Đã lên lịch",
+        "expired": "Đã hết hạn",
+        "totalUsage": "Tổng lượt sử dụng",
+        "remaining": "Còn lại"
+      },
+      "filters": {
+        "searchPlaceholder": "Tìm theo tên hoặc mã...",
+        "statusPlaceholder": "Trạng thái",
+        "all": "Tất cả",
+        "active": "Đang hoạt động",
+        "inactive": "Không hoạt động"
+      },
+      "table": {
+        "promotionCode": "Mã khuyến mãi",
+        "discount": "Giảm giá",
+        "timeframe": "Thời gian",
+        "usage": "Lượt sử dụng",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "noPromotions": "Chưa có khuyến mãi nào",
+        "createFirst": "Tạo khuyến mãi đầu tiên để thu hút khách hàng",
+        "viewDetails": "Xem chi tiết",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "used": "đã dùng"
+      }
+    },
+    "dashboard": {
+      "title": "Bảng điều khiển",
+      "subtitle": "Tổng quan hoạt động kinh doanh",
+      "overview": {
+        "totalRevenue": "Tổng doanh thu",
+        "orders": "Đơn hàng",
+        "products": "Sản phẩm",
+        "stockAlerts": "Cảnh báo tồn kho"
+      },
+      "revenue": {
+        "title": "Doanh thu 7 ngày qua",
+        "totalRevenue": "Tổng doanh thu:",
+        "totalOrders": "Tổng đơn hàng:",
+        "revenueLabel": "Doanh thu",
+        "ordersLabel": "Đơn hàng"
+      },
+      "latestOrders": {
+        "title": "Đơn hàng mới nhất",
+        "orderId": "Mã đơn",
+        "customer": "Khách hàng",
+        "status": "Trạng thái",
+        "paymentStatus": "Thanh toán",
+        "totalAmount": "Tổng tiền",
+        "createdAt": "Ngày tạo",
+        "paid": "Đã thanh toán",
+        "unpaid": "Chưa thanh toán"
+      },
+      "inventory": {
+        "title": "Cảnh báo tồn kho",
+        "product": "Sản phẩm",
+        "price": "Giá",
+        "stock": "Tồn kho",
+        "warehouse": "Kho",
+        "status": "Trạng thái",
+        "updated": "Cập nhật",
+        "outOfStock": "Hết hàng",
+        "lowStock": "Sắp hết",
+        "inStock": "Đủ hàng"
+      }
+    }
+  },
+  "productDetail": {
+    "breadcrumb": {
+      "home": "Trang chủ",
+      "collection": "Bộ sưu tập"
+    },
+    "inStock": "Còn hàng · Sẵn sàng giao",
+    "available": "có sẵn",
+    "tabs": {
+      "description": "Mô tả",
+      "specs": "Thông số",
+      "storage": "Bảo quản & Chăm sóc"
+    },
+    "specs": {
+      "grapeVariety": "Giống nho",
+      "region": "Vùng",
+      "wineType": "Loại rượu",
+      "alcoholContent": "Nồng độ cồn",
+      "volume": "Dung tích",
+      "servingTemp": "Nhiệt độ phục vụ",
+      "origin": "Xuất xứ"
+    },
+    "storage": {
+      "temperature": "Nhiệt độ",
+      "humidity": "Độ ẩm",
+      "light": "Ánh sáng",
+      "position": "Vị trí",
+      "vibration": "Rung động",
+      "afterOpening": "Sau khi mở"
+    },
+    "quantity": "Số lượng",
+    "addToCart": "Thêm vào giỏ",
+    "buyNow": "Mua ngay",
+    "save": "Lưu",
+    "unavailable": "Hiện không có sẵn",
+    "trust": {
+      "authentic": "Đảm bảo chính hãng",
+      "freeShipping": "Miễn phí vận chuyển",
+      "returns": "Đổi trả 30 ngày",
+      "securePayment": "Thanh toán an toàn"
+    },
+    "backToCollection": "Quay lại bộ sưu tập"
+  },
+  "profile": {
+    "title": "Hồ sơ của tôi",
+    "subtitle": "Quản lý thông tin cá nhân của bạn",
+    "header": {
+      "gender": {
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác",
+        "notUpdated": "Chưa cập nhật"
+      }
+    },
+    "tabs": {
+      "personalInfo": "Thông tin cá nhân",
+      "addresses": "Địa chỉ giao hàng",
+      "myOrders": "Đơn hàng của tôi"
+    },
+    "form": {
+      "title": "Thông tin cá nhân",
+      "edit": "Chỉnh sửa",
+      "firstName": "Họ",
+      "lastName": "Tên",
+      "phoneNumber": "Số điện thoại",
+      "dateOfBirth": "Ngày sinh",
+      "selectDateOfBirth": "Chọn ngày sinh",
+      "gender": "Giới tính",
+      "selectGender": "Chọn giới tính",
+      "genderOptions": {
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác"
+      },
+      "save": "Lưu thay đổi",
+      "saving": "Đang lưu...",
+      "cancel": "Hủy",
+      "updateSuccess": "Cập nhật thông tin thành công!",
+      "updateError": "Có lỗi xảy ra. Vui lòng thử lại!"
+    },
+    "security": {
+      "title": "Bảo mật",
+      "description": "Thay đổi mật khẩu để bảo vệ tài khoản của bạn",
+      "changePassword": "Đổi mật khẩu"
+    },
+    "changePassword": {
+      "title": "Đổi mật khẩu",
+      "oldPassword": "Mật khẩu cũ",
+      "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận mật khẩu mới",
+      "submit": "Đổi mật khẩu",
+      "processing": "Đang xử lý...",
+      "cancel": "Hủy",
+      "success": "Đổi mật khẩu thành công!",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại!",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp!",
+      "passwordTooShort": "Mật khẩu mới phải có ít nhất 8 ký tự!"
+    },
+    "addresses": {
+      "addNew": "Thêm địa chỉ mới",
+      "empty": {
+        "title": "Chưa có địa chỉ nào",
+        "description": "Thêm địa chỉ giao hàng để đặt hàng dễ dàng hơn"
+      },
+      "card": {
+        "default": "Mặc định",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "deleteConfirm": "Bạn có chắc muốn xóa địa chỉ này?",
+        "deleteSuccess": "Xóa địa chỉ thành công!",
+        "deleteError": "Có lỗi xảy ra. Vui lòng thử lại!"
+      },
+      "modal": {
+        "titleAdd": "Thêm địa chỉ mới",
+        "titleEdit": "Chỉnh sửa địa chỉ",
+        "fullName": "Họ và tên",
+        "phoneNumber": "Số điện thoại",
+        "addressLine": "Địa chỉ",
+        "addressPlaceholder": "Số nhà, tên đường",
+        "city": "Thành phố",
+        "state": "Tỉnh/Thành",
+        "country": "Quốc gia",
+        "isDefault": "Đặt làm địa chỉ mặc định",
+        "required": "*",
+        "submit": "Thêm địa chỉ",
+        "update": "Cập nhật",
+        "processing": "Đang xử lý...",
+        "cancel": "Hủy",
+        "addSuccess": "Thêm địa chỉ thành công!",
+        "updateSuccess": "Cập nhật địa chỉ thành công!",
+        "error": "Có lỗi xảy ra. Vui lòng thử lại!"
+      }
+    },
+    "loading": "Đang tải...",
+    "loadError": "Không thể tải dữ liệu. Vui lòng thử lại!"
+  },
+  "footer": {
+    "brand": {
+      "title": "Wine Store",
+      "description": "Cửa hàng rượu vang boutique tuyển chọn các nhãn hiệu sản xuất nhỏ, rượu vang ủ lâu năm và những chai rượu hàng ngày cho những buổi tối thư thái.",
+      "tagline": "Được tuyển chọn từ từ. Được rót một cách chu đáo."
+    },
+    "cellar": {
+      "title": "Hầm rượu",
+      "shopAll": "Tất cả rượu vang",
+      "newArrivals": "Hàng mới về",
+      "limitedReleases": "Phiên bản giới hạn",
+      "giftSets": "Bộ quà tặng"
+    },
+    "visit": {
+      "title": "Ghé thăm",
+      "tastingRoom": "Phòng nếm thử",
+      "privateEvents": "Sự kiện riêng tư",
+      "wineClub": "Câu lạc bộ rượu vang",
+      "bookTasting": "Đặt buổi nếm thử"
+    },
+    "stayInTouch": {
+      "title": "Giữ liên lạc",
+      "ourStory": "Câu chuyện của chúng tôi",
+      "journal": "Tạp chí & Kết hợp",
+      "contact": "Liên hệ",
+      "faq": "Câu hỏi & Vận chuyển"
+    },
+    "info": {
+      "address": "123 Đường Rượu Vang, Hà Nội • +84 (0)24 1234 5678",
+      "hours": "Mở cửa Thứ 3 – Chủ nhật · 11:00 – 21:30",
+      "copyright": "Château Wine Store. Bảo lưu mọi quyền."
+    }
+  },
+  "about": {
+    "hero": {
+      "estd": "estd 1970",
+      "title": "Về Wine Store",
+      "subtitle": "Chúng tôi không chỉ là một cửa hàng rượu vang—chúng tôi là đối tác đáng tin cậy của bạn trong việc khám phá những loại rượu vang đặc biệt từ khắp nơi trên thế giới. Với sự tuyển chọn chuyên nghiệp, thực hành bền vững và niềm đam mê giáo dục, chúng tôi mang rượu vang cao cấp đến gần hơn với mọi người.",
+      "stats": {
+        "happyCustomers": "Khách hàng hài lòng",
+        "countries": "Quốc gia",
+        "awards": "Giải thưởng",
+        "yearsExperience": "Năm kinh nghiệm"
+      }
+    },
+    "mission": {
+      "title": "Điều gì thúc đẩy chúng tôi",
+      "subtitle": "Nền tảng của chúng tôi được xây dựng dựa trên ba trụ cột cốt lõi định hướng mọi quyết định chúng tôi đưa ra",
+      "pillars": {
+        "mission": {
+          "title": "Sứ mệnh của chúng tôi",
+          "description": "Dân chủ hóa việc tiếp cận các loại rượu vang đặc biệt bằng cách kết nối những nhà sản xuất rượu đam mê với khách hàng sành điệu, đồng thời thúc đẩy giáo dục và đánh giá cao nghệ thuật làm rượu vang."
+        },
+        "vision": {
+          "title": "Tầm nhìn của chúng tôi",
+          "description": "Trở thành điểm đến rượu vang đáng tin cậy nhất thế giới, được biết đến với tính xác thực, chuyên môn và cam kết không lay chuyển về chất lượng và tính bền vững."
+        },
+        "purpose": {
+          "title": "Mục đích của chúng tôi",
+          "description": "Tạo ra những kết nối ý nghĩa thông qua rượu vang—tôn vinh văn hóa, nghề thủ công và những khoảnh khắc đưa mọi người lại với nhau quanh một bàn ăn chung."
+        }
+      }
+    },
+    "difference": {
+      "title": "Điều gì làm nên",
+      "titleLine2": "sự khác biệt của chúng tôi",
+      "subtitle": "Trong thế giới của các nhà bán lẻ rượu vang hàng loạt, chúng tôi nổi bật nhờ cam kết không lay chuyển về chất lượng, tính xác thực và trải nghiệm khách hàng. Đây là những gì làm nên sự khác biệt của chúng tôi:",
+      "features": {
+        "0": "Chuyên gia rượu vang với hơn 50 năm kinh nghiệm kết hợp",
+        "1": "Mối quan hệ trực tiếp với hơn 100 vườn nho trên toàn thế giới",
+        "2": "Kho bảo quản có kiểm soát nhiệt độ để bảo quản tối ưu",
+        "3": "Tiếp cận độc quyền với các loại rượu vang giới hạn và hiếm",
+        "4": "Giáo dục rượu vang miễn phí và các sự kiện nếm thử",
+        "5": "Vận chuyển trung tính carbon và bao bì thân thiện với môi trường",
+        "6": "Bảo đảm hài lòng 30 ngày cho tất cả các giao dịch mua",
+        "7": "Đề xuất cá nhân hóa được hỗ trợ bởi AI và chuyên môn"
+      },
+      "badge": {
+        "number": "50+",
+        "text": "Năm Xuất sắc"
+      }
+    },
+    "wineJourney": {
+      "title": "Hành trình rượu vang",
+      "subtitle": "Theo dõi hành trình của một chai rượu từ vườn nho đến bàn ăn của bạn",
+      "steps": {
+        "0": {
+          "title": "Lựa chọn vườn nho",
+          "description": "Chúng tôi trực tiếp thăm và đánh giá các vườn nho, đánh giá terroir, thực hành và triết lý của nhà sản xuất rượu."
+        },
+        "1": {
+          "title": "Thu hoạch & Sản xuất",
+          "description": "Giám sát mùa thu hoạch và quy trình sản xuất để đảm bảo đáp ứng các tiêu chuẩn chất lượng."
+        },
+        "2": {
+          "title": "Kiểm tra chất lượng",
+          "description": "Các chuyên gia rượu vang của chúng tôi tiến hành nếm thử mù và phân tích hóa học để xác minh tính xác thực và chất lượng."
+        },
+        "3": {
+          "title": "Bảo quản cẩn thận",
+          "description": "Cơ sở có kiểm soát nhiệt độ duy trì điều kiện tối ưu ở 55°F và độ ẩm 70%."
+        },
+        "4": {
+          "title": "Vận chuyển trung tính carbon",
+          "description": "Bao bì thân thiện với môi trường và vận chuyển có kiểm soát khí hậu đảm bảo rượu vang đến trong tình trạng hoàn hảo."
+        },
+        "5": {
+          "title": "Ly rượu hoàn hảo của bạn",
+          "description": "Từ hầm rượu của chúng tôi đến ly của bạn, mỗi chai kể một câu chuyện về niềm đam mê và nghề thủ công."
+        }
+      }
+    },
+    "certifications": {
+      "title": "Giải thưởng & Công nhận",
+      "subtitle": "Được tin tưởng bởi các nhà lãnh đạo ngành và được chứng nhận về sự xuất sắc",
+      "items": {
+        "0": {
+          "title": "Giải thưởng Wine Spectator",
+          "year": "2020-2024",
+          "description": "Xuất sắc trong Bán lẻ Rượu vang"
+        },
+        "1": {
+          "title": "Certified B Corporation",
+          "year": "2021",
+          "description": "Thực hành Kinh doanh Bền vững"
+        },
+        "2": {
+          "title": "Chứng nhận ISO 9001",
+          "year": "2019",
+          "description": "Hệ thống Quản lý Chất lượng"
+        },
+        "3": {
+          "title": "Giải thưởng Decanter Retailer",
+          "year": "2023",
+          "description": "Dịch vụ Khách hàng Xuất sắc"
+        }
+      },
+      "partners": {
+        "title": "Được tin tưởng bởi các nhà lãnh đạo ngành",
+        "list": {
+          "0": "Wine Spectator",
+          "1": "Decanter Magazine",
+          "2": "James Suckling",
+          "3": "Robert Parker Wine Advocate",
+          "4": "Jancis Robinson",
+          "5": "Vinous"
+        }
+      }
+    },
+    "process": {
+      "title": "Quy trình của chúng tôi",
+      "subtitle": "Từ vườn nho đến ly của bạn, mỗi bước được thiết kế để mang lại sự xuất sắc",
+      "steps": {
+        "0": {
+          "title": "Khám phá & Tuyển chọn",
+          "description": "Các chuyên gia rượu vang của chúng tôi đi khắp thế giới, thăm các vườn nho và nếm thử hàng nghìn loại rượu vang để tìm những chai đặc biệt đáng chia sẻ."
+        },
+        "1": {
+          "title": "Xây dựng mối quan hệ",
+          "description": "Chúng tôi thiết lập quan hệ đối tác trực tiếp với các nhà sản xuất rượu, đảm bảo tính xác thực, giá cả công bằng và tiếp cận độc quyền với các phiên bản giới hạn."
+        },
+        "2": {
+          "title": "Lưu trữ & Bảo quản",
+          "description": "Mỗi chai được lưu trữ trong cơ sở có kiểm soát nhiệt độ của chúng tôi, duy trì điều kiện tối ưu từ vườn nho đến cửa nhà bạn."
+        },
+        "3": {
+          "title": "Giao hàng xuất sắc",
+          "description": "Chúng tôi đóng gói cẩn thận, vận chuyển trung tính carbon và cung cấp hướng dẫn chuyên gia để đảm bảo trải nghiệm rượu vang của bạn khó quên."
+        }
+      }
+    },
+    "community": {
+      "title": "Xây dựng một",
+      "titleLine2": "Cộng đồng rượu vang",
+      "subtitle": "Chúng tôi tin rằng rượu vang được thưởng thức tốt nhất khi cùng nhau. Đó là lý do chúng tôi đã tạo ra một cộng đồng sôi động của những người đam mê, nhà sưu tập và người mới bắt đầu tò mò, những người chia sẻ niềm đam mê với những loại rượu vang đặc biệt.",
+      "initiatives": {
+        "0": {
+          "title": "Nếm thử hàng tháng",
+          "description": "Các sự kiện nếm rượu vang miễn phí giới thiệu hàng mới đến và lựa chọn theo mùa",
+          "stat": "500+ Sự kiện"
+        },
+        "1": {
+          "title": "Giáo dục rượu vang",
+          "description": "Các khóa học được chứng nhận WSET và các lớp học chuyên sâu cho tất cả các cấp độ kinh nghiệm",
+          "stat": "2,000+ Học viên"
+        },
+        "2": {
+          "title": "Câu lạc bộ rượu vang",
+          "description": "Lợi ích thành viên độc quyền, tiếp cận sớm và tuyển chọn cá nhân hóa",
+          "stat": "10,000+ Thành viên"
+        },
+        "3": {
+          "title": "Tour vườn nho",
+          "description": "Các chuyến đi được tuyển chọn đến các vùng rượu vang nổi tiếng với hướng dẫn viên chuyên gia",
+          "stat": "50+ Tour/Năm"
+        }
+      },
+      "cta": "Tham gia cộng đồng của chúng tôi",
+      "badge": {
+        "number": "50K+",
+        "text": "Thành viên",
+        "textLine2": "Cộng đồng"
+      }
+    },
+    "faq": {
+      "title": "Câu hỏi",
+      "titleLine2": "thường gặp",
+      "subtitle": "Tất cả những gì bạn cần biết về Wine Store",
+      "searchPlaceholder": "Tìm kiếm câu hỏi...",
+      "categories": {
+        "all": "Tất cả",
+        "products": "Sản phẩm",
+        "shipping": "Vận chuyển",
+        "quality": "Chất lượng",
+        "services": "Dịch vụ",
+        "policies": "Chính sách"
+      },
+      "results": {
+        "showing": "Hiển thị",
+        "question": "câu hỏi",
+        "questions": "câu hỏi"
+      },
+      "noResults": "Không tìm thấy câu hỏi. Thử tìm kiếm hoặc danh mục khác.",
+      "contact": {
+        "text": "Vẫn còn câu hỏi?",
+        "link": "Liên hệ với đội ngũ của chúng tôi"
+      },
+      "items": {
+        "0": {
+          "question": "Điều gì làm cho lựa chọn rượu vang của bạn trở nên độc đáo?",
+          "answer": "Chúng tôi trực tiếp thăm các vườn nho, nếm thử hàng nghìn loại rượu vang hàng năm và chỉ chọn những chai đáp ứng các tiêu chuẩn chất lượng nghiêm ngặt của chúng tôi. Các chuyên gia rượu vang của chúng tôi có mối quan hệ trực tiếp với hơn 100 nhà sản xuất rượu trên toàn thế giới, mang lại cho chúng tôi quyền truy cập vào các loại rượu vang độc quyền và giới hạn mà bạn sẽ không tìm thấy ở nơi khác.",
+          "category": "products"
+        },
+        "1": {
+          "question": "Làm thế nào để bạn đảm bảo tính xác thực của rượu vang?",
+          "answer": "Mỗi chai được lấy trực tiếp từ các vườn nho hoặc nhà phân phối được ủy quyền. Chúng tôi duy trì hồ sơ nguồn gốc chi tiết, lưu trữ rượu vang trong các cơ sở có kiểm soát nhiệt độ và cung cấp chứng chỉ xác thực cho các loại rượu vang hiếm. Danh tiếng của chúng tôi phụ thuộc vào sự tin cậy và minh bạch.",
+          "category": "quality"
+        },
+        "2": {
+          "question": "Bạn có cung cấp chương trình giáo dục rượu vang không?",
+          "answer": "Có! Chúng tôi cung cấp các khóa học được chứng nhận WSET, các lớp học chuyên sâu hàng tháng, nếm thử ảo và tư vấn chuyên gia rượu vang một đối một. Cho dù bạn là người mới bắt đầu hay người đam mê nâng cao, chúng tôi có các chương trình phù hợp với trình độ của bạn.",
+          "category": "services"
+        },
+        "3": {
+          "question": "Chính sách hoàn trả của bạn là gì?",
+          "answer": "Chúng tôi cung cấp bảo đảm hài lòng 30 ngày. Nếu bạn không hoàn toàn hài lòng với giao dịch mua của mình, chúng tôi sẽ cung cấp hoàn tiền đầy đủ hoặc đổi hàng. Đối với các chai bị hư hỏng hoặc lỗi, chúng tôi thay thế ngay lập tức mà không tính phí.",
+          "category": "policies"
+        },
+        "4": {
+          "question": "Bạn xử lý vận chuyển và lưu trữ như thế nào?",
+          "answer": "Tất cả rượu vang được lưu trữ ở nhiệt độ tối ưu (55°F) và độ ẩm. Chúng tôi sử dụng bao bì chuyên dụng và vận chuyển qua các nhà vận chuyển có kiểm soát nhiệt độ. Vận chuyển trung tính carbon và chúng tôi cung cấp vận chuyển miễn phí cho đơn hàng trên $200.",
+          "category": "shipping"
+        },
+        "5": {
+          "question": "Tôi có thể đến thăm cửa hàng vật lý của bạn không?",
+          "answer": "Chắc chắn rồi! Cửa hàng chính của chúng tôi mở cửa Thứ 2-Thứ 7 10 giờ sáng-8 giờ tối, Chủ nhật 12 giờ trưa-6 giờ chiều. Chúng tôi cung cấp nếm thử miễn phí và các chuyên gia rượu vang của chúng tôi luôn sẵn sàng để đưa ra các đề xuất cá nhân hóa. Đặt một buổi nếm thử riêng để có trải nghiệm thân mật hơn.",
+          "category": "services"
+        },
+        "6": {
+          "question": "Bạn có vận chuyển quốc tế không?",
+          "answer": "Có! Chúng tôi vận chuyển đến hơn 30 quốc gia trên toàn thế giới. Thời gian vận chuyển quốc tế khác nhau tùy theo điểm đến (thường là 5-14 ngày làm việc). Tất cả các đơn hàng quốc tế bao gồm theo dõi và bảo hiểm.",
+          "category": "shipping"
+        },
+        "7": {
+          "question": "Bạn chấp nhận những phương thức thanh toán nào?",
+          "answer": "Chúng tôi chấp nhận tất cả các thẻ tín dụng chính (Visa, Mastercard, Amex), PayPal, Apple Pay, Google Pay và chuyển khoản ngân hàng cho đơn hàng lớn. Tất cả các giao dịch được bảo mật bằng mã hóa SSL 256-bit.",
+          "category": "policies"
+        }
+      }
+    },
+    "contactCTA": {
+      "title": "Hãy kết nối",
+      "subtitle": "Cho dù bạn đang tìm kiếm chai rượu hoàn hảo, muốn tham gia câu lạc bộ rượu vang của chúng tôi, hay đơn giản là có câu hỏi—chúng tôi ở đây để giúp đỡ.",
+      "methods": {
+        "0": {
+          "title": "Gọi cho chúng tôi",
+          "info": "+1 (555) 123-4567",
+          "subtext": "Thứ 2-Thứ 7, 10 giờ sáng-8 giờ tối"
+        },
+        "1": {
+          "title": "Gửi email cho chúng tôi",
+          "info": "hello@winestore.com",
+          "subtext": "Chúng tôi trả lời trong vòng 24 giờ"
+        },
+        "2": {
+          "title": "Đến thăm chúng tôi",
+          "info": "123 Wine Street, SF",
+          "subtext": "Xem bộ sưu tập đầy đủ của chúng tôi"
+        }
+      },
+      "buttons": {
+        "browseWines": "Duyệt rượu vang",
+        "ourStory": "Câu chuyện của chúng tôi"
+      },
+      "socialProof": {
+        "customers": "✓ 50,000+ Khách hàng hài lòng",
+        "rating": "✓ 4.9/5 Đánh giá",
+        "service": "✓ Dịch vụ đoạt giải"
+      }
+    }
+  },
+  "ourStory": {
+    "hero": {
+      "since": "Từ năm 1970",
+      "title": "Câu chuyện của chúng tôi",
+      "subtitle": "Một hành trình qua nhiều thế hệ của niềm đam mê, nghề thủ công và cam kết không lay chuyển trong việc mang những loại rượu vang tốt nhất thế giới đến bàn ăn của bạn.",
+      "scroll": "Cuộn xuống"
+    },
+    "philosophy": {
+      "title": "Triết lý của chúng tôi",
+      "quote": "Mỗi chai rượu\nkể một câu chuyện",
+      "paragraphs": {
+        "0": "Được thành lập vào năm 1970, cửa hàng rượu vang của chúng tôi bắt đầu với một niềm tin đơn giản: rằng rượu vang đặc biệt nên được tiếp cận với tất cả những ai đánh giá cao nghệ thuật làm rượu vang.",
+        "1": "Chúng tôi không chỉ bán rượu vang—chúng tôi tuyển chọn trải nghiệm. Mỗi chai trong bộ sưu tập của chúng tôi được lựa chọn cẩn thận bởi đội ngũ chuyên gia rượu vang của chúng tôi, những người đi khắp thế giới để khám phá những viên ngọc ẩn và thiết lập mối quan hệ với các nhà sản xuất rượu đam mê.",
+        "2": "Từ các vườn nho gia đình nhỏ ở Burgundy đến các điền trang sáng tạo ở Napa Valley, chúng tôi tìm kiếm những loại rượu vang thể hiện tính xác thực, chất lượng và cảm giác thực sự về nơi chốn. Sứ mệnh của chúng tôi là kết nối bạn với những câu chuyện này, từng ly một."
+      },
+      "stats": {
+        "years": "Năm",
+        "wines": "Loại rượu",
+        "countries": "Quốc gia"
+      }
+    },
+    "timeline": {
+      "title": "Hành trình của chúng tôi",
+      "subtitle": "Năm thập kỷ đam mê, phát triển và cống hiến cho nghệ thuật rượu vang",
+      "milestones": {
+        "0": {
+          "year": "1970",
+          "title": "Khởi đầu",
+          "description": "Được thành lập bởi người đam mê rượu vang Robert Chen trong một cửa hàng nhỏ ở trung tâm thành phố. Bắt đầu với chỉ 50 chai được lựa chọn cẩn thận từ Pháp và Ý."
+        },
+        "1": {
+          "year": "1985",
+          "title": "Mở rộng & Công nhận",
+          "description": "Mở cửa hàng thứ hai và nhận giải thưởng danh giá Nhà buôn rượu vang của năm. Mở rộng bộ sưu tập để bao gồm rượu vang Tân Thế giới."
+        },
+        "2": {
+          "year": "1998",
+          "title": "Cách mạng số",
+          "description": "Ra mắt nền tảng trực tuyến, làm cho rượu vang cao cấp có thể tiếp cận trên toàn quốc. Giới thiệu nếm thử ảo và tư vấn chuyên gia rượu vang."
+        },
+        "3": {
+          "year": "2010",
+          "title": "Đối tác toàn cầu",
+          "description": "Thiết lập mối quan hệ trực tiếp với hơn 100 vườn nho trên toàn thế giới. Bắt đầu chương trình nhập khẩu độc quyền cho rượu vang hiếm và giới hạn."
+        },
+        "4": {
+          "year": "2018",
+          "title": "Sáng kiến bền vững",
+          "description": "Cam kết thực hành thân thiện với môi trường. Đối tác độc quyền với các vườn nho hữu cơ và sinh học. Đạt được vận chuyển trung tính carbon."
+        },
+        "5": {
+          "year": "2024",
+          "title": "Đổi mới & Phát triển",
+          "description": "Ra mắt hệ thống đề xuất rượu vang được hỗ trợ bởi AI. Mở phòng nếm thử chính và trung tâm giáo dục rượu vang. Phục vụ hơn 50,000 người yêu rượu vang trên toàn cầu."
+        }
+      }
+    },
+    "heritage": {
+      "title": "Di sản &",
+      "titleLine2": "Xuất sắc",
+      "subtitle": "Những gì bắt đầu như một dự án đam mê đã phát triển thành một trong những nhà buôn rượu vang được tôn trọng nhất trong ngành. Cam kết của chúng tôi về chất lượng, tính xác thực và giáo dục khách hàng vẫn không thay đổi.",
+      "features": {
+        "0": {
+          "title": "Tuyển chọn kỹ lưỡng",
+          "description": "Mỗi loại rượu vang đều được nếm thử và phê duyệt cá nhân bởi các chuyên gia rượu vang bậc thầy của chúng tôi"
+        },
+        "1": {
+          "title": "Mạng lưới toàn cầu",
+          "description": "Quan hệ đối tác trực tiếp với hơn 100 vườn nho trên 30 quốc gia"
+        },
+        "2": {
+          "title": "Đoạt giải thưởng",
+          "description": "Được công nhận quốc tế về sự xuất sắc trong bán lẻ và giáo dục rượu vang"
+        },
+        "3": {
+          "title": "Thúc đẩy bởi đam mê",
+          "description": "Ba thế hệ gia đình cống hiến cho nghệ thuật làm rượu vang"
+        }
+      }
+    },
+    "values": {
+      "title": "Giá trị cốt lõi",
+      "subtitle": "Các nguyên tắc định hướng mọi việc chúng tôi làm",
+      "items": {
+        "0": {
+          "title": "Bền vững",
+          "description": "Chúng tôi ưu tiên các thực hành thân thiện với môi trường và đối tác độc quyền với các vườn nho cam kết canh tác hữu cơ và sinh học."
+        },
+        "1": {
+          "title": "Cộng đồng",
+          "description": "Xây dựng mối quan hệ lâu dài với các nhà sản xuất rượu, khách hàng và những người đam mê rượu vang thông qua giáo dục và niềm đam mê chung."
+        },
+        "2": {
+          "title": "Xác thực",
+          "description": "Mỗi chai được đảm bảo xác thực, được bảo quản đúng cách và được lấy trực tiếp từ các nhà sản xuất đáng tin cậy trên toàn thế giới."
+        },
+        "3": {
+          "title": "Xuất sắc",
+          "description": "Tiêu chuẩn không thỏa hiệp trong lựa chọn, dịch vụ và chuyên môn. Chúng tôi không chấp nhận gì ngoài sự phi thường."
+        }
+      },
+      "quote": "Sứ mệnh của chúng tôi rất đơn giản: chia sẻ những loại rượu vang đặc biệt nhất thế giới với những người đánh giá cao nghệ thuật, truyền thống và niềm đam mê đằng sau mỗi chai. Chúng tôi tin rằng rượu vang không chỉ là một thức uống—nó là cầu nối giữa các nền văn hóa, một sự tôn vinh nghề thủ công và chất xúc tác cho những khoảnh khắc khó quên.",
+      "quoteAuthor": "— Robert Chen, Nhà sáng lập"
+    },
+    "team": {
+      "title": "Gặp gỡ đội ngũ",
+      "subtitle": "Các chuyên gia đam mê tận tâm giúp bạn khám phá rượu vang hoàn hảo của mình",
+      "members": {
+        "0": {
+          "name": "Robert Chen",
+          "role": "Nhà sáng lập & CEO",
+          "bio": "Chuyên gia rượu vang bậc thầy với hơn 50 năm kinh nghiệm. Người tiên phong trong bán lẻ rượu vang bền vững."
+        },
+        "1": {
+          "name": "Sophie Laurent",
+          "role": "Trưởng phòng Sommelier",
+          "bio": "Giáo viên rượu vang được chứng nhận. Chuyên về rượu vang Pháp và Ý."
+        },
+        "2": {
+          "name": "Marcus Williams",
+          "role": "Giám đốc Vận hành",
+          "bio": "20 năm trong bán lẻ xa xỉ. Chuyên gia về trải nghiệm khách hàng và hậu cần."
+        },
+        "3": {
+          "name": "Elena Rodriguez",
+          "role": "Người mua rượu vang",
+          "bio": "Đi du lịch toàn cầu để tìm nguồn rượu vang hiếm. Thông thạo 5 ngôn ngữ."
+        },
+        "4": {
+          "name": "Liam O'Connor",
+          "role": "Quản lý Marketing",
+          "bio": "Chuyên về tiếp thị kỹ thuật số cho các thương hiệu xa xỉ. Người đam mê rượu vang."
+        }
+      }
+    },
+    "cta": {
+      "title": "Trải nghiệm sự khác biệt",
+      "subtitle": "Ghé thăm cửa hàng chính của chúng tôi hoặc đặt một buổi nếm thử riêng với các chuyên gia rượu vang của chúng tôi. Hãy để chúng tôi giúp bạn khám phá những loại rượu vang sẽ tạo ra những kỷ niệm lâu dài.",
+      "buttons": {
+        "explore": "Khám phá bộ sưu tập",
+        "bookTasting": "Đặt buổi nếm thử"
+      },
+      "contact": {
+        "visit": "Ghé thăm",
+        "contact": "Liên hệ",
+        "hours": "Giờ mở cửa",
+        "address": "123 Wine Street\nSan Francisco, CA 94102",
+        "phone": "+1 (555) 123-4567",
+        "email": "hello@winestore.com",
+        "hoursText": "Thứ 2-Thứ 7: 10 giờ sáng - 8 giờ tối\nChủ nhật: 12 giờ trưa - 6 giờ chiều"
+      }
+    }
+  },
+  "blog": {
+    "hero": {
+      "title": "KIẾN THỨC RƯỢU VANG",
+      "journal": "TẠP CHÍ",
+      "subtitle": "Khám phá nghệ thuật thưởng thức rượu vang qua những bài viết chuyên sâu\ntừ các chuyên gia sommelier và người đam mê rượu vang",
+      "cta": "KHÁM PHÁ NGAY",
+      "scroll": "Cuộn xuống"
+    },
+    "categories": {
+      "title": "KHÁM PHÁ THEO CHỦ ĐỀ",
+      "subtitle": "Chọn chủ đề bạn quan tâm",
+      "all": "TẤT CẢ",
+      "tasting": "NẾM THỬ",
+      "pairing": "KẾT HỢP MÓN ĂN",
+      "storage": "BẢO QUẢN",
+      "education": "GIÁO DỤC",
+      "regions": "VÙNG MIỀN"
+    },
+    "listing": {
+      "allPosts": "TẤT CẢ BÀI VIẾT",
+      "filteredPosts": "BÀI VIẾT ĐÃ LỌC",
+      "posts": "bài viết",
+      "description": "Từ nghệ thuật nếm thử đến mẹo bảo quản, mỗi bài viết là một hành trình khám phá thế giới rượu vang đầy thú vị."
+    },
+    "newsletter": {
+      "title": "ĐĂNG KÝ NHẬN BÀI VIẾT MỚI",
+      "subtitle": "Mỗi tuần một lần",
+      "description": "Nhận những bài viết mới nhất về rượu vang, mẹo nếm thử và ưu đãi đặc biệt ngay trong hộp thư của bạn.",
+      "placeholder": "NHẬP EMAIL CỦA BẠN...",
+      "button": "ĐĂNG KÝ",
+      "privacy": "Chúng tôi tôn trọng quyền riêng tư của bạn"
+    },
+    "card": {
+      "readMore": "ĐỌC THÊM"
+    },
+    "detail": {
+      "backToBlog": "QUAY LẠI BLOG",
+      "share": "CHIA SẺ",
+      "relatedPosts": "BÀI VIẾT LIÊN QUAN",
+      "exploreMore": "Khám phá thêm",
+      "categoryLabels": {
+        "Knowledge": "Kiến thức",
+        "Tasting": "Nếm thử",
+        "Food Pairing": "Kết hợp món ăn",
+        "Storage": "Bảo quản",
+        "Regions": "Vùng miền"
+      },
+      "content": {
+        "headings": {
+          "historyAndOrigins": "Lịch sử và Nguồn gốc",
+          "productionProcess": "Quy trình Sản xuất",
+          "howToEnjoy": "Cách thưởng thức",
+          "expertTips": "Mẹo chuyên gia",
+          "conclusion": "Kết luận"
+        },
+        "intro": "Rượu vang không chỉ là một thức uống – nó là sự kết tinh của lịch sử, khí hậu, đất đai và bàn tay con người. Mỗi chai rượu vang là một câu chuyện được viết nên trong thời gian, một khoảnh khắc giao thoa giữa nghệ thuật và khoa học. Khi hiểu về rượu vang sâu hơn, bạn sẽ khám phá ra một thế giới hương vị phong phú, tinh tế và đầy chiều sâu, nơi mỗi giọt rượu đều mang trong mình linh hồn của vùng đất nơi chúng được sinh ra.",
+        "historyParagraph1": "Hành trình của rượu vang bắt đầu từ hơn 8.000 năm trước tại vùng Caucasus – nơi ngày nay là Georgia. Từ đó, rượu vang lan rộng sang Ai Cập cổ đại, Hy Lạp, rồi Đế chế La Mã – những nền văn minh coi rượu vang như biểu tượng của tôn giáo, triết học và sự thịnh vượng. Khi La Mã mở rộng lãnh thổ, nghệ thuật làm rượu vang lan tỏa khắp châu Âu, đặc biệt là Pháp, Ý, Tây Ban Nha và Bồ Đào Nha – những quốc gia trở thành trụ cột của ngành công nghiệp rượu vang.",
+        "historyParagraph2": "Mỗi vùng trồng nho đều có đặc trưng khí hậu riêng: Bordeaux giàu có và phức tạp, Burgundy tinh tế và dịu dàng, Napa Valley mạnh mẽ và đầy đặn. Sự đa dạng này tạo nên hàng nghìn phong cách rượu vang khác nhau, hình thành nên một nền văn hóa rượu vang phong phú trên toàn thế giới.",
+        "productionParagraph1": "Đằng sau mỗi chai rượu vang là một quy trình tỉ mỉ và đầy đam mê. Tất cả bắt đầu từ việc chăm sóc vườn nho – nơi cây nho hấp thụ ánh nắng mặt trời, đất mẹ và khí hậu địa phương. Khi mùa thu hoạch đến, từng chùm nho được chọn lọc cẩn thận để đảm bảo chất lượng tốt nhất.",
+        "productionParagraph2": "Sau đó, nho được ép và trải qua quá trình lên men. Đối với rượu vang đỏ, nho được giữ nguyên vỏ để tạo màu sắc và cấu trúc tannin. Đối với rượu vang trắng, vỏ thường được loại bỏ để giữ sự nhẹ nhàng và tươi mát. Khi lên men hoàn tất, rượu vang sẽ tiếp tục được ủ trong thùng gỗ sồi hoặc thùng thép tùy theo phong cách mong muốn.",
+        "productionParagraph3": "Thùng gỗ sồi mang lại hương vị vani, caramel và khói nhẹ; trong khi thùng thép giúp giữ nguyên hương thơm tự nhiên và độ tươi mát. Cuối cùng, rượu vang được lọc, pha trộn (nếu cần) và đóng chai. Một số loại cần phải nghỉ ngơi nhiều năm trước khi sẵn sàng để mở.",
+        "enjoyParagraph1": "Để thưởng thức rượu vang trọn vẹn, bạn không chỉ đơn giản rót ra rồi uống. Nghệ thuật thưởng thức rượu vang bao gồm bốn yếu tố quan trọng: nhiệt độ, ly rượu, cách xoay ly và kết hợp món ăn. Rượu vang đỏ thường ngon nhất ở 16–18°C, rượu vang trắng ở 8–12°C và rượu vang sủi bọt cần làm lạnh sâu hơn để giữ độ tươi mát và bọt khí năng động.",
+        "enjoyParagraph2": "Hình dạng ly cũng ảnh hưởng mạnh đến hương vị: ly hình bầu rộng giúp rượu vang đỏ tỏa hương; ly miệng hẹp giúp rượu vang sủi bọt giữ bọt lâu hơn. Khi bạn xoay ly, bạn giúp giải phóng các phân tử hương thơm, mở ra lớp hương vị phức tạp hơn trước khi đưa lên mũi và miệng.",
+        "enjoyParagraph3": "Kết hợp rượu vang với món ăn là nghệ thuật cân bằng hương vị: rượu vang đỏ hợp với thịt đỏ, rượu vang trắng hợp với hải sản và các món ăn nhẹ; rượu vang ngọt kết hợp tuyệt vời với món tráng miệng hoặc món ăn cay. Khi kết hợp đúng cách, bạn sẽ trải nghiệm một sự bùng nổ hương vị đầy bất ngờ.",
+        "expertTip": "Để rượu vang thở trong bình decanter trong 15-30 phút đối với rượu vang trẻ, và 1–2 giờ đối với rượu vang đỏ lâu năm. Quá trình này giúp rượu vang tiếp xúc với oxy, làm mềm tannin và mở ra hương vị tinh tế hơn. Đối với rượu vang trắng cao cấp, việc thở cũng mang lại hương thơm phong phú và kết cấu tốt hơn.",
+        "conclusionParagraph": "Khám phá rượu vang là một hành trình đầy cảm hứng – nơi bạn càng học, càng muốn tìm hiểu sâu hơn. Mỗi vùng đất, mỗi nhà sản xuất rượu và mỗi niên vụ đều mang đến một câu chuyện mới. Khi bạn mở một chai rượu vang, bạn đang mở ra cả một thế giới văn hóa, lịch sử và tinh hoa của nhân loại. Hãy thưởng thức theo cách của riêng bạn, vì chính cảm nhận cá nhân của bạn mới tạo nên trải nghiệm quý giá nhất."
+      }
+    },
+    "posts": {
+      "0": {
+        "title": "Cách phân biệt rượu vang đỏ và trắng",
+        "excerpt": "Tìm hiểu sự khác biệt cơ bản giữa rượu vang đỏ và trắng, từ phương pháp sản xuất đến hương vị đặc trưng.",
+        "author": "Sommelier Minh",
+        "date": "15/11/2025",
+        "readTime": "5 phút đọc",
+        "tags": ["rượu vang đỏ", "rượu vang trắng", "kiến thức cơ bản"]
+      },
+      "1": {
+        "title": "Nghệ thuật nếm rượu vang như chuyên gia",
+        "excerpt": "Khám phá 5 bước thiết yếu để thưởng thức rượu vang đúng cách: quan sát, ngửi, nếm, đánh giá và thưởng thức.",
+        "author": "Sommelier Linh",
+        "date": "12/11/2025",
+        "readTime": "7 phút đọc",
+        "tags": ["nếm rượu vang", "mẹo sommelier", "thưởng thức rượu vang"]
+      },
+      "2": {
+        "title": "Kết hợp rượu vang và món ăn: Hướng dẫn hoàn chỉnh",
+        "excerpt": "Mẹo kết hợp rượu vang với các món ăn để tạo nên trải nghiệm ẩm thực hoàn hảo.",
+        "author": "Chef Hùng",
+        "date": "10/11/2025",
+        "readTime": "8 phút đọc",
+        "tags": ["kết hợp rượu vang", "rượu vang và món ăn", "ẩm thực"]
+      },
+      "3": {
+        "title": "Cách bảo quản rượu vang đúng cách tại nhà",
+        "excerpt": "Hướng dẫn chi tiết về nhiệt độ, độ ẩm và vị trí lý tưởng để bảo quản rượu vang lâu dài.",
+        "author": "Sommelier Minh",
+        "date": "08/11/2025",
+        "readTime": "6 phút đọc",
+        "tags": ["bảo quản rượu vang", "hầm rượu", "bảo tồn"]
+      },
+      "4": {
+        "title": "Khám phá các vùng rượu vang nổi tiếng của Pháp",
+        "excerpt": "Một hành trình qua Bordeaux, Burgundy, Champagne và các vùng rượu vang nổi tiếng nhất của Pháp.",
+        "author": "Travel Wine",
+        "date": "05/11/2025",
+        "readTime": "10 phút đọc",
+        "tags": ["rượu vang pháp", "vùng rượu vang", "bordeaux", "burgundy"]
+      },
+      "5": {
+        "title": "Rượu vang Ý: Đặc điểm và phong cách độc đáo",
+        "excerpt": "Tìm hiểu về sự đa dạng của rượu vang Ý từ Tuscany đến Piedmont, Veneto và Sicily.",
+        "author": "Wine Explorer",
+        "date": "03/11/2025",
+        "readTime": "9 phút đọc",
+        "tags": ["rượu vang ý", "tuscany", "vùng rượu vang"]
+      },
+      "6": {
+        "title": "Nhiệt độ phục vụ rượu vang lý tưởng",
+        "excerpt": "Hướng dẫn chi tiết về nhiệt độ phục vụ tối ưu cho các loại rượu vang khác nhau để thưởng thức trọn vẹn hương vị.",
+        "author": "Sommelier Linh",
+        "date": "01/11/2025",
+        "readTime": "5 phút đọc",
+        "tags": ["nhiệt độ phục vụ", "mẹo rượu vang", "phục vụ rượu vang"]
+      },
+      "7": {
+        "title": "Cách chọn ly rượu vang phù hợp",
+        "excerpt": "Tầm quan trọng của việc chọn ly đúng cách và tác động của nó đến trải nghiệm nếm rượu vang.",
+        "author": "Sommelier Minh",
+        "date": "28/10/2025",
+        "readTime": "6 phút đọc",
+        "tags": ["ly rượu vang", "đồ thủy tinh", "phụ kiện rượu vang"]
+      },
+      "8": {
+        "title": "Rượu vang hữu cơ và sinh học: Xu hướng mới",
+        "excerpt": "Tìm hiểu về rượu vang hữu cơ và sinh học, phương pháp sản xuất bền vững và lợi ích sức khỏe.",
+        "author": "Green Wine",
+        "date": "25/10/2025",
+        "readTime": "7 phút đọc",
+        "tags": ["rượu vang hữu cơ", "sinh học", "bền vững"]
+      }
+    }
+  }
+}
+

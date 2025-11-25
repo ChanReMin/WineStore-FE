@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationProps {
@@ -14,6 +15,7 @@ export default function Pagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
+  const t = useTranslations("shop.pagination");
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const showPages = 5;
@@ -53,8 +55,8 @@ export default function Pagination({
     >
       {/* Page Info */}
       <div className="text-[12px] text-neutral-600">
-        <span className="text-[#7b5b2c] font-semibold">Page {currentPage}</span>
-        <span className="mx-2 text-[#d4af37]">of</span>
+        <span className="text-[#7b5b2c] font-semibold">{t("page")} {currentPage}</span>
+        <span className="mx-2 text-[#d4af37]">{t("of")}</span>
         <span className="text-[#7b5b2c] font-semibold">{totalPages}</span>
       </div>
 

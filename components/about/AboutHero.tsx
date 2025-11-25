@@ -3,13 +3,17 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Award, Globe, Heart, Users } from "lucide-react";
 import { useRef } from "react";
+import { useTranslations } from 'next-intl';
 
-const STATS = [
-  { icon: Users, number: "50K+", label: "Happy Customers" },
-  { icon: Globe, number: "30+", label: "Countries" },
-  { icon: Award, number: "100+", label: "Awards" },
-  { icon: Heart, number: "50+", label: "Years Experience" },
-];
+export default function AboutHero() {
+  const t = useTranslations('about.hero');
+  
+  const STATS = [
+    { icon: Users, number: "50K+", label: t('stats.happyCustomers') },
+    { icon: Globe, number: "30+", label: t('stats.countries') },
+    { icon: Award, number: "100+", label: t('stats.awards') },
+    { icon: Heart, number: "50+", label: t('stats.yearsExperience') },
+  ];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,7 +35,6 @@ const itemVariants = {
   },
 };
 
-export default function AboutHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -78,14 +81,14 @@ export default function AboutHero() {
           >
             <span className="h-px w-16 md:w-24 bg-white/20" />
             <span className="text-[11px] tracking-[0.3em] text-white/60 uppercase italic">
-              estd 1970
+              {t('estd')}
             </span>
             <span className="h-px w-16 md:w-24 bg-white/30" />
           </motion.div>
 
           {/* Main Heading */}
           <h1 className="text-[40px] md:text-[56px] lg:text-[68px] font-semibold leading-[1.1] tracking-[0.15em] text-white uppercase">
-            About Wine Store
+            {t('title')}
           </h1>
 
           {/* Subtitle */}
@@ -95,10 +98,7 @@ export default function AboutHero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mx-auto mt-8 max-w-3xl text-[17px] md:text-[18px] leading-relaxed text-white/90 tracking-wide"
           >
-            We're more than a wine shop—we're your trusted partner in
-            discovering exceptional wines from around the world. With expert
-            curation, sustainable practices, and a passion for education, we
-            make premium wine accessible to everyone.
+            {t('subtitle')}
           </motion.p>
 
           {/* Stats Grid */}

@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function CartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems] = useState<any[]>([]);
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations('cart');
 
   // Ensure component is mounted (client-side only)
   useEffect(() => {
@@ -51,9 +53,6 @@ export default function CartDropdown() {
           <circle cx="20" cy="21" r="1" />
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
         </svg>
-        <span className="text-[14px] uppercase tracking-[0.2em]">
-          Cart
-        </span>
 
         {totalItems > 0 && (
           <motion.span
@@ -118,10 +117,10 @@ export default function CartDropdown() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-[22px] font-semibold tracking-wide text-[#33391d]">
-                      Shopping Cart
+                      {t('title')}
                     </h2>
                     <p className="mt-1 text-xs uppercase tracking-widest text-neutral-600">
-                      {totalItems} {totalItems === 1 ? "Item" : "Items"}
+                      {totalItems} {totalItems === 1 ? t('item') : t('items')}
                     </p>
                   </div>
 
@@ -217,13 +216,13 @@ export default function CartDropdown() {
                       transition={{ duration: 0.5, delay: 0.4 }}
                     >
                       <h3 className="mb-2 text-lg font-semibold tracking-wide text-[#33391d]">
-                        Your Cart is Empty
+                        {t('empty.title')}
                       </h3>
                       <p className="mb-1 text-sm text-neutral-600">
-                        Add some wines to get started
+                        {t('empty.description')}
                       </p>
                       <p className="text-xs italic text-neutral-500">
-                        Discover our premium collection
+                        {t('empty.subtitle')}
                       </p>
                     </motion.div>
 
@@ -238,7 +237,7 @@ export default function CartDropdown() {
                         onClick={() => setIsOpen(false)}
                         className="inline-block border border-[#33391d] bg-[#33391d] px-8 py-3 text-[13px] uppercase tracking-[0.2em] text-amber-50 transition-all hover:bg-[#2a2f18]"
                       >
-                        Browse Wines
+                        {t('empty.button')}
                       </Link>
                     </motion.div>
                   </div>
@@ -255,7 +254,7 @@ export default function CartDropdown() {
                 <div className="absolute bottom-0 left-0 right-0 border-t border-neutral-200/60 bg-white/60 p-6 backdrop-blur-sm">
                   <div className="mb-4 flex items-center justify-between">
                     <span className="text-sm uppercase tracking-widest text-neutral-600">
-                      Subtotal
+                      {t('subtotal')}
                     </span>
                     <span className="text-xl font-semibold text-[#33391d]">
                       $0.00
@@ -268,11 +267,11 @@ export default function CartDropdown() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Proceed to Checkout
+                    {t('checkout')}
                   </motion.button>
 
                   <p className="mt-3 text-center text-xs text-neutral-500">
-                    Shipping & taxes calculated at checkout
+                    {t('shippingNote')}
                   </p>
                 </div>
               )}

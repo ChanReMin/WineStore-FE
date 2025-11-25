@@ -1,10 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { useTranslations } from 'next-intl';
+
+const ICONS = [Phone, Mail, MapPin];
 
 export default function ContactCTA() {
+  const t = useTranslations('about.contactCTA');
+  
+  const CONTACT_METHODS = Array.from({ length: 3 }, (_, index) => ({
+    icon: ICONS[index],
+    title: t(`methods.${index}.title`),
+    info: t(`methods.${index}.info`),
+    subtext: t(`methods.${index}.subtext`),
+  }));
   return (
     <section className="relative w-full overflow-hidden bg-linear-to-br from-[#3b4417] via-[#4a5520] to-[#3b4417] py-24 md:py-32">
       {/* Background Pattern */}
@@ -26,36 +37,16 @@ export default function ContactCTA() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-tight tracking-[0.15em] text-white uppercase">
-            Let's Connect
+            {t('title')}
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/85">
-            Whether you're looking for the perfect bottle, want to join our wine
-            club, or simply have questions—we're here to help.
+            {t('subtitle')}
           </p>
 
           {/* Contact Methods */}
           <div className="mt-16 grid gap-8 md:grid-cols-3">
-            {[
-              {
-                icon: Phone,
-                title: "Call Us",
-                info: "+1 (555) 123-4567",
-                subtext: "Mon-Sat, 10am-8pm",
-              },
-              {
-                icon: Mail,
-                title: "Email Us",
-                info: "hello@winestore.com",
-                subtext: "We reply within 24 hours",
-              },
-              {
-                icon: MapPin,
-                title: "Visit Us",
-                info: "123 Wine Street, SF",
-                subtext: "See our full collection",
-              },
-            ].map((method, index) => {
+            {CONTACT_METHODS.map((method, index) => {
               const Icon = method.icon;
               return (
                 <motion.div
@@ -91,7 +82,7 @@ export default function ContactCTA() {
                 href="/shop"
                 className="group flex items-center gap-3 bg-white px-10 py-5 text-[12px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
               >
-                Browse Wines
+                {t('buttons.browseWines')}
                 <ArrowRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1"
@@ -104,7 +95,7 @@ export default function ContactCTA() {
                 href="/our-story"
                 className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-5 text-[12px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
               >
-                Our Story
+                {t('buttons.ourStory')}
               </Link>
             </motion.div>
           </div>
@@ -117,11 +108,11 @@ export default function ContactCTA() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-12 flex items-center justify-center gap-8 text-[13px] text-white/60"
           >
-            <span>✓ 50,000+ Happy Customers</span>
+            <span>{t('socialProof.customers')}</span>
             <span className="hidden sm:inline">•</span>
-            <span className="hidden sm:inline">✓ 4.9/5 Rating</span>
+            <span className="hidden sm:inline">{t('socialProof.rating')}</span>
             <span className="hidden md:inline">•</span>
-            <span className="hidden md:inline">✓ Award-Winning Service</span>
+            <span className="hidden md:inline">{t('socialProof.service')}</span>
           </motion.div>
         </motion.div>
       </div>

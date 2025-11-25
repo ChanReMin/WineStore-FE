@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import {
   LayoutDashboard,
   Package,
@@ -21,50 +22,50 @@ import {
 
 interface MenuItem {
   icon: any;
-  label: string;
+  labelKey: string;
   href?: string;
   badge?: number;
   children?: {
-    label: string;
+    labelKey: string;
     href: string;
     badge?: number;
   }[];
 }
 
-const menuItems: MenuItem[] = [
+const getMenuItems = (locale: string): MenuItem[] => [
   {
     icon: LayoutDashboard,
-    label: "Dashboard",
-    href: "/seller",
+    labelKey: "dashboard",
+    href: `/${locale}/seller`,
   },
   {
     icon: Package,
-    label: "Product Management",
-    href: "/seller/products",
+    labelKey: "productManagement",
+    href: `/${locale}/seller/products`,
   },
   {
     icon: ShoppingCart,
-    label: "Order Management",
-    href: "/seller/orders",
+    labelKey: "orderManagement",
+    href: `/${locale}/seller/orders`,
   },
   {
     icon: Warehouse,
-    label: "Inventory Management",
+    labelKey: "inventoryManagement",
     children: [
       {
-        label: "Inventory",
-        href: "/seller/inventory",
+        labelKey: "inventory",
+        href: `/${locale}/seller/inventory`,
       },
       {
-        label: "Inventory Logs",
-        href: "/seller/inventory-logs",
+        labelKey: "inventoryLogs",
+        href: `/${locale}/seller/inventory-logs`,
       },
     ],
   },
   {
     icon: Gift,
-    label: "Promotions & Discounts",
-    href: "/seller/promotions",
+    labelKey: "promotions",
+    href: `/${locale}/seller/promotions`,
   },
 ];
 
@@ -78,7 +79,10 @@ export default function SellerSidebar({
   onToggle,
 }: SellerSidebarProps) {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations("seller");
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const menuItems = getMenuItems(locale);
 
   const toggleExpand = (label: string) => {
     setExpandedItems((prev) =>
@@ -91,8 +95,8 @@ export default function SellerSidebar({
   const isActive = (href?: string) => {
     if (!href) return false;
     // Exact match for root seller path
-    if (href === "/seller") {
-      return pathname === "/seller";
+    if (href === `/${locale}/seller`) {
+      return pathname === `/${locale}/seller`;
     }
     // For other paths, check exact match or starts with path + /
     return pathname === href || pathname.startsWith(`${href}/`);
@@ -125,7 +129,7 @@ export default function SellerSidebar({
                 <span className="text-sm font-bold text-amber-50">WS</span>
               </div>
               <span className="text-lg font-semibold text-[#33391d]">
-                Seller Hub
+                {t("layout.sellerHub")}
               </span>
             </motion.div>
           )}
@@ -146,17 +150,17 @@ export default function SellerSidebar({
           {menuItems.map((item) => {
             const Icon = item.icon;
             const hasChildren = item.children && item.children.length > 0;
-            const isExpanded = expandedItems.includes(item.label);
+            const isExpanded = expandedItems.includes(item.labelKey);
             const itemActive =
               isActive(item.href) || isParentActive(item.children);
 
             return (
-              <li key={item.label}>
+              <li key={item.labelKey}>
                 {/* Parent Item */}
                 {hasChildren ? (
                   <button
                     type="button"
-                    onClick={() => toggleExpand(item.label)}
+                    onClick={() => toggleExpand(item.labelKey)}
                     className={`group flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
                       itemActive
                         ? "bg-[#33391d] text-amber-50"
@@ -174,7 +178,7 @@ export default function SellerSidebar({
                             transition={{ duration: 0.2 }}
                             className="whitespace-nowrap"
                           >
-                            {item.label}
+                            {t(`sidebar.${item.labelKey}`)}
                           </motion.span>
                         )}
                       </AnimatePresence>
@@ -207,7 +211,7 @@ export default function SellerSidebar({
                           transition={{ duration: 0.2 }}
                           className="whitespace-nowrap"
                         >
-                          {item.label}
+                          {t(`sidebar.${item.labelKey}`)}
                         </motion.span>
                       )}
                     </AnimatePresence>
@@ -234,7 +238,7 @@ export default function SellerSidebar({
                                 : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
                             }`}
                           >
-                            <span>{child.label}</span>
+                            <span>{t(`sidebar.${child.labelKey}`)}</span>
                             {child.badge && (
                               <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold text-white">
                                 {child.badge}
@@ -272,9 +276,9 @@ export default function SellerSidebar({
                 className="overflow-hidden"
               >
                 <p className="text-xs font-semibold text-neutral-900">
-                  Wine Store
+                  {t("layout.wineStore")}
                 </p>
-                <p className="text-xs text-neutral-600">Seller Account</p>
+                <p className="text-xs text-neutral-600">{t("layout.sellerAccount")}</p>
               </motion.div>
             )}
           </AnimatePresence>

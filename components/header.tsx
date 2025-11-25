@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/routing";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -9,6 +8,8 @@ import AuthModal from "./auth/AuthModal";
 import { UserMenu } from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
 import LocationModal from "./homepage/LocationModal";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -35,6 +36,10 @@ const itemVariants: any = {
 export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
+  const t = useTranslations('header');
+  
+  // Remove locale prefix for pathname matching
+  const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
@@ -103,13 +108,13 @@ export default function Header() {
           className="mx-auto flex items-center justify-between px-6 py-6"
           variants={itemVariants}
         >
-          {/* LEFT: Search */}
+          {/* LEFT: Logo */}
           <motion.form
             className="flex flex-1 items-center justify-start text-[22px]"
             variants={itemVariants}
           >
             <Link href="/" className="font-semibold uppercase text-[#33391d]">
-              Wine Store
+              {t('title')}
             </Link>
           </motion.form>
 
@@ -118,17 +123,17 @@ export default function Header() {
             className="flex flex-1 items-center justify-center text-gray-800"
             variants={itemVariants}
           >
-            <ul className="flex items-center gap-10 text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">
+            <ul className="flex items-center gap-4 lg:gap-6 xl:gap-8 text-[13px] lg:text-[14px] tracking-[0.15em] lg:tracking-[0.2em] uppercase whitespace-nowrap min-w-fit">
               <motion.li variants={itemVariants}>
                 <Link
                   href="/"
                   className={`${baseLink} ${
-                    pathname === "/"
+                    pathnameWithoutLocale === "/"
                       ? "line-through decoration-1 decoration-neutral-900"
                       : ""
                   }`}
                 >
-                  Home
+                  {t('nav.home')}
                 </Link>
               </motion.li>
 
@@ -136,12 +141,12 @@ export default function Header() {
                 <Link
                   href="/about"
                   className={`${baseLink} ${
-                    pathname.startsWith("/about")
+                    pathnameWithoutLocale.startsWith("/about")
                       ? "line-through decoration-1 decoration-neutral-900"
                       : ""
                   }`}
                 >
-                  About
+                  {t('nav.about')}
                 </Link>
               </motion.li>
 
@@ -149,12 +154,12 @@ export default function Header() {
                 <Link
                   href="/our-story"
                   className={`${baseLink} ${
-                    pathname.startsWith("/our-story")
+                    pathnameWithoutLocale.startsWith("/our-story")
                       ? "line-through decoration-1 decoration-neutral-900"
                       : ""
                   }`}
                 >
-                  Our Story
+                  {t('nav.ourStory')}
                 </Link>
               </motion.li>
 
@@ -162,12 +167,12 @@ export default function Header() {
                 <Link
                   href="/blog"
                   className={`${baseLink} ${
-                    pathname.startsWith("/blog")
+                    pathnameWithoutLocale.startsWith("/blog")
                       ? "line-through decoration-1 decoration-neutral-900"
                       : ""
                   }`}
                 >
-                  Blog
+                  {t('nav.blog')}
                 </Link>
               </motion.li>
 
@@ -175,12 +180,12 @@ export default function Header() {
                 <Link
                   href="/shop"
                   className={`${baseLink} ${
-                    pathname.startsWith("/shop")
+                    pathnameWithoutLocale.startsWith("/shop")
                       ? "line-through decoration-1 decoration-neutral-900"
                       : ""
                   }`}
                 >
-                  Shop
+                  {t('nav.shop')}
                 </Link>
               </motion.li>
             </ul>
@@ -191,6 +196,9 @@ export default function Header() {
             className="flex flex-1 items-center justify-end gap-6"
             variants={itemVariants}
           >
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+            
             {userCity && (
               <motion.button
                 type="button"
@@ -244,7 +252,7 @@ export default function Header() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Login
+                  {t('auth.login')}
                 </motion.button>
 
                 {/* Register Button */}
@@ -255,7 +263,7 @@ export default function Header() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Register
+                  {t('auth.register')}
                 </motion.button>
               </>
             )}

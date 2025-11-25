@@ -12,7 +12,7 @@ export default function ConditionalLayout({
   const pathname = usePathname();
 
   // Ẩn Header và Footer khi ở trang seller
-  const isSellerPage = pathname?.startsWith("/seller");
+  const isSellerPage = pathname?.includes("/seller");
 
   return (
     <>
