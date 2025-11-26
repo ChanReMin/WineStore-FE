@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
 import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Phone, Mail, MapPin];
 
 export default function ContactCTA() {
-  const t = useTranslations('about.contactCTA');
-  
+  const t = useTranslations("about.contactCTA");
+
   const CONTACT_METHODS = Array.from({ length: 3 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`methods.${index}.title`),
@@ -37,11 +37,11 @@ export default function ContactCTA() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-tight tracking-[0.15em] text-white uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/85">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
 
           {/* Contact Methods */}
@@ -82,7 +82,7 @@ export default function ContactCTA() {
                 href="/shop"
                 className="group flex items-center gap-3 bg-white px-10 py-5 text-[12px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
               >
-                {t('buttons.browseWines')}
+                {t("buttons.browseWines")}
                 <ArrowRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1"
@@ -95,7 +95,7 @@ export default function ContactCTA() {
                 href="/our-story"
                 className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-5 text-[12px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
               >
-                {t('buttons.ourStory')}
+                {t("buttons.ourStory")}
               </Link>
             </motion.div>
           </div>
@@ -108,11 +108,11 @@ export default function ContactCTA() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-12 flex items-center justify-center gap-8 text-[13px] text-white/60"
           >
-            <span>{t('socialProof.customers')}</span>
+            <span>{t("socialProof.customers")}</span>
             <span className="hidden sm:inline">•</span>
-            <span className="hidden sm:inline">{t('socialProof.rating')}</span>
+            <span className="hidden sm:inline">{t("socialProof.rating")}</span>
             <span className="hidden md:inline">•</span>
-            <span className="hidden md:inline">{t('socialProof.service')}</span>
+            <span className="hidden md:inline">{t("socialProof.service")}</span>
           </motion.div>
         </motion.div>
       </div>

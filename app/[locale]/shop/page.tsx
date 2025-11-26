@@ -143,8 +143,6 @@ function ShopContent() {
     };
   }, [filters]);
 
-
-
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>) => {
       setFilters((prev) => ({
@@ -192,8 +190,9 @@ function ShopContent() {
     filters.price_max,
     filters.concentration_min,
     filters.concentration_max,
-  ].filter((value) => value !== undefined && value !== null && value !== "")
-    .length;
+  ].filter(
+    (value) => value !== undefined && value !== null && value !== ""
+  ).length;
 
   const filterChips = useMemo(
     () =>
@@ -202,8 +201,9 @@ function ShopContent() {
           ? {
               key: "brand_id",
               label:
-                MOCK_BRANDS.find((brand) => brand.id === Number(filters.brand_id))
-                  ?.name || "Brand",
+                MOCK_BRANDS.find(
+                  (brand) => brand.id === Number(filters.brand_id)
+                )?.name || "Brand",
               icon: <Tag className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () => handleFilterChange({ brand_id: undefined }),
             }
@@ -212,8 +212,9 @@ function ShopContent() {
           ? {
               key: "category_id",
               label:
-                MOCK_CATEGORIES.find((category) => category.id === Number(filters.category_id))
-                  ?.name || "Category",
+                MOCK_CATEGORIES.find(
+                  (category) => category.id === Number(filters.category_id)
+                )?.name || "Category",
               icon: <Globe2 className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () => handleFilterChange({ category_id: undefined }),
             }
@@ -226,7 +227,10 @@ function ShopContent() {
               }`,
               icon: <BadgeCheck className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () =>
-                handleFilterChange({ price_min: undefined, price_max: undefined }),
+                handleFilterChange({
+                  price_min: undefined,
+                  price_max: undefined,
+                }),
             }
           : null,
         filters.concentration_min || filters.concentration_max
@@ -899,12 +903,16 @@ function ShopContent() {
 
 export default function ShopPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#fdfbf5] flex items-center justify-center">
-      <div className="text-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
-        <p className="mt-4 text-sm text-neutral-600">Loading...</p>
-      </div>
-    </div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#fdfbf5] flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
+            <p className="mt-4 text-sm text-neutral-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
       <ShopContent />
     </Suspense>
   );

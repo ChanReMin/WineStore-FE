@@ -126,9 +126,7 @@ export default function InventoryPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
             {t("title")}
           </h1>
-          <p className="text-[#7a8451]">
-            {t("subtitle")}
-          </p>
+          <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
       </div>
 

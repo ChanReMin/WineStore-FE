@@ -2,14 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Search, Handshake, Package, Sparkles } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Search, Handshake, Package, Sparkles];
 const NUMBERS = ["01", "02", "03", "04"];
 
 export default function Process() {
-  const t = useTranslations('about.process');
-  
+  const t = useTranslations("about.process");
+
   const STEPS = Array.from({ length: 4 }, (_, index) => ({
     icon: ICONS[index],
     number: NUMBERS[index],
@@ -28,10 +28,10 @@ export default function Process() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 

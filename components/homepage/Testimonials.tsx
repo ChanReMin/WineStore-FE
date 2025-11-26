@@ -42,7 +42,7 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const t = useTranslations('home.testimonials');
+  const t = useTranslations("home.testimonials");
 
   return (
     <section className="w-full bg-white py-20 md:py-32">
@@ -56,12 +56,12 @@ export default function Testimonials() {
           className="text-center"
         >
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.3em] text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
 
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
             <span className="h-px w-16 bg-[#d4d6b4]" />
-            <span>{t('subtitle')}</span>
+            <span>{t("subtitle")}</span>
             <span className="h-px w-16 bg-[#d4d6b4]" />
           </div>
         </motion.div>

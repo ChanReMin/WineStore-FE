@@ -1,0 +1,526 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
+import {
+  Package,
+  Search,
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  CheckCircle,
+  XCircle,
+  Clock,
+  AlertCircle,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  fetchProductApprovals,
+  type ProductApproval,
+} from "@/lib/adminProductApprovals";
+import ProductDetailModal from "./ProductDetailModal";
+import ApproveModal from "./ApproveModal";
+import RejectModal from "./RejectModal";
+import RequestChangesModal from "./RequestChangesModal";
+
+export default function ProductApprovalList() {
+  const t = useTranslations("admin.productApproval");
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<ProductApproval[]>([]);
+  const [summary, setSummary] = useState({
+    total_pending: 0,
+    total_approved_today: 0,
+    total_rejected_today: 0,
+  });
+  const [pagination, setPagination] = useState({
+    current_page: 1,
+    total_pages: 1,
+    total_items: 0,
+  });
+
+  // Filters
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "pending" | "approved" | "rejected"
+  >("all");
+  const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
+
+  // Modals
+  const [selectedProduct, setSelectedProduct] =
+    useState<ProductApproval | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showRequestChangesModal, setShowRequestChangesModal] = useState(false);
+
+  const loadData = async (page = 1) => {
+    try {
+      setLoading(true);
+      const response = await fetchProductApprovals({
+        page,
+        limit: 10,
+        status: statusFilter,
+        sort: sortBy,
+      });
+      setProducts(response.data.products);
+      setPagination(response.data.pagination);
+      setSummary(response.data.summary);
+    } catch (error) {
+      console.error("Error loading product approvals:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [statusFilter, sortBy]);
+
+  const handlePageChange = (newPage: number) => {
+    loadData(newPage);
+  };
+
+  const handleViewDetail = (product: ProductApproval) => {
+    setSelectedProduct(product);
+    setShowDetailModal(true);
+  };
+
+  const handleApprove = (product: ProductApproval) => {
+    setSelectedProduct(product);
+    setShowApproveModal(true);
+  };
+
+  const handleReject = (product: ProductApproval) => {
+    setSelectedProduct(product);
+    setShowRejectModal(true);
+  };
+
+  const handleRequestChanges = (product: ProductApproval) => {
+    setSelectedProduct(product);
+    setShowRequestChangesModal(true);
+  };
+
+  const handleActionComplete = () => {
+    loadData(pagination.current_page);
+  };
+
+  const getStatusBadge = (status: string) => {
+    const badges = {
+      pending: {
+        bg: "bg-amber-50",
+        text: "text-amber-700",
+        icon: Clock,
+        label: t("status.pending"),
+      },
+      approved: {
+        bg: "bg-emerald-50",
+        text: "text-emerald-700",
+        icon: CheckCircle,
+        label: t("status.approved"),
+      },
+      rejected: {
+        bg: "bg-red-50",
+        text: "text-red-700",
+        icon: XCircle,
+        label: t("status.rejected"),
+      },
+      pending_changes: {
+        bg: "bg-blue-50",
+        text: "text-blue-700",
+        icon: AlertCircle,
+        label: t("status.pendingChanges"),
+      },
+    };
+
+    const badge = badges[status as keyof typeof badges] || badges.pending;
+    const Icon = badge.icon;
+
+    return (
+      <span
+        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}
+      >
+        <Icon className="w-3.5 h-3.5" />
+        {badge.label}
+      </span>
+    );
+  };
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.seller.full_name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-[#fdfbf5]">
+        <div className="text-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full mx-auto mb-4"
+          />
+          <p className="text-[#7a8451]">{t("loading")}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[#3b4417] tracking-wide">
+          {t("title")}
+        </h1>
+        <p className="text-[#7a8451]">{t("subtitle")}</p>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Card className="border-amber-200 hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-neutral-600 mb-1">
+                    {t("summary.totalPending")}
+                  </p>
+                  <p className="text-3xl font-bold text-amber-600">
+                    {summary.total_pending}
+                  </p>
+                </div>
+                <div className="bg-amber-50 p-3 rounded-xl">
+                  <Clock className="w-6 h-6 text-amber-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Card className="border-emerald-200 hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-neutral-600 mb-1">
+                    {t("summary.approvedToday")}
+                  </p>
+                  <p className="text-3xl font-bold text-emerald-600">
+                    {summary.total_approved_today}
+                  </p>
+                </div>
+                <div className="bg-emerald-50 p-3 rounded-xl">
+                  <CheckCircle className="w-6 h-6 text-emerald-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="border-red-200 hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-neutral-600 mb-1">
+                    {t("summary.rejectedToday")}
+                  </p>
+                  <p className="text-3xl font-bold text-red-600">
+                    {summary.total_rejected_today}
+                  </p>
+                </div>
+                <div className="bg-red-50 p-3 rounded-xl">
+                  <XCircle className="w-6 h-6 text-red-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </div>
+
+      {/* Filters */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+              <Input
+                placeholder={t("searchPlaceholder")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            <Select
+              value={statusFilter}
+              onValueChange={(value: any) => setStatusFilter(value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{t("filters.all")}</SelectItem>
+                <SelectItem value="pending">{t("filters.pending")}</SelectItem>
+                <SelectItem value="approved">
+                  {t("filters.approved")}
+                </SelectItem>
+                <SelectItem value="rejected">
+                  {t("filters.rejected")}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select
+              value={sortBy}
+              onValueChange={(value: any) => setSortBy(value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">{t("filters.newest")}</SelectItem>
+                <SelectItem value="oldest">{t("filters.oldest")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Products Table */}
+      <Card>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-neutral-50 border-b border-neutral-200">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.product")}
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.seller")}
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.price")}
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.status")}
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.submittedAt")}
+                  </th>
+                  <th className="px-6 py-4 text-right text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.actions")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-neutral-200">
+                <AnimatePresence mode="popLayout">
+                  {filteredProducts.map((product, index) => (
+                    <motion.tr
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="hover:bg-neutral-50 transition-colors"
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="w-12 h-12 rounded-lg object-cover"
+                          />
+                          <div>
+                            <p className="font-medium text-[#3b4417]">
+                              {product.name}
+                            </p>
+                            <p className="text-sm text-neutral-500">
+                              {product.sku}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="font-medium text-neutral-900">
+                            {product.seller.full_name}
+                          </p>
+                          <p className="text-sm text-neutral-500">
+                            {product.seller.email}
+                          </p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="font-medium text-neutral-900">
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(product.price)}
+                        </p>
+                        {product.base_price > product.price && (
+                          <p className="text-sm text-neutral-500 line-through">
+                            {new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(product.base_price)}
+                          </p>
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        {getStatusBadge(product.approval_status)}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-neutral-600">
+                        {new Date(product.submitted_at).toLocaleDateString(
+                          "vi-VN"
+                        )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleViewDetail(product)}
+                            className="p-2 text-[#3b4417] hover:bg-[#f5f3e8] rounded-lg transition-colors"
+                            title={t("actions.viewDetail")}
+                          >
+                            <Eye className="w-4 h-4" />
+                          </motion.button>
+                          {product.approval_status === "pending" && (
+                            <>
+                              <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => handleApprove(product)}
+                                className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                title={t("actions.approve")}
+                              >
+                                <CheckCircle className="w-4 h-4" />
+                              </motion.button>
+                              <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => handleReject(product)}
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title={t("actions.reject")}
+                              >
+                                <XCircle className="w-4 h-4" />
+                              </motion.button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination */}
+          {pagination.total_pages > 1 && (
+            <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200">
+              <p className="text-sm text-neutral-600">
+                {t("pagination.showing")}{" "}
+                {(pagination.current_page - 1) * 10 + 1} -{" "}
+                {Math.min(pagination.current_page * 10, pagination.total_items)}{" "}
+                {t("pagination.of")} {pagination.total_items}
+              </p>
+              <div className="flex items-center gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handlePageChange(pagination.current_page - 1)}
+                  disabled={pagination.current_page === 1}
+                  className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </motion.button>
+                <span className="text-sm text-neutral-600">
+                  {pagination.current_page} / {pagination.total_pages}
+                </span>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handlePageChange(pagination.current_page + 1)}
+                  disabled={pagination.current_page === pagination.total_pages}
+                  className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </motion.button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Modals */}
+      {selectedProduct && (
+        <>
+          <ProductDetailModal
+            product={selectedProduct}
+            isOpen={showDetailModal}
+            onClose={() => setShowDetailModal(false)}
+            onApprove={() => {
+              setShowDetailModal(false);
+              handleApprove(selectedProduct);
+            }}
+            onReject={() => {
+              setShowDetailModal(false);
+              handleReject(selectedProduct);
+            }}
+            onRequestChanges={() => {
+              setShowDetailModal(false);
+              handleRequestChanges(selectedProduct);
+            }}
+          />
+          <ApproveModal
+            product={selectedProduct}
+            isOpen={showApproveModal}
+            onClose={() => setShowApproveModal(false)}
+            onSuccess={handleActionComplete}
+          />
+          <RejectModal
+            product={selectedProduct}
+            isOpen={showRejectModal}
+            onClose={() => setShowRejectModal(false)}
+            onSuccess={handleActionComplete}
+          />
+          <RequestChangesModal
+            product={selectedProduct}
+            isOpen={showRequestChangesModal}
+            onClose={() => setShowRequestChangesModal(false)}
+            onSuccess={handleActionComplete}
+          />
+        </>
+      )}
+    </div>
+  );
+}

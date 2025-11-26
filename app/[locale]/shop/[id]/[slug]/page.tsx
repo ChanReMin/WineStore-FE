@@ -18,12 +18,12 @@ const playfair = Playfair_Display({
 export default function ProductDetailPage() {
   const t = useTranslations("productDetail");
   const params = useParams();
-  
+
   // Get ID and slug from URL params
   // URL: /shop/12/chateau-margaux-2015
-  const productId = params.id as string;      // "12"
-  const productSlug = params.slug as string;  // "chateau-margaux-2015"
-  
+  const productId = params.id as string; // "12"
+  const productSlug = params.slug as string; // "chateau-margaux-2015"
+
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "storage"
   >("description");
@@ -33,14 +33,14 @@ export default function ProductDetailPage() {
   // Fetch product by ID from API
   useEffect(() => {
     if (!productId) return;
-    
+
     const fetchProduct = async () => {
       setIsLoading(true);
       try {
         // TODO: Replace with your actual API call
         // const response = await axios.get(`/api/products/${productId}`);
         // setProduct(response.data);
-        
+
         // For now, using mock data
         console.log("Product ID for API:", productId);
         console.log("Product slug for SEO:", productSlug);
@@ -51,7 +51,7 @@ export default function ProductDetailPage() {
         setIsLoading(false);
       }
     };
-    
+
     fetchProduct();
   }, [productId, productSlug]);
 
@@ -293,12 +293,18 @@ export default function ProductDetailPage() {
                   {activeTab === "specs" && (
                     <div className="grid gap-4">
                       {[
-                        { label: t("specs.wineType"), value: product.wine_type },
+                        {
+                          label: t("specs.wineType"),
+                          value: product.wine_type,
+                        },
                         {
                           label: t("specs.alcoholContent"),
                           value: `${product.concentration}%`,
                         },
-                        { label: t("specs.volume"), value: `${product.capacity}ml` },
+                        {
+                          label: t("specs.volume"),
+                          value: `${product.capacity}ml`,
+                        },
                         {
                           label: t("specs.servingTemp"),
                           value: product.ideal_temperature,
@@ -481,8 +487,6 @@ export default function ProductDetailPage() {
               transition={{ delay: 1.0 }}
               className="space-y-6 border-t border-neutral-200/50 pt-8"
             >
-
-
               {/* Premium Action Buttons */}
               {product.inventory.available ? (
                 <div className="space-y-4">
@@ -490,7 +494,9 @@ export default function ProductDetailPage() {
                   <AddToCartButton
                     productId={product.id}
                     productName={product.name}
-                    productSlug={product.name.toLowerCase().replace(/\s+/g, "-")}
+                    productSlug={product.name
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}
                     productImage={product.images[0]}
                     productPrice={product.price}
                     maxQuantity={product.inventory.total_quantity}

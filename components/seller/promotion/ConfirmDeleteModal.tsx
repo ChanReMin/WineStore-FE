@@ -85,7 +85,8 @@ export default function ConfirmDeleteModal({
                     Cảnh báo
                   </p>
                   <p className="text-sm text-amber-700">
-                    Hành động này không thể hoàn tác. Dữ liệu sẽ bị xóa vĩnh viễn.
+                    Hành động này không thể hoàn tác. Dữ liệu sẽ bị xóa vĩnh
+                    viễn.
                   </p>
                 </div>
               </div>
@@ -112,7 +113,11 @@ export default function ConfirmDeleteModal({
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="mr-2"
                     >
                       <Trash2 className="h-4 w-4" />

@@ -9,9 +9,12 @@ interface OrderFiltersProps {
   onStatusChange: (status: number | null) => void;
 }
 
-export default function OrderFilters({ selectedStatus, onStatusChange }: OrderFiltersProps) {
+export default function OrderFilters({
+  selectedStatus,
+  onStatusChange,
+}: OrderFiltersProps) {
   const t = useTranslations("orders.filters");
-  
+
   const statusOptions = [
     { value: null, label: t("all") },
     { value: ORDER_STATUS.PENDING, label: t("pending") },

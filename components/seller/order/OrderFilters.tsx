@@ -22,7 +22,7 @@ export default function OrderFilters({
   onPaymentChange,
 }: OrderFiltersProps) {
   const t = useTranslations("seller.orders");
-  
+
   const orderStatusOptions = [
     { value: "all", labelKey: "filters.allOrders" },
     { value: "1", labelKey: "status.pending" },

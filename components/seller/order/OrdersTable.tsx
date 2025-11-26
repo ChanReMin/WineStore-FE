@@ -53,9 +53,7 @@ export default function OrdersTable({
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("table.noOrders")}
         </h3>
-        <p className="text-[#7a8451]">
-          {t("table.tryChangingFilter")}
-        </p>
+        <p className="text-[#7a8451]">{t("table.tryChangingFilter")}</p>
       </Card>
     );
   }
@@ -152,17 +150,19 @@ export default function OrdersTable({
                         <Eye className="w-4 h-4" />
                       </motion.button>
                     )}
-                    {onUpdateStatus && order.status !== 4 && order.status !== 5 && (
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => onUpdateStatus(order)}
-                        className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                        title={t("table.updateStatus")}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </motion.button>
-                    )}
+                    {onUpdateStatus &&
+                      order.status !== 4 &&
+                      order.status !== 5 && (
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => onUpdateStatus(order)}
+                          className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
+                          title={t("table.updateStatus")}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </motion.button>
+                      )}
                   </div>
                 </TableCell>
               </motion.tr>

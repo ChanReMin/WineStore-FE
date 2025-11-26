@@ -1,7 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { mockOverview, mockRevenue, mockOrders, mockInventory } from "@/lib/sellerDashboard";
+import {
+  mockOverview,
+  mockRevenue,
+  mockOrders,
+  mockInventory,
+} from "@/lib/sellerDashboard";
 import OverviewCards from "./OverviewCards";
 import RevenueChart from "./RevenueChart";
 import LatestOrdersTable from "./LatestOrdersTable";
@@ -17,7 +22,9 @@ export default function SellerDashboard() {
   return (
     <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
       <div>
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[#3b4417] tracking-wide">{t("title")}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[#3b4417] tracking-wide">
+          {t("title")}
+        </h1>
         <p className="text-[#7a8451]">{t("subtitle")}</p>
       </div>
 

@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { useTranslations } from "next-intl";
 
 export default function ParallaxCellarSection() {
-  const t = useTranslations('home.cellarJourney');
+  const t = useTranslations("home.cellarJourney");
   const container = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: container,
@@ -24,16 +24,16 @@ export default function ParallaxCellarSection() {
       {/* TEXT OVERLAY */}
       <div className="relative z-10 flex h-full w-full flex-col justify-between p-10 md:p-20 text-white">
         <p className="w-[60vw] self-end text-[2.2vw] leading-snug tracking-[0.2em] uppercase mix-blend-difference">
-          {t('tagline')}
+          {t("tagline")}
         </p>
 
         <div className="mix-blend-difference">
           <p className="text-[4.5vw] leading-tight tracking-[0.3em] uppercase whitespace-pre-line">
-            {t('title')}
+            {t("title")}
           </p>
 
           <p className="mt-4 max-w-xl text-[1.1rem] leading-relaxed text-white tracking-widest">
-            {t('description')}
+            {t("description")}
           </p>
         </div>
       </div>

@@ -12,10 +12,11 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+import DevLogin from "@/components/dev/DevLogin";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -146,10 +147,11 @@ export default async function LocaleLayout({
               theme="light"
               limit={3}
             />
+            {/* Dev Login - Only in development */}
+            {process.env.NODE_ENV !== "production" && <DevLogin />}
           </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>
   );
 }
-

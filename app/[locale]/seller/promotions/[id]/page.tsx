@@ -3,7 +3,18 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Edit, Trash2, Tag, Calendar, Percent, DollarSign, Users, Package, TrendingUp } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit,
+  Trash2,
+  Tag,
+  Calendar,
+  Percent,
+  DollarSign,
+  Users,
+  Package,
+  TrendingUp,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -11,11 +22,23 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Line, LineChart } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Line,
+  LineChart,
+} from "recharts";
 import PromotionStatusBadge from "@/components/seller/promotion/PromotionStatusBadge";
 import PromotionFormModal from "@/components/seller/promotion/PromotionFormModal";
 import ConfirmDeleteModal from "@/components/seller/promotion/ConfirmDeleteModal";
-import { mockPromotions, mockPromotionDetail, mockPromotionStatistics } from "@/lib/promotions.mock";
+import {
+  mockPromotions,
+  mockPromotionDetail,
+  mockPromotionStatistics,
+} from "@/lib/promotions.mock";
 
 export default function PromotionDetailPage() {
   const params = useParams();
@@ -60,7 +83,7 @@ export default function PromotionDetailPage() {
 
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsDeleting(false);
@@ -135,7 +158,9 @@ export default function PromotionDetailPage() {
                   endDate={promotion.end_date}
                 />
               </div>
-              <p className="text-xl font-semibold text-[#3b4417] mb-2">{promotion.name}</p>
+              <p className="text-xl font-semibold text-[#3b4417] mb-2">
+                {promotion.name}
+              </p>
               <p className="text-[#7a8451]">{promotion.description}</p>
             </div>
             <div className="flex flex-col items-end gap-2">
@@ -146,7 +171,10 @@ export default function PromotionDetailPage() {
                   <DollarSign className="h-10 w-10 text-[#d4af37]" />
                 )}
                 <span className="text-4xl font-bold text-[#d4af37]">
-                  {formatDiscount(promotion.discount_type, promotion.discount_value)}
+                  {formatDiscount(
+                    promotion.discount_type,
+                    promotion.discount_value
+                  )}
                 </span>
               </div>
               <span className="text-sm text-[#7a8451]">
@@ -157,7 +185,9 @@ export default function PromotionDetailPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-[#d4d6b4]">
             <div>
-              <p className="text-xs text-[#7a8451] uppercase mb-2">Ngày bắt đầu</p>
+              <p className="text-xs text-[#7a8451] uppercase mb-2">
+                Ngày bắt đầu
+              </p>
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
@@ -166,7 +196,9 @@ export default function PromotionDetailPage() {
               </div>
             </div>
             <div>
-              <p className="text-xs text-[#7a8451] uppercase mb-2">Ngày kết thúc</p>
+              <p className="text-xs text-[#7a8451] uppercase mb-2">
+                Ngày kết thúc
+              </p>
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
@@ -175,7 +207,9 @@ export default function PromotionDetailPage() {
               </div>
             </div>
             <div>
-              <p className="text-xs text-[#7a8451] uppercase mb-2">Đã sử dụng</p>
+              <p className="text-xs text-[#7a8451] uppercase mb-2">
+                Đã sử dụng
+              </p>
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
@@ -208,7 +242,9 @@ export default function PromotionDetailPage() {
             <p className="text-sm text-[#7a8451] uppercase">Tổng đơn hàng</p>
             <TrendingUp className="h-5 w-5 text-[#3b4417]" />
           </div>
-          <p className="text-3xl font-bold text-[#3b4417]">{statistics.total_orders}</p>
+          <p className="text-3xl font-bold text-[#3b4417]">
+            {statistics.total_orders}
+          </p>
           <p className="text-xs text-[#7a8451] mt-1">Đơn hàng đã áp dụng</p>
         </Card>
         <Card className="border-[#d4d6b4] p-6">
@@ -298,44 +334,49 @@ export default function PromotionDetailPage() {
       </motion.div>
 
       {/* Applicable Products */}
-      {promotion.applicable_products && promotion.applicable_products.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <Card className="border-[#d4d6b4] p-6">
-            <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              Sản phẩm áp dụng ({promotion.applicable_products.length})
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {promotion.applicable_products.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + index * 0.05 }}
-                  className="flex items-center justify-between p-4 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc] hover:border-[#3b4417] transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#f5f3e8] flex items-center justify-center">
-                      <Package className="w-5 h-5 text-[#7a8451]" />
+      {promotion.applicable_products &&
+        promotion.applicable_products.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Card className="border-[#d4d6b4] p-6">
+              <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
+                <Package className="h-5 w-5" />
+                Sản phẩm áp dụng ({promotion.applicable_products.length})
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {promotion.applicable_products.map((product, index) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + index * 0.05 }}
+                    className="flex items-center justify-between p-4 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc] hover:border-[#3b4417] transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-[#f5f3e8] flex items-center justify-center">
+                        <Package className="w-5 h-5 text-[#7a8451]" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-[#3b4417]">
+                          {product.name}
+                        </p>
+                        <p className="text-xs text-[#7a8451]">
+                          ID: {product.id}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-[#3b4417]">{product.name}</p>
-                      <p className="text-xs text-[#7a8451]">ID: {product.id}</p>
-                    </div>
-                  </div>
-                  <p className="font-bold text-[#d4af37]">
-                    {formatCurrency(product.price)}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
-      )}
+                    <p className="font-bold text-[#d4af37]">
+                      {formatCurrency(product.price)}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </Card>
+          </motion.div>
+        )}
 
       {/* Edit Modal */}
       <AnimatePresence>

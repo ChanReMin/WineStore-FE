@@ -83,9 +83,7 @@ export default function UpdateOrderStatusModal({
                     <h2 className="text-xl font-bold text-[#3b4417]">
                       {t("updateStatus.title")}
                     </h2>
-                    <p className="text-sm text-[#7a8451]">
-                      {order.order_code}
-                    </p>
+                    <p className="text-sm text-[#7a8451]">{order.order_code}</p>
                   </div>
                 </div>
                 <button
@@ -113,7 +111,10 @@ export default function UpdateOrderStatusModal({
                 {/* New Status */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-3">
-                    {t("updateStatus.newStatus")} <span className="text-red-600">{t("updateStatus.required")}</span>
+                    {t("updateStatus.newStatus")}{" "}
+                    <span className="text-red-600">
+                      {t("updateStatus.required")}
+                    </span>
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {statusOptions.map((option) => (

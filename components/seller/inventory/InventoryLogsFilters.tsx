@@ -24,7 +24,7 @@ export default function InventoryLogsFilters({
   warehouses,
 }: InventoryLogsFiltersProps) {
   const t = useTranslations("seller.inventory.logs.filters");
-  
+
   const typeOptions = [
     { value: "all", label: t("all") },
     { value: "IN", label: t("in") },
@@ -79,7 +79,9 @@ export default function InventoryLogsFilters({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Calendar className="w-4 h-4 text-[#7a8451]" />
-              <span className="text-sm font-medium text-[#3b4417]">{t("warehouse")}</span>
+              <span className="text-sm font-medium text-[#3b4417]">
+                {t("warehouse")}
+              </span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <button

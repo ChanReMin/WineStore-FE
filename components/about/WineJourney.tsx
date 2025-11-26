@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Grape, Droplet, BarChart3, Package, Truck, Wine } from "lucide-react";
 import { useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Grape, Droplet, BarChart3, Package, Truck, Wine];
 const IMAGES = [
@@ -17,8 +17,8 @@ const IMAGES = [
 ];
 
 export default function WineJourney() {
-  const t = useTranslations('about.wineJourney');
-  
+  const t = useTranslations("about.wineJourney");
+
   const JOURNEY_STEPS = Array.from({ length: 6 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`steps.${index}.title`),
@@ -46,10 +46,10 @@ export default function WineJourney() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 

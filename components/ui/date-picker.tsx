@@ -3,7 +3,19 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, addMonths, subMonths, startOfWeek, endOfWeek } from "date-fns";
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  isSameMonth,
+  isSameDay,
+  isToday,
+  addMonths,
+  subMonths,
+  startOfWeek,
+  endOfWeek,
+} from "date-fns";
 import { vi } from "date-fns/locale";
 
 interface DatePickerProps {
@@ -26,8 +38,12 @@ export default function DatePicker({
   error,
 }: DatePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(value ? new Date(value) : new Date());
-  const [inputValue, setInputValue] = useState(value ? format(new Date(value), "dd/MM/yyyy") : "");
+  const [currentMonth, setCurrentMonth] = useState(
+    value ? new Date(value) : new Date()
+  );
+  const [inputValue, setInputValue] = useState(
+    value ? format(new Date(value), "dd/MM/yyyy") : ""
+  );
   const containerRef = useRef<HTMLDivElement>(null);
 
   const selectedDate = value ? new Date(value) : null;
@@ -44,7 +60,10 @@ export default function DatePicker({
   // Close calendar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -121,7 +140,10 @@ export default function DatePicker({
   const monthEnd = endOfMonth(currentMonth);
   const calendarStart = startOfWeek(monthStart, { weekStartsOn: 1 });
   const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
-  const calendarDays = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+  const calendarDays = eachDayOfInterval({
+    start: calendarStart,
+    end: calendarEnd,
+  });
 
   const weekDays = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
@@ -155,9 +177,7 @@ export default function DatePicker({
         </button>
       </div>
 
-      {error && (
-        <p className="text-xs text-red-600 mt-1">{error}</p>
-      )}
+      {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
 
       {/* Calendar Dropdown */}
       <AnimatePresence>
@@ -210,7 +230,8 @@ export default function DatePicker({
               <div className="grid grid-cols-7 gap-1">
                 {calendarDays.map((day, index) => {
                   const isCurrentMonth = isSameMonth(day, currentMonth);
-                  const isSelected = selectedDate && isSameDay(day, selectedDate);
+                  const isSelected =
+                    selectedDate && isSameDay(day, selectedDate);
                   const isTodayDate = isToday(day);
                   const isDisabled = isDateDisabled(day);
 
@@ -226,13 +247,14 @@ export default function DatePicker({
                         aspect-square rounded-lg text-sm font-medium transition-all
                         ${!isCurrentMonth ? "text-[#7a8451]/30" : ""}
                         ${isDisabled ? "text-gray-300 cursor-not-allowed" : ""}
-                        ${isSelected
-                          ? "bg-[#3b4417] text-white shadow-md"
-                          : isTodayDate
-                          ? "bg-[#d4af37]/20 text-[#3b4417] font-bold"
-                          : isCurrentMonth && !isDisabled
-                          ? "text-[#3b4417] hover:bg-[#f5f3e8]"
-                          : ""
+                        ${
+                          isSelected
+                            ? "bg-[#3b4417] text-white shadow-md"
+                            : isTodayDate
+                              ? "bg-[#d4af37]/20 text-[#3b4417] font-bold"
+                              : isCurrentMonth && !isDisabled
+                                ? "text-[#3b4417] hover:bg-[#f5f3e8]"
+                                : ""
                         }
                       `}
                     >

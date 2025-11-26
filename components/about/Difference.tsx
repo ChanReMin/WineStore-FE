@@ -3,20 +3,20 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Check } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function Difference() {
-  const t = useTranslations('about.difference');
-  
+  const t = useTranslations("about.difference");
+
   const FEATURES = [
-    t('features.0'),
-    t('features.1'),
-    t('features.2'),
-    t('features.3'),
-    t('features.4'),
-    t('features.5'),
-    t('features.6'),
-    t('features.7'),
+    t("features.0"),
+    t("features.1"),
+    t("features.2"),
+    t("features.3"),
+    t("features.4"),
+    t("features.5"),
+    t("features.6"),
+    t("features.7"),
   ];
   return (
     <section className="w-full bg-white py-24 md:py-32">
@@ -31,13 +31,13 @@ export default function Difference() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-tight tracking-wide text-[#3b4417] uppercase">
-              {t('title')}
+              {t("title")}
               <br />
-              {t('titleLine2')}
+              {t("titleLine2")}
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              {t('subtitle')}
+              {t("subtitle")}
             </p>
 
             {/* Features List */}
@@ -127,9 +127,9 @@ export default function Difference() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="absolute -bottom-6 -left-6 bg-[#3b4417] p-8 text-white shadow-2xl"
             >
-              <p className="text-[48px] font-bold">{t('badge.number')}</p>
+              <p className="text-[48px] font-bold">{t("badge.number")}</p>
               <p className="text-[14px] tracking-[0.2em] uppercase">
-                {t('badge.text')}
+                {t("badge.text")}
               </p>
             </motion.div>
           </motion.div>

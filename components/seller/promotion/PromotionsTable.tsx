@@ -61,9 +61,7 @@ export default function PromotionsTable({
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("noPromotions")}
         </h3>
-        <p className="text-[#7a8451]">
-          {t("createFirst")}
-        </p>
+        <p className="text-[#7a8451]">{t("createFirst")}</p>
       </Card>
     );
   }
@@ -132,7 +130,10 @@ export default function PromotionsTable({
                     <div className="flex items-center gap-2">
                       <Percent className="w-4 h-4 text-[#d4af37]" />
                       <span className="font-bold text-lg text-[#d4af37]">
-                        {formatDiscount(promo.discount_type, promo.discount_value)}
+                        {formatDiscount(
+                          promo.discount_type,
+                          promo.discount_value
+                        )}
                       </span>
                     </div>
                   </TableCell>

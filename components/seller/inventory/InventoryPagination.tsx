@@ -96,8 +96,8 @@ export default function InventoryPagination({
           <span className="font-semibold text-[#3b4417]">
             {Math.min(currentPage * itemsPerPage, totalItems)}
           </span>{" "}
-          of{" "}
-          <span className="font-semibold text-[#3b4417]">{totalItems}</span> items
+          of <span className="font-semibold text-[#3b4417]">{totalItems}</span>{" "}
+          items
         </div>
 
         {/* Right: Pagination */}

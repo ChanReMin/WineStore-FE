@@ -32,7 +32,7 @@ export default function ProductDetailModal({
   onEdit,
 }: ProductDetailModalProps) {
   const t = useTranslations("seller.products.detail");
-  
+
   if (!product) return null;
 
   const formatPrice = (price: number) => {
@@ -107,7 +107,9 @@ export default function ProductDetailModal({
                         <DollarSign className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">{t("price")}</p>
+                        <p className="text-sm text-[#7a8451] mb-1">
+                          {t("price")}
+                        </p>
                         <p className="text-xl font-bold text-[#3b4417]">
                           {formatPrice(product.price)}
                         </p>
@@ -119,7 +121,9 @@ export default function ProductDetailModal({
                         <Package className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">{t("inventory")}</p>
+                        <p className="text-sm text-[#7a8451] mb-1">
+                          {t("inventory")}
+                        </p>
                         <p className="text-lg font-semibold text-[#3b4417]">
                           {product.total_inventory} {t("products")}
                         </p>
@@ -133,7 +137,9 @@ export default function ProductDetailModal({
                         <Tag className="w-5 h-5 text-[#3b4417]" />
                       </div>
                       <div>
-                        <p className="text-sm text-[#7a8451] mb-1">{t("category")}</p>
+                        <p className="text-sm text-[#7a8451] mb-1">
+                          {t("category")}
+                        </p>
                         <p className="text-lg font-semibold text-[#3b4417]">
                           {product.category}
                         </p>

@@ -1,6 +1,6 @@
-import createNextIntlPlugin from 'next-intl/plugin';
+import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig = {
   // Tắt export mode để support dynamic routes [id]
@@ -8,7 +8,7 @@ const nextConfig = {
   // distDir: 'dist',
 
   // Enable standalone output for Docker
-  output: 'standalone',
+  output: "standalone",
 
   images: {
     unoptimized: true,

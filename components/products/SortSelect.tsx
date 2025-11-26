@@ -13,7 +13,7 @@ interface SortSelectProps {
 export default function SortSelect({ value, onChange }: SortSelectProps) {
   const t = useTranslations("shop.sort");
   const [isFocused, setIsFocused] = useState(false);
-  
+
   const SORT_OPTIONS = [
     { value: "created_at_desc", label: t("newest"), icon: "✨" },
     { value: "created_at_asc", label: t("oldest"), icon: "🏛️" },

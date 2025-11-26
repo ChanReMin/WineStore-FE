@@ -14,11 +14,7 @@ interface LocationModalProps {
 }
 
 // Mock data - Replace with real API data
-const CITIES = [
-  "Ha Noi",
-  "Ho Chi Minh",
-  "Da Nang",
-];
+const CITIES = ["Ha Noi", "Ho Chi Minh", "Da Nang"];
 
 // Stores organized by city
 const STORES: Record<string, string[]> = {

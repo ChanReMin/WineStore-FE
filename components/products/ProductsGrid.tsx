@@ -109,7 +109,7 @@ export default function ProductsGrid({
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
               className="absolute inset-4 rounded-full border border-[#d4af37]/20"
             />
-            
+
             {/* Icon */}
             <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-[#fdfbf5] to-white shadow-lg">
               <Wine size={40} strokeWidth={1.5} className="text-[#7b5b2c]" />
@@ -125,7 +125,7 @@ export default function ProductsGrid({
           <h3 className="mb-4 text-[24px] font-semibold tracking-[0.15em] text-[#3b4417] uppercase">
             No Wines Found
           </h3>
-          
+
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="h-px w-12 bg-linear-to-r from-transparent to-[#d4af37]/50" />
             <Sparkles size={16} className="text-[#d4af37]" />

@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const t = useTranslations('home.newsletter');
+  const t = useTranslations("home.newsletter");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,17 +53,17 @@ export default function Newsletter() {
 
           {/* Heading */}
           <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold tracking-[0.25em] text-white uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
 
           <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-white/70">
             <span className="h-px w-16 bg-white/30" />
-            <span>{t('subtitle')}</span>
+            <span>{t("subtitle")}</span>
             <span className="h-px w-16 bg-white/30" />
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-[16px] leading-relaxed text-white/80">
-            {t('description')}
+            {t("description")}
           </p>
 
           {/* Form */}
@@ -81,7 +81,7 @@ export default function Newsletter() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('placeholder')}
+                  placeholder={t("placeholder")}
                   required
                   className="w-full border border-white/30 bg-white/10 px-6 py-4 text-[14px] text-white placeholder:text-white/50 backdrop-blur-sm transition-all focus:border-white/60 focus:bg-white/15 focus:outline-none"
                 />
@@ -95,10 +95,10 @@ export default function Newsletter() {
                 className="group flex items-center justify-center gap-2 bg-white px-8 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] disabled:opacity-50 uppercase"
               >
                 {isSubmitted ? (
-                  t('subscribed')
+                  t("subscribed")
                 ) : (
                   <>
-                    {t('subscribe')}
+                    {t("subscribe")}
                     <ArrowRight
                       size={16}
                       className="transition-transform group-hover:translate-x-1"
@@ -108,9 +108,7 @@ export default function Newsletter() {
               </motion.button>
             </div>
 
-            <p className="mt-4 text-[12px] text-white/60">
-              {t('privacy')}
-            </p>
+            <p className="mt-4 text-[12px] text-white/60">{t("privacy")}</p>
           </motion.form>
 
           {/* Stats */}

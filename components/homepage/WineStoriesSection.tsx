@@ -4,8 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
-
-
 const containerVariants: any = {
   hidden: { opacity: 0, y: 40 },
   show: {
@@ -25,8 +23,8 @@ const itemVariants: any = {
 };
 
 export default function WineStoriesSection() {
-  const t = useTranslations('home.wineStories');
-  
+  const t = useTranslations("home.wineStories");
+
   return (
     <section className="w-full bg-[#fdfbf5] py-20 md:py-28">
       <motion.div
@@ -38,12 +36,12 @@ export default function WineStoriesSection() {
       >
         {/* Heading */}
         <h2 className="text-[22px] md:text-[26px] lg:text-[30px] font-semibold tracking-[0.35em] text-[#3b4417] uppercase">
-          {t('title')}
+          {t("title")}
         </h2>
 
         <div className="mt-4 flex items-center justify-center gap-4 text-[11px] italic text-[#7a8451]">
           <span className="h-px w-16 bg-[#d4d6b4]" />
-          <span>{t('subtitle')}</span>
+          <span>{t("subtitle")}</span>
           <span className="h-px w-16 bg-[#d4d6b4]" />
         </div>
 

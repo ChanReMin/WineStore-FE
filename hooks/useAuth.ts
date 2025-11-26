@@ -14,7 +14,7 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       const response = await authService.login(credentials);
-      
+
       if (response.success) {
         const { user, access_token, refresh_token } = response.data;
         setAuth(user, access_token, refresh_token);
@@ -23,8 +23,7 @@ export const useAuth = () => {
         return { success: true };
       }
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Login failed";
+      const errorMessage = error.response?.data?.message || "Login failed";
       toast.error(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -36,9 +35,11 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       const response = await authService.register(data);
-      
+
       if (response.success) {
-        toast.success(response.message || "Đăng ký thành công! Vui lòng đăng nhập.");
+        toast.success(
+          response.message || "Đăng ký thành công! Vui lòng đăng nhập."
+        );
         // Don't redirect, let the modal handle switching to login mode
         return { success: true };
       }
@@ -46,7 +47,7 @@ export const useAuth = () => {
       const errorMessage =
         error.response?.data?.message || "Registration failed";
       const errors = error.response?.data?.errors;
-      
+
       if (errors && errors.length > 0) {
         errors.forEach((err: any) => {
           toast.error(`${err.field}: ${err.message}`);
@@ -54,7 +55,7 @@ export const useAuth = () => {
       } else {
         toast.error(errorMessage);
       }
-      
+
       return { success: false, error: errorMessage };
     } finally {
       setIsLoading(false);

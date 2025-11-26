@@ -68,7 +68,7 @@ export default function ProductFilters({
   summary,
 }: ProductFiltersProps) {
   const t = useTranslations("seller.products");
-  
+
   const statusOptions = [
     { value: "all", labelKey: "filters.all", count: summary.total },
     { value: "1", labelKey: "summary.pending", count: summary.pending },

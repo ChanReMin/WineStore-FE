@@ -52,9 +52,7 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("noTransactions")}
         </h3>
-        <p className="text-[#7a8451]">
-          {t("noTransactionsDesc")}
-        </p>
+        <p className="text-[#7a8451]">{t("noTransactionsDesc")}</p>
       </Card>
     );
   }
@@ -102,7 +100,9 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                 <TableCell>
                   <div className="flex items-center gap-2 text-[#7a8451]">
                     <Calendar className="w-4 h-4" />
-                    <span className="text-sm">{formatDate(log.created_at)}</span>
+                    <span className="text-sm">
+                      {formatDate(log.created_at)}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell>

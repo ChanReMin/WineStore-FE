@@ -72,7 +72,7 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-[#3b4417] tracking-wide">
             <AlertTriangle className="w-5 h-5 text-[#d4af37]" />
-             Inventory alert ({alertItems.length})
+            Inventory alert ({alertItems.length})
           </CardTitle>
         </CardHeader>
         <CardContent>

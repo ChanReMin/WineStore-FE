@@ -9,10 +9,17 @@ import {
   Thermometer,
   Globe,
 } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Wine, Award, Utensils, Thermometer, BookOpen, Globe];
-const CATEGORY_IDS = ["all", "tasting", "pairing", "storage", "education", "regions"];
+const CATEGORY_IDS = [
+  "all",
+  "tasting",
+  "pairing",
+  "storage",
+  "education",
+  "regions",
+];
 
 interface BlogCategoriesProps {
   selectedCategory: string;
@@ -23,8 +30,8 @@ export default function BlogCategories({
   selectedCategory,
   onSelectCategory,
 }: BlogCategoriesProps) {
-  const t = useTranslations('blog.categories');
-  
+  const t = useTranslations("blog.categories");
+
   const categories = CATEGORY_IDS.map((id, index) => ({
     id,
     label: t(id),

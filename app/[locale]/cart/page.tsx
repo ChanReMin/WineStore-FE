@@ -15,7 +15,14 @@ export default function CartPage() {
   const t = useTranslations("cart");
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const { cart, fetchCart, updateCartItem, removeCartItem, clearCart, isLoading } = useCartStore();
+  const {
+    cart,
+    fetchCart,
+    updateCartItem,
+    removeCartItem,
+    clearCart,
+    isLoading,
+  } = useCartStore();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -25,11 +32,16 @@ export default function CartPage() {
     fetchCart();
   }, [isAuthenticated, router, fetchCart]);
 
-  const handleUpdateQuantity = async (cartItemId: number, newQuantity: number) => {
+  const handleUpdateQuantity = async (
+    cartItemId: number,
+    newQuantity: number
+  ) => {
     try {
       await updateCartItem(cartItemId, newQuantity);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Không thể cập nhật");
+      toast.error(
+        error instanceof Error ? error.message : "Không thể cập nhật"
+      );
     }
   };
 
@@ -44,12 +56,14 @@ export default function CartPage() {
 
   const handleClearCart = async () => {
     if (!confirm("Bạn có chắc muốn xóa toàn bộ giỏ hàng?")) return;
-    
+
     try {
       await clearCart();
       toast.success("Đã xóa toàn bộ giỏ hàng");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Không thể xóa giỏ hàng");
+      toast.error(
+        error instanceof Error ? error.message : "Không thể xóa giỏ hàng"
+      );
     }
   };
 
@@ -72,14 +86,16 @@ export default function CartPage() {
             className="mb-4 inline-flex items-center gap-2 text-sm text-neutral-600 transition-colors hover:text-[#33391d]"
           >
             <ArrowLeft className="h-4 w-4" />
-            {t('continueShopping')}
+            {t("continueShopping")}
           </Link>
-          
+
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-[#33391d]">{t('title')}</h1>
+              <h1 className="text-4xl font-bold text-[#33391d]">
+                {t("title")}
+              </h1>
               <p className="mt-2 text-neutral-600">
-                {cart?.summary.total_items || 0} {t('items')}
+                {cart?.summary.total_items || 0} {t("items")}
               </p>
             </div>
 
@@ -108,13 +124,15 @@ export default function CartPage() {
             <div className="mb-6 flex h-32 w-32 items-center justify-center rounded-full bg-amber-100">
               <ShoppingBag className="h-16 w-16 text-[#33391d]" />
             </div>
-            <h2 className="mb-2 text-2xl font-bold text-[#33391d]">{t('empty.title')}</h2>
-            <p className="mb-6 text-neutral-600">{t('empty.description')}</p>
+            <h2 className="mb-2 text-2xl font-bold text-[#33391d]">
+              {t("empty.title")}
+            </h2>
+            <p className="mb-6 text-neutral-600">{t("empty.description")}</p>
             <Link
               href="/shop"
               className="inline-block bg-[#33391d] px-8 py-3 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-[#2a2f18]"
             >
-              {t('empty.button')}
+              {t("empty.button")}
             </Link>
           </motion.div>
         ) : (
@@ -151,7 +169,9 @@ export default function CartPage() {
                             {item.product.name}
                           </h3>
                           {item.product.sku && (
-                            <p className="text-sm text-neutral-500">SKU: {item.product.sku}</p>
+                            <p className="text-sm text-neutral-500">
+                              SKU: {item.product.sku}
+                            </p>
                           )}
                         </div>
 
@@ -161,7 +181,7 @@ export default function CartPage() {
                           onClick={() => handleRemoveItem(item.id)}
                           disabled={isLoading}
                           className="rounded-full p-2 text-neutral-400 transition-colors hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-                          title={t('removeItem')}
+                          title={t("removeItem")}
                         >
                           <Trash2 className="h-5 w-5" />
                         </motion.button>
@@ -169,19 +189,24 @@ export default function CartPage() {
 
                       {/* Price */}
                       <p className="mb-4 text-base font-medium text-neutral-700">
-                        {item.unit_price.toLocaleString("vi-VN")}₫ {t('perBottle')}
+                        {item.unit_price.toLocaleString("vi-VN")}₫{" "}
+                        {t("perBottle")}
                       </p>
 
                       {/* Quantity & Total */}
                       <div className="mt-auto flex items-center justify-between">
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-3">
-                          <span className="text-sm text-neutral-600">Số lượng:</span>
+                          <span className="text-sm text-neutral-600">
+                            Số lượng:
+                          </span>
                           <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-300 bg-white">
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                              onClick={() =>
+                                handleUpdateQuantity(item.id, item.quantity - 1)
+                              }
                               disabled={item.quantity <= 1 || isLoading}
                               className="p-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
                             >
@@ -195,8 +220,13 @@ export default function CartPage() {
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                              disabled={item.quantity >= item.product.max_quantity || isLoading}
+                              onClick={() =>
+                                handleUpdateQuantity(item.id, item.quantity + 1)
+                              }
+                              disabled={
+                                item.quantity >= item.product.max_quantity ||
+                                isLoading
+                              }
                               className="p-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
                             >
                               <Plus className="h-4 w-4" />
@@ -211,7 +241,8 @@ export default function CartPage() {
                           </p>
                           {item.quantity > 1 && (
                             <p className="text-sm text-neutral-500">
-                              {item.quantity} × {item.unit_price.toLocaleString("vi-VN")}₫
+                              {item.quantity} ×{" "}
+                              {item.unit_price.toLocaleString("vi-VN")}₫
                             </p>
                           )}
                         </div>
@@ -220,7 +251,7 @@ export default function CartPage() {
                       {/* Stock Warning */}
                       {item.quantity >= item.product.max_quantity && (
                         <p className="mt-2 text-sm text-amber-600">
-                          {t('maxQuantityReached')}
+                          {t("maxQuantityReached")}
                         </p>
                       )}
                     </div>
@@ -237,13 +268,15 @@ export default function CartPage() {
                 transition={{ delay: 0.2 }}
                 className="sticky top-24 rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
               >
-                <h2 className="mb-6 text-xl font-bold text-[#33391d]">Tóm tắt đơn hàng</h2>
+                <h2 className="mb-6 text-xl font-bold text-[#33391d]">
+                  Tóm tắt đơn hàng
+                </h2>
 
                 <div className="space-y-4">
                   {/* Subtotal */}
                   <div className="flex items-center justify-between">
                     <span className="text-neutral-600">
-                      {t('subtotal')} ({cart?.summary.total_quantity} sản phẩm)
+                      {t("subtotal")} ({cart?.summary.total_quantity} sản phẩm)
                     </span>
                     <span className="font-semibold text-neutral-900">
                       {cart?.summary.subtotal.toLocaleString("vi-VN")}₫
@@ -252,13 +285,18 @@ export default function CartPage() {
 
                   {/* Shipping */}
                   <div className="flex items-center justify-between">
-                    <span className="text-neutral-600">{t('shipping')}</span>
+                    <span className="text-neutral-600">{t("shipping")}</span>
                     {cart && cart.summary.estimated_shipping > 0 ? (
                       <span className="font-semibold text-neutral-900">
-                        {cart.summary.estimated_shipping.toLocaleString("vi-VN")}₫
+                        {cart.summary.estimated_shipping.toLocaleString(
+                          "vi-VN"
+                        )}
+                        ₫
                       </span>
                     ) : (
-                      <span className="font-semibold text-green-600">{t('freeShipping')}</span>
+                      <span className="font-semibold text-green-600">
+                        {t("freeShipping")}
+                      </span>
                     )}
                   </div>
 
@@ -267,7 +305,9 @@ export default function CartPage() {
 
                   {/* Total */}
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-neutral-900">{t('total')}</span>
+                    <span className="text-lg font-bold text-neutral-900">
+                      {t("total")}
+                    </span>
                     <span className="text-3xl font-bold text-[#33391d]">
                       {cart?.summary.estimated_total.toLocaleString("vi-VN")}₫
                     </span>
@@ -280,7 +320,7 @@ export default function CartPage() {
                   whileTap={{ scale: 0.98 }}
                   className="mt-6 w-full bg-[#33391d] py-4 text-sm font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#2a2f18] hover:shadow-lg"
                 >
-                  {t('checkoutNow')}
+                  {t("checkoutNow")}
                 </motion.button>
 
                 {/* Continue Shopping */}
@@ -288,12 +328,12 @@ export default function CartPage() {
                   href="/shop"
                   className="mt-3 block w-full border-2 border-[#33391d] bg-white py-4 text-center text-sm font-bold uppercase tracking-wider text-[#33391d] transition-all hover:bg-amber-50"
                 >
-                  {t('continueShopping')}
+                  {t("continueShopping")}
                 </Link>
 
                 {/* Note */}
                 <p className="mt-4 text-center text-xs text-neutral-500">
-                  {t('shippingNote')}
+                  {t("shippingNote")}
                 </p>
               </motion.div>
             </div>

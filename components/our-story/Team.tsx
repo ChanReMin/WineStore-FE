@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Linkedin, Mail } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const IMAGES = [
   "/team/member-1.jpg",
@@ -14,8 +14,8 @@ const IMAGES = [
 ];
 
 export default function Team() {
-  const t = useTranslations('ourStory.team');
-  
+  const t = useTranslations("ourStory.team");
+
   const TEAM_MEMBERS = Array.from({ length: 5 }, (_, index) => ({
     name: t(`members.${index}.name`),
     role: t(`members.${index}.role`),
@@ -34,10 +34,10 @@ export default function Team() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 

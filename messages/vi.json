@@ -28,10 +28,25 @@
     "profile": "Hồ sơ",
     "myOrders": "Đơn hàng của tôi",
     "sellerDashboard": "Bảng điều khiển người bán",
+    "adminPanel": "Bảng điều khiển Quản trị viên",
+    "becomeSeller": "Trở thành người bán",
     "manageOrders": "Quản lý đơn hàng",
     "products": "Sản phẩm",
     "seller": "Người bán",
     "logout": "Đăng xuất"
+  },
+  "becomeSeller": {
+    "title": "Trở thành người bán",
+    "subtitle": "Mở rộng kinh doanh của bạn với chúng tôi",
+    "confirmTitle": "Sẵn sàng trở thành người bán?",
+    "confirmMessage": "Gửi yêu cầu để trở thành người bán trên nền tảng của chúng tôi. Đội ngũ quản trị sẽ xem xét và liên hệ với bạn sớm.",
+    "note": "Lưu ý",
+    "noteMessage": "Yêu cầu của bạn sẽ được gửi đến quản trị viên để xem xét. Chúng tôi sẽ liên hệ với bạn trong vòng 24-48 giờ.",
+    "cancel": "Hủy",
+    "submit": "Gửi yêu cầu",
+    "submitting": "Đang gửi...",
+    "successMessage": "Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ sớm.",
+    "errorMessage": "Có lỗi xảy ra. Vui lòng thử lại sau."
   },
   "cart": {
     "title": "Giỏ hàng",
@@ -307,9 +322,12 @@
       "productManagement": "Quản lý sản phẩm",
       "orderManagement": "Quản lý đơn hàng",
       "inventoryManagement": "Quản lý tồn kho",
+      "warehouses": "Kho hàng",
       "inventory": "Tồn kho",
       "inventoryLogs": "Nhật ký tồn kho",
-      "promotions": "Khuyến mãi & Giảm giá"
+      "promotions": "Khuyến mãi & Giảm giá",
+      "promotionList": "Danh sách khuyến mãi",
+      "promotionAssignment": "Gán khuyến mãi"
     },
     "header": {
       "notifications": "Thông báo",
@@ -333,7 +351,7 @@
         "totalProducts": "Tổng sản phẩm",
         "allProductsListed": "Tất cả sản phẩm đã đăng",
         "pending": "Chờ duyệt",
-        "waitingForAdmin": "Đang chờ Admin",
+        "waitingForAdmin": "Đang chờ Quản trị viên",
         "active": "Đang bán",
         "approved": "Đã duyệt",
         "banned": "Bị cấm",
@@ -368,12 +386,12 @@
         "edit": "Sửa",
         "delete": "Xóa",
         "approvalInfo": "Thông tin duyệt",
-        "approvalDescription": "Sản phẩm đã duyệt sẽ được hiển thị cho khách hàng. Sản phẩm chờ duyệt cần được Admin phê duyệt trước khi bán."
+        "approvalDescription": "Sản phẩm đã duyệt sẽ được hiển thị cho khách hàng. Sản phẩm chờ duyệt cần được Quản trị viên phê duyệt trước khi bán."
       },
       "form": {
         "addNewProduct": "Thêm sản phẩm mới",
         "editProduct": "Sửa sản phẩm",
-        "awaitApproval": "Sản phẩm sẽ chờ Admin phê duyệt",
+        "awaitApproval": "Sản phẩm sẽ chờ Quản trị viên phê duyệt",
         "updateInfo": "Cập nhật thông tin sản phẩm",
         "basicInfo": "Thông tin cơ bản",
         "productName": "Tên sản phẩm",
@@ -426,13 +444,13 @@
         "history": "Lịch sử",
         "productCreated": "Sản phẩm được tạo",
         "pendingApproval": "Chờ duyệt",
-        "awaitingAdmin": "Sản phẩm đang chờ Admin phê duyệt",
+        "awaitingAdmin": "Sản phẩm đang chờ Quản trị viên phê duyệt",
         "approved": "Đã duyệt",
         "productBanned": "Sản phẩm bị cấm",
         "notAllowedToSell": "Sản phẩm không được phép bán",
         "by": "bởi",
         "pendingNote": "Lưu ý về sản phẩm chờ duyệt",
-        "pendingDescription": "Sản phẩm này chưa hiển thị cho khách hàng. Bạn có thể chỉnh sửa sản phẩm trong khi chờ Admin phê duyệt.",
+        "pendingDescription": "Sản phẩm này chưa hiển thị cho khách hàng. Bạn có thể chỉnh sửa sản phẩm trong khi chờ Quản trị viên phê duyệt.",
         "productLive": "Sản phẩm đang bán",
         "liveDescription": "Sản phẩm này đang hiển thị cho khách hàng và có thể được mua.",
         "close": "Đóng",
@@ -668,6 +686,39 @@
         "edit": "Sửa",
         "delete": "Xóa",
         "used": "đã dùng"
+      },
+      "assignment": {
+        "title": "Gán Khuyến mãi cho Sản phẩm",
+        "subtitle": "Kéo và thả khuyến mãi vào sản phẩm để áp dụng ưu đãi",
+        "subtitleAdvanced": "Kéo và thả khuyến mãi vào sản phẩm để áp dụng ưu đãi. Version này sử dụng Zustand store.",
+        "advancedBadge": "Advanced (Zustand)",
+        "promotionList": {
+          "title": "Danh sách Khuyến mãi",
+          "subtitle": "Kéo và thả khuyến mãi vào sản phẩm để gán",
+          "count": "{count} khuyến mãi"
+        },
+        "productZone": {
+          "title": "Sản phẩm",
+          "subtitle": "Thả khuyến mãi vào sản phẩm để áp dụng",
+          "count": "{count} sản phẩm",
+          "promotionCount": "{count} KM",
+          "dropHere": "Kéo khuyến mãi vào đây",
+          "dropHereActive": "Thả khuyến mãi vào đây",
+          "removePromotion": "Xóa khuyến mãi",
+          "searchPlaceholder": "Tìm kiếm sản phẩm...",
+          "filterAll": "Tất cả",
+          "filterAssigned": "Đã gán",
+          "filterUnassigned": "Chưa gán",
+          "noProducts": "Không tìm thấy sản phẩm"
+        },
+        "promotionCard": {
+          "used": "Đã dùng: {used}/{max}"
+        },
+        "toast": {
+          "assignSuccess": "Đã gán khuyến mãi \"{promotion}\" cho \"{product}\"",
+          "assignWarning": "Khuyến mãi \"{promotion}\" đã được gán cho sản phẩm này!",
+          "removeSuccess": "Đã xóa khuyến mãi \"{promotion}\" khỏi \"{product}\""
+        }
       }
     },
     "dashboard": {
@@ -708,6 +759,84 @@
         "outOfStock": "Hết hàng",
         "lowStock": "Sắp hết",
         "inStock": "Đủ hàng"
+      }
+    },
+    "warehouses": {
+      "title": "Quản lý kho hàng",
+      "subtitle": "Quản lý và theo dõi các kho hàng của bạn",
+      "addWarehouse": "Tạo kho mới",
+      "stats": {
+        "totalWarehouses": "Tổng số kho",
+        "activeWarehouses": "Đang hoạt động",
+        "pendingWarehouses": "Chờ duyệt",
+        "bannedWarehouses": "Bị khóa"
+      },
+      "filters": {
+        "searchPlaceholder": "Tìm kiếm theo tên hoặc địa chỉ...",
+        "allStatus": "Tất cả trạng thái",
+        "active": "Đang hoạt động",
+        "pending": "Chờ duyệt",
+        "banned": "Bị khóa"
+      },
+      "list": {
+        "noWarehouses": "Không có kho hàng nào",
+        "noWarehousesDesc": "Tạo kho mới để bắt đầu quản lý hàng hóa",
+        "products": "Sản phẩm",
+        "quantity": "Số lượng",
+        "updated": "Cập nhật",
+        "viewDetails": "Xem chi tiết",
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "deleteConfirm": "Bạn có chắc muốn xóa kho \"{name}\"?",
+        "deleteOnlyPending": "Chỉ có thể xóa kho đang chờ duyệt",
+        "deleteSuccess": "Đã xóa yêu cầu tạo kho",
+        "deleteError": "Có lỗi xảy ra khi xóa kho"
+      },
+      "status": {
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị khóa"
+      },
+      "create": {
+        "title": "Tạo kho mới",
+        "name": "Tên kho",
+        "namePlaceholder": "VD: Kho rượu vang Quận 1",
+        "nameRequired": "Tên kho không được để trống",
+        "location": "Địa chỉ",
+        "locationPlaceholder": "VD: 123 Nguyễn Huệ, Quận 1, TP.HCM",
+        "locationRequired": "Địa chỉ không được để trống",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả về kho hàng...",
+        "note": "Lưu ý:",
+        "noteMessage": "Kho mới sẽ ở trạng thái \"Chờ duyệt\" và cần được Admin phê duyệt trước khi có thể sử dụng.",
+        "cancel": "Hủy",
+        "submit": "Tạo kho",
+        "submitting": "Đang tạo...",
+        "success": "Yêu cầu tạo kho đã được gửi, chờ admin phê duyệt",
+        "error": "Có lỗi xảy ra khi tạo kho",
+        "required": "*"
+      },
+      "edit": {
+        "title": "Chỉnh sửa kho",
+        "cancel": "Hủy",
+        "submit": "Lưu thay đổi",
+        "submitting": "Đang lưu...",
+        "success": "Cập nhật kho thành công",
+        "error": "Có lỗi xảy ra khi cập nhật kho",
+        "onlyActive": "Chỉ có thể cập nhật kho đang hoạt động"
+      },
+      "detail": {
+        "title": "Chi tiết kho hàng",
+        "id": "ID:",
+        "totalProducts": "Tổng sản phẩm",
+        "totalQuantity": "Tổng số lượng",
+        "inventoryValue": "Giá trị kho",
+        "lowStockProducts": "Sắp hết hàng",
+        "recentActivity": "Hoạt động gần đây",
+        "created": "Tạo:",
+        "updated": "Cập nhật:",
+        "notFound": "Không tìm thấy thông tin kho hàng",
+        "loading": "Đang tải..."
       }
     }
   },
@@ -1442,6 +1571,636 @@
         "tags": ["rượu vang hữu cơ", "sinh học", "bền vững"]
       }
     }
+  },
+  "admin": {
+    "layout": {
+      "adminPanel": "Bảng điều khiển Quản trị viên",
+      "wineStore": "Wine Store",
+      "adminAccount": "Tài khoản quản trị"
+    },
+    "sidebar": {
+      "dashboard": "Bảng điều khiển",
+      "sellerRequest": "Yêu cầu người bán",
+      "productApproval": "Duyệt sản phẩm",
+      "warehouseApproval": "Duyệt kho hàng",
+      "userManagement": "Quản lý người dùng",
+      "sellerManagement": "Quản lý người bán"
+    },
+    "header": {
+      "notifications": "Thông báo",
+      "newSellerRequests": "Có {count} yêu cầu người bán mới",
+      "pendingProducts": "{count} sản phẩm chờ duyệt",
+      "newUsers": "{count} người dùng mới",
+      "viewAll": "Xem tất cả thông báo",
+      "myProfile": "Hồ sơ của tôi",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất",
+      "admin": "Quản trị viên",
+      "minutesAgo": "{count} phút trước",
+      "hoursAgo": "{count} giờ trước",
+      "backtohomepage": "Trở lại trang chủ"
+    },
+    "dashboard": {
+      "title": "Bảng điều khiển Quản trị viên",
+      "subtitle": "Tổng quan hiệu suất cửa hàng rượu vang",
+      "refresh": "Làm mới",
+      "loading": "Đang tải bảng điều khiển...",
+      "error": "Không thể tải dữ liệu bảng điều khiển",
+      "period": "Khoảng thời gian",
+      "metrics": {
+        "totalRevenue": "Tổng doanh thu",
+        "totalOrders": "Tổng đơn hàng",
+        "totalUsers": "Tổng người dùng",
+        "totalProducts": "Tổng sản phẩm",
+        "conversionRate": "Tỷ lệ chuyển đổi",
+        "profitMargin": "Tỷ suất lợi nhuận",
+        "vsLastMonth": "so với tháng trước"
+      },
+      "charts": {
+        "revenueProfit": "Phân tích Doanh thu & Lợi nhuận",
+        "revenue": "Doanh thu",
+        "profit": "Lợi nhuận",
+        "categoryPerformance": "Hiệu suất Danh mục",
+        "paymentMethods": "Phương thức Thanh toán",
+        "orders": "đơn hàng"
+      },
+      "quickStats": {
+        "pendingActions": "Hành động Chờ xử lý",
+        "inventoryAlerts": "Cảnh báo Tồn kho",
+        "orderStatus": "Trạng thái Đơn hàng",
+        "sellerRequests": "Yêu cầu Người bán",
+        "productApprovals": "Duyệt Sản phẩm",
+        "pendingOrders": "Đơn hàng Chờ",
+        "outOfStock": "Hết hàng",
+        "lowStock": "Sắp hết",
+        "totalWarehouses": "Tổng Kho hàng",
+        "confirmed": "Đã xác nhận",
+        "shipping": "Đang giao",
+        "delivered": "Đã giao"
+      }
+    },
+    "sellerRequests": {
+      "title": "Quản lý yêu cầu người bán",
+      "subtitle": "Xem xét và phê duyệt yêu cầu nâng cấp tài khoản",
+      "loading": "Đang tải...",
+      "refresh": "Làm mới",
+      "summary": {
+        "total": "Tổng yêu cầu",
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối"
+      },
+      "filters": {
+        "searchPlaceholder": "Tìm theo tên, email, số điện thoại, ID...",
+        "all": "Tất cả",
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối",
+        "newest": "Mới nhất",
+        "oldest": "Cũ nhất"
+      },
+      "table": {
+        "id": "ID",
+        "user": "Người dùng",
+        "contact": "Liên hệ",
+        "stats": "Thống kê",
+        "status": "Trạng thái",
+        "requestDate": "Ngày yêu cầu",
+        "actions": "Thao tác",
+        "orders": "đơn",
+        "view": "Xem",
+        "noRequests": "Không có yêu cầu nào",
+        "noRequestsDesc": "Chưa có yêu cầu nâng cấp người bán nào"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số",
+        "previous": "Trước",
+        "next": "Sau"
+      },
+      "detail": {
+        "title": "Chi tiết yêu cầu",
+        "subtitle": "Thông tin chi tiết về yêu cầu nâng cấp",
+        "userInfo": "Thông tin người dùng",
+        "userId": "ID người dùng",
+        "accountId": "ID tài khoản",
+        "totalOrders": "Tổng đơn hàng",
+        "totalSpent": "Tổng chi tiêu",
+        "accountAge": "Tuổi tài khoản",
+        "days": "ngày",
+        "requestDetails": "Chi tiết yêu cầu",
+        "currentRole": "Vai trò hiện tại",
+        "requestedRole": "Vai trò yêu cầu",
+        "customer": "Khách hàng",
+        "seller": "Người bán",
+        "requestDate": "Ngày yêu cầu",
+        "updatedDate": "Ngày cập nhật",
+        "rejectionReason": "Lý do từ chối",
+        "recommendation": "Đề xuất",
+        "recommendationText": "Xem xét lịch sử mua hàng, thời gian tài khoản và hoạt động của người dùng trước khi phê duyệt.",
+        "close": "Đóng",
+        "approve": "Phê duyệt",
+        "reject": "Từ chối"
+      },
+      "modal": {
+        "approveTitle": "Phê duyệt yêu cầu",
+        "approveSubtitle": "Nâng cấp tài khoản lên người bán",
+        "rejectTitle": "Từ chối yêu cầu",
+        "rejectSubtitle": "Từ chối yêu cầu nâng cấp",
+        "warning": "Cảnh báo",
+        "rejectWarning": "Người dùng sẽ nhận được thông báo về việc từ chối. Hãy cung cấp lý do rõ ràng.",
+        "reason": "Lý do từ chối",
+        "reasonRequired": "Vui lòng nhập lý do từ chối",
+        "reasonPlaceholder": "Nhập lý do từ chối yêu cầu...",
+        "note": "Ghi chú",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú nội bộ (không hiển thị cho người dùng)...",
+        "approveConfirm": "Bạn có chắc chắn muốn phê duyệt yêu cầu này? Người dùng sẽ được nâng cấp lên tài khoản người bán.",
+        "rejectConfirm": "Bạn có chắc chắn muốn từ chối yêu cầu này? Người dùng sẽ nhận được thông báo.",
+        "cancel": "Hủy",
+        "confirmApprove": "Xác nhận phê duyệt",
+        "confirmReject": "Xác nhận từ chối",
+        "processing": "Đang xử lý...",
+        "error": "Có lỗi xảy ra. Vui lòng thử lại!"
+      }
+    },
+    "productApproval": {
+      "title": "Quản lý duyệt sản phẩm",
+      "subtitle": "Xem xét và phê duyệt sản phẩm từ người bán",
+      "loading": "Đang tải...",
+      "searchPlaceholder": "Tìm theo tên sản phẩm, người bán, SKU...",
+      "summary": {
+        "totalPending": "Chờ duyệt",
+        "approvedToday": "Đã duyệt hôm nay",
+        "rejectedToday": "Đã từ chối hôm nay"
+      },
+      "filters": {
+        "all": "Tất cả",
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối",
+        "newest": "Mới nhất",
+        "oldest": "Cũ nhất"
+      },
+      "status": {
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối",
+        "pendingChanges": "Yêu cầu chỉnh sửa"
+      },
+      "table": {
+        "product": "Sản phẩm",
+        "seller": "Người bán",
+        "price": "Giá",
+        "status": "Trạng thái",
+        "submittedAt": "Ngày gửi",
+        "actions": "Thao tác"
+      },
+      "actions": {
+        "viewDetail": "Xem chi tiết",
+        "approve": "Duyệt",
+        "reject": "Từ chối"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số"
+      },
+      "detail": {
+        "title": "Chi tiết sản phẩm",
+        "productId": "Mã sản phẩm",
+        "images": "Hình ảnh sản phẩm",
+        "productInfo": "Thông tin sản phẩm",
+        "productName": "Tên sản phẩm",
+        "sku": "Mã SKU",
+        "category": "Danh mục",
+        "brand": "Thương hiệu",
+        "price": "Giá bán",
+        "wineDetails": "Chi tiết rượu vang",
+        "grapeVariety": "Giống nho",
+        "concentration": "Nồng độ cồn",
+        "vintageYear": "Năm sản xuất",
+        "capacity": "Dung tích",
+        "productionArea": "Vùng sản xuất",
+        "idealTemperature": "Nhiệt độ lý tưởng",
+        "description": "Mô tả",
+        "sellerInfo": "Thông tin người bán",
+        "sellerName": "Tên người bán",
+        "totalProducts": "Tổng sản phẩm",
+        "approvedProducts": "Đã duyệt",
+        "rejectedProducts": "Đã từ chối",
+        "rating": "Đánh giá",
+        "submissionInfo": "Thông tin gửi duyệt",
+        "submittedAt": "Ngày gửi",
+        "createdAt": "Ngày tạo",
+        "approve": "Duyệt sản phẩm",
+        "reject": "Từ chối",
+        "requestChanges": "Yêu cầu chỉnh sửa"
+      },
+      "approveModal": {
+        "title": "Duyệt sản phẩm",
+        "productName": "Tên sản phẩm",
+        "confirmMessage": "Sản phẩm sẽ được hiển thị cho khách hàng sau khi duyệt.",
+        "note": "Ghi chú",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú nội bộ...",
+        "cancel": "Hủy",
+        "approve": "Duyệt",
+        "approving": "Đang duyệt..."
+      },
+      "rejectModal": {
+        "title": "Từ chối sản phẩm",
+        "productName": "Tên sản phẩm",
+        "warningMessage": "Người bán sẽ nhận được thông báo về việc từ chối. Hãy cung cấp lý do rõ ràng.",
+        "reason": "Lý do từ chối",
+        "selectReason": "Vui lòng chọn lý do từ chối",
+        "selectReasonPlaceholder": "Chọn lý do...",
+        "reasons": {
+          "incomplete_info": "Thông tin không đầy đủ",
+          "poor_quality_images": "Hình ảnh chất lượng kém",
+          "incorrect_pricing": "Giá không phù hợp",
+          "duplicate_product": "Sản phẩm trùng lặp",
+          "prohibited_item": "Sản phẩm cấm",
+          "other": "Lý do khác"
+        },
+        "note": "Ghi chú chi tiết",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Nhập ghi chú chi tiết về lý do từ chối...",
+        "cancel": "Hủy",
+        "reject": "Từ chối",
+        "rejecting": "Đang xử lý..."
+      },
+      "requestChangesModal": {
+        "title": "Yêu cầu chỉnh sửa",
+        "productName": "Tên sản phẩm",
+        "infoMessage": "Người bán sẽ nhận được danh sách các thay đổi cần thực hiện.",
+        "changesRequired": "Các thay đổi cần thiết",
+        "changePlaceholder": "Nhập yêu cầu chỉnh sửa...",
+        "addMore": "Thêm yêu cầu",
+        "addAtLeastOne": "Vui lòng thêm ít nhất một yêu cầu chỉnh sửa",
+        "note": "Ghi chú bổ sung",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú hoặc hướng dẫn chi tiết...",
+        "cancel": "Hủy",
+        "send": "Gửi yêu cầu",
+        "sending": "Đang gửi..."
+      }
+    },
+    "warehouseApproval": {
+      "title": "Quản lý duyệt kho hàng",
+      "subtitle": "Xem xét và phê duyệt yêu cầu tạo kho từ người bán",
+      "loading": "Đang tải...",
+      "searchPlaceholder": "Tìm theo tên kho, địa chỉ, người bán...",
+      "products": "sản phẩm",
+      "approved": "đã duyệt",
+      "summary": {
+        "totalPending": "Chờ duyệt",
+        "totalActive": "Đang hoạt động",
+        "totalRequests": "Tổng yêu cầu"
+      },
+      "filters": {
+        "all": "Tất cả",
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị khóa",
+        "newest": "Mới nhất",
+        "oldest": "Cũ nhất"
+      },
+      "status": {
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị khóa"
+      },
+      "actions": {
+        "viewDetail": "Xem chi tiết",
+        "approve": "Duyệt",
+        "reject": "Từ chối"
+      },
+      "table": {
+        "warehouse": "Kho hàng",
+        "location": "Địa chỉ",
+        "manager": "Người quản lý",
+        "status": "Trạng thái",
+        "createdAt": "Ngày tạo",
+        "actions": "Thao tác",
+        "noWarehouses": "Không có yêu cầu nào",
+        "noWarehousesDesc": "Chưa có yêu cầu tạo kho nào từ người bán"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số"
+      },
+      "detail": {
+        "requestId": "Mã yêu cầu",
+        "location": "Địa chỉ kho",
+        "description": "Mô tả",
+        "managerInfo": "Thông tin người quản lý",
+        "totalProducts": "sản phẩm",
+        "approved": "đã duyệt",
+        "timeline": "Thời gian",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Ngày cập nhật",
+        "inventorySummary": "Tổng quan tồn kho",
+        "totalQuantity": "Tổng số lượng",
+        "totalValue": "Tổng giá trị",
+        "cancel": "Đóng",
+        "reject": "Từ chối",
+        "approve": "Duyệt kho"
+      },
+      "approve": {
+        "title": "Duyệt kho hàng",
+        "subtitle": "Phê duyệt yêu cầu tạo kho",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "noteLabel": "Ghi chú",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú về việc phê duyệt...",
+        "noteHint": "Ghi chú sẽ được gửi đến người bán qua thông báo",
+        "cancel": "Hủy",
+        "approving": "Đang duyệt...",
+        "confirm": "Xác nhận duyệt"
+      },
+      "reject": {
+        "title": "Từ chối yêu cầu tạo kho",
+        "subtitle": "Từ chối và xóa yêu cầu",
+        "warning": "Cảnh báo: Yêu cầu sẽ bị xóa vĩnh viễn!",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "reasonLabel": "Lý do từ chối",
+        "reasonPlaceholder": "Nhập lý do từ chối yêu cầu tạo kho...",
+        "reasonHint": "Lý do sẽ được gửi đến người bán qua thông báo",
+        "reasonRequired": "Vui lòng nhập lý do từ chối",
+        "cancel": "Hủy",
+        "rejecting": "Đang xử lý...",
+        "confirm": "Xác nhận từ chối"
+      }
+    },
+    "sellerManagement": {
+      "title": "Quản lý người bán",
+      "subtitle": "Quản lý tài khoản và hoạt động của người bán",
+      "loading": "Đang tải...",
+      "createSeller": "Tạo người bán",
+      "searchPlaceholder": "Tìm theo tên, email, số điện thoại...",
+      "summary": {
+        "totalSellers": "Tổng người bán",
+        "activeSellers": "Đang hoạt động",
+        "inactiveSellers": "Tạm ngưng",
+        "lockedSellers": "Bị khóa"
+      },
+      "filters": {
+        "all": "Tất cả",
+        "active": "Đang hoạt động",
+        "inactive": "Tạm ngưng",
+        "locked": "Bị khóa"
+      },
+      "status": {
+        "active": "Đang hoạt động",
+        "inactive": "Tạm ngưng",
+        "locked": "Bị khóa"
+      },
+      "role": {
+        "seller": "người bán",
+        "admin": "Quản trị viên"
+      },
+      "gender": {
+        "male": "Nam",
+        "female": "Nữ"
+      },
+      "stats": {
+        "orders": "Đơn hàng",
+        "revenue": "Doanh thu",
+        "rating": "Đánh giá"
+      },
+      "warehouses": "Kho quản lý",
+      "actions": {
+        "view": "Xem",
+        "edit": "Sửa",
+        "activate": "Kích hoạt",
+        "deactivate": "Tạm ngưng"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số"
+      },
+      "detailModal": {
+        "title": "Chi tiết người bán",
+        "contactInfo": "Thông tin liên hệ",
+        "phone": "Số điện thoại",
+        "dob": "Ngày sinh",
+        "gender": "Giới tính",
+        "statistics": "Thống kê",
+        "warehouses": "Kho quản lý",
+        "activity": "Hoạt động",
+        "lastLogin": "Đăng nhập gần nhất",
+        "createdAt": "Ngày tạo",
+        "close": "Đóng",
+        "edit": "Chỉnh sửa"
+      },
+      "createModal": {
+        "title": "Tạo người bán mới",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "firstName": "Họ",
+        "lastName": "Tên",
+        "firstNamePlaceholder": "Nguyễn",
+        "lastNamePlaceholder": "Văn A",
+        "phone": "Số điện thoại",
+        "dob": "Ngày sinh",
+        "gender": "Giới tính",
+        "role": "Vai trò",
+        "cancel": "Hủy",
+        "create": "Tạo người bán",
+        "creating": "Đang tạo...",
+        "success": "Tạo người bán thành công",
+        "error": "Có lỗi xảy ra khi tạo người bán",
+        "passwordMismatch": "Mật khẩu xác nhận không khớp"
+      },
+      "editModal": {
+        "title": "Chỉnh sửa người bán",
+        "firstName": "Họ",
+        "lastName": "Tên",
+        "phone": "Số điện thoại",
+        "dob": "Ngày sinh",
+        "gender": "Giới tính",
+        "role": "Vai trò",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "success": "Cập nhật thông tin thành công",
+        "error": "Có lỗi xảy ra khi cập nhật"
+      },
+      "statusModal": {
+        "title": "Thay đổi trạng thái",
+        "newStatus": "Trạng thái mới",
+        "activeDesc": "Người bán có thể đăng nhập và hoạt động bình thường",
+        "inactiveDesc": "Tạm ngưng hoạt động, không thể đăng nhập",
+        "lockedDesc": "Tài khoản bị khóa vĩnh viễn",
+        "cancel": "Hủy",
+        "update": "Cập nhật",
+        "updating": "Đang cập nhật...",
+        "success": "Cập nhật trạng thái thành công",
+        "error": "Có lỗi xảy ra khi cập nhật trạng thái"
+      },
+      "table": {
+        "seller": "Người bán",
+        "contact": "Liên hệ",
+        "warehouses": "Kho quản lý",
+        "statistics": "Thống kê",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "noSellers": "Chưa có người bán nào",
+        "noSellersDesc": "Tạo người bán mới để bắt đầu"
+      }
+    },
+    "userManagement": {
+      "title": "Quản lý người dùng",
+      "subtitle": "Quản lý tất cả người dùng trong hệ thống",
+      "loading": "Đang tải...",
+      "createUser": "Tạo người dùng",
+      "searchPlaceholder": "Tìm kiếm theo email, tên, số điện thoại...",
+      "summary": {
+        "totalUsers": "Tổng người dùng",
+        "activeUsers": "Đang hoạt động",
+        "inactiveUsers": "Tạm ngưng",
+        "lockedUsers": "Bị khóa"
+      },
+      "filters": {
+        "allRoles": "Tất cả vai trò",
+        "customers": "Khách hàng",
+        "sellers": "Người bán",
+        "admins": "Quản trị viên",
+        "allStatus": "Tất cả trạng thái",
+        "active": "Đang hoạt động",
+        "inactive": "Tạm ngưng",
+        "locked": "Bị khóa"
+      },
+      "status": {
+        "active": "Đang hoạt động",
+        "inactive": "Tạm ngưng",
+        "locked": "Bị khóa"
+      },
+      "role": {
+        "customer": "Khách hàng",
+        "seller": "Người bán",
+        "admin": "Quản trị viên"
+      },
+      "gender": {
+        "male": "Nam",
+        "female": "Nữ"
+      },
+      "stats": {
+        "orders": "đơn hàng",
+        "addresses": "địa chỉ"
+      },
+      "table": {
+        "user": "Người dùng",
+        "contact": "Liên hệ",
+        "role": "Vai trò",
+        "statistics": "Thống kê",
+        "status": "Trạng thái",
+        "actions": "Thao tác",
+        "noUsers": "Chưa có người dùng nào",
+        "noUsersDesc": "Tạo người dùng mới để bắt đầu"
+      },
+      "actions": {
+        "view": "Xem chi tiết",
+        "edit": "Chỉnh sửa",
+        "changeRole": "Đổi vai trò",
+        "activate": "Kích hoạt",
+        "deactivate": "Tạm ngưng"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số"
+      },
+      "detailModal": {
+        "title": "Chi tiết người dùng",
+        "joined": "Tham gia",
+        "totalOrders": "Tổng đơn hàng",
+        "completed": "hoàn thành",
+        "totalSpent": "Tổng chi tiêu",
+        "avgOrder": "Trung bình/đơn",
+        "addresses": "Địa chỉ",
+        "default": "Mặc định",
+        "recentActivities": "Hoạt động gần đây",
+        "close": "Đóng",
+        "resetPassword": "Đặt lại mật khẩu",
+        "edit": "Chỉnh sửa"
+      },
+      "createModal": {
+        "title": "Tạo người dùng mới",
+        "firstName": "Họ",
+        "lastName": "Tên",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "passwordHint": "Tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+        "phone": "Số điện thoại",
+        "dateOfBirth": "Ngày sinh",
+        "gender": "Giới tính",
+        "role": "Vai trò",
+        "status": "Trạng thái",
+        "cancel": "Hủy",
+        "create": "Tạo người dùng",
+        "creating": "Đang tạo...",
+        "success": "Tạo người dùng thành công",
+        "error": "Có lỗi xảy ra khi tạo người dùng"
+      },
+      "editModal": {
+        "title": "Chỉnh sửa người dùng",
+        "firstName": "Họ",
+        "lastName": "Tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "dateOfBirth": "Ngày sinh",
+        "gender": "Giới tính",
+        "cancel": "Hủy",
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "success": "Cập nhật thông tin thành công",
+        "error": "Có lỗi xảy ra khi cập nhật"
+      },
+      "statusModal": {
+        "title": "Thay đổi trạng thái",
+        "warning": "Cảnh báo",
+        "warningDesc": "Thay đổi trạng thái sẽ ảnh hưởng đến khả năng truy cập của người dùng",
+        "newStatus": "Trạng thái mới",
+        "reason": "Lý do (tùy chọn)",
+        "reasonPlaceholder": "Nhập lý do thay đổi trạng thái...",
+        "cancel": "Hủy",
+        "update": "Cập nhật",
+        "updating": "Đang cập nhật...",
+        "success": "Cập nhật trạng thái thành công",
+        "error": "Có lỗi xảy ra khi cập nhật trạng thái"
+      },
+      "roleModal": {
+        "title": "Thay đổi vai trò",
+        "warning": "Cảnh báo",
+        "warningDesc": "Thay đổi vai trò sẽ ảnh hưởng đến quyền truy cập của người dùng",
+        "newRole": "Vai trò mới",
+        "note": "Ghi chú (tùy chọn)",
+        "notePlaceholder": "Nhập ghi chú về việc thay đổi vai trò...",
+        "cancel": "Hủy",
+        "update": "Cập nhật",
+        "updating": "Đang cập nhật...",
+        "success": "Cập nhật vai trò thành công",
+        "error": "Có lỗi xảy ra khi cập nhật vai trò"
+      },
+      "resetPasswordModal": {
+        "title": "Đặt lại mật khẩu",
+        "warning": "Cảnh báo",
+        "warningDesc": "Người dùng sẽ cần sử dụng mật khẩu mới để đăng nhập",
+        "newPassword": "Mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu",
+        "passwordHint": "Tối thiểu 8 ký tự, bao gồm chữ hoa, chữ thường và số",
+        "sendEmail": "Gửi email thông báo cho người dùng",
+        "cancel": "Hủy",
+        "reset": "Đặt lại mật khẩu",
+        "resetting": "Đang đặt lại...",
+        "success": "Đặt lại mật khẩu thành công",
+        "error": "Có lỗi xảy ra khi đặt lại mật khẩu",
+        "passwordMismatch": "Mật khẩu xác nhận không khớp",
+        "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
+      }
+    }
   }
 }
-

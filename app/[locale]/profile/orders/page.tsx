@@ -103,9 +103,7 @@ export default function OrdersPage() {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-[#33391d]">{t("title")}</h1>
-          <p className="mt-2 text-neutral-600">
-            {t("subtitle")}
-          </p>
+          <p className="mt-2 text-neutral-600">{t("subtitle")}</p>
         </motion.div>
 
         {/* Stats */}
@@ -150,7 +148,9 @@ export default function OrdersPage() {
           className="mb-6 rounded-lg bg-white p-4 shadow-sm"
         >
           <p className="text-sm text-neutral-600">
-            {t("found")} <span className="font-semibold text-[#33391d]">{totalItems}</span> {t("order")}
+            {t("found")}{" "}
+            <span className="font-semibold text-[#33391d]">{totalItems}</span>{" "}
+            {t("order")}
           </p>
         </motion.div>
 

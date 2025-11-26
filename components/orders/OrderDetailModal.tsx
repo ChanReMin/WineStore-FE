@@ -68,12 +68,18 @@ export default function OrderDetailModal({
 
   const getStatusColor = (status: number) => {
     switch (status) {
-      case 1: return "bg-yellow-100 text-yellow-800";
-      case 2: return "bg-blue-100 text-blue-800";
-      case 3: return "bg-purple-100 text-purple-800";
-      case 4: return "bg-green-100 text-green-800";
-      case 5: return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
+      case 1:
+        return "bg-yellow-100 text-yellow-800";
+      case 2:
+        return "bg-blue-100 text-blue-800";
+      case 3:
+        return "bg-purple-100 text-purple-800";
+      case 4:
+        return "bg-green-100 text-green-800";
+      case 5:
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -109,8 +115,18 @@ export default function OrderDetailModal({
                   onClick={onClose}
                   className="rounded-full p-2 text-neutral-500 transition-colors hover:bg-neutral-100"
                 >
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </motion.button>
               </div>
@@ -120,7 +136,10 @@ export default function OrderDetailModal({
                 {isLoading ? (
                   <div className="space-y-4">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="h-20 animate-pulse rounded bg-neutral-200" />
+                      <div
+                        key={i}
+                        className="h-20 animate-pulse rounded bg-neutral-200"
+                      />
                     ))}
                   </div>
                 ) : order ? (
@@ -133,13 +152,19 @@ export default function OrderDetailModal({
                     <div className="rounded-lg bg-amber-50 p-4">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-sm text-neutral-600">Mã đơn hàng</p>
-                          <p className="text-lg font-bold text-[#33391d]">{order.order_code}</p>
+                          <p className="text-sm text-neutral-600">
+                            Mã đơn hàng
+                          </p>
+                          <p className="text-lg font-bold text-[#33391d]">
+                            {order.order_code}
+                          </p>
                           <p className="mt-1 text-sm text-neutral-500">
                             {new Date(order.created_at).toLocaleString("vi-VN")}
                           </p>
                         </div>
-                        <span className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(order.status)}`}>
+                        <span
+                          className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(order.status)}`}
+                        >
                           {order.status_text}
                         </span>
                       </div>
@@ -151,17 +176,37 @@ export default function OrderDetailModal({
                     {/* Shipping Address */}
                     <div>
                       <h3 className="mb-3 flex items-center gap-2 font-semibold text-[#33391d]">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
                         </svg>
                         Địa chỉ giao hàng
                       </h3>
                       <div className="rounded-lg border border-neutral-200 p-4">
-                        <p className="font-medium text-neutral-900">{order.shipping_address.full_name}</p>
-                        <p className="mt-1 text-sm text-neutral-600">{order.shipping_address.phone_number}</p>
+                        <p className="font-medium text-neutral-900">
+                          {order.shipping_address.full_name}
+                        </p>
                         <p className="mt-1 text-sm text-neutral-600">
-                          {order.shipping_address.address_line}, {order.shipping_address.city}
+                          {order.shipping_address.phone_number}
+                        </p>
+                        <p className="mt-1 text-sm text-neutral-600">
+                          {order.shipping_address.address_line},{" "}
+                          {order.shipping_address.city}
                         </p>
                       </div>
                     </div>
@@ -169,8 +214,18 @@ export default function OrderDetailModal({
                     {/* Order Items */}
                     <div>
                       <h3 className="mb-3 flex items-center gap-2 font-semibold text-[#33391d]">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        <svg
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                          />
                         </svg>
                         Sản phẩm
                       </h3>
@@ -189,9 +244,12 @@ export default function OrderDetailModal({
                               className="h-20 w-20 rounded object-cover"
                             />
                             <div className="flex-1">
-                              <h4 className="font-medium text-neutral-900">{item.product_name}</h4>
+                              <h4 className="font-medium text-neutral-900">
+                                {item.product_name}
+                              </h4>
                               <p className="mt-1 text-sm text-neutral-600">
-                                {formatCurrency(item.unit_price)} x {item.quantity}
+                                {formatCurrency(item.unit_price)} x{" "}
+                                {item.quantity}
                               </p>
                             </div>
                             <div className="text-right">
@@ -208,8 +266,12 @@ export default function OrderDetailModal({
                     <div className="rounded-lg border border-neutral-200 bg-gradient-to-br from-amber-50 to-orange-50 p-4">
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">Tổng tiền hàng:</span>
-                          <span className="font-medium">{formatCurrency(order.total_amount)}</span>
+                          <span className="text-neutral-600">
+                            Tổng tiền hàng:
+                          </span>
+                          <span className="font-medium">
+                            {formatCurrency(order.total_amount)}
+                          </span>
                         </div>
                         {order.discount_amount > 0 && (
                           <div className="flex justify-between text-sm">
@@ -221,19 +283,29 @@ export default function OrderDetailModal({
                         )}
                         <div className="border-t border-neutral-200 pt-2">
                           <div className="flex justify-between">
-                            <span className="font-semibold text-neutral-900">Tổng thanh toán:</span>
+                            <span className="font-semibold text-neutral-900">
+                              Tổng thanh toán:
+                            </span>
                             <span className="text-xl font-bold text-[#33391d]">
                               {formatCurrency(order.final_amount)}
                             </span>
                           </div>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">Phương thức thanh toán:</span>
-                          <span className="font-medium">{order.payment_method.name}</span>
+                          <span className="text-neutral-600">
+                            Phương thức thanh toán:
+                          </span>
+                          <span className="font-medium">
+                            {order.payment_method.name}
+                          </span>
                         </div>
                         <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">Trạng thái thanh toán:</span>
-                          <span className={`font-medium ${order.payment_status === 1 ? 'text-green-600' : 'text-orange-600'}`}>
+                          <span className="text-neutral-600">
+                            Trạng thái thanh toán:
+                          </span>
+                          <span
+                            className={`font-medium ${order.payment_status === 1 ? "text-green-600" : "text-orange-600"}`}
+                          >
                             {order.payment_status_text}
                           </span>
                         </div>
@@ -244,12 +316,26 @@ export default function OrderDetailModal({
                     {order.note && (
                       <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                         <div className="flex items-start gap-2">
-                          <svg className="h-5 w-5 text-blue-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <svg
+                            className="h-5 w-5 text-blue-600 mt-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                           </svg>
                           <div>
-                            <p className="text-sm font-medium text-blue-900">Ghi chú:</p>
-                            <p className="mt-1 text-sm text-blue-700">{order.note}</p>
+                            <p className="text-sm font-medium text-blue-900">
+                              Ghi chú:
+                            </p>
+                            <p className="mt-1 text-sm text-blue-700">
+                              {order.note}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -259,10 +345,22 @@ export default function OrderDetailModal({
                     {order.status < 3 && order.status !== 5 && (
                       <div className="rounded-lg border border-red-200 bg-red-50 p-4">
                         <div className="mb-2 flex items-center gap-2">
-                          <svg className="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          <svg
+                            className="h-5 w-5 text-red-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.5}
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
                           </svg>
-                          <h4 className="font-medium text-red-900">Hủy đơn hàng</h4>
+                          <h4 className="font-medium text-red-900">
+                            Hủy đơn hàng
+                          </h4>
                         </div>
                         <textarea
                           value={cancelReason}

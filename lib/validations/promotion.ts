@@ -23,11 +23,9 @@ export const promotionSchema = z
       .optional()
       .or(z.literal("")),
 
-    discount_type: z
-      .number()
-      .refine((val) => [1, 2].includes(val), {
-        message: "Invalid discount type",
-      }),
+    discount_type: z.number().refine((val) => [1, 2].includes(val), {
+      message: "Invalid discount type",
+    }),
 
     discount_value: z
       .number()

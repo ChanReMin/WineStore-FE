@@ -29,7 +29,9 @@ export default function ProfilePage() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
-  const [activeTab, setActiveTab] = useState<"profile" | "addresses" | "orders">("profile");
+  const [activeTab, setActiveTab] = useState<
+    "profile" | "addresses" | "orders"
+  >("profile");
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {

@@ -100,10 +100,7 @@ export default function Home() {
     }
   };
 
-  const handleLocationComplete = (data: {
-    city: string;
-    store: string;
-  }) => {
+  const handleLocationComplete = (data: { city: string; store: string }) => {
     localStorage.setItem("location", JSON.stringify(data));
     setShowLocationModal(false);
 

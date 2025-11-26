@@ -52,7 +52,9 @@ export default function SettingsPage() {
               <Lock size={24} className="text-white" />
             </div>
             <div>
-              <h3 className="font-semibold text-neutral-900">Change Password</h3>
+              <h3 className="font-semibold text-neutral-900">
+                Change Password
+              </h3>
               <p className="text-sm text-neutral-600">
                 Update your secure password
               </p>

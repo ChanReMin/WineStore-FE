@@ -14,7 +14,7 @@ export default function OrderStatusBadge({
   statusText,
 }: OrderStatusBadgeProps) {
   const t = useTranslations("seller.orders.status");
-  
+
   const getStatusConfig = () => {
     switch (status) {
       case 1: // Chờ xác nhận

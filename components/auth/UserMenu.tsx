@@ -6,12 +6,21 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import BecomeSellerModal from "./BecomeSellerModal";
+
+interface MenuItem {
+  label: string;
+  href: string;
+  icon: React.ReactNode;
+  isAction?: boolean;
+}
 
 export const UserMenu = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const t = useTranslations('userMenu');
+  const [isSellerModalOpen, setIsSellerModalOpen] = useState(false);
+  const t = useTranslations("userMenu");
 
   const handleLogout = async () => {
     await logout();
@@ -36,12 +45,12 @@ export const UserMenu = () => {
   };
 
   // Build menu items based on user role
-  const menuItems = [];
+  const menuItems: MenuItem[] = [];
 
   // Customer menu items
   menuItems.push(
     {
-      label: t('profile'),
+      label: t("profile"),
       href: "/profile",
       icon: (
         <svg
@@ -61,7 +70,7 @@ export const UserMenu = () => {
       ),
     },
     {
-      label: t('myOrders'),
+      label: t("myOrders"),
       href: "/profile/orders",
       icon: (
         <svg
@@ -82,30 +91,77 @@ export const UserMenu = () => {
     }
   );
 
-  // Seller/Admin menu items
-  if (user?.role === "SELLER" || user?.role === "ADMIN") {
-    menuItems.push(
-      {
-        label: t('sellerDashboard'),
-        href: "/seller",
-        icon: (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-            />
-          </svg>
-        ),
-      },
-    );
+  // Add "Become a Seller" option for customers only
+  if (user?.role === "CUSTOMER") {
+    menuItems.push({
+      label: t("becomeSeller"),
+      href: "#",
+      isAction: true,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+          />
+        </svg>
+      ),
+    });
+  }
+
+  // Seller menu items
+  if (user?.role === "SELLER") {
+    menuItems.push({
+      label: t("sellerDashboard"),
+      href: "/seller",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+      ),
+    });
+  }
+
+  // Admin menu items
+  if (user?.role === "ADMIN") {
+    menuItems.push({
+      label: t("adminPanel"),
+      href: "/admin",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+          />
+        </svg>
+      ),
+    });
   }
 
   return (
@@ -138,7 +194,11 @@ export const UserMenu = () => {
           stroke="currentColor"
           strokeWidth="2"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </motion.button>
 
@@ -192,61 +252,48 @@ export const UserMenu = () => {
               {/* Menu Items */}
               <div className="p-2">
                 {/* Customer Menu Items */}
-                {menuItems.slice(0, 2).map((item, index) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
+                {menuItems
+                  .slice(0, user?.role === "CUSTOMER" ? 3 : 2)
+                  .map((item, index) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
                     >
-                      <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
-                        {item.icon}
-                      </span>
-                      {item.label}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </Link>
-                  </motion.div>
-                ))}
-
-                {/* Seller/Admin Menu Items */}
-                {menuItems.length > 2 && (
-                  <>
-                    <div className="my-2 flex items-center gap-2 px-4">
-                      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
-                      <span className="text-[10px] font-medium uppercase tracking-widest text-neutral-500">
-                        {t('seller')}
-                      </span>
-                      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
-                    </div>
-                    {menuItems.slice(2).map((item, index) => (
-                      <motion.div
-                        key={item.href}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (index + 2) * 0.05 }}
-                      >
+                      {item.isAction ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsOpen(false);
+                            setIsSellerModalOpen(true);
+                          }}
+                          className="group flex w-full items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-emerald-50/60 hover:text-emerald-700"
+                        >
+                          <span className="text-neutral-500 transition-colors group-hover:text-emerald-600">
+                            {item.icon}
+                          </span>
+                          {item.label}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </button>
+                      ) : (
                         <Link
                           href={item.href}
                           onClick={() => setIsOpen(false)}
-                          className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-amber-100/60 hover:text-[#33391d]"
+                          className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
                         >
                           <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
                             {item.icon}
@@ -267,10 +314,56 @@ export const UserMenu = () => {
                             />
                           </svg>
                         </Link>
-                      </motion.div>
-                    ))}
-                  </>
-                )}
+                      )}
+                    </motion.div>
+                  ))}
+
+                {/* Seller/Admin Menu Items */}
+                {(user?.role === "SELLER" || user?.role === "ADMIN") &&
+                  menuItems.length > 2 && (
+                    <>
+                      <div className="my-2 flex items-center gap-2 px-4">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
+                        <span className="text-[10px] font-medium uppercase tracking-widest text-neutral-500">
+                          {t("seller")}
+                        </span>
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
+                      </div>
+                      {menuItems.slice(2).map((item, index) => (
+                        <motion.div
+                          key={item.href}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: (index + 2) * 0.05 }}
+                        >
+                          <Link
+                            href={item.href}
+                            onClick={() => setIsOpen(false)}
+                            className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-amber-100/60 hover:text-[#33391d]"
+                          >
+                            <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
+                              {item.icon}
+                            </span>
+                            {item.label}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </>
+                  )}
 
                 {/* Divider */}
                 <div className="my-2 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
@@ -298,7 +391,7 @@ export const UserMenu = () => {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
-                  {t('logout')}
+                  {t("logout")}
                 </motion.button>
               </div>
 
@@ -308,6 +401,12 @@ export const UserMenu = () => {
           </>
         )}
       </AnimatePresence>
+
+      {/* Become Seller Modal */}
+      <BecomeSellerModal
+        isOpen={isSellerModalOpen}
+        onClose={() => setIsSellerModalOpen(false)}
+      />
     </div>
   );
 };

@@ -125,4 +125,3 @@ export const mockInventoryLogs: InventoryLogResponse = {
     },
   ],
 };
-

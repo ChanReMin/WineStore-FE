@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 export default function CTASection() {
-  const t = useTranslations('home.cta');
+  const t = useTranslations("home.cta");
   return (
     <section className="relative w-full overflow-hidden bg-linear-to-br from-[#3b4417] via-[#4a5520] to-[#3b4417] py-24 md:py-32">
       {/* Animated Background Elements */}
@@ -52,11 +52,11 @@ export default function CTASection() {
 
           {/* Heading */}
           <h2 className="text-[32px] md:text-[44px] lg:text-[52px] font-bold leading-tight tracking-[0.2em] text-white uppercase whitespace-pre-line">
-            {t('title')}
+            {t("title")}
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/85">
-            {t('description')}
+            {t("description")}
           </p>
 
           {/* CTA Buttons */}
@@ -66,7 +66,7 @@ export default function CTASection() {
                 href="/shop"
                 className="group flex items-center gap-3 bg-white px-10 py-5 text-[12px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
               >
-                {t('shopNow')}
+                {t("shopNow")}
                 <ArrowRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1"
@@ -79,7 +79,7 @@ export default function CTASection() {
                 href="/our-story"
                 className="group flex items-center gap-3 border-2 border-white/40 bg-transparent px-10 py-5 text-[12px] tracking-[0.25em] text-white transition-all hover:border-white hover:bg-white/10 uppercase"
               >
-                {t('learnMore')}
+                {t("learnMore")}
               </Link>
             </motion.div>
           </div>
@@ -92,7 +92,7 @@ export default function CTASection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 text-[13px] text-white/60"
           >
-            {t('trustIndicator')}
+            {t("trustIndicator")}
           </motion.p>
         </motion.div>
       </div>

@@ -64,7 +64,8 @@ export default function UpdateInventoryModal({
       ? item.quantity_on_hand + quantity
       : item.quantity_on_hand - quantity;
 
-  const isValid = quantity > 0 && (type === "in" || quantity <= item.quantity_on_hand);
+  const isValid =
+    quantity > 0 && (type === "in" || quantity <= item.quantity_on_hand);
 
   return (
     <AnimatePresence>
@@ -116,7 +117,9 @@ export default function UpdateInventoryModal({
                 {/* Current Stock Info */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">{t("warehouse")}</p>
+                    <p className="text-sm text-[#7a8451] mb-1">
+                      {t("warehouse")}
+                    </p>
                     <p className="font-semibold text-[#3b4417]">
                       {item.warehouse.name}
                     </p>
@@ -125,7 +128,9 @@ export default function UpdateInventoryModal({
                     </p>
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">{t("currentStock")}</p>
+                    <p className="text-sm text-[#7a8451] mb-1">
+                      {t("currentStock")}
+                    </p>
                     <p className="text-3xl font-bold text-[#3b4417]">
                       {item.quantity_on_hand}
                     </p>
@@ -138,7 +143,8 @@ export default function UpdateInventoryModal({
                 {/* Type Selection */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-3">
-                    {t("type")} <span className="text-red-600">{t("required")}</span>
+                    {t("type")}{" "}
+                    <span className="text-red-600">{t("required")}</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -197,7 +203,8 @@ export default function UpdateInventoryModal({
                 {/* Quantity Input */}
                 <div>
                   <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    {t("quantity")} <span className="text-red-600">{t("required")}</span>
+                    {t("quantity")}{" "}
+                    <span className="text-red-600">{t("required")}</span>
                   </label>
                   <input
                     type="number"
@@ -233,7 +240,9 @@ export default function UpdateInventoryModal({
                 {quantity > 0 && isValid && (
                   <div
                     className={`${
-                      type === "in" ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"
+                      type === "in"
+                        ? "bg-emerald-50 border-emerald-200"
+                        : "bg-red-50 border-red-200"
                     } border rounded-lg p-4`}
                   >
                     <div className="flex items-start gap-3">
@@ -248,7 +257,9 @@ export default function UpdateInventoryModal({
                             type === "in" ? "text-emerald-900" : "text-red-900"
                           }`}
                         >
-                          {type === "in" ? t("confirmStockIn") : t("confirmStockOut")}
+                          {type === "in"
+                            ? t("confirmStockIn")
+                            : t("confirmStockOut")}
                         </p>
                         <p
                           className={`text-sm ${

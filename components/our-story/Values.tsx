@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Leaf, Users, Shield, Sparkles } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Leaf, Users, Shield, Sparkles];
 const COLORS = [
@@ -13,8 +13,8 @@ const COLORS = [
 ];
 
 export default function Values() {
-  const t = useTranslations('ourStory.values');
-  
+  const t = useTranslations("ourStory.values");
+
   const VALUES = Array.from({ length: 4 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`items.${index}.title`),
@@ -33,10 +33,10 @@ export default function Values() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -103,10 +103,10 @@ export default function Values() {
           className="mt-20 border-l-4 border-[#3b4417] bg-[#f5f3e8] p-8 md:p-12"
         >
           <blockquote className="text-[20px] md:text-[24px] font-serif italic leading-relaxed text-[#3b4417]">
-            "{t('quote')}"
+            "{t("quote")}"
           </blockquote>
           <p className="mt-6 text-[15px] font-semibold tracking-wide text-neutral-700">
-            {t('quoteAuthor')}
+            {t("quoteAuthor")}
           </p>
         </motion.div>
       </div>

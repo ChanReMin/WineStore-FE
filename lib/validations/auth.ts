@@ -2,17 +2,17 @@ import { z } from "zod";
 
 // Login schema
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Invalid email format"),
+  email: z.string().min(1, "Email is required").email("Invalid email format"),
 
   password: z
     .string()
     .min(8, "Password must contain at least 8 characters")
     .max(100, "Password must not exceed 100 characters")
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+    .regex(
+      /[^A-Za-z0-9]/,
+      "Password must contain at least one special character"
+    ),
 
   role: z.enum(["customer", "seller", "admin"]).default("customer"),
 });
@@ -20,21 +20,19 @@ export const loginSchema = z.object({
 // Register schema
 export const registerSchema = z
   .object({
-    email: z
-      .string()
-      .min(1, "Email is required")
-      .email("Invalid email format"),
+    email: z.string().min(1, "Email is required").email("Invalid email format"),
 
     password: z
       .string()
       .min(8, "Password must contain at least 8 characters")
       .max(100, "Password must not exceed 100 characters")
       .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+      .regex(
+        /[^A-Za-z0-9]/,
+        "Password must contain at least one special character"
+      ),
 
-    confirm_password: z
-      .string()
-      .min(1, "Please confirm your password"),
+    confirm_password: z.string().min(1, "Please confirm your password"),
 
     first_name: z
       .string()

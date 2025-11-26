@@ -55,7 +55,10 @@ export default function AuthModal({
       return;
     }
 
-    if (mode === "register" && formData.password !== formData.confirm_password) {
+    if (
+      mode === "register" &&
+      formData.password !== formData.confirm_password
+    ) {
       toast.error("Confirm password does not match", {
         position: "top-right",
         autoClose: 3000,
@@ -64,20 +67,21 @@ export default function AuthModal({
     }
 
     try {
-      const result = mode === "login" 
-        ? await login({
-            email: formData.email,
-            password: formData.password,
-          })
-        : await register({
-            email: formData.email,
-            password: formData.password,
-            first_name: formData.first_name,
-            last_name: formData.last_name,
-            phone_number: formData.phone_number,
-            date_of_birth: formData.date_of_birth,
-            gender: formData.gender ? Number.parseInt(formData.gender) : 1,
-          });
+      const result =
+        mode === "login"
+          ? await login({
+              email: formData.email,
+              password: formData.password,
+            })
+          : await register({
+              email: formData.email,
+              password: formData.password,
+              first_name: formData.first_name,
+              last_name: formData.last_name,
+              phone_number: formData.phone_number,
+              date_of_birth: formData.date_of_birth,
+              gender: formData.gender ? Number.parseInt(formData.gender) : 1,
+            });
 
       // Only close modal and reset form if successful
       if (result?.success) {
@@ -344,7 +348,10 @@ export default function AuthModal({
                             <DatePicker
                               value={formData.date_of_birth}
                               onChange={(date) =>
-                                setFormData({ ...formData, date_of_birth: date })
+                                setFormData({
+                                  ...formData,
+                                  date_of_birth: date,
+                                })
                               }
                               placeholder="Chọn ngày sinh"
                               maxDate={new Date().toISOString().split("T")[0]}
@@ -497,7 +504,6 @@ export default function AuthModal({
                           </p>
                         )}
                       </div>
-
                     </>
                   )}
 
