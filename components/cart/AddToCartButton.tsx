@@ -59,7 +59,9 @@ export default function AddToCartButton({
         setQuantity(1);
       }, 2000);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng");
+      toast.error(
+        error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng"
+      );
     }
   };
 

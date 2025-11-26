@@ -14,7 +14,11 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 2,
-      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
+      warehouse: {
+        id: 2,
+        name: "Ho Chi Minh City Warehouse",
+        location: "Ho Chi Minh City",
+      },
       product: { id: 2, name: "Bordeaux 2018", price: 3_500_000 },
       quantity_on_hand: 120,
       safety_stock: 15,
@@ -24,7 +28,11 @@ export const mockInventoryList: InventoryResponse = {
     {
       id: 3,
       warehouse: { id: 1, name: "Hanoi Warehouse", location: "Hanoi" },
-      product: { id: 3, name: "Château Lafite Rothschild 2016", price: 12_800_000 },
+      product: {
+        id: 3,
+        name: "Château Lafite Rothschild 2016",
+        price: 12_800_000,
+      },
       quantity_on_hand: 8,
       safety_stock: 10,
       status: "low_stock",
@@ -41,7 +49,11 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 5,
-      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
+      warehouse: {
+        id: 2,
+        name: "Ho Chi Minh City Warehouse",
+        location: "Ho Chi Minh City",
+      },
       product: { id: 5, name: "Brunello di Montalcino 2016", price: 3_900_000 },
       quantity_on_hand: 34,
       safety_stock: 10,
@@ -59,7 +71,11 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 7,
-      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
+      warehouse: {
+        id: 2,
+        name: "Ho Chi Minh City Warehouse",
+        location: "Ho Chi Minh City",
+      },
       product: { id: 7, name: "Opus One 2018", price: 9_200_000 },
       quantity_on_hand: 60,
       safety_stock: 20,
@@ -69,7 +85,11 @@ export const mockInventoryList: InventoryResponse = {
     {
       id: 8,
       warehouse: { id: 3, name: "Da Nang Warehouse", location: "Da Nang" },
-      product: { id: 8, name: "Caymus Cabernet Sauvignon 2020", price: 3_200_000 },
+      product: {
+        id: 8,
+        name: "Caymus Cabernet Sauvignon 2020",
+        price: 3_200_000,
+      },
       quantity_on_hand: 18,
       safety_stock: 10,
       status: "in_stock",
@@ -77,8 +97,16 @@ export const mockInventoryList: InventoryResponse = {
     },
     {
       id: 9,
-      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
-      product: { id: 9, name: "Concha y Toro Don Melchor 2019", price: 2_700_000 },
+      warehouse: {
+        id: 2,
+        name: "Ho Chi Minh City Warehouse",
+        location: "Ho Chi Minh City",
+      },
+      product: {
+        id: 9,
+        name: "Concha y Toro Don Melchor 2019",
+        price: 2_700_000,
+      },
       quantity_on_hand: 0,
       safety_stock: 10,
       status: "out_of_stock",
@@ -95,4 +123,3 @@ export const mockInventoryList: InventoryResponse = {
     },
   ],
 };
-

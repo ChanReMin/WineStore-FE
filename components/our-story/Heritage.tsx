@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Wine, Globe, Award, Heart } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Wine, Globe, Award, Heart];
 
 export default function Heritage() {
-  const t = useTranslations('ourStory.heritage');
-  
+  const t = useTranslations("ourStory.heritage");
+
   const FEATURES = Array.from({ length: 4 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`features.${index}.title`),
@@ -28,13 +28,13 @@ export default function Heritage() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-tight tracking-wide text-[#3b4417] uppercase">
-              {t('title')}
+              {t("title")}
               <br />
-              {t('titleLine2')}
+              {t("titleLine2")}
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              {t('subtitle')}
+              {t("subtitle")}
             </p>
 
             {/* Features Grid */}

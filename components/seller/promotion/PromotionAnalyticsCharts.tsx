@@ -187,9 +187,7 @@ export default function PromotionAnalyticsCharts({
               <Users className="h-5 w-5" />
               So sánh sử dụng
             </h3>
-            <p className="text-sm text-[#7a8451] mt-1">
-              Đã dùng vs Còn lại
-            </p>
+            <p className="text-sm text-[#7a8451] mt-1">Đã dùng vs Còn lại</p>
           </div>
         </div>
 
@@ -212,8 +210,18 @@ export default function PromotionAnalyticsCharts({
             <YAxis stroke="#7a8451" fontSize={12} />
             <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="used" stackId="a" fill="#3b4417" radius={[0, 0, 0, 0]} />
-            <Bar dataKey="remaining" stackId="a" fill="#d4af37" radius={[4, 4, 0, 0]} />
+            <Bar
+              dataKey="used"
+              stackId="a"
+              fill="#3b4417"
+              radius={[0, 0, 0, 0]}
+            />
+            <Bar
+              dataKey="remaining"
+              stackId="a"
+              fill="#d4af37"
+              radius={[4, 4, 0, 0]}
+            />
           </BarChart>
         </ChartContainer>
       </Card>

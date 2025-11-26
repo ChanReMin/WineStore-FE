@@ -27,8 +27,8 @@ const itemVariants = {
 };
 
 export default function ValuePropositions() {
-  const t = useTranslations('home.values');
-  
+  const t = useTranslations("home.values");
+
   return (
     <section className="w-full border-y border-neutral-200 bg-white py-12 md:py-16">
       <motion.div

@@ -157,7 +157,9 @@ export default function PromotionFormModal({
                   {isEdit ? "Chỉnh sửa khuyến mãi" : "Tạo khuyến mãi mới"}
                 </h2>
                 <p className="text-sm text-[#7a8451]">
-                  {isEdit ? "Cập nhật thông tin khuyến mãi" : "Điền thông tin để tạo khuyến mãi"}
+                  {isEdit
+                    ? "Cập nhật thông tin khuyến mãi"
+                    : "Điền thông tin để tạo khuyến mãi"}
                 </p>
               </div>
             </div>
@@ -182,7 +184,9 @@ export default function PromotionFormModal({
                   <Input
                     id="code"
                     value={formData.code}
-                    onChange={(e) => handleChange("code", e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      handleChange("code", e.target.value.toUpperCase())
+                    }
                     placeholder="VD: SUMMER2024"
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417] font-mono"
                     disabled={isEdit}
@@ -212,7 +216,10 @@ export default function PromotionFormModal({
 
             {/* Description */}
             <div className="space-y-2">
-              <Label htmlFor="description" className="text-[#3b4417] font-semibold">
+              <Label
+                htmlFor="description"
+                className="text-[#3b4417] font-semibold"
+              >
                 Mô tả
               </Label>
               <Textarea
@@ -228,7 +235,10 @@ export default function PromotionFormModal({
             {/* Discount Type & Value */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="discount_type" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="discount_type"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Loại giảm giá *
                 </Label>
                 <Select
@@ -258,7 +268,10 @@ export default function PromotionFormModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="discount_value" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="discount_value"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Giá trị giảm *
                 </Label>
                 <div className="relative">
@@ -274,14 +287,18 @@ export default function PromotionFormModal({
                     onChange={(e) =>
                       handleChange("discount_value", parseFloat(e.target.value))
                     }
-                    placeholder={formData.discount_type === 1 ? "VD: 10" : "VD: 100000"}
+                    placeholder={
+                      formData.discount_type === 1 ? "VD: 10" : "VD: 100000"
+                    }
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="0"
                     step={formData.discount_type === 1 ? "1" : "1000"}
                   />
                 </div>
                 {errors.discount_value && (
-                  <p className="text-xs text-red-600">{errors.discount_value}</p>
+                  <p className="text-xs text-red-600">
+                    {errors.discount_value}
+                  </p>
                 )}
               </div>
             </div>
@@ -289,7 +306,10 @@ export default function PromotionFormModal({
             {/* Date Range */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="start_date" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="start_date"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Ngày bắt đầu *
                 </Label>
                 <DatePicker
@@ -301,7 +321,10 @@ export default function PromotionFormModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="end_date" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="end_date"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Ngày kết thúc *
                 </Label>
                 <DatePicker
@@ -317,7 +340,10 @@ export default function PromotionFormModal({
             {/* Max Usage & Status */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="max_usage" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="max_usage"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Số lượt sử dụng tối đa *
                 </Label>
                 <div className="relative">
@@ -340,7 +366,10 @@ export default function PromotionFormModal({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="status" className="text-[#3b4417] font-semibold">
+                <Label
+                  htmlFor="status"
+                  className="text-[#3b4417] font-semibold"
+                >
                   Trạng thái
                 </Label>
                 <Select
@@ -379,7 +408,11 @@ export default function PromotionFormModal({
                   <>
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                       className="mr-2"
                     >
                       <Save className="h-4 w-4" />

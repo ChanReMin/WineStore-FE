@@ -2,7 +2,15 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Tag, Search, Check, Calendar, Percent, DollarSign } from "lucide-react";
+import {
+  X,
+  Tag,
+  Search,
+  Check,
+  Calendar,
+  Percent,
+  DollarSign,
+} from "lucide-react";
 import { mockPromotions } from "@/lib/promotions.mock";
 import type { Product } from "@/types/product";
 import type { Promotion } from "@/types/promotion";
@@ -21,7 +29,9 @@ export default function AddPromotionToProductModal({
   onConfirm,
 }: AddPromotionToProductModalProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPromotionIds, setSelectedPromotionIds] = useState<number[]>([]);
+  const [selectedPromotionIds, setSelectedPromotionIds] = useState<number[]>(
+    []
+  );
 
   // Filter active promotions
   const activePromotions = mockPromotions.filter((p) => p.status === 1);
@@ -40,7 +50,9 @@ export default function AddPromotionToProductModal({
 
   const handleTogglePromotion = (promotionId: number) => {
     if (selectedPromotionIds.includes(promotionId)) {
-      setSelectedPromotionIds(selectedPromotionIds.filter((id) => id !== promotionId));
+      setSelectedPromotionIds(
+        selectedPromotionIds.filter((id) => id !== promotionId)
+      );
     } else {
       setSelectedPromotionIds([...selectedPromotionIds, promotionId]);
     }
@@ -159,8 +171,11 @@ export default function AddPromotionToProductModal({
                 </div>
               ) : (
                 filteredPromotions.map((promotion) => {
-                  const isSelected = selectedPromotionIds.includes(promotion.id);
-                  const usagePercent = (promotion.used_count / promotion.max_usage) * 100;
+                  const isSelected = selectedPromotionIds.includes(
+                    promotion.id
+                  );
+                  const usagePercent =
+                    (promotion.used_count / promotion.max_usage) * 100;
 
                   return (
                     <motion.button
@@ -190,7 +205,9 @@ export default function AddPromotionToProductModal({
                             }
                           `}
                         >
-                          {isSelected && <Check className="h-3 w-3 text-white" />}
+                          {isSelected && (
+                            <Check className="h-3 w-3 text-white" />
+                          )}
                         </div>
 
                         {/* Promotion Info */}
@@ -209,7 +226,8 @@ export default function AddPromotionToProductModal({
                                       : "bg-emerald-100 text-emerald-700"
                                   }`}
                                 >
-                                  {promotion.used_count}/{promotion.max_usage} đã dùng
+                                  {promotion.used_count}/{promotion.max_usage}{" "}
+                                  đã dùng
                                 </span>
                               </div>
                               <p className="font-semibold text-[#3b4417] mb-1">

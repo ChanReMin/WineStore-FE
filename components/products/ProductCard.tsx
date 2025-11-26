@@ -59,7 +59,9 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       });
       toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng");
+      toast.error(
+        error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng"
+      );
     }
   };
 
@@ -97,7 +99,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             </div>
           </motion.div>
         )}
-        
 
         {/* Image Container */}
         <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">

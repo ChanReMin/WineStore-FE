@@ -10,9 +10,7 @@ export default function AnalyticsPage() {
         <h1 className="text-2xl font-bold text-neutral-900">
           Statistics & Reporting
         </h1>
-        <p className="mt-1 text-sm text-neutral-600">
-            
-        </p>
+        <p className="mt-1 text-sm text-neutral-600"></p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">

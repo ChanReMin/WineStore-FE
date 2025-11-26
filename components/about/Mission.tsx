@@ -2,26 +2,26 @@
 
 import { motion } from "framer-motion";
 import { Target, Eye, Compass } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function Mission() {
-  const t = useTranslations('about.mission');
-  
+  const t = useTranslations("about.mission");
+
   const PILLARS = [
     {
       icon: Target,
-      title: t('pillars.mission.title'),
-      description: t('pillars.mission.description'),
+      title: t("pillars.mission.title"),
+      description: t("pillars.mission.description"),
     },
     {
       icon: Eye,
-      title: t('pillars.vision.title'),
-      description: t('pillars.vision.description'),
+      title: t("pillars.vision.title"),
+      description: t("pillars.vision.description"),
     },
     {
       icon: Compass,
-      title: t('pillars.purpose.title'),
-      description: t('pillars.purpose.description'),
+      title: t("pillars.purpose.title"),
+      description: t("pillars.purpose.description"),
     },
   ];
   return (
@@ -36,10 +36,10 @@ export default function Mission() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 

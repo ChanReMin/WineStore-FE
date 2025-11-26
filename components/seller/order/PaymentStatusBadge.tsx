@@ -13,7 +13,7 @@ export default function PaymentStatusBadge({
   status,
 }: PaymentStatusBadgeProps) {
   const t = useTranslations("seller.orders.payment");
-  
+
   const getPaymentStatus = () => {
     switch (status) {
       case 1: // Chờ thanh toán

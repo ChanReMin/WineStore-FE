@@ -18,7 +18,7 @@ export default function ProductSummaryCards({
   summary,
 }: ProductSummaryCardsProps) {
   const t = useTranslations("seller.products.summary");
-  
+
   const cards = [
     {
       titleKey: "totalProducts",
@@ -79,7 +79,9 @@ export default function ProductSummaryCards({
                 <p className="text-sm font-semibold text-[#3b4417] mb-1">
                   {t(card.titleKey)}
                 </p>
-                <p className="text-xs text-[#7a8451]">{t(card.descriptionKey)}</p>
+                <p className="text-xs text-[#7a8451]">
+                  {t(card.descriptionKey)}
+                </p>
               </div>
             </CardContent>
           </Card>

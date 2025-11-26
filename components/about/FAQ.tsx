@@ -3,15 +3,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, Search, Filter } from "lucide-react";
 import { useState, useMemo } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function FAQ() {
-  const t = useTranslations('about.faq');
-  
-  const CATEGORY_KEYS = ['all', 'products', 'shipping', 'quality', 'services', 'policies'];
-  
-  const CATEGORIES = CATEGORY_KEYS.map(key => t(`categories.${key}`));
-  
+  const t = useTranslations("about.faq");
+
+  const CATEGORY_KEYS = [
+    "all",
+    "products",
+    "shipping",
+    "quality",
+    "services",
+    "policies",
+  ];
+
+  const CATEGORIES = CATEGORY_KEYS.map((key) => t(`categories.${key}`));
+
   const FAQS = Array.from({ length: 8 }, (_, index) => {
     const categoryKey = t(`items.${index}.category`);
     const categoryIndex = CATEGORY_KEYS.indexOf(categoryKey);
@@ -24,7 +31,7 @@ export default function FAQ() {
   });
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState(t('categories.all'));
+  const [activeCategory, setActiveCategory] = useState(t("categories.all"));
 
   const filteredFAQs = useMemo(() => {
     return FAQS.filter((faq) => {
@@ -49,12 +56,12 @@ export default function FAQ() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
             <br />
-            {t('titleLine2')}
+            {t("titleLine2")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -72,7 +79,7 @@ export default function FAQ() {
           />
           <input
             type="text"
-            placeholder={t('searchPlaceholder')}
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-full border-2 border-neutral-200 bg-[#fdfbf5] py-4 pl-12 pr-4 text-[15px] transition-all focus:border-[#3b4417] focus:outline-none"
@@ -110,8 +117,10 @@ export default function FAQ() {
           animate={{ opacity: 1 }}
           className="mt-6 text-center text-[14px] text-neutral-500"
         >
-          {t('results.showing')} {filteredFAQs.length}{" "}
-          {filteredFAQs.length === 1 ? t('results.question') : t('results.questions')}
+          {t("results.showing")} {filteredFAQs.length}{" "}
+          {filteredFAQs.length === 1
+            ? t("results.question")
+            : t("results.questions")}
         </motion.p>
 
         {/* FAQ List */}
@@ -122,9 +131,7 @@ export default function FAQ() {
               animate={{ opacity: 1 }}
               className="py-12 text-center"
             >
-              <p className="text-[18px] text-neutral-500">
-                {t('noResults')}
-              </p>
+              <p className="text-[18px] text-neutral-500">{t("noResults")}</p>
             </motion.div>
           ) : (
             filteredFAQs.map((faq, index) => (
@@ -189,12 +196,12 @@ export default function FAQ() {
           className="mt-12 text-center"
         >
           <p className="text-[16px] text-neutral-600">
-            {t('contact.text')}{" "}
+            {t("contact.text")}{" "}
             <a
               href="mailto:hello@winestore.com"
               className="font-semibold text-[#3b4417] underline transition-colors hover:text-[#4a5520]"
             >
-              {t('contact.link')}
+              {t("contact.link")}
             </a>
           </p>
         </motion.div>

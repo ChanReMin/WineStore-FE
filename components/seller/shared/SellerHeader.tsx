@@ -126,19 +126,25 @@ export default function SellerHeader() {
                   </div>
                   <div className="dropdown-content max-h-96 overflow-y-auto">
                     <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50 bg-blue-50/50">
-                      <p className="text-sm text-neutral-900">{t("newOrders", { count: 5 })}</p>
+                      <p className="text-sm text-neutral-900">
+                        {t("newOrders", { count: 5 })}
+                      </p>
                       <p className="mt-1 text-xs text-neutral-500">
                         {t("minutesAgo", { count: 5 })}
                       </p>
                     </div>
                     <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50 bg-blue-50/50">
-                      <p className="text-sm text-neutral-900">{t("pendingProducts", { count: 15 })}</p>
+                      <p className="text-sm text-neutral-900">
+                        {t("pendingProducts", { count: 15 })}
+                      </p>
                       <p className="mt-1 text-xs text-neutral-500">
                         {t("hoursAgo", { count: 1 })}
                       </p>
                     </div>
                     <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50">
-                      <p className="text-sm text-neutral-900">{t("lowStock", { count: 5 })}</p>
+                      <p className="text-sm text-neutral-900">
+                        {t("lowStock", { count: 5 })}
+                      </p>
                       <p className="mt-1 text-xs text-neutral-500">
                         {t("hoursAgo", { count: 2 })}
                       </p>

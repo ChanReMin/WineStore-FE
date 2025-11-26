@@ -36,7 +36,11 @@ export const mockOrders = {
       {
         id: 101,
         order_code: "ORD-20240126-0001",
-        customer: { id: 1, name: "Nguyen Van A", email: "a.nguyen@example.com" },
+        customer: {
+          id: 1,
+          name: "Nguyen Van A",
+          email: "a.nguyen@example.com",
+        },
         status: 1,
         status_text: "Pending Confirmation",
         payment_status: 1,
@@ -114,8 +118,16 @@ export const mockInventory = {
     },
     {
       id: 3,
-      warehouse: { id: 2, name: "Ho Chi Minh City Warehouse", location: "Ho Chi Minh City" },
-      product: { id: 3, name: "Penfolds Bin 389 Cabernet Shiraz", price: 2490000 },
+      warehouse: {
+        id: 2,
+        name: "Ho Chi Minh City Warehouse",
+        location: "Ho Chi Minh City",
+      },
+      product: {
+        id: 3,
+        name: "Penfolds Bin 389 Cabernet Shiraz",
+        price: 2490000,
+      },
       quantity_on_hand: 3,
       safety_stock: 8,
       status: "low_stock",
@@ -123,4 +135,3 @@ export const mockInventory = {
     },
   ],
 };
-

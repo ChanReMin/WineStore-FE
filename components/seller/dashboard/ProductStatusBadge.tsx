@@ -14,7 +14,7 @@ export default function ProductStatusBadge({
   statusText,
 }: ProductStatusBadgeProps) {
   const t = useTranslations("seller.inventory.productStatus");
-  
+
   const getStatusConfig = () => {
     switch (status) {
       case 1: // Pending

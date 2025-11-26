@@ -53,6 +53,10 @@ const getMenuItems = (locale: string): MenuItem[] => [
     labelKey: "inventoryManagement",
     children: [
       {
+        labelKey: "warehouses",
+        href: `/${locale}/seller/warehouses`,
+      },
+      {
         labelKey: "inventory",
         href: `/${locale}/seller/inventory`,
       },
@@ -65,7 +69,16 @@ const getMenuItems = (locale: string): MenuItem[] => [
   {
     icon: Gift,
     labelKey: "promotions",
-    href: `/${locale}/seller/promotions`,
+    children: [
+      {
+        labelKey: "promotionList",
+        href: `/${locale}/seller/promotions`,
+      },
+      {
+        labelKey: "promotionAssignment",
+        href: `/${locale}/seller/promotion-assignment`,
+      },
+    ],
   },
 ];
 
@@ -125,11 +138,8 @@ export default function SellerSidebar({
               transition={{ duration: 0.2 }}
               className="flex items-center gap-2"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#33391d]">
-                <span className="text-sm font-bold text-amber-50">WS</span>
-              </div>
               <span className="text-lg font-semibold text-[#33391d]">
-                {t("layout.sellerHub")}
+                WINE STORE
               </span>
             </motion.div>
           )}
@@ -278,7 +288,9 @@ export default function SellerSidebar({
                 <p className="text-xs font-semibold text-neutral-900">
                   {t("layout.wineStore")}
                 </p>
-                <p className="text-xs text-neutral-600">{t("layout.sellerAccount")}</p>
+                <p className="text-xs text-neutral-600">
+                  {t("layout.sellerAccount")}
+                </p>
               </motion.div>
             )}
           </AnimatePresence>

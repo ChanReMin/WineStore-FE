@@ -68,7 +68,8 @@ export const useCartStore = create<CartState>()(
           await get().fetchCart();
         } catch (error) {
           set({
-            error: error instanceof Error ? error.message : "Lỗi thêm vào giỏ hàng",
+            error:
+              error instanceof Error ? error.message : "Lỗi thêm vào giỏ hàng",
             isLoading: false,
           });
           throw error;
@@ -82,7 +83,8 @@ export const useCartStore = create<CartState>()(
           await get().fetchCart();
         } catch (error) {
           set({
-            error: error instanceof Error ? error.message : "Lỗi cập nhật giỏ hàng",
+            error:
+              error instanceof Error ? error.message : "Lỗi cập nhật giỏ hàng",
             isLoading: false,
           });
           throw error;

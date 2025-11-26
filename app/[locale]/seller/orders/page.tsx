@@ -110,17 +110,18 @@ export default function OrdersPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
             {t("title")}
           </h1>
-          <p className="text-[#7a8451]">
-            {t("subtitle")}
-          </p>
+          <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
-        
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {[
-          { labelKey: "summary.totalOrders", value: summary.total, color: "bg-[#f5f3e8]" },
+          {
+            labelKey: "summary.totalOrders",
+            value: summary.total,
+            color: "bg-[#f5f3e8]",
+          },
           {
             labelKey: "summary.pending",
             value: summary.pending,
@@ -141,7 +142,11 @@ export default function OrdersPage() {
             value: summary.completed,
             color: "bg-emerald-50",
           },
-          { labelKey: "summary.cancelled", value: summary.cancelled, color: "bg-red-50" },
+          {
+            labelKey: "summary.cancelled",
+            value: summary.cancelled,
+            color: "bg-red-50",
+          },
         ].map((stat, index) => (
           <motion.div
             key={stat.labelKey}

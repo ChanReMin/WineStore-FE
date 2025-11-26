@@ -17,41 +17,40 @@ export default function SellerLayout({
   const params = useParams();
   const locale = params.locale as string;
   const t = useTranslations("seller.layout");
-  const authLoading = false; // Auth loading is handled by Zustand store
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   useEffect(() => {
-    // Wait for auth to finish loading
-    if (authLoading) {
-      return;
-    }
-
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      router.push(`/${locale}`);
-      return;
-    }
-
-    // Check if user is a seller
-    if (user?.role !== "SELLER" && user?.role !== "ADMIN") {
-      // Show error and redirect after 2 seconds
-      setIsLoading(false);
-      setTimeout(() => {
+    // Đợi một chút để auth state được restore từ localStorage
+    const timer = setTimeout(() => {
+      // Check if user is authenticated
+      if (!isAuthenticated) {
         router.push(`/${locale}`);
-      }, 2000);
-      return;
-    }
+        return;
+      }
 
-    setIsLoading(false);
-  }, [authLoading, isAuthenticated, user, router]);
+      // Check if user is a seller
+      if (user?.role !== "SELLER" && user?.role !== "ADMIN") {
+        // Show error and redirect after 2 seconds
+        setIsLoading(false);
+        setTimeout(() => {
+          router.push(`/${locale}`);
+        }, 2000);
+        return;
+      }
+
+      setIsLoading(false);
+    }, 100); // Đợi 100ms để state được restore
+
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, user, router, locale]);
 
   // Loading state
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center bg-neutral-50">
-       <LoaderOne />
+        <LoaderOne />
       </div>
     );
   }
@@ -81,12 +80,8 @@ export default function SellerLayout({
             <h2 className="text-xl font-bold text-neutral-900">
               {t("accessDenied")}
             </h2>
-            <p className="mt-2 text-sm text-neutral-600">
-              {t("noPermission")}
-            </p>
-            <p className="mt-1 text-xs text-neutral-500">
-              {t("redirecting")}
-            </p>
+            <p className="mt-2 text-sm text-neutral-600">{t("noPermission")}</p>
+            <p className="mt-1 text-xs text-neutral-500">{t("redirecting")}</p>
           </div>
         </div>
       </div>

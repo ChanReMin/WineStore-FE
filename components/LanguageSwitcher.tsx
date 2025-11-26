@@ -1,14 +1,14 @@
 "use client";
 
-import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/routing';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
-import { Globe } from 'lucide-react';
+import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/routing";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { Globe } from "lucide-react";
 
 const languages = [
-  { code: 'vi', label: 'Tiếng Việt', flag: '🇻🇳' },
-  { code: 'en', label: 'English', flag: '🇺🇸' }
+  { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
+  { code: "en", label: "English", flag: "🇺🇸" },
 ];
 
 export default function LanguageSwitcher() {
@@ -24,7 +24,7 @@ export default function LanguageSwitcher() {
     setIsOpen(false);
   };
 
-  const currentLanguage = languages.find(l => l.code === locale);
+  const currentLanguage = languages.find((l) => l.code === locale);
 
   return (
     <div className="relative">
@@ -52,7 +52,7 @@ export default function LanguageSwitcher() {
               onClick={() => setIsOpen(false)}
               className="fixed inset-0 z-40"
             />
-            
+
             {/* Dropdown */}
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -66,7 +66,7 @@ export default function LanguageSwitcher() {
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
                   className={`w-full text-left px-4 py-3 text-sm hover:bg-neutral-50 flex items-center gap-3 transition-colors ${
-                    locale === lang.code ? 'bg-neutral-100 font-semibold' : ''
+                    locale === lang.code ? "bg-neutral-100 font-semibold" : ""
                   }`}
                 >
                   <span className="text-xl">{lang.flag}</span>
@@ -83,4 +83,3 @@ export default function LanguageSwitcher() {
     </div>
   );
 }
-

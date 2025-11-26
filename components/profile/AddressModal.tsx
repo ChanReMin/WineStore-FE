@@ -128,7 +128,8 @@ export default function AddressModal({
                   {/* Full Name */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("fullName")} <span className="text-red-500">{t("required")}</span>
+                      {t("fullName")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -144,13 +145,17 @@ export default function AddressModal({
                   {/* Phone */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("phoneNumber")} <span className="text-red-500">{t("required")}</span>
+                      {t("phoneNumber")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="tel"
                       value={formData.phone_number}
                       onChange={(e) =>
-                        setFormData({ ...formData, phone_number: e.target.value })
+                        setFormData({
+                          ...formData,
+                          phone_number: e.target.value,
+                        })
                       }
                       required
                       className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
@@ -161,7 +166,8 @@ export default function AddressModal({
                 {/* Address Line */}
                 <div>
                   <label className="mb-2 block text-sm font-medium text-neutral-700">
-                    {t("addressLine")} <span className="text-red-500">{t("required")}</span>
+                    {t("addressLine")}{" "}
+                    <span className="text-red-500">{t("required")}</span>
                   </label>
                   <input
                     type="text"
@@ -179,7 +185,8 @@ export default function AddressModal({
                   {/* City */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("city")} <span className="text-red-500">{t("required")}</span>
+                      {t("city")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -195,7 +202,8 @@ export default function AddressModal({
                   {/* State */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("state")} <span className="text-red-500">{t("required")}</span>
+                      {t("state")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"
@@ -211,7 +219,8 @@ export default function AddressModal({
                   {/* Country */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("country")} <span className="text-red-500">{t("required")}</span>
+                      {t("country")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
                     </label>
                     <input
                       type="text"

@@ -8,7 +8,7 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
-  
+
   // Actions
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   setAccessToken: (token: string) => void;
@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       getAccessToken: () => get().accessToken,
-      
+
       getRefreshToken: () => get().refreshToken,
     }),
     {
@@ -58,8 +58,8 @@ export const useAuthStore = create<AuthState>()(
         // Lưu TOÀN BỘ auth state vào localStorage
         // Điều này cho phép auto-refresh token hoạt động sau khi reload
         user: state.user,
-        accessToken: state.accessToken,    // ✅ Auto-refresh khi hết hạn
-        refreshToken: state.refreshToken,  // ✅ Dùng để refresh accessToken
+        accessToken: state.accessToken, // ✅ Auto-refresh khi hết hạn
+        refreshToken: state.refreshToken, // ✅ Dùng để refresh accessToken
         isAuthenticated: state.isAuthenticated,
       }),
     }
@@ -71,7 +71,8 @@ if (typeof window !== "undefined") {
   setAuthHelpers({
     getAccessToken: () => useAuthStore.getState().accessToken,
     getRefreshToken: () => useAuthStore.getState().refreshToken,
-    setAccessToken: (token: string) => useAuthStore.getState().setAccessToken(token),
+    setAccessToken: (token: string) =>
+      useAuthStore.getState().setAccessToken(token),
     clearAuth: () => useAuthStore.getState().clearAuth(),
   });
 }

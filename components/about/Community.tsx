@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Calendar, GraduationCap, Users, Wine } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Wine, GraduationCap, Users, Calendar];
 
 export default function Community() {
-  const t = useTranslations('about.community');
-  
+  const t = useTranslations("about.community");
+
   const INITIATIVES = Array.from({ length: 4 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`initiatives.${index}.title`),
@@ -29,13 +29,13 @@ export default function Community() {
             className="flex flex-col justify-center"
           >
             <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold leading-tight tracking-wide text-[#3b4417] uppercase">
-              {t('title')}
+              {t("title")}
               <br />
-              {t('titleLine2')}
+              {t("titleLine2")}
             </h2>
 
             <p className="mt-6 text-[17px] leading-relaxed text-neutral-700">
-              {t('subtitle')}
+              {t("subtitle")}
             </p>
 
             {/* Initiatives */}
@@ -90,7 +90,7 @@ export default function Community() {
                 whileTap={{ scale: 0.95 }}
                 className="group flex items-center gap-3 bg-[#3b4417] px-10 py-4 text-[12px] tracking-[0.25em] text-white transition-all hover:bg-[#4a5520] uppercase"
               >
-                {t('cta')}
+                {t("cta")}
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
@@ -126,11 +126,13 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="absolute -bottom-8 -right-8 bg-white p-8 shadow-2xl"
             >
-              <p className="text-[48px] font-bold text-[#3b4417]">{t('badge.number')}</p>
+              <p className="text-[48px] font-bold text-[#3b4417]">
+                {t("badge.number")}
+              </p>
               <p className="text-[14px] tracking-[0.2em] text-neutral-600 uppercase">
-                {t('badge.text')}
+                {t("badge.text")}
                 <br />
-                {t('badge.textLine2')}
+                {t("badge.textLine2")}
               </p>
             </motion.div>
           </motion.div>

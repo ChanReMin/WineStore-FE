@@ -24,7 +24,7 @@ export default function InventoryFilters({
   warehouses,
 }: InventoryFiltersProps) {
   const t = useTranslations("seller.inventory.filters");
-  
+
   const statusOptions = [
     { value: "all", label: t("all") },
     { value: "in_stock", label: t("inStock") },
@@ -78,7 +78,9 @@ export default function InventoryFilters({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <Warehouse className="w-4 h-4 text-[#7a8451]" />
-              <span className="text-sm font-medium text-[#3b4417]">{t("warehouse")}</span>
+              <span className="text-sm font-medium text-[#3b4417]">
+                {t("warehouse")}
+              </span>
             </div>
             <div className="flex gap-2 flex-wrap">
               <button

@@ -31,8 +31,14 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 // Helper to recalculate cart summary
 const recalculateSummary = () => {
   const total_items = mockCart.items.length;
-  const total_quantity = mockCart.items.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = mockCart.items.reduce((sum, item) => sum + item.line_total, 0);
+  const total_quantity = mockCart.items.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+  const subtotal = mockCart.items.reduce(
+    (sum, item) => sum + item.line_total,
+    0
+  );
   const estimated_shipping = subtotal > 0 ? 50000 : 0; // Free shipping over certain amount
   const estimated_total = subtotal + estimated_shipping;
 
@@ -78,7 +84,7 @@ export const cartService = {
         "Vega Sicilia Único 2010",
         "Ridge Monte Bello 2017",
       ];
-      
+
       const images = [
         "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400",
         "https://images.unsplash.com/photo-1586370434639-0fe43b2d32d6?w=400",
@@ -89,11 +95,11 @@ export const cartService = {
 
       const nameIndex = (id - 1) % productNames.length;
       const imageIndex = (id - 1) % images.length;
-      
+
       // Use ID as seed for consistent random values
       const priceBase = 1000000 + ((id * 123456) % 5000000);
       const maxQty = 10 + ((id * 7) % 50);
-      
+
       const product = {
         id,
         name: productNames[nameIndex],
@@ -201,7 +207,9 @@ export const cartService = {
   ): Promise<{ cart_item_id: number; quantity: number; line_total: number }> {
     await delay(500);
 
-    const itemIndex = mockCart.items.findIndex((item) => item.id === cartItemId);
+    const itemIndex = mockCart.items.findIndex(
+      (item) => item.id === cartItemId
+    );
     if (itemIndex === -1) {
       throw new Error("Không tìm thấy sản phẩm trong giỏ hàng");
     }
@@ -232,7 +240,9 @@ export const cartService = {
   async removeCartItem(cartItemId: number): Promise<void> {
     await delay(500);
 
-    const itemIndex = mockCart.items.findIndex((item) => item.id === cartItemId);
+    const itemIndex = mockCart.items.findIndex(
+      (item) => item.id === cartItemId
+    );
     if (itemIndex === -1) {
       throw new Error("Không tìm thấy sản phẩm trong giỏ hàng");
     }

@@ -2,21 +2,21 @@
 
 import { motion } from "framer-motion";
 import { Award, Leaf, Shield, Star } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const ICONS = [Award, Leaf, Shield, Star];
 
 export default function Certifications() {
-  const t = useTranslations('about.certifications');
-  
+  const t = useTranslations("about.certifications");
+
   const CERTIFICATIONS = Array.from({ length: 4 }, (_, index) => ({
     icon: ICONS[index],
     title: t(`items.${index}.title`),
     year: t(`items.${index}.year`),
     description: t(`items.${index}.description`),
   }));
-  
-  const PARTNERS = Array.from({ length: 6 }, (_, index) => 
+
+  const PARTNERS = Array.from({ length: 6 }, (_, index) =>
     t(`partners.list.${index}`)
   );
   return (
@@ -31,10 +31,10 @@ export default function Certifications() {
           className="text-center"
         >
           <h2 className="text-[32px] md:text-[42px] lg:text-[48px] font-bold tracking-wide text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[17px] text-neutral-600">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -83,7 +83,7 @@ export default function Certifications() {
           className="mt-20 border-t border-neutral-200 pt-12"
         >
           <p className="text-center text-[13px] tracking-[0.2em] text-neutral-500 uppercase">
-            {t('partners.title')}
+            {t("partners.title")}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-8 md:gap-12">

@@ -51,7 +51,7 @@ const getStatusColor = (status: number) => {
 
 export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
   const t = useTranslations("seller.dashboard.latestOrders");
-  
+
   const getPaymentStatusText = (status: number) => {
     return status === 1 ? t("paid") : t("unpaid");
   };

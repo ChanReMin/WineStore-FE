@@ -9,7 +9,7 @@ import type { BlogPost } from "@/lib/blogData";
 import { blogPosts } from "@/lib/blogData";
 import BlogCard from "./BlogCard";
 import { useRef } from "react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -22,15 +22,15 @@ interface BlogDetailClientProps {
 }
 
 export default function BlogDetailClient({ post }: BlogDetailClientProps) {
-  const t = useTranslations('blog.detail');
-  const tPosts = useTranslations('blog.posts');
-  const tContent = useTranslations('blog.detail.content');
-  
+  const t = useTranslations("blog.detail");
+  const tPosts = useTranslations("blog.posts");
+  const tContent = useTranslations("blog.detail.content");
+
   // Get translated category label
   const getCategoryLabel = (label: string) => {
     return t(`categoryLabels.${label}` as any) || label;
   };
-  
+
   // Get post data from translations
   const title = tPosts(`${post.postIndex}.title`);
   const excerpt = tPosts(`${post.postIndex}.excerpt`);
@@ -38,7 +38,7 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
   const date = tPosts(`${post.postIndex}.date`);
   const readTime = tPosts(`${post.postIndex}.readTime`);
   const tags = tPosts.raw(`${post.postIndex}.tags`) as string[];
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -87,7 +87,7 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
                 className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"
                 strokeWidth={1.5}
               />
-              {t('backToBlog')}
+              {t("backToBlog")}
             </Link>
           </motion.div>
 
@@ -154,7 +154,7 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
               className="group inline-flex items-center gap-2 border border-[#c8c8a3] px-6 py-3 text-[10px] tracking-[0.25em] uppercase text-[#3b4417] hover:border-[#3b4417] transition-all duration-300"
             >
               <Share2 className="w-4 h-4" strokeWidth={1.5} />
-              {t('share')}
+              {t("share")}
             </motion.button>
           </motion.div>
 
@@ -170,43 +170,43 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
             </p>
 
             <div className="space-y-6 text-[#5d4e37] leading-relaxed text-lg">
-              <p>{tContent('intro')}</p>
+              <p>{tContent("intro")}</p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                {t('content.headings.historyAndOrigins')}
+                {t("content.headings.historyAndOrigins")}
               </h2>
-              <p>{tContent('historyParagraph1')}</p>
-              <p>{tContent('historyParagraph2')}</p>
+              <p>{tContent("historyParagraph1")}</p>
+              <p>{tContent("historyParagraph2")}</p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                {t('content.headings.productionProcess')}
+                {t("content.headings.productionProcess")}
               </h2>
-              <p>{tContent('productionParagraph1')}</p>
-              <p>{tContent('productionParagraph2')}</p>
-              <p>{tContent('productionParagraph3')}</p>
+              <p>{tContent("productionParagraph1")}</p>
+              <p>{tContent("productionParagraph2")}</p>
+              <p>{tContent("productionParagraph3")}</p>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                {t('content.headings.howToEnjoy')}
+                {t("content.headings.howToEnjoy")}
               </h2>
-              <p>{tContent('enjoyParagraph1')}</p>
-              <p>{tContent('enjoyParagraph2')}</p>
-              <p>{tContent('enjoyParagraph3')}</p>
+              <p>{tContent("enjoyParagraph1")}</p>
+              <p>{tContent("enjoyParagraph2")}</p>
+              <p>{tContent("enjoyParagraph3")}</p>
 
               <div className="bg-linear-to-br from-[#fef8f0] to-[#fff5eb] border-2 border-[#c9a961] rounded-3xl p-10 my-12 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-[#c9a961]/20 to-transparent rounded-bl-full" />
                 <h3 className="font-display-serif text-3xl font-bold text-[#8b4513] mb-4 flex items-center gap-3">
                   <span className="text-4xl">💡</span>
-                  {t('content.headings.expertTips')}
+                  {t("content.headings.expertTips")}
                 </h3>
                 <p className="text-[#5d4e37] mb-0 text-lg leading-relaxed relative z-10">
-                  {tContent('expertTip')}
+                  {tContent("expertTip")}
                 </p>
               </div>
 
               <h2 className="font-display-serif text-4xl font-bold text-[#2c1810] mt-12 mb-6 border-l-4 border-[#8b4513] pl-6">
-                {t('content.headings.conclusion')}
+                {t("content.headings.conclusion")}
               </h2>
-              <p>{tContent('conclusionParagraph')}</p>
+              <p>{tContent("conclusionParagraph")}</p>
             </div>
           </motion.article>
 
@@ -242,11 +242,11 @@ export default function BlogDetailClient({ post }: BlogDetailClientProps) {
             >
               <div className="text-center mb-16">
                 <h2 className="text-[28px] md:text-[36px] tracking-[0.3em] uppercase text-[#3b4417] font-semibold mb-4">
-                  {t('relatedPosts')}
+                  {t("relatedPosts")}
                 </h2>
                 <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
                   <span className="h-px w-10 bg-[#4c5b23]" />
-                  <span>{t('exploreMore')}</span>
+                  <span>{t("exploreMore")}</span>
                   <span className="h-px w-10 bg-[#4c5b23]" />
                 </div>
               </div>

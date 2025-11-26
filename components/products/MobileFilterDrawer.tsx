@@ -35,7 +35,7 @@ export default function MobileFilterDrawer({
   onReset,
 }: MobileFilterDrawerProps) {
   const t = useTranslations("shop.filters");
-  
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";

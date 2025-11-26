@@ -63,7 +63,7 @@ export default function ProductPagination({
         {onItemsPerPageChange && (
           <div className="flex items-center gap-3 bg-[#fdfbf5] px-4 py-2 rounded-lg border border-[#e8e6dc]">
             <span className="text-sm text-[#7a8451] whitespace-nowrap font-medium">
-              Display: 
+              Display:
             </span>
             <select
               value={itemsPerPage}
@@ -95,8 +95,8 @@ export default function ProductPagination({
           <span className="font-semibold text-[#3b4417]">
             {Math.min(currentPage * itemsPerPage, totalItems)}
           </span>{" "}
-          of{" "}
-          <span className="font-semibold text-[#3b4417]">{totalItems}</span> products
+          of <span className="font-semibold text-[#3b4417]">{totalItems}</span>{" "}
+          products
         </div>
 
         {/* Right: Pagination */}

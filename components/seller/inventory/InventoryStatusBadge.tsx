@@ -17,7 +17,7 @@ export default function InventoryStatusBadge({
   safetyStock,
 }: InventoryStatusBadgeProps) {
   const t = useTranslations("seller.inventory.status");
-  
+
   const getStatusConfig = () => {
     switch (status) {
       case "in_stock":

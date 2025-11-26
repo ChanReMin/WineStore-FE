@@ -29,7 +29,7 @@ const slideVariants = {
 };
 
 export default function Hero() {
-  const t = useTranslations('home.hero');
+  const t = useTranslations("home.hero");
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0); // 1: next, -1: prev
 
@@ -96,7 +96,7 @@ export default function Hero() {
           <div className="mt-4 flex flex-col items-center gap-2">
             <div className="flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]">
               <span className="h-px w-16 md:w-24 bg-white/70" />
-              <span>{t('estd')}</span>
+              <span>{t("estd")}</span>
               <span className="h-px w-16 md:w-24 bg-white/70" />
             </div>
 
@@ -118,7 +118,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="group flex items-center gap-3 bg-white px-10 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
             >
-              {t('shopNow')}
+              {t("shopNow")}
               <ChevronRight
                 size={16}
                 className="transition-transform group-hover:translate-x-1"
@@ -131,7 +131,7 @@ export default function Hero() {
               whileTap={{ scale: 0.95 }}
               className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
             >
-              {t('ourStory')}
+              {t("ourStory")}
             </motion.a>
           </motion.div>
         </motion.div>

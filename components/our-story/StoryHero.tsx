@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 export default function StoryHero() {
-  const t = useTranslations('ourStory.hero');
+  const t = useTranslations("ourStory.hero");
   const scrollToContent = () => {
     window.scrollTo({
       top: window.innerHeight,
@@ -43,13 +43,13 @@ export default function StoryHero() {
             className="mb-6 flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]"
           >
             <span className="h-px w-16 bg-white/70" />
-            <span>{t('since')}</span>
+            <span>{t("since")}</span>
             <span className="h-px w-16 bg-white/70" />
           </motion.div>
 
           {/* Main Heading */}
           <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-bold leading-tight tracking-[0.15em] uppercase">
-            {t('title')}
+            {t("title")}
           </h1>
 
           {/* Description */}
@@ -59,7 +59,7 @@ export default function StoryHero() {
             transition={{ duration: 1, delay: 0.5 }}
             className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-white/90"
           >
-            {t('subtitle')}
+            {t("subtitle")}
           </motion.p>
         </motion.div>
 
@@ -77,7 +77,7 @@ export default function StoryHero() {
             className="flex flex-col items-center gap-2 text-white/80 hover:text-white"
           >
             <span className="text-[11px] tracking-[0.2em] uppercase">
-              {t('scroll')}
+              {t("scroll")}
             </span>
             <ChevronDown size={24} strokeWidth={1.5} />
           </motion.div>

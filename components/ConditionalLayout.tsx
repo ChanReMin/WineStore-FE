@@ -11,14 +11,16 @@ export default function ConditionalLayout({
 }) {
   const pathname = usePathname();
 
-  // Ẩn Header và Footer khi ở trang seller
+  // Ẩn Header và Footer khi ở trang seller hoặc admin
   const isSellerPage = pathname?.includes("/seller");
+  const isAdminPage = pathname?.includes("/admin");
+  const hideLayout = isSellerPage || isAdminPage;
 
   return (
     <>
-      {!isSellerPage && <Header />}
+      {!hideLayout && <Header />}
       {children}
-      {!isSellerPage && <Footer />}
+      {!hideLayout && <Footer />}
     </>
   );
 }

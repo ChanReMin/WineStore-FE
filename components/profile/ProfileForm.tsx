@@ -60,9 +60,7 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
       className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
     >
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-[#33391d]">
-          {t("title")}
-        </h2>
+        <h2 className="text-xl font-semibold text-[#33391d]">{t("title")}</h2>
         {!isEditing && (
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -159,7 +157,9 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
                 type="text"
                 value={
                   formData.date_of_birth
-                    ? new Date(formData.date_of_birth).toLocaleDateString("vi-VN")
+                    ? new Date(formData.date_of_birth).toLocaleDateString(
+                        "vi-VN"
+                      )
                     : ""
                 }
                 disabled

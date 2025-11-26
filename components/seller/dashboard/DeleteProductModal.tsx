@@ -70,9 +70,7 @@ export default function DeleteProductModal({
                     <h2 className="text-xl font-bold text-red-900">
                       {t("title")}
                     </h2>
-                    <p className="text-sm text-red-700">
-                      {t("subtitle")}
-                    </p>
+                    <p className="text-sm text-red-700">{t("subtitle")}</p>
                   </div>
                 </div>
                 <button
@@ -120,9 +118,7 @@ export default function DeleteProductModal({
                   </div>
                 </div>
 
-                <p className="text-sm text-[#7a8451]">
-                  {t("confirmQuestion")}
-                </p>
+                <p className="text-sm text-[#7a8451]">{t("confirmQuestion")}</p>
               </div>
 
               {/* Footer */}

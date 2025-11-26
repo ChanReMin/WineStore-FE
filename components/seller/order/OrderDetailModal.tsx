@@ -32,7 +32,7 @@ export default function OrderDetailModal({
   onUpdateStatus,
 }: OrderDetailModalProps) {
   const t = useTranslations("seller.orders");
-  
+
   if (!order) return null;
 
   const formatPrice = (price: number) => {
@@ -348,19 +348,17 @@ export default function OrderDetailModal({
                 >
                   {t("detail.close")}
                 </button>
-                {onUpdateStatus &&
-                  order.status !== 4 &&
-                  order.status !== 5 && (
-                    <button
-                      onClick={() => {
-                        onUpdateStatus(order);
-                        onClose();
-                      }}
-                      className="px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium"
-                    >
-                      {t("detail.updateStatus")}
-                    </button>
-                  )}
+                {onUpdateStatus && order.status !== 4 && order.status !== 5 && (
+                  <button
+                    onClick={() => {
+                      onUpdateStatus(order);
+                      onClose();
+                    }}
+                    className="px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium"
+                  >
+                    {t("detail.updateStatus")}
+                  </button>
+                )}
               </div>
             </Card>
           </motion.div>

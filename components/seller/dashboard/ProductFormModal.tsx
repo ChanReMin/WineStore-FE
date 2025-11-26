@@ -164,9 +164,7 @@ export default function ProductFormModal({
                         : t("editProduct")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
-                      {mode === "create"
-                        ? t("awaitApproval")
-                        : t("updateInfo")}
+                      {mode === "create" ? t("awaitApproval") : t("updateInfo")}
                     </p>
                   </div>
                 </div>
@@ -194,7 +192,8 @@ export default function ProductFormModal({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("productName")} <span className="text-red-600">{t("required")}</span>
+                          {t("productName")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <input
                           type="text"
@@ -209,7 +208,8 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("priceVND")} <span className="text-red-600">{t("required")}</span>
+                          {t("priceVND")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <div className="relative">
                           <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#7a8451]" />
@@ -228,7 +228,8 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("category")} <span className="text-red-600">{t("required")}</span>
+                          {t("category")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="category_id"
@@ -247,7 +248,8 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("brand")} <span className="text-red-600">{t("required")}</span>
+                          {t("brand")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="brand_id"
@@ -266,7 +268,8 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("wineType")} <span className="text-red-600">{t("required")}</span>
+                          {t("wineType")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
                           name="wine_type"
@@ -285,7 +288,8 @@ export default function ProductFormModal({
 
                       <div>
                         <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                          {t("country")} <span className="text-red-600">{t("required")}</span>
+                          {t("country")}{" "}
+                          <span className="text-red-600">{t("required")}</span>
                         </label>
                         <input
                           type="text"
@@ -538,7 +542,9 @@ export default function ProductFormModal({
                   ) : (
                     <>
                       <Save className="w-5 h-5" />
-                      {mode === "create" ? t("createProduct") : t("updateProduct")}
+                      {mode === "create"
+                        ? t("createProduct")
+                        : t("updateProduct")}
                     </>
                   )}
                 </button>

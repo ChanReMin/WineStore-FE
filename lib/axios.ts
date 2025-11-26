@@ -36,11 +36,11 @@ axiosInstance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // Lấy access token từ Zustand store
     const token = getAccessToken();
-    
+
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -82,7 +82,7 @@ axiosInstance.interceptors.response.use(
       try {
         // Gọi API refresh token
         const refreshToken = getRefreshToken();
-        
+
         if (!refreshToken) {
           // RefreshToken không có sẵn (có thể do page refresh)
           // User cần login lại
@@ -108,23 +108,23 @@ axiosInstance.interceptors.response.use(
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${access_token}`;
         }
-        
+
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         // Log error để debugging
         console.error("❌ Token refresh failed:", refreshError);
-        
+
         processQueue(refreshError as Error, null);
-        
+
         // Xóa token và redirect về login
         clearAuth();
-        
+
         if (typeof window !== "undefined") {
           // TODO: Cải thiện UX - Sử dụng Next.js router thay vì hard redirect
           // hoặc emit event để component xử lý
           window.location.href = "/";
         }
-        
+
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

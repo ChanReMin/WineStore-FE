@@ -29,8 +29,12 @@ export default function PromotionsManagement() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [selectedPromotion, setSelectedPromotion] = useState<number | null>(null);
-  const [promotionToDelete, setPromotionToDelete] = useState<Promotion | null>(null);
+  const [selectedPromotion, setSelectedPromotion] = useState<number | null>(
+    null
+  );
+  const [promotionToDelete, setPromotionToDelete] = useState<Promotion | null>(
+    null
+  );
   const [isDeleting, setIsDeleting] = useState(false);
 
   const promotions = mockGetPromotions.data.promotions;
@@ -64,7 +68,7 @@ export default function PromotionsManagement() {
     if (!promotionToDelete) return;
 
     setIsDeleting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       // TODO: Call API to delete
@@ -108,9 +112,7 @@ export default function PromotionsManagement() {
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide">
             {t("title")}
           </h1>
-          <p className="text-[#7a8451] mt-1">
-            {t("subtitle")}
-          </p>
+          <p className="text-[#7a8451] mt-1">{t("subtitle")}</p>
         </div>
         <Button
           onClick={handleCreate}
@@ -135,7 +137,9 @@ export default function PromotionsManagement() {
             <Input
               placeholder={t("filters.searchPlaceholder")}
               value={searchQuery}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchQuery(e.target.value)
+              }
               className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
             />
           </div>
@@ -166,7 +170,9 @@ export default function PromotionsManagement() {
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
             {t("summary.total")}
           </p>
-          <p className="text-2xl font-bold text-[#3b4417]">{promotions.length}</p>
+          <p className="text-2xl font-bold text-[#3b4417]">
+            {promotions.length}
+          </p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
           <p className="text-xs text-[#7a8451] uppercase tracking-wide mb-1">
@@ -189,7 +195,10 @@ export default function PromotionsManagement() {
             {t("summary.remaining")}
           </p>
           <p className="text-2xl font-bold text-orange-600">
-            {promotions.reduce((sum, p) => sum + (p.max_usage - p.used_count), 0)}
+            {promotions.reduce(
+              (sum, p) => sum + (p.max_usage - p.used_count),
+              0
+            )}
           </p>
         </div>
       </motion.div>

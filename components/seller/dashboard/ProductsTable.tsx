@@ -70,7 +70,10 @@ export default function ProductsTable({
     setIsAddPromotionModalOpen(true);
   };
 
-  const handleAddPromotionConfirm = (productId: number, promotionIds: number[]) => {
+  const handleAddPromotionConfirm = (
+    productId: number,
+    promotionIds: number[]
+  ) => {
     if (onAddPromotion) {
       onAddPromotion(productId, promotionIds);
     }
@@ -110,9 +113,7 @@ export default function ProductsTable({
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("noProductsFound")}
         </h3>
-        <p className="text-[#7a8451]">
-          {t("tryChangingFilter")}
-        </p>
+        <p className="text-[#7a8451]">{t("tryChangingFilter")}</p>
       </Card>
     );
   }
@@ -123,7 +124,9 @@ export default function ProductsTable({
         <Table>
           <TableHeader>
             <TableRow className="bg-[#f5f3e8] hover:bg-[#f5f3e8]">
-              <TableHead className="font-semibold text-[#3b4417]">{t("id")}</TableHead>
+              <TableHead className="font-semibold text-[#3b4417]">
+                {t("id")}
+              </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
                 {t("product")}
               </TableHead>
@@ -260,9 +263,7 @@ export default function ProductsTable({
               <p className="font-medium text-[#3b4417] mb-1">
                 {t("approvalInfo")}
               </p>
-              <p className="text-[#7a8451]">
-                {t("approvalDescription")}
-              </p>
+              <p className="text-[#7a8451]">{t("approvalDescription")}</p>
             </div>
           </div>
         </div>

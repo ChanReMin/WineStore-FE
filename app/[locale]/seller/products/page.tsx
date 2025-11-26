@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Plus} from "lucide-react";
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { mockProductList } from "@/lib/products.mock";
 import ProductSummaryCards from "@/components/seller/dashboard/ProductSummaryCards";
@@ -149,7 +149,10 @@ export default function ProductsPage() {
     toast.success(`Deleted product #${id} successfully! (Mock)`);
   };
 
-  const handleAddPromotionToProduct = (productId: number, promotionIds: number[]) => {
+  const handleAddPromotionToProduct = (
+    productId: number,
+    promotionIds: number[]
+  ) => {
     // TODO: Call API POST /seller/products/{productId}/promotions
     // await addPromotionsToProduct(productId, promotionIds);
     toast.success(
@@ -165,9 +168,7 @@ export default function ProductsPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-[#3b4417] tracking-wide mb-2">
             {t("title")}
           </h1>
-          <p className="text-[#7a8451]">
-            {t("subtitle")}
-          </p>
+          <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
 
         {/* Action Buttons */}

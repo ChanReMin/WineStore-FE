@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/routing";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import AuthModal from "./auth/AuthModal";
@@ -10,6 +10,7 @@ import CartDropdown from "./auth/CartDropdown";
 import LocationModal from "./homepage/LocationModal";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
+import { Menu, X, MapPin } from "lucide-react";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -36,10 +37,10 @@ const itemVariants: any = {
 export default function Header() {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
-  const t = useTranslations('header');
-  
+  const t = useTranslations("header");
+
   // Remove locale prefix for pathname matching
-  const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
+  const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
@@ -51,7 +52,7 @@ export default function Header() {
     store: string;
   } | null>(null);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [isCartOpen, setCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const baseLink = "transition-all hover:opacity-60";
 
@@ -89,12 +90,22 @@ export default function Header() {
     };
   }, []);
 
-  const handleLocationComplete = (data: { city: string; name: string }) => {
-    localStorage.setItem("location", JSON.stringify(data));
-    setUserCity(data.city);
-    setIsLocationModalOpen(false);
-    window.dispatchEvent(new CustomEvent("locationUpdated", { detail: data }));
-  };
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -105,25 +116,28 @@ export default function Header() {
         animate="visible"
       >
         <motion.div
-          className="mx-auto flex items-center justify-between px-6 py-6"
+          className="mx-auto flex items-center px-4 sm:px-6 py-4 sm:py-6 max-w-[1920px] gap-4"
           variants={itemVariants}
         >
           {/* LEFT: Logo */}
-          <motion.form
-            className="flex flex-1 items-center justify-start text-[22px]"
+          <motion.div
+            className="flex items-center text-[18px] sm:text-[22px] lg:flex-1 z-10"
             variants={itemVariants}
           >
-            <Link href="/" className="font-semibold uppercase text-[#33391d]">
-              {t('title')}
+            <Link
+              href="/"
+              className="font-semibold uppercase text-[#33391d] whitespace-nowrap"
+            >
+              {t("title")}
             </Link>
-          </motion.form>
+          </motion.div>
 
-          {/* CENTER: Nav + Logo */}
+          {/* CENTER: Desktop Nav */}
           <motion.nav
-            className="flex flex-1 items-center justify-center text-gray-800"
+            className="hidden lg:flex lg:flex-1 items-center justify-center text-gray-800"
             variants={itemVariants}
           >
-            <ul className="flex items-center gap-4 lg:gap-6 xl:gap-8 text-[13px] lg:text-[14px] tracking-[0.15em] lg:tracking-[0.2em] uppercase whitespace-nowrap min-w-fit">
+            <ul className="flex items-center gap-4 lg:gap-6 xl:gap-8 text-[13px] lg:text-[14px] tracking-[0.15em] lg:tracking-[0.2em] uppercase whitespace-nowrap">
               <motion.li variants={itemVariants}>
                 <Link
                   href="/"
@@ -133,7 +147,7 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {t('nav.home')}
+                  {t("nav.home")}
                 </Link>
               </motion.li>
 
@@ -146,7 +160,7 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {t('nav.about')}
+                  {t("nav.about")}
                 </Link>
               </motion.li>
 
@@ -159,7 +173,7 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {t('nav.ourStory')}
+                  {t("nav.ourStory")}
                 </Link>
               </motion.li>
 
@@ -172,7 +186,7 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {t('nav.blog')}
+                  {t("nav.blog")}
                 </Link>
               </motion.li>
 
@@ -185,20 +199,20 @@ export default function Header() {
                       : ""
                   }`}
                 >
-                  {t('nav.shop')}
+                  {t("nav.shop")}
                 </Link>
               </motion.li>
             </ul>
           </motion.nav>
 
-          {/* RIGHT: Auth or User Menu */}
+          {/* RIGHT: Desktop Actions */}
           <motion.div
-            className="flex flex-1 items-center justify-end gap-6"
+            className="hidden lg:flex lg:flex-1 items-center justify-end gap-3 xl:gap-6"
             variants={itemVariants}
           >
             {/* Language Switcher */}
             <LanguageSwitcher />
-            
+
             {userCity && (
               <motion.button
                 type="button"
@@ -210,41 +224,19 @@ export default function Header() {
                 className="group flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
                 title="Thay đổi địa chỉ"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 transition-transform group-hover:scale-110"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <span className="text-[14px] tracking-[0.25em] uppercase whitespace-nowrap min-w-fit">
+                <MapPin className="h-4 w-4 transition-transform group-hover:scale-110" />
+                <span className="text-[14px] tracking-[0.25em] uppercase whitespace-nowrap">
                   {userCity}
                 </span>
               </motion.button>
             )}
             {isAuthenticated ? (
               <>
-                {/* Cart Dropdown for authenticated users */}
                 <CartDropdown />
-
-                {/* User Menu */}
                 <UserMenu />
               </>
             ) : (
               <>
-                {/* Login Button */}
                 <motion.button
                   type="button"
                   onClick={() => openAuthModal("login")}
@@ -252,10 +244,9 @@ export default function Header() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {t('auth.login')}
+                  {t("auth.login")}
                 </motion.button>
 
-                {/* Register Button */}
                 <motion.button
                   type="button"
                   onClick={() => openAuthModal("register")}
@@ -263,12 +254,149 @@ export default function Header() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {t('auth.register')}
+                  {t("auth.register")}
                 </motion.button>
               </>
             )}
           </motion.div>
+
+          {/* Mobile: Right Actions */}
+          <div className="flex lg:hidden items-center gap-2 sm:gap-3 z-10 ml-auto">
+            <LanguageSwitcher />
+            {isAuthenticated && <CartDropdown />}
+
+            {/* Hamburger Menu Button */}
+            <motion.button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-neutral-700 hover:bg-white/50 rounded-md transition-colors"
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </motion.button>
+          </div>
         </motion.div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden border-t border-neutral-200 bg-amber-50/98 backdrop-blur-md overflow-hidden"
+            >
+              <div className="px-4 py-6 space-y-6">
+                {/* Navigation Links */}
+                <nav className="space-y-4">
+                  <Link
+                    href="/"
+                    className={`block text-[15px] uppercase tracking-[0.2em] py-2 transition-opacity hover:opacity-70 ${
+                      pathnameWithoutLocale === "/"
+                        ? "line-through decoration-1 decoration-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {t("nav.home")}
+                  </Link>
+                  <Link
+                    href="/about"
+                    className={`block text-[15px] uppercase tracking-[0.2em] py-2 transition-opacity hover:opacity-70 ${
+                      pathnameWithoutLocale.startsWith("/about")
+                        ? "line-through decoration-1 decoration-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {t("nav.about")}
+                  </Link>
+                  <Link
+                    href="/our-story"
+                    className={`block text-[15px] uppercase tracking-[0.2em] py-2 transition-opacity hover:opacity-70 ${
+                      pathnameWithoutLocale.startsWith("/our-story")
+                        ? "line-through decoration-1 decoration-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {t("nav.ourStory")}
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className={`block text-[15px] uppercase tracking-[0.2em] py-2 transition-opacity hover:opacity-70 ${
+                      pathnameWithoutLocale.startsWith("/blog")
+                        ? "line-through decoration-1 decoration-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {t("nav.blog")}
+                  </Link>
+                  <Link
+                    href="/shop"
+                    className={`block text-[15px] uppercase tracking-[0.2em] py-2 transition-opacity hover:opacity-70 ${
+                      pathnameWithoutLocale.startsWith("/shop")
+                        ? "line-through decoration-1 decoration-neutral-900"
+                        : ""
+                    }`}
+                  >
+                    {t("nav.shop")}
+                  </Link>
+                </nav>
+
+                {/* Location Button */}
+                {userCity && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsLocationModalOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-2 w-full px-4 py-3 text-sm text-neutral-600 bg-white/50 rounded-md hover:bg-white/70 transition-colors"
+                  >
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-[14px] tracking-[0.2em] uppercase">
+                      {userCity}
+                    </span>
+                  </button>
+                )}
+
+                {/* Auth Buttons or User Menu */}
+                {isAuthenticated ? (
+                  <div className="pt-4 border-t border-neutral-200">
+                    <UserMenu />
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-3 pt-4 border-t border-neutral-200">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        openAuthModal("login");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full py-3 text-[14px] uppercase tracking-[0.2em] text-neutral-700 border border-neutral-300 rounded-md hover:bg-white/50 transition-colors"
+                    >
+                      {t("auth.login")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        openAuthModal("register");
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="w-full py-3 text-[14px] uppercase tracking-[0.2em] text-amber-50 bg-[#33391d] border border-[#33391d] rounded-md hover:bg-[#2a2f18] transition-colors"
+                    >
+                      {t("auth.register")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       {/* AUTH MODAL */}

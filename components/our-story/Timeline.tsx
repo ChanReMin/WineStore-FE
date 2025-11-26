@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Wine, Sparkles } from "lucide-react";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,8 +25,8 @@ const itemVariants = {
 };
 
 export default function Timeline() {
-  const t = useTranslations('ourStory.timeline');
-  
+  const t = useTranslations("ourStory.timeline");
+
   const MILESTONES = Array.from({ length: 6 }, (_, index) => ({
     year: t(`milestones.${index}.year`),
     title: t(`milestones.${index}.title`),
@@ -51,10 +51,10 @@ export default function Timeline() {
           </div>
 
           <h2 className="text-[34px] md:text-[44px] lg:text-[52px] font-semibold tracking-[0.15em] text-[#3b4417] uppercase">
-            {t('title')}
+            {t("title")}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-[17px] leading-relaxed text-neutral-600 tracking-wide">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </motion.div>
 

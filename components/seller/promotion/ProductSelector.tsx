@@ -116,7 +116,9 @@ export default function ProductSelector({
           animate={{ rotate: isExpanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <X className={`h-5 w-5 text-[#7a8451] ${isExpanded ? "" : "rotate-45"}`} />
+          <X
+            className={`h-5 w-5 text-[#7a8451] ${isExpanded ? "" : "rotate-45"}`}
+          />
         </motion.div>
       </button>
 
@@ -198,7 +200,9 @@ export default function ProductSelector({
                           }
                         `}
                         >
-                          {isSelected && <Check className="h-3 w-3 text-white" />}
+                          {isSelected && (
+                            <Check className="h-3 w-3 text-white" />
+                          )}
                         </div>
 
                         {/* Product Info */}

@@ -1,7 +1,16 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Tag, Calendar, Percent, DollarSign, Users, TrendingUp, Package } from "lucide-react";
+import {
+  X,
+  Tag,
+  Calendar,
+  Percent,
+  DollarSign,
+  Users,
+  TrendingUp,
+  Package,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -12,7 +21,10 @@ import {
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import PromotionStatusBadge from "./PromotionStatusBadge";
 import type { PromotionDetail } from "@/types/promotion";
-import { mockPromotionDetail, mockPromotionStatistics } from "@/lib/promotions.mock";
+import {
+  mockPromotionDetail,
+  mockPromotionStatistics,
+} from "@/lib/promotions.mock";
 
 interface PromotionDetailModalProps {
   isOpen: boolean;
@@ -77,8 +89,12 @@ export default function PromotionDetailModal({
                 <Tag className="h-5 w-5 text-amber-50" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-[#3b4417]">Chi tiết khuyến mãi</h2>
-                <p className="text-sm text-[#7a8451]">Thông tin và thống kê chi tiết</p>
+                <h2 className="text-xl font-bold text-[#3b4417]">
+                  Chi tiết khuyến mãi
+                </h2>
+                <p className="text-sm text-[#7a8451]">
+                  Thông tin và thống kê chi tiết
+                </p>
               </div>
             </div>
             <button
@@ -105,7 +121,9 @@ export default function PromotionDetailModal({
                       endDate={promotion.end_date}
                     />
                   </div>
-                  <p className="text-lg font-semibold text-[#3b4417]">{promotion.name}</p>
+                  <p className="text-lg font-semibold text-[#3b4417]">
+                    {promotion.name}
+                  </p>
                   <p className="text-[#7a8451] mt-1">{promotion.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -115,14 +133,19 @@ export default function PromotionDetailModal({
                     <DollarSign className="h-8 w-8 text-[#d4af37]" />
                   )}
                   <span className="text-3xl font-bold text-[#d4af37]">
-                    {formatDiscount(promotion.discount_type, promotion.discount_value)}
+                    {formatDiscount(
+                      promotion.discount_type,
+                      promotion.discount_value
+                    )}
                   </span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-[#d4d6b4]">
                 <div>
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Ngày bắt đầu</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Ngày bắt đầu
+                  </p>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
@@ -131,7 +154,9 @@ export default function PromotionDetailModal({
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Ngày kết thúc</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Ngày kết thúc
+                  </p>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
@@ -140,7 +165,9 @@ export default function PromotionDetailModal({
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Đã sử dụng</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Đã sử dụng
+                  </p>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
@@ -149,7 +176,9 @@ export default function PromotionDetailModal({
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Còn lại</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Còn lại
+                  </p>
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-orange-600">
@@ -168,17 +197,25 @@ export default function PromotionDetailModal({
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Tổng đơn hàng</p>
-                  <p className="text-2xl font-bold text-[#3b4417]">{statistics.total_orders}</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Tổng đơn hàng
+                  </p>
+                  <p className="text-2xl font-bold text-[#3b4417]">
+                    {statistics.total_orders}
+                  </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Tổng giảm giá</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Tổng giảm giá
+                  </p>
                   <p className="text-2xl font-bold text-[#d4af37]">
                     {formatCurrency(statistics.total_discount_amount)}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">Còn lại</p>
+                  <p className="text-xs text-[#7a8451] uppercase mb-1">
+                    Còn lại
+                  </p>
                   <p className="text-2xl font-bold text-orange-600">
                     {statistics.remaining_usage}
                   </p>
@@ -241,27 +278,30 @@ export default function PromotionDetailModal({
             </Card>
 
             {/* Applicable Products */}
-            {promotion.applicable_products && promotion.applicable_products.length > 0 && (
-              <Card className="border-[#d4d6b4] p-6">
-                <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
-                  <Package className="h-5 w-5" />
-                  Sản phẩm áp dụng ({promotion.applicable_products.length})
-                </h4>
-                <div className="space-y-2">
-                  {promotion.applicable_products.map((product) => (
-                    <div
-                      key={product.id}
-                      className="flex items-center justify-between p-3 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc]"
-                    >
-                      <p className="font-medium text-[#3b4417]">{product.name}</p>
-                      <p className="font-semibold text-[#d4af37]">
-                        {formatCurrency(product.price)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-            )}
+            {promotion.applicable_products &&
+              promotion.applicable_products.length > 0 && (
+                <Card className="border-[#d4d6b4] p-6">
+                  <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
+                    <Package className="h-5 w-5" />
+                    Sản phẩm áp dụng ({promotion.applicable_products.length})
+                  </h4>
+                  <div className="space-y-2">
+                    {promotion.applicable_products.map((product) => (
+                      <div
+                        key={product.id}
+                        className="flex items-center justify-between p-3 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc]"
+                      >
+                        <p className="font-medium text-[#3b4417]">
+                          {product.name}
+                        </p>
+                        <p className="font-semibold text-[#d4af37]">
+                          {formatCurrency(product.price)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              )}
           </div>
 
           {/* Footer */}

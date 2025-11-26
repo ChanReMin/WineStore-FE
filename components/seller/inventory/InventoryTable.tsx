@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Package, MapPin, Calendar, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  Package,
+  MapPin,
+  Calendar,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -55,9 +61,7 @@ export default function InventoryTable({
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("noItems")}
         </h3>
-        <p className="text-[#7a8451]">
-          {t("tryChanging")}
-        </p>
+        <p className="text-[#7a8451]">{t("tryChanging")}</p>
       </Card>
     );
   }

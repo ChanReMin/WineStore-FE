@@ -5,7 +5,7 @@ import { Link } from "@/i18n/routing";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blogData";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -13,21 +13,21 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post, index }: BlogCardProps) {
-  const t = useTranslations('blog');
-  const tPosts = useTranslations('blog.posts');
-  
+  const t = useTranslations("blog");
+  const tPosts = useTranslations("blog.posts");
+
   // Get translated category label
   const getCategoryLabel = (label: string) => {
     return t(`detail.categoryLabels.${label}` as any) || label;
   };
-  
+
   // Get post data from translations
   const title = tPosts(`${post.postIndex}.title`);
   const excerpt = tPosts(`${post.postIndex}.excerpt`);
   const author = tPosts(`${post.postIndex}.author`);
   const date = tPosts(`${post.postIndex}.date`);
   const readTime = tPosts(`${post.postIndex}.readTime`);
-  
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -44,12 +44,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
             transition={{ duration: 0.6 }}
             className="h-full w-full"
           >
-            <Image
-              src={post.image}
-              alt={title}
-              fill
-              className="object-cover"
-            />
+            <Image src={post.image} alt={title} fill className="object-cover" />
           </motion.div>
 
           {/* Overlay */}
@@ -90,7 +85,7 @@ export default function BlogCard({ post, index }: BlogCardProps) {
 
           {/* Read More */}
           <div className="flex items-center gap-2 text-[11px] tracking-[0.25em] uppercase text-[#3b4417] group-hover:gap-3 transition-all duration-300">
-            <span>{t('card.readMore')}</span>
+            <span>{t("card.readMore")}</span>
             <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
           </div>
         </div>

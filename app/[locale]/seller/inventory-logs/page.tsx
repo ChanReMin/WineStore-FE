@@ -2,7 +2,14 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Download, FileText, TrendingUp, TrendingDown, RefreshCw, RotateCcw } from "lucide-react";
+import {
+  Download,
+  FileText,
+  TrendingUp,
+  TrendingDown,
+  RefreshCw,
+  RotateCcw,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { mockInventoryLogs } from "@/lib/inventoryLogs.mock";
 import InventoryLogsFilters from "@/components/seller/inventory/InventoryLogsFilters";
@@ -81,7 +88,10 @@ export default function InventoryLogsPage() {
     const returns = logs.filter((l) => l.type === "RETURN");
 
     const totalStockIn = stockIn.reduce((sum, log) => sum + log.quantity, 0);
-    const totalStockOut = stockOut.reduce((sum, log) => sum + Math.abs(log.quantity), 0);
+    const totalStockOut = stockOut.reduce(
+      (sum, log) => sum + Math.abs(log.quantity),
+      0
+    );
 
     return {
       total: logs.length,
@@ -120,7 +130,9 @@ export default function InventoryLogsPage() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-[#f5f3e8] border border-[#e8e6dc] rounded-lg p-4"
         >
-          <p className="text-sm text-[#7a8451] mb-1">{t("summary.totalTransactions")}</p>
+          <p className="text-sm text-[#7a8451] mb-1">
+            {t("summary.totalTransactions")}
+          </p>
           <p className="text-2xl font-bold text-[#3b4417]">{summary.total}</p>
         </motion.div>
 
@@ -130,8 +142,12 @@ export default function InventoryLogsPage() {
           transition={{ delay: 0.05 }}
           className="bg-emerald-50 border border-emerald-200 rounded-lg p-4"
         >
-          <p className="text-sm text-emerald-700 mb-1">{t("summary.stockIn")}</p>
-          <p className="text-2xl font-bold text-emerald-600">{summary.stockIn}</p>
+          <p className="text-sm text-emerald-700 mb-1">
+            {t("summary.stockIn")}
+          </p>
+          <p className="text-2xl font-bold text-emerald-600">
+            {summary.stockIn}
+          </p>
         </motion.div>
 
         <motion.div
@@ -150,8 +166,12 @@ export default function InventoryLogsPage() {
           transition={{ delay: 0.15 }}
           className="bg-blue-50 border border-blue-200 rounded-lg p-4"
         >
-          <p className="text-sm text-blue-700 mb-1">{t("summary.adjustments")}</p>
-          <p className="text-2xl font-bold text-blue-600">{summary.adjustments}</p>
+          <p className="text-sm text-blue-700 mb-1">
+            {t("summary.adjustments")}
+          </p>
+          <p className="text-2xl font-bold text-blue-600">
+            {summary.adjustments}
+          </p>
         </motion.div>
 
         <motion.div
@@ -161,7 +181,9 @@ export default function InventoryLogsPage() {
           className="bg-purple-50 border border-purple-200 rounded-lg p-4"
         >
           <p className="text-sm text-purple-700 mb-1">{t("summary.returns")}</p>
-          <p className="text-2xl font-bold text-purple-600">{summary.returns}</p>
+          <p className="text-2xl font-bold text-purple-600">
+            {summary.returns}
+          </p>
         </motion.div>
 
         <motion.div
@@ -169,13 +191,19 @@ export default function InventoryLogsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
           className={`${
-            summary.netChange >= 0 ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"
+            summary.netChange >= 0
+              ? "bg-emerald-50 border-emerald-200"
+              : "bg-red-50 border-red-200"
           } border rounded-lg p-4`}
         >
-          <p className={`text-sm mb-1 ${summary.netChange >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+          <p
+            className={`text-sm mb-1 ${summary.netChange >= 0 ? "text-emerald-700" : "text-red-700"}`}
+          >
             {t("summary.totalStockIn")}
           </p>
-          <p className={`text-2xl font-bold ${summary.netChange >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+          <p
+            className={`text-2xl font-bold ${summary.netChange >= 0 ? "text-emerald-600" : "text-red-600"}`}
+          >
             {summary.netChange >= 0 ? "+" : ""}
             {summary.netChange}
           </p>

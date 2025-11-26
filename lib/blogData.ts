@@ -71,4 +71,3 @@ export const blogPosts: BlogPost[] = [
     categoryLabel: "Knowledge",
   },
 ];
-

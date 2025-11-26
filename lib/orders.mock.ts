@@ -142,7 +142,7 @@ export const mockOrderList: any = {
         payment_status: 3,
         final_amount: 8_550_000,
         created_at: "2024-01-09T10:00:00Z",
-      }
+      },
     ],
     pagination: {
       current_page: 1,

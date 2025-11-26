@@ -13,27 +13,37 @@ interface OrderCardProps {
 
 const getStatusColor = (status: number) => {
   switch (status) {
-    case 1: return "bg-yellow-100 text-yellow-800 border-yellow-200";
-    case 2: return "bg-blue-100 text-blue-800 border-blue-200";
-    case 3: return "bg-purple-100 text-purple-800 border-purple-200";
-    case 4: return "bg-green-100 text-green-800 border-green-200";
-    case 5: return "bg-red-100 text-red-800 border-red-200";
-    default: return "bg-gray-100 text-gray-800 border-gray-200";
+    case 1:
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    case 2:
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case 3:
+      return "bg-purple-100 text-purple-800 border-purple-200";
+    case 4:
+      return "bg-green-100 text-green-800 border-green-200";
+    case 5:
+      return "bg-red-100 text-red-800 border-red-200";
+    default:
+      return "bg-gray-100 text-gray-800 border-gray-200";
   }
 };
 
 const getPaymentStatusColor = (status: number) => {
   switch (status) {
-    case 0: return "text-orange-600";
-    case 1: return "text-green-600";
-    case 2: return "text-blue-600";
-    default: return "text-gray-600";
+    case 0:
+      return "text-orange-600";
+    case 1:
+      return "text-green-600";
+    case 2:
+      return "text-blue-600";
+    default:
+      return "text-gray-600";
   }
 };
 
 export default function OrderCard({ order, index }: OrderCardProps) {
   const t = useTranslations("orders.card");
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -53,7 +63,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
               {order.order_code}
             </motion.h3>
           </Link>
-          
+
           {/* Date */}
           <p className="mt-1 text-sm text-neutral-500">
             {new Date(order.created_at).toLocaleDateString("vi-VN", {
@@ -82,16 +92,18 @@ export default function OrderCard({ order, index }: OrderCardProps) {
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-neutral-600">{t("itemsCount")}</span>
-          <span className="font-medium text-neutral-900">{order.items_count} {t("products")}</span>
+          <span className="font-medium text-neutral-900">
+            {order.items_count} {t("products")}
+          </span>
         </div>
-        
+
         <div className="flex justify-between text-sm">
           <span className="text-neutral-600">{t("total")}</span>
           <span className="font-medium text-neutral-900">
             {formatCurrency(order.total_amount)}
           </span>
         </div>
-        
+
         {order.discount_amount > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-neutral-600">{t("discount")}</span>
@@ -100,9 +112,11 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             </span>
           </div>
         )}
-        
+
         <div className="flex justify-between border-t border-neutral-200 pt-2">
-          <span className="font-medium text-neutral-900">{t("finalAmount")}</span>
+          <span className="font-medium text-neutral-900">
+            {t("finalAmount")}
+          </span>
           <span className="text-lg font-bold text-[#33391d]">
             {formatCurrency(order.final_amount)}
           </span>
@@ -141,7 +155,9 @@ export default function OrderCard({ order, index }: OrderCardProps) {
               />
             </svg>
           )}
-          <span className={`text-sm font-medium ${getPaymentStatusColor(order.payment_status)}`}>
+          <span
+            className={`text-sm font-medium ${getPaymentStatusColor(order.payment_status)}`}
+          >
             {order.payment_status_text}
           </span>
         </div>

@@ -7,7 +7,7 @@ import BlogHero from "./BlogHero";
 import BlogCategories from "./BlogCategories";
 import { useState } from "react";
 import { blogPosts } from "@/lib/blogData";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -16,7 +16,7 @@ const displaySerif = Playfair_Display({
 });
 
 export default function BlogListingClient() {
-  const t = useTranslations('blog');
+  const t = useTranslations("blog");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const filteredPosts =
@@ -39,11 +39,11 @@ export default function BlogListingClient() {
             className="text-center mb-12"
           >
             <h2 className="text-[24px] md:text-[32px] tracking-[0.3em] uppercase text-[#3b4417] font-semibold mb-4">
-              {t('categories.title')}
+              {t("categories.title")}
             </h2>
             <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
               <span className="h-px w-10 bg-[#4c5b23]" />
-              <span>{t('categories.subtitle')}</span>
+              <span>{t("categories.subtitle")}</span>
               <span className="h-px w-10 bg-[#4c5b23]" />
             </div>
           </motion.div>
@@ -70,17 +70,19 @@ export default function BlogListingClient() {
               <div>
                 <h2 className="text-[28px] md:text-[36px] lg:text-[42px] leading-tight tracking-[0.25em] uppercase text-[#3b4417] font-semibold">
                   {selectedCategory === "all"
-                    ? t('listing.allPosts')
-                    : t('listing.filteredPosts')}
+                    ? t("listing.allPosts")
+                    : t("listing.filteredPosts")}
                 </h2>
                 <div className="mt-4 flex items-center gap-3 text-[11px] italic tracking-[0.2em] text-[#4c5b23]">
                   <span className="h-px w-10 bg-[#4c5b23]" />
-                  <span>{filteredPosts.length} {t('listing.posts')}</span>
+                  <span>
+                    {filteredPosts.length} {t("listing.posts")}
+                  </span>
                 </div>
               </div>
 
               <p className="text-[15px] leading-relaxed text-neutral-600 tracking-wide max-w-xl">
-                {t('listing.description')}
+                {t("listing.description")}
               </p>
             </div>
           </motion.div>
@@ -105,24 +107,24 @@ export default function BlogListingClient() {
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="text-[28px] md:text-[36px] lg:text-[42px] tracking-[0.3em] uppercase text-white font-semibold mb-6">
-              {t('newsletter.title')}
+              {t("newsletter.title")}
             </h2>
 
             <div className="flex items-center justify-center gap-3 text-[11px] italic tracking-[0.2em] text-white/70 mb-8">
               <span className="h-px w-10 bg-white/40" />
-              <span>{t('newsletter.subtitle')}</span>
+              <span>{t("newsletter.subtitle")}</span>
               <span className="h-px w-10 bg-white/40" />
             </div>
 
             <p className="text-[15px] leading-relaxed text-white/85 tracking-wide mb-10 max-w-2xl mx-auto">
-              {t('newsletter.description')}
+              {t("newsletter.description")}
             </p>
 
             {/* Form */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto">
               <input
                 type="email"
-                placeholder={t('newsletter.placeholder')}
+                placeholder={t("newsletter.placeholder")}
                 className="flex-1 px-6 py-4 bg-white/10 border border-white/30 text-white placeholder:text-white/50 text-[11px] tracking-[0.2em] uppercase focus:outline-none focus:border-white/60 transition-all duration-300"
               />
               <motion.button
@@ -130,12 +132,12 @@ export default function BlogListingClient() {
                 whileTap={{ scale: 0.98 }}
                 className="px-10 py-4 bg-white text-[#3b4417] text-[11px] tracking-[0.25em] uppercase font-semibold hover:bg-[#f5f3e8] transition-all duration-300"
               >
-                {t('newsletter.button')}
+                {t("newsletter.button")}
               </motion.button>
             </div>
 
             <p className="mt-6 text-[10px] tracking-[0.2em] uppercase text-white/60">
-              {t('newsletter.privacy')}
+              {t("newsletter.privacy")}
             </p>
           </motion.div>
         </div>

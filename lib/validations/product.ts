@@ -2,13 +2,9 @@ import { z } from "zod";
 
 // Product form schema
 export const productSchema = z.object({
-  category_id: z
-    .number()
-    .min(1, "Please select a category"),
+  category_id: z.number().min(1, "Please select a category"),
 
-  brand_id: z
-    .number()
-    .min(1, "Please select a brand"),
+  brand_id: z.number().min(1, "Please select a brand"),
 
   name: z
     .string()

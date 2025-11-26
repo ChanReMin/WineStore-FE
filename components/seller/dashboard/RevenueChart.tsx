@@ -43,7 +43,7 @@ export default function RevenueChart({
   totalOrders,
 }: RevenueChartProps) {
   const t = useTranslations("seller.dashboard.revenue");
-  
+
   const chartConfig = {
     revenue: {
       label: t("revenueLabel"),

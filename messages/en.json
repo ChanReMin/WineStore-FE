@@ -28,10 +28,25 @@
     "profile": "Profile",
     "myOrders": "My Orders",
     "sellerDashboard": "Seller Dashboard",
+    "adminPanel": "Admin Panel",
+    "becomeSeller": "Become a Seller",
     "manageOrders": "Manage Orders",
     "products": "Products",
     "seller": "Seller",
     "logout": "Logout"
+  },
+  "becomeSeller": {
+    "title": "Become a Seller",
+    "subtitle": "Expand your business with us",
+    "confirmTitle": "Ready to become a seller?",
+    "confirmMessage": "Send your request to become a seller on our platform. Our admin team will review and contact you soon.",
+    "note": "Note",
+    "noteMessage": "Your request will be sent to the administrator for review. We will contact you within 24-48 hours.",
+    "cancel": "Cancel",
+    "submit": "Send Request",
+    "submitting": "Sending...",
+    "successMessage": "Your request has been submitted successfully! We will contact you soon.",
+    "errorMessage": "An error occurred. Please try again later."
   },
   "cart": {
     "title": "Cart",
@@ -308,9 +323,12 @@
       "productManagement": "Product Management",
       "orderManagement": "Order Management",
       "inventoryManagement": "Inventory Management",
+      "warehouses": "Warehouses",
       "inventory": "Inventory",
       "inventoryLogs": "Inventory Logs",
-      "promotions": "Promotions & Discounts"
+      "promotions": "Promotions & Discounts",
+      "promotionList": "Promotion List",
+      "promotionAssignment": "Promotion Assignment"
     },
     "header": {
       "notifications": "Notifications",
@@ -669,6 +687,39 @@
         "edit": "Edit",
         "delete": "Delete",
         "used": "used"
+      },
+      "assignment": {
+        "title": "Assign Promotions to Products",
+        "subtitle": "Drag and drop promotions onto products to apply offers",
+        "subtitleAdvanced": "Drag and drop promotions onto products to apply offers. This version uses Zustand store.",
+        "advancedBadge": "Advanced (Zustand)",
+        "promotionList": {
+          "title": "Promotion List",
+          "subtitle": "Drag and drop promotions onto products to assign",
+          "count": "{count} promotions"
+        },
+        "productZone": {
+          "title": "Products",
+          "subtitle": "Drop promotions onto products to apply",
+          "count": "{count} products",
+          "promotionCount": "{count} PM",
+          "dropHere": "Drag promotions here",
+          "dropHereActive": "Drop promotion here",
+          "removePromotion": "Remove promotion",
+          "searchPlaceholder": "Search products...",
+          "filterAll": "All",
+          "filterAssigned": "Assigned",
+          "filterUnassigned": "Unassigned",
+          "noProducts": "No products found"
+        },
+        "promotionCard": {
+          "used": "Used: {used}/{max}"
+        },
+        "toast": {
+          "assignSuccess": "Assigned promotion \"{promotion}\" to \"{product}\"",
+          "assignWarning": "Promotion \"{promotion}\" is already assigned to this product!",
+          "removeSuccess": "Removed promotion \"{promotion}\" from \"{product}\""
+        }
       }
     },
     "dashboard": {
@@ -709,6 +760,84 @@
         "outOfStock": "Out of Stock",
         "lowStock": "Low Stock",
         "inStock": "In Stock"
+      }
+    },
+    "warehouses": {
+      "title": "Warehouse Management",
+      "subtitle": "Manage and track your warehouses",
+      "addWarehouse": "Create New Warehouse",
+      "stats": {
+        "totalWarehouses": "Total Warehouses",
+        "activeWarehouses": "Active",
+        "pendingWarehouses": "Pending",
+        "bannedWarehouses": "Banned"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by name or location...",
+        "allStatus": "All Status",
+        "active": "Active",
+        "pending": "Pending",
+        "banned": "Banned"
+      },
+      "list": {
+        "noWarehouses": "No warehouses found",
+        "noWarehousesDesc": "Create a new warehouse to start managing inventory",
+        "products": "Products",
+        "quantity": "Quantity",
+        "updated": "Updated",
+        "viewDetails": "View Details",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Are you sure you want to delete warehouse \"{name}\"?",
+        "deleteOnlyPending": "Can only delete pending warehouses",
+        "deleteSuccess": "Warehouse request deleted successfully",
+        "deleteError": "Error deleting warehouse"
+      },
+      "status": {
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
+      },
+      "create": {
+        "title": "Create New Warehouse",
+        "name": "Warehouse Name",
+        "namePlaceholder": "e.g., District 1 Wine Warehouse",
+        "nameRequired": "Warehouse name is required",
+        "location": "Location",
+        "locationPlaceholder": "e.g., 123 Nguyen Hue, District 1, HCMC",
+        "locationRequired": "Location is required",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe the warehouse...",
+        "note": "Note:",
+        "noteMessage": "New warehouse will be in \"Pending\" status and requires Admin approval before use.",
+        "cancel": "Cancel",
+        "submit": "Create Warehouse",
+        "submitting": "Creating...",
+        "success": "Warehouse request submitted, waiting for admin approval",
+        "error": "Error creating warehouse",
+        "required": "*"
+      },
+      "edit": {
+        "title": "Edit Warehouse",
+        "cancel": "Cancel",
+        "submit": "Save Changes",
+        "submitting": "Saving...",
+        "success": "Warehouse updated successfully",
+        "error": "Error updating warehouse",
+        "onlyActive": "Can only update active warehouses"
+      },
+      "detail": {
+        "title": "Warehouse Details",
+        "id": "ID:",
+        "totalProducts": "Total Products",
+        "totalQuantity": "Total Quantity",
+        "inventoryValue": "Inventory Value",
+        "lowStockProducts": "Low Stock",
+        "recentActivity": "Recent Activity",
+        "created": "Created:",
+        "updated": "Updated:",
+        "notFound": "Warehouse not found",
+        "loading": "Loading..."
       }
     }
   },
@@ -1443,6 +1572,636 @@
         "tags": ["organic wine", "biodynamic", "sustainable"]
       }
     }
+  },
+  "admin": {
+    "layout": {
+      "adminPanel": "Admin Panel",
+      "wineStore": "Wine Store",
+      "adminAccount": "Admin Account"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "sellerRequest": "Seller Requests",
+      "productApproval": "Product Approval",
+      "warehouseApproval": "Warehouse Approval",
+      "userManagement": "User Management",
+      "sellerManagement": "Seller Management"
+    },
+    "header": {
+      "notifications": "Notifications",
+      "newSellerRequests": "You have {count} new seller requests",
+      "pendingProducts": "{count} products pending approval",
+      "newUsers": "{count} new users",
+      "viewAll": "View all notifications",
+      "myProfile": "My Profile",
+      "settings": "Settings",
+      "logout": "Logout",
+      "admin": "Administrator",
+      "minutesAgo": "{count} minutes ago",
+      "hoursAgo": "{count} hours ago",
+      "backtohomepage": "Back to Home"
+    },
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Overview of your wine store performance",
+      "refresh": "Refresh",
+      "loading": "Loading dashboard...",
+      "error": "Failed to load dashboard data",
+      "period": "Period",
+      "metrics": {
+        "totalRevenue": "Total Revenue",
+        "totalOrders": "Total Orders",
+        "totalUsers": "Total Users",
+        "totalProducts": "Total Products",
+        "conversionRate": "Conversion Rate",
+        "profitMargin": "Profit Margin",
+        "vsLastMonth": "vs last month"
+      },
+      "charts": {
+        "revenueProfit": "Revenue & Profit Analytics",
+        "revenue": "Revenue",
+        "profit": "Profit",
+        "categoryPerformance": "Category Performance",
+        "paymentMethods": "Payment Methods",
+        "orders": "orders"
+      },
+      "quickStats": {
+        "pendingActions": "Pending Actions",
+        "inventoryAlerts": "Inventory Alerts",
+        "orderStatus": "Order Status",
+        "sellerRequests": "Seller Requests",
+        "productApprovals": "Product Approvals",
+        "pendingOrders": "Pending Orders",
+        "outOfStock": "Out of Stock",
+        "lowStock": "Low Stock",
+        "totalWarehouses": "Total Warehouses",
+        "confirmed": "Confirmed",
+        "shipping": "Shipping",
+        "delivered": "Delivered"
+      }
+    },
+    "sellerRequests": {
+      "title": "Seller Request Management",
+      "subtitle": "Review and approve seller upgrade requests",
+      "loading": "Loading...",
+      "refresh": "Refresh",
+      "summary": {
+        "total": "Total Requests",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by name, email, phone, ID...",
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      },
+      "table": {
+        "id": "ID",
+        "user": "User",
+        "contact": "Contact",
+        "stats": "Statistics",
+        "status": "Status",
+        "requestDate": "Request Date",
+        "actions": "Actions",
+        "orders": "orders",
+        "view": "View",
+        "noRequests": "No requests found",
+        "noRequestsDesc": "No seller upgrade requests yet"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "detail": {
+        "title": "Request Details",
+        "subtitle": "Detailed information about the upgrade request",
+        "userInfo": "User Information",
+        "userId": "User ID",
+        "accountId": "Account ID",
+        "totalOrders": "Total Orders",
+        "totalSpent": "Total Spent",
+        "accountAge": "Account Age",
+        "days": "days",
+        "requestDetails": "Request Details",
+        "currentRole": "Current Role",
+        "requestedRole": "Requested Role",
+        "customer": "Customer",
+        "seller": "Seller",
+        "requestDate": "Request Date",
+        "updatedDate": "Updated Date",
+        "rejectionReason": "Rejection Reason",
+        "recommendation": "Recommendation",
+        "recommendationText": "Review the user's purchase history, account age, and activity before approving.",
+        "close": "Close",
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "modal": {
+        "approveTitle": "Approve Request",
+        "approveSubtitle": "Upgrade account to seller",
+        "rejectTitle": "Reject Request",
+        "rejectSubtitle": "Decline upgrade request",
+        "warning": "Warning",
+        "rejectWarning": "The user will be notified of the rejection. Please provide a clear reason.",
+        "reason": "Rejection Reason",
+        "reasonRequired": "Please enter a rejection reason",
+        "reasonPlaceholder": "Enter reason for rejecting the request...",
+        "note": "Note",
+        "optional": "optional",
+        "notePlaceholder": "Add internal note (not visible to user)...",
+        "approveConfirm": "Are you sure you want to approve this request? The user will be upgraded to a seller account.",
+        "rejectConfirm": "Are you sure you want to reject this request? The user will be notified.",
+        "cancel": "Cancel",
+        "confirmApprove": "Confirm Approval",
+        "confirmReject": "Confirm Rejection",
+        "processing": "Processing...",
+        "error": "An error occurred. Please try again!"
+      }
+    },
+    "productApproval": {
+      "title": "Product Approval Management",
+      "subtitle": "Review and approve products from sellers",
+      "loading": "Loading...",
+      "searchPlaceholder": "Search by product name, seller, SKU...",
+      "summary": {
+        "totalPending": "Pending",
+        "approvedToday": "Approved Today",
+        "rejectedToday": "Rejected Today"
+      },
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pendingChanges": "Changes Requested"
+      },
+      "table": {
+        "product": "Product",
+        "seller": "Seller",
+        "price": "Price",
+        "status": "Status",
+        "submittedAt": "Submitted",
+        "actions": "Actions"
+      },
+      "actions": {
+        "viewDetail": "View Details",
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of"
+      },
+      "detail": {
+        "title": "Product Details",
+        "productId": "Product ID",
+        "images": "Product Images",
+        "productInfo": "Product Information",
+        "productName": "Product Name",
+        "sku": "SKU",
+        "category": "Category",
+        "brand": "Brand",
+        "price": "Price",
+        "wineDetails": "Wine Details",
+        "grapeVariety": "Grape Variety",
+        "concentration": "Alcohol Content",
+        "vintageYear": "Vintage Year",
+        "capacity": "Capacity",
+        "productionArea": "Production Area",
+        "idealTemperature": "Ideal Temperature",
+        "description": "Description",
+        "sellerInfo": "Seller Information",
+        "sellerName": "Seller Name",
+        "totalProducts": "Total Products",
+        "approvedProducts": "Approved",
+        "rejectedProducts": "Rejected",
+        "rating": "Rating",
+        "submissionInfo": "Submission Information",
+        "submittedAt": "Submitted At",
+        "createdAt": "Created At",
+        "approve": "Approve Product",
+        "reject": "Reject",
+        "requestChanges": "Request Changes"
+      },
+      "approveModal": {
+        "title": "Approve Product",
+        "productName": "Product Name",
+        "confirmMessage": "The product will be visible to customers after approval.",
+        "note": "Note",
+        "optional": "optional",
+        "notePlaceholder": "Add internal note...",
+        "cancel": "Cancel",
+        "approve": "Approve",
+        "approving": "Approving..."
+      },
+      "rejectModal": {
+        "title": "Reject Product",
+        "productName": "Product Name",
+        "warningMessage": "The seller will be notified of the rejection. Please provide a clear reason.",
+        "reason": "Rejection Reason",
+        "selectReason": "Please select a rejection reason",
+        "selectReasonPlaceholder": "Select reason...",
+        "reasons": {
+          "incomplete_info": "Incomplete Information",
+          "poor_quality_images": "Poor Quality Images",
+          "incorrect_pricing": "Incorrect Pricing",
+          "duplicate_product": "Duplicate Product",
+          "prohibited_item": "Prohibited Item",
+          "other": "Other Reason"
+        },
+        "note": "Detailed Note",
+        "optional": "optional",
+        "notePlaceholder": "Enter detailed note about rejection reason...",
+        "cancel": "Cancel",
+        "reject": "Reject",
+        "rejecting": "Processing..."
+      },
+      "requestChangesModal": {
+        "title": "Request Changes",
+        "productName": "Product Name",
+        "infoMessage": "The seller will receive a list of changes that need to be made.",
+        "changesRequired": "Required Changes",
+        "changePlaceholder": "Enter change request...",
+        "addMore": "Add More",
+        "addAtLeastOne": "Please add at least one change request",
+        "note": "Additional Note",
+        "optional": "optional",
+        "notePlaceholder": "Add detailed note or instructions...",
+        "cancel": "Cancel",
+        "send": "Send Request",
+        "sending": "Sending..."
+      }
+    },
+    "warehouseApproval": {
+      "title": "Warehouse Approval Management",
+      "subtitle": "Review and approve warehouse requests from sellers",
+      "loading": "Loading...",
+      "searchPlaceholder": "Search by warehouse name, location, seller...",
+      "products": "products",
+      "approved": "approved",
+      "summary": {
+        "totalPending": "Pending",
+        "totalActive": "Active",
+        "totalRequests": "Total Requests"
+      },
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      },
+      "status": {
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
+      },
+      "actions": {
+        "viewDetail": "View Details",
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "table": {
+        "warehouse": "Warehouse",
+        "location": "Location",
+        "manager": "Manager",
+        "status": "Status",
+        "createdAt": "Created",
+        "actions": "Actions",
+        "noWarehouses": "No requests found",
+        "noWarehousesDesc": "No warehouse creation requests from sellers yet"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of"
+      },
+      "detail": {
+        "requestId": "Request ID",
+        "location": "Warehouse Location",
+        "description": "Description",
+        "managerInfo": "Manager Information",
+        "totalProducts": "products",
+        "approved": "approved",
+        "timeline": "Timeline",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "inventorySummary": "Inventory Summary",
+        "totalQuantity": "Total Quantity",
+        "totalValue": "Total Value",
+        "cancel": "Close",
+        "reject": "Reject",
+        "approve": "Approve Warehouse"
+      },
+      "approve": {
+        "title": "Approve Warehouse",
+        "subtitle": "Approve warehouse creation request",
+        "warehouseName": "Warehouse Name",
+        "manager": "Manager",
+        "noteLabel": "Note",
+        "optional": "optional",
+        "notePlaceholder": "Add note about approval...",
+        "noteHint": "Note will be sent to seller via notification",
+        "cancel": "Cancel",
+        "approving": "Approving...",
+        "confirm": "Confirm Approval"
+      },
+      "reject": {
+        "title": "Reject Warehouse Request",
+        "subtitle": "Reject and delete request",
+        "warning": "Warning: Request will be permanently deleted!",
+        "warehouseName": "Warehouse Name",
+        "manager": "Manager",
+        "reasonLabel": "Rejection Reason",
+        "reasonPlaceholder": "Enter reason for rejecting warehouse request...",
+        "reasonHint": "Reason will be sent to seller via notification",
+        "reasonRequired": "Please enter rejection reason",
+        "cancel": "Cancel",
+        "rejecting": "Processing...",
+        "confirm": "Confirm Rejection"
+      }
+    },
+    "sellerManagement": {
+      "title": "Seller Management",
+      "subtitle": "Manage seller accounts and activities",
+      "loading": "Loading...",
+      "createSeller": "Create Seller",
+      "searchPlaceholder": "Search by name, email, phone...",
+      "summary": {
+        "totalSellers": "Total Sellers",
+        "activeSellers": "Active",
+        "inactiveSellers": "Inactive",
+        "lockedSellers": "Locked"
+      },
+      "filters": {
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "locked": "Locked"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "locked": "Locked"
+      },
+      "role": {
+        "seller": "Seller",
+        "admin": "Administrator"
+      },
+      "gender": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "stats": {
+        "orders": "Orders",
+        "revenue": "Revenue",
+        "rating": "Rating"
+      },
+      "warehouses": "Managed Warehouses",
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "activate": "Activate",
+        "deactivate": "Deactivate"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of"
+      },
+      "detailModal": {
+        "title": "Seller Details",
+        "contactInfo": "Contact Information",
+        "phone": "Phone Number",
+        "dob": "Date of Birth",
+        "gender": "Gender",
+        "statistics": "Statistics",
+        "warehouses": "Managed Warehouses",
+        "activity": "Activity",
+        "lastLogin": "Last Login",
+        "createdAt": "Created At",
+        "close": "Close",
+        "edit": "Edit"
+      },
+      "createModal": {
+        "title": "Create New Seller",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "firstNamePlaceholder": "John",
+        "lastNamePlaceholder": "Doe",
+        "phone": "Phone Number",
+        "dob": "Date of Birth",
+        "gender": "Gender",
+        "role": "Role",
+        "cancel": "Cancel",
+        "create": "Create Seller",
+        "creating": "Creating...",
+        "success": "Seller created successfully",
+        "error": "Error creating seller",
+        "passwordMismatch": "Passwords do not match"
+      },
+      "editModal": {
+        "title": "Edit Seller",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phone": "Phone Number",
+        "dob": "Date of Birth",
+        "gender": "Gender",
+        "role": "Role",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "success": "Seller updated successfully",
+        "error": "Error updating seller"
+      },
+      "statusModal": {
+        "title": "Change Status",
+        "newStatus": "New Status",
+        "activeDesc": "Seller can login and operate normally",
+        "inactiveDesc": "Temporarily suspended, cannot login",
+        "lockedDesc": "Account permanently locked",
+        "cancel": "Cancel",
+        "update": "Update",
+        "updating": "Updating...",
+        "success": "Status updated successfully",
+        "error": "Error updating status"
+      },
+      "table": {
+        "seller": "Seller",
+        "contact": "Contact",
+        "warehouses": "Warehouses",
+        "statistics": "Statistics",
+        "status": "Status",
+        "actions": "Actions",
+        "noSellers": "No sellers yet",
+        "noSellersDesc": "Create a new seller to get started"
+      }
+    },
+    "userManagement": {
+      "title": "User Management",
+      "subtitle": "Manage all users in the system",
+      "loading": "Loading...",
+      "createUser": "Create User",
+      "searchPlaceholder": "Search by email, name, phone...",
+      "summary": {
+        "totalUsers": "Total Users",
+        "activeUsers": "Active",
+        "inactiveUsers": "Inactive",
+        "lockedUsers": "Locked"
+      },
+      "filters": {
+        "allRoles": "All Roles",
+        "customers": "Customers",
+        "sellers": "Sellers",
+        "admins": "Admins",
+        "allStatus": "All Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "locked": "Locked"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "locked": "Locked"
+      },
+      "role": {
+        "customer": "Customer",
+        "seller": "Seller",
+        "admin": "Admin"
+      },
+      "gender": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "stats": {
+        "orders": "orders",
+        "addresses": "addresses"
+      },
+      "table": {
+        "user": "User",
+        "contact": "Contact",
+        "role": "Role",
+        "statistics": "Statistics",
+        "status": "Status",
+        "actions": "Actions",
+        "noUsers": "No users yet",
+        "noUsersDesc": "Create a new user to get started"
+      },
+      "actions": {
+        "view": "View Details",
+        "edit": "Edit",
+        "changeRole": "Change Role",
+        "activate": "Activate",
+        "deactivate": "Deactivate"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of"
+      },
+      "detailModal": {
+        "title": "User Details",
+        "joined": "Joined",
+        "totalOrders": "Total Orders",
+        "completed": "completed",
+        "totalSpent": "Total Spent",
+        "avgOrder": "Avg/Order",
+        "addresses": "Addresses",
+        "default": "Default",
+        "recentActivities": "Recent Activities",
+        "close": "Close",
+        "resetPassword": "Reset Password",
+        "edit": "Edit"
+      },
+      "createModal": {
+        "title": "Create New User",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "password": "Password",
+        "passwordHint": "Minimum 8 characters, including uppercase, lowercase and numbers",
+        "phone": "Phone Number",
+        "dateOfBirth": "Date of Birth",
+        "gender": "Gender",
+        "role": "Role",
+        "status": "Status",
+        "cancel": "Cancel",
+        "create": "Create User",
+        "creating": "Creating...",
+        "success": "User created successfully",
+        "error": "Error creating user"
+      },
+      "editModal": {
+        "title": "Edit User",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "dateOfBirth": "Date of Birth",
+        "gender": "Gender",
+        "cancel": "Cancel",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "success": "User updated successfully",
+        "error": "Error updating user"
+      },
+      "statusModal": {
+        "title": "Change Status",
+        "warning": "Warning",
+        "warningDesc": "Changing status will affect user's access ability",
+        "newStatus": "New Status",
+        "reason": "Reason (optional)",
+        "reasonPlaceholder": "Enter reason for status change...",
+        "cancel": "Cancel",
+        "update": "Update",
+        "updating": "Updating...",
+        "success": "Status updated successfully",
+        "error": "Error updating status"
+      },
+      "roleModal": {
+        "title": "Change Role",
+        "warning": "Warning",
+        "warningDesc": "Changing role will affect user's access permissions",
+        "newRole": "New Role",
+        "note": "Note (optional)",
+        "notePlaceholder": "Enter note about role change...",
+        "cancel": "Cancel",
+        "update": "Update",
+        "updating": "Updating...",
+        "success": "Role updated successfully",
+        "error": "Error updating role"
+      },
+      "resetPasswordModal": {
+        "title": "Reset Password",
+        "warning": "Warning",
+        "warningDesc": "User will need to use the new password to login",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "passwordHint": "Minimum 8 characters, including uppercase, lowercase and numbers",
+        "sendEmail": "Send notification email to user",
+        "cancel": "Cancel",
+        "reset": "Reset Password",
+        "resetting": "Resetting...",
+        "success": "Password reset successfully",
+        "error": "Error resetting password",
+        "passwordMismatch": "Passwords do not match",
+        "passwordTooShort": "Password must be at least 8 characters"
+      }
+    }
   }
 }
-

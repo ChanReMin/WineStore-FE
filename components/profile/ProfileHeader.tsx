@@ -10,7 +10,7 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({ profile }: ProfileHeaderProps) {
   const t = useTranslations("profile.header");
-  
+
   const getGenderText = (gender?: number) => {
     switch (gender) {
       case 1:
@@ -44,7 +44,10 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
         >
           <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-white shadow-lg">
             <img
-              src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`}
+              src={
+                profile.avatar ||
+                `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`
+              }
               alt={profile.username}
               className="h-full w-full object-cover"
             />
