@@ -47,13 +47,16 @@ export default function AboutHero() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-[#120906] py-32 md:py-40"
+      className="relative w-auto overflow-hidden bg-[#120906] pt-24 pb-32 md:pt-32 md:pb-40 lg:pt-40 lg:pb-48"
     >
-      {/* Subtle gradient overlay */}
+      {/* Background image */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/hero/slide-5.jpg')" }}
       />
+      
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60" />
 
       {/* Animated grain texture */}
       <motion.div

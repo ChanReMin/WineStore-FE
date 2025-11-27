@@ -33,6 +33,7 @@
     "manageOrders": "Quản lý đơn hàng",
     "products": "Sản phẩm",
     "seller": "Người bán",
+    "admin": "Quản trị viên",
     "logout": "Đăng xuất"
   },
   "becomeSeller": {
@@ -47,6 +48,47 @@
     "submitting": "Đang gửi...",
     "successMessage": "Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ sớm.",
     "errorMessage": "Có lỗi xảy ra. Vui lòng thử lại sau."
+  },
+  "auth": {
+    "login": {
+      "title": "Chào mừng trở lại",
+      "subtitle": "Đăng nhập vào tài khoản của bạn"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Tham gia cộng đồng rượu vang của chúng tôi"
+    },
+    "fields": {
+      "firstName": "Tên",
+      "lastName": "Họ",
+      "email": "Email",
+      "phoneNumber": "Số điện thoại",
+      "dateOfBirth": "Ngày sinh",
+      "gender": "Giới tính",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "optional": "Tùy chọn",
+      "genderOptions": {
+        "unknown": "Không xác định",
+        "male": "Nam",
+        "female": "Nữ"
+      }
+    },
+    "buttons": {
+      "signIn": "Đăng nhập",
+      "createAccount": "Tạo tài khoản",
+      "processing": "Đang xử lý..."
+    },
+    "switchMode": {
+      "noAccount": "Chưa có tài khoản?",
+      "haveAccount": "Đã có tài khoản?",
+      "signUp": "Đăng ký",
+      "signIn": "Đăng nhập"
+    },
+    "errors": {
+      "emailPasswordRequired": "Email và mật khẩu là bắt buộc",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp"
+    }
   },
   "cart": {
     "title": "Giỏ hàng",
@@ -71,7 +113,30 @@
     "removeItem": "Xóa sản phẩm",
     "decreaseQuantity": "Giảm số lượng",
     "increaseQuantity": "Tăng số lượng",
-    "maxQuantityReached": "Đã đạt số lượng tối đa"
+    "maxQuantityReached": "Đã đạt số lượng tối đa",
+    "clearAll": "Xóa tất cả",
+    "quantity": "Số lượng",
+    "orderSummary": "Tóm tắt đơn hàng",
+    "confirmClearCart": "Bạn có chắc muốn xóa toàn bộ giỏ hàng?",
+    "errors": {
+      "cannotUpdate": "Không thể cập nhật",
+      "cannotRemove": "Không thể xóa",
+      "cannotClearCart": "Không thể xóa giỏ hàng"
+    },
+    "success": {
+      "itemRemoved": "Đã xóa sản phẩm khỏi giỏ hàng",
+      "cartCleared": "Đã xóa toàn bộ giỏ hàng"
+    }
+  },
+  "addToCart": {
+    "addToCart": "Thêm vào giỏ",
+    "addToCartFull": "Thêm vào giỏ hàng",
+    "added": "Đã thêm",
+    "addedToCart": "Đã thêm vào giỏ",
+    "adding": "Đang thêm...",
+    "loginRequired": "Vui lòng đăng nhập để thêm vào giỏ hàng",
+    "success": "Đã thêm {quantity} {productName} vào giỏ hàng",
+    "error": "Không thể thêm vào giỏ hàng"
   },
   "home": {
     "hero": {

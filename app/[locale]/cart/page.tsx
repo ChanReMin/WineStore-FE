@@ -40,7 +40,7 @@ export default function CartPage() {
       await updateCartItem(cartItemId, newQuantity);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Không thể cập nhật"
+        error instanceof Error ? error.message : t("errors.cannotUpdate")
       );
     }
   };
@@ -48,21 +48,21 @@ export default function CartPage() {
   const handleRemoveItem = async (cartItemId: number) => {
     try {
       await removeCartItem(cartItemId);
-      toast.success("Đã xóa sản phẩm khỏi giỏ hàng");
+      toast.success(t("success.itemRemoved"));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Không thể xóa");
+      toast.error(error instanceof Error ? error.message : t("errors.cannotRemove"));
     }
   };
 
   const handleClearCart = async () => {
-    if (!confirm("Bạn có chắc muốn xóa toàn bộ giỏ hàng?")) return;
+    if (!confirm(t("confirmClearCart"))) return;
 
     try {
       await clearCart();
-      toast.success("Đã xóa toàn bộ giỏ hàng");
+      toast.success(t("success.cartCleared"));
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Không thể xóa giỏ hàng"
+        error instanceof Error ? error.message : t("errors.cannotClearCart")
       );
     }
   };
@@ -108,7 +108,7 @@ export default function CartPage() {
                 className="flex items-center gap-2 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
               >
                 <Trash2 className="h-4 w-4" />
-                Xóa tất cả
+                {t("clearAll")}
               </motion.button>
             )}
           </div>
@@ -198,7 +198,7 @@ export default function CartPage() {
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-neutral-600">
-                            Số lượng:
+                            {t("quantity")}:
                           </span>
                           <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-300 bg-white">
                             <motion.button
@@ -269,14 +269,14 @@ export default function CartPage() {
                 className="sticky top-24 rounded-lg border border-neutral-200 bg-white p-6 shadow-sm"
               >
                 <h2 className="mb-6 text-xl font-bold text-[#33391d]">
-                  Tóm tắt đơn hàng
+                  {t("orderSummary")}
                 </h2>
 
                 <div className="space-y-4">
                   {/* Subtotal */}
                   <div className="flex items-center justify-between">
                     <span className="text-neutral-600">
-                      {t("subtotal")} ({cart?.summary.total_quantity} sản phẩm)
+                      {t("subtotal")} ({cart?.summary.total_quantity} {t("items")})
                     </span>
                     <span className="font-semibold text-neutral-900">
                       {cart?.summary.subtotal.toLocaleString("vi-VN")}₫

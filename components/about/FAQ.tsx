@@ -45,8 +45,8 @@ export default function FAQ() {
   }, [searchQuery, activeCategory, FAQS, CATEGORIES]);
 
   return (
-    <section className="w-full bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-4xl px-4">
+    <section className="w-full bg-white py-24 md:py-32 overflow-hidden">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

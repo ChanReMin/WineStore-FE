@@ -136,7 +136,7 @@ export default async function LocaleLayout({
             <ConditionalLayout>{children}</ConditionalLayout>
             <ToastContainer
               position="top-right"
-              autoClose={3500}
+              autoClose={2000}
               hideProgressBar={false}
               newestOnTop
               closeOnClick

@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface AddToCartButtonProps {
   productId: number;
@@ -29,6 +30,7 @@ export default function AddToCartButton({
   variant = "default",
   className = "",
 }: AddToCartButtonProps) {
+  const t = useTranslations("addToCart");
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { addToCart, isLoading } = useCartStore();
@@ -37,7 +39,7 @@ export default function AddToCartButton({
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
-      toast.info("Vui lòng đăng nhập để thêm vào giỏ hàng");
+      toast.info(t("loginRequired"));
       router.push("/login");
       return;
     }
@@ -51,7 +53,7 @@ export default function AddToCartButton({
         max_quantity: maxQuantity,
       });
       setIsAdded(true);
-      toast.success(`Đã thêm ${quantity} ${productName} vào giỏ hàng`);
+      toast.success(t("success", { quantity, productName }));
 
       // Reset after animation
       setTimeout(() => {
@@ -60,7 +62,7 @@ export default function AddToCartButton({
       }, 2000);
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng"
+        error instanceof Error ? error.message : t("error")
       );
     }
   };
@@ -89,12 +91,12 @@ export default function AddToCartButton({
         {isAdded ? (
           <>
             <Check className="h-4 w-4" />
-            <span>Đã thêm</span>
+            <span>{t("added")}</span>
           </>
         ) : (
           <>
             <ShoppingCart className="h-4 w-4" />
-            <span>Thêm vào giỏ</span>
+            <span>{t("addToCart")}</span>
           </>
         )}
       </motion.button>
@@ -141,17 +143,17 @@ export default function AddToCartButton({
         {isLoading ? (
           <>
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-            <span>Đang thêm...</span>
+            <span>{t("adding")}</span>
           </>
         ) : isAdded ? (
           <>
             <Check className="h-5 w-5" />
-            <span>Đã thêm vào giỏ</span>
+            <span>{t("addedToCart")}</span>
           </>
         ) : (
           <>
             <ShoppingCart className="h-5 w-5" />
-            <span>Thêm vào giỏ hàng</span>
+            <span>{t("addToCartFull")}</span>
           </>
         )}
       </motion.button>

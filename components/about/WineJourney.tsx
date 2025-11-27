@@ -34,9 +34,9 @@ export default function WineJourney() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full bg-white py-24 md:py-32"
+      className="relative w-full bg-white py-24 md:py-32 overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
