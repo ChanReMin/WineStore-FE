@@ -3288,10 +3288,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-quocle-chatbot-gooup1@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npmjs.org/quocle-chatbot-gooup1/-/quocle-chatbot-gooup1-3.4.0.tgz"
-  integrity sha512-I5XtdBS3nj2vo9KPGaifpLaxqSjWWEzfuu7sfQOgdfYBzXyBNPL4saWoD0XPbXZb84irW+cuvg84NCu3XHhEyg==
+quocle-chatbot-ui@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/quocle-chatbot-ui/-/quocle-chatbot-ui-1.0.0.tgz"
+  integrity sha512-rFkNI4AnBKEtjReJt1HN0Sqd6KorcnzLqh0aA+YWh0vsCOv+QOem7w/520SO2hfFCdVdiWOdti+P9m6yQImIUw==
   dependencies:
     "@fortawesome/free-regular-svg-icons" "^6.5.1"
     "@fortawesome/free-solid-svg-icons" "^6.5.1"
