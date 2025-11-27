@@ -101,8 +101,7 @@ export default function ApproveWarehouseModal({
                     </p>
                     <p className="text-sm text-emerald-700 mt-1">
                       <span className="font-semibold">{t("manager")}:</span>{" "}
-                      {warehouse.manager.first_name}{" "}
-                      {warehouse.manager.last_name}
+                      {warehouse.manager.firstName} {warehouse.manager.lastName}
                     </p>
                   </div>
 

@@ -23,35 +23,35 @@ export default function AddressModal({
   const t = useTranslations("profile.addresses.modal");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<CreateAddressRequest>({
-    full_name: "",
-    phone_number: "",
-    address_line: "",
+    fullName: "",
+    phoneNumber: "",
+    addressLine: "",
     city: "",
     state: "",
     country: "Việt Nam",
-    is_default: false,
+    isDefault: false,
   });
 
   useEffect(() => {
     if (editAddress) {
       setFormData({
-        full_name: editAddress.full_name,
-        phone_number: editAddress.phone_number,
-        address_line: editAddress.address_line,
+        fullName: editAddress.fullName,
+        phoneNumber: editAddress.phoneNumber,
+        addressLine: editAddress.addressLine,
         city: editAddress.city,
         state: editAddress.state,
         country: editAddress.country,
-        is_default: editAddress.is_default,
+        isDefault: editAddress.isDefault,
       });
     } else {
       setFormData({
-        full_name: "",
-        phone_number: "",
-        address_line: "",
+        fullName: "",
+        phoneNumber: "",
+        addressLine: "",
         city: "",
         state: "",
         country: "Việt Nam",
-        is_default: false,
+        isDefault: false,
       });
     }
   }, [editAddress, isOpen]);
@@ -133,9 +133,9 @@ export default function AddressModal({
                     </label>
                     <input
                       type="text"
-                      value={formData.full_name}
+                      value={formData.fullName}
                       onChange={(e) =>
-                        setFormData({ ...formData, full_name: e.target.value })
+                        setFormData({ ...formData, fullName: e.target.value })
                       }
                       required
                       className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
@@ -150,11 +150,11 @@ export default function AddressModal({
                     </label>
                     <input
                       type="tel"
-                      value={formData.phone_number}
+                      value={formData.phoneNumber}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          phone_number: e.target.value,
+                          phoneNumber: e.target.value,
                         })
                       }
                       required
@@ -171,9 +171,9 @@ export default function AddressModal({
                   </label>
                   <input
                     type="text"
-                    value={formData.address_line}
+                    value={formData.addressLine}
                     onChange={(e) =>
-                      setFormData({ ...formData, address_line: e.target.value })
+                      setFormData({ ...formData, addressLine: e.target.value })
                     }
                     required
                     placeholder={t("addressPlaceholder")}
@@ -238,15 +238,15 @@ export default function AddressModal({
                 <div className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    id="is_default"
-                    checked={formData.is_default}
+                    id="isDefault"
+                    checked={formData.isDefault}
                     onChange={(e) =>
-                      setFormData({ ...formData, is_default: e.target.checked })
+                      setFormData({ ...formData, isDefault: e.target.checked })
                     }
                     className="h-4 w-4 rounded border-neutral-300 text-[#33391d] focus:ring-2 focus:ring-[#33391d]/20"
                   />
                   <label
-                    htmlFor="is_default"
+                    htmlFor="isDefault"
                     className="text-sm text-neutral-700"
                   >
                     {t("isDefault")}

@@ -14,7 +14,7 @@ import InventoryAlerts from "../dashboard/InventoryAlerts";
 export default function SellerDashboard() {
   const totalProducts = mockInventory.data.length;
   const stockAlerts = mockInventory.data.filter(
-    (item) => item.status === "low_stock" || item.status === "out_of_stock"
+    (item) => item.status === "lowStock" || item.status === "outOfStock"
   ).length;
 
   return (
@@ -27,16 +27,16 @@ export default function SellerDashboard() {
       </div>
 
       <OverviewCards
-        totalRevenue={mockOverview.data.total_revenue}
-        totalOrders={mockOverview.data.total_orders}
+        totalRevenue={mockOverview.data.totalRevenue}
+        totalOrders={mockOverview.data.totalOrders}
         totalProducts={totalProducts}
         stockAlerts={stockAlerts}
       />
 
       <RevenueChart
         data={mockRevenue.data.chart_data}
-        totalRevenue={mockRevenue.data.total_revenue}
-        totalOrders={mockRevenue.data.total_orders}
+        totalRevenue={mockRevenue.data.totalRevenue}
+        totalOrders={mockRevenue.data.totalOrders}
       />
 
       <LatestOrdersTable orders={mockOrders.data.orders} />

@@ -17,6 +17,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import DevLogin from "@/components/dev/DevLogin";
+import ChatbotWrapper from "@/components/ChatbotWrapper";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -133,7 +134,10 @@ export default async function LocaleLayout({
         />
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
-            <ConditionalLayout>{children}</ConditionalLayout>
+            <ConditionalLayout>
+              {children}
+              <ChatbotWrapper />
+            </ConditionalLayout>
             <ToastContainer
               position="top-right"
               autoClose={2000}

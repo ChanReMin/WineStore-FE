@@ -16,8 +16,8 @@ export const useAuth = () => {
       const response = await authService.login(credentials);
 
       if (response.success) {
-        const { user, access_token, refresh_token } = response.data;
-        setAuth(user, access_token, refresh_token);
+        const { user, accessToken, refreshToken } = response.data;
+        setAuth(user, accessToken, refreshToken);
         toast.success(response.message || "Login successful!");
         router.push("/");
         return { success: true };

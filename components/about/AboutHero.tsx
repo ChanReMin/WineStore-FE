@@ -54,7 +54,7 @@ export default function AboutHero() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/hero/slide-5.jpg')" }}
       />
-      
+
       {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/60" />
 

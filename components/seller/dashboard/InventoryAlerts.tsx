@@ -25,10 +25,10 @@ interface InventoryItem {
     name: string;
     price: number;
   };
-  quantity_on_hand: number;
-  safety_stock: number;
+  quantityOnHand: number;
+  safetyStock: number;
   status: string;
-  last_updated_at: string;
+  lastUpdatedAt: string;
 }
 
 interface InventoryAlertsProps {
@@ -36,7 +36,7 @@ interface InventoryAlertsProps {
 }
 
 const getStatusBadge = (status: string) => {
-  if (status === "out_of_stock") {
+  if (status === "outOfStock") {
     return (
       <Badge className="bg-red-50 text-red-700 border border-red-300">
         <AlertTriangle className="w-3 h-3 mr-1" />
@@ -44,7 +44,7 @@ const getStatusBadge = (status: string) => {
       </Badge>
     );
   }
-  if (status === "low_stock") {
+  if (status === "lowStock") {
     return (
       <Badge className="bg-[#fdfbf5] text-[#d4af37] border border-[#d4af37]">
         <AlertTriangle className="w-3 h-3 mr-1" />
@@ -59,7 +59,7 @@ const getStatusBadge = (status: string) => {
 
 export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
   const alertItems = inventory.filter(
-    (item) => item.status === "low_stock" || item.status === "out_of_stock"
+    (item) => item.status === "lowStock" || item.status === "outOfStock"
   );
 
   return (
@@ -118,16 +118,16 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
                     <TableCell className="text-center">
                       <span
                         className={`font-bold ${
-                          item.quantity_on_hand === 0
+                          item.quantityOnHand === 0
                             ? "text-red-600"
                             : "text-[#d4af37]"
                         }`}
                       >
-                        {item.quantity_on_hand}
+                        {item.quantityOnHand}
                       </span>
                       <span className="text-[#7a8451]">
                         {" "}
-                        / {item.safety_stock}
+                        / {item.safetyStock}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -142,7 +142,7 @@ export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
                     </TableCell>
                     <TableCell>{getStatusBadge(item.status)}</TableCell>
                     <TableCell className="text-sm text-[#7a8451]">
-                      {new Date(item.last_updated_at).toLocaleDateString(
+                      {new Date(item.lastUpdatedAt).toLocaleDateString(
                         "vi-VN",
                         {
                           month: "short",

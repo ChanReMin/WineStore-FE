@@ -15,15 +15,15 @@ import {
 interface QuickStatsProps {
   users: {
     new_this_month: number;
-    active_users: number;
-    pending_seller_requests: number;
+    activeUsers: number;
+    pendingSellerRequests: number;
   };
   products: {
-    pending_approval: number;
-    out_of_stock: number;
+    pendingApproval: number;
+    outOfStock: number;
   };
   orders: {
-    by_status: {
+    byStatus: {
       pending: number;
       confirmed: number;
       shipping: number;
@@ -31,8 +31,8 @@ interface QuickStatsProps {
     };
   };
   inventory: {
-    total_warehouses: number;
-    low_stock_products: number;
+    totalWarehouses: number;
+    lowStockProducts: number;
   };
 }
 
@@ -50,21 +50,21 @@ export default function QuickStats({
       items: [
         {
           label: t("sellerRequests"),
-          value: users.pending_seller_requests,
+          value: users.pendingSellerRequests,
           icon: UserCheck,
           color: "text-orange-600",
           bgColor: "bg-orange-50",
         },
         {
           label: t("productApprovals"),
-          value: products.pending_approval,
+          value: products.pendingApproval,
           icon: Package,
           color: "text-blue-600",
           bgColor: "bg-blue-50",
         },
         {
           label: t("pendingOrders"),
-          value: orders.by_status.pending,
+          value: orders.byStatus.pending,
           icon: Clock,
           color: "text-amber-600",
           bgColor: "bg-amber-50",
@@ -76,21 +76,21 @@ export default function QuickStats({
       items: [
         {
           label: t("outOfStock"),
-          value: products.out_of_stock,
+          value: products.outOfStock,
           icon: AlertCircle,
           color: "text-red-600",
           bgColor: "bg-red-50",
         },
         {
           label: t("lowStock"),
-          value: inventory.low_stock_products,
+          value: inventory.lowStockProducts,
           icon: AlertCircle,
           color: "text-orange-600",
           bgColor: "bg-orange-50",
         },
         {
           label: t("totalWarehouses"),
-          value: inventory.total_warehouses,
+          value: inventory.totalWarehouses,
           icon: Warehouse,
           color: "text-[#3b4417]",
           bgColor: "bg-[#f5f3e8]",
@@ -102,21 +102,21 @@ export default function QuickStats({
       items: [
         {
           label: t("confirmed"),
-          value: orders.by_status.confirmed,
+          value: orders.byStatus.confirmed,
           icon: CheckCircle,
           color: "text-emerald-600",
           bgColor: "bg-emerald-50",
         },
         {
           label: t("shipping"),
-          value: orders.by_status.shipping,
+          value: orders.byStatus.shipping,
           icon: Package,
           color: "text-blue-600",
           bgColor: "bg-blue-50",
         },
         {
           label: t("delivered"),
-          value: orders.by_status.delivered,
+          value: orders.byStatus.delivered,
           icon: CheckCircle,
           color: "text-green-600",
           bgColor: "bg-green-50",

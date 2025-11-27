@@ -38,9 +38,9 @@ export default function WarehouseApprovalList() {
   const [loading, setLoading] = useState(true);
   const [warehouses, setWarehouses] = useState<WarehouseRequest[]>([]);
   const [pagination, setPagination] = useState({
-    current_page: 1,
-    total_pages: 1,
-    total_items: 0,
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
   });
 
   // Filters
@@ -63,13 +63,13 @@ export default function WarehouseApprovalList() {
         limit: 10,
         status: statusFilter === "all" ? undefined : statusFilter,
         search: searchQuery,
-        sort_order: sortOrder,
+        sortorder: sortOrder,
       });
       setWarehouses(response.data.requests);
       setPagination({
-        current_page: response.data.pagination.current_page,
-        total_pages: response.data.pagination.total_pages,
-        total_items: response.data.pagination.total_items,
+        currentPage: response.data.pagination.currentPage,
+        totalPages: response.data.pagination.totalPages,
+        totalItems: response.data.pagination.totalItems,
       });
     } catch (error) {
       console.error("Error loading warehouse requests:", error);
@@ -106,7 +106,7 @@ export default function WarehouseApprovalList() {
   };
 
   const handleActionComplete = () => {
-    loadData(pagination.current_page);
+    loadData(pagination.currentPage);
   };
 
   const getStatusBadge = (status: number) => {
@@ -232,7 +232,7 @@ export default function WarehouseApprovalList() {
                     {t("summary.totalRequests")}
                   </p>
                   <p className="text-3xl font-bold text-[#3b4417]">
-                    {pagination.total_items}
+                    {pagination.totalItems}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] p-3 rounded-xl">
@@ -341,11 +341,11 @@ export default function WarehouseApprovalList() {
                             <p className="font-medium text-[#3b4417]">
                               {warehouse.name}
                             </p>
-                            {warehouse.manager.total_products !== undefined && (
+                            {warehouse.manager.totalProducts !== undefined && (
                               <p className="text-sm text-neutral-500">
-                                {warehouse.manager.total_products}{" "}
+                                {warehouse.manager.totalProducts}{" "}
                                 {t("products")} ·{" "}
-                                {warehouse.manager.approved_products}{" "}
+                                {warehouse.manager.approvedProducts}{" "}
                                 {t("approved")}
                               </p>
                             )}
@@ -363,14 +363,14 @@ export default function WarehouseApprovalList() {
                       <td className="px-6 py-4">
                         <div>
                           <p className="font-medium text-neutral-900">
-                            {warehouse.manager.first_name}{" "}
-                            {warehouse.manager.last_name}
+                            {warehouse.manager.firstName}{" "}
+                            {warehouse.manager.lastName}
                           </p>
                           <p className="text-sm text-neutral-500">
                             {warehouse.manager.email}
                           </p>
                           <p className="text-sm text-neutral-500">
-                            {warehouse.manager.phone_number}
+                            {warehouse.manager.phoneNumber}
                           </p>
                         </div>
                       </td>
@@ -378,7 +378,7 @@ export default function WarehouseApprovalList() {
                         {getStatusBadge(warehouse.status)}
                       </td>
                       <td className="px-6 py-4 text-sm text-neutral-600">
-                        {new Date(warehouse.created_at).toLocaleDateString(
+                        {new Date(warehouse.createdAt).toLocaleDateString(
                           "vi-VN",
                           {
                             year: "numeric",
@@ -447,34 +447,34 @@ export default function WarehouseApprovalList() {
       </Card>
 
       {/* Pagination */}
-      {pagination.total_pages > 1 && (
+      {pagination.totalPages > 1 && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <p className="text-sm text-neutral-600">
                 {t("pagination.showing")}{" "}
-                {(pagination.current_page - 1) * 10 + 1} -{" "}
-                {Math.min(pagination.current_page * 10, pagination.total_items)}{" "}
-                {t("pagination.of")} {pagination.total_items}
+                {(pagination.currentPage - 1) * 10 + 1} -{" "}
+                {Math.min(pagination.currentPage * 10, pagination.totalItems)}{" "}
+                {t("pagination.of")} {pagination.totalItems}
               </p>
               <div className="flex items-center gap-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page - 1)}
-                  disabled={pagination.current_page === 1}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </motion.button>
                 <span className="text-sm text-neutral-600">
-                  {pagination.current_page} / {pagination.total_pages}
+                  {pagination.currentPage} / {pagination.totalPages}
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page + 1)}
-                  disabled={pagination.current_page === pagination.total_pages}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />

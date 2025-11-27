@@ -2,27 +2,27 @@
 
 export interface Seller {
   id: number;
-  account_id: number;
+  accountId: number;
   email: string;
   role: number;
   status: number;
-  first_name: string;
-  last_name: string;
-  phone_number: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
   avatar: string;
-  date_of_birth: string;
+  dateOfBirth: string;
   gender: number;
-  last_login_at: string;
-  created_at: string;
-  updated_at?: string;
-  managed_warehouses: {
-    warehouse_id: number;
-    warehouse_name: string;
+  lastLoginAt: string;
+  createdAt: string;
+  updatedAt?: string;
+  managedWarehouses: {
+    warehouseId: number;
+    warehouseName: string;
     location?: string;
   }[];
   statistics?: {
-    total_orders_handled: number;
-    total_revenue: number;
+    totalOrdersHandled: number;
+    totalRevenue: number;
     average_rating: number;
   };
 }
@@ -32,16 +32,16 @@ export interface SellerListResponse {
   data: {
     sellers: Seller[];
     pagination: {
-      current_page: number;
-      total_pages: number;
-      total_records: number;
+      currentPage: number;
+      totalPages: number;
+      totalRecords: number;
       limit: number;
     };
     summary: {
-      total_sellers: number;
-      active_sellers: number;
-      inactive_sellers: number;
-      locked_sellers: number;
+      totalSellers: number;
+      activeSellers: number;
+      inactiveSellers: number;
+      lockedSellers: number;
     };
   };
 }
@@ -55,162 +55,162 @@ export interface SellerDetailResponse {
 const mockSellers: Seller[] = [
   {
     id: 1,
-    account_id: 5,
+    accountId: 5,
     email: "seller01@wineshop.com",
     role: 1,
     status: 1,
-    first_name: "Nguyễn",
-    last_name: "Văn A",
-    phone_number: "0901234567",
+    firstName: "Nguyễn",
+    lastName: "Văn A",
+    phoneNumber: "0901234567",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller01",
-    date_of_birth: "1990-05-15",
+    dateOfBirth: "1990-05-15",
     gender: 1,
-    last_login_at: "2024-11-26T10:30:00Z",
-    created_at: "2024-01-15T08:00:00Z",
-    updated_at: "2024-11-20T14:22:00Z",
-    managed_warehouses: [
+    lastLoginAt: "2024-11-26T10:30:00Z",
+    createdAt: "2024-01-15T08:00:00Z",
+    updatedAt: "2024-11-20T14:22:00Z",
+    managedWarehouses: [
       {
-        warehouse_id: 1,
-        warehouse_name: "Kho Hà Nội",
+        warehouseId: 1,
+        warehouseName: "Kho Hà Nội",
         location: "Số 123, Đường ABC, Hà Nội",
       },
     ],
     statistics: {
-      total_orders_handled: 245,
-      total_revenue: 125000000,
+      totalOrdersHandled: 245,
+      totalRevenue: 125000000,
       average_rating: 4.5,
     },
   },
   {
     id: 2,
-    account_id: 8,
+    accountId: 8,
     email: "seller02@wineshop.com",
     role: 1,
     status: 1,
-    first_name: "Trần",
-    last_name: "Thị B",
-    phone_number: "0912345678",
+    firstName: "Trần",
+    lastName: "Thị B",
+    phoneNumber: "0912345678",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller02",
-    date_of_birth: "1995-08-20",
+    dateOfBirth: "1995-08-20",
     gender: 2,
-    last_login_at: "2024-11-25T15:45:00Z",
-    created_at: "2024-02-10T09:30:00Z",
-    updated_at: "2024-11-18T11:15:00Z",
-    managed_warehouses: [
+    lastLoginAt: "2024-11-25T15:45:00Z",
+    createdAt: "2024-02-10T09:30:00Z",
+    updatedAt: "2024-11-18T11:15:00Z",
+    managedWarehouses: [
       {
-        warehouse_id: 2,
-        warehouse_name: "Kho TP.HCM",
+        warehouseId: 2,
+        warehouseName: "Kho TP.HCM",
         location: "Số 456, Đường XYZ, TP.HCM",
       },
       {
-        warehouse_id: 3,
-        warehouse_name: "Kho Đà Nẵng",
+        warehouseId: 3,
+        warehouseName: "Kho Đà Nẵng",
         location: "Số 789, Đường DEF, Đà Nẵng",
       },
     ],
     statistics: {
-      total_orders_handled: 189,
-      total_revenue: 98500000,
+      totalOrdersHandled: 189,
+      totalRevenue: 98500000,
       average_rating: 4.7,
     },
   },
   {
     id: 3,
-    account_id: 12,
+    accountId: 12,
     email: "seller03@wineshop.com",
     role: 1,
     status: 0,
-    first_name: "Lê",
-    last_name: "Văn C",
-    phone_number: "0923456789",
+    firstName: "Lê",
+    lastName: "Văn C",
+    phoneNumber: "0923456789",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller03",
-    date_of_birth: "1988-03-12",
+    dateOfBirth: "1988-03-12",
     gender: 1,
-    last_login_at: "2024-11-20T08:20:00Z",
-    created_at: "2024-03-05T10:00:00Z",
-    updated_at: "2024-11-15T16:30:00Z",
-    managed_warehouses: [],
+    lastLoginAt: "2024-11-20T08:20:00Z",
+    createdAt: "2024-03-05T10:00:00Z",
+    updatedAt: "2024-11-15T16:30:00Z",
+    managedWarehouses: [],
     statistics: {
-      total_orders_handled: 156,
-      total_revenue: 75000000,
+      totalOrdersHandled: 156,
+      totalRevenue: 75000000,
       average_rating: 4.3,
     },
   },
   {
     id: 4,
-    account_id: 15,
+    accountId: 15,
     email: "seller04@wineshop.com",
     role: 1,
     status: 1,
-    first_name: "Phạm",
-    last_name: "Thị D",
-    phone_number: "0934567890",
+    firstName: "Phạm",
+    lastName: "Thị D",
+    phoneNumber: "0934567890",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller04",
-    date_of_birth: "1992-11-25",
+    dateOfBirth: "1992-11-25",
     gender: 2,
-    last_login_at: "2024-11-26T09:15:00Z",
-    created_at: "2024-04-20T11:45:00Z",
-    updated_at: "2024-11-22T13:50:00Z",
-    managed_warehouses: [
+    lastLoginAt: "2024-11-26T09:15:00Z",
+    createdAt: "2024-04-20T11:45:00Z",
+    updatedAt: "2024-11-22T13:50:00Z",
+    managedWarehouses: [
       {
-        warehouse_id: 1,
-        warehouse_name: "Kho Hà Nội",
+        warehouseId: 1,
+        warehouseName: "Kho Hà Nội",
         location: "Số 123, Đường ABC, Hà Nội",
       },
     ],
     statistics: {
-      total_orders_handled: 312,
-      total_revenue: 156000000,
+      totalOrdersHandled: 312,
+      totalRevenue: 156000000,
       average_rating: 4.8,
     },
   },
   {
     id: 5,
-    account_id: 18,
+    accountId: 18,
     email: "seller05@wineshop.com",
     role: 1,
     status: -1,
-    first_name: "Hoàng",
-    last_name: "Văn E",
-    phone_number: "0945678901",
+    firstName: "Hoàng",
+    lastName: "Văn E",
+    phoneNumber: "0945678901",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller05",
-    date_of_birth: "1993-07-08",
+    dateOfBirth: "1993-07-08",
     gender: 1,
-    last_login_at: "2024-11-10T14:30:00Z",
-    created_at: "2024-05-12T08:20:00Z",
-    updated_at: "2024-11-10T15:00:00Z",
-    managed_warehouses: [],
+    lastLoginAt: "2024-11-10T14:30:00Z",
+    createdAt: "2024-05-12T08:20:00Z",
+    updatedAt: "2024-11-10T15:00:00Z",
+    managedWarehouses: [],
     statistics: {
-      total_orders_handled: 89,
-      total_revenue: 42000000,
+      totalOrdersHandled: 89,
+      totalRevenue: 42000000,
       average_rating: 3.9,
     },
   },
   {
     id: 6,
-    account_id: 22,
+    accountId: 22,
     email: "seller06@wineshop.com",
     role: 1,
     status: 1,
-    first_name: "Vũ",
-    last_name: "Thị F",
-    phone_number: "0956789012",
+    firstName: "Vũ",
+    lastName: "Thị F",
+    phoneNumber: "0956789012",
     avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller06",
-    date_of_birth: "1991-09-30",
+    dateOfBirth: "1991-09-30",
     gender: 2,
-    last_login_at: "2024-11-26T11:00:00Z",
-    created_at: "2024-06-18T09:15:00Z",
-    updated_at: "2024-11-24T10:20:00Z",
-    managed_warehouses: [
+    lastLoginAt: "2024-11-26T11:00:00Z",
+    createdAt: "2024-06-18T09:15:00Z",
+    updatedAt: "2024-11-24T10:20:00Z",
+    managedWarehouses: [
       {
-        warehouse_id: 2,
-        warehouse_name: "Kho TP.HCM",
+        warehouseId: 2,
+        warehouseName: "Kho TP.HCM",
         location: "Số 456, Đường XYZ, TP.HCM",
       },
     ],
     statistics: {
-      total_orders_handled: 278,
-      total_revenue: 142000000,
+      totalOrdersHandled: 278,
+      totalRevenue: 142000000,
       average_rating: 4.6,
     },
   },
@@ -233,10 +233,10 @@ export const fetchSellers = async (params: {
     filteredSellers = filteredSellers.filter(
       (seller) =>
         seller.email.toLowerCase().includes(searchLower) ||
-        `${seller.first_name} ${seller.last_name}`
+        `${seller.firstName} ${seller.lastName}`
           .toLowerCase()
           .includes(searchLower) ||
-        seller.phone_number.includes(searchLower)
+        seller.phoneNumber.includes(searchLower)
     );
   }
 
@@ -265,16 +265,16 @@ export const fetchSellers = async (params: {
     data: {
       sellers: paginatedSellers,
       pagination: {
-        current_page: page,
-        total_pages: Math.ceil(filteredSellers.length / limit),
-        total_records: filteredSellers.length,
+        currentPage: page,
+        totalPages: Math.ceil(filteredSellers.length / limit),
+        totalRecords: filteredSellers.length,
         limit,
       },
       summary: {
-        total_sellers: mockSellers.length,
-        active_sellers: mockSellers.filter((s) => s.status === 1).length,
-        inactive_sellers: mockSellers.filter((s) => s.status === 0).length,
-        locked_sellers: mockSellers.filter((s) => s.status === -1).length,
+        totalSellers: mockSellers.length,
+        activeSellers: mockSellers.filter((s) => s.status === 1).length,
+        inactiveSellers: mockSellers.filter((s) => s.status === 0).length,
+        lockedSellers: mockSellers.filter((s) => s.status === -1).length,
       },
     },
   };
@@ -301,12 +301,12 @@ export const createSeller = async (data: {
   email: string;
   password: string;
   role: number;
-  first_name: string;
-  last_name: string;
-  phone_number?: string;
-  date_of_birth?: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
   gender?: number;
-  warehouse_ids?: number[];
+  warehouseIds?: number[];
 }): Promise<{ success: boolean; message: string; data: Seller }> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -317,22 +317,22 @@ export const createSeller = async (data: {
 
   const newSeller: Seller = {
     id: mockSellers.length + 1,
-    account_id: 100 + mockSellers.length,
+    accountId: 100 + mockSellers.length,
     email: data.email,
     role: data.role,
     status: 1,
-    first_name: data.first_name,
-    last_name: data.last_name,
-    phone_number: data.phone_number || "",
+    firstName: data.firstName,
+    lastName: data.lastName,
+    phoneNumber: data.phoneNumber || "",
     avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.email}`,
-    date_of_birth: data.date_of_birth || "",
+    dateOfBirth: data.dateOfBirth || "",
     gender: data.gender || 1,
-    last_login_at: new Date().toISOString(),
-    created_at: new Date().toISOString(),
-    managed_warehouses: [],
+    lastLoginAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    managedWarehouses: [],
     statistics: {
-      total_orders_handled: 0,
-      total_revenue: 0,
+      totalOrdersHandled: 0,
+      totalRevenue: 0,
       average_rating: 0,
     },
   };
@@ -361,7 +361,7 @@ export const updateSeller = async (
   mockSellers[sellerIndex] = {
     ...mockSellers[sellerIndex],
     ...data,
-    updated_at: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 
   return {
@@ -384,7 +384,7 @@ export const updateSellerStatus = async (
   }
 
   mockSellers[sellerIndex].status = status;
-  mockSellers[sellerIndex].updated_at = new Date().toISOString();
+  mockSellers[sellerIndex].updatedAt = new Date().toISOString();
 
   return {
     success: true,

@@ -4,14 +4,14 @@ export interface Promotion {
   code: string;
   name: string;
   description: string;
-  discount_type: number; // 1: Percentage, 2: Fixed amount
-  discount_value: number;
-  start_date: string;
-  end_date: string;
-  max_usage: number;
-  used_count: number;
+  discounttype: number; // 1: Percentage, 2: Fixed amount
+  discountvalue: number;
+  startdate: string;
+  enddate: string;
+  maxusage: number;
+  usedcount: number;
   status: number; // 1: Active, 0: Inactive
-  created_at: string;
+  createdAt: string;
 }
 
 export interface ApplicableProduct {
@@ -21,13 +21,13 @@ export interface ApplicableProduct {
 }
 
 export interface PromotionDetail extends Promotion {
-  applicable_products?: ApplicableProduct[];
+  applicableProducts?: ApplicableProduct[];
 }
 
 export interface Pagination {
-  current_page: number;
-  total_pages: number;
-  total_items: number;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
 }
 
 export interface PromotionListResponse {
@@ -45,19 +45,19 @@ export interface PromotionDetailResponse {
 
 export interface UsageByDate {
   date: string;
-  usage_count: number;
-  discount_amount: number;
+  usageCount: number;
+  discountAmount: number;
 }
 
 export interface PromotionStatistics {
   promotion_id: number;
   promotion_code: string;
   total_usage: number;
-  max_usage: number;
-  remaining_usage: number;
-  total_discount_amount: number;
-  total_orders: number;
-  usage_by_date: UsageByDate[];
+  maxusage: number;
+  remainingUsage: number;
+  totalDiscountAmount: number;
+  totalOrders: number;
+  usageByDate: UsageByDate[];
 }
 
 export interface PromotionStatisticsResponse {
@@ -69,11 +69,11 @@ export interface PromotionFormData {
   code: string;
   name: string;
   description: string;
-  discount_type: number;
-  discount_value: number;
-  start_date: string;
-  end_date: string;
-  max_usage: number;
-  product_ids?: number[];
+  discounttype: number;
+  discountvalue: number;
+  startdate: string;
+  enddate: string;
+  maxusage: number;
+  productIds?: number[];
   status?: number;
 }

@@ -187,7 +187,7 @@ export default function PromotionsManagement() {
             {t("summary.totalUsage")}
           </p>
           <p className="text-2xl font-bold text-[#3b4417]">
-            {promotions.reduce((sum, p) => sum + p.used_count, 0)}
+            {promotions.reduce((sum, p) => sum + p.usedcount, 0)}
           </p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
@@ -195,10 +195,7 @@ export default function PromotionsManagement() {
             {t("summary.remaining")}
           </p>
           <p className="text-2xl font-bold text-orange-600">
-            {promotions.reduce(
-              (sum, p) => sum + (p.max_usage - p.used_count),
-              0
-            )}
+            {promotions.reduce((sum, p) => sum + (p.maxusage - p.usedcount), 0)}
           </p>
         </div>
       </motion.div>
@@ -210,7 +207,7 @@ export default function PromotionsManagement() {
         transition={{ delay: 0.3 }}
       >
         <PromotionAnalyticsCharts
-          usageData={mockPromotionStatistics.data.usage_by_date}
+          usageData={mockPromotionStatistics.data.usageByDate}
           promotions={promotions}
         />
       </motion.div>

@@ -156,16 +156,16 @@ export default function OrderDetailModal({
                             Mã đơn hàng
                           </p>
                           <p className="text-lg font-bold text-[#33391d]">
-                            {order.order_code}
+                            {order.orderCode}
                           </p>
                           <p className="mt-1 text-sm text-neutral-500">
-                            {new Date(order.created_at).toLocaleString("vi-VN")}
+                            {new Date(order.createdAt).toLocaleString("vi-VN")}
                           </p>
                         </div>
                         <span
                           className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(order.status)}`}
                         >
-                          {order.status_text}
+                          {order.statusText}
                         </span>
                       </div>
                     </div>
@@ -199,14 +199,14 @@ export default function OrderDetailModal({
                       </h3>
                       <div className="rounded-lg border border-neutral-200 p-4">
                         <p className="font-medium text-neutral-900">
-                          {order.shipping_address.full_name}
+                          {order.shippingAddress.fullName}
                         </p>
                         <p className="mt-1 text-sm text-neutral-600">
-                          {order.shipping_address.phone_number}
+                          {order.shippingAddress.phoneNumber}
                         </p>
                         <p className="mt-1 text-sm text-neutral-600">
-                          {order.shipping_address.address_line},{" "}
-                          {order.shipping_address.city}
+                          {order.shippingAddress.addressLine},{" "}
+                          {order.shippingAddress.city}
                         </p>
                       </div>
                     </div>
@@ -239,22 +239,22 @@ export default function OrderDetailModal({
                             className="flex gap-4 rounded-lg border border-neutral-200 p-4"
                           >
                             <img
-                              src={item.product_image}
-                              alt={item.product_name}
+                              src={item.productImage}
+                              alt={item.productName}
                               className="h-20 w-20 rounded object-cover"
                             />
                             <div className="flex-1">
                               <h4 className="font-medium text-neutral-900">
-                                {item.product_name}
+                                {item.productName}
                               </h4>
                               <p className="mt-1 text-sm text-neutral-600">
-                                {formatCurrency(item.unit_price)} x{" "}
+                                {formatCurrency(item.unitPrice)} x{" "}
                                 {item.quantity}
                               </p>
                             </div>
                             <div className="text-right">
                               <p className="font-semibold text-[#33391d]">
-                                {formatCurrency(item.line_total)}
+                                {formatCurrency(item.lineTotal)}
                               </p>
                             </div>
                           </motion.div>
@@ -270,14 +270,14 @@ export default function OrderDetailModal({
                             Tổng tiền hàng:
                           </span>
                           <span className="font-medium">
-                            {formatCurrency(order.total_amount)}
+                            {formatCurrency(order.totalAmount)}
                           </span>
                         </div>
-                        {order.discount_amount > 0 && (
+                        {order.discountAmount > 0 && (
                           <div className="flex justify-between text-sm">
                             <span className="text-neutral-600">Giảm giá:</span>
                             <span className="font-medium text-green-600">
-                              -{formatCurrency(order.discount_amount)}
+                              -{formatCurrency(order.discountAmount)}
                             </span>
                           </div>
                         )}
@@ -287,7 +287,7 @@ export default function OrderDetailModal({
                               Tổng thanh toán:
                             </span>
                             <span className="text-xl font-bold text-[#33391d]">
-                              {formatCurrency(order.final_amount)}
+                              {formatCurrency(order.finalAmount)}
                             </span>
                           </div>
                         </div>
@@ -296,7 +296,7 @@ export default function OrderDetailModal({
                             Phương thức thanh toán:
                           </span>
                           <span className="font-medium">
-                            {order.payment_method.name}
+                            {order.paymentMethod.name}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">
@@ -304,9 +304,9 @@ export default function OrderDetailModal({
                             Trạng thái thanh toán:
                           </span>
                           <span
-                            className={`font-medium ${order.payment_status === 1 ? "text-green-600" : "text-orange-600"}`}
+                            className={`font-medium ${order.paymentStatus === 1 ? "text-green-600" : "text-orange-600"}`}
                           >
-                            {order.payment_status_text}
+                            {order.paymentstatusText}
                           </span>
                         </div>
                       </div>

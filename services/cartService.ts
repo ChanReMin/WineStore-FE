@@ -9,17 +9,17 @@ import type {
 
 // Mock cart data
 let mockCart: Cart = {
-  cart_id: 789,
-  user_id: 456,
+  cartId: 789,
+  userId: 456,
   items: [],
   summary: {
-    total_items: 0,
-    total_quantity: 0,
+    totalItems: 0,
+    totalquantity: 0,
     subtotal: 0,
-    estimated_shipping: 0,
-    estimated_total: 0,
+    estimatedshipping: 0,
+    estimatedtotal: 0,
   },
-  updated_at: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 };
 
 // Cache for generated products to maintain consistency
@@ -30,26 +30,26 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Helper to recalculate cart summary
 const recalculateSummary = () => {
-  const total_items = mockCart.items.length;
-  const total_quantity = mockCart.items.reduce(
+  const totalItems = mockCart.items.length;
+  const totalquantity = mockCart.items.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
   const subtotal = mockCart.items.reduce(
-    (sum, item) => sum + item.line_total,
+    (sum, item) => sum + item.lineTotal,
     0
   );
-  const estimated_shipping = subtotal > 0 ? 50000 : 0; // Free shipping over certain amount
-  const estimated_total = subtotal + estimated_shipping;
+  const estimatedshipping = subtotal > 0 ? 50000 : 0; // Free shipping over certain amount
+  const estimatedtotal = subtotal + estimatedshipping;
 
   mockCart.summary = {
-    total_items,
-    total_quantity,
+    totalItems,
+    totalquantity,
     subtotal,
-    estimated_shipping,
-    estimated_total,
+    estimatedshipping,
+    estimatedtotal,
   };
-  mockCart.updated_at = new Date().toISOString();
+  mockCart.updatedAt = new Date().toISOString();
 };
 
 export const cartService = {
@@ -107,8 +107,8 @@ export const cartService = {
         sku: `WN-${id.toString().padStart(4, "0")}`,
         image: images[imageIndex],
         price: priceBase,
-        in_stock: true,
-        max_quantity: maxQty,
+        inStock: true,
+        maxQuantity: maxQty,
       };
 
       // Cache the product
@@ -120,31 +120,31 @@ export const cartService = {
     let product;
     if (data.product_info) {
       product = {
-        id: data.product_id,
+        id: data.productId,
         name: data.product_info.name,
         slug: data.product_info.slug,
-        sku: `WN-${data.product_id.toString().padStart(4, "0")}`,
+        sku: `WN-${data.productId.toString().padStart(4, "0")}`,
         image: data.product_info.image,
         price: data.product_info.price,
-        in_stock: true,
-        max_quantity: data.product_info.max_quantity || 99,
+        inStock: true,
+        maxQuantity: data.product_info.maxQuantity || 99,
       };
       // Cache it
-      productCache[data.product_id] = product;
+      productCache[data.productId] = product;
     } else {
-      product = getMockProduct(data.product_id);
+      product = getMockProduct(data.productId);
     }
 
-    if (!product.in_stock) {
+    if (!product.inStock) {
       throw new Error("Sản phẩm đã hết hàng");
     }
 
     // Check if item already exists in cart
     const existingItemIndex = mockCart.items.findIndex(
-      (item) => item.product.id === data.product_id
+      (item) => item.product.id === data.productId
     );
 
-    let cart_item_id: number;
+    let cartItemId: number;
     let newQuantity: number;
 
     if (existingItemIndex >= 0) {
@@ -152,24 +152,24 @@ export const cartService = {
       const existingItem = mockCart.items[existingItemIndex];
       newQuantity = existingItem.quantity + data.quantity;
 
-      if (newQuantity > product.max_quantity) {
-        throw new Error(`Số lượng tối đa là ${product.max_quantity}`);
+      if (newQuantity > product.maxQuantity) {
+        throw new Error(`Số lượng tối đa là ${product.maxQuantity}`);
       }
 
       existingItem.quantity = newQuantity;
-      existingItem.line_total = existingItem.unit_price * newQuantity;
-      cart_item_id = existingItem.id;
+      existingItem.lineTotal = existingItem.unitPrice * newQuantity;
+      cartItemId = existingItem.id;
     } else {
       // Add new item
-      cart_item_id = mockCart.items.length + 1;
+      cartItemId = mockCart.items.length + 1;
       newQuantity = data.quantity;
 
-      if (newQuantity > product.max_quantity) {
-        throw new Error(`Số lượng tối đa là ${product.max_quantity}`);
+      if (newQuantity > product.maxQuantity) {
+        throw new Error(`Số lượng tối đa là ${product.maxQuantity}`);
       }
 
       const newItem: CartItem = {
-        id: cart_item_id,
+        id: cartItemId,
         product: {
           id: product.id,
           name: product.name,
@@ -177,12 +177,12 @@ export const cartService = {
           sku: product.sku,
           image: product.image,
           price: product.price,
-          in_stock: product.in_stock,
-          max_quantity: product.max_quantity,
+          inStock: product.inStock,
+          maxQuantity: product.maxQuantity,
         },
         quantity: newQuantity,
-        unit_price: product.price,
-        line_total: product.price * newQuantity,
+        unitPrice: product.price,
+        lineTotal: product.price * newQuantity,
         added_at: new Date().toISOString(),
       };
 
@@ -192,11 +192,11 @@ export const cartService = {
     recalculateSummary();
 
     return {
-      cart_item_id,
-      product_id: data.product_id,
+      cartItemId,
+      productId: data.productId,
       quantity: newQuantity,
-      unit_price: product.price,
-      line_total: product.price * newQuantity,
+      unitPrice: product.price,
+      lineTotal: product.price * newQuantity,
     };
   },
 
@@ -204,7 +204,7 @@ export const cartService = {
   async updateCartItem(
     cartItemId: number,
     data: UpdateCartItemRequest
-  ): Promise<{ cart_item_id: number; quantity: number; line_total: number }> {
+  ): Promise<{ cartItemId: number; quantity: number; lineTotal: number }> {
     await delay(500);
 
     const itemIndex = mockCart.items.findIndex(
@@ -220,19 +220,19 @@ export const cartService = {
       throw new Error("Số lượng phải lớn hơn 0");
     }
 
-    if (data.quantity > item.product.max_quantity) {
-      throw new Error(`Số lượng tối đa là ${item.product.max_quantity}`);
+    if (data.quantity > item.product.maxQuantity) {
+      throw new Error(`Số lượng tối đa là ${item.product.maxQuantity}`);
     }
 
     item.quantity = data.quantity;
-    item.line_total = item.unit_price * data.quantity;
+    item.lineTotal = item.unitPrice * data.quantity;
 
     recalculateSummary();
 
     return {
-      cart_item_id: cartItemId,
+      cartItemId: cartItemId,
       quantity: data.quantity,
-      line_total: item.line_total,
+      lineTotal: item.lineTotal,
     };
   },
 

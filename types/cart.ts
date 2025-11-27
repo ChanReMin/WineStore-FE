@@ -6,37 +6,37 @@ export interface CartProduct {
   sku?: string;
   image: string;
   price: number;
-  in_stock: boolean;
-  max_quantity: number;
+  inStock: boolean;
+  maxQuantity: number;
 }
 
 export interface CartItem {
   id: number;
   product: CartProduct;
   quantity: number;
-  unit_price: number;
-  line_total: number;
+  unitPrice: number;
+  lineTotal: number;
   added_at: string;
 }
 
 export interface CartSummary {
-  total_items: number;
-  total_quantity: number;
+  totalItems: number;
+  totalquantity: number;
   subtotal: number;
-  estimated_shipping: number;
-  estimated_total: number;
+  estimatedshipping: number;
+  estimatedtotal: number;
 }
 
 export interface Cart {
-  cart_id: number;
-  user_id: number;
+  cartId: number;
+  userId: number;
   items: CartItem[];
   summary: CartSummary;
-  updated_at: string;
+  updatedAt: string;
 }
 
 export interface AddToCartRequest {
-  product_id: number;
+  productId: number;
   quantity: number;
   // Optional: provide product info to avoid lookup (for mock)
   product_info?: {
@@ -44,7 +44,7 @@ export interface AddToCartRequest {
     slug: string;
     image: string;
     price: number;
-    max_quantity?: number;
+    maxQuantity?: number;
   };
 }
 
@@ -53,9 +53,9 @@ export interface UpdateCartItemRequest {
 }
 
 export interface AddToCartResponse {
-  cart_item_id: number;
-  product_id: number;
+  cartItemId: number;
+  productId: number;
   quantity: number;
-  unit_price: number;
-  line_total: number;
+  unitPrice: number;
+  lineTotal: number;
 }

@@ -60,13 +60,13 @@ export default function OrderCard({ order, index }: OrderCardProps) {
               whileHover={{ x: 4 }}
               className="text-lg font-semibold text-[#33391d] transition-colors group-hover:text-[#5a6332]"
             >
-              {order.order_code}
+              {order.orderCode}
             </motion.h3>
           </Link>
 
           {/* Date */}
           <p className="mt-1 text-sm text-neutral-500">
-            {new Date(order.created_at).toLocaleDateString("vi-VN", {
+            {new Date(order.createdAt).toLocaleDateString("vi-VN", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -81,7 +81,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
           whileHover={{ scale: 1.05 }}
           className={`rounded-full border px-3 py-1 text-xs font-medium ${getStatusColor(order.status)}`}
         >
-          {order.status_text}
+          {order.statusText}
         </motion.span>
       </div>
 
@@ -100,15 +100,15 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         <div className="flex justify-between text-sm">
           <span className="text-neutral-600">{t("total")}</span>
           <span className="font-medium text-neutral-900">
-            {formatCurrency(order.total_amount)}
+            {formatCurrency(order.totalAmount)}
           </span>
         </div>
 
-        {order.discount_amount > 0 && (
+        {order.discountAmount > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-neutral-600">{t("discount")}</span>
             <span className="font-medium text-green-600">
-              -{formatCurrency(order.discount_amount)}
+              -{formatCurrency(order.discountAmount)}
             </span>
           </div>
         )}
@@ -118,7 +118,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             {t("finalAmount")}
           </span>
           <span className="text-lg font-bold text-[#33391d]">
-            {formatCurrency(order.final_amount)}
+            {formatCurrency(order.finalAmount)}
           </span>
         </div>
       </div>
@@ -126,9 +126,9 @@ export default function OrderCard({ order, index }: OrderCardProps) {
       {/* Payment Status */}
       <div className="mt-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {order.payment_status === 1 ? (
+          {order.paymentStatus === 1 ? (
             <svg
-              className={`h-5 w-5 ${getPaymentStatusColor(order.payment_status)}`}
+              className={`h-5 w-5 ${getPaymentStatusColor(order.paymentStatus)}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -142,7 +142,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             </svg>
           ) : (
             <svg
-              className={`h-5 w-5 ${getPaymentStatusColor(order.payment_status)}`}
+              className={`h-5 w-5 ${getPaymentStatusColor(order.paymentStatus)}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -156,9 +156,9 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             </svg>
           )}
           <span
-            className={`text-sm font-medium ${getPaymentStatusColor(order.payment_status)}`}
+            className={`text-sm font-medium ${getPaymentStatusColor(order.paymentStatus)}`}
           >
-            {order.payment_status_text}
+            {order.paymentstatusText}
           </span>
         </div>
 

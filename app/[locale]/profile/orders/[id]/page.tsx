@@ -108,7 +108,7 @@ export default function OrderDetailPage() {
                 {t("orderDetail")} #{order.id}
               </h1>
               <p className="mt-2 text-neutral-600">
-                {new Date(order.created_at).toLocaleDateString("vi-VN", {
+                {new Date(order.createdAt).toLocaleDateString("vi-VN", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -128,11 +128,11 @@ export default function OrderDetailPage() {
               <span
                 className={`rounded-full px-4 py-2 text-sm font-medium ${
                   paymentStatusColors[
-                    order.payment_status as keyof typeof paymentStatusColors
+                    order.paymentStatus as keyof typeof paymentStatusColors
                   ]
                 }`}
               >
-                {t(`paymentStatus.${order.payment_status}`)}
+                {t(`paymentStatus.${order.paymentStatus}`)}
               </span>
             </div>
           </div>
@@ -165,11 +165,11 @@ export default function OrderDetailPage() {
             </div>
             <div className="space-y-2 text-sm text-neutral-600">
               <p className="font-medium text-neutral-900">
-                {order.shipping_address.full_name}
+                {order.shippingAddress.fullName}
               </p>
-              <p>{order.shipping_address.phone_number}</p>
-              <p>{order.shipping_address.address_line}</p>
-              <p>{order.shipping_address.city}</p>
+              <p>{order.shippingAddress.phoneNumber}</p>
+              <p>{order.shippingAddress.addressLine}</p>
+              <p>{order.shippingAddress.city}</p>
             </div>
           </motion.div>
 
@@ -190,7 +190,7 @@ export default function OrderDetailPage() {
               <div className="flex justify-between">
                 <span>{t("paymentMethod")}</span>
                 <span className="font-medium text-neutral-900">
-                  {order.payment_method.name}
+                  {order.paymentMethod.name}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -198,11 +198,11 @@ export default function OrderDetailPage() {
                 <span
                   className={`rounded-full px-3 py-1 text-xs font-medium ${
                     paymentStatusColors[
-                      order.payment_status as keyof typeof paymentStatusColors
+                      order.paymentStatus as keyof typeof paymentStatusColors
                     ]
                   }`}
                 >
-                  {t(`paymentStatus.${order.payment_status}`)}
+                  {t(`paymentStatus.${order.paymentStatus}`)}
                 </span>
               </div>
             </div>
@@ -228,24 +228,24 @@ export default function OrderDetailPage() {
                 className="flex gap-4 border-b border-neutral-100 pb-4 last:border-0 last:pb-0"
               >
                 <img
-                  src={item.product_image || "/placeholder-wine.jpg"}
-                  alt={item.product_name}
+                  src={item.productImage || "/placeholder-wine.jpg"}
+                  alt={item.productName}
                   className="h-20 w-20 rounded-lg object-cover"
                 />
                 <div className="flex-1">
                   <h4 className="font-medium text-neutral-900">
-                    {item.product_name}
+                    {item.productName}
                   </h4>
                   <p className="text-sm text-neutral-600">
                     {t("quantity")}: {item.quantity}
                   </p>
                   <p className="text-sm font-medium text-[#33391d]">
-                    {item.unit_price.toLocaleString("vi-VN")}₫
+                    {item.unitPrice.toLocaleString("vi-VN")}₫
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold text-neutral-900">
-                    {item.line_total.toLocaleString("vi-VN")}₫
+                    {item.lineTotal.toLocaleString("vi-VN")}₫
                   </p>
                 </div>
               </div>
@@ -257,21 +257,21 @@ export default function OrderDetailPage() {
             <div className="flex justify-between text-sm">
               <span className="text-neutral-600">{t("subtotal")}</span>
               <span className="font-medium text-neutral-900">
-                {order.total_amount.toLocaleString("vi-VN")}₫
+                {order.totalAmount.toLocaleString("vi-VN")}₫
               </span>
             </div>
-            {order.discount_amount > 0 && (
+            {order.discountAmount > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-neutral-600">{t("discount")}</span>
                 <span className="font-medium text-green-600">
-                  -{order.discount_amount.toLocaleString("vi-VN")}₫
+                  -{order.discountAmount.toLocaleString("vi-VN")}₫
                 </span>
               </div>
             )}
             <div className="flex justify-between border-t border-neutral-200 pt-2 text-lg font-bold">
               <span className="text-[#33391d]">{t("total")}</span>
               <span className="text-[#33391d]">
-                {order.final_amount.toLocaleString("vi-VN")}₫
+                {order.finalAmount.toLocaleString("vi-VN")}₫
               </span>
             </div>
           </div>

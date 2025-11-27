@@ -57,8 +57,8 @@ export default function OrdersPage() {
         orderService.getOrders({ limit: 1000 }), // Get all orders for stats
       ]);
       setOrders(response.orders);
-      setTotalPages(response.pagination.total_pages);
-      setTotalItems(response.pagination.total_items);
+      setTotalPages(response.pagination.totalPages);
+      setTotalItems(response.pagination.totalItems);
       setAllOrders(allOrdersResponse.orders);
     } catch (error) {
       toast.error(t("error"));

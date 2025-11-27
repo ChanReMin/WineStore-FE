@@ -61,11 +61,11 @@ export default function UpdateInventoryModal({
 
   const newQuantity =
     type === "in"
-      ? item.quantity_on_hand + quantity
-      : item.quantity_on_hand - quantity;
+      ? item.quantityOnHand + quantity
+      : item.quantityOnHand - quantity;
 
   const isValid =
-    quantity > 0 && (type === "in" || quantity <= item.quantity_on_hand);
+    quantity > 0 && (type === "in" || quantity <= item.quantityOnHand);
 
   return (
     <AnimatePresence>
@@ -132,10 +132,10 @@ export default function UpdateInventoryModal({
                       {t("currentStock")}
                     </p>
                     <p className="text-3xl font-bold text-[#3b4417]">
-                      {item.quantity_on_hand}
+                      {item.quantityOnHand}
                     </p>
                     <p className="text-sm text-[#7a8451]">
-                      Safety Stock: {item.safety_stock}
+                      Safety Stock: {item.safetyStock}
                     </p>
                   </div>
                 </div>
@@ -209,13 +209,13 @@ export default function UpdateInventoryModal({
                   <input
                     type="number"
                     min="1"
-                    max={type === "out" ? item.quantity_on_hand : undefined}
+                    max={type === "out" ? item.quantityOnHand : undefined}
                     value={quantity || ""}
                     onChange={(e) => setQuantity(Number(e.target.value))}
                     className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] text-lg font-semibold"
                     placeholder={t("notePlaceholder")}
                   />
-                  {type === "out" && quantity > item.quantity_on_hand && (
+                  {type === "out" && quantity > item.quantityOnHand && (
                     <p className="text-sm text-red-600 mt-1">
                       {t("exceedsStock")}
                     </p>
@@ -268,7 +268,7 @@ export default function UpdateInventoryModal({
                         >
                           {t("stockWillChange")}{" "}
                           <span className="font-semibold">
-                            {item.quantity_on_hand}
+                            {item.quantityOnHand}
                           </span>{" "}
                           → <span className="font-semibold">{newQuantity}</span>
                         </p>

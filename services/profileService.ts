@@ -13,37 +13,37 @@ let mockProfile: CustomerProfile = {
   id: 1,
   email: "customer@example.com",
   username: "johndoe",
-  first_name: "John",
-  last_name: "Doe",
+  firstName: "John",
+  lastName: "Doe",
   avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-  phone_number: "0123456789",
-  date_of_birth: "1990-01-01",
+  phoneNumber: "0123456789",
+  dateOfBirth: "1990-01-01",
   gender: 1,
-  created_at: "2024-01-01T00:00:00Z",
+  createdAt: "2024-01-01T00:00:00Z",
 };
 
 let mockAddresses: Address[] = [
   {
     id: 1,
-    full_name: "John Doe",
-    phone_number: "0123456789",
-    address_line: "123 Đường Lê Lợi",
+    fullName: "John Doe",
+    phoneNumber: "0123456789",
+    addressLine: "123 Đường Lê Lợi",
     city: "Hà Nội",
     state: "Hà Nội",
     country: "Việt Nam",
-    is_default: true,
-    created_at: "2024-01-01T00:00:00Z",
+    isDefault: true,
+    createdAt: "2024-01-01T00:00:00Z",
   },
   {
     id: 2,
-    full_name: "John Doe",
-    phone_number: "0987654321",
-    address_line: "456 Đường Nguyễn Huệ",
+    fullName: "John Doe",
+    phoneNumber: "0987654321",
+    addressLine: "456 Đường Nguyễn Huệ",
     city: "TP. Hồ Chí Minh",
     state: "TP. Hồ Chí Minh",
     country: "Việt Nam",
-    is_default: false,
-    created_at: "2024-02-01T00:00:00Z",
+    isDefault: false,
+    createdAt: "2024-02-01T00:00:00Z",
   },
 ];
 
@@ -68,10 +68,10 @@ export const profileService = {
   async changePassword(data: ChangePasswordRequest): Promise<void> {
     await delay(800);
     // Mock validation
-    if (data.old_password !== "OldPassword123!") {
+    if (data.oldPassword !== "OldPassword123!") {
       throw new Error("Mật khẩu cũ không đúng");
     }
-    if (data.new_password !== data.confirm_password) {
+    if (data.newPassword !== data.confirmPassword) {
       throw new Error("Mật khẩu xác nhận không khớp");
     }
     // Success - no return needed
@@ -89,15 +89,15 @@ export const profileService = {
     const newAddress: Address = {
       id: mockAddresses.length + 1,
       ...data,
-      is_default: data.is_default || false,
-      created_at: new Date().toISOString(),
+      isDefault: data.isDefault || false,
+      createdAt: new Date().toISOString(),
     };
 
     // If new address is default, set others to false
-    if (newAddress.is_default) {
+    if (newAddress.isDefault) {
       mockAddresses = mockAddresses.map((addr) => ({
         ...addr,
-        is_default: false,
+        isDefault: false,
       }));
     }
 
@@ -115,10 +115,10 @@ export const profileService = {
     if (index === -1) throw new Error("Không tìm thấy địa chỉ");
 
     // If updating to default, set others to false
-    if (data.is_default) {
+    if (data.isDefault) {
       mockAddresses = mockAddresses.map((addr) => ({
         ...addr,
-        is_default: false,
+        isDefault: false,
       }));
     }
 

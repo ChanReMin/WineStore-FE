@@ -51,14 +51,14 @@ export default function ProductsPage() {
     // Filter by category
     if (categoryFilter !== "all") {
       filtered = filtered.filter(
-        (product) => product.category_id === Number.parseInt(categoryFilter)
+        (product) => product.categoryId === Number.parseInt(categoryFilter)
       );
     }
 
     // Filter by brand
     if (brandFilter !== "all") {
       filtered = filtered.filter(
-        (product) => product.brand_id === Number.parseInt(brandFilter)
+        (product) => product.brandId === Number.parseInt(brandFilter)
       );
     }
 

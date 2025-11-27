@@ -32,10 +32,10 @@ export default function EditSellerModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    first_name: seller.first_name,
-    last_name: seller.last_name,
-    phone_number: seller.phone_number,
-    date_of_birth: seller.date_of_birth,
+    firstName: seller.firstName,
+    lastName: seller.lastName,
+    phoneNumber: seller.phoneNumber,
+    dateOfBirth: seller.dateOfBirth,
     gender: seller.gender.toString(),
     role: seller.role.toString(),
   });
@@ -47,10 +47,10 @@ export default function EditSellerModal({
     try {
       setLoading(true);
       await updateSeller(seller.id, {
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        phone_number: formData.phone_number,
-        date_of_birth: formData.date_of_birth,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        dateOfBirth: formData.dateOfBirth,
         gender: parseInt(formData.gender),
         role: parseInt(formData.role),
       });
@@ -109,28 +109,28 @@ export default function EditSellerModal({
                 {/* Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="first_name">
+                    <Label htmlFor="firstName">
                       {t("editModal.firstName")} *
                     </Label>
                     <Input
-                      id="first_name"
+                      id="firstName"
                       required
-                      value={formData.first_name}
+                      value={formData.firstName}
                       onChange={(e) =>
-                        setFormData({ ...formData, first_name: e.target.value })
+                        setFormData({ ...formData, firstName: e.target.value })
                       }
                     />
                   </div>
                   <div>
-                    <Label htmlFor="last_name">
+                    <Label htmlFor="lastName">
                       {t("editModal.lastName")} *
                     </Label>
                     <Input
-                      id="last_name"
+                      id="lastName"
                       required
-                      value={formData.last_name}
+                      value={formData.lastName}
                       onChange={(e) =>
-                        setFormData({ ...formData, last_name: e.target.value })
+                        setFormData({ ...formData, lastName: e.target.value })
                       }
                     />
                   </div>
@@ -139,29 +139,29 @@ export default function EditSellerModal({
                 {/* Phone & DOB */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="phone_number">{t("editModal.phone")}</Label>
+                    <Label htmlFor="phoneNumber">{t("editModal.phone")}</Label>
                     <Input
-                      id="phone_number"
+                      id="phoneNumber"
                       type="tel"
-                      value={formData.phone_number}
+                      value={formData.phoneNumber}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          phone_number: e.target.value,
+                          phoneNumber: e.target.value,
                         })
                       }
                     />
                   </div>
                   <div>
-                    <Label htmlFor="date_of_birth">{t("editModal.dob")}</Label>
+                    <Label htmlFor="dateOfBirth">{t("editModal.dob")}</Label>
                     <Input
-                      id="date_of_birth"
+                      id="dateOfBirth"
                       type="date"
-                      value={formData.date_of_birth}
+                      value={formData.dateOfBirth}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          date_of_birth: e.target.value,
+                          dateOfBirth: e.target.value,
                         })
                       }
                     />

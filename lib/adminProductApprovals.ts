@@ -16,32 +16,32 @@ export interface ProductApproval {
     country?: string;
   };
   price: number;
-  base_price: number;
+  basePrice: number;
   images: string[];
   seller: {
-    user_id: number;
-    account_id?: number;
-    full_name: string;
+    userId: number;
+    accountId?: number;
+    fullName: string;
     email: string;
-    phone_number?: string;
-    total_products?: number;
-    approved_products?: number;
-    rejected_products?: number;
-    seller_rating?: number;
+    phoneNumber?: string;
+    totalProducts?: number;
+    approvedProducts?: number;
+    rejectedProducts?: number;
+    sellerRating?: number;
   };
-  approval_status: "pending" | "approved" | "rejected" | "pending_changes";
-  approval_status_text: string;
-  submitted_at: string;
-  created_at: string;
+  approvalStatus: "pending" | "approved" | "rejected" | "pending_changes";
+  approvalStatusText: string;
+  submittedAt: string;
+  createdAt: string;
   // Detailed fields
-  country_of_production?: string;
-  grape_variety?: string;
+  countryOfProduction?: string;
+  grapeVariety?: string;
   concentration?: number;
-  production_area?: string;
-  vintage_year?: number;
-  capacity_ml?: number;
-  ideal_temperature?: string;
-  storage_notes?: string;
+  productionArea?: string;
+  vintageYear?: number;
+  capacityMl?: number;
+  idealtemperature?: string;
+  storageNotes?: string;
   description?: string;
   status?: number;
 }
@@ -51,14 +51,14 @@ export interface ProductApprovalsResponse {
   data: {
     products: ProductApproval[];
     pagination: {
-      current_page: number;
-      total_pages: number;
-      total_items: number;
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
     };
     summary: {
-      total_pending: number;
-      total_approved_today: number;
-      total_rejected_today: number;
+      totalPending: number;
+      totalApprovedToday: number;
+      totalRejectedToday: number;
     };
   };
 }
@@ -81,34 +81,34 @@ const mockProducts: ProductApproval[] = [
       country: "France",
     },
     price: 16000000,
-    base_price: 18000000,
+    basePrice: 18000000,
     images: [
       "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400",
       "https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=400",
     ],
     seller: {
-      user_id: 456,
-      account_id: 123,
-      full_name: "Nguyễn Văn A",
+      userId: 456,
+      accountId: 123,
+      fullName: "Nguyễn Văn A",
       email: "seller@example.com",
-      phone_number: "0912345678",
-      total_products: 25,
-      approved_products: 23,
-      rejected_products: 1,
-      seller_rating: 4.8,
+      phoneNumber: "0912345678",
+      totalProducts: 25,
+      approvedProducts: 23,
+      rejectedProducts: 1,
+      sellerRating: 4.8,
     },
-    approval_status: "pending",
-    approval_status_text: "Chờ duyệt",
-    submitted_at: "2024-11-24T15:00:00Z",
-    created_at: "2024-11-24T14:30:00Z",
-    country_of_production: "France",
-    grape_variety: "Cabernet Sauvignon, Merlot",
+    approvalStatus: "pending",
+    approvalStatusText: "Chờ duyệt",
+    submittedAt: "2024-11-24T15:00:00Z",
+    createdAt: "2024-11-24T14:30:00Z",
+    countryOfProduction: "France",
+    grapeVariety: "Cabernet Sauvignon, Merlot",
     concentration: 13.5,
-    production_area: "Bordeaux",
-    vintage_year: 2020,
-    capacity_ml: 750,
-    ideal_temperature: "16-18°C",
-    storage_notes: "Nằm ngang, nhiệt độ ổn định",
+    productionArea: "Bordeaux",
+    vintageYear: 2020,
+    capacityMl: 750,
+    idealtemperature: "16-18°C",
+    storageNotes: "Nằm ngang, nhiệt độ ổn định",
     description:
       "Chateau Margaux 2020 là một trong những loại rượu vang đỏ cao cấp nhất từ vùng Bordeaux, Pháp. Với hương vị phức tạp và cân bằng hoàn hảo.",
     status: 0,
@@ -128,32 +128,32 @@ const mockProducts: ProductApproval[] = [
       country: "Australia",
     },
     price: 12500000,
-    base_price: 14000000,
+    basePrice: 14000000,
     images: [
       "https://images.unsplash.com/photo-1586370434639-0fe43b2d32d6?w=400",
     ],
     seller: {
-      user_id: 457,
-      full_name: "Trần Thị B",
+      userId: 457,
+      fullName: "Trần Thị B",
       email: "tranthib@example.com",
-      phone_number: "0923456789",
-      total_products: 18,
-      approved_products: 16,
-      rejected_products: 0,
-      seller_rating: 4.6,
+      phoneNumber: "0923456789",
+      totalProducts: 18,
+      approvedProducts: 16,
+      rejectedProducts: 0,
+      sellerRating: 4.6,
     },
-    approval_status: "pending",
-    approval_status_text: "Chờ duyệt",
-    submitted_at: "2024-11-25T09:30:00Z",
-    created_at: "2024-11-25T09:00:00Z",
-    country_of_production: "Australia",
-    grape_variety: "Shiraz",
+    approvalStatus: "pending",
+    approvalStatusText: "Chờ duyệt",
+    submittedAt: "2024-11-25T09:30:00Z",
+    createdAt: "2024-11-25T09:00:00Z",
+    countryOfProduction: "Australia",
+    grapeVariety: "Shiraz",
     concentration: 14.5,
-    production_area: "South Australia",
-    vintage_year: 2018,
-    capacity_ml: 750,
-    ideal_temperature: "16-18°C",
-    storage_notes: "Bảo quản nơi khô ráo, thoáng mát",
+    productionArea: "South Australia",
+    vintageYear: 2018,
+    capacityMl: 750,
+    idealtemperature: "16-18°C",
+    storageNotes: "Bảo quản nơi khô ráo, thoáng mát",
     description:
       "Penfolds Grange là biểu tượng của rượu vang Úc, với hương vị mạnh mẽ và đậm đà.",
     status: 0,
@@ -173,31 +173,31 @@ const mockProducts: ProductApproval[] = [
       country: "USA",
     },
     price: 22000000,
-    base_price: 25000000,
+    basePrice: 25000000,
     images: [
       "https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=400",
     ],
     seller: {
-      user_id: 458,
-      full_name: "Lê Văn C",
+      userId: 458,
+      fullName: "Lê Văn C",
       email: "levanc@example.com",
-      total_products: 32,
-      approved_products: 30,
-      rejected_products: 1,
-      seller_rating: 4.9,
+      totalProducts: 32,
+      approvedProducts: 30,
+      rejectedProducts: 1,
+      sellerRating: 4.9,
     },
-    approval_status: "pending",
-    approval_status_text: "Chờ duyệt",
-    submitted_at: "2024-11-25T11:00:00Z",
-    created_at: "2024-11-25T10:45:00Z",
-    country_of_production: "USA",
-    grape_variety: "Cabernet Sauvignon, Merlot, Cabernet Franc",
+    approvalStatus: "pending",
+    approvalStatusText: "Chờ duyệt",
+    submittedAt: "2024-11-25T11:00:00Z",
+    createdAt: "2024-11-25T10:45:00Z",
+    countryOfProduction: "USA",
+    grapeVariety: "Cabernet Sauvignon, Merlot, Cabernet Franc",
     concentration: 14.0,
-    production_area: "Napa Valley",
-    vintage_year: 2019,
-    capacity_ml: 750,
-    ideal_temperature: "16-18°C",
-    storage_notes: "Nằm ngang, tránh ánh sáng trực tiếp",
+    productionArea: "Napa Valley",
+    vintageYear: 2019,
+    capacityMl: 750,
+    idealtemperature: "16-18°C",
+    storageNotes: "Nằm ngang, tránh ánh sáng trực tiếp",
     description:
       "Opus One là sự hợp tác giữa Baron Philippe de Rothschild và Robert Mondavi, tạo nên một trong những loại rượu vang cao cấp nhất của Mỹ.",
     status: 0,
@@ -217,31 +217,31 @@ const mockProducts: ProductApproval[] = [
       country: "France",
     },
     price: 18000000,
-    base_price: 20000000,
+    basePrice: 20000000,
     images: [
       "https://images.unsplash.com/photo-1598520106830-8c45c2035460?w=400",
     ],
     seller: {
-      user_id: 459,
-      full_name: "Phạm Thị D",
+      userId: 459,
+      fullName: "Phạm Thị D",
       email: "phamthid@example.com",
-      total_products: 15,
-      approved_products: 14,
-      rejected_products: 0,
-      seller_rating: 4.7,
+      totalProducts: 15,
+      approvedProducts: 14,
+      rejectedProducts: 0,
+      sellerRating: 4.7,
     },
-    approval_status: "approved",
-    approval_status_text: "Đã duyệt",
-    submitted_at: "2024-11-20T14:00:00Z",
-    created_at: "2024-11-20T13:30:00Z",
-    country_of_production: "France",
-    grape_variety: "Chardonnay, Pinot Noir",
+    approvalStatus: "approved",
+    approvalStatusText: "Đã duyệt",
+    submittedAt: "2024-11-20T14:00:00Z",
+    createdAt: "2024-11-20T13:30:00Z",
+    countryOfProduction: "France",
+    grapeVariety: "Chardonnay, Pinot Noir",
     concentration: 12.5,
-    production_area: "Champagne",
-    vintage_year: 2012,
-    capacity_ml: 750,
-    ideal_temperature: "8-10°C",
-    storage_notes: "Bảo quản nơi mát, tránh rung động",
+    productionArea: "Champagne",
+    vintageYear: 2012,
+    capacityMl: 750,
+    idealtemperature: "8-10°C",
+    storageNotes: "Bảo quản nơi mát, tránh rung động",
     description:
       "Dom Pérignon là champagne cao cấp với hương vị tinh tế và bọt khí mịn màng.",
     status: 1,
@@ -261,29 +261,29 @@ const mockProducts: ProductApproval[] = [
       country: "Italy",
     },
     price: 15000000,
-    base_price: 17000000,
+    basePrice: 17000000,
     images: ["https://images.unsplash.com/photo-1566754436-d9e8c96c4b6e?w=400"],
     seller: {
-      user_id: 460,
-      full_name: "Hoàng Văn E",
+      userId: 460,
+      fullName: "Hoàng Văn E",
       email: "hoangvane@example.com",
-      total_products: 28,
-      approved_products: 26,
-      rejected_products: 1,
-      seller_rating: 4.8,
+      totalProducts: 28,
+      approvedProducts: 26,
+      rejectedProducts: 1,
+      sellerRating: 4.8,
     },
-    approval_status: "rejected",
-    approval_status_text: "Đã từ chối",
-    submitted_at: "2024-11-22T10:00:00Z",
-    created_at: "2024-11-22T09:30:00Z",
-    country_of_production: "Italy",
-    grape_variety: "Cabernet Sauvignon, Cabernet Franc",
+    approvalStatus: "rejected",
+    approvalStatusText: "Đã từ chối",
+    submittedAt: "2024-11-22T10:00:00Z",
+    createdAt: "2024-11-22T09:30:00Z",
+    countryOfProduction: "Italy",
+    grapeVariety: "Cabernet Sauvignon, Cabernet Franc",
     concentration: 13.5,
-    production_area: "Tuscany",
-    vintage_year: 2017,
-    capacity_ml: 750,
-    ideal_temperature: "16-18°C",
-    storage_notes: "Nằm ngang, nhiệt độ ổn định",
+    productionArea: "Tuscany",
+    vintageYear: 2017,
+    capacityMl: 750,
+    idealtemperature: "16-18°C",
+    storageNotes: "Nằm ngang, nhiệt độ ổn định",
     description:
       "Sassicaia là một trong những Super Tuscan nổi tiếng nhất, với phong cách Bordeaux độc đáo.",
     status: 0,
@@ -303,31 +303,31 @@ const mockProducts: ProductApproval[] = [
       country: "New Zealand",
     },
     price: 1800000,
-    base_price: 2000000,
+    basePrice: 2000000,
     images: [
       "https://images.unsplash.com/photo-1597306691829-6e6c3e6e5e5e?w=400",
     ],
     seller: {
-      user_id: 461,
-      full_name: "Vũ Thị F",
+      userId: 461,
+      fullName: "Vũ Thị F",
       email: "vuthif@example.com",
-      total_products: 20,
-      approved_products: 19,
-      rejected_products: 0,
-      seller_rating: 4.5,
+      totalProducts: 20,
+      approvedProducts: 19,
+      rejectedProducts: 0,
+      sellerRating: 4.5,
     },
-    approval_status: "pending",
-    approval_status_text: "Chờ duyệt",
-    submitted_at: "2024-11-25T13:00:00Z",
-    created_at: "2024-11-25T12:45:00Z",
-    country_of_production: "New Zealand",
-    grape_variety: "Sauvignon Blanc",
+    approvalStatus: "pending",
+    approvalStatusText: "Chờ duyệt",
+    submittedAt: "2024-11-25T13:00:00Z",
+    createdAt: "2024-11-25T12:45:00Z",
+    countryOfProduction: "New Zealand",
+    grapeVariety: "Sauvignon Blanc",
     concentration: 13.0,
-    production_area: "Marlborough",
-    vintage_year: 2021,
-    capacity_ml: 750,
-    ideal_temperature: "8-10°C",
-    storage_notes: "Bảo quản nơi mát, tránh ánh sáng",
+    productionArea: "Marlborough",
+    vintageYear: 2021,
+    capacityMl: 750,
+    idealtemperature: "8-10°C",
+    storageNotes: "Bảo quản nơi mát, tránh ánh sáng",
     description:
       "Cloudy Bay Sauvignon Blanc là biểu tượng của rượu vang New Zealand với hương vị tươi mát.",
     status: 0,
@@ -347,29 +347,29 @@ const mockProducts: ProductApproval[] = [
       country: "Italy",
     },
     price: 8500000,
-    base_price: 9500000,
+    basePrice: 9500000,
     images: ["https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=400"],
     seller: {
-      user_id: 462,
-      full_name: "Đặng Văn G",
+      userId: 462,
+      fullName: "Đặng Văn G",
       email: "dangvang@example.com",
-      total_products: 22,
-      approved_products: 21,
-      rejected_products: 0,
-      seller_rating: 4.6,
+      totalProducts: 22,
+      approvedProducts: 21,
+      rejectedProducts: 0,
+      sellerRating: 4.6,
     },
-    approval_status: "pending",
-    approval_status_text: "Chờ duyệt",
-    submitted_at: "2024-11-25T14:30:00Z",
-    created_at: "2024-11-25T14:00:00Z",
-    country_of_production: "Italy",
-    grape_variety: "Sangiovese, Cabernet Sauvignon, Cabernet Franc",
+    approvalStatus: "pending",
+    approvalStatusText: "Chờ duyệt",
+    submittedAt: "2024-11-25T14:30:00Z",
+    createdAt: "2024-11-25T14:00:00Z",
+    countryOfProduction: "Italy",
+    grapeVariety: "Sangiovese, Cabernet Sauvignon, Cabernet Franc",
     concentration: 13.5,
-    production_area: "Tuscany",
-    vintage_year: 2018,
-    capacity_ml: 750,
-    ideal_temperature: "16-18°C",
-    storage_notes: "Nằm ngang, nhiệt độ ổn định",
+    productionArea: "Tuscany",
+    vintageYear: 2018,
+    capacityMl: 750,
+    idealtemperature: "16-18°C",
+    storageNotes: "Nằm ngang, nhiệt độ ổn định",
     description:
       "Tignanello là một trong những Super Tuscan đầu tiên và nổi tiếng nhất của Ý.",
     status: 0,
@@ -382,7 +382,7 @@ export const fetchProductApprovals = async (params?: {
   limit?: number;
   status?: "all" | "pending" | "approved" | "rejected";
   seller_id?: number;
-  category_id?: number;
+  categoryId?: number;
   sort?: "newest" | "oldest";
 }): Promise<ProductApprovalsResponse> => {
   await new Promise((resolve) => setTimeout(resolve, 800));
@@ -399,14 +399,14 @@ export const fetchProductApprovals = async (params?: {
   // Filter by status
   if (status !== "all") {
     filteredProducts = filteredProducts.filter(
-      (product) => product.approval_status === status
+      (product) => product.approvalStatus === status
     );
   }
 
   // Sort
   filteredProducts.sort((a, b) => {
-    const dateA = new Date(a.submitted_at).getTime();
-    const dateB = new Date(b.submitted_at).getTime();
+    const dateA = new Date(a.submittedAt).getTime();
+    const dateB = new Date(b.submittedAt).getTime();
     return sort === "newest" ? dateB - dateA : dateA - dateB;
   });
 
@@ -417,13 +417,13 @@ export const fetchProductApprovals = async (params?: {
 
   // Calculate summary
   const summary = {
-    total_pending: mockProducts.filter((p) => p.approval_status === "pending")
+    totalPending: mockProducts.filter((p) => p.approvalStatus === "pending")
       .length,
-    total_approved_today: mockProducts.filter(
-      (p) => p.approval_status === "approved"
+    totalApprovedToday: mockProducts.filter(
+      (p) => p.approvalStatus === "approved"
     ).length,
-    total_rejected_today: mockProducts.filter(
-      (p) => p.approval_status === "rejected"
+    totalRejectedToday: mockProducts.filter(
+      (p) => p.approvalStatus === "rejected"
     ).length,
   };
 
@@ -432,9 +432,9 @@ export const fetchProductApprovals = async (params?: {
     data: {
       products: paginatedProducts,
       pagination: {
-        current_page: page,
-        total_pages: Math.ceil(filteredProducts.length / limit),
-        total_items: filteredProducts.length,
+        currentPage: page,
+        totalPages: Math.ceil(filteredProducts.length / limit),
+        totalItems: filteredProducts.length,
       },
       summary,
     },
@@ -466,8 +466,8 @@ export const approveProduct = async (
 
   const product = mockProducts.find((p) => p.id === productId);
   if (product) {
-    product.approval_status = "approved";
-    product.approval_status_text = "Đã duyệt";
+    product.approvalStatus = "approved";
+    product.approvalStatusText = "Đã duyệt";
     product.status = 1;
   }
 
@@ -486,8 +486,8 @@ export const rejectProduct = async (
 
   const product = mockProducts.find((p) => p.id === productId);
   if (product) {
-    product.approval_status = "rejected";
-    product.approval_status_text = "Đã từ chối";
+    product.approvalStatus = "rejected";
+    product.approvalStatusText = "Đã từ chối";
     product.status = 0;
   }
 
@@ -506,8 +506,8 @@ export const requestProductChanges = async (
 
   const product = mockProducts.find((p) => p.id === productId);
   if (product) {
-    product.approval_status = "pending_changes";
-    product.approval_status_text = "Yêu cầu chỉnh sửa";
+    product.approvalStatus = "pending_changes";
+    product.approvalStatusText = "Yêu cầu chỉnh sửa";
   }
 
   return {

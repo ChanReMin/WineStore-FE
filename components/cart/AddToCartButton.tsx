@@ -50,7 +50,7 @@ export default function AddToCartButton({
         slug: productSlug,
         image: productImage,
         price: productPrice,
-        max_quantity: maxQuantity,
+        maxQuantity: maxQuantity,
       });
       setIsAdded(true);
       toast.success(t("success", { quantity, productName }));
@@ -61,9 +61,7 @@ export default function AddToCartButton({
         setQuantity(1);
       }, 2000);
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : t("error")
-      );
+      toast.error(error instanceof Error ? error.message : t("error"));
     }
   };
 

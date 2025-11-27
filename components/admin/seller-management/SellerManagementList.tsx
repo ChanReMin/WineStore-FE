@@ -42,15 +42,15 @@ export default function SellerManagementList() {
   const [loading, setLoading] = useState(true);
   const [sellers, setSellers] = useState<Seller[]>([]);
   const [summary, setSummary] = useState({
-    total_sellers: 0,
-    active_sellers: 0,
-    inactive_sellers: 0,
-    locked_sellers: 0,
+    totalSellers: 0,
+    activeSellers: 0,
+    inactiveSellers: 0,
+    lockedSellers: 0,
   });
   const [pagination, setPagination] = useState({
-    current_page: 1,
-    total_pages: 1,
-    total_records: 0,
+    currentPage: 1,
+    totalPages: 1,
+    totalRecords: 0,
   });
 
   // Filters
@@ -111,7 +111,7 @@ export default function SellerManagementList() {
   };
 
   const handleActionComplete = () => {
-    loadData(pagination.current_page);
+    loadData(pagination.currentPage);
   };
 
   const getStatusBadge = (status: number) => {
@@ -200,7 +200,7 @@ export default function SellerManagementList() {
                     {t("summary.totalSellers")}
                   </p>
                   <p className="text-3xl font-bold text-[#3b4417]">
-                    {summary.total_sellers}
+                    {summary.totalSellers}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] p-3 rounded-xl">
@@ -224,7 +224,7 @@ export default function SellerManagementList() {
                     {t("summary.activeSellers")}
                   </p>
                   <p className="text-3xl font-bold text-emerald-600">
-                    {summary.active_sellers}
+                    {summary.activeSellers}
                   </p>
                 </div>
                 <div className="bg-emerald-50 p-3 rounded-xl">
@@ -248,7 +248,7 @@ export default function SellerManagementList() {
                     {t("summary.inactiveSellers")}
                   </p>
                   <p className="text-3xl font-bold text-amber-600">
-                    {summary.inactive_sellers}
+                    {summary.inactiveSellers}
                   </p>
                 </div>
                 <div className="bg-amber-50 p-3 rounded-xl">
@@ -272,7 +272,7 @@ export default function SellerManagementList() {
                     {t("summary.lockedSellers")}
                   </p>
                   <p className="text-3xl font-bold text-red-600">
-                    {summary.locked_sellers}
+                    {summary.lockedSellers}
                   </p>
                 </div>
                 <div className="bg-red-50 p-3 rounded-xl">
@@ -362,12 +362,12 @@ export default function SellerManagementList() {
                         <div className="flex items-center gap-3">
                           <img
                             src={seller.avatar}
-                            alt={`${seller.first_name} ${seller.last_name}`}
+                            alt={`${seller.firstName} ${seller.lastName}`}
                             className="w-10 h-10 rounded-full object-cover"
                           />
                           <div>
                             <p className="font-medium text-[#3b4417]">
-                              {seller.first_name} {seller.last_name}
+                              {seller.firstName} {seller.lastName}
                             </p>
                             <p className="text-xs text-neutral-500">
                               ID: {seller.id}
@@ -385,10 +385,10 @@ export default function SellerManagementList() {
                               {seller.email}
                             </span>
                           </div>
-                          {seller.phone_number && (
+                          {seller.phoneNumber && (
                             <div className="flex items-center gap-2 text-sm text-neutral-600">
                               <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                              <span>{seller.phone_number}</span>
+                              <span>{seller.phoneNumber}</span>
                             </div>
                           )}
                         </div>
@@ -396,15 +396,15 @@ export default function SellerManagementList() {
 
                       {/* Warehouses */}
                       <td className="px-6 py-4">
-                        {seller.managed_warehouses.length > 0 ? (
+                        {seller.managedWarehouses.length > 0 ? (
                           <div className="flex flex-wrap gap-1 max-w-[200px]">
-                            {seller.managed_warehouses.map((warehouse) => (
+                            {seller.managedWarehouses.map((warehouse) => (
                               <span
-                                key={warehouse.warehouse_id}
+                                key={warehouse.warehouseId}
                                 className="inline-flex items-center gap-1 px-2 py-1 bg-[#f5f3e8] text-[#3b4417] text-xs rounded"
                               >
                                 <Warehouse className="w-3 h-3" />
-                                {warehouse.warehouse_name}
+                                {warehouse.warehouseName}
                               </span>
                             ))}
                           </div>
@@ -422,7 +422,7 @@ export default function SellerManagementList() {
                                 style: "currency",
                                 currency: "VND",
                                 notation: "compact",
-                              }).format(seller.statistics.total_revenue)}
+                              }).format(seller.statistics.totalRevenue)}
                             </div>
                           </div>
                         ) : (
@@ -504,37 +504,34 @@ export default function SellerManagementList() {
       </Card>
 
       {/* Pagination */}
-      {pagination.total_pages > 1 && (
+      {pagination.totalPages > 1 && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <p className="text-sm text-neutral-600">
                 {t("pagination.showing")}{" "}
-                {(pagination.current_page - 1) * 10 + 1} -{" "}
-                {Math.min(
-                  pagination.current_page * 10,
-                  pagination.total_records
-                )}{" "}
-                {t("pagination.of")} {pagination.total_records}
+                {(pagination.currentPage - 1) * 10 + 1} -{" "}
+                {Math.min(pagination.currentPage * 10, pagination.totalRecords)}{" "}
+                {t("pagination.of")} {pagination.totalRecords}
               </p>
               <div className="flex items-center gap-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page - 1)}
-                  disabled={pagination.current_page === 1}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </motion.button>
                 <span className="text-sm text-neutral-600">
-                  {pagination.current_page} / {pagination.total_pages}
+                  {pagination.currentPage} / {pagination.totalPages}
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page + 1)}
-                  disabled={pagination.current_page === pagination.total_pages}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />

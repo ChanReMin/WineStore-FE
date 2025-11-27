@@ -34,10 +34,10 @@ export default function CreateUserModal({
     password: "",
     role: 0,
     status: 1,
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    date_of_birth: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dateOfBirth: "",
     gender: 1,
   });
 
@@ -51,11 +51,11 @@ export default function CreateUserModal({
         password: formData.password,
         role: formData.role,
         status: formData.status,
-        user_info: {
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone_number: formData.phone_number,
-          date_of_birth: formData.date_of_birth,
+        userInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phoneNumber: formData.phoneNumber,
+          dateOfBirth: formData.dateOfBirth,
           gender: formData.gender,
         },
       });
@@ -68,10 +68,10 @@ export default function CreateUserModal({
         password: "",
         role: 0,
         status: 1,
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        date_of_birth: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        dateOfBirth: "",
         gender: 1,
       });
     } catch (error: any) {
@@ -121,28 +121,28 @@ export default function CreateUserModal({
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="first_name">
+                    <Label htmlFor="firstName">
                       {t("createModal.firstName")} *
                     </Label>
                     <Input
-                      id="first_name"
-                      value={formData.first_name}
+                      id="firstName"
+                      value={formData.firstName}
                       onChange={(e) =>
-                        setFormData({ ...formData, first_name: e.target.value })
+                        setFormData({ ...formData, firstName: e.target.value })
                       }
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="last_name">
+                    <Label htmlFor="lastName">
                       {t("createModal.lastName")} *
                     </Label>
                     <Input
-                      id="last_name"
-                      value={formData.last_name}
+                      id="lastName"
+                      value={formData.lastName}
                       onChange={(e) =>
-                        setFormData({ ...formData, last_name: e.target.value })
+                        setFormData({ ...formData, lastName: e.target.value })
                       }
                       required
                     />
@@ -183,33 +183,33 @@ export default function CreateUserModal({
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone_number">
+                    <Label htmlFor="phoneNumber">
                       {t("createModal.phone")}
                     </Label>
                     <Input
-                      id="phone_number"
-                      value={formData.phone_number}
+                      id="phoneNumber"
+                      value={formData.phoneNumber}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          phone_number: e.target.value,
+                          phoneNumber: e.target.value,
                         })
                       }
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="date_of_birth">
+                    <Label htmlFor="dateOfBirth">
                       {t("createModal.dateOfBirth")}
                     </Label>
                     <Input
-                      id="date_of_birth"
+                      id="dateOfBirth"
                       type="date"
-                      value={formData.date_of_birth}
+                      value={formData.dateOfBirth}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          date_of_birth: e.target.value,
+                          dateOfBirth: e.target.value,
                         })
                       }
                     />

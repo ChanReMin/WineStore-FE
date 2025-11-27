@@ -18,9 +18,9 @@ export default function ChangePasswordModal({
   const t = useTranslations("profile.changePassword");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    old_password: "",
-    new_password: "",
-    confirm_password: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
   const [showPasswords, setShowPasswords] = useState({
     old: false,
@@ -31,12 +31,12 @@ export default function ChangePasswordModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.new_password !== formData.confirm_password) {
+    if (formData.newPassword !== formData.confirmPassword) {
       toast.error(t("passwordMismatch"));
       return;
     }
 
-    if (formData.new_password.length < 8) {
+    if (formData.newPassword.length < 8) {
       toast.error(t("passwordTooShort"));
       return;
     }
@@ -46,7 +46,7 @@ export default function ChangePasswordModal({
     try {
       await profileService.changePassword(formData);
       toast.success(t("success"));
-      setFormData({ old_password: "", new_password: "", confirm_password: "" });
+      setFormData({ oldPassword: "", newPassword: "", confirmPassword: "" });
       onClose();
     } catch (error: any) {
       toast.error(error.message || t("error"));
@@ -110,11 +110,11 @@ export default function ChangePasswordModal({
                   <div className="relative">
                     <input
                       type={showPasswords.old ? "text" : "password"}
-                      value={formData.old_password}
+                      value={formData.oldPassword}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          old_password: e.target.value,
+                          oldPassword: e.target.value,
                         })
                       }
                       required
@@ -177,11 +177,11 @@ export default function ChangePasswordModal({
                   <div className="relative">
                     <input
                       type={showPasswords.new ? "text" : "password"}
-                      value={formData.new_password}
+                      value={formData.newPassword}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          new_password: e.target.value,
+                          newPassword: e.target.value,
                         })
                       }
                       required
@@ -245,11 +245,11 @@ export default function ChangePasswordModal({
                   <div className="relative">
                     <input
                       type={showPasswords.confirm ? "text" : "password"}
-                      value={formData.confirm_password}
+                      value={formData.confirmPassword}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          confirm_password: e.target.value,
+                          confirmPassword: e.target.value,
                         })
                       }
                       required

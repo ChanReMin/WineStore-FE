@@ -11,7 +11,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 50,
       user: "Nguyễn Văn A",
       note: "Received from supplier ABC",
-      created_at: "2024-01-15T10:30:00Z",
+      createdAt: "2024-01-15T10:30:00Z",
     },
     {
       id: 2,
@@ -21,7 +21,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 20,
       user: "Trần Thị B",
       note: "Shipped for order #ORD-001",
-      created_at: "2024-01-15T14:20:00Z",
+      createdAt: "2024-01-15T14:20:00Z",
     },
     {
       id: 3,
@@ -31,7 +31,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 30,
       user: "Nguyễn Văn A",
       note: "Restocked inventory",
-      created_at: "2024-01-16T09:15:00Z",
+      createdAt: "2024-01-16T09:15:00Z",
     },
     {
       id: 4,
@@ -41,7 +41,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: -5,
       user: "Lê Văn C",
       note: "Adjustment due to shortage found in stocktaking",
-      created_at: "2024-01-16T11:45:00Z",
+      createdAt: "2024-01-16T11:45:00Z",
     },
     {
       id: 5,
@@ -51,7 +51,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 15,
       user: "Trần Thị B",
       note: "Shipped for order #ORD-002",
-      created_at: "2024-01-17T08:30:00Z",
+      createdAt: "2024-01-17T08:30:00Z",
     },
     {
       id: 6,
@@ -61,7 +61,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 3,
       user: "Nguyễn Văn A",
       note: "Customer returned – shipping damage",
-      created_at: "2024-01-17T15:20:00Z",
+      createdAt: "2024-01-17T15:20:00Z",
     },
     {
       id: 7,
@@ -71,7 +71,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 40,
       user: "Trần Thị B",
       note: "New stock received from supplier XYZ",
-      created_at: "2024-01-18T10:00:00Z",
+      createdAt: "2024-01-18T10:00:00Z",
     },
     {
       id: 8,
@@ -81,7 +81,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 10,
       user: "Lê Văn C",
       note: "Shipped for order #ORD-003",
-      created_at: "2024-01-18T13:45:00Z",
+      createdAt: "2024-01-18T13:45:00Z",
     },
     {
       id: 9,
@@ -91,7 +91,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 25,
       user: "Trần Thị B",
       note: "Restocked due to sold out",
-      created_at: "2024-01-19T09:30:00Z",
+      createdAt: "2024-01-19T09:30:00Z",
     },
     {
       id: 10,
@@ -101,7 +101,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 10,
       user: "Nguyễn Văn A",
       note: "Adjustment after stocktaking – found excess",
-      created_at: "2024-01-19T16:00:00Z",
+      createdAt: "2024-01-19T16:00:00Z",
     },
     {
       id: 11,
@@ -111,7 +111,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 8,
       user: "Nguyễn Văn A",
       note: "Shipped for order #ORD-004",
-      created_at: "2024-01-20T11:20:00Z",
+      createdAt: "2024-01-20T11:20:00Z",
     },
     {
       id: 12,
@@ -121,7 +121,7 @@ export const mockInventoryLogs: InventoryLogResponse = {
       quantity: 60,
       user: "Trần Thị B",
       note: "New shipment received",
-      created_at: "2024-01-20T14:30:00Z",
+      createdAt: "2024-01-20T14:30:00Z",
     },
   ],
 };

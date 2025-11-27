@@ -105,12 +105,12 @@ export default function ApproveRejectModal({
             <div className="flex items-center gap-3">
               <img
                 src={request.user.avatar}
-                alt={request.user.full_name}
+                alt={request.user.fullName}
                 className="w-12 h-12 rounded-full"
               />
               <div>
                 <p className="font-semibold text-neutral-900">
-                  {request.user.full_name}
+                  {request.user.fullName}
                 </p>
                 <p className="text-sm text-neutral-600">{request.user.email}</p>
               </div>

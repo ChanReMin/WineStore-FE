@@ -7,7 +7,7 @@ export interface InventoryLog {
   quantity: number;
   user: string;
   note?: string;
-  created_at: string;
+  createdAt: string;
 }
 
 export interface InventoryLogResponse {

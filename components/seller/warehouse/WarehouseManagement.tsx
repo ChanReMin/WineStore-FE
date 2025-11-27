@@ -28,7 +28,7 @@ export default function WarehouseManagement() {
   const t = useTranslations("seller.warehouses");
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [statistics, setStatistics] = useState({
-    total_warehouses: 0,
+    totalWarehouses: 0,
     active_warehouses: 0,
     pending_warehouses: 0,
     banned_warehouses: 0,
@@ -65,7 +65,7 @@ export default function WarehouseManagement() {
 
       setWarehouses(warehousesResult.data.warehouses);
       setStatistics({
-        total_warehouses: statsResult.data.total_warehouses,
+        totalWarehouses: statsResult.data.totalWarehouses,
         active_warehouses: statsResult.data.active_warehouses,
         pending_warehouses: statsResult.data.pending_warehouses,
         banned_warehouses: statsResult.data.banned_warehouses,
@@ -112,7 +112,7 @@ export default function WarehouseManagement() {
 
       {/* Statistics Cards */}
       <WarehouseStatCards
-        totalWarehouses={statistics.total_warehouses}
+        totalWarehouses={statistics.totalWarehouses}
         activeWarehouses={statistics.active_warehouses}
         pendingWarehouses={statistics.pending_warehouses}
         bannedWarehouses={statistics.banned_warehouses}

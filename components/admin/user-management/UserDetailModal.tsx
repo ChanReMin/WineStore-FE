@@ -129,7 +129,7 @@ export default function UserDetailModal({
                     {t("detailModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.user_info.first_name} {user.user_info.last_name}
+                    {user.userInfo.firstName} {user.userInfo.lastName}
                   </p>
                 </div>
               </div>
@@ -158,14 +158,14 @@ export default function UserDetailModal({
                 <div className="space-y-6">
                   <div className="flex items-start gap-6 p-6 bg-linear-to-br from-[#f5f3e8] to-white rounded-xl border border-[#3b4417]/10">
                     <img
-                      src={userDetail.user_info.avatar}
-                      alt={`${userDetail.user_info.first_name} ${userDetail.user_info.last_name}`}
+                      src={userDetail.userInfo.avatar}
+                      alt={`${userDetail.userInfo.firstName} ${userDetail.userInfo.lastName}`}
                       className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                     />
                     <div className="flex-1">
                       <h3 className="text-2xl font-bold text-[#3b4417] mb-2">
-                        {userDetail.user_info.first_name}{" "}
-                        {userDetail.user_info.last_name}
+                        {userDetail.userInfo.firstName}{" "}
+                        {userDetail.userInfo.lastName}
                       </h3>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {getStatusBadge(userDetail.account.status)}
@@ -190,18 +190,18 @@ export default function UserDetailModal({
                           <Mail className="w-4 h-4" />
                           <span>{userDetail.account.email}</span>
                         </div>
-                        {userDetail.user_info.phone_number && (
+                        {userDetail.userInfo.phoneNumber && (
                           <div className="flex items-center gap-2 text-sm text-neutral-600">
                             <Phone className="w-4 h-4" />
-                            <span>{userDetail.user_info.phone_number}</span>
+                            <span>{userDetail.userInfo.phoneNumber}</span>
                           </div>
                         )}
-                        {userDetail.user_info.date_of_birth && (
+                        {userDetail.userInfo.dateOfBirth && (
                           <div className="flex items-center gap-2 text-sm text-neutral-600">
                             <Calendar className="w-4 h-4" />
                             <span>
                               {new Date(
-                                userDetail.user_info.date_of_birth
+                                userDetail.userInfo.dateOfBirth
                               ).toLocaleDateString("vi-VN")}
                             </span>
                           </div>
@@ -211,7 +211,7 @@ export default function UserDetailModal({
                           <span>
                             {t("detailModal.joined")}:{" "}
                             {new Date(
-                              userDetail.account.created_at
+                              userDetail.account.createdAt
                             ).toLocaleDateString("vi-VN")}
                           </span>
                         </div>
@@ -228,10 +228,10 @@ export default function UserDetailModal({
                         </span>
                       </div>
                       <p className="text-2xl font-bold text-blue-600">
-                        {userDetail.order_stats.total_orders}
+                        {userDetail.orderStats.totalOrders}
                       </p>
                       <p className="text-xs text-blue-600 mt-1">
-                        {userDetail.order_stats.completed_orders}{" "}
+                        {userDetail.orderStats.completedOrders}{" "}
                         {t("detailModal.completed")}
                       </p>
                     </div>
@@ -248,7 +248,7 @@ export default function UserDetailModal({
                           style: "currency",
                           currency: "VND",
                           notation: "compact",
-                        }).format(userDetail.order_stats.total_spent)}
+                        }).format(userDetail.orderStats.totalSpent)}
                       </p>
                     </div>
 
@@ -264,7 +264,7 @@ export default function UserDetailModal({
                           style: "currency",
                           currency: "VND",
                           notation: "compact",
-                        }).format(userDetail.order_stats.avg_order_value)}
+                        }).format(userDetail.orderStats.avgOrderValue)}
                       </p>
                     </div>
                   </div>
@@ -283,19 +283,19 @@ export default function UserDetailModal({
                           >
                             <div className="flex items-start justify-between mb-2">
                               <p className="font-medium text-neutral-900">
-                                {address.full_name}
+                                {address.fullName}
                               </p>
-                              {address.is_default && (
+                              {address.isDefault && (
                                 <span className="px-2 py-1 bg-[#3b4417] text-white text-xs rounded">
                                   {t("detailModal.default")}
                                 </span>
                               )}
                             </div>
                             <p className="text-sm text-neutral-600">
-                              {address.phone_number}
+                              {address.phoneNumber}
                             </p>
                             <p className="text-sm text-neutral-600">
-                              {address.address_line}, {address.ward},{" "}
+                              {address.addressLine}, {address.ward},{" "}
                               {address.district}, {address.city}
                             </p>
                           </div>
@@ -321,7 +321,7 @@ export default function UserDetailModal({
                                 {activity.description}
                               </p>
                               <p className="text-xs text-neutral-500">
-                                {new Date(activity.created_at).toLocaleString(
+                                {new Date(activity.createdAt).toLocaleString(
                                   "vi-VN"
                                 )}
                               </p>

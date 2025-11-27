@@ -50,7 +50,9 @@ export default function CartPage() {
       await removeCartItem(cartItemId);
       toast.success(t("success.itemRemoved"));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : t("errors.cannotRemove"));
+      toast.error(
+        error instanceof Error ? error.message : t("errors.cannotRemove")
+      );
     }
   };
 
@@ -95,7 +97,7 @@ export default function CartPage() {
                 {t("title")}
               </h1>
               <p className="mt-2 text-neutral-600">
-                {cart?.summary.total_items || 0} {t("items")}
+                {cart?.summary.totalItems || 0} {t("items")}
               </p>
             </div>
 
@@ -189,7 +191,7 @@ export default function CartPage() {
 
                       {/* Price */}
                       <p className="mb-4 text-base font-medium text-neutral-700">
-                        {item.unit_price.toLocaleString("vi-VN")}₫{" "}
+                        {item.unitPrice.toLocaleString("vi-VN")}₫{" "}
                         {t("perBottle")}
                       </p>
 
@@ -224,7 +226,7 @@ export default function CartPage() {
                                 handleUpdateQuantity(item.id, item.quantity + 1)
                               }
                               disabled={
-                                item.quantity >= item.product.max_quantity ||
+                                item.quantity >= item.product.maxQuantity ||
                                 isLoading
                               }
                               className="p-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
@@ -237,19 +239,19 @@ export default function CartPage() {
                         {/* Line Total */}
                         <div className="text-right">
                           <p className="text-2xl font-bold text-[#33391d]">
-                            {item.line_total.toLocaleString("vi-VN")}₫
+                            {item.lineTotal.toLocaleString("vi-VN")}₫
                           </p>
                           {item.quantity > 1 && (
                             <p className="text-sm text-neutral-500">
                               {item.quantity} ×{" "}
-                              {item.unit_price.toLocaleString("vi-VN")}₫
+                              {item.unitPrice.toLocaleString("vi-VN")}₫
                             </p>
                           )}
                         </div>
                       </div>
 
                       {/* Stock Warning */}
-                      {item.quantity >= item.product.max_quantity && (
+                      {item.quantity >= item.product.maxQuantity && (
                         <p className="mt-2 text-sm text-amber-600">
                           {t("maxQuantityReached")}
                         </p>
@@ -276,7 +278,8 @@ export default function CartPage() {
                   {/* Subtotal */}
                   <div className="flex items-center justify-between">
                     <span className="text-neutral-600">
-                      {t("subtotal")} ({cart?.summary.total_quantity} {t("items")})
+                      {t("subtotal")} ({cart?.summary.totalquantity}{" "}
+                      {t("items")})
                     </span>
                     <span className="font-semibold text-neutral-900">
                       {cart?.summary.subtotal.toLocaleString("vi-VN")}₫
@@ -286,11 +289,9 @@ export default function CartPage() {
                   {/* Shipping */}
                   <div className="flex items-center justify-between">
                     <span className="text-neutral-600">{t("shipping")}</span>
-                    {cart && cart.summary.estimated_shipping > 0 ? (
+                    {cart && cart.summary.estimatedshipping > 0 ? (
                       <span className="font-semibold text-neutral-900">
-                        {cart.summary.estimated_shipping.toLocaleString(
-                          "vi-VN"
-                        )}
+                        {cart.summary.estimatedshipping.toLocaleString("vi-VN")}
                         ₫
                       </span>
                     ) : (
@@ -309,19 +310,21 @@ export default function CartPage() {
                       {t("total")}
                     </span>
                     <span className="text-3xl font-bold text-[#33391d]">
-                      {cart?.summary.estimated_total.toLocaleString("vi-VN")}₫
+                      {cart?.summary.estimatedtotal.toLocaleString("vi-VN")}₫
                     </span>
                   </div>
                 </div>
 
                 {/* Checkout Button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="mt-6 w-full bg-[#33391d] py-4 text-sm font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#2a2f18] hover:shadow-lg"
-                >
-                  {t("checkoutNow")}
-                </motion.button>
+                <Link href="/checkout">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="mt-6 w-full bg-[#33391d] py-4 text-sm font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#2a2f18] hover:shadow-lg"
+                  >
+                    {t("checkoutNow")}
+                  </motion.button>
+                </Link>
 
                 {/* Continue Shopping */}
                 <Link

@@ -16,8 +16,8 @@ interface Product {
   slug: string;
   thumbnail: string;
   price: number;
-  base_price: number;
-  country_of_production: string;
+  basePrice: number;
+  countryOfProduction: string;
   concentration: number;
   brand: {
     id: number;
@@ -36,7 +36,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const router = useRouter();
   const { addToCart } = useCartStore();
   const discount = Math.round(
-    ((product.base_price - product.price) / product.base_price) * 100
+    ((product.basePrice - product.price) / product.basePrice) * 100
   );
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -55,7 +55,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         slug: product.slug,
         image: product.thumbnail,
         price: product.price,
-        max_quantity: 99,
+        maxQuantity: 99,
       });
       toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
     } catch (error) {
@@ -167,7 +167,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           {/* Country & Concentration */}
           <div className="mt-3 flex items-center gap-2 text-[12px] text-neutral-600">
             <MapPin size={13} strokeWidth={1.5} className="text-[#7b5b2c]" />
-            <span className="italic">{product.country_of_production}</span>
+            <span className="italic">{product.countryOfProduction}</span>
             <span className="text-[#d4af37]">•</span>
             <span className="font-medium">{product.concentration}% ABV</span>
           </div>
@@ -180,7 +180,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               </span>
               {discount > 0 && (
                 <span className="text-[13px] text-neutral-400 line-through">
-                  {product.base_price.toLocaleString("vi-VN")}₫
+                  {product.basePrice.toLocaleString("vi-VN")}₫
                 </span>
               )}
             </div>

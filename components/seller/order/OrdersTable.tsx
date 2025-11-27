@@ -101,7 +101,7 @@ export default function OrdersTable({
                 <TableCell className="font-medium text-[#3b4417]">
                   <div className="flex items-center gap-2">
                     <ShoppingBag className="w-4 h-4 text-[#7a8451]" />
-                    {order.order_code}
+                    {order.orderCode}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -120,20 +120,20 @@ export default function OrdersTable({
                 <TableCell>
                   <OrderStatusBadge
                     status={order.status}
-                    statusText={order.status_text}
+                    statusText={order.statusText}
                   />
                 </TableCell>
                 <TableCell>
-                  <PaymentStatusBadge status={order.payment_status} />
+                  <PaymentStatusBadge status={order.paymentStatus} />
                 </TableCell>
                 <TableCell className="font-semibold text-[#3b4417]">
-                  {formatPrice(order.final_amount)}
+                  {formatPrice(order.finalAmount)}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2 text-[#7a8451]">
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm">
-                      {formatDate(order.created_at)}
+                      {formatDate(order.createdAt)}
                     </span>
                   </div>
                 </TableCell>

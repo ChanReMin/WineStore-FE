@@ -12,7 +12,7 @@ import {
 import { useTranslations } from "next-intl";
 
 const ICONS = [Wine, Award, Utensils, Thermometer, BookOpen, Globe];
-const CATEGORY_IDS = [
+const categoryIdS = [
   "all",
   "tasting",
   "pairing",
@@ -32,7 +32,7 @@ export default function BlogCategories({
 }: BlogCategoriesProps) {
   const t = useTranslations("blog.categories");
 
-  const categories = CATEGORY_IDS.map((id, index) => ({
+  const categories = categoryIdS.map((id, index) => ({
     id,
     label: t(id),
     icon: ICONS[index],

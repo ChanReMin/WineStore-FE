@@ -80,13 +80,13 @@ export default function AddPromotionToProductModal({
   };
 
   const getDiscountText = (promotion: Promotion) => {
-    if (promotion.discount_type === 1) {
-      return `${promotion.discount_value}%`;
+    if (promotion.discounttype === 1) {
+      return `${promotion.discountvalue}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(promotion.discount_value);
+    }).format(promotion.discountvalue);
   };
 
   if (!isOpen || !product) return null;
@@ -175,7 +175,7 @@ export default function AddPromotionToProductModal({
                     promotion.id
                   );
                   const usagePercent =
-                    (promotion.used_count / promotion.max_usage) * 100;
+                    (promotion.usedcount / promotion.maxusage) * 100;
 
                   return (
                     <motion.button
@@ -226,8 +226,8 @@ export default function AddPromotionToProductModal({
                                       : "bg-emerald-100 text-emerald-700"
                                   }`}
                                 >
-                                  {promotion.used_count}/{promotion.max_usage}{" "}
-                                  đã dùng
+                                  {promotion.usedcount}/{promotion.maxusage} đã
+                                  dùng
                                 </span>
                               </div>
                               <p className="font-semibold text-[#3b4417] mb-1">
@@ -241,7 +241,7 @@ export default function AddPromotionToProductModal({
                             {/* Discount Badge */}
                             <div className="shrink-0 text-right">
                               <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#d4af37] text-white rounded-lg font-bold">
-                                {promotion.discount_type === 1 ? (
+                                {promotion.discounttype === 1 ? (
                                   <Percent className="h-4 w-4" />
                                 ) : (
                                   <DollarSign className="h-4 w-4" />
@@ -255,8 +255,8 @@ export default function AddPromotionToProductModal({
                           <div className="flex items-center gap-2 text-xs text-[#7a8451] mt-2">
                             <Calendar className="h-3 w-3" />
                             <span>
-                              {formatDate(promotion.start_date)} -{" "}
-                              {formatDate(promotion.end_date)}
+                              {formatDate(promotion.startdate)} -{" "}
+                              {formatDate(promotion.enddate)}
                             </span>
                           </div>
                         </div>

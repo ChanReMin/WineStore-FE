@@ -4,9 +4,9 @@ export interface User {
   email: string;
   username: string;
   role: "CUSTOMER" | "SELLER" | "ADMIN";
-  first_name?: string;
-  last_name?: string;
-  phone_number?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
 }
 
 export interface LoginRequest {
@@ -17,10 +17,10 @@ export interface LoginRequest {
 export interface RegisterRequest {
   email: string;
   password: string;
-  first_name?: string;
-  last_name?: string;
-  phone_number?: string;
-  date_of_birth?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
   gender?: number;
 }
 
@@ -28,10 +28,10 @@ export interface LoginResponse {
   success: boolean;
   message: string;
   data: {
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
-    expires_in: number;
+    accessToken: string;
+    refreshToken: string;
+    tokenType: string;
+    expiresIn: number;
     user: User;
   };
 }
@@ -39,8 +39,8 @@ export interface LoginResponse {
 export interface RefreshTokenResponse {
   success: boolean;
   data: {
-    access_token: string;
-    expires_in: number;
+    accessToken: string;
+    expiresIn: number;
   };
 }
 

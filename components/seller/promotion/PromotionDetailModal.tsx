@@ -117,8 +117,8 @@ export default function PromotionDetailModal({
                     </h3>
                     <PromotionStatusBadge
                       status={promotion.status}
-                      startDate={promotion.start_date}
-                      endDate={promotion.end_date}
+                      startDate={promotion.startdate}
+                      endDate={promotion.enddate}
                     />
                   </div>
                   <p className="text-lg font-semibold text-[#3b4417]">
@@ -127,15 +127,15 @@ export default function PromotionDetailModal({
                   <p className="text-[#7a8451] mt-1">{promotion.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  {promotion.discount_type === 1 ? (
+                  {promotion.discounttype === 1 ? (
                     <Percent className="h-8 w-8 text-[#d4af37]" />
                   ) : (
                     <DollarSign className="h-8 w-8 text-[#d4af37]" />
                   )}
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
-                      promotion.discount_type,
-                      promotion.discount_value
+                      promotion.discounttype,
+                      promotion.discountvalue
                     )}
                   </span>
                 </div>
@@ -149,7 +149,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {formatDate(promotion.start_date)}
+                      {formatDate(promotion.startdate)}
                     </p>
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {formatDate(promotion.end_date)}
+                      {formatDate(promotion.enddate)}
                     </p>
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {promotion.used_count} / {promotion.max_usage}
+                      {promotion.usedcount} / {promotion.maxusage}
                     </p>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-orange-600">
-                      {promotion.max_usage - promotion.used_count}
+                      {promotion.maxusage - promotion.usedcount}
                     </p>
                   </div>
                 </div>
@@ -201,7 +201,7 @@ export default function PromotionDetailModal({
                     Tổng đơn hàng
                   </p>
                   <p className="text-2xl font-bold text-[#3b4417]">
-                    {statistics.total_orders}
+                    {statistics.totalOrders}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -209,7 +209,7 @@ export default function PromotionDetailModal({
                     Tổng giảm giá
                   </p>
                   <p className="text-2xl font-bold text-[#d4af37]">
-                    {formatCurrency(statistics.total_discount_amount)}
+                    {formatCurrency(statistics.totalDiscountAmount)}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -217,7 +217,7 @@ export default function PromotionDetailModal({
                     Còn lại
                   </p>
                   <p className="text-2xl font-bold text-orange-600">
-                    {statistics.remaining_usage}
+                    {statistics.remainingUsage}
                   </p>
                 </div>
               </div>
@@ -229,18 +229,18 @@ export default function PromotionDetailModal({
                 </h5>
                 <ChartContainer
                   config={{
-                    usage_count: {
+                    usageCount: {
                       label: "Lượt sử dụng",
                       color: "#3b4417",
                     },
-                    discount_amount: {
+                    discountAmount: {
                       label: "Giảm giá (VNĐ)",
                       color: "#d4af37",
                     },
                   }}
                   className="h-[300px] w-full"
                 >
-                  <BarChart data={statistics.usage_by_date}>
+                  <BarChart data={statistics.usageByDate}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e8e6dc" />
                     <XAxis
                       dataKey="date"
@@ -259,7 +259,7 @@ export default function PromotionDetailModal({
                             return formatDate(value as string);
                           }}
                           formatter={(value, name) => {
-                            if (name === "discount_amount") {
+                            if (name === "discountAmount") {
                               return formatCurrency(value as number);
                             }
                             return value;
@@ -268,7 +268,7 @@ export default function PromotionDetailModal({
                       }
                     />
                     <Bar
-                      dataKey="usage_count"
+                      dataKey="usageCount"
                       fill="#3b4417"
                       radius={[4, 4, 0, 0]}
                     />
@@ -278,15 +278,15 @@ export default function PromotionDetailModal({
             </Card>
 
             {/* Applicable Products */}
-            {promotion.applicable_products &&
-              promotion.applicable_products.length > 0 && (
+            {promotion.applicableProducts &&
+              promotion.applicableProducts.length > 0 && (
                 <Card className="border-[#d4d6b4] p-6">
                   <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
                     <Package className="h-5 w-5" />
-                    Sản phẩm áp dụng ({promotion.applicable_products.length})
+                    Sản phẩm áp dụng ({promotion.applicableProducts.length})
                   </h4>
                   <div className="space-y-2">
-                    {promotion.applicable_products.map((product) => (
+                    {promotion.applicableProducts.map((product) => (
                       <div
                         key={product.id}
                         className="flex items-center justify-between p-3 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc]"

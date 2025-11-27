@@ -230,7 +230,7 @@ export default function ProductSelector({
                             }).format(product.price)}
                           </p>
                           <p className="text-xs text-[#7a8451]">
-                            Kho: {product.total_inventory}
+                            Kho: {product.totalInventory}
                           </p>
                         </div>
                       </motion.button>

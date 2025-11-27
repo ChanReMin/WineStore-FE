@@ -28,8 +28,8 @@ export const UserMenu = () => {
   };
 
   const getInitials = () => {
-    if (user?.first_name && user?.last_name) {
-      return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
     }
     if (user?.username) {
       return user.username.substring(0, 2).toUpperCase();
@@ -38,8 +38,8 @@ export const UserMenu = () => {
   };
 
   const getDisplayName = () => {
-    if (user?.first_name && user?.last_name) {
-      return `${user.first_name} ${user.last_name}`;
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName} ${user.lastName}`;
     }
     return user?.username || user?.email || "User";
   };
@@ -325,9 +325,7 @@ export const UserMenu = () => {
                       <div className="my-2 flex items-center gap-2 px-4">
                         <div className="h-px flex-1 bg-linear-to-r from-transparent via-neutral-300 to-transparent" />
                         <span className="text-[10px] font-medium uppercase tracking-widest text-neutral-500">
-                          {user?.role === "SELLER"
-                            ? t("seller")
-                            : t("admin")}
+                          {user?.role === "SELLER" ? t("seller") : t("admin")}
                         </span>
                         <div className="h-px flex-1 bg-linear-to-r from-transparent via-neutral-300 to-transparent" />
                       </div>

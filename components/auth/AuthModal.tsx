@@ -21,16 +21,18 @@ export default function AuthModal({
 }: AuthModalProps) {
   const t = useTranslations("auth");
   const [mode, setMode] = useState<"login" | "register">(initialMode);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     // Required fields
     email: "",
     password: "",
-    confirm_password: "",
+    confirmPassword: "",
     // Optional fields for register
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    date_of_birth: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dateOfBirth: "",
     gender: "1", // 1 = Male by default
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,11 +61,11 @@ export default function AuthModal({
         registerSchema.parse({
           email: formData.email,
           password: formData.password,
-          confirm_password: formData.confirm_password,
-          first_name: formData.first_name,
-          last_name: formData.last_name,
-          phone_number: formData.phone_number,
-          date_of_birth: formData.date_of_birth,
+          confirmPassword: formData.confirmPassword,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phoneNumber: formData.phoneNumber,
+          dateOfBirth: formData.dateOfBirth,
           gender: formData.gender,
           role: "customer",
         });
@@ -77,7 +79,7 @@ export default function AuthModal({
           }
         });
         setErrors(fieldErrors);
-        
+
         // Show first error in toast
         const firstIssue = error.issues[0];
         if (firstIssue) {
@@ -100,10 +102,10 @@ export default function AuthModal({
           : await register({
               email: formData.email,
               password: formData.password,
-              first_name: formData.first_name,
-              last_name: formData.last_name,
-              phone_number: formData.phone_number,
-              date_of_birth: formData.date_of_birth,
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              dateOfBirth: formData.dateOfBirth,
               gender: formData.gender ? Number.parseInt(formData.gender) : 1,
             });
 
@@ -119,11 +121,11 @@ export default function AuthModal({
           setFormData({
             email: formData.email,
             password: "",
-            confirm_password: "",
-            first_name: "",
-            last_name: "",
-            phone_number: "",
-            date_of_birth: "",
+            confirmPassword: "",
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            dateOfBirth: "",
             gender: "1",
           });
         }
@@ -146,15 +148,17 @@ export default function AuthModal({
   const switchMode = () => {
     setMode(mode === "login" ? "register" : "login");
     setErrors({});
+    setShowPassword(false);
+    setShowConfirmPassword(false);
     // Reset form data khi chuyển mode
     setFormData({
       email: "",
       password: "",
-      confirm_password: "",
-      first_name: "",
-      last_name: "",
-      phone_number: "",
-      date_of_birth: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      dateOfBirth: "",
       gender: "1",
     });
   };
@@ -258,7 +262,7 @@ export default function AuthModal({
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div>
                             <label
-                              htmlFor="first_name"
+                              htmlFor="firstName"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.firstName")}{" "}
@@ -268,9 +272,9 @@ export default function AuthModal({
                             </label>
                             <input
                               type="text"
-                              id="first_name"
-                              name="first_name"
-                              value={formData.first_name}
+                              id="firstName"
+                              name="firstName"
+                              value={formData.firstName}
                               onChange={handleChange}
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                               placeholder="John"
@@ -278,7 +282,7 @@ export default function AuthModal({
                           </div>
                           <div>
                             <label
-                              htmlFor="last_name"
+                              htmlFor="lastName"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.lastName")}{" "}
@@ -288,9 +292,9 @@ export default function AuthModal({
                             </label>
                             <input
                               type="text"
-                              id="last_name"
-                              name="last_name"
-                              value={formData.last_name}
+                              id="lastName"
+                              name="lastName"
+                              value={formData.lastName}
                               onChange={handleChange}
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                               placeholder="Doe"
@@ -328,7 +332,7 @@ export default function AuthModal({
                           </div>
                           <div>
                             <label
-                              htmlFor="phone_number"
+                              htmlFor="phoneNumber"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.phoneNumber")}{" "}
@@ -338,20 +342,20 @@ export default function AuthModal({
                             </label>
                             <input
                               type="tel"
-                              id="phone_number"
-                              name="phone_number"
-                              value={formData.phone_number}
+                              id="phoneNumber"
+                              name="phoneNumber"
+                              value={formData.phoneNumber}
                               onChange={handleChange}
                               className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.phone_number
+                                errors.phoneNumber
                                   ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                                   : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                               }`}
                               placeholder="0123456789"
                             />
-                            {errors.phone_number && (
+                            {errors.phoneNumber && (
                               <p className="mt-1 text-xs italic text-red-600">
-                                {errors.phone_number}
+                                {errors.phoneNumber}
                               </p>
                             )}
                           </div>
@@ -361,7 +365,7 @@ export default function AuthModal({
                         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                           <div>
                             <label
-                              htmlFor="date_of_birth"
+                              htmlFor="dateOfBirth"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.dateOfBirth")}{" "}
@@ -371,20 +375,20 @@ export default function AuthModal({
                             </label>
                             <input
                               type="date"
-                              id="date_of_birth"
-                              name="date_of_birth"
-                              value={formData.date_of_birth}
+                              id="dateOfBirth"
+                              name="dateOfBirth"
+                              value={formData.dateOfBirth}
                               onChange={handleChange}
                               max={new Date().toISOString().split("T")[0]}
                               className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.date_of_birth
+                                errors.dateOfBirth
                                   ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                                   : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
                               }`}
                             />
-                            {errors.date_of_birth && (
+                            {errors.dateOfBirth && (
                               <p className="mt-1 text-xs italic text-red-600">
-                                {errors.date_of_birth}
+                                {errors.dateOfBirth}
                               </p>
                             )}
                           </div>
@@ -405,9 +409,15 @@ export default function AuthModal({
                               onChange={handleChange}
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                             >
-                              <option value="0">{t("fields.genderOptions.unknown")}</option>
-                              <option value="1">{t("fields.genderOptions.male")}</option>
-                              <option value="2">{t("fields.genderOptions.female")}</option>
+                              <option value="0">
+                                {t("fields.genderOptions.unknown")}
+                              </option>
+                              <option value="1">
+                                {t("fields.genderOptions.male")}
+                              </option>
+                              <option value="2">
+                                {t("fields.genderOptions.female")}
+                              </option>
                             </select>
                             {errors.gender && (
                               <p className="mt-1 text-xs italic text-red-600">
@@ -426,19 +436,53 @@ export default function AuthModal({
                             >
                               {t("fields.password")}
                             </label>
-                            <input
-                              type="password"
-                              id="password"
-                              name="password"
-                              value={formData.password}
-                              onChange={handleChange}
-                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.password
-                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
-                              }`}
-                              placeholder="••••••••"
-                            />
+                            <div className="relative">
+                              <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                className={`mt-1 w-full border bg-white px-4 py-2.5 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                  errors.password
+                                    ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                    : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                                }`}
+                                placeholder="••••••••"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
+                                tabIndex={-1}
+                              >
+                                {showPassword ? (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                  </svg>
+                                )}
+                              </button>
+                            </div>
                             {errors.password && (
                               <p className="mt-1 text-xs italic text-red-600">
                                 {errors.password}
@@ -447,27 +491,63 @@ export default function AuthModal({
                           </div>
                           <div>
                             <label
-                              htmlFor="confirm_password"
+                              htmlFor="confirmPassword"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.confirmPassword")}
                             </label>
-                            <input
-                              type="password"
-                              id="confirm_password"
-                              name="confirm_password"
-                              value={formData.confirm_password}
-                              onChange={handleChange}
-                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                                errors.confirm_password
-                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
-                              }`}
-                              placeholder="••••••••"
-                            />
-                            {errors.confirm_password && (
+                            <div className="relative">
+                              <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                className={`mt-1 w-full border bg-white px-4 py-2.5 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                  errors.confirmPassword
+                                    ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                    : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                                }`}
+                                placeholder="••••••••"
+                              />
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setShowConfirmPassword(!showConfirmPassword)
+                                }
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
+                                tabIndex={-1}
+                              >
+                                {showConfirmPassword ? (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                                    <line x1="1" y1="1" x2="23" y2="23" />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                  >
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                  </svg>
+                                )}
+                              </button>
+                            </div>
+                            {errors.confirmPassword && (
                               <p className="mt-1 text-xs italic text-red-600">
-                                {errors.confirm_password}
+                                {errors.confirmPassword}
                               </p>
                             )}
                           </div>
@@ -515,19 +595,53 @@ export default function AuthModal({
                         >
                           Password
                         </label>
-                        <input
-                          type="password"
-                          id="password"
-                          name="password"
-                          value={formData.password}
-                          onChange={handleChange}
-                          className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
-                            errors.password
-                              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                              : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
-                          }`}
-                          placeholder="••••••••"
-                        />
+                        <div className="relative">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className={`mt-1 w-full border bg-white px-4 py-2.5 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                              errors.password
+                                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                            }`}
+                            placeholder="••••••••"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 transition-colors"
+                            tabIndex={-1}
+                          >
+                            {showPassword ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                              </svg>
+                            ) : (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                              </svg>
+                            )}
+                          </button>
+                        </div>
                         {errors.password && (
                           <p className="mt-1 text-xs italic text-red-600">
                             {errors.password}
@@ -577,6 +691,58 @@ export default function AuthModal({
                   </motion.button>
                 </form>
 
+                {/* Divider - Only show in login mode */}
+                {mode === "login" && (
+                  <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-neutral-300" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-amber-50 px-2 text-neutral-500">
+                        {t("divider.or")}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Google Sign In Button - Only show in login mode */}
+                {mode === "login" && (
+                  <motion.button
+                    type="button"
+                    onClick={() => {
+                      toast.info("Google Sign In coming soon!", {
+                        position: "top-right",
+                        autoClose: 2000,
+                      });
+                    }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full flex items-center justify-center gap-3 border-2 border-neutral-300 bg-white py-3 text-sm font-medium text-neutral-700 transition-all hover:bg-neutral-50 hover:border-neutral-400"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                    <span className="uppercase tracking-wide">
+                      {t("buttons.signInWithGoogle")}
+                    </span>
+                  </motion.button>
+                )}
+
                 {/* Switch mode */}
                 <div className="mt-6 text-center">
                   <p className="text-sm text-neutral-600">
@@ -588,7 +754,9 @@ export default function AuthModal({
                       onClick={switchMode}
                       className="font-medium text-[#33391d] underline decoration-1 underline-offset-2 transition-opacity hover:opacity-70"
                     >
-                      {mode === "login" ? t("switchMode.signUp") : t("switchMode.signIn")}
+                      {mode === "login"
+                        ? t("switchMode.signUp")
+                        : t("switchMode.signIn")}
                     </button>
                   </p>
                 </div>
