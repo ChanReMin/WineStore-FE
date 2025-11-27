@@ -19,8 +19,8 @@ export default function Difference() {
     t("features.7"),
   ];
   return (
-    <section className="w-full bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-4">
+    <section className="w-full bg-white py-24 md:py-32 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
           {/* Left: Content */}
           <motion.div
@@ -125,7 +125,7 @@ export default function Difference() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-6 -left-6 bg-[#3b4417] p-8 text-white shadow-2xl"
+              className="absolute -bottom-6 left-0 md:-left-6 bg-[#3b4417] p-8 text-white shadow-2xl"
             >
               <p className="text-[48px] font-bold">{t("badge.number")}</p>
               <p className="text-[14px] tracking-[0.2em] uppercase">

@@ -17,8 +17,8 @@ export default function Community() {
     stat: t(`initiatives.${index}.stat`),
   }));
   return (
-    <section className="w-full bg-[#fdfbf5] py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-4">
+    <section className="w-full bg-[#fdfbf5] py-24 md:py-32 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-20">
           {/* Left: Content */}
           <motion.div
@@ -124,7 +124,7 @@ export default function Community() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-8 -right-8 bg-white p-8 shadow-2xl"
+              className="absolute -bottom-8 right-0 md:-right-8 bg-white p-8 shadow-2xl"
             >
               <p className="text-[48px] font-bold text-[#3b4417]">
                 {t("badge.number")}

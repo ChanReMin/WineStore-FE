@@ -18,6 +18,7 @@ import {
   ChevronRight,
   Menu,
   X,
+  PanelRightOpen,
 } from "lucide-react";
 
 interface MenuItem {
@@ -150,7 +151,7 @@ export default function SellerSidebar({
           onClick={onToggle}
           className="rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100"
         >
-          {isCollapsed ? <Menu size={20} /> : <X size={20} />}
+          {isCollapsed ? <Menu size={20} /> : <PanelRightOpen size={20} />}
         </button>
       </div>
 

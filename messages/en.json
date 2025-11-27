@@ -48,6 +48,47 @@
     "successMessage": "Your request has been submitted successfully! We will contact you soon.",
     "errorMessage": "An error occurred. Please try again later."
   },
+  "auth": {
+    "login": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to your account"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join our wine community"
+    },
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "optional": "Optional",
+      "genderOptions": {
+        "unknown": "Unknown",
+        "male": "Male",
+        "female": "Female"
+      }
+    },
+    "buttons": {
+      "signIn": "Sign In",
+      "createAccount": "Create Account",
+      "processing": "Processing..."
+    },
+    "switchMode": {
+      "noAccount": "Don't have an account?",
+      "haveAccount": "Already have an account?",
+      "signUp": "Sign up",
+      "signIn": "Sign in"
+    },
+    "errors": {
+      "emailPasswordRequired": "Email and password are required",
+      "passwordMismatch": "Confirm password does not match"
+    }
+  },
   "cart": {
     "title": "Cart",
     "item": "item",
@@ -71,7 +112,30 @@
     "removeItem": "Remove item",
     "decreaseQuantity": "Decrease quantity",
     "increaseQuantity": "Increase quantity",
-    "maxQuantityReached": "Maximum quantity reached"
+    "maxQuantityReached": "Maximum quantity reached",
+    "clearAll": "Clear All",
+    "quantity": "Quantity",
+    "orderSummary": "Order Summary",
+    "confirmClearCart": "Are you sure you want to clear the entire cart?",
+    "errors": {
+      "cannotUpdate": "Cannot update",
+      "cannotRemove": "Cannot remove",
+      "cannotClearCart": "Cannot clear cart"
+    },
+    "success": {
+      "itemRemoved": "Item removed from cart",
+      "cartCleared": "Cart cleared successfully"
+    }
+  },
+  "addToCart": {
+    "addToCart": "Add to Cart",
+    "addToCartFull": "Add to Cart",
+    "added": "Added",
+    "addedToCart": "Added to Cart",
+    "adding": "Adding...",
+    "loginRequired": "Please login to add items to cart",
+    "success": "Added {quantity} {productName} to cart",
+    "error": "Cannot add to cart"
   },
   "home": {
     "hero": {
@@ -340,6 +404,7 @@
       "settings": "Settings",
       "logout": "Logout",
       "seller": "Seller",
+      "admin": "Admin",
       "minutesAgo": "{count} minutes ago",
       "hoursAgo": "{count} hours ago"
     },

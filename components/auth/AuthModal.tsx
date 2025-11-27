@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "react-toastify";
 import { loginSchema, registerSchema } from "@/lib/validations/auth";
 import { z } from "zod";
-import DatePicker from "@/components/ui/date-picker";
+import { useTranslations } from "next-intl";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -19,6 +19,7 @@ export default function AuthModal({
   onClose,
   initialMode = "login",
 }: AuthModalProps) {
+  const t = useTranslations("auth");
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [formData, setFormData] = useState({
     // Required fields
@@ -46,24 +47,47 @@ export default function AuthModal({
     e.preventDefault();
     setErrors({});
 
-    // Basic validation
-    if (!formData.email || !formData.password) {
-      toast.error("Email and password are required", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      return;
-    }
-
-    if (
-      mode === "register" &&
-      formData.password !== formData.confirm_password
-    ) {
-      toast.error("Confirm password does not match", {
-        position: "top-right",
-        autoClose: 3000,
-      });
-      return;
+    // Validate using Zod schema
+    try {
+      if (mode === "login") {
+        loginSchema.parse({
+          email: formData.email,
+          password: formData.password,
+          role: "customer",
+        });
+      } else {
+        registerSchema.parse({
+          email: formData.email,
+          password: formData.password,
+          confirm_password: formData.confirm_password,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          phone_number: formData.phone_number,
+          date_of_birth: formData.date_of_birth,
+          gender: formData.gender,
+          role: "customer",
+        });
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors: Record<string, string> = {};
+        error.issues.forEach((issue) => {
+          if (issue.path[0]) {
+            fieldErrors[issue.path[0] as string] = issue.message;
+          }
+        });
+        setErrors(fieldErrors);
+        
+        // Show first error in toast
+        const firstIssue = error.issues[0];
+        if (firstIssue) {
+          toast.error(firstIssue.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+        return;
+      }
     }
 
     try {
@@ -209,12 +233,12 @@ export default function AuthModal({
                   className="mb-6"
                 >
                   <h2 className="text-2xl font-semibold tracking-wide text-[#33391d]">
-                    {mode === "login" ? "Welcome Back" : "Create Account"}
+                    {mode === "login" ? t("login.title") : t("register.title")}
                   </h2>
                   <p className="mt-1 text-sm italic text-neutral-600">
                     {mode === "login"
-                      ? "Sign in to your account"
-                      : "Join our wine community"}
+                      ? t("login.subtitle")
+                      : t("register.subtitle")}
                   </p>
                 </motion.div>
 
@@ -237,9 +261,9 @@ export default function AuthModal({
                               htmlFor="first_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              First Name{" "}
+                              {t("fields.firstName")}{" "}
                               <span className="text-neutral-400">
-                                (Optional)
+                                ({t("fields.optional")})
                               </span>
                             </label>
                             <input
@@ -257,9 +281,9 @@ export default function AuthModal({
                               htmlFor="last_name"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Last Name{" "}
+                              {t("fields.lastName")}{" "}
                               <span className="text-neutral-400">
-                                (Optional)
+                                ({t("fields.optional")})
                               </span>
                             </label>
                             <input
@@ -281,7 +305,7 @@ export default function AuthModal({
                               htmlFor="email"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Email
+                              {t("fields.email")}
                             </label>
                             <input
                               type="email"
@@ -307,9 +331,9 @@ export default function AuthModal({
                               htmlFor="phone_number"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Phone Number{" "}
+                              {t("fields.phoneNumber")}{" "}
                               <span className="text-neutral-400">
-                                (Optional)
+                                ({t("fields.optional")})
                               </span>
                             </label>
                             <input
@@ -338,34 +362,40 @@ export default function AuthModal({
                           <div>
                             <label
                               htmlFor="date_of_birth"
-                              className="block text-xs uppercase tracking-wider text-neutral-700 mb-1"
+                              className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Date of Birth{" "}
+                              {t("fields.dateOfBirth")}{" "}
                               <span className="text-neutral-400">
-                                (Optional)
+                                ({t("fields.optional")})
                               </span>
                             </label>
-                            <DatePicker
+                            <input
+                              type="date"
+                              id="date_of_birth"
+                              name="date_of_birth"
                               value={formData.date_of_birth}
-                              onChange={(date) =>
-                                setFormData({
-                                  ...formData,
-                                  date_of_birth: date,
-                                })
-                              }
-                              placeholder="Chọn ngày sinh"
-                              maxDate={new Date().toISOString().split("T")[0]}
-                              error={errors.date_of_birth}
+                              onChange={handleChange}
+                              max={new Date().toISOString().split("T")[0]}
+                              className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
+                                errors.date_of_birth
+                                  ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                  : "border-neutral-300 focus:border-[#33391d] focus:ring-[#33391d]"
+                              }`}
                             />
+                            {errors.date_of_birth && (
+                              <p className="mt-1 text-xs italic text-red-600">
+                                {errors.date_of_birth}
+                              </p>
+                            )}
                           </div>
                           <div>
                             <label
                               htmlFor="gender"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Gender{" "}
+                              {t("fields.gender")}{" "}
                               <span className="text-neutral-400">
-                                (Optional)
+                                ({t("fields.optional")})
                               </span>
                             </label>
                             <select
@@ -375,9 +405,9 @@ export default function AuthModal({
                               onChange={handleChange}
                               className="mt-1 w-full border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-1 focus:ring-[#33391d]"
                             >
-                              <option value="0">Unknown</option>
-                              <option value="1">Male</option>
-                              <option value="2">Female</option>
+                              <option value="0">{t("fields.genderOptions.unknown")}</option>
+                              <option value="1">{t("fields.genderOptions.male")}</option>
+                              <option value="2">{t("fields.genderOptions.female")}</option>
                             </select>
                             {errors.gender && (
                               <p className="mt-1 text-xs italic text-red-600">
@@ -394,7 +424,7 @@ export default function AuthModal({
                               htmlFor="password"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Password
+                              {t("fields.password")}
                             </label>
                             <input
                               type="password"
@@ -420,7 +450,7 @@ export default function AuthModal({
                               htmlFor="confirm_password"
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
-                              Confirm Password
+                              {t("fields.confirmPassword")}
                             </label>
                             <input
                               type="password"
@@ -537,12 +567,12 @@ export default function AuthModal({
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Processing...
+                        {t("buttons.processing")}
                       </span>
                     ) : mode === "login" ? (
-                      "Sign In"
+                      t("buttons.signIn")
                     ) : (
-                      "Create Account"
+                      t("buttons.createAccount")
                     )}
                   </motion.button>
                 </form>
@@ -551,14 +581,14 @@ export default function AuthModal({
                 <div className="mt-6 text-center">
                   <p className="text-sm text-neutral-600">
                     {mode === "login"
-                      ? "Don't have an account?"
-                      : "Already have an account?"}{" "}
+                      ? t("switchMode.noAccount")
+                      : t("switchMode.haveAccount")}{" "}
                     <button
                       type="button"
                       onClick={switchMode}
                       className="font-medium text-[#33391d] underline decoration-1 underline-offset-2 transition-opacity hover:opacity-70"
                     >
-                      {mode === "login" ? "Sign up" : "Sign in"}
+                      {mode === "login" ? t("switchMode.signUp") : t("switchMode.signIn")}
                     </button>
                   </p>
                 </div>

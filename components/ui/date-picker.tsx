@@ -44,6 +44,12 @@ export default function DatePicker({
   const [inputValue, setInputValue] = useState(
     value ? format(new Date(value), "dd/MM/yyyy") : ""
   );
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    top?: number;
+    bottom?: number;
+    left: number;
+    width: number;
+  } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const selectedDate = value ? new Date(value) : null;
@@ -56,6 +62,33 @@ export default function DatePicker({
       setInputValue("");
     }
   }, [value]);
+
+  // Calculate dropdown position based on available space
+  useEffect(() => {
+    if (isOpen && containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const dropdownHeight = 420; // Approximate height of calendar
+
+      // Calculate position
+      if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+        // Show above
+        setDropdownPosition({
+          bottom: window.innerHeight - rect.top + 8,
+          left: rect.left,
+          width: Math.max(rect.width, 320),
+        });
+      } else {
+        // Show below
+        setDropdownPosition({
+          top: rect.bottom + 8,
+          left: rect.left,
+          width: Math.max(rect.width, 320),
+        });
+      }
+    }
+  }, [isOpen]);
 
   // Close calendar when clicking outside
   useEffect(() => {
@@ -181,13 +214,20 @@ export default function DatePicker({
 
       {/* Calendar Dropdown */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && dropdownPosition && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute z-50 mt-2 w-full min-w-[320px] bg-white rounded-xl shadow-2xl border border-[#d4d6b4] overflow-hidden"
+            style={{
+              position: "fixed",
+              top: dropdownPosition.top,
+              bottom: dropdownPosition.bottom,
+              left: dropdownPosition.left,
+              width: dropdownPosition.width,
+            }}
+            className="z-[10000] bg-white rounded-xl shadow-2xl border border-[#d4d6b4] overflow-hidden"
           >
             {/* Calendar Header */}
             <div className="bg-[#3b4417] text-white px-4 py-3">

@@ -20,7 +20,7 @@ const displaySerif = Playfair_Display({
 
 export default function AboutPage() {
   return (
-    <main className={`${displaySerif.variable} relative min-h-screen bg-white`}>
+    <main className={`${displaySerif.variable} relative min-h-screen bg-white overflow-x-hidden`}>
       <AboutHero />
       <Mission />
       <WineJourney />

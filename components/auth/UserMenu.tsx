@@ -176,7 +176,7 @@ export const UserMenu = () => {
       >
         {/* Avatar with elegant border */}
         <div className="relative">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#33391d] to-[#4c5b23] text-[11px] font-semibold tracking-wider text-amber-50 shadow-sm ring-1 ring-[#33391d]/20 transition-all group-hover:shadow-md group-hover:ring-[#33391d]/40">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-[#33391d] to-[#4c5b23] text-[11px] font-semibold tracking-wider text-amber-50 shadow-sm ring-1 ring-[#33391d]/20 transition-all group-hover:shadow-md group-hover:ring-[#33391d]/40">
             {getInitials()}
           </div>
           {/* Status indicator */}
@@ -225,12 +225,12 @@ export const UserMenu = () => {
               className="absolute right-0 top-14 z-50 w-72 overflow-hidden border border-neutral-200 bg-amber-50/98 shadow-xl backdrop-blur-sm"
             >
               {/* Decorative top accent */}
-              <div className="h-0.5 bg-gradient-to-r from-transparent via-[#33391d] to-transparent" />
+              <div className="h-0.5 bg-linear-to-r from-transparent via-[#33391d] to-transparent" />
 
               {/* User Info Section */}
               <div className="border-b border-neutral-200/60 bg-white/40 p-5">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#33391d] to-[#4c5b23] text-sm font-semibold tracking-wider text-amber-50 shadow-sm">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-[#33391d] to-[#4c5b23] text-sm font-semibold tracking-wider text-amber-50 shadow-sm">
                     {getInitials()}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -323,11 +323,13 @@ export const UserMenu = () => {
                   menuItems.length > 2 && (
                     <>
                       <div className="my-2 flex items-center gap-2 px-4">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
+                        <div className="h-px flex-1 bg-linear-to-r from-transparent via-neutral-300 to-transparent" />
                         <span className="text-[10px] font-medium uppercase tracking-widest text-neutral-500">
-                          {t("seller")}
+                          {user?.role === "SELLER"
+                            ? t("seller")
+                            : t("admin")}
                         </span>
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
+                        <div className="h-px flex-1 bg-linear-to-r from-transparent via-neutral-300 to-transparent" />
                       </div>
                       {menuItems.slice(2).map((item, index) => (
                         <motion.div
@@ -366,7 +368,7 @@ export const UserMenu = () => {
                   )}
 
                 {/* Divider */}
-                <div className="my-2 h-px bg-gradient-to-r from-transparent via-neutral-300 to-transparent" />
+                <div className="my-2 h-px bg-linear-to-r from-transparent via-neutral-300 to-transparent" />
 
                 {/* Logout Button */}
                 <motion.button
@@ -396,7 +398,7 @@ export const UserMenu = () => {
               </div>
 
               {/* Bottom accent */}
-              <div className="h-0.5 bg-gradient-to-r from-transparent via-[#33391d] to-transparent" />
+              <div className="h-0.5 bg-linear-to-r from-transparent via-[#33391d] to-transparent" />
             </motion.div>
           </>
         )}
