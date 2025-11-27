@@ -56,24 +56,24 @@ export default function OrderDetailModal({
   const orderItems = (order as any).items || [
     {
       id: 1,
-      product_id: 1,
-      product_name: "Château Margaux 2015",
+      productId: 1,
+      productName: "Château Margaux 2015",
       quantity: 2,
       price: 5_940_000,
       total: 11_880_000,
     },
     {
       id: 2,
-      product_id: 2,
-      product_name: "Bordeaux 2018",
+      productId: 2,
+      productName: "Bordeaux 2018",
       quantity: 1,
       price: 3_500_000,
       total: 3_500_000,
     },
   ];
 
-  const shippingAddress = (order as any).shipping_address || {
-    full_name: (order as any).customer.name,
+  const shippingAddress = (order as any).shippingAddress || {
+    fullName: (order as any).customer.name,
     phone: (order as any).customer.phone || "0123456789",
     address: "123 Đường ABC",
     city: "Hà Nội",
@@ -81,9 +81,9 @@ export default function OrderDetailModal({
     ward: "Phường Điện Biên",
   };
 
-  const subtotal = (order as any).subtotal || order.final_amount;
-  const shippingFee = (order as any).shipping_fee || 0;
-  const discountAmount = order.discount_amount || 0;
+  const subtotal = (order as any).subtotal || order.finalAmount;
+  const shippingFee = (order as any).shippingFee || 0;
+  const discountAmount = order.discountAmount || 0;
 
   return (
     <AnimatePresence>
@@ -116,7 +116,7 @@ export default function OrderDetailModal({
                     <h2 className="text-2xl font-bold text-[#3b4417]">
                       {t("detail.title")}
                     </h2>
-                    <p className="text-sm text-[#7a8451]">{order.order_code}</p>
+                    <p className="text-sm text-[#7a8451]">{order.orderCode}</p>
                   </div>
                 </div>
                 <button
@@ -137,14 +137,14 @@ export default function OrderDetailModal({
                     </p>
                     <OrderStatusBadge
                       status={order.status}
-                      statusText={order.status_text}
+                      statusText={order.statusText}
                     />
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                     <p className="text-sm text-[#7a8451] mb-2 font-medium">
                       {t("detail.paymentStatus")}
                     </p>
-                    <PaymentStatusBadge status={order.payment_status} />
+                    <PaymentStatusBadge status={order.paymentStatus} />
                   </div>
                 </div>
 
@@ -186,7 +186,7 @@ export default function OrderDetailModal({
                   </h3>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-2">
                     <p className="font-medium text-[#3b4417]">
-                      {shippingAddress.full_name}
+                      {shippingAddress.fullName}
                     </p>
                     <p className="text-[#7a8451] flex items-center gap-2">
                       <Phone className="w-4 h-4" />
@@ -236,15 +236,15 @@ export default function OrderDetailModal({
                             >
                               <td className="p-4">
                                 <div className="flex items-center gap-3">
-                                  {item.product_image && (
+                                  {item.productImage && (
                                     <img
-                                      src={item.product_image}
-                                      alt={item.product_name}
+                                      src={item.productImage}
+                                      alt={item.productName}
                                       className="w-12 h-12 object-cover rounded border border-[#e8e6dc]"
                                     />
                                   )}
                                   <span className="font-medium text-[#3b4417]">
-                                    {item.product_name}
+                                    {item.productName}
                                   </span>
                                 </div>
                               </td>
@@ -293,7 +293,7 @@ export default function OrderDetailModal({
                       <div className="flex justify-between text-lg font-bold text-[#3b4417] pt-2 border-t border-[#e8e6dc]">
                         <span>{t("detail.total")}:</span>
                         <span className="text-[#d4af37]">
-                          {formatPrice(order.final_amount)}
+                          {formatPrice(order.finalAmount)}
                         </span>
                       </div>
                     </div>
@@ -310,7 +310,7 @@ export default function OrderDetailModal({
                       </span>
                     </div>
                     <p className="text-[#3b4417] font-medium">
-                      {order.payment_method || t("detail.cod")}
+                      {order.paymentMethod || t("detail.cod")}
                     </p>
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
@@ -321,7 +321,7 @@ export default function OrderDetailModal({
                       </span>
                     </div>
                     <p className="text-[#3b4417] font-medium">
-                      {formatDate(order.created_at)}
+                      {formatDate(order.createdAt)}
                     </p>
                   </div>
                 </div>

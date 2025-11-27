@@ -113,8 +113,7 @@ export default function RejectWarehouseModal({
                     </p>
                     <p className="text-sm text-red-700 ml-7 mt-1">
                       <span className="font-semibold">{t("manager")}:</span>{" "}
-                      {warehouse.manager.first_name}{" "}
-                      {warehouse.manager.last_name}
+                      {warehouse.manager.firstName} {warehouse.manager.lastName}
                     </p>
                   </div>
 

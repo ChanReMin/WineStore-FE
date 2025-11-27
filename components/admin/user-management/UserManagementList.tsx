@@ -47,17 +47,17 @@ export default function UserManagementList() {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
   const [summary, setSummary] = useState({
-    total_users: 0,
-    active_users: 0,
-    inactive_users: 0,
-    locked_users: 0,
+    totalUsers: 0,
+    activeUsers: 0,
+    inactiveUsers: 0,
+    lockedUsers: 0,
     customers: 0,
     sellers: 0,
     admins: 0,
   });
   const [pagination, setPagination] = useState({
-    current_page: 1,
-    total_pages: 1,
+    currentPage: 1,
+    totalPages: 1,
     total: 0,
   });
 
@@ -133,7 +133,7 @@ export default function UserManagementList() {
   };
 
   const handleActionComplete = () => {
-    loadData(pagination.current_page);
+    loadData(pagination.currentPage);
   };
 
   const getStatusBadge = (status: number) => {
@@ -257,7 +257,7 @@ export default function UserManagementList() {
                     {t("summary.totalUsers")}
                   </p>
                   <p className="text-3xl font-bold text-[#3b4417]">
-                    {summary.total_users}
+                    {summary.totalUsers}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] p-3 rounded-xl">
@@ -281,7 +281,7 @@ export default function UserManagementList() {
                     {t("summary.activeUsers")}
                   </p>
                   <p className="text-3xl font-bold text-emerald-600">
-                    {summary.active_users}
+                    {summary.activeUsers}
                   </p>
                 </div>
                 <div className="bg-emerald-50 p-3 rounded-xl">
@@ -305,7 +305,7 @@ export default function UserManagementList() {
                     {t("summary.inactiveUsers")}
                   </p>
                   <p className="text-3xl font-bold text-amber-600">
-                    {summary.inactive_users}
+                    {summary.inactiveUsers}
                   </p>
                 </div>
                 <div className="bg-amber-50 p-3 rounded-xl">
@@ -329,7 +329,7 @@ export default function UserManagementList() {
                     {t("summary.lockedUsers")}
                   </p>
                   <p className="text-3xl font-bold text-red-600">
-                    {summary.locked_users}
+                    {summary.lockedUsers}
                   </p>
                 </div>
                 <div className="bg-red-50 p-3 rounded-xl">
@@ -516,14 +516,13 @@ export default function UserManagementList() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <img
-                            src={user.user_info.avatar}
-                            alt={`${user.user_info.first_name} ${user.user_info.last_name}`}
+                            src={user.userInfo.avatar}
+                            alt={`${user.userInfo.firstName} ${user.userInfo.lastName}`}
                             className="w-10 h-10 rounded-full object-cover"
                           />
                           <div>
                             <p className="font-medium text-[#3b4417]">
-                              {user.user_info.first_name}{" "}
-                              {user.user_info.last_name}
+                              {user.userInfo.firstName} {user.userInfo.lastName}
                             </p>
                             <p className="text-xs text-neutral-500">
                               ID: {user.id}
@@ -541,10 +540,10 @@ export default function UserManagementList() {
                               {user.account.email}
                             </span>
                           </div>
-                          {user.user_info.phone_number && (
+                          {user.userInfo.phoneNumber && (
                             <div className="flex items-center gap-2 text-sm text-neutral-600">
                               <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                              <span>{user.user_info.phone_number}</span>
+                              <span>{user.userInfo.phoneNumber}</span>
                             </div>
                           )}
                         </div>
@@ -561,7 +560,7 @@ export default function UserManagementList() {
                           <div className="flex items-center gap-2 text-sm">
                             <ShoppingBag className="w-3.5 h-3.5 text-blue-500" />
                             <span className="text-neutral-600">
-                              {user.stats.total_orders} {t("stats.orders")}
+                              {user.stats.totalOrders} {t("stats.orders")}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -571,7 +570,7 @@ export default function UserManagementList() {
                                 style: "currency",
                                 currency: "VND",
                                 notation: "compact",
-                              }).format(user.stats.total_spent)}
+                              }).format(user.stats.totalSpent)}
                             </span>
                           </div>
                         </div>
@@ -673,13 +672,13 @@ export default function UserManagementList() {
                   {/* User Header */}
                   <div className="flex items-start gap-3 mb-4">
                     <img
-                      src={user.user_info.avatar}
-                      alt={`${user.user_info.first_name} ${user.user_info.last_name}`}
+                      src={user.userInfo.avatar}
+                      alt={`${user.userInfo.firstName} ${user.userInfo.lastName}`}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-[#3b4417] truncate">
-                        {user.user_info.first_name} {user.user_info.last_name}
+                        {user.userInfo.firstName} {user.userInfo.lastName}
                       </h3>
                       <p className="text-xs text-neutral-500">ID: {user.id}</p>
                       <div className="flex gap-2 mt-2">
@@ -697,11 +696,11 @@ export default function UserManagementList() {
                         {user.account.email}
                       </span>
                     </div>
-                    {user.user_info.phone_number && (
+                    {user.userInfo.phoneNumber && (
                       <div className="flex items-center gap-2 text-sm">
                         <Phone className="w-4 h-4 text-neutral-400 shrink-0" />
                         <span className="text-neutral-700">
-                          {user.user_info.phone_number}
+                          {user.userInfo.phoneNumber}
                         </span>
                       </div>
                     )}
@@ -717,7 +716,7 @@ export default function UserManagementList() {
                         </span>
                       </div>
                       <p className="text-lg font-bold text-blue-600">
-                        {user.stats.total_orders}
+                        {user.stats.totalOrders}
                       </p>
                     </div>
                     <div className="bg-emerald-50 rounded-lg p-3">
@@ -732,7 +731,7 @@ export default function UserManagementList() {
                           style: "currency",
                           currency: "VND",
                           notation: "compact",
-                        }).format(user.stats.total_spent)}
+                        }).format(user.stats.totalSpent)}
                       </p>
                     </div>
                   </div>
@@ -783,34 +782,34 @@ export default function UserManagementList() {
       </div>
 
       {/* Pagination */}
-      {pagination.total_pages > 1 && (
+      {pagination.totalPages > 1 && (
         <Card>
           <CardContent className="p-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-xs sm:text-sm text-neutral-600 text-center sm:text-left">
                 {t("pagination.showing")}{" "}
-                {(pagination.current_page - 1) * 10 + 1} -{" "}
-                {Math.min(pagination.current_page * 10, pagination.total)}{" "}
+                {(pagination.currentPage - 1) * 10 + 1} -{" "}
+                {Math.min(pagination.currentPage * 10, pagination.total)}{" "}
                 {t("pagination.of")} {pagination.total}
               </p>
               <div className="flex items-center gap-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page - 1)}
-                  disabled={pagination.current_page === 1}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </motion.button>
                 <span className="text-sm text-neutral-600 min-w-[60px] text-center">
-                  {pagination.current_page} / {pagination.total_pages}
+                  {pagination.currentPage} / {pagination.totalPages}
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page + 1)}
-                  disabled={pagination.current_page === pagination.total_pages}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />

@@ -107,7 +107,7 @@ export default function SellerRequestDetail({
                 )}`}
               >
                 {getStatusIcon(request.status)}
-                <span className="font-semibold">{request.status_text}</span>
+                <span className="font-semibold">{request.statusText}</span>
               </div>
             </div>
 
@@ -120,12 +120,12 @@ export default function SellerRequestDetail({
               <div className="flex items-start gap-4 mb-4">
                 <img
                   src={request.user.avatar}
-                  alt={request.user.full_name}
+                  alt={request.user.fullName}
                   className="w-20 h-20 rounded-full bg-white border-2 border-white shadow-md"
                 />
                 <div className="flex-1">
                   <h4 className="text-xl font-bold text-neutral-900 mb-1">
-                    {request.user.full_name}
+                    {request.user.fullName}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-neutral-600">
@@ -134,12 +134,12 @@ export default function SellerRequestDetail({
                     </div>
                     <div className="flex items-center gap-2 text-sm text-neutral-600">
                       <Phone className="w-4 h-4" />
-                      {request.user.phone_number}
+                      {request.user.phoneNumber}
                     </div>
                     <div className="flex items-center gap-2 text-sm text-neutral-600">
                       <User className="w-4 h-4" />
-                      {t("userId")}: {request.user.user_id} | {t("accountId")}:{" "}
-                      {request.user.account_id}
+                      {t("userId")}: {request.user.userId} | {t("accountId")}:{" "}
+                      {request.user.accountId}
                     </div>
                   </div>
                 </div>
@@ -161,7 +161,7 @@ export default function SellerRequestDetail({
                       {t("totalOrders")}
                     </p>
                     <p className="text-2xl font-bold text-blue-700">
-                      {request.user.total_orders || 0}
+                      {request.user.totalOrders || 0}
                     </p>
                   </div>
                 </div>
@@ -183,7 +183,7 @@ export default function SellerRequestDetail({
                       {new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(request.user.total_spent || 0)}
+                      }).format(request.user.totalSpent || 0)}
                     </p>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function SellerRequestDetail({
                     {t("currentRole")}
                   </span>
                   <span className="text-sm font-semibold text-neutral-900">
-                    {request.current_role === 0 ? t("customer") : t("seller")}
+                    {request.currentRole === 0 ? t("customer") : t("seller")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-neutral-200">
@@ -228,7 +228,7 @@ export default function SellerRequestDetail({
                     {t("requestedRole")}
                   </span>
                   <span className="text-sm font-semibold text-neutral-900">
-                    {request.requested_role === 1 ? t("seller") : t("customer")}
+                    {request.requestedRole === 1 ? t("seller") : t("customer")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-neutral-200">
@@ -236,16 +236,16 @@ export default function SellerRequestDetail({
                     {t("requestDate")}
                   </span>
                   <span className="text-sm font-semibold text-neutral-900">
-                    {new Date(request.created_at).toLocaleString("vi-VN")}
+                    {new Date(request.createdAt).toLocaleString("vi-VN")}
                   </span>
                 </div>
-                {request.updated_at && (
+                {request.updatedAt && (
                   <div className="flex justify-between items-center py-2 border-b border-neutral-200">
                     <span className="text-sm font-medium text-neutral-600">
                       {t("updatedDate")}
                     </span>
                     <span className="text-sm font-semibold text-neutral-900">
-                      {new Date(request.updated_at).toLocaleString("vi-VN")}
+                      {new Date(request.updatedAt).toLocaleString("vi-VN")}
                     </span>
                   </div>
                 )}

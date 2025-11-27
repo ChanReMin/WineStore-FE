@@ -15,8 +15,8 @@ export default function SortSelect({ value, onChange }: SortSelectProps) {
   const [isFocused, setIsFocused] = useState(false);
 
   const SORT_OPTIONS = [
-    { value: "created_at_desc", label: t("newest"), icon: "✨" },
-    { value: "created_at_asc", label: t("oldest"), icon: "🏛️" },
+    { value: "createdAt_desc", label: t("newest"), icon: "✨" },
+    { value: "createdAt_asc", label: t("oldest"), icon: "🏛️" },
     { value: "price_asc", label: t("priceAsc"), icon: "💰" },
     { value: "price_desc", label: t("priceDesc"), icon: "💎" },
     { value: "name_asc", label: t("nameAsc"), icon: "🔤" },

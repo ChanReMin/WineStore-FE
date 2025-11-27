@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const FEATURED_WINES = [
   {
@@ -151,21 +152,6 @@ export default function FeaturedProducts() {
 
               {/* Info */}
               <div className="p-6">
-                {/* Rating */}
-                <div className="flex items-center gap-1 text-[#d4af37]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      fill={i < Math.floor(wine.rating) ? "#d4af37" : "none"}
-                      strokeWidth={1.5}
-                    />
-                  ))}
-                  <span className="ml-2 text-[12px] text-neutral-500">
-                    {wine.rating}
-                  </span>
-                </div>
-
                 {/* Name */}
                 <h3 className="mt-3 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#5a6b2a]">
                   {wine.name}
@@ -193,18 +179,20 @@ export default function FeaturedProducts() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-16 text-center"
         >
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            className="group relative inline-flex items-center justify-center px-12 py-4 text-[11px] tracking-[0.3em] uppercase text-[#3b4417]"
-          >
-            <span className="absolute inset-0 border border-[#c8c8a3] transition-colors group-hover:border-[#3b4417]" />
-            <span className="pointer-events-none absolute left-0 bottom-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
-            <span className="pointer-events-none absolute right-0 top-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
-            <span className="relative bg-[#fdfbf5] px-6 py-2">
-              {t("exploreAll")}
-            </span>
-          </motion.button>
+          <Link href="/shop">
+            <motion.button
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="group relative inline-flex items-center justify-center px-12 py-4 text-[11px] tracking-[0.3em] uppercase text-[#3b4417]"
+            >
+              <span className="absolute inset-0 border border-[#c8c8a3] transition-colors group-hover:border-[#3b4417]" />
+              <span className="pointer-events-none absolute left-0 bottom-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
+              <span className="pointer-events-none absolute right-0 top-0 h-px w-20 bg-[#fdfbf5] transition-all duration-300 group-hover:w-0" />
+              <span className="relative bg-[#fdfbf5] px-6 py-2">
+                {t("exploreAll")}
+              </span>
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </section>

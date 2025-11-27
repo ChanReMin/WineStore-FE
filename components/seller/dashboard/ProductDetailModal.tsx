@@ -82,7 +82,7 @@ export default function ProductDetailModal({
                   <div className="flex items-center gap-3">
                     <ProductStatusBadge
                       status={product.status}
-                      statusText={product.status_text}
+                      statusText={product.statusText}
                     />
                     <span className="text-sm text-[#7a8451]">
                       ID: #{product.id}
@@ -125,7 +125,7 @@ export default function ProductDetailModal({
                           {t("inventory")}
                         </p>
                         <p className="text-lg font-semibold text-[#3b4417]">
-                          {product.total_inventory} {t("products")}
+                          {product.totalInventory} {t("products")}
                         </p>
                       </div>
                     </div>
@@ -178,7 +178,7 @@ export default function ProductDetailModal({
                           {t("productCreated")}
                         </p>
                         <p className="text-sm text-[#7a8451]">
-                          {formatDate(product.created_at)}
+                          {formatDate(product.createdAt)}
                         </p>
                       </div>
                     </div>
@@ -200,7 +200,7 @@ export default function ProductDetailModal({
                       </div>
                     )}
 
-                    {product.status === 2 && product.approved_at && (
+                    {product.status === 2 && product.approvedAt && (
                       <div className="flex items-start gap-3">
                         <div className="p-2 bg-emerald-50 rounded-lg">
                           <CheckCircle className="w-5 h-5 text-emerald-600" />
@@ -210,9 +210,9 @@ export default function ProductDetailModal({
                             {t("approved")}
                           </p>
                           <p className="text-sm text-[#7a8451]">
-                            {formatDate(product.approved_at)}
-                            {product.approved_by &&
-                              ` ${t("by")} ${product.approved_by}`}
+                            {formatDate(product.approvedAt)}
+                            {product.approvedBy &&
+                              ` ${t("by")} ${product.approvedBy}`}
                           </p>
                         </div>
                       </div>
@@ -229,8 +229,8 @@ export default function ProductDetailModal({
                           </p>
                           <p className="text-sm text-[#7a8451]">
                             {t("notAllowedToSell")}
-                            {product.approved_by &&
-                              ` ${t("by")} ${product.approved_by}`}
+                            {product.approvedBy &&
+                              ` ${t("by")} ${product.approvedBy}`}
                           </p>
                         </div>
                       </div>

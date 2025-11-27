@@ -101,8 +101,8 @@ export default function InventoryTable({
           <TableBody>
             {items.map((item, index) => {
               const stockPercentage = getStockPercentage(
-                item.quantity_on_hand,
-                item.safety_stock
+                item.quantityOnHand,
+                item.safetyStock
               );
 
               return (
@@ -145,21 +145,21 @@ export default function InventoryTable({
                     <div className="flex items-center gap-2">
                       <span
                         className={`text-2xl font-bold ${
-                          item.quantity_on_hand === 0
+                          item.quantityOnHand === 0
                             ? "text-red-600"
-                            : item.quantity_on_hand < item.safety_stock
+                            : item.quantityOnHand < item.safetyStock
                               ? "text-amber-600"
                               : "text-emerald-600"
                         }`}
                       >
-                        {item.quantity_on_hand}
+                        {item.quantityOnHand}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="space-y-1">
                       <p className="font-medium text-[#3b4417]">
-                        {item.safety_stock}
+                        {item.safetyStock}
                       </p>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
@@ -180,18 +180,18 @@ export default function InventoryTable({
                   <TableCell>
                     <InventoryStatusBadge
                       status={item.status}
-                      quantity={item.quantity_on_hand}
-                      safetyStock={item.safety_stock}
+                      quantity={item.quantityOnHand}
+                      safetyStock={item.safetyStock}
                     />
                   </TableCell>
                   <TableCell className="font-semibold text-[#3b4417]">
-                    {formatPrice(item.product.price * item.quantity_on_hand)}
+                    {formatPrice(item.product.price * item.quantityOnHand)}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2 text-[#7a8451]">
                       <Calendar className="w-4 h-4" />
                       <span className="text-sm">
-                        {formatDate(item.last_updated_at)}
+                        {formatDate(item.lastUpdatedAt)}
                       </span>
                     </div>
                   </TableCell>
@@ -238,19 +238,19 @@ export default function InventoryTable({
           <div>
             <p className="text-[#7a8451] mb-1">{t("inStock")}</p>
             <p className="text-xl font-bold text-emerald-600">
-              {items.filter((i) => i.status === "in_stock").length}
+              {items.filter((i) => i.status === "inStock").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("lowStock")}</p>
             <p className="text-xl font-bold text-amber-600">
-              {items.filter((i) => i.status === "low_stock").length}
+              {items.filter((i) => i.status === "lowStock").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("outOfStock")}</p>
             <p className="text-xl font-bold text-red-600">
-              {items.filter((i) => i.status === "out_of_stock").length}
+              {items.filter((i) => i.status === "outOfStock").length}
             </p>
           </div>
         </div>

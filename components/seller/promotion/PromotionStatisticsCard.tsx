@@ -21,8 +21,8 @@ import { TrendingUp, Calendar } from "lucide-react";
 interface PromotionStatisticsCardProps {
   data: Array<{
     date: string;
-    usage_count: number;
-    discount_amount: number;
+    usageCount: number;
+    discountAmount: number;
   }>;
 }
 
@@ -60,11 +60,11 @@ export default function PromotionStatisticsCard({
 
       <ChartContainer
         config={{
-          usage_count: {
+          usageCount: {
             label: "Number of uses",
             color: "#3b4417",
           },
-          discount_amount: {
+          discountAmount: {
             label: "Discount Amount",
             color: "#d4af37",
           },
@@ -92,7 +92,7 @@ export default function PromotionStatisticsCard({
                   });
                 }}
                 formatter={(value, name) => {
-                  if (name === "discount_amount") {
+                  if (name === "discountAmount") {
                     return formatCurrency(value as number);
                   }
                   return value;
@@ -103,7 +103,7 @@ export default function PromotionStatisticsCard({
           <ChartLegend content={<ChartLegendContent />} />
           <Line
             type="monotone"
-            dataKey="usage_count"
+            dataKey="usageCount"
             stroke="#3b4417"
             strokeWidth={2}
             dot={{ fill: "#3b4417", r: 4 }}

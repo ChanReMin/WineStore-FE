@@ -26,7 +26,7 @@ export default function AddressCard({
       className="relative overflow-hidden rounded-lg border border-neutral-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
     >
       {/* Default Badge */}
-      {address.is_default && (
+      {address.isDefault && (
         <motion.div
           initial={{ x: 100 }}
           animate={{ x: 0 }}
@@ -40,9 +40,9 @@ export default function AddressCard({
         {/* Name & Phone */}
         <div>
           <h3 className="text-lg font-semibold text-[#33391d]">
-            {address.full_name}
+            {address.fullName}
           </h3>
-          <p className="text-sm text-neutral-600">{address.phone_number}</p>
+          <p className="text-sm text-neutral-600">{address.phoneNumber}</p>
         </div>
 
         {/* Address */}
@@ -67,7 +67,7 @@ export default function AddressCard({
             />
           </svg>
           <div>
-            <p>{address.address_line}</p>
+            <p>{address.addressLine}</p>
             <p>
               {address.city}, {address.state}, {address.country}
             </p>

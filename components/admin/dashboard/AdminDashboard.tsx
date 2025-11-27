@@ -102,16 +102,16 @@ export default function AdminDashboard() {
       >
         <span className="text-sm text-neutral-600">{t("period")}:</span>
         <span className="text-sm font-medium text-[#3b4417]">
-          {new Date(systemData.period.start_date).toLocaleDateString("vi-VN")} -{" "}
-          {new Date(systemData.period.end_date).toLocaleDateString("vi-VN")}
+          {new Date(systemData.period.startdate).toLocaleDateString("vi-VN")} -{" "}
+          {new Date(systemData.period.enddate).toLocaleDateString("vi-VN")}
         </span>
       </motion.div>
 
       {/* Metrics Cards */}
       <MetricsCards
-        totalRevenue={systemData.business_metrics.total_revenue}
-        totalOrders={systemData.business_metrics.total_orders}
-        totalUsers={systemData.users.total_users}
+        totalRevenue={systemData.business_metrics.totalRevenue}
+        totalOrders={systemData.business_metrics.totalOrders}
+        totalUsers={systemData.users.totalUsers}
         totalProducts={systemData.products.total}
         conversionRate={systemData.business_metrics.conversion_rate}
         profitMargin={systemData.business_metrics.profit_margin_percent}
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
       {/* Category & Payment Methods */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <CategoryPerformance categories={revenueData.categories_performance} />
-        <PaymentMethodsChart paymentMethods={revenueData.payment_methods} />
+        <PaymentMethodsChart paymentMethods={revenueData.paymentMethods} />
       </div>
     </div>
   );

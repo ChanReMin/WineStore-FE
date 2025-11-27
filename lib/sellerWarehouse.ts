@@ -7,23 +7,23 @@ export interface Warehouse {
   description: string;
   status: 0 | 1 | 2; // 0=pending, 1=active, 2=banned
   manager_id: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   inventory_summary?: {
-    total_products: number;
-    total_quantity: number;
+    totalProducts: number;
+    totalquantity: number;
   };
 }
 
 export interface WarehouseStatistics {
-  total_warehouses: number;
+  totalWarehouses: number;
   active_warehouses: number;
   pending_warehouses: number;
   banned_warehouses: number;
-  total_inventory_value: number;
-  total_products: number;
-  total_quantity: number;
-  warehouses_by_status: Array<{
+  totalInventory_value: number;
+  totalProducts: number;
+  totalquantity: number;
+  warehouses_byStatus: Array<{
     status: number;
     count: number;
     label: string;
@@ -32,17 +32,17 @@ export interface WarehouseStatistics {
 
 export interface WarehouseDetail extends Warehouse {
   inventory: {
-    total_products: number;
-    total_quantity: number;
+    totalProducts: number;
+    totalquantity: number;
     total_value: number;
-    low_stock_products: number;
+    lowStockProducts: number;
   };
   recent_logs: Array<{
     id: number;
     type: "IN" | "OUT";
-    product_name: string;
+    productName: string;
     quantity: number;
-    created_at: string;
+    createdAt: string;
   }>;
 }
 
@@ -55,11 +55,11 @@ export const mockWarehouses: Warehouse[] = [
     description: "Kho tổng chuyên rượu vang cao cấp",
     status: 1,
     manager_id: 5,
-    created_at: "2024-11-15T10:00:00Z",
-    updated_at: "2024-11-20T08:00:00Z",
+    createdAt: "2024-11-15T10:00:00Z",
+    updatedAt: "2024-11-20T08:00:00Z",
     inventory_summary: {
-      total_products: 150,
-      total_quantity: 5000,
+      totalProducts: 150,
+      totalquantity: 5000,
     },
   },
   {
@@ -69,11 +69,11 @@ export const mockWarehouses: Warehouse[] = [
     description: "Kho chuyên rượu vang nhập khẩu Pháp, Italy",
     status: 1,
     manager_id: 5,
-    created_at: "2024-11-10T14:30:00Z",
-    updated_at: "2024-11-25T16:00:00Z",
+    createdAt: "2024-11-10T14:30:00Z",
+    updatedAt: "2024-11-25T16:00:00Z",
     inventory_summary: {
-      total_products: 85,
-      total_quantity: 2800,
+      totalProducts: 85,
+      totalquantity: 2800,
     },
   },
   {
@@ -83,11 +83,11 @@ export const mockWarehouses: Warehouse[] = [
     description: "Kho phân phối khu vực Đông Sài Gòn",
     status: 0,
     manager_id: 5,
-    created_at: "2024-11-26T10:30:00Z",
-    updated_at: "2024-11-26T10:30:00Z",
+    createdAt: "2024-11-26T10:30:00Z",
+    updatedAt: "2024-11-26T10:30:00Z",
     inventory_summary: {
-      total_products: 0,
-      total_quantity: 0,
+      totalProducts: 0,
+      totalquantity: 0,
     },
   },
   {
@@ -97,11 +97,11 @@ export const mockWarehouses: Warehouse[] = [
     description: "Kho dự trữ rượu vang Úc và New Zealand",
     status: 1,
     manager_id: 5,
-    created_at: "2024-10-05T09:00:00Z",
-    updated_at: "2024-11-22T11:30:00Z",
+    createdAt: "2024-10-05T09:00:00Z",
+    updatedAt: "2024-11-22T11:30:00Z",
     inventory_summary: {
-      total_products: 120,
-      total_quantity: 3500,
+      totalProducts: 120,
+      totalquantity: 3500,
     },
   },
   {
@@ -111,25 +111,25 @@ export const mockWarehouses: Warehouse[] = [
     description: "Kho nhỏ phục vụ khu vực trung tâm",
     status: 2,
     manager_id: 5,
-    created_at: "2024-09-20T08:00:00Z",
-    updated_at: "2024-11-01T10:00:00Z",
+    createdAt: "2024-09-20T08:00:00Z",
+    updatedAt: "2024-11-01T10:00:00Z",
     inventory_summary: {
-      total_products: 45,
-      total_quantity: 800,
+      totalProducts: 45,
+      totalquantity: 800,
     },
   },
 ];
 
 // Mock statistics
 export const mockWarehouseStatistics: WarehouseStatistics = {
-  total_warehouses: 5,
+  totalWarehouses: 5,
   active_warehouses: 3,
   pending_warehouses: 1,
   banned_warehouses: 1,
-  total_inventory_value: 5000000000,
-  total_products: 400,
-  total_quantity: 12100,
-  warehouses_by_status: [
+  totalInventory_value: 5000000000,
+  totalProducts: 400,
+  totalquantity: 12100,
+  warehouses_byStatus: [
     { status: 1, count: 3, label: "Đang hoạt động" },
     { status: 0, count: 1, label: "Chờ duyệt" },
     { status: 2, count: 1, label: "Bị khóa" },
@@ -141,64 +141,64 @@ export const mockWarehouseDetails: Record<number, WarehouseDetail> = {
   1: {
     ...mockWarehouses[0],
     inventory: {
-      total_products: 150,
-      total_quantity: 5000,
+      totalProducts: 150,
+      totalquantity: 5000,
       total_value: 2500000000,
-      low_stock_products: 12,
+      lowStockProducts: 12,
     },
     recent_logs: [
       {
         id: 1001,
         type: "IN",
-        product_name: "Rượu vang đỏ Bordeaux 2020",
+        productName: "Rượu vang đỏ Bordeaux 2020",
         quantity: 50,
-        created_at: "2024-11-25T14:00:00Z",
+        createdAt: "2024-11-25T14:00:00Z",
       },
       {
         id: 1002,
         type: "OUT",
-        product_name: "Rượu vang trắng Chardonnay",
+        productName: "Rượu vang trắng Chardonnay",
         quantity: -20,
-        created_at: "2024-11-25T16:30:00Z",
+        createdAt: "2024-11-25T16:30:00Z",
       },
       {
         id: 1003,
         type: "IN",
-        product_name: "Champagne Moët & Chandon",
+        productName: "Champagne Moët & Chandon",
         quantity: 30,
-        created_at: "2024-11-24T10:15:00Z",
+        createdAt: "2024-11-24T10:15:00Z",
       },
       {
         id: 1004,
         type: "OUT",
-        product_name: "Rượu vang đỏ Cabernet Sauvignon",
+        productName: "Rượu vang đỏ Cabernet Sauvignon",
         quantity: -15,
-        created_at: "2024-11-24T13:45:00Z",
+        createdAt: "2024-11-24T13:45:00Z",
       },
     ],
   },
   2: {
     ...mockWarehouses[1],
     inventory: {
-      total_products: 85,
-      total_quantity: 2800,
+      totalProducts: 85,
+      totalquantity: 2800,
       total_value: 1800000000,
-      low_stock_products: 8,
+      lowStockProducts: 8,
     },
     recent_logs: [
       {
         id: 2001,
         type: "IN",
-        product_name: "Rượu vang Pháp Châteauneuf-du-Pape",
+        productName: "Rượu vang Pháp Châteauneuf-du-Pape",
         quantity: 40,
-        created_at: "2024-11-26T09:00:00Z",
+        createdAt: "2024-11-26T09:00:00Z",
       },
       {
         id: 2002,
         type: "OUT",
-        product_name: "Rượu vang Italy Barolo",
+        productName: "Rượu vang Italy Barolo",
         quantity: -25,
-        created_at: "2024-11-25T15:20:00Z",
+        createdAt: "2024-11-25T15:20:00Z",
       },
     ],
   },
@@ -215,15 +215,15 @@ export const getWarehouses = async (params?: {
   data: {
     warehouses: Warehouse[];
     pagination: {
-      current_page: number;
-      total_pages: number;
-      total_items: number;
-      per_page: number;
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+      perPage: number;
       has_next: boolean;
       has_prev: boolean;
     };
     summary: {
-      total_warehouses: number;
+      totalWarehouses: number;
       active: number;
       pending: number;
       banned: number;
@@ -261,15 +261,15 @@ export const getWarehouses = async (params?: {
     data: {
       warehouses: paginated,
       pagination: {
-        current_page: page,
-        total_pages: Math.ceil(filtered.length / limit),
-        total_items: filtered.length,
-        per_page: limit,
+        currentPage: page,
+        totalPages: Math.ceil(filtered.length / limit),
+        totalItems: filtered.length,
+        perPage: limit,
         has_next: end < filtered.length,
         has_prev: page > 1,
       },
       summary: {
-        total_warehouses: mockWarehouses.length,
+        totalWarehouses: mockWarehouses.length,
         active: mockWarehouses.filter((w) => w.status === 1).length,
         pending: mockWarehouses.filter((w) => w.status === 0).length,
         banned: mockWarehouses.filter((w) => w.status === 2).length,
@@ -318,11 +318,11 @@ export const createWarehouse = async (data: {
     ...data,
     status: 0,
     manager_id: 5,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     inventory_summary: {
-      total_products: 0,
-      total_quantity: 0,
+      totalProducts: 0,
+      totalquantity: 0,
     },
   };
 
@@ -356,7 +356,7 @@ export const updateWarehouse = async (
 
   Object.assign(warehouse, {
     ...data,
-    updated_at: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   });
 
   return {

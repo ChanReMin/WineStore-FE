@@ -12,6 +12,7 @@ const SLIDE_IMAGES = [
   "/hero/slide-4.jpg",
   "/hero/slide-5.jpg",
 ];
+// "/hero/slide-00.png",
 
 const slideVariants = {
   enter: (direction: number) => ({

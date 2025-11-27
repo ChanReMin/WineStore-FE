@@ -15,17 +15,17 @@ import {
 
 interface Order {
   id: number;
-  order_code: string;
+  orderCode: string;
   customer: {
     id: number;
     name: string;
     email: string;
   };
   status: number;
-  status_text: string;
-  payment_status: number;
-  final_amount: number;
-  created_at: string;
+  statusText: string;
+  paymentStatus: number;
+  finalAmount: number;
+  createdAt: string;
 }
 
 interface LatestOrdersTableProps {
@@ -99,7 +99,7 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                     className="hover:bg-[#fdfbf5] transition-colors border-[#d4d6b4]"
                   >
                     <TableCell className="font-medium text-[#3b4417]">
-                      {order.order_code}
+                      {order.orderCode}
                     </TableCell>
                     <TableCell>
                       <div>
@@ -113,28 +113,28 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                     </TableCell>
                     <TableCell>
                       <Badge className={getStatusColor(order.status)}>
-                        {order.status_text}
+                        {order.statusText}
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <Badge
                         className={
-                          order.payment_status === 1
+                          order.paymentStatus === 1
                             ? "bg-[#3b4417] text-white border-[#3b4417]"
                             : "bg-gray-100 text-gray-700 border-gray-300"
                         }
                       >
-                        {getPaymentStatusText(order.payment_status)}
+                        {getPaymentStatusText(order.paymentStatus)}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right font-medium text-[#3b4417]">
                       {new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(order.final_amount)}
+                      }).format(order.finalAmount)}
                     </TableCell>
                     <TableCell className="text-[#7a8451] text-sm">
-                      {new Date(order.created_at).toLocaleDateString("vi-VN", {
+                      {new Date(order.createdAt).toLocaleDateString("vi-VN", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",

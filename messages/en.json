@@ -76,7 +76,11 @@
     "buttons": {
       "signIn": "Sign In",
       "createAccount": "Create Account",
-      "processing": "Processing..."
+      "processing": "Processing...",
+      "signInWithGoogle": "Sign in with Google"
+    },
+    "divider": {
+      "or": "Or"
     },
     "switchMode": {
       "noAccount": "Don't have an account?",
@@ -1451,31 +1455,79 @@
       "subtitle": "Passionate experts dedicated to helping you discover your perfect wine",
       "members": {
         "0": {
-          "name": "Robert Chen",
-          "role": "Founder & CEO",
-          "bio": "Master Sommelier with 50+ years of experience. Pioneer in sustainable wine retail."
+          "name": "Rainy Nguyễn",
+          "role": "CEO",
+          "bio": "Visionary leader driving innovation and growth in wine retail excellence."
         },
         "1": {
-          "name": "Sophie Laurent",
-          "role": "Head Sommelier",
-          "bio": "Certified Wine Educator. Specializes in French and Italian wines."
+          "name": "Aaron Lai",
+          "role": "CEO",
+          "bio": "Strategic leader with passion for delivering exceptional wine experiences."
         },
         "2": {
-          "name": "Marcus Williams",
-          "role": "Director of Operations",
-          "bio": "20 years in luxury retail. Expert in customer experience and logistics."
+          "name": "Brian Nguyễn",
+          "role": "Mentor",
+          "bio": "Expert mentor guiding team development and wine expertise."
         },
         "3": {
-          "name": "Elena Rodriguez",
-          "role": "Wine Buyer",
-          "bio": "Travels globally to source rare vintages. Fluent in 5 languages."
+          "name": "Tristian Phạm",
+          "role": "Mentor",
+          "bio": "Dedicated mentor fostering talent and wine knowledge."
         },
         "4": {
-          "name": "Liam O'Connor",
-          "role": "Marketing Manager",
-          "bio": "Specializes in digital marketing for luxury brands. Wine enthusiast."
+          "name": "Gary Nguyễn",
+          "role": "Mentor",
+          "bio": "Experienced mentor specializing in customer service excellence."
+        },
+        "5": {
+          "name": "Brian Cao",
+          "role": "Mentor",
+          "bio": "Passionate mentor focused on wine education and training."
+        },
+        "6": {
+          "name": "Bella Phạm",
+          "role": "Mentor",
+          "bio": "Inspiring mentor with expertise in wine curation and selection."
+        },
+        "7": {
+          "name": "Cain Nguyễn",
+          "role": "Mentor",
+          "bio": "Skilled mentor driving operational excellence and quality."
+        },
+        "8": {
+          "name": "Tony Nguyễn",
+          "role": "Mentor",
+          "bio": "Dynamic mentor specializing in wine marketing and branding."
+        },
+        "9": {
+          "name": "Teku Trần",
+          "role": "Mentor",
+          "bio": "Knowledgeable mentor with focus on wine logistics and distribution."
+        },
+        "10": {
+          "name": "Lucas Lâm",
+          "role": "Mentor",
+          "bio": "Creative mentor enhancing digital wine experiences."
+        },
+        "11": {
+          "name": "Harry Trịnh",
+          "role": "Mentor",
+          "bio": "Professional mentor ensuring quality standards and excellence."
+        },
+        "12": {
+          "name": "Greg Kim",
+          "role": "Mentor",
+          "bio": "Dedicated mentor building strong customer relationships."
+        },
+        "13": {
+          "name": "Nolan Nguyễn",
+          "role": "Mentor",
+          "bio": "Enthusiastic mentor promoting wine culture and appreciation."
         }
-      }
+      },
+      "leadership": "Leadership",
+      "leader": "Leader",
+      "teamMembers": "Team Members"
     },
     "cta": {
       "title": "Experience The Difference",

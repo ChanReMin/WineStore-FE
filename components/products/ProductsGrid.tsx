@@ -10,8 +10,8 @@ interface Product {
   slug: string;
   thumbnail: string;
   price: number;
-  base_price: number;
-  country_of_production: string;
+  basePrice: number;
+  countryOfProduction: string;
   concentration: number;
   brand: {
     id: number;

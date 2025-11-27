@@ -66,7 +66,7 @@ export default function CartDropdown() {
   };
 
   const cartItems = cart?.items || [];
-  const totalItems = cart?.summary.total_quantity || 0;
+  const totalItems = cart?.summary.totalquantity || 0;
   const subtotal = cart?.summary.subtotal || 0;
 
   return (
@@ -333,7 +333,7 @@ export default function CartDropdown() {
 
                                 {/* Unit Price */}
                                 <p className="mb-2 text-xs font-medium text-neutral-600">
-                                  {item.unit_price.toLocaleString("vi-VN")}₫{" "}
+                                  {item.unitPrice.toLocaleString("vi-VN")}₫{" "}
                                   {t("perBottle")}
                                 </p>
 
@@ -372,7 +372,7 @@ export default function CartDropdown() {
                                       }
                                       disabled={
                                         item.quantity >=
-                                          item.product.max_quantity || isLoading
+                                          item.product.maxQuantity || isLoading
                                       }
                                       className="p-1.5 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
                                       title={t("increaseQuantity")}
@@ -384,14 +384,12 @@ export default function CartDropdown() {
                                   {/* Line Total */}
                                   <div className="text-right">
                                     <p className="text-sm font-bold text-[#33391d]">
-                                      {item.line_total.toLocaleString("vi-VN")}₫
+                                      {item.lineTotal.toLocaleString("vi-VN")}₫
                                     </p>
                                     {item.quantity > 1 && (
                                       <p className="text-xs text-neutral-500">
                                         {item.quantity} ×{" "}
-                                        {item.unit_price.toLocaleString(
-                                          "vi-VN"
-                                        )}
+                                        {item.unitPrice.toLocaleString("vi-VN")}
                                         ₫
                                       </p>
                                     )}
@@ -399,7 +397,7 @@ export default function CartDropdown() {
                                 </div>
 
                                 {/* Stock Warning */}
-                                {item.quantity >= item.product.max_quantity && (
+                                {item.quantity >= item.product.maxQuantity && (
                                   <p className="mt-1 text-xs text-amber-600">
                                     {t("maxQuantityReached")}
                                   </p>
@@ -454,13 +452,13 @@ export default function CartDropdown() {
                             {subtotal.toLocaleString("vi-VN")}₫
                           </span>
                         </div>
-                        {cart && cart.summary.estimated_shipping > 0 && (
+                        {cart && cart.summary.estimatedshipping > 0 && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-neutral-600">
                               {t("shipping")}
                             </span>
                             <span className="font-semibold text-neutral-900">
-                              {cart.summary.estimated_shipping.toLocaleString(
+                              {cart.summary.estimatedshipping.toLocaleString(
                                 "vi-VN"
                               )}
                               ₫
@@ -468,7 +466,7 @@ export default function CartDropdown() {
                           </div>
                         )}
                         {cart &&
-                          cart.summary.estimated_shipping === 0 &&
+                          cart.summary.estimatedshipping === 0 &&
                           subtotal > 0 && (
                             <div className="flex items-center justify-between text-sm">
                               <span className="text-green-600">
@@ -484,9 +482,9 @@ export default function CartDropdown() {
                             {t("total")}
                           </span>
                           <span className="text-2xl font-bold text-[#33391d]">
-                            {(
-                              cart?.summary.estimated_total || 0
-                            ).toLocaleString("vi-VN")}
+                            {(cart?.summary.estimatedtotal || 0).toLocaleString(
+                              "vi-VN"
+                            )}
                             ₫
                           </span>
                         </div>

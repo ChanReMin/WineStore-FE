@@ -3,23 +3,23 @@
 export interface SellerRequest {
   id: number;
   user: {
-    user_id: number;
-    account_id: number;
+    userId: number;
+    accountId: number;
     email: string;
-    full_name: string;
-    phone_number: string;
+    fullName: string;
+    phoneNumber: string;
     avatar: string;
-    total_orders?: number;
-    total_spent?: number;
+    totalOrders?: number;
+    totalSpent?: number;
     account_age_days?: number;
   };
-  current_role: number;
-  requested_role: number;
+  currentRole: number;
+  requestedRole: number;
   reason?: string | null;
   status: "pending" | "approved" | "rejected";
-  status_text: string;
-  created_at: string;
-  updated_at?: string;
+  statusText: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface SellerRequestsResponse {
@@ -27,9 +27,9 @@ export interface SellerRequestsResponse {
   data: {
     requests: SellerRequest[];
     pagination: {
-      current_page: number;
-      total_pages: number;
-      total_items: number;
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
     };
     summary: {
       total_requests: number;
@@ -45,215 +45,215 @@ const mockRequests: SellerRequest[] = [
   {
     id: 1001,
     user: {
-      user_id: 456,
-      account_id: 123,
+      userId: 456,
+      accountId: 123,
       email: "nguyenvana@example.com",
-      full_name: "Nguyễn Văn A",
-      phone_number: "0912345678",
+      fullName: "Nguyễn Văn A",
+      phoneNumber: "0912345678",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=NguyenVanA",
-      total_orders: 25,
-      total_spent: 75000000,
+      totalOrders: 25,
+      totalSpent: 75000000,
       account_age_days: 180,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-20T10:00:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-20T10:00:00Z",
   },
   {
     id: 1002,
     user: {
-      user_id: 457,
-      account_id: 124,
+      userId: 457,
+      accountId: 124,
       email: "tranthib@example.com",
-      full_name: "Trần Thị B",
-      phone_number: "0923456789",
+      fullName: "Trần Thị B",
+      phoneNumber: "0923456789",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=TranThiB",
-      total_orders: 18,
-      total_spent: 52000000,
+      totalOrders: 18,
+      totalSpent: 52000000,
       account_age_days: 120,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-21T14:30:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-21T14:30:00Z",
   },
   {
     id: 1003,
     user: {
-      user_id: 458,
-      account_id: 125,
+      userId: 458,
+      accountId: 125,
       email: "levanc@example.com",
-      full_name: "Lê Văn C",
-      phone_number: "0934567890",
+      fullName: "Lê Văn C",
+      phoneNumber: "0934567890",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=LeVanC",
-      total_orders: 32,
-      total_spent: 98000000,
+      totalOrders: 32,
+      totalSpent: 98000000,
       account_age_days: 240,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "approved",
-    status_text: "Đã duyệt",
-    created_at: "2024-11-15T09:15:00Z",
-    updated_at: "2024-11-16T10:20:00Z",
+    statusText: "Đã duyệt",
+    createdAt: "2024-11-15T09:15:00Z",
+    updatedAt: "2024-11-16T10:20:00Z",
   },
   {
     id: 1004,
     user: {
-      user_id: 459,
-      account_id: 126,
+      userId: 459,
+      accountId: 126,
       email: "phamthid@example.com",
-      full_name: "Phạm Thị D",
-      phone_number: "0945678901",
+      fullName: "Phạm Thị D",
+      phoneNumber: "0945678901",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=PhamThiD",
-      total_orders: 8,
-      total_spent: 15000000,
+      totalOrders: 8,
+      totalSpent: 15000000,
       account_age_days: 45,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "rejected",
-    status_text: "Đã từ chối",
-    created_at: "2024-11-18T16:45:00Z",
-    updated_at: "2024-11-19T11:30:00Z",
+    statusText: "Đã từ chối",
+    createdAt: "2024-11-18T16:45:00Z",
+    updatedAt: "2024-11-19T11:30:00Z",
     reason: "Không đủ điều kiện nâng cấp",
   },
   {
     id: 1005,
     user: {
-      user_id: 460,
-      account_id: 127,
+      userId: 460,
+      accountId: 127,
       email: "hoangvane@example.com",
-      full_name: "Hoàng Văn E",
-      phone_number: "0956789012",
+      fullName: "Hoàng Văn E",
+      phoneNumber: "0956789012",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=HoangVanE",
-      total_orders: 42,
-      total_spent: 125000000,
+      totalOrders: 42,
+      totalSpent: 125000000,
       account_age_days: 365,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-22T08:20:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-22T08:20:00Z",
   },
   {
     id: 1006,
     user: {
-      user_id: 461,
-      account_id: 128,
+      userId: 461,
+      accountId: 128,
       email: "vuthif@example.com",
-      full_name: "Vũ Thị F",
-      phone_number: "0967890123",
+      fullName: "Vũ Thị F",
+      phoneNumber: "0967890123",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=VuThiF",
-      total_orders: 15,
-      total_spent: 38000000,
+      totalOrders: 15,
+      totalSpent: 38000000,
       account_age_days: 90,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-23T11:10:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-23T11:10:00Z",
   },
   {
     id: 1007,
     user: {
-      user_id: 462,
-      account_id: 129,
+      userId: 462,
+      accountId: 129,
       email: "dangvang@example.com",
-      full_name: "Đặng Văn G",
-      phone_number: "0978901234",
+      fullName: "Đặng Văn G",
+      phoneNumber: "0978901234",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=DangVanG",
-      total_orders: 28,
-      total_spent: 82000000,
+      totalOrders: 28,
+      totalSpent: 82000000,
       account_age_days: 200,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "approved",
-    status_text: "Đã duyệt",
-    created_at: "2024-11-10T13:40:00Z",
-    updated_at: "2024-11-11T09:15:00Z",
+    statusText: "Đã duyệt",
+    createdAt: "2024-11-10T13:40:00Z",
+    updatedAt: "2024-11-11T09:15:00Z",
   },
   {
     id: 1008,
     user: {
-      user_id: 463,
-      account_id: 130,
+      userId: 463,
+      accountId: 130,
       email: "buithih@example.com",
-      full_name: "Bùi Thị H",
-      phone_number: "0989012345",
+      fullName: "Bùi Thị H",
+      phoneNumber: "0989012345",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=BuiThiH",
-      total_orders: 20,
-      total_spent: 58000000,
+      totalOrders: 20,
+      totalSpent: 58000000,
       account_age_days: 150,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-24T15:25:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-24T15:25:00Z",
   },
   {
     id: 1009,
     user: {
-      user_id: 464,
-      account_id: 131,
+      userId: 464,
+      accountId: 131,
       email: "nguyenv@example.com",
-      full_name: "Nguyễn V",
-      phone_number: "0990123456",
+      fullName: "Nguyễn V",
+      phoneNumber: "0990123456",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=NguyenV",
-      total_orders: 10,
-      total_spent: 30000000,
+      totalOrders: 10,
+      totalSpent: 30000000,
       account_age_days: 60,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-25T10:00:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-25T10:00:00Z",
   },
   {
     id: 1010,
     user: {
-      user_id: 465,
-      account_id: 132,
+      userId: 465,
+      accountId: 132,
       email: "nguyenv@example.com",
-      full_name: "Nguyễn V",
-      phone_number: "0990123456",
+      fullName: "Nguyễn V",
+      phoneNumber: "0990123456",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=NguyenV2",
-      total_orders: 12,
-      total_spent: 35000000,
+      totalOrders: 12,
+      totalSpent: 35000000,
       account_age_days: 75,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-26T09:00:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-26T09:00:00Z",
   },
   {
     id: 1011,
     user: {
-      user_id: 466,
-      account_id: 133,
+      userId: 466,
+      accountId: 133,
       email: "nguyenv@example.com",
-      full_name: "Nguyễn V",
-      phone_number: "0990123456",
+      fullName: "Nguyễn V",
+      phoneNumber: "0990123456",
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=NguyenV3",
-      total_orders: 14,
-      total_spent: 40000000,
+      totalOrders: 14,
+      totalSpent: 40000000,
       account_age_days: 80,
     },
-    current_role: 0,
-    requested_role: 1,
+    currentRole: 0,
+    requestedRole: 1,
     status: "pending",
-    status_text: "Chờ duyệt",
-    created_at: "2024-11-27T10:00:00Z",
+    statusText: "Chờ duyệt",
+    createdAt: "2024-11-27T10:00:00Z",
   },
 ];
 
@@ -282,8 +282,8 @@ export const fetchSellerRequests = async (params?: {
 
   // Sort
   filteredRequests.sort((a, b) => {
-    const dateA = new Date(a.created_at).getTime();
-    const dateB = new Date(b.created_at).getTime();
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
     return sort === "newest" ? dateB - dateA : dateA - dateB;
   });
 
@@ -305,9 +305,9 @@ export const fetchSellerRequests = async (params?: {
     data: {
       requests: paginatedRequests,
       pagination: {
-        current_page: page,
-        total_pages: Math.ceil(filteredRequests.length / limit),
-        total_items: filteredRequests.length,
+        currentPage: page,
+        totalPages: Math.ceil(filteredRequests.length / limit),
+        totalItems: filteredRequests.length,
       },
       summary,
     },
@@ -340,8 +340,8 @@ export const approveSellerRequest = async (
   const request = mockRequests.find((r) => r.id === requestId);
   if (request) {
     request.status = "approved";
-    request.status_text = "Đã duyệt";
-    request.updated_at = new Date().toISOString();
+    request.statusText = "Đã duyệt";
+    request.updatedAt = new Date().toISOString();
   }
 
   return {
@@ -360,9 +360,9 @@ export const rejectSellerRequest = async (
   const request = mockRequests.find((r) => r.id === requestId);
   if (request) {
     request.status = "rejected";
-    request.status_text = "Đã từ chối";
+    request.statusText = "Đã từ chối";
     request.reason = reason;
-    request.updated_at = new Date().toISOString();
+    request.updatedAt = new Date().toISOString();
   }
 
   return {

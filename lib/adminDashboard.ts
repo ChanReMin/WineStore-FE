@@ -4,36 +4,36 @@ export const mockSystemOverview = {
   success: true,
   data: {
     period: {
-      start_date: "2024-11-01",
-      end_date: "2024-11-30",
+      startdate: "2024-11-01",
+      enddate: "2024-11-30",
     },
     business_metrics: {
-      total_revenue: 250000000,
+      totalRevenue: 250000000,
       gross_profit: 75000000,
       profit_margin_percent: 30,
-      total_orders: 150,
+      totalOrders: 150,
       average_order_value: 1666667,
       conversion_rate: 3.2,
     },
     users: {
-      total_users: 1250,
+      totalUsers: 1250,
       customers: 1200,
       sellers: 45,
       admins: 1,
       new_this_month: 85,
-      active_users: 890,
-      pending_seller_requests: 8,
+      activeUsers: 890,
+      pendingSellerRequests: 8,
     },
     products: {
       total: 450,
       active: 442,
-      pending_approval: 15,
+      pendingApproval: 15,
       rejected: 3,
-      out_of_stock: 8,
+      outOfStock: 8,
     },
     orders: {
       total: 150,
-      by_status: {
+      byStatus: {
         pending: 10,
         confirmed: 15,
         packaging: 8,
@@ -45,10 +45,10 @@ export const mockSystemOverview = {
     },
     inventory: {
       total_value: 5000000000,
-      total_quantity: 8500,
-      total_warehouses: 3,
-      low_stock_products: 25,
-      out_of_stock_products: 8,
+      totalquantity: 8500,
+      totalWarehouses: 3,
+      lowStockProducts: 25,
+      outOfStock_products: 8,
     },
     system_health: {
       database_size_mb: 2450,
@@ -163,7 +163,7 @@ export const mockRevenueAnalytics = {
         customers: 6,
       },
     ],
-    payment_methods: {
+    paymentMethods: {
       COD: {
         total: 150000000,
         percentage: 60,
@@ -182,22 +182,22 @@ export const mockRevenueAnalytics = {
     },
     categories_performance: [
       {
-        category_id: 5,
-        category_name: "Rượu vang đỏ",
+        categoryId: 5,
+        categoryname: "Rượu vang đỏ",
         revenue: 180000000,
         orders: 95,
         percentage: 72,
       },
       {
-        category_id: 6,
-        category_name: "Rượu vang trắng",
+        categoryId: 6,
+        categoryname: "Rượu vang trắng",
         revenue: 50000000,
         orders: 35,
         percentage: 20,
       },
       {
-        category_id: 7,
-        category_name: "Rượu vang hồng",
+        categoryId: 7,
+        categoryname: "Rượu vang hồng",
         revenue: 20000000,
         orders: 20,
         percentage: 8,
@@ -230,28 +230,28 @@ export const mockUserAnalytics = {
   success: true,
   data: {
     user_growth: [
-      { date: "2024-11-01", new_users: 3, total_users: 1165 },
-      { date: "2024-11-02", new_users: 5, total_users: 1170 },
-      { date: "2024-11-03", new_users: 2, total_users: 1172 },
-      { date: "2024-11-04", new_users: 4, total_users: 1176 },
-      { date: "2024-11-05", new_users: 6, total_users: 1182 },
-      { date: "2024-11-06", new_users: 3, total_users: 1185 },
-      { date: "2024-11-07", new_users: 7, total_users: 1192 },
+      { date: "2024-11-01", new_users: 3, totalUsers: 1165 },
+      { date: "2024-11-02", new_users: 5, totalUsers: 1170 },
+      { date: "2024-11-03", new_users: 2, totalUsers: 1172 },
+      { date: "2024-11-04", new_users: 4, totalUsers: 1176 },
+      { date: "2024-11-05", new_users: 6, totalUsers: 1182 },
+      { date: "2024-11-06", new_users: 3, totalUsers: 1185 },
+      { date: "2024-11-07", new_users: 7, totalUsers: 1192 },
     ],
     user_segments: {
       vip: {
         count: 25,
-        total_spent: 500000000,
+        totalSpent: 500000000,
         average_order_value: 20000000,
       },
       regular: {
         count: 450,
-        total_spent: 450000000,
+        totalSpent: 450000000,
         average_order_value: 1000000,
       },
       new: {
         count: 725,
-        total_spent: 145000000,
+        totalSpent: 145000000,
         average_order_value: 200000,
       },
     },

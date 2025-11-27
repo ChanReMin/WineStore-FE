@@ -139,8 +139,8 @@ export default function WarehouseDetailModal({
                             <div className="flex items-center gap-2">
                               <User className="w-4 h-4 text-neutral-400" />
                               <span className="text-neutral-900 font-medium">
-                                {warehouse.manager.first_name}{" "}
-                                {warehouse.manager.last_name}
+                                {warehouse.manager.firstName}{" "}
+                                {warehouse.manager.lastName}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -152,16 +152,16 @@ export default function WarehouseDetailModal({
                             <div className="flex items-center gap-2">
                               <Phone className="w-4 h-4 text-neutral-400" />
                               <span className="text-neutral-600">
-                                {warehouse.manager.phone_number}
+                                {warehouse.manager.phoneNumber}
                               </span>
                             </div>
-                            {warehouse.manager.total_products !== undefined && (
+                            {warehouse.manager.totalProducts !== undefined && (
                               <div className="flex items-center gap-2">
                                 <Package className="w-4 h-4 text-neutral-400" />
                                 <span className="text-neutral-600">
-                                  {warehouse.manager.total_products}{" "}
+                                  {warehouse.manager.totalProducts}{" "}
                                   {t("totalProducts")} (
-                                  {warehouse.manager.approved_products}{" "}
+                                  {warehouse.manager.approvedProducts}{" "}
                                   {t("approved")})
                                 </span>
                               </div>
@@ -189,7 +189,7 @@ export default function WarehouseDetailModal({
                                 {t("createdAt")}:
                               </span>
                               <span className="text-neutral-900 font-medium">
-                                {new Date(warehouse.created_at).toLocaleString(
+                                {new Date(warehouse.createdAt).toLocaleString(
                                   "vi-VN"
                                 )}
                               </span>
@@ -199,7 +199,7 @@ export default function WarehouseDetailModal({
                                 {t("updatedAt")}:
                               </span>
                               <span className="text-neutral-900 font-medium">
-                                {new Date(warehouse.updated_at).toLocaleString(
+                                {new Date(warehouse.updatedAt).toLocaleString(
                                   "vi-VN"
                                 )}
                               </span>
@@ -228,7 +228,7 @@ export default function WarehouseDetailModal({
                                   {t("totalProducts")}
                                 </p>
                                 <p className="text-lg font-bold text-[#3b4417]">
-                                  {warehouse.inventory_summary.total_products}
+                                  {warehouse.inventory_summary.totalProducts}
                                 </p>
                               </div>
                               <div>
@@ -236,7 +236,7 @@ export default function WarehouseDetailModal({
                                   {t("totalQuantity")}
                                 </p>
                                 <p className="text-lg font-bold text-[#3b4417]">
-                                  {warehouse.inventory_summary.total_quantity.toLocaleString()}
+                                  {warehouse.inventory_summary.totalquantity.toLocaleString()}
                                 </p>
                               </div>
                               <div>

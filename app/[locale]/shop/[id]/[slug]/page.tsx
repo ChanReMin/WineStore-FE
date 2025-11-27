@@ -148,9 +148,9 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.5 }}
                 className="flex items-center gap-4 text-sm text-neutral-600"
               >
-                <span className="font-medium">{product.wine_type}</span>
+                <span className="font-medium">{product.winetype}</span>
                 <span className="text-neutral-300">|</span>
-                <span>{product.production_area}</span>
+                <span>{product.productionArea}</span>
                 <span className="text-neutral-300">|</span>
                 <span>{product.concentration}% ABV</span>
               </motion.div>
@@ -163,16 +163,16 @@ export default function ProductDetailPage() {
                 className="space-y-2"
               >
                 {/* Original Price - Strikethrough */}
-                {product.base_price && product.price < product.base_price && (
+                {product.basePrice && product.price < product.basePrice && (
                   <div className="flex items-center gap-3">
                     <span className="text-lg text-neutral-400 line-through">
-                      {product.base_price.toLocaleString("vi-VN")}₫
+                      {product.basePrice.toLocaleString("vi-VN")}₫
                     </span>
                     <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-600">
                       SAVE{" "}
                       {Math.round(
-                        ((product.base_price - product.price) /
-                          product.base_price) *
+                        ((product.basePrice - product.price) /
+                          product.basePrice) *
                           100
                       )}
                       %
@@ -274,7 +274,7 @@ export default function ProductDetailPage() {
                             {t("specs.grapeVariety")}
                           </h4>
                           <p className="text-neutral-600">
-                            {product.grape_variety}
+                            {product.grapeVariety}
                           </p>
                         </div>
                         <div className="rounded-lg bg-neutral-50 p-4">
@@ -282,8 +282,8 @@ export default function ProductDetailPage() {
                             {t("specs.region")}
                           </h4>
                           <p className="text-neutral-600">
-                            {product.production_area},{" "}
-                            {product.country_of_production}
+                            {product.productionArea},{" "}
+                            {product.countryOfProduction}
                           </p>
                         </div>
                       </div>
@@ -295,7 +295,7 @@ export default function ProductDetailPage() {
                       {[
                         {
                           label: t("specs.wineType"),
-                          value: product.wine_type,
+                          value: product.winetype,
                         },
                         {
                           label: t("specs.alcoholContent"),
@@ -307,15 +307,15 @@ export default function ProductDetailPage() {
                         },
                         {
                           label: t("specs.servingTemp"),
-                          value: product.ideal_temperature,
+                          value: product.idealtemperature,
                         },
                         {
                           label: t("specs.origin"),
-                          value: `${product.production_area}, ${product.country_of_production}`,
+                          value: `${product.productionArea}, ${product.countryOfProduction}`,
                         },
                         {
                           label: t("specs.grapeVariety"),
-                          value: product.grape_variety,
+                          value: product.grapeVariety,
                         },
                       ].map((spec, i) => (
                         <motion.div
@@ -356,7 +356,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.temperature"),
-                          text: product.ideal_temperature,
+                          text: product.idealtemperature,
                         },
                         {
                           icon: (
@@ -394,7 +394,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.light"),
-                          text: product.avoid_light,
+                          text: product.avoidLight,
                         },
                         {
                           icon: (
@@ -413,7 +413,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.position"),
-                          text: product.place_the_bottle_horizontally,
+                          text: product.placeTheBottleHorizontally,
                         },
                         {
                           icon: (
@@ -432,7 +432,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.vibration"),
-                          text: product.avoid_vibration,
+                          text: product.avoidVibration,
                         },
                         {
                           icon: (
@@ -451,7 +451,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.afterOpening"),
-                          text: product.opened_wine,
+                          text: product.openedWine,
                         },
                       ].map((item, i) => (
                         <motion.div
@@ -499,7 +499,7 @@ export default function ProductDetailPage() {
                       .replace(/\s+/g, "-")}
                     productImage={product.images[0]}
                     productPrice={product.price}
-                    maxQuantity={product.inventory.total_quantity}
+                    maxQuantity={product.inventory.totalquantity}
                   />
 
                   {/* Secondary Actions */}

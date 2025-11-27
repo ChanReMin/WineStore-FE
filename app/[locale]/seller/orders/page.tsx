@@ -37,7 +37,7 @@ export default function OrdersPage() {
     // Filter by payment status
     if (paymentFilter !== "all") {
       filtered = filtered.filter(
-        (order: any) => order.payment_status === Number.parseInt(paymentFilter)
+        (order: any) => order.paymentStatus === Number.parseInt(paymentFilter)
       );
     }
 
@@ -46,7 +46,7 @@ export default function OrdersPage() {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
         (order: any) =>
-          order.order_code.toLowerCase().includes(query) ||
+          order.orderCode.toLowerCase().includes(query) ||
           order.customer.name.toLowerCase().includes(query) ||
           order.customer.email.toLowerCase().includes(query)
       );

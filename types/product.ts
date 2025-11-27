@@ -4,22 +4,22 @@ export interface Product {
   name: string;
   price: number;
   category: string;
-  category_id: number;
+  categoryId: number;
   brand: string;
-  brand_id: number;
+  brandId: number;
   concentration: number;
   status: number;
-  status_text: string;
-  total_inventory: number;
-  created_at: string;
-  approved_at: string | null;
-  approved_by: string | null;
+  statusText: string;
+  totalInventory: number;
+  createdAt: string;
+  approvedAt: string | null;
+  approvedBy: string | null;
 }
 
 export interface Pagination {
-  current_page: number;
-  total_pages: number;
-  total_items: number;
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
 }
 
 export interface Summary {

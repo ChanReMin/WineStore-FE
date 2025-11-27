@@ -26,22 +26,22 @@ export const DraggablePromotionItem = memo(function DraggablePromotionItem({
 
   // Memoize các giá trị tính toán
   const usagePercentage = useMemo(
-    () => Math.round((promotion.used_count / promotion.max_usage) * 100),
-    [promotion.used_count, promotion.max_usage]
+    () => Math.round((promotion.usedcount / promotion.maxusage) * 100),
+    [promotion.usedcount, promotion.maxusage]
   );
 
   const discountDisplay = useMemo(
     () =>
-      promotion.discount_type === 1
-        ? `${promotion.discount_value}%`
-        : `${promotion.discount_value.toLocaleString()}đ`,
-    [promotion.discount_type, promotion.discount_value]
+      promotion.discounttype === 1
+        ? `${promotion.discountvalue}%`
+        : `${promotion.discountvalue.toLocaleString()}đ`,
+    [promotion.discounttype, promotion.discountvalue]
   );
 
   const dateRange = useMemo(
     () =>
-      `${format(new Date(promotion.start_date), "dd/MM")} - ${format(new Date(promotion.end_date), "dd/MM/yy")}`,
-    [promotion.start_date, promotion.end_date]
+      `${format(new Date(promotion.startdate), "dd/MM")} - ${format(new Date(promotion.enddate), "dd/MM/yy")}`,
+    [promotion.startdate, promotion.enddate]
   );
 
   const style = useMemo(
@@ -92,8 +92,8 @@ export const DraggablePromotionItem = memo(function DraggablePromotionItem({
           <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
             <span>
               {t("used", {
-                used: promotion.used_count,
-                max: promotion.max_usage,
+                used: promotion.usedcount,
+                max: promotion.maxusage,
               })}
             </span>
             <span className="font-medium">{usagePercentage}%</span>

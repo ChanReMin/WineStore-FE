@@ -18,7 +18,7 @@ interface CartState {
       slug: string;
       image: string;
       price: number;
-      max_quantity?: number;
+      maxQuantity?: number;
     }
   ) => Promise<void>;
   updateCartItem: (cartItemId: number, quantity: number) => Promise<void>;
@@ -55,13 +55,13 @@ export const useCartStore = create<CartState>()(
           slug: string;
           image: string;
           price: number;
-          max_quantity?: number;
+          maxQuantity?: number;
         }
       ) => {
         set({ isLoading: true, error: null });
         try {
           await cartService.addToCart({
-            product_id: productId,
+            productId: productId,
             quantity,
             product_info: productInfo,
           });
@@ -121,7 +121,7 @@ export const useCartStore = create<CartState>()(
 
       getCartItemCount: () => {
         const { cart } = get();
-        return cart?.summary.total_quantity || 0;
+        return cart?.summary.totalquantity || 0;
       },
     }),
     {

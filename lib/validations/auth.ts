@@ -32,27 +32,27 @@ export const registerSchema = z
         "Password must contain at least one special character"
       ),
 
-    confirm_password: z.string().min(1, "Please confirm your password"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
 
-    first_name: z
+    firstName: z
       .string()
       .max(50, "First name must not exceed 50 characters")
       .optional()
       .or(z.literal("")),
 
-    last_name: z
+    lastName: z
       .string()
       .max(50, "Last name must not exceed 50 characters")
       .optional()
       .or(z.literal("")),
 
-    phone_number: z
+    phoneNumber: z
       .string()
       .regex(/^[0-9]{10,11}$/, "Phone number must contain 10–11 digits")
       .optional()
       .or(z.literal("")),
 
-    date_of_birth: z
+    dateOfBirth: z
       .string()
       .refine(
         (date) => {
@@ -77,9 +77,9 @@ export const registerSchema = z
 
     role: z.enum(["customer", "seller", "admin"]).default("customer"),
   })
-  .refine((data) => data.password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirm_password"],
+    path: ["confirmPassword"],
   });
 
 // Type exports

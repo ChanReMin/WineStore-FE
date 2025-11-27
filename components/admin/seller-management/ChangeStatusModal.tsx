@@ -122,12 +122,12 @@ export default function ChangeStatusModal({
               <div className="flex items-center gap-3 mb-6 p-4 bg-neutral-50 rounded-lg">
                 <img
                   src={seller.avatar}
-                  alt={`${seller.first_name} ${seller.last_name}`}
+                  alt={`${seller.firstName} ${seller.lastName}`}
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
                   <p className="font-semibold text-[#3b4417]">
-                    {seller.first_name} {seller.last_name}
+                    {seller.firstName} {seller.lastName}
                   </p>
                   <p className="text-sm text-neutral-500">{seller.email}</p>
                 </div>

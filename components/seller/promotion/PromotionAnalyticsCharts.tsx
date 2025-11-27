@@ -27,16 +27,16 @@ import { TrendingUp, DollarSign, Users, Percent } from "lucide-react";
 interface PromotionAnalyticsChartsProps {
   usageData: Array<{
     date: string;
-    usage_count: number;
-    discount_amount: number;
+    usageCount: number;
+    discountAmount: number;
   }>;
   promotions: Array<{
     id: number;
     code: string;
     name: string;
-    used_count: number;
-    max_usage: number;
-    discount_value: number;
+    usedcount: number;
+    maxusage: number;
+    discountvalue: number;
   }>;
 }
 
@@ -46,19 +46,19 @@ export default function PromotionAnalyticsCharts({
 }: PromotionAnalyticsChartsProps) {
   // Prepare data for pie chart - top 5 promotions by usage
   const topPromotions = promotions
-    .sort((a, b) => b.used_count - a.used_count)
+    .sort((a, b) => b.usedcount - a.usedcount)
     .slice(0, 5)
     .map((promo, index) => ({
       name: promo.code,
-      value: promo.used_count,
+      value: promo.usedcount,
       fill: COLORS[index % COLORS.length],
     }));
 
   // Prepare data for comparison chart
   const comparisonData = promotions.slice(0, 5).map((promo) => ({
     name: promo.code,
-    used: promo.used_count,
-    remaining: promo.max_usage - promo.used_count,
+    used: promo.usedcount,
+    remaining: promo.maxusage - promo.usedcount,
   }));
 
   const formatCurrency = (value: number) => {
@@ -88,7 +88,7 @@ export default function PromotionAnalyticsCharts({
 
         <ChartContainer
           config={{
-            usage_count: {
+            usageCount: {
               label: "Lượt sử dụng",
               color: "#3b4417",
             },
@@ -125,7 +125,7 @@ export default function PromotionAnalyticsCharts({
             />
             <Area
               type="monotone"
-              dataKey="usage_count"
+              dataKey="usageCount"
               stroke="#3b4417"
               strokeWidth={2}
               fillOpacity={1}
@@ -242,7 +242,7 @@ export default function PromotionAnalyticsCharts({
 
         <ChartContainer
           config={{
-            discount_amount: {
+            discountAmount: {
               label: "Giảm giá",
               color: "#d4af37",
             },
@@ -278,7 +278,7 @@ export default function PromotionAnalyticsCharts({
             />
             <Line
               type="monotone"
-              dataKey="discount_amount"
+              dataKey="discountAmount"
               stroke="#d4af37"
               strokeWidth={3}
               dot={{ fill: "#d4af37", r: 5 }}

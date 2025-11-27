@@ -83,7 +83,7 @@ export default function UpdateOrderStatusModal({
                     <h2 className="text-xl font-bold text-[#3b4417]">
                       {t("updateStatus.title")}
                     </h2>
-                    <p className="text-sm text-[#7a8451]">{order.order_code}</p>
+                    <p className="text-sm text-[#7a8451]">{order.orderCode}</p>
                   </div>
                 </div>
                 <button
@@ -104,7 +104,7 @@ export default function UpdateOrderStatusModal({
                   </p>
                   <OrderStatusBadge
                     status={order.status}
-                    statusText={order.status_text}
+                    statusText={order.statusText}
                   />
                 </div>
 

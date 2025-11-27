@@ -42,12 +42,12 @@ export default function PromotionFormModal({
     code: "",
     name: "",
     description: "",
-    discount_type: 1,
-    discount_value: 0,
-    start_date: "",
-    end_date: "",
-    max_usage: 100,
-    product_ids: [],
+    discounttype: 1,
+    discountvalue: 0,
+    startdate: "",
+    enddate: "",
+    maxusage: 100,
+    productIds: [],
     status: 1,
   });
 
@@ -60,11 +60,11 @@ export default function PromotionFormModal({
         code: existingPromotion.code,
         name: existingPromotion.name,
         description: existingPromotion.description,
-        discount_type: existingPromotion.discount_type,
-        discount_value: existingPromotion.discount_value,
-        start_date: existingPromotion.start_date.split("T")[0],
-        end_date: existingPromotion.end_date.split("T")[0],
-        max_usage: existingPromotion.max_usage,
+        discounttype: existingPromotion.discounttype,
+        discountvalue: existingPromotion.discountvalue,
+        startdate: existingPromotion.startdate.split("T")[0],
+        enddate: existingPromotion.enddate.split("T")[0],
+        maxusage: existingPromotion.maxusage,
         status: existingPromotion.status,
       });
     }
@@ -236,15 +236,15 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="discount_type"
+                  htmlFor="discounttype"
                   className="text-[#3b4417] font-semibold"
                 >
                   Loại giảm giá *
                 </Label>
                 <Select
-                  value={formData.discount_type.toString()}
+                  value={formData.discounttype.toString()}
                   onValueChange={(value) =>
-                    handleChange("discount_type", parseInt(value))
+                    handleChange("discounttype", parseInt(value))
                   }
                 >
                   <SelectTrigger className="border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]">
@@ -269,36 +269,34 @@ export default function PromotionFormModal({
 
               <div className="space-y-2">
                 <Label
-                  htmlFor="discount_value"
+                  htmlFor="discountvalue"
                   className="text-[#3b4417] font-semibold"
                 >
                   Giá trị giảm *
                 </Label>
                 <div className="relative">
-                  {formData.discount_type === 1 ? (
+                  {formData.discounttype === 1 ? (
                     <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
                   ) : (
                     <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
                   )}
                   <Input
-                    id="discount_value"
+                    id="discountvalue"
                     type="number"
-                    value={formData.discount_value}
+                    value={formData.discountvalue}
                     onChange={(e) =>
-                      handleChange("discount_value", parseFloat(e.target.value))
+                      handleChange("discountvalue", parseFloat(e.target.value))
                     }
                     placeholder={
-                      formData.discount_type === 1 ? "VD: 10" : "VD: 100000"
+                      formData.discounttype === 1 ? "VD: 10" : "VD: 100000"
                     }
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="0"
-                    step={formData.discount_type === 1 ? "1" : "1000"}
+                    step={formData.discounttype === 1 ? "1" : "1000"}
                   />
                 </div>
-                {errors.discount_value && (
-                  <p className="text-xs text-red-600">
-                    {errors.discount_value}
-                  </p>
+                {errors.discountvalue && (
+                  <p className="text-xs text-red-600">{errors.discountvalue}</p>
                 )}
               </div>
             </div>
@@ -307,32 +305,32 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="start_date"
+                  htmlFor="startdate"
                   className="text-[#3b4417] font-semibold"
                 >
                   Ngày bắt đầu *
                 </Label>
                 <DatePicker
-                  value={formData.start_date}
-                  onChange={(date) => handleChange("start_date", date)}
+                  value={formData.startdate}
+                  onChange={(date) => handleChange("startdate", date)}
                   placeholder="Chọn ngày bắt đầu"
-                  error={errors.start_date}
+                  error={errors.startdate}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label
-                  htmlFor="end_date"
+                  htmlFor="enddate"
                   className="text-[#3b4417] font-semibold"
                 >
                   Ngày kết thúc *
                 </Label>
                 <DatePicker
-                  value={formData.end_date}
-                  onChange={(date) => handleChange("end_date", date)}
+                  value={formData.enddate}
+                  onChange={(date) => handleChange("enddate", date)}
                   placeholder="Chọn ngày kết thúc"
-                  minDate={formData.start_date || undefined}
-                  error={errors.end_date}
+                  minDate={formData.startdate || undefined}
+                  error={errors.enddate}
                 />
               </div>
             </div>
@@ -341,7 +339,7 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="max_usage"
+                  htmlFor="maxusage"
                   className="text-[#3b4417] font-semibold"
                 >
                   Số lượt sử dụng tối đa *
@@ -349,19 +347,19 @@ export default function PromotionFormModal({
                 <div className="relative">
                   <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
                   <Input
-                    id="max_usage"
+                    id="maxusage"
                     type="number"
-                    value={formData.max_usage}
+                    value={formData.maxusage}
                     onChange={(e) =>
-                      handleChange("max_usage", parseInt(e.target.value))
+                      handleChange("maxusage", parseInt(e.target.value))
                     }
                     placeholder="VD: 1000"
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="1"
                   />
                 </div>
-                {errors.max_usage && (
-                  <p className="text-xs text-red-600">{errors.max_usage}</p>
+                {errors.maxusage && (
+                  <p className="text-xs text-red-600">{errors.maxusage}</p>
                 )}
               </div>
 

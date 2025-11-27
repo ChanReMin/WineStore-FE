@@ -28,14 +28,14 @@ const displaySerif = Playfair_Display({
 
 interface ProductFilters {
   q?: string;
-  brand_id?: string;
-  category_id?: string;
-  price_min?: number;
-  price_max?: number;
-  concentration_min?: number;
-  concentration_max?: number;
-  sort_by?: string;
-  sort_order?: "asc" | "desc";
+  brandId?: string;
+  categoryId?: string;
+  priceMin?: number;
+  priceMax?: number;
+  concentrationMin?: number;
+  concentrationMax?: number;
+  sortby?: string;
+  sortorder?: "asc" | "desc";
   page?: number;
   limit?: number;
 }
@@ -48,22 +48,22 @@ function ShopContent() {
   // Initialize filters from URL or defaults
   const [filters, setFilters] = useState<ProductFilters>(() => ({
     q: searchParams.get("q") || "",
-    brand_id: searchParams.get("brand_id") || undefined,
-    category_id: searchParams.get("category_id") || undefined,
-    price_min: searchParams.get("price_min")
-      ? Number(searchParams.get("price_min"))
+    brandId: searchParams.get("brandId") || undefined,
+    categoryId: searchParams.get("categoryId") || undefined,
+    priceMin: searchParams.get("priceMin")
+      ? Number(searchParams.get("priceMin"))
       : undefined,
-    price_max: searchParams.get("price_max")
-      ? Number(searchParams.get("price_max"))
+    priceMax: searchParams.get("priceMax")
+      ? Number(searchParams.get("priceMax"))
       : undefined,
-    concentration_min: searchParams.get("concentration_min")
-      ? Number(searchParams.get("concentration_min"))
+    concentrationMin: searchParams.get("concentrationMin")
+      ? Number(searchParams.get("concentrationMin"))
       : undefined,
-    concentration_max: searchParams.get("concentration_max")
-      ? Number(searchParams.get("concentration_max"))
+    concentrationMax: searchParams.get("concentrationMax")
+      ? Number(searchParams.get("concentrationMax"))
       : undefined,
-    sort_by: searchParams.get("sort_by") || "created_at",
-    sort_order: (searchParams.get("sort_order") as "asc" | "desc") || "desc",
+    sortby: searchParams.get("sortby") || "createdAt",
+    sortorder: (searchParams.get("sortorder") as "asc" | "desc") || "desc",
     page: searchParams.get("page") ? Number(searchParams.get("page")) : 1,
     limit: 9,
   }));
@@ -77,42 +77,38 @@ function ShopContent() {
       products = products.filter(
         (p) =>
           p.name.toLowerCase().includes(filters.q!.toLowerCase()) ||
-          p.country_of_production
-            .toLowerCase()
-            .includes(filters.q!.toLowerCase())
+          p.countryOfProduction.toLowerCase().includes(filters.q!.toLowerCase())
       );
     }
 
     // Apply brand filter
-    if (filters.brand_id) {
-      products = products.filter(
-        (p) => p.brand.id === Number(filters.brand_id)
-      );
+    if (filters.brandId) {
+      products = products.filter((p) => p.brand.id === Number(filters.brandId));
     }
 
     // Apply category filter
-    if (filters.category_id) {
-      // Note: Mock data doesn't have category_id, so this is placeholder
-      // You can add category_id to MOCK_PRODUCTS if needed
+    if (filters.categoryId) {
+      // Note: Mock data doesn't have categoryId, so this is placeholder
+      // You can add categoryId to MOCK_PRODUCTS if needed
     }
 
     // Apply price filter
-    if (filters.price_min) {
-      products = products.filter((p) => p.price >= filters.price_min!);
+    if (filters.priceMin) {
+      products = products.filter((p) => p.price >= filters.priceMin!);
     }
-    if (filters.price_max) {
-      products = products.filter((p) => p.price <= filters.price_max!);
+    if (filters.priceMax) {
+      products = products.filter((p) => p.price <= filters.priceMax!);
     }
 
     // Apply concentration filter
-    if (filters.concentration_min) {
+    if (filters.concentrationMin) {
       products = products.filter(
-        (p) => p.concentration >= filters.concentration_min!
+        (p) => p.concentration >= filters.concentrationMin!
       );
     }
-    if (filters.concentration_max) {
+    if (filters.concentrationMax) {
       products = products.filter(
-        (p) => p.concentration <= filters.concentration_max!
+        (p) => p.concentration <= filters.concentrationMax!
       );
     }
 
@@ -120,13 +116,13 @@ function ShopContent() {
     products.sort((a, b) => {
       let comparison = 0;
 
-      if (filters.sort_by === "price") {
+      if (filters.sortby === "price") {
         comparison = a.price - b.price;
-      } else if (filters.sort_by === "name") {
+      } else if (filters.sortby === "name") {
         comparison = a.name.localeCompare(b.name);
       }
 
-      return filters.sort_order === "asc" ? comparison : -comparison;
+      return filters.sortorder === "asc" ? comparison : -comparison;
     });
 
     const totalItems = products.length;
@@ -155,14 +151,14 @@ function ShopContent() {
   );
 
   const handleSortChange = useCallback((sortValue: string) => {
-    const [sort_by, sort_order] = sortValue.split("_");
+    const [sortby, sortorder] = sortValue.split("_");
     const order =
-      sort_order === "asc" || sort_order === "desc" ? sort_order : "desc";
+      sortorder === "asc" || sortorder === "desc" ? sortorder : "desc";
 
     setFilters((prev) => ({
       ...prev,
-      sort_by: sort_by === "created" ? "created_at" : sort_by,
-      sort_order: order,
+      sortby: sortby === "created" ? "createdAt" : sortby,
+      sortorder: order,
       page: 1,
     }));
   }, []);
@@ -177,19 +173,19 @@ function ShopContent() {
       q: "",
       page: 1,
       limit: 12,
-      sort_by: "created_at",
-      sort_order: "desc",
+      sortby: "createdAt",
+      sortorder: "desc",
     });
   }, []);
 
-  const currentSort = `${filters.sort_by}_${filters.sort_order}`;
+  const currentSort = `${filters.sortby}_${filters.sortorder}`;
   const activeFilterCount = [
-    filters.brand_id,
-    filters.category_id,
-    filters.price_min,
-    filters.price_max,
-    filters.concentration_min,
-    filters.concentration_max,
+    filters.brandId,
+    filters.categoryId,
+    filters.priceMin,
+    filters.priceMax,
+    filters.concentrationMin,
+    filters.concentrationMax,
   ].filter(
     (value) => value !== undefined && value !== null && value !== ""
   ).length;
@@ -197,64 +193,64 @@ function ShopContent() {
   const filterChips = useMemo(
     () =>
       [
-        filters.brand_id
+        filters.brandId
           ? {
-              key: "brand_id",
+              key: "brandId",
               label:
                 MOCK_BRANDS.find(
-                  (brand) => brand.id === Number(filters.brand_id)
+                  (brand) => brand.id === Number(filters.brandId)
                 )?.name || "Brand",
               icon: <Tag className="h-3.5 w-3.5 text-[#7b5b2c]" />,
-              onRemove: () => handleFilterChange({ brand_id: undefined }),
+              onRemove: () => handleFilterChange({ brandId: undefined }),
             }
           : null,
-        filters.category_id
+        filters.categoryId
           ? {
-              key: "category_id",
+              key: "categoryId",
               label:
                 MOCK_CATEGORIES.find(
-                  (category) => category.id === Number(filters.category_id)
+                  (category) => category.id === Number(filters.categoryId)
                 )?.name || "Category",
               icon: <Globe2 className="h-3.5 w-3.5 text-[#7b5b2c]" />,
-              onRemove: () => handleFilterChange({ category_id: undefined }),
+              onRemove: () => handleFilterChange({ categoryId: undefined }),
             }
           : null,
-        filters.price_min || filters.price_max
+        filters.priceMin || filters.priceMax
           ? {
               key: "price",
-              label: `Price $${filters.price_min?.toLocaleString() || "0"} - $${
-                filters.price_max?.toLocaleString() || "∞"
+              label: `Price $${filters.priceMin?.toLocaleString() || "0"} - $${
+                filters.priceMax?.toLocaleString() || "∞"
               }`,
               icon: <BadgeCheck className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () =>
                 handleFilterChange({
-                  price_min: undefined,
-                  price_max: undefined,
+                  priceMin: undefined,
+                  priceMax: undefined,
                 }),
             }
           : null,
-        filters.concentration_min || filters.concentration_max
+        filters.concentrationMin || filters.concentrationMax
           ? {
               key: "abv",
-              label: `ABV ${filters.concentration_min || 0}% - ${
-                filters.concentration_max || "∞"
+              label: `ABV ${filters.concentrationMin || 0}% - ${
+                filters.concentrationMax || "∞"
               }%`,
               icon: <Droplet className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () =>
                 handleFilterChange({
-                  concentration_min: undefined,
-                  concentration_max: undefined,
+                  concentrationMin: undefined,
+                  concentrationMax: undefined,
                 }),
             }
           : null,
       ].filter(Boolean),
     [
-      filters.brand_id,
-      filters.category_id,
-      filters.price_min,
-      filters.price_max,
-      filters.concentration_min,
-      filters.concentration_max,
+      filters.brandId,
+      filters.categoryId,
+      filters.priceMin,
+      filters.priceMax,
+      filters.concentrationMin,
+      filters.concentrationMax,
       handleFilterChange,
     ]
   );
@@ -510,12 +506,12 @@ function ShopContent() {
           </div>
 
           {/* Active Filters Display */}
-          {(filters.brand_id ||
-            filters.category_id ||
-            filters.price_min ||
-            filters.price_max ||
-            filters.concentration_min ||
-            filters.concentration_max) && (
+          {(filters.brandId ||
+            filters.categoryId ||
+            filters.priceMin ||
+            filters.priceMax ||
+            filters.concentrationMin ||
+            filters.concentrationMax) && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -525,16 +521,16 @@ function ShopContent() {
                 Active Filters:
               </span>
 
-              {filters.brand_id && (
+              {filters.brandId && (
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  onClick={() => handleFilterChange({ brand_id: undefined })}
+                  onClick={() => handleFilterChange({ brandId: undefined })}
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
                   <span>
                     {
-                      MOCK_BRANDS.find((b) => b.id === Number(filters.brand_id))
+                      MOCK_BRANDS.find((b) => b.id === Number(filters.brandId))
                         ?.name
                     }
                   </span>
@@ -554,21 +550,21 @@ function ShopContent() {
                 </motion.button>
               )}
 
-              {(filters.price_min || filters.price_max) && (
+              {(filters.priceMin || filters.priceMax) && (
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   onClick={() =>
                     handleFilterChange({
-                      price_min: undefined,
-                      price_max: undefined,
+                      priceMin: undefined,
+                      priceMax: undefined,
                     })
                   }
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
                   <span>
-                    Price: ${filters.price_min?.toLocaleString() || "0"} - $
-                    {filters.price_max?.toLocaleString() || "∞"}
+                    Price: ${filters.priceMin?.toLocaleString() || "0"} - $
+                    {filters.priceMax?.toLocaleString() || "∞"}
                   </span>
                   <svg
                     className="h-3 w-3"
@@ -586,21 +582,21 @@ function ShopContent() {
                 </motion.button>
               )}
 
-              {(filters.concentration_min || filters.concentration_max) && (
+              {(filters.concentrationMin || filters.concentrationMax) && (
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   onClick={() =>
                     handleFilterChange({
-                      concentration_min: undefined,
-                      concentration_max: undefined,
+                      concentrationMin: undefined,
+                      concentrationMax: undefined,
                     })
                   }
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
                   <span>
-                    ABV: {filters.concentration_min || "0"}% -{" "}
-                    {filters.concentration_max || "∞"}%
+                    ABV: {filters.concentrationMin || "0"}% -{" "}
+                    {filters.concentrationMax || "∞"}%
                   </span>
                   <svg
                     className="h-3 w-3"
@@ -695,9 +691,9 @@ function ShopContent() {
                 </label>
                 <div className="relative">
                   <select
-                    value={filters.brand_id || ""}
+                    value={filters.brandId || ""}
                     onChange={(e) =>
-                      handleFilterChange({ brand_id: e.target.value })
+                      handleFilterChange({ brandId: e.target.value })
                     }
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
@@ -731,9 +727,9 @@ function ShopContent() {
                 </label>
                 <div className="relative">
                   <select
-                    value={filters.category_id || ""}
+                    value={filters.categoryId || ""}
                     onChange={(e) =>
-                      handleFilterChange({ category_id: e.target.value })
+                      handleFilterChange({ categoryId: e.target.value })
                     }
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
@@ -775,10 +771,10 @@ function ShopContent() {
                     <input
                       type="number"
                       placeholder="Min"
-                      value={filters.price_min || ""}
+                      value={filters.priceMin || ""}
                       onChange={(e) =>
                         handleFilterChange({
-                          price_min: Number(e.target.value) || undefined,
+                          priceMin: Number(e.target.value) || undefined,
                         })
                       }
                       className="w-full border-2 border-neutral-200 bg-white px-3 py-3 text-[13px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10"
@@ -791,10 +787,10 @@ function ShopContent() {
                     <input
                       type="number"
                       placeholder="Max"
-                      value={filters.price_max || ""}
+                      value={filters.priceMax || ""}
                       onChange={(e) =>
                         handleFilterChange({
-                          price_max: Number(e.target.value) || undefined,
+                          priceMax: Number(e.target.value) || undefined,
                         })
                       }
                       className="w-full border-2 border-neutral-200 bg-white px-3 py-3 text-[13px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10"
@@ -817,11 +813,10 @@ function ShopContent() {
                       type="number"
                       step="0.1"
                       placeholder="Min"
-                      value={filters.concentration_min || ""}
+                      value={filters.concentrationMin || ""}
                       onChange={(e) =>
                         handleFilterChange({
-                          concentration_min:
-                            Number(e.target.value) || undefined,
+                          concentrationMin: Number(e.target.value) || undefined,
                         })
                       }
                       className="w-full border-2 border-neutral-200 bg-white px-3 py-3 text-[13px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10"
@@ -835,11 +830,10 @@ function ShopContent() {
                       type="number"
                       step="0.1"
                       placeholder="Max"
-                      value={filters.concentration_max || ""}
+                      value={filters.concentrationMax || ""}
                       onChange={(e) =>
                         handleFilterChange({
-                          concentration_max:
-                            Number(e.target.value) || undefined,
+                          concentrationMax: Number(e.target.value) || undefined,
                         })
                       }
                       className="w-full border-2 border-neutral-200 bg-white px-3 py-3 text-[13px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10"

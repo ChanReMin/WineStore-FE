@@ -101,11 +101,11 @@ export default function InventoryPage() {
     const items = mockInventoryList.data;
     return {
       total: items.length,
-      inStock: items.filter((i) => i.status === "in_stock").length,
-      lowStock: items.filter((i) => i.status === "low_stock").length,
-      outOfStock: items.filter((i) => i.status === "out_of_stock").length,
+      inStock: items.filter((i) => i.status === "inStock").length,
+      lowStock: items.filter((i) => i.status === "lowStock").length,
+      outOfStock: items.filter((i) => i.status === "outOfStock").length,
       totalValue: items.reduce(
-        (sum, item) => sum + item.product.price * item.quantity_on_hand,
+        (sum, item) => sum + item.product.price * item.quantityOnHand,
         0
       ),
     };

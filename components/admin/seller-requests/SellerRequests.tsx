@@ -31,9 +31,9 @@ export default function SellerRequests() {
     rejected: 0,
   });
   const [pagination, setPagination] = useState({
-    current_page: 1,
-    total_pages: 1,
-    total_items: 0,
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
   });
 
   // Filters
@@ -52,7 +52,7 @@ export default function SellerRequests() {
     try {
       setLoading(true);
       const response = await fetchSellerRequests({
-        page: pagination.current_page,
+        page: pagination.currentPage,
         limit: 10,
         status: statusFilter,
         sort: sortBy,
@@ -76,15 +76,15 @@ export default function SellerRequests() {
 
   useEffect(() => {
     loadData();
-  }, [statusFilter, sortBy, pagination.current_page]);
+  }, [statusFilter, sortBy, pagination.currentPage]);
 
   // Filter requests by search query
   const filteredRequests = requests.filter((request) => {
     const searchLower = searchQuery.toLowerCase();
     return (
-      request.user.full_name.toLowerCase().includes(searchLower) ||
+      request.user.fullName.toLowerCase().includes(searchLower) ||
       request.user.email.toLowerCase().includes(searchLower) ||
-      request.user.phone_number.includes(searchQuery) ||
+      request.user.phoneNumber.includes(searchQuery) ||
       request.id.toString().includes(searchQuery)
     );
   });
@@ -325,15 +325,15 @@ export default function SellerRequests() {
                           <div className="flex items-center gap-3">
                             <img
                               src={request.user.avatar}
-                              alt={request.user.full_name}
+                              alt={request.user.fullName}
                               className="w-10 h-10 rounded-full bg-neutral-100"
                             />
                             <div>
                               <p className="text-sm font-medium text-neutral-900">
-                                {request.user.full_name}
+                                {request.user.fullName}
                               </p>
                               <p className="text-xs text-neutral-500">
-                                ID: {request.user.user_id}
+                                ID: {request.user.userId}
                               </p>
                             </div>
                           </div>
@@ -343,18 +343,18 @@ export default function SellerRequests() {
                             {request.user.email}
                           </p>
                           <p className="text-xs text-neutral-500">
-                            {request.user.phone_number}
+                            {request.user.phoneNumber}
                           </p>
                         </td>
                         <td className="px-4 py-4">
                           <div className="text-sm">
                             <p className="text-neutral-900">
-                              {request.user.total_orders || 0}{" "}
+                              {request.user.totalOrders || 0}{" "}
                               {t("table.orders")}
                             </p>
                             <p className="text-xs text-neutral-500">
                               {new Intl.NumberFormat("vi-VN").format(
-                                request.user.total_spent || 0
+                                request.user.totalSpent || 0
                               )}{" "}
                               đ
                             </p>
@@ -367,11 +367,11 @@ export default function SellerRequests() {
                             )}`}
                           >
                             {getStatusIcon(request.status)}
-                            {request.status_text}
+                            {request.statusText}
                           </span>
                         </td>
                         <td className="px-4 py-4 text-sm text-neutral-600">
-                          {new Date(request.created_at).toLocaleDateString(
+                          {new Date(request.createdAt).toLocaleDateString(
                             "vi-VN"
                           )}
                         </td>
@@ -395,23 +395,23 @@ export default function SellerRequests() {
           </div>
 
           {/* Pagination */}
-          {pagination.total_pages > 1 && (
+          {pagination.totalPages > 1 && (
             <div className="px-4 py-3 border-t border-neutral-200 flex items-center justify-between">
               <p className="text-sm text-neutral-600">
                 {t("pagination.showing")}{" "}
-                {(pagination.current_page - 1) * 10 + 1}-
-                {Math.min(pagination.current_page * 10, pagination.total_items)}{" "}
-                {t("pagination.of")} {pagination.total_items}
+                {(pagination.currentPage - 1) * 10 + 1}-
+                {Math.min(pagination.currentPage * 10, pagination.totalItems)}{" "}
+                {t("pagination.of")} {pagination.totalItems}
               </p>
               <div className="flex gap-2">
                 <button
                   onClick={() =>
                     setPagination((prev) => ({
                       ...prev,
-                      current_page: prev.current_page - 1,
+                      currentPage: prev.currentPage - 1,
                     }))
                   }
-                  disabled={pagination.current_page === 1}
+                  disabled={pagination.currentPage === 1}
                   className="px-3 py-1 border border-neutral-200 rounded-lg text-sm font-medium hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {t("pagination.previous")}
@@ -420,10 +420,10 @@ export default function SellerRequests() {
                   onClick={() =>
                     setPagination((prev) => ({
                       ...prev,
-                      current_page: prev.current_page + 1,
+                      currentPage: prev.currentPage + 1,
                     }))
                   }
-                  disabled={pagination.current_page === pagination.total_pages}
+                  disabled={pagination.currentPage === pagination.totalPages}
                   className="px-3 py-1 border border-neutral-200 rounded-lg text-sm font-medium hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {t("pagination.next")}

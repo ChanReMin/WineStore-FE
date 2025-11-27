@@ -155,7 +155,7 @@ export default function WarehouseDetailModal({
                           <Calendar size={14} />
                           <span>
                             {t("detail.created")}{" "}
-                            {new Date(warehouse.created_at).toLocaleDateString(
+                            {new Date(warehouse.createdAt).toLocaleDateString(
                               "vi-VN"
                             )}
                           </span>
@@ -164,7 +164,7 @@ export default function WarehouseDetailModal({
                           <Calendar size={14} />
                           <span>
                             {t("detail.updated")}{" "}
-                            {new Date(warehouse.updated_at).toLocaleDateString(
+                            {new Date(warehouse.updatedAt).toLocaleDateString(
                               "vi-VN"
                             )}
                           </span>
@@ -179,7 +179,7 @@ export default function WarehouseDetailModal({
                           {t("detail.totalProducts")}
                         </p>
                         <p className="text-2xl font-bold text-[#3b4417]">
-                          {warehouse.inventory.total_products}
+                          {warehouse.inventory.totalProducts}
                         </p>
                       </div>
                       <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -187,7 +187,7 @@ export default function WarehouseDetailModal({
                           {t("detail.totalQuantity")}
                         </p>
                         <p className="text-2xl font-bold text-[#3b4417]">
-                          {warehouse.inventory.total_quantity.toLocaleString()}
+                          {warehouse.inventory.totalquantity.toLocaleString()}
                         </p>
                       </div>
                       <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -206,7 +206,7 @@ export default function WarehouseDetailModal({
                           {t("detail.lowStockProducts")}
                         </p>
                         <p className="text-2xl font-bold text-orange-600">
-                          {warehouse.inventory.low_stock_products}
+                          {warehouse.inventory.lowStockProducts}
                         </p>
                       </div>
                     </div>
@@ -245,10 +245,10 @@ export default function WarehouseDetailModal({
                             </div>
                             <div className="flex-1">
                               <p className="font-medium text-[#3b4417]">
-                                {log.product_name}
+                                {log.productName}
                               </p>
                               <p className="text-sm text-[#7a8451]">
-                                {new Date(log.created_at).toLocaleString(
+                                {new Date(log.createdAt).toLocaleString(
                                   "vi-VN"
                                 )}
                               </p>

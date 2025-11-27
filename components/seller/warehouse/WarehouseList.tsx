@@ -181,7 +181,7 @@ export default function WarehouseList({
                     {t("list.products")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {warehouse.inventory_summary?.total_products || 0}
+                    {warehouse.inventory_summary?.totalProducts || 0}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-3">
@@ -189,7 +189,7 @@ export default function WarehouseList({
                     {t("list.quantity")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {warehouse.inventory_summary?.total_quantity.toLocaleString() ||
+                    {warehouse.inventory_summary?.totalquantity.toLocaleString() ||
                       0}
                   </p>
                 </div>
@@ -200,7 +200,7 @@ export default function WarehouseList({
                 <Calendar size={12} />
                 <span>
                   {t("list.updated")}:{" "}
-                  {new Date(warehouse.updated_at).toLocaleDateString("vi-VN")}
+                  {new Date(warehouse.updatedAt).toLocaleDateString("vi-VN")}
                 </span>
               </div>
             </CardContent>

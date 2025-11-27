@@ -154,8 +154,8 @@ export default function PromotionDetailPage() {
                 </h3>
                 <PromotionStatusBadge
                   status={promotion.status}
-                  startDate={promotion.start_date}
-                  endDate={promotion.end_date}
+                  startDate={promotion.startdate}
+                  endDate={promotion.enddate}
                 />
               </div>
               <p className="text-xl font-semibold text-[#3b4417] mb-2">
@@ -165,20 +165,20 @@ export default function PromotionDetailPage() {
             </div>
             <div className="flex flex-col items-end gap-2">
               <div className="flex items-center gap-2">
-                {promotion.discount_type === 1 ? (
+                {promotion.discounttype === 1 ? (
                   <Percent className="h-10 w-10 text-[#d4af37]" />
                 ) : (
                   <DollarSign className="h-10 w-10 text-[#d4af37]" />
                 )}
                 <span className="text-4xl font-bold text-[#d4af37]">
                   {formatDiscount(
-                    promotion.discount_type,
-                    promotion.discount_value
+                    promotion.discounttype,
+                    promotion.discountvalue
                   )}
                 </span>
               </div>
               <span className="text-sm text-[#7a8451]">
-                {promotion.discount_type === 1 ? "Giảm theo %" : "Giảm cố định"}
+                {promotion.discounttype === 1 ? "Giảm theo %" : "Giảm cố định"}
               </span>
             </div>
           </div>
@@ -191,7 +191,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {formatDate(promotion.start_date)}
+                  {formatDate(promotion.startdate)}
                 </p>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {formatDate(promotion.end_date)}
+                  {formatDate(promotion.enddate)}
                 </p>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {promotion.used_count} / {promotion.max_usage}
+                  {promotion.usedcount} / {promotion.maxusage}
                 </p>
               </div>
             </div>
@@ -222,7 +222,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Package className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-orange-600">
-                  {promotion.max_usage - promotion.used_count}
+                  {promotion.maxusage - promotion.usedcount}
                 </p>
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function PromotionDetailPage() {
             <TrendingUp className="h-5 w-5 text-[#3b4417]" />
           </div>
           <p className="text-3xl font-bold text-[#3b4417]">
-            {statistics.total_orders}
+            {statistics.totalOrders}
           </p>
           <p className="text-xs text-[#7a8451] mt-1">Đơn hàng đã áp dụng</p>
         </Card>
@@ -253,7 +253,7 @@ export default function PromotionDetailPage() {
             <DollarSign className="h-5 w-5 text-[#d4af37]" />
           </div>
           <p className="text-3xl font-bold text-[#d4af37]">
-            {formatCurrency(statistics.total_discount_amount)}
+            {formatCurrency(statistics.totalDiscountAmount)}
           </p>
           <p className="text-xs text-[#7a8451] mt-1">Tổng số tiền đã giảm</p>
         </Card>
@@ -263,10 +263,10 @@ export default function PromotionDetailPage() {
             <Users className="h-5 w-5 text-orange-600" />
           </div>
           <p className="text-3xl font-bold text-orange-600">
-            {Math.round((statistics.total_usage / statistics.max_usage) * 100)}%
+            {Math.round((statistics.total_usage / statistics.maxusage) * 100)}%
           </p>
           <p className="text-xs text-[#7a8451] mt-1">
-            {statistics.remaining_usage} lượt còn lại
+            {statistics.remainingUsage} lượt còn lại
           </p>
         </Card>
       </motion.div>
@@ -284,18 +284,18 @@ export default function PromotionDetailPage() {
           </h4>
           <ChartContainer
             config={{
-              usage_count: {
+              usageCount: {
                 label: "Usage count",
                 color: "#3b4417",
               },
-              discount_amount: {
+              discountAmount: {
                 label: "Discount (VND)",
                 color: "#d4af37",
               },
             }}
             className="h-[400px] w-full"
           >
-            <LineChart data={statistics.usage_by_date}>
+            <LineChart data={statistics.usageByDate}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e8e6dc" />
               <XAxis
                 dataKey="date"
@@ -312,7 +312,7 @@ export default function PromotionDetailPage() {
                   <ChartTooltipContent
                     labelFormatter={(value) => formatDate(value as string)}
                     formatter={(value, name) => {
-                      if (name === "discount_amount") {
+                      if (name === "discountAmount") {
                         return formatCurrency(value as number);
                       }
                       return value;
@@ -322,7 +322,7 @@ export default function PromotionDetailPage() {
               />
               <Line
                 type="monotone"
-                dataKey="usage_count"
+                dataKey="usageCount"
                 stroke="#3b4417"
                 strokeWidth={3}
                 dot={{ fill: "#3b4417", r: 5 }}
@@ -334,8 +334,8 @@ export default function PromotionDetailPage() {
       </motion.div>
 
       {/* Applicable Products */}
-      {promotion.applicable_products &&
-        promotion.applicable_products.length > 0 && (
+      {promotion.applicableProducts &&
+        promotion.applicableProducts.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -344,10 +344,10 @@ export default function PromotionDetailPage() {
             <Card className="border-[#d4d6b4] p-6">
               <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                Sản phẩm áp dụng ({promotion.applicable_products.length})
+                Sản phẩm áp dụng ({promotion.applicableProducts.length})
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {promotion.applicable_products.map((product, index) => (
+                {promotion.applicableProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, x: -20 }}

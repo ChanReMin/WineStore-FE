@@ -88,7 +88,7 @@ export default function ResetPasswordModal({
                     {t("resetPasswordModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.user_info.first_name} {user.user_info.last_name}
+                    {user.userInfo.firstName} {user.userInfo.lastName}
                   </p>
                 </div>
               </div>

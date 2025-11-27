@@ -2,9 +2,9 @@ import { z } from "zod";
 
 // Product form schema
 export const productSchema = z.object({
-  category_id: z.number().min(1, "Please select a category"),
+  categoryId: z.number().min(1, "Please select a category"),
 
-  brand_id: z.number().min(1, "Please select a brand"),
+  brandId: z.number().min(1, "Please select a brand"),
 
   name: z
     .string()
@@ -16,17 +16,17 @@ export const productSchema = z.object({
     .min(1000, "Price must be at least 1,000 VND")
     .max(1_000_000_000, "Price must not exceed 1,000,000,000 VND"),
 
-  wine_type: z
+  winetype: z
     .string()
     .min(1, "Wine type is required")
     .max(100, "Wine type must not exceed 100 characters"),
 
-  country_of_production: z
+  countryOfProduction: z
     .string()
     .min(1, "Country of production is required")
     .max(100, "Country name must not exceed 100 characters"),
 
-  grape_variety: z
+  grapeVariety: z
     .string()
     .min(1, "Grape variety is required")
     .max(200, "Grape variety must not exceed 200 characters"),
@@ -36,7 +36,7 @@ export const productSchema = z.object({
     .min(0, "Alcohol concentration must be at least 0%")
     .max(100, "Alcohol concentration must not exceed 100%"),
 
-  production_area: z
+  productionArea: z
     .string()
     .min(1, "Production area is required")
     .max(200, "Production area must not exceed 200 characters"),
@@ -46,7 +46,7 @@ export const productSchema = z.object({
     .min(1, "Capacity must be greater than 0")
     .max(10_000, "Capacity must not exceed 10,000ml"),
 
-  ideal_temperature: z
+  idealtemperature: z
     .string()
     .min(1, "Ideal temperature is required")
     .max(100, "Ideal temperature must not exceed 100 characters"),
@@ -56,22 +56,22 @@ export const productSchema = z.object({
     .min(1, "Humidity information is required")
     .max(100, "Humidity value must not exceed 100 characters"),
 
-  avoid_light: z
+  avoidLight: z
     .string()
     .min(1, "Light-avoidance information is required")
     .max(200, "This field must not exceed 200 characters"),
 
-  place_the_bottle_horizontally: z
+  placeTheBottleHorizontally: z
     .string()
     .min(1, "Bottle placement information is required")
     .max(200, "This field must not exceed 200 characters"),
 
-  avoid_vibration: z
+  avoidVibration: z
     .string()
     .min(1, "Vibration-avoidance information is required")
     .max(200, "This field must not exceed 200 characters"),
 
-  opened_wine: z
+  openedWine: z
     .string()
     .min(1, "Opened wine information is required")
     .max(200, "This field must not exceed 200 characters"),

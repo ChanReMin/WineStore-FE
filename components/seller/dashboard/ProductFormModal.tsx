@@ -37,7 +37,7 @@ const BRANDS = [
   { id: 7, name: "Opus One" },
 ];
 
-const WINE_TYPES = ["Red Wine", "White Wine", "Rosé Wine", "Sparkling Wine"];
+const WINETYPES = ["Red Wine", "White Wine", "Rosé Wine", "Sparkling Wine"];
 
 export default function ProductFormModal({
   isOpen,
@@ -49,23 +49,22 @@ export default function ProductFormModal({
   const t = useTranslations("seller.products.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<ProductFormData>({
-    category_id: initialData?.category_id || 1,
-    brand_id: initialData?.brand_id || 1,
+    categoryId: initialData?.categoryId || 1,
+    brandId: initialData?.brandId || 1,
     name: initialData?.name || "",
     price: initialData?.price || 0,
-    wine_type: initialData?.wine_type || "Vang đỏ",
-    country_of_production: initialData?.country_of_production || "",
-    grape_variety: initialData?.grape_variety || "",
+    winetype: initialData?.winetype || "Vang đỏ",
+    countryOfProduction: initialData?.countryOfProduction || "",
+    grapeVariety: initialData?.grapeVariety || "",
     concentration: initialData?.concentration || 0,
-    production_area: initialData?.production_area || "",
+    productionArea: initialData?.productionArea || "",
     capacity: initialData?.capacity || 750,
-    ideal_temperature: initialData?.ideal_temperature || "",
+    idealtemperature: initialData?.idealtemperature || "",
     humidity: initialData?.humidity || "",
-    avoid_light: initialData?.avoid_light || "",
-    place_the_bottle_horizontally:
-      initialData?.place_the_bottle_horizontally || "",
-    avoid_vibration: initialData?.avoid_vibration || "",
-    opened_wine: initialData?.opened_wine || "",
+    avoidLight: initialData?.avoidLight || "",
+    placeTheBottleHorizontally: initialData?.placeTheBottleHorizontally || "",
+    avoidVibration: initialData?.avoidVibration || "",
+    openedWine: initialData?.openedWine || "",
     use_wine_cabinet: initialData?.use_wine_cabinet || "",
     images: initialData?.images || [],
     description: initialData?.description || "",
@@ -74,23 +73,23 @@ export default function ProductFormModal({
   useEffect(() => {
     if (initialData && isOpen) {
       setFormData({
-        category_id: initialData.category_id || 1,
-        brand_id: initialData.brand_id || 1,
+        categoryId: initialData.categoryId || 1,
+        brandId: initialData.brandId || 1,
         name: initialData.name || "",
         price: initialData.price || 0,
-        wine_type: initialData.wine_type || "Vang đỏ",
-        country_of_production: initialData.country_of_production || "",
-        grape_variety: initialData.grape_variety || "",
+        winetype: initialData.winetype || "Vang đỏ",
+        countryOfProduction: initialData.countryOfProduction || "",
+        grapeVariety: initialData.grapeVariety || "",
         concentration: initialData.concentration || 0,
-        production_area: initialData.production_area || "",
+        productionArea: initialData.productionArea || "",
         capacity: initialData.capacity || 750,
-        ideal_temperature: initialData.ideal_temperature || "",
+        idealtemperature: initialData.idealtemperature || "",
         humidity: initialData.humidity || "",
-        avoid_light: initialData.avoid_light || "",
-        place_the_bottle_horizontally:
-          initialData.place_the_bottle_horizontally || "",
-        avoid_vibration: initialData.avoid_vibration || "",
-        opened_wine: initialData.opened_wine || "",
+        avoidLight: initialData.avoidLight || "",
+        placeTheBottleHorizontally:
+          initialData.placeTheBottleHorizontally || "",
+        avoidVibration: initialData.avoidVibration || "",
+        openedWine: initialData.openedWine || "",
         use_wine_cabinet: initialData.use_wine_cabinet || "",
         images: initialData.images || [],
         description: initialData.description || "",
@@ -123,8 +122,8 @@ export default function ProductFormModal({
         name === "price" ||
         name === "concentration" ||
         name === "capacity" ||
-        name === "category_id" ||
-        name === "brand_id"
+        name === "categoryId" ||
+        name === "brandId"
           ? Number(value)
           : value,
     }));
@@ -232,8 +231,8 @@ export default function ProductFormModal({
                           <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
-                          name="category_id"
-                          value={formData.category_id}
+                          name="categoryId"
+                          value={formData.categoryId}
                           onChange={handleChange}
                           required
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
@@ -252,8 +251,8 @@ export default function ProductFormModal({
                           <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
-                          name="brand_id"
-                          value={formData.brand_id}
+                          name="brandId"
+                          value={formData.brandId}
                           onChange={handleChange}
                           required
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
@@ -272,13 +271,13 @@ export default function ProductFormModal({
                           <span className="text-red-600">{t("required")}</span>
                         </label>
                         <select
-                          name="wine_type"
-                          value={formData.wine_type}
+                          name="winetype"
+                          value={formData.winetype}
                           onChange={handleChange}
                           required
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
                         >
-                          {WINE_TYPES.map((type) => (
+                          {WINETYPES.map((type) => (
                             <option key={type} value={type}>
                               {type}
                             </option>
@@ -293,8 +292,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="country_of_production"
-                          value={formData.country_of_production}
+                          name="countryOfProduction"
+                          value={formData.countryOfProduction}
                           onChange={handleChange}
                           required
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
@@ -317,8 +316,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="grape_variety"
-                          value={formData.grape_variety}
+                          name="grapeVariety"
+                          value={formData.grapeVariety}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Cabernet Sauvignon"
@@ -363,8 +362,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="production_area"
-                          value={formData.production_area}
+                          name="productionArea"
+                          value={formData.productionArea}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Bordeaux"
@@ -385,8 +384,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="ideal_temperature"
-                          value={formData.ideal_temperature}
+                          name="idealtemperature"
+                          value={formData.idealtemperature}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="15-18°C"
@@ -413,8 +412,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="avoid_light"
-                          value={formData.avoid_light}
+                          name="avoidLight"
+                          value={formData.avoidLight}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Tránh ánh sáng trực tiếp"
@@ -427,8 +426,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="place_the_bottle_horizontally"
-                          value={formData.place_the_bottle_horizontally}
+                          name="placeTheBottleHorizontally"
+                          value={formData.placeTheBottleHorizontally}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Đặt chai nằm ngang"
@@ -441,8 +440,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="avoid_vibration"
-                          value={formData.avoid_vibration}
+                          name="avoidVibration"
+                          value={formData.avoidVibration}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Tránh rung động"
@@ -455,8 +454,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="opened_wine"
-                          value={formData.opened_wine}
+                          name="openedWine"
+                          value={formData.openedWine}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Sử dụng trong 3-5 ngày"

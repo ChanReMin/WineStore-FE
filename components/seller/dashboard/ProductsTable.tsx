@@ -185,26 +185,26 @@ export default function ProductsTable({
                     <Package className="w-4 h-4 text-[#7a8451]" />
                     <span
                       className={`font-medium ${
-                        product.total_inventory < 20
+                        product.totalInventory < 20
                           ? "text-orange-600"
                           : "text-[#3b4417]"
                       }`}
                     >
-                      {product.total_inventory}
+                      {product.totalInventory}
                     </span>
                   </div>
                 </TableCell>
                 <TableCell>
                   <ProductStatusBadge
                     status={product.status}
-                    statusText={product.status_text}
+                    statusText={product.statusText}
                   />
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2 text-[#7a8451]">
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm">
-                      {formatDate(product.created_at)}
+                      {formatDate(product.createdAt)}
                     </span>
                   </div>
                 </TableCell>
@@ -255,7 +255,7 @@ export default function ProductsTable({
       </div>
 
       {/* Approval Info for Approved Products */}
-      {products.some((p) => p.approved_at) && (
+      {products.some((p) => p.approvedAt) && (
         <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
           <div className="flex items-start gap-3 text-sm">
             <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
@@ -287,22 +287,22 @@ export default function ProductsTable({
         initialData={
           selectedProduct
             ? {
-                category_id: 1, // Map from category name to ID
-                brand_id: 1, // Map from brand name to ID
+                categoryId: 1, // Map from category name to ID
+                brandId: 1, // Map from brand name to ID
                 name: selectedProduct.name,
                 price: selectedProduct.price,
-                wine_type: "Vang đỏ",
-                country_of_production: "",
-                grape_variety: "",
+                winetype: "Vang đỏ",
+                countryOfProduction: "",
+                grapeVariety: "",
                 concentration: 0,
-                production_area: "",
+                productionArea: "",
                 capacity: 750,
-                ideal_temperature: "",
+                idealtemperature: "",
                 humidity: "",
-                avoid_light: "",
-                place_the_bottle_horizontally: "",
-                avoid_vibration: "",
-                opened_wine: "",
+                avoidLight: "",
+                placeTheBottleHorizontally: "",
+                avoidVibration: "",
+                openedWine: "",
                 use_wine_cabinet: "",
                 images: [],
                 description: "",

@@ -32,11 +32,11 @@ export default function CreateSellerModal({
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirm_password: "",
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    date_of_birth: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dateOfBirth: "",
     gender: "1",
     role: "1",
   });
@@ -45,7 +45,7 @@ export default function CreateSellerModal({
     e.preventDefault();
     setError("");
 
-    if (formData.password !== formData.confirm_password) {
+    if (formData.password !== formData.confirmPassword) {
       setError(t("createModal.passwordMismatch"));
       return;
     }
@@ -55,10 +55,10 @@ export default function CreateSellerModal({
       await createSeller({
         email: formData.email,
         password: formData.password,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        phone_number: formData.phone_number,
-        date_of_birth: formData.date_of_birth,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        dateOfBirth: formData.dateOfBirth,
         gender: parseInt(formData.gender),
         role: parseInt(formData.role),
       });
@@ -68,11 +68,11 @@ export default function CreateSellerModal({
       setFormData({
         email: "",
         password: "",
-        confirm_password: "",
-        first_name: "",
-        last_name: "",
-        phone_number: "",
-        date_of_birth: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        dateOfBirth: "",
         gender: "1",
         role: "1",
       });
@@ -181,18 +181,18 @@ export default function CreateSellerModal({
                     />
                   </div>
                   <div>
-                    <Label htmlFor="confirm_password">
+                    <Label htmlFor="confirmPassword">
                       {t("createModal.confirmPassword")} *
                     </Label>
                     <Input
-                      id="confirm_password"
+                      id="confirmPassword"
                       type="password"
                       required
-                      value={formData.confirm_password}
+                      value={formData.confirmPassword}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          confirm_password: e.target.value,
+                          confirmPassword: e.target.value,
                         })
                       }
                       placeholder="••••••••"
@@ -203,29 +203,29 @@ export default function CreateSellerModal({
                 {/* Name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="first_name">
+                    <Label htmlFor="firstName">
                       {t("createModal.firstName")} *
                     </Label>
                     <Input
-                      id="first_name"
+                      id="firstName"
                       required
-                      value={formData.first_name}
+                      value={formData.firstName}
                       onChange={(e) =>
-                        setFormData({ ...formData, first_name: e.target.value })
+                        setFormData({ ...formData, firstName: e.target.value })
                       }
                       placeholder={t("createModal.firstNamePlaceholder")}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="last_name">
+                    <Label htmlFor="lastName">
                       {t("createModal.lastName")} *
                     </Label>
                     <Input
-                      id="last_name"
+                      id="lastName"
                       required
-                      value={formData.last_name}
+                      value={formData.lastName}
                       onChange={(e) =>
-                        setFormData({ ...formData, last_name: e.target.value })
+                        setFormData({ ...formData, lastName: e.target.value })
                       }
                       placeholder={t("createModal.lastNamePlaceholder")}
                     />
@@ -235,34 +235,32 @@ export default function CreateSellerModal({
                 {/* Phone & DOB */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="phone_number">
+                    <Label htmlFor="phoneNumber">
                       {t("createModal.phone")}
                     </Label>
                     <Input
-                      id="phone_number"
+                      id="phoneNumber"
                       type="tel"
-                      value={formData.phone_number}
+                      value={formData.phoneNumber}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          phone_number: e.target.value,
+                          phoneNumber: e.target.value,
                         })
                       }
                       placeholder="0901234567"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="date_of_birth">
-                      {t("createModal.dob")}
-                    </Label>
+                    <Label htmlFor="dateOfBirth">{t("createModal.dob")}</Label>
                     <Input
-                      id="date_of_birth"
+                      id="dateOfBirth"
                       type="date"
-                      value={formData.date_of_birth}
+                      value={formData.dateOfBirth}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          date_of_birth: e.target.value,
+                          dateOfBirth: e.target.value,
                         })
                       }
                     />

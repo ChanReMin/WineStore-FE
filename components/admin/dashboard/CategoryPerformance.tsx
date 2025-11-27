@@ -15,7 +15,7 @@ import {
 
 interface CategoryPerformanceProps {
   categories: Array<{
-    category_name: string;
+    categoryname: string;
     revenue: number;
     orders: number;
     percentage: number;
@@ -28,7 +28,7 @@ export default function CategoryPerformance({
   const t = useTranslations("admin.dashboard.charts");
 
   const chartData = categories.map((cat) => ({
-    name: cat.category_name,
+    name: cat.categoryname,
     revenue: cat.revenue / 1000000,
     orders: cat.orders,
   }));
@@ -76,7 +76,7 @@ export default function CategoryPerformance({
           <div className="mt-6 space-y-3">
             {categories.map((cat, index) => (
               <motion.div
-                key={cat.category_name}
+                key={cat.categoryname}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.8 + index * 0.05 }}
@@ -85,7 +85,7 @@ export default function CategoryPerformance({
                 <div className="flex items-center gap-3 flex-1">
                   <div className="w-2 h-2 rounded-full bg-[#3b4417]" />
                   <span className="text-sm text-neutral-700">
-                    {cat.category_name}
+                    {cat.categoryname}
                   </span>
                 </div>
                 <div className="flex flex-col items-center gap-2">

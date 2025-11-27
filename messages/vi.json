@@ -77,7 +77,11 @@
     "buttons": {
       "signIn": "Đăng nhập",
       "createAccount": "Tạo tài khoản",
-      "processing": "Đang xử lý..."
+      "processing": "Đang xử lý...",
+      "signInWithGoogle": "Đăng nhập với Google"
+    },
+    "divider": {
+      "or": "Hoặc"
     },
     "switchMode": {
       "noAccount": "Chưa có tài khoản?",
@@ -1450,31 +1454,79 @@
       "subtitle": "Các chuyên gia đam mê tận tâm giúp bạn khám phá rượu vang hoàn hảo của mình",
       "members": {
         "0": {
-          "name": "Robert Chen",
-          "role": "Nhà sáng lập & CEO",
-          "bio": "Chuyên gia rượu vang bậc thầy với hơn 50 năm kinh nghiệm. Người tiên phong trong bán lẻ rượu vang bền vững."
+          "name": "Rainy Nguyễn",
+          "role": "CEO",
+          "bio": "Nhà lãnh đạo có tầm nhìn thúc đẩy đổi mới và phát triển trong lĩnh vực rượu vang."
         },
         "1": {
-          "name": "Sophie Laurent",
-          "role": "Trưởng phòng Sommelier",
-          "bio": "Giáo viên rượu vang được chứng nhận. Chuyên về rượu vang Pháp và Ý."
+          "name": "Aaron Lai",
+          "role": "CEO",
+          "bio": "Nhà lãnh đạo chiến lược với niềm đam mê mang đến trải nghiệm rượu vang đặc biệt."
         },
         "2": {
-          "name": "Marcus Williams",
-          "role": "Giám đốc Vận hành",
-          "bio": "20 năm trong bán lẻ xa xỉ. Chuyên gia về trải nghiệm khách hàng và hậu cần."
+          "name": "Brian Nguyễn",
+          "role": "Mentor",
+          "bio": "Mentor chuyên gia hướng dẫn phát triển đội ngũ và kiến thức rượu vang."
         },
         "3": {
-          "name": "Elena Rodriguez",
-          "role": "Người mua rượu vang",
-          "bio": "Đi du lịch toàn cầu để tìm nguồn rượu vang hiếm. Thông thạo 5 ngôn ngữ."
+          "name": "Tristian Phạm",
+          "role": "Mentor",
+          "bio": "Mentor tận tâm nuôi dưỡng tài năng và kiến thức về rượu vang."
         },
         "4": {
-          "name": "Liam O'Connor",
-          "role": "Quản lý Marketing",
-          "bio": "Chuyên về tiếp thị kỹ thuật số cho các thương hiệu xa xỉ. Người đam mê rượu vang."
+          "name": "Gary Nguyễn",
+          "role": "Mentor",
+          "bio": "Mentor giàu kinh nghiệm chuyên về xuất sắc trong dịch vụ khách hàng."
+        },
+        "5": {
+          "name": "Brian Cao",
+          "role": "Mentor",
+          "bio": "Mentor đam mê tập trung vào giáo dục và đào tạo về rượu vang."
+        },
+        "6": {
+          "name": "Bella Phạm",
+          "role": "Mentor",
+          "bio": "Mentor truyền cảm hứng với chuyên môn về tuyển chọn rượu vang."
+        },
+        "7": {
+          "name": "Cain Nguyễn",
+          "role": "Mentor",
+          "bio": "Mentor tài năng thúc đẩy sự xuất sắc trong vận hành và chất lượng."
+        },
+        "8": {
+          "name": "Tony Nguyễn",
+          "role": "Mentor",
+          "bio": "Mentor năng động chuyên về marketing và xây dựng thương hiệu rượu vang."
+        },
+        "9": {
+          "name": "Teku Trần",
+          "role": "Mentor",
+          "bio": "Mentor am hiểu tập trung vào hậu cần và phân phối rượu vang."
+        },
+        "10": {
+          "name": "Lucas Lâm",
+          "role": "Mentor",
+          "bio": "Mentor sáng tạo nâng cao trải nghiệm rượu vang kỹ thuật số."
+        },
+        "11": {
+          "name": "Harry Trịnh",
+          "role": "Mentor",
+          "bio": "Mentor chuyên nghiệp đảm bảo tiêu chuẩn chất lượng và sự xuất sắc."
+        },
+        "12": {
+          "name": "Greg Kim",
+          "role": "Mentor",
+          "bio": "Mentor tận tâm xây dựng mối quan hệ khách hàng bền vững."
+        },
+        "13": {
+          "name": "Nolan Nguyễn",
+          "role": "Mentor",
+          "bio": "Mentor nhiệt huyết quảng bá văn hóa và sự trân trọng rượu vang."
         }
-      }
+      },
+      "leadership": "Ban Lãnh đạo",
+      "leader": "Lãnh đạo",
+      "teamMembers": "Thành viên"
     },
     "cta": {
       "title": "Trải nghiệm sự khác biệt",

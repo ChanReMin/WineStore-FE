@@ -67,12 +67,12 @@ export default function SellerDetailModal({
               <div className="flex items-start gap-6 mb-6 p-6 bg-[#fdfbf5] rounded-xl">
                 <img
                   src={seller.avatar}
-                  alt={`${seller.first_name} ${seller.last_name}`}
+                  alt={`${seller.firstName} ${seller.lastName}`}
                   className="w-24 h-24 rounded-full object-cover"
                 />
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-[#3b4417] mb-2">
-                    {seller.first_name} {seller.last_name}
+                    {seller.firstName} {seller.lastName}
                   </h3>
                   <div className="flex items-center gap-2 mb-3">
                     <span
@@ -112,7 +112,7 @@ export default function SellerDetailModal({
                       </p>
                     </div>
                   </div>
-                  {seller.phone_number && (
+                  {seller.phoneNumber && (
                     <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
                       <Phone className="w-5 h-5 text-[#7a8451]" />
                       <div>
@@ -120,12 +120,12 @@ export default function SellerDetailModal({
                           {t("detailModal.phone")}
                         </p>
                         <p className="font-medium text-neutral-900">
-                          {seller.phone_number}
+                          {seller.phoneNumber}
                         </p>
                       </div>
                     </div>
                   )}
-                  {seller.date_of_birth && (
+                  {seller.dateOfBirth && (
                     <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
                       <Calendar className="w-5 h-5 text-[#7a8451]" />
                       <div>
@@ -133,7 +133,7 @@ export default function SellerDetailModal({
                           {t("detailModal.dob")}
                         </p>
                         <p className="font-medium text-neutral-900">
-                          {new Date(seller.date_of_birth).toLocaleDateString(
+                          {new Date(seller.dateOfBirth).toLocaleDateString(
                             "vi-VN"
                           )}
                         </p>
@@ -171,7 +171,7 @@ export default function SellerDetailModal({
                         </p>
                       </div>
                       <p className="text-2xl font-bold text-blue-700">
-                        {seller.statistics.total_orders_handled}
+                        {seller.statistics.totalOrdersHandled}
                       </p>
                     </div>
                     <div className="p-4 bg-emerald-50 rounded-lg">
@@ -186,7 +186,7 @@ export default function SellerDetailModal({
                           style: "currency",
                           currency: "VND",
                           notation: "compact",
-                        }).format(seller.statistics.total_revenue)}
+                        }).format(seller.statistics.totalRevenue)}
                       </p>
                     </div>
                     <div className="p-4 bg-amber-50 rounded-lg">
@@ -205,21 +205,21 @@ export default function SellerDetailModal({
               )}
 
               {/* Managed Warehouses */}
-              {seller.managed_warehouses.length > 0 && (
+              {seller.managedWarehouses.length > 0 && (
                 <div className="mb-6">
                   <h4 className="text-lg font-semibold text-[#3b4417] mb-4">
                     {t("detailModal.warehouses")}
                   </h4>
                   <div className="space-y-3">
-                    {seller.managed_warehouses.map((warehouse) => (
+                    {seller.managedWarehouses.map((warehouse) => (
                       <div
-                        key={warehouse.warehouse_id}
+                        key={warehouse.warehouseId}
                         className="flex items-center gap-3 p-4 bg-[#f5f3e8] rounded-lg"
                       >
                         <Warehouse className="w-5 h-5 text-[#3b4417]" />
                         <div>
                           <p className="font-medium text-[#3b4417]">
-                            {warehouse.warehouse_name}
+                            {warehouse.warehouseName}
                           </p>
                           {warehouse.location && (
                             <p className="text-sm text-neutral-600">
@@ -246,7 +246,7 @@ export default function SellerDetailModal({
                         {t("detailModal.lastLogin")}
                       </p>
                       <p className="font-medium text-neutral-900">
-                        {new Date(seller.last_login_at).toLocaleString("vi-VN")}
+                        {new Date(seller.lastLoginAt).toLocaleString("vi-VN")}
                       </p>
                     </div>
                   </div>
@@ -257,7 +257,7 @@ export default function SellerDetailModal({
                         {t("detailModal.createdAt")}
                       </p>
                       <p className="font-medium text-neutral-900">
-                        {new Date(seller.created_at).toLocaleString("vi-VN")}
+                        {new Date(seller.createdAt).toLocaleString("vi-VN")}
                       </p>
                     </div>
                   </div>

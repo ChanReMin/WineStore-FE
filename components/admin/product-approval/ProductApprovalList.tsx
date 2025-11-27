@@ -38,14 +38,14 @@ export default function ProductApprovalList() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<ProductApproval[]>([]);
   const [summary, setSummary] = useState({
-    total_pending: 0,
-    total_approved_today: 0,
-    total_rejected_today: 0,
+    totalPending: 0,
+    totalApprovedToday: 0,
+    totalRejectedToday: 0,
   });
   const [pagination, setPagination] = useState({
-    current_page: 1,
-    total_pages: 1,
-    total_items: 0,
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
   });
 
   // Filters
@@ -111,7 +111,7 @@ export default function ProductApprovalList() {
   };
 
   const handleActionComplete = () => {
-    loadData(pagination.current_page);
+    loadData(pagination.currentPage);
   };
 
   const getStatusBadge = (status: string) => {
@@ -158,7 +158,7 @@ export default function ProductApprovalList() {
   const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.seller.full_name
+      product.seller.fullName
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       product.sku.toLowerCase().includes(searchQuery.toLowerCase())
@@ -204,7 +204,7 @@ export default function ProductApprovalList() {
                     {t("summary.totalPending")}
                   </p>
                   <p className="text-3xl font-bold text-amber-600">
-                    {summary.total_pending}
+                    {summary.totalPending}
                   </p>
                 </div>
                 <div className="bg-amber-50 p-3 rounded-xl">
@@ -228,7 +228,7 @@ export default function ProductApprovalList() {
                     {t("summary.approvedToday")}
                   </p>
                   <p className="text-3xl font-bold text-emerald-600">
-                    {summary.total_approved_today}
+                    {summary.totalApprovedToday}
                   </p>
                 </div>
                 <div className="bg-emerald-50 p-3 rounded-xl">
@@ -252,7 +252,7 @@ export default function ProductApprovalList() {
                     {t("summary.rejectedToday")}
                   </p>
                   <p className="text-3xl font-bold text-red-600">
-                    {summary.total_rejected_today}
+                    {summary.totalRejectedToday}
                   </p>
                 </div>
                 <div className="bg-red-50 p-3 rounded-xl">
@@ -371,7 +371,7 @@ export default function ProductApprovalList() {
                       <td className="px-6 py-4">
                         <div>
                           <p className="font-medium text-neutral-900">
-                            {product.seller.full_name}
+                            {product.seller.fullName}
                           </p>
                           <p className="text-sm text-neutral-500">
                             {product.seller.email}
@@ -385,20 +385,20 @@ export default function ProductApprovalList() {
                             currency: "VND",
                           }).format(product.price)}
                         </p>
-                        {product.base_price > product.price && (
+                        {product.basePrice > product.price && (
                           <p className="text-sm text-neutral-500 line-through">
                             {new Intl.NumberFormat("vi-VN", {
                               style: "currency",
                               currency: "VND",
-                            }).format(product.base_price)}
+                            }).format(product.basePrice)}
                           </p>
                         )}
                       </td>
                       <td className="px-6 py-4">
-                        {getStatusBadge(product.approval_status)}
+                        {getStatusBadge(product.approvalStatus)}
                       </td>
                       <td className="px-6 py-4 text-sm text-neutral-600">
-                        {new Date(product.submitted_at).toLocaleDateString(
+                        {new Date(product.submittedAt).toLocaleDateString(
                           "vi-VN"
                         )}
                       </td>
@@ -413,7 +413,7 @@ export default function ProductApprovalList() {
                           >
                             <Eye className="w-4 h-4" />
                           </motion.button>
-                          {product.approval_status === "pending" && (
+                          {product.approvalStatus === "pending" && (
                             <>
                               <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -445,32 +445,32 @@ export default function ProductApprovalList() {
           </div>
 
           {/* Pagination */}
-          {pagination.total_pages > 1 && (
+          {pagination.totalPages > 1 && (
             <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200">
               <p className="text-sm text-neutral-600">
                 {t("pagination.showing")}{" "}
-                {(pagination.current_page - 1) * 10 + 1} -{" "}
-                {Math.min(pagination.current_page * 10, pagination.total_items)}{" "}
-                {t("pagination.of")} {pagination.total_items}
+                {(pagination.currentPage - 1) * 10 + 1} -{" "}
+                {Math.min(pagination.currentPage * 10, pagination.totalItems)}{" "}
+                {t("pagination.of")} {pagination.totalItems}
               </p>
               <div className="flex items-center gap-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page - 1)}
-                  disabled={pagination.current_page === 1}
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={pagination.currentPage === 1}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </motion.button>
                 <span className="text-sm text-neutral-600">
-                  {pagination.current_page} / {pagination.total_pages}
+                  {pagination.currentPage} / {pagination.totalPages}
                 </span>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => handlePageChange(pagination.current_page + 1)}
-                  disabled={pagination.current_page === pagination.total_pages}
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={pagination.currentPage === pagination.totalPages}
                   className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />

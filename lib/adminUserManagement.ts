@@ -6,25 +6,25 @@ export interface User {
     id: number;
     email: string;
     role: number;
-    role_name: string;
+    roleName: string;
     status: number;
-    status_name: string;
-    last_login_at: string;
-    created_at: string;
+    statusName: string;
+    lastLoginAt: string;
+    createdAt: string;
   };
-  user_info: {
+  userInfo: {
     avatar: string;
-    first_name: string;
-    last_name: string;
-    phone_number: string;
-    date_of_birth: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    dateOfBirth: string;
     gender: number;
-    gender_name: string;
+    genderName: string;
   };
   stats: {
-    total_orders: number;
-    total_spent: number;
-    address_count: number;
+    totalOrders: number;
+    totalSpent: number;
+    addressCount: number;
   };
 }
 
@@ -33,16 +33,16 @@ export interface UserListResponse {
   data: {
     users: User[];
     pagination: {
-      current_page: number;
-      per_page: number;
+      currentPage: number;
+      perPage: number;
       total: number;
-      total_pages: number;
+      totalPages: number;
     };
     summary: {
-      total_users: number;
-      active_users: number;
-      inactive_users: number;
-      locked_users: number;
+      totalUsers: number;
+      activeUsers: number;
+      inactiveUsers: number;
+      lockedUsers: number;
       customers: number;
       sellers: number;
       admins: number;
@@ -59,50 +59,50 @@ export interface UserDetailResponse {
       email: string;
       role: number;
       status: number;
-      last_login_at: string;
-      created_at: string;
-      updated_at: string;
+      lastLoginAt: string;
+      createdAt: string;
+      updatedAt: string;
     };
-    user_info: {
+    userInfo: {
       avatar: string;
-      first_name: string;
-      last_name: string;
-      phone_number: string;
-      date_of_birth: string;
+      firstName: string;
+      lastName: string;
+      phoneNumber: string;
+      dateOfBirth: string;
       gender: number;
-      created_at: string;
-      updated_at: string;
+      createdAt: string;
+      updatedAt: string;
     };
     addresses: {
       id: number;
-      full_name: string;
-      phone_number: string;
-      address_line: string;
+      fullName: string;
+      phoneNumber: string;
+      addressLine: string;
       ward: string;
       district: string;
       city: string;
-      is_default: boolean;
+      isDefault: boolean;
     }[];
-    order_stats: {
-      total_orders: number;
-      completed_orders: number;
-      cancelled_orders: number;
-      total_spent: number;
-      avg_order_value: number;
+    orderStats: {
+      totalOrders: number;
+      completedOrders: number;
+      cancelledOrders: number;
+      totalSpent: number;
+      avgOrderValue: number;
     };
   };
 }
 
 export interface Activity {
   id: number;
-  user_id: number;
+  userId: number;
   type: string;
   description: string;
   ip_address?: string;
   user_agent?: string;
   reference_id?: number;
   reference_type?: string;
-  created_at: string;
+  createdAt: string;
 }
 
 // Mock users data
@@ -113,25 +113,25 @@ const mockUsers: User[] = [
       id: 1,
       email: "customer01@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-26T10:30:00Z",
-      created_at: "2024-01-15T08:00:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-26T10:30:00Z",
+      createdAt: "2024-01-15T08:00:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer01",
-      first_name: "Nguyễn",
-      last_name: "Văn A",
-      phone_number: "0901234567",
-      date_of_birth: "1990-05-15",
+      firstName: "Nguyễn",
+      lastName: "Văn A",
+      phoneNumber: "0901234567",
+      dateOfBirth: "1990-05-15",
       gender: 1,
-      gender_name: "Male",
+      genderName: "Male",
     },
     stats: {
-      total_orders: 15,
-      total_spent: 25000000,
-      address_count: 2,
+      totalOrders: 15,
+      totalSpent: 25000000,
+      addressCount: 2,
     },
   },
   {
@@ -140,25 +140,25 @@ const mockUsers: User[] = [
       id: 2,
       email: "customer02@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-25T15:45:00Z",
-      created_at: "2024-02-10T09:30:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-25T15:45:00Z",
+      createdAt: "2024-02-10T09:30:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer02",
-      first_name: "Trần",
-      last_name: "Thị B",
-      phone_number: "0912345678",
-      date_of_birth: "1995-08-20",
+      firstName: "Trần",
+      lastName: "Thị B",
+      phoneNumber: "0912345678",
+      dateOfBirth: "1995-08-20",
       gender: 2,
-      gender_name: "Female",
+      genderName: "Female",
     },
     stats: {
-      total_orders: 8,
-      total_spent: 12000000,
-      address_count: 1,
+      totalOrders: 8,
+      totalSpent: 12000000,
+      addressCount: 1,
     },
   },
   {
@@ -167,25 +167,25 @@ const mockUsers: User[] = [
       id: 3,
       email: "customer03@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: 0,
-      status_name: "Inactive",
-      last_login_at: "2024-11-20T08:20:00Z",
-      created_at: "2024-03-05T10:00:00Z",
+      statusName: "Inactive",
+      lastLoginAt: "2024-11-20T08:20:00Z",
+      createdAt: "2024-03-05T10:00:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer03",
-      first_name: "Lê",
-      last_name: "Văn C",
-      phone_number: "0923456789",
-      date_of_birth: "1988-03-12",
+      firstName: "Lê",
+      lastName: "Văn C",
+      phoneNumber: "0923456789",
+      dateOfBirth: "1988-03-12",
       gender: 1,
-      gender_name: "Male",
+      genderName: "Male",
     },
     stats: {
-      total_orders: 3,
-      total_spent: 5000000,
-      address_count: 1,
+      totalOrders: 3,
+      totalSpent: 5000000,
+      addressCount: 1,
     },
   },
   {
@@ -194,25 +194,25 @@ const mockUsers: User[] = [
       id: 4,
       email: "customer04@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-26T09:15:00Z",
-      created_at: "2024-04-20T11:45:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-26T09:15:00Z",
+      createdAt: "2024-04-20T11:45:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer04",
-      first_name: "Phạm",
-      last_name: "Thị D",
-      phone_number: "0934567890",
-      date_of_birth: "1992-11-25",
+      firstName: "Phạm",
+      lastName: "Thị D",
+      phoneNumber: "0934567890",
+      dateOfBirth: "1992-11-25",
       gender: 2,
-      gender_name: "Female",
+      genderName: "Female",
     },
     stats: {
-      total_orders: 22,
-      total_spent: 38000000,
-      address_count: 3,
+      totalOrders: 22,
+      totalSpent: 38000000,
+      addressCount: 3,
     },
   },
   {
@@ -221,25 +221,25 @@ const mockUsers: User[] = [
       id: 5,
       email: "customer05@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: -1,
-      status_name: "Locked",
-      last_login_at: "2024-11-10T14:30:00Z",
-      created_at: "2024-05-12T08:20:00Z",
+      statusName: "Locked",
+      lastLoginAt: "2024-11-10T14:30:00Z",
+      createdAt: "2024-05-12T08:20:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer05",
-      first_name: "Hoàng",
-      last_name: "Văn E",
-      phone_number: "0945678901",
-      date_of_birth: "1993-07-08",
+      firstName: "Hoàng",
+      lastName: "Văn E",
+      phoneNumber: "0945678901",
+      dateOfBirth: "1993-07-08",
       gender: 1,
-      gender_name: "Male",
+      genderName: "Male",
     },
     stats: {
-      total_orders: 5,
-      total_spent: 8000000,
-      address_count: 1,
+      totalOrders: 5,
+      totalSpent: 8000000,
+      addressCount: 1,
     },
   },
   {
@@ -248,25 +248,25 @@ const mockUsers: User[] = [
       id: 6,
       email: "seller01@example.com",
       role: 1,
-      role_name: "Seller",
+      roleName: "Seller",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-26T11:00:00Z",
-      created_at: "2024-01-20T09:15:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-26T11:00:00Z",
+      createdAt: "2024-01-20T09:15:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller01",
-      first_name: "Vũ",
-      last_name: "Thị F",
-      phone_number: "0956789012",
-      date_of_birth: "1991-09-30",
+      firstName: "Vũ",
+      lastName: "Thị F",
+      phoneNumber: "0956789012",
+      dateOfBirth: "1991-09-30",
       gender: 2,
-      gender_name: "Female",
+      genderName: "Female",
     },
     stats: {
-      total_orders: 0,
-      total_spent: 0,
-      address_count: 1,
+      totalOrders: 0,
+      totalSpent: 0,
+      addressCount: 1,
     },
   },
   {
@@ -275,25 +275,25 @@ const mockUsers: User[] = [
       id: 7,
       email: "admin01@example.com",
       role: 2,
-      role_name: "Admin",
+      roleName: "Admin",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-26T12:00:00Z",
-      created_at: "2024-01-01T00:00:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-26T12:00:00Z",
+      createdAt: "2024-01-01T00:00:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=admin01",
-      first_name: "Admin",
-      last_name: "System",
-      phone_number: "0967890123",
-      date_of_birth: "1985-01-01",
+      firstName: "Admin",
+      lastName: "System",
+      phoneNumber: "0967890123",
+      dateOfBirth: "1985-01-01",
       gender: 1,
-      gender_name: "Male",
+      genderName: "Male",
     },
     stats: {
-      total_orders: 0,
-      total_spent: 0,
-      address_count: 0,
+      totalOrders: 0,
+      totalSpent: 0,
+      addressCount: 0,
     },
   },
   {
@@ -302,25 +302,25 @@ const mockUsers: User[] = [
       id: 8,
       email: "customer06@example.com",
       role: 0,
-      role_name: "Customer",
+      roleName: "Customer",
       status: 1,
-      status_name: "Active",
-      last_login_at: "2024-11-26T08:45:00Z",
-      created_at: "2024-06-15T10:30:00Z",
+      statusName: "Active",
+      lastLoginAt: "2024-11-26T08:45:00Z",
+      createdAt: "2024-06-15T10:30:00Z",
     },
-    user_info: {
+    userInfo: {
       avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=customer06",
-      first_name: "Đặng",
-      last_name: "Văn G",
-      phone_number: "0978901234",
-      date_of_birth: "1994-12-10",
+      firstName: "Đặng",
+      lastName: "Văn G",
+      phoneNumber: "0978901234",
+      dateOfBirth: "1994-12-10",
       gender: 1,
-      gender_name: "Male",
+      genderName: "Male",
     },
     stats: {
-      total_orders: 12,
-      total_spent: 18000000,
-      address_count: 2,
+      totalOrders: 12,
+      totalSpent: 18000000,
+      addressCount: 2,
     },
   },
 ];
@@ -329,28 +329,28 @@ const mockUsers: User[] = [
 const mockActivities: Activity[] = [
   {
     id: 1001,
-    user_id: 1,
+    userId: 1,
     type: "login",
     description: "Đăng nhập từ IP 192.168.1.1",
     ip_address: "192.168.1.1",
     user_agent: "Mozilla/5.0...",
-    created_at: "2024-11-26T10:30:00Z",
+    createdAt: "2024-11-26T10:30:00Z",
   },
   {
     id: 1002,
-    user_id: 1,
+    userId: 1,
     type: "order",
     description: "Đặt đơn hàng #ORD123456",
     reference_id: 456,
     reference_type: "order",
-    created_at: "2024-11-26T11:15:00Z",
+    createdAt: "2024-11-26T11:15:00Z",
   },
   {
     id: 1003,
-    user_id: 1,
+    userId: 1,
     type: "profile_update",
     description: "Cập nhật thông tin cá nhân",
-    created_at: "2024-11-25T14:20:00Z",
+    createdAt: "2024-11-25T14:20:00Z",
   },
 ];
 
@@ -360,8 +360,8 @@ export const fetchUsers = async (params: {
   search?: string;
   role?: number | "all";
   status?: number | "all";
-  sort_by?: string;
-  sort_order?: string;
+  sortby?: string;
+  sortorder?: string;
 }): Promise<UserListResponse> => {
   await new Promise((resolve) => setTimeout(resolve, 800));
 
@@ -373,10 +373,10 @@ export const fetchUsers = async (params: {
     filteredUsers = filteredUsers.filter(
       (user) =>
         user.account.email.toLowerCase().includes(searchLower) ||
-        `${user.user_info.first_name} ${user.user_info.last_name}`
+        `${user.userInfo.firstName} ${user.userInfo.lastName}`
           .toLowerCase()
           .includes(searchLower) ||
-        user.user_info.phone_number.includes(searchLower) ||
+        user.userInfo.phoneNumber.includes(searchLower) ||
         user.id.toString().includes(searchLower)
     );
   }
@@ -396,18 +396,18 @@ export const fetchUsers = async (params: {
   }
 
   // Sort
-  if (params.sort_by) {
+  if (params.sortby) {
     filteredUsers.sort((a, b) => {
       let aVal: any, bVal: any;
 
-      switch (params.sort_by) {
-        case "created_at":
-          aVal = new Date(a.account.created_at).getTime();
-          bVal = new Date(b.account.created_at).getTime();
+      switch (params.sortby) {
+        case "createdAt":
+          aVal = new Date(a.account.createdAt).getTime();
+          bVal = new Date(b.account.createdAt).getTime();
           break;
-        case "last_login_at":
-          aVal = new Date(a.account.last_login_at).getTime();
-          bVal = new Date(b.account.last_login_at).getTime();
+        case "lastLoginAt":
+          aVal = new Date(a.account.lastLoginAt).getTime();
+          bVal = new Date(b.account.lastLoginAt).getTime();
           break;
         case "email":
           aVal = a.account.email;
@@ -417,7 +417,7 @@ export const fetchUsers = async (params: {
           return 0;
       }
 
-      if (params.sort_order === "desc") {
+      if (params.sortorder === "desc") {
         return bVal > aVal ? 1 : -1;
       }
       return aVal > bVal ? 1 : -1;
@@ -435,16 +435,16 @@ export const fetchUsers = async (params: {
     data: {
       users: paginatedUsers,
       pagination: {
-        current_page: page,
-        per_page: limit,
+        currentPage: page,
+        perPage: limit,
         total: filteredUsers.length,
-        total_pages: Math.ceil(filteredUsers.length / limit),
+        totalPages: Math.ceil(filteredUsers.length / limit),
       },
       summary: {
-        total_users: mockUsers.length,
-        active_users: mockUsers.filter((u) => u.account.status === 1).length,
-        inactive_users: mockUsers.filter((u) => u.account.status === 0).length,
-        locked_users: mockUsers.filter((u) => u.account.status === -1).length,
+        totalUsers: mockUsers.length,
+        activeUsers: mockUsers.filter((u) => u.account.status === 1).length,
+        inactiveUsers: mockUsers.filter((u) => u.account.status === 0).length,
+        lockedUsers: mockUsers.filter((u) => u.account.status === -1).length,
         customers: mockUsers.filter((u) => u.account.role === 0).length,
         sellers: mockUsers.filter((u) => u.account.role === 1).length,
         admins: mockUsers.filter((u) => u.account.role === 2).length,
@@ -470,33 +470,33 @@ export const fetchUserDetail = async (
       id: user.id,
       account: {
         ...user.account,
-        updated_at: "2024-11-20T14:22:00Z",
+        updatedAt: "2024-11-20T14:22:00Z",
       },
-      user_info: {
-        ...user.user_info,
-        created_at: user.account.created_at,
-        updated_at: "2024-11-20T14:22:00Z",
+      userInfo: {
+        ...user.userInfo,
+        createdAt: user.account.createdAt,
+        updatedAt: "2024-11-20T14:22:00Z",
       },
       addresses: [
         {
           id: 1,
-          full_name: `${user.user_info.first_name} ${user.user_info.last_name}`,
-          phone_number: user.user_info.phone_number,
-          address_line: "123 Đường ABC",
+          fullName: `${user.userInfo.firstName} ${user.userInfo.lastName}`,
+          phoneNumber: user.userInfo.phoneNumber,
+          addressLine: "123 Đường ABC",
           ward: "Phường 1",
           district: "Quận 1",
           city: "TP.HCM",
-          is_default: true,
+          isDefault: true,
         },
       ],
-      order_stats: {
-        total_orders: user.stats.total_orders,
-        completed_orders: Math.floor(user.stats.total_orders * 0.8),
-        cancelled_orders: Math.floor(user.stats.total_orders * 0.1),
-        total_spent: user.stats.total_spent,
-        avg_order_value:
-          user.stats.total_orders > 0
-            ? Math.floor(user.stats.total_spent / user.stats.total_orders)
+      orderStats: {
+        totalOrders: user.stats.totalOrders,
+        completedOrders: Math.floor(user.stats.totalOrders * 0.8),
+        cancelledOrders: Math.floor(user.stats.totalOrders * 0.1),
+        totalSpent: user.stats.totalSpent,
+        avgOrderValue:
+          user.stats.totalOrders > 0
+            ? Math.floor(user.stats.totalSpent / user.stats.totalOrders)
             : 0,
       },
     },
@@ -508,11 +508,11 @@ export const createUser = async (data: {
   password: string;
   role: number;
   status?: number;
-  user_info: {
-    first_name: string;
-    last_name: string;
-    phone_number?: string;
-    date_of_birth?: string;
+  userInfo: {
+    firstName: string;
+    lastName: string;
+    phoneNumber?: string;
+    dateOfBirth?: string;
     gender?: number;
   };
 }): Promise<{ success: boolean; message: string; data: User }> => {
@@ -529,26 +529,26 @@ export const createUser = async (data: {
       id: mockUsers.length + 1,
       email: data.email,
       role: data.role,
-      role_name:
+      roleName:
         data.role === 0 ? "Customer" : data.role === 1 ? "Seller" : "Admin",
       status: data.status ?? 1,
-      status_name: "Active",
-      last_login_at: new Date().toISOString(),
-      created_at: new Date().toISOString(),
+      statusName: "Active",
+      lastLoginAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
     },
-    user_info: {
+    userInfo: {
       avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.email}`,
-      first_name: data.user_info.first_name,
-      last_name: data.user_info.last_name,
-      phone_number: data.user_info.phone_number || "",
-      date_of_birth: data.user_info.date_of_birth || "",
-      gender: data.user_info.gender || 1,
-      gender_name: data.user_info.gender === 2 ? "Female" : "Male",
+      firstName: data.userInfo.firstName,
+      lastName: data.userInfo.lastName,
+      phoneNumber: data.userInfo.phoneNumber || "",
+      dateOfBirth: data.userInfo.dateOfBirth || "",
+      gender: data.userInfo.gender || 1,
+      genderName: data.userInfo.gender === 2 ? "Female" : "Male",
     },
     stats: {
-      total_orders: 0,
-      total_spent: 0,
-      address_count: 0,
+      totalOrders: 0,
+      totalSpent: 0,
+      addressCount: 0,
     },
   };
 
@@ -567,7 +567,7 @@ export const updateUser = async (
     email: string;
     role: number;
     status: number;
-    user_info: Partial<User["user_info"]>;
+    userInfo: Partial<User["userInfo"]>;
   }>
 ): Promise<{ success: boolean; message: string; data: User }> => {
   await new Promise((resolve) => setTimeout(resolve, 800));
@@ -583,16 +583,16 @@ export const updateUser = async (
   }
   if (data.role !== undefined) {
     mockUsers[userIndex].account.role = data.role;
-    mockUsers[userIndex].account.role_name =
+    mockUsers[userIndex].account.roleName =
       data.role === 0 ? "Customer" : data.role === 1 ? "Seller" : "Admin";
   }
   if (data.status !== undefined) {
     mockUsers[userIndex].account.status = data.status;
   }
-  if (data.user_info) {
-    mockUsers[userIndex].user_info = {
-      ...mockUsers[userIndex].user_info,
-      ...data.user_info,
+  if (data.userInfo) {
+    mockUsers[userIndex].userInfo = {
+      ...mockUsers[userIndex].userInfo,
+      ...data.userInfo,
     };
   }
 
@@ -617,7 +617,7 @@ export const updateUserStatus = async (
   }
 
   mockUsers[userIndex].account.status = status;
-  mockUsers[userIndex].account.status_name =
+  mockUsers[userIndex].account.statusName =
     status === 1 ? "Active" : status === 0 ? "Inactive" : "Locked";
 
   return {
@@ -640,7 +640,7 @@ export const updateUserRole = async (
   }
 
   mockUsers[userIndex].account.role = role;
-  mockUsers[userIndex].account.role_name =
+  mockUsers[userIndex].account.roleName =
     role === 0 ? "Customer" : role === 1 ? "Seller" : "Admin";
 
   return {
@@ -706,15 +706,15 @@ export const fetchUserActivities = async (
   data: {
     activities: Activity[];
     pagination: {
-      current_page: number;
-      per_page: number;
+      currentPage: number;
+      perPage: number;
       total: number;
     };
   };
 }> => {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  let filteredActivities = mockActivities.filter((a) => a.user_id === userId);
+  let filteredActivities = mockActivities.filter((a) => a.userId === userId);
 
   if (params.type) {
     filteredActivities = filteredActivities.filter(
@@ -733,8 +733,8 @@ export const fetchUserActivities = async (
     data: {
       activities: paginatedActivities,
       pagination: {
-        current_page: page,
-        per_page: limit,
+        currentPage: page,
+        perPage: limit,
         total: filteredActivities.length,
       },
     },

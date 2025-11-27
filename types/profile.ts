@@ -3,51 +3,51 @@ export interface CustomerProfile {
   id: number;
   email: string;
   username: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   avatar?: string;
-  phone_number?: string;
-  date_of_birth?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
   gender?: number; // 1: Male, 2: Female, 3: Other
-  created_at: string;
+  createdAt: string;
 }
 
 export interface UpdateProfileRequest {
-  first_name?: string;
-  last_name?: string;
-  phone_number?: string;
-  date_of_birth?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
   gender?: number;
   avatar?: string;
 }
 
 export interface ChangePasswordRequest {
-  old_password: string;
-  new_password: string;
-  confirm_password: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 // Address Types
 export interface Address {
   id: number;
-  full_name: string;
-  phone_number: string;
-  address_line: string;
+  fullName: string;
+  phoneNumber: string;
+  addressLine: string;
   city: string;
   state: string;
   country: string;
-  is_default: boolean;
-  created_at: string;
+  isDefault: boolean;
+  createdAt: string;
 }
 
 export interface CreateAddressRequest {
-  full_name: string;
-  phone_number: string;
-  address_line: string;
+  fullName: string;
+  phoneNumber: string;
+  addressLine: string;
   city: string;
   state: string;
   country: string;
-  is_default?: boolean;
+  isDefault?: boolean;
 }
 
 export interface UpdateAddressRequest extends Partial<CreateAddressRequest> {}

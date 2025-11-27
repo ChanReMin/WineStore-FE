@@ -67,7 +67,7 @@ export default function ProductDetailModal({
     };
 
     const badge =
-      badges[product.approval_status as keyof typeof badges] || badges.pending;
+      badges[product.approvalStatus as keyof typeof badges] || badges.pending;
     const Icon = badge.icon;
 
     return (
@@ -76,7 +76,7 @@ export default function ProductDetailModal({
       >
         <Icon className="w-4 h-4" />
         <span className="font-semibold text-sm">
-          {product.approval_status_text}
+          {product.approvalStatusText}
         </span>
       </div>
     );
@@ -283,19 +283,19 @@ export default function ProductDetailModal({
                                     currency: "VND",
                                   }).format(product.price)}
                                 </p>
-                                {product.base_price > product.price && (
+                                {product.basePrice > product.price && (
                                   <div className="flex items-center gap-2">
                                     <p className="text-sm text-neutral-500 line-through">
                                       {new Intl.NumberFormat("vi-VN", {
                                         style: "currency",
                                         currency: "VND",
-                                      }).format(product.base_price)}
+                                      }).format(product.basePrice)}
                                     </p>
                                     <span className="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
                                       -
                                       {Math.round(
-                                        ((product.base_price - product.price) /
-                                          product.base_price) *
+                                        ((product.basePrice - product.price) /
+                                          product.basePrice) *
                                           100
                                       )}
                                       %
@@ -322,13 +322,13 @@ export default function ProductDetailModal({
                             {t("wineDetails")}
                           </h3>
                           <div className="grid grid-cols-2 gap-3">
-                            {product.grape_variety && (
+                            {product.grapeVariety && (
                               <div className="p-3 bg-amber-50 rounded-xl border border-amber-200">
                                 <p className="text-xs text-amber-700 uppercase tracking-wide mb-1">
                                   {t("grapeVariety")}
                                 </p>
                                 <p className="font-semibold text-amber-900 text-sm">
-                                  {product.grape_variety}
+                                  {product.grapeVariety}
                                 </p>
                               </div>
                             )}
@@ -342,7 +342,7 @@ export default function ProductDetailModal({
                                 </p>
                               </div>
                             )}
-                            {product.vintage_year && (
+                            {product.vintageYear && (
                               <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-200">
                                 <div className="flex items-center gap-1 mb-1">
                                   <Calendar className="w-3 h-3 text-indigo-700" />
@@ -351,21 +351,21 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="font-semibold text-indigo-900">
-                                  {product.vintage_year}
+                                  {product.vintageYear}
                                 </p>
                               </div>
                             )}
-                            {product.capacity_ml && (
+                            {product.capacityMl && (
                               <div className="p-3 bg-cyan-50 rounded-xl border border-cyan-200">
                                 <p className="text-xs text-cyan-700 uppercase tracking-wide mb-1">
                                   {t("capacity")}
                                 </p>
                                 <p className="font-semibold text-cyan-900">
-                                  {product.capacity_ml}ml
+                                  {product.capacityMl}ml
                                 </p>
                               </div>
                             )}
-                            {product.production_area && (
+                            {product.productionArea && (
                               <div className="col-span-2 p-3 bg-green-50 rounded-xl border border-green-200">
                                 <div className="flex items-center gap-1 mb-1">
                                   <MapPin className="w-3 h-3 text-green-700" />
@@ -374,11 +374,11 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="font-semibold text-green-900">
-                                  {product.production_area}
+                                  {product.productionArea}
                                 </p>
                               </div>
                             )}
-                            {product.ideal_temperature && (
+                            {product.idealtemperature && (
                               <div className="col-span-2 p-3 bg-sky-50 rounded-xl border border-sky-200">
                                 <div className="flex items-center gap-1 mb-1">
                                   <Thermometer className="w-3 h-3 text-sky-700" />
@@ -387,7 +387,7 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="font-semibold text-sky-900">
-                                  {product.ideal_temperature}
+                                  {product.idealtemperature}
                                 </p>
                               </div>
                             )}
@@ -435,16 +435,16 @@ export default function ProductDetailModal({
                             <div className="bg-white rounded-xl p-4 border border-neutral-200 shadow-sm">
                               <div className="flex items-center gap-3 mb-4">
                                 <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#3b4417] to-[#5d6c2f] flex items-center justify-center text-white font-bold text-lg">
-                                  {product.seller.full_name.charAt(0)}
+                                  {product.seller.fullName.charAt(0)}
                                 </div>
                                 <div>
                                   <p className="font-bold text-neutral-900">
-                                    {product.seller.full_name}
+                                    {product.seller.fullName}
                                   </p>
                                   <div className="flex items-center gap-1">
                                     <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
                                     <span className="text-sm text-neutral-600">
-                                      {product.seller.seller_rating || "N/A"}
+                                      {product.seller.sellerRating || "N/A"}
                                     </span>
                                   </div>
                                 </div>
@@ -456,10 +456,10 @@ export default function ProductDetailModal({
                                     {product.seller.email}
                                   </span>
                                 </div>
-                                {product.seller.phone_number && (
+                                {product.seller.phoneNumber && (
                                   <div className="flex items-center gap-2 text-sm text-neutral-600">
                                     <Phone className="w-4 h-4" />
-                                    <span>{product.seller.phone_number}</span>
+                                    <span>{product.seller.phoneNumber}</span>
                                   </div>
                                 )}
                               </div>
@@ -477,7 +477,7 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="text-3xl font-bold text-[#3b4417]">
-                                  {product.seller.total_products || 0}
+                                  {product.seller.totalProducts || 0}
                                 </p>
                               </div>
                               <div className="bg-white rounded-xl p-4 border border-emerald-200 shadow-sm">
@@ -488,7 +488,7 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="text-3xl font-bold text-emerald-600">
-                                  {product.seller.approved_products || 0}
+                                  {product.seller.approvedProducts || 0}
                                 </p>
                               </div>
                               <div className="bg-white rounded-xl p-4 border border-red-200 shadow-sm">
@@ -499,7 +499,7 @@ export default function ProductDetailModal({
                                   </p>
                                 </div>
                                 <p className="text-3xl font-bold text-red-600">
-                                  {product.seller.rejected_products || 0}
+                                  {product.seller.rejectedProducts || 0}
                                 </p>
                               </div>
                             </div>
@@ -531,9 +531,9 @@ export default function ProductDetailModal({
                                   {t("submittedAt")}
                                 </p>
                                 <p className="text-xs sm:text-sm font-semibold text-blue-900">
-                                  {new Date(
-                                    product.submitted_at
-                                  ).toLocaleString("vi-VN")}
+                                  {new Date(product.submittedAt).toLocaleString(
+                                    "vi-VN"
+                                  )}
                                 </p>
                               </div>
                               <div>
@@ -541,7 +541,7 @@ export default function ProductDetailModal({
                                   {t("createdAt")}
                                 </p>
                                 <p className="text-xs sm:text-sm font-semibold text-blue-900">
-                                  {new Date(product.created_at).toLocaleString(
+                                  {new Date(product.createdAt).toLocaleString(
                                     "vi-VN"
                                   )}
                                 </p>
@@ -569,7 +569,7 @@ export default function ProductDetailModal({
                     <span className="hidden lg:inline">Đóng</span>
                   </motion.button>
 
-                  {product.approval_status === "pending" && (
+                  {product.approvalStatus === "pending" && (
                     <div className="flex items-center gap-2 lg:gap-3">
                       <motion.button
                         whileHover={{ scale: 1.02, y: -2 }}
@@ -609,7 +609,7 @@ export default function ProductDetailModal({
 
                 {/* Mobile Layout */}
                 <div className="md:hidden p-3 space-y-2">
-                  {product.approval_status === "pending" && (
+                  {product.approvalStatus === "pending" && (
                     <div className="grid grid-cols-3 gap-2">
                       <motion.button
                         whileTap={{ scale: 0.95 }}

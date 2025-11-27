@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 // animation variants
 const containerVariants: Variants = {
@@ -59,22 +60,24 @@ export default function StorySection() {
 
           {/* READ MORE BUTTON */}
           <motion.div className="mt-10" variants={itemVariants}>
-            <motion.button
-              type="button"
-              whileHover={{ scale: 1.04, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              className="group relative inline-flex items-center justify-center px-10 py-3 text-[11px] tracking-[0.3em] uppercase text-[#3b4417]"
-            >
-              {/* khung viền */}
-              <span className="absolute inset-0 border border-[#c8c8a3]" />
-              {/* tạo cảm giác hở góc bằng 2 line nhỏ */}
-              <span className="pointer-events-none absolute left-0 bottom-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
-              <span className="pointer-events-none absolute right-0 top-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
+            <Link href="/about">
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="group relative inline-flex items-center justify-center px-10 py-3 text-[11px] tracking-[0.3em] uppercase text-[#3b4417]"
+              >
+                {/* khung viền */}
+                <span className="absolute inset-0 border border-[#c8c8a3]" />
+                {/* tạo cảm giác hở góc bằng 2 line nhỏ */}
+                <span className="pointer-events-none absolute left-0 bottom-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
+                <span className="pointer-events-none absolute right-0 top-0 h-px w-16 bg-white transition-all duration-300 group-hover:w-0" />
 
-              <span className="relative bg-white px-4 py-1">
-                {t("readMore")}
-              </span>
-            </motion.button>
+                <span className="relative bg-white px-4 py-1">
+                  {t("readMore")}
+                </span>
+              </motion.button>
+            </Link>
           </motion.div>
         </motion.div>
       </motion.div>

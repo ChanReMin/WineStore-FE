@@ -175,13 +175,13 @@ export default function AdminHeader() {
             className="flex items-center gap-3 rounded-lg border border-neutral-200 bg-white px-3 py-2 transition-all hover:border-neutral-300 hover:shadow-sm"
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#33391d] text-sm font-semibold text-amber-50">
-              {user?.first_name?.charAt(0).toUpperCase() ||
+              {user?.firstName?.charAt(0).toUpperCase() ||
                 user?.username?.charAt(0).toUpperCase() ||
                 "A"}
             </div>
             <div className="text-left">
               <p className="text-sm font-medium text-neutral-900">
-                {user?.first_name || user?.username || t("admin")}
+                {user?.firstName || user?.username || t("admin")}
               </p>
               <p className="text-xs text-neutral-500">{t("admin")}</p>
             </div>

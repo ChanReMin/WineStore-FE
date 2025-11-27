@@ -113,23 +113,19 @@ export default function Home() {
     <main
       className={`${displaySerif.variable} dark-section relative flex min-h-screen flex-col overflow-hidden bg-[#120906] text-white`}
     >
-      <StatusComponentProvider>
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence>
-
       {/* Age Verification Modal */}
       <AgeVerificationModal
         isOpen={showAgeModal}
         onVerify={handleAgeVerification}
       />
-
       {/* Location Modal */}
       <LocationModal
         isOpen={showLocationModal}
         onComplete={handleLocationComplete}
       />
-
       <Hero />
       <ValuePropositions />
       <StorySection />
@@ -139,8 +135,6 @@ export default function Home() {
       <CTASection />
       <Testimonials />
       <Newsletter />
-      <ChatbotTemplates themeConfigUrl="/themeConfig.json" />;
-      </StatusComponentProvider>
       <ScrollToTopButton />
     </main>
   );

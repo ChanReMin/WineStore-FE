@@ -12,8 +12,8 @@ const DEV_USERS = [
     id: 1,
     username: "customer_dev",
     email: "customer@dev.com",
-    first_name: "John",
-    last_name: "Customer",
+    firstName: "John",
+    lastName: "Customer",
     role: "CUSTOMER",
     icon: User,
     color: "bg-blue-500",
@@ -22,8 +22,8 @@ const DEV_USERS = [
     id: 2,
     username: "seller_dev",
     email: "seller@dev.com",
-    first_name: "Jane",
-    last_name: "Seller",
+    firstName: "Jane",
+    lastName: "Seller",
     role: "SELLER",
     icon: Store,
     color: "bg-green-500",
@@ -32,8 +32,8 @@ const DEV_USERS = [
     id: 3,
     username: "admin_dev",
     email: "admin@dev.com",
-    first_name: "Admin",
-    last_name: "User",
+    firstName: "Admin",
+    lastName: "User",
     role: "ADMIN",
     icon: Shield,
     color: "bg-red-500",
@@ -52,8 +52,8 @@ export default function DevLogin() {
 
   const handleDevLogin = (devUser: (typeof DEV_USERS)[0]) => {
     // Mock tokens
-    const mockAccessToken = `dev_access_token_${devUser.role}_${Date.now()}`;
-    const mockRefreshToken = `dev_refresh_token_${devUser.role}_${Date.now()}`;
+    const mockAccessToken = `dev_accessToken_${devUser.role}_${Date.now()}`;
+    const mockRefreshToken = `dev_refreshToken_${devUser.role}_${Date.now()}`;
 
     // Set auth directly in Zustand store
     setAuth(devUser as any, mockAccessToken, mockRefreshToken);
@@ -77,11 +77,11 @@ export default function DevLogin() {
           className="fixed bottom-4 left-4 z-50 flex items-center gap-2 rounded-lg bg-white border-2 border-purple-200 px-3 py-2 shadow-lg"
         >
           <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-xs font-bold text-white">
-            {user.first_name?.charAt(0) || user.username?.charAt(0)}
+            {user.firstName?.charAt(0) || user.username?.charAt(0)}
           </div>
           <div className="flex flex-col">
             <span className="text-xs font-semibold text-neutral-900">
-              {user.first_name} {user.last_name}
+              {user.firstName} {user.lastName}
             </span>
             <span className="text-[10px] font-medium text-purple-600">
               {user.role}
@@ -157,11 +157,11 @@ export default function DevLogin() {
                     </p>
                     <div className="flex items-center gap-3 rounded-lg bg-white p-3 border border-neutral-200">
                       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#33391d] text-xs font-bold text-amber-50">
-                        {user.first_name?.charAt(0) || user.username?.charAt(0)}
+                        {user.firstName?.charAt(0) || user.username?.charAt(0)}
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-medium text-neutral-900">
-                          {user.first_name} {user.last_name}
+                          {user.firstName} {user.lastName}
                         </p>
                         <p className="text-xs text-neutral-500">{user.email}</p>
                       </div>
@@ -202,7 +202,7 @@ export default function DevLogin() {
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-neutral-900">
-                            {devUser.first_name} {devUser.last_name}
+                            {devUser.firstName} {devUser.lastName}
                           </p>
                           <p className="text-sm text-neutral-500">
                             {devUser.email}

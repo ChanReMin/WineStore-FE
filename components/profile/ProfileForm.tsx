@@ -18,10 +18,10 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<UpdateProfileRequest>({
-    first_name: profile.first_name,
-    last_name: profile.last_name,
-    phone_number: profile.phone_number,
-    date_of_birth: profile.date_of_birth,
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    phoneNumber: profile.phoneNumber,
+    dateOfBirth: profile.dateOfBirth,
     gender: profile.gender,
   });
 
@@ -43,10 +43,10 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
 
   const handleCancel = () => {
     setFormData({
-      first_name: profile.first_name,
-      last_name: profile.last_name,
-      phone_number: profile.phone_number,
-      date_of_birth: profile.date_of_birth,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      phoneNumber: profile.phoneNumber,
+      dateOfBirth: profile.dateOfBirth,
       gender: profile.gender,
     });
     setIsEditing(false);
@@ -95,9 +95,9 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
             </label>
             <input
               type="text"
-              value={formData.first_name}
+              value={formData.firstName}
               onChange={(e) =>
-                setFormData({ ...formData, first_name: e.target.value })
+                setFormData({ ...formData, firstName: e.target.value })
               }
               disabled={!isEditing}
               className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20 disabled:bg-neutral-50 disabled:text-neutral-600"
@@ -111,9 +111,9 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
             </label>
             <input
               type="text"
-              value={formData.last_name}
+              value={formData.lastName}
               onChange={(e) =>
-                setFormData({ ...formData, last_name: e.target.value })
+                setFormData({ ...formData, lastName: e.target.value })
               }
               disabled={!isEditing}
               className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20 disabled:bg-neutral-50 disabled:text-neutral-600"
@@ -127,9 +127,9 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
             </label>
             <input
               type="tel"
-              value={formData.phone_number || ""}
+              value={formData.phoneNumber || ""}
               onChange={(e) =>
-                setFormData({ ...formData, phone_number: e.target.value })
+                setFormData({ ...formData, phoneNumber: e.target.value })
               }
               disabled={!isEditing}
               className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20 disabled:bg-neutral-50 disabled:text-neutral-600"
@@ -144,9 +144,9 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
             {isEditing ? (
               <div className="date-picker-profile">
                 <DatePicker
-                  value={formData.date_of_birth || ""}
+                  value={formData.dateOfBirth || ""}
                   onChange={(date) =>
-                    setFormData({ ...formData, date_of_birth: date })
+                    setFormData({ ...formData, dateOfBirth: date })
                   }
                   placeholder={t("selectDateOfBirth")}
                   maxDate={new Date().toISOString().split("T")[0]}
@@ -156,10 +156,8 @@ export default function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
               <input
                 type="text"
                 value={
-                  formData.date_of_birth
-                    ? new Date(formData.date_of_birth).toLocaleDateString(
-                        "vi-VN"
-                      )
+                  formData.dateOfBirth
+                    ? new Date(formData.dateOfBirth).toLocaleDateString("vi-VN")
                     : ""
                 }
                 disabled
