@@ -17,6 +17,7 @@ import { Playfair_Display } from "next/font/google";
 import { useEffect, useState } from "react";
 import ScrollToTopButton from "@/components/homepage/ScrollToTopButton";
 import { toast } from "react-toastify";
+import ChatbotTemplates, { StatusComponentProvider } from "quocle-chatbot-ui";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -112,6 +113,7 @@ export default function Home() {
     <main
       className={`${displaySerif.variable} dark-section relative flex min-h-screen flex-col overflow-hidden bg-[#120906] text-white`}
     >
+      <StatusComponentProvider>
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence>
@@ -137,6 +139,8 @@ export default function Home() {
       <CTASection />
       <Testimonials />
       <Newsletter />
+      <ChatbotTemplates themeConfigUrl="/themeConfig.json" />;
+      </StatusComponentProvider>
       <ScrollToTopButton />
     </main>
   );
