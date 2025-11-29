@@ -33,6 +33,7 @@
     "manageOrders": "Manage Orders",
     "products": "Products",
     "seller": "Seller",
+    "admin": "Admin",
     "logout": "Logout"
   },
   "becomeSeller": {
@@ -410,7 +411,8 @@
       "seller": "Seller",
       "admin": "Admin",
       "minutesAgo": "{count} minutes ago",
-      "hoursAgo": "{count} hours ago"
+      "hoursAgo": "{count} hours ago",
+      "backtohomepage":"Back to Home"
     },
     "products": {
       "title": "Product Management",
@@ -429,11 +431,13 @@
       },
       "filters": {
         "all": "All",
-        "onSale": "On sale",
+        "active": "Active",
         "category": "Category",
         "allCategories": "All Categories",
         "brand": "Brand",
         "allBrands": "All Brands",
+        "warehouse": "Warehouse",
+        "allWarehouses": "All Warehouses",
         "price": "Price (VND)",
         "from": "From",
         "to": "To",
@@ -649,6 +653,9 @@
         "value": "Value",
         "updated": "Updated",
         "totalProducts": "Total Products",
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock",
         "stockIn": "Stock In",
         "stockOut": "Stock Out"
       },
@@ -700,6 +707,7 @@
           "searchPlaceholder": "Search by product, user, note...",
           "transactionType": "Transaction Type",
           "warehouse": "Warehouse",
+          "dateRange": "Date Range",
           "all": "All",
           "in": "In",
           "out": "Out",
@@ -1505,7 +1513,7 @@
           "bio": "Knowledgeable mentor with focus on wine logistics and distribution."
         },
         "10": {
-          "name": "Lucas Lâm",
+          "name": "Lucas Thái",
           "role": "Mentor",
           "bio": "Creative mentor enhancing digital wine experiences."
         },
@@ -1846,38 +1854,37 @@
       "title": "Product Approval Management",
       "subtitle": "Review and approve products from sellers",
       "loading": "Loading...",
-      "searchPlaceholder": "Search by product name, seller, SKU...",
+      "searchPlaceholder": "Search by product name...",
       "summary": {
-        "totalPending": "Pending",
-        "approvedToday": "Approved Today",
-        "rejectedToday": "Rejected Today"
+        "total": "Total Products",
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
       },
       "filters": {
         "all": "All",
         "pending": "Pending",
         "approved": "Approved",
-        "rejected": "Rejected",
-        "newest": "Newest",
-        "oldest": "Oldest"
+        "banned": "Banned"
       },
       "status": {
         "pending": "Pending",
         "approved": "Approved",
-        "rejected": "Rejected",
-        "pendingChanges": "Changes Requested"
+        "banned": "Banned"
       },
       "table": {
         "product": "Product",
-        "seller": "Seller",
+        "category": "Category",
         "price": "Price",
+        "inventory": "Inventory",
         "status": "Status",
-        "submittedAt": "Submitted",
+        "createdAt": "Created",
         "actions": "Actions"
       },
       "actions": {
         "viewDetail": "View Details",
         "approve": "Approve",
-        "reject": "Reject"
+        "ban": "Ban"
       },
       "pagination": {
         "showing": "Showing",
@@ -1886,33 +1893,28 @@
       "detail": {
         "title": "Product Details",
         "productId": "Product ID",
-        "images": "Product Images",
         "productInfo": "Product Information",
         "productName": "Product Name",
-        "sku": "SKU",
         "category": "Category",
         "brand": "Brand",
         "price": "Price",
-        "wineDetails": "Wine Details",
-        "grapeVariety": "Grape Variety",
+        "profitMargin": "Profit Margin",
+        "additionalDetails": "Additional Details",
         "concentration": "Alcohol Content",
-        "vintageYear": "Vintage Year",
-        "capacity": "Capacity",
-        "productionArea": "Production Area",
-        "idealTemperature": "Ideal Temperature",
-        "description": "Description",
-        "sellerInfo": "Seller Information",
-        "sellerName": "Seller Name",
-        "totalProducts": "Total Products",
-        "approvedProducts": "Approved",
-        "rejectedProducts": "Rejected",
+        "inventory": "Inventory",
+        "inStock": "In Stock",
+        "outOfStock": "Out of Stock",
+        "sold": "Sold",
         "rating": "Rating",
-        "submissionInfo": "Submission Information",
-        "submittedAt": "Submitted At",
-        "createdAt": "Created At",
-        "approve": "Approve Product",
-        "reject": "Reject",
-        "requestChanges": "Request Changes"
+        "description": "Product Description",
+        "timeline": "Timeline",
+        "submissionInfo": "Product Information",
+        "createdAt": "Created",
+        "updatedAt": "Updated",
+        "approvedAt": "Approved At",
+        "close": "Close",
+        "approve": "Approve",
+        "ban": "Ban"
       },
       "approveModal": {
         "title": "Approve Product",
@@ -1926,11 +1928,11 @@
         "approving": "Approving..."
       },
       "rejectModal": {
-        "title": "Reject Product",
+        "title": "Ban Product",
         "productName": "Product Name",
-        "warningMessage": "The seller will be notified of the rejection. Please provide a clear reason.",
-        "reason": "Rejection Reason",
-        "selectReason": "Please select a rejection reason",
+        "warningMessage": "The product will be banned and cannot be displayed. Please provide a clear reason.",
+        "reason": "Ban Reason",
+        "selectReason": "Please select a ban reason",
         "selectReasonPlaceholder": "Select reason...",
         "reasons": {
           "incomplete_info": "Incomplete Information",
@@ -2208,7 +2210,8 @@
       },
       "stats": {
         "orders": "orders",
-        "addresses": "addresses"
+        "addresses": "addresses",
+        "spent": "spent"
       },
       "table": {
         "user": "User",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, User, Globe } from "lucide-react";
+import { Bell, Globe } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslations, useLocale } from "next-intl";
@@ -33,13 +33,17 @@ export default function SellerHeader() {
 
   const currentLanguage = languages.find((l) => l.code === locale);
 
+  const goHome = () => {
+    router.push("/");
+  };
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-neutral-200 bg-white px-6 shadow-sm">
       {/* Search Bar */}
       <div className="flex flex-1 items-center"></div>
 
       {/* Right Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         {/* Language Switcher */}
         <div className="relative">
           <button
@@ -100,8 +104,8 @@ export default function SellerHeader() {
           >
             <Bell size={20} />
             <span className="absolute right-1 top-1 flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
             </span>
           </button>
 
@@ -141,14 +145,7 @@ export default function SellerHeader() {
                         {t("hoursAgo", { count: 1 })}
                       </p>
                     </div>
-                    <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50">
-                      <p className="text-sm text-neutral-900">
-                        {t("lowStock", { count: 5 })}
-                      </p>
-                      <p className="mt-1 text-xs text-neutral-500">
-                        {t("hoursAgo", { count: 2 })}
-                      </p>
-                    </div>
+
                   </div>
                   <div className="border-t border-neutral-200 p-3 text-center">
                     <button
@@ -210,6 +207,13 @@ export default function SellerHeader() {
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
                     >
                       {t("settings")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={goHome}
+                      className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
+                    >
+                      {t("backtohomepage")}
                     </button>
                     <hr className="my-2 border-neutral-200" />
                     <button

@@ -51,7 +51,7 @@ export interface UsageByDate {
 
 export interface PromotionStatistics {
   promotion_id: number;
-  promotion_code: string;
+  promotionCode: string;
   total_usage: number;
   maxusage: number;
   remainingUsage: number;

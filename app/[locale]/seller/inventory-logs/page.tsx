@@ -11,10 +11,14 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { mockInventoryLogs } from "@/lib/inventoryLogs.mock";
+import { DateRange } from "react-day-picker";
+import { inventoryLogService, type InventoryLog } from "@/services/inventoryLogService";
+import { warehouseService } from "@/services/warehouseService";
 import InventoryLogsFilters from "@/components/seller/inventory/InventoryLogsFilters";
 import InventoryLogsTable from "@/components/seller/inventory/InventoryLogsTable";
 import InventoryPagination from "@/components/seller/inventory/InventoryPagination";
+import ExportModal from "@/components/seller/inventory/ExportModal";
+import { toast } from "react-toastify";
 
 export default function InventoryLogsPage() {
   const t = useTranslations("seller.inventory.logs");
@@ -23,87 +27,84 @@ export default function InventoryLogsPage() {
   const [warehouseFilter, setWarehouseFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
-  // Get unique warehouses
-  const warehouses = useMemo(() => {
-    const uniqueWarehouses = new Map();
-    mockInventoryLogs.data.forEach((log) => {
-      if (!uniqueWarehouses.has(log.warehouse)) {
-        uniqueWarehouses.set(log.warehouse, {
-          id: uniqueWarehouses.size + 1,
-          name: log.warehouse,
-        });
+  // API data states
+  const [logsData, setLogsData] = useState<InventoryLog[]>([]);
+  const [warehouses, setWarehouses] = useState<Array<{ id: number; name: string }>>([]);
+  const [summary, setSummary] = useState({
+    total: 0,
+    stockIn: 0,
+    stockOut: 0,
+    adjustments: 0,
+    returns: 0,
+    totalStockIn: 0,
+    totalStockOut: 0,
+    netChange: 0,
+  });
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Fetch warehouses
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const response = await warehouseService.getWarehouses({ status: 1 });
+        const warehouseList = response.data.warehouses.map((w) => ({
+          id: w.id,
+          name: w.name,
+        }));
+        setWarehouses(warehouseList);
+      } catch (error) {
+        console.error("Error fetching warehouses:", error);
+        toast.error("Không thể tải danh sách kho hàng");
       }
-    });
-    return Array.from(uniqueWarehouses.values());
+    };
+    fetchWarehouses();
   }, []);
 
-  // Filter logs
-  const filteredLogs = useMemo(() => {
-    let filtered = mockInventoryLogs.data;
+  // Fetch inventory logs
+  useEffect(() => {
+    const fetchLogs = async () => {
+      setIsLoading(true);
+      try {
+        const response = await inventoryLogService.getInventoryLogs({
+          page: currentPage,
+          limit: itemsPerPage,
+          warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+          type: typeFilter !== "all" ? typeFilter : undefined,
+          from_date: dateRange?.from?.toISOString(),
+          to_date: dateRange?.to?.toISOString(),
+        });
 
-    // Filter by type
-    if (typeFilter !== "all") {
-      filtered = filtered.filter((log) => log.type === typeFilter);
-    }
+        setLogsData(response.data.logs);
+        setPagination(response.data.pagination);
+        
+        // Set summary if provided by API, otherwise calculate
+        if (response.data.summary) {
+          setSummary(response.data.summary);
+        }
+      } catch (error) {
+        console.error("Error fetching inventory logs:", error);
+        toast.error("Không thể tải dữ liệu logs");
+        setLogsData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    // Filter by warehouse
-    if (warehouseFilter !== "all") {
-      filtered = filtered.filter((log) => log.warehouse === warehouseFilter);
-    }
-
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (log) =>
-          log.product.toLowerCase().includes(query) ||
-          log.user.toLowerCase().includes(query) ||
-          log.note?.toLowerCase().includes(query) ||
-          log.warehouse.toLowerCase().includes(query)
-      );
-    }
-
-    return filtered;
-  }, [searchQuery, typeFilter, warehouseFilter]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredLogs.length / itemsPerPage);
-  const paginatedLogs = filteredLogs.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+    fetchLogs();
+  }, [currentPage, itemsPerPage, warehouseFilter, typeFilter, dateRange]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchQuery, typeFilter, warehouseFilter]);
-
-  // Calculate summary
-  const summary = useMemo(() => {
-    const logs = mockInventoryLogs.data;
-    const stockIn = logs.filter((l) => l.type === "IN");
-    const stockOut = logs.filter((l) => l.type === "OUT");
-    const adjustments = logs.filter((l) => l.type === "ADJUST");
-    const returns = logs.filter((l) => l.type === "RETURN");
-
-    const totalStockIn = stockIn.reduce((sum, log) => sum + log.quantity, 0);
-    const totalStockOut = stockOut.reduce(
-      (sum, log) => sum + Math.abs(log.quantity),
-      0
-    );
-
-    return {
-      total: logs.length,
-      stockIn: stockIn.length,
-      stockOut: stockOut.length,
-      adjustments: adjustments.length,
-      returns: returns.length,
-      totalStockIn,
-      totalStockOut,
-      netChange: totalStockIn - totalStockOut,
-    };
-  }, []);
+  }, [searchQuery, typeFilter, warehouseFilter, dateRange]);
 
   return (
     <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
@@ -116,7 +117,10 @@ export default function InventoryLogsPage() {
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 px-4 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium">
+          <button 
+            onClick={() => setIsExportModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#3b4417] hover:bg-[#2a2f18] text-white rounded-lg transition-colors font-medium"
+          >
             <Download className="w-4 h-4" />
             {t("exportReport")}
           </button>
@@ -219,22 +223,53 @@ export default function InventoryLogsPage() {
         warehouseFilter={warehouseFilter}
         onWarehouseChange={setWarehouseFilter}
         warehouses={warehouses}
+        dateRange={dateRange}
+        onDateRangeChange={setDateRange}
       />
 
       {/* Logs Table */}
-      <InventoryLogsTable logs={paginatedLogs} />
+      {isLoading ? (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        </div>
+      ) : (
+        <InventoryLogsTable logs={logsData} />
+      )}
 
       {/* Pagination */}
-      {filteredLogs.length > 0 && (
+      {pagination.totalItems > 0 && (
         <InventoryPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filteredLogs.length}
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          totalItems={pagination.totalItems}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
           onItemsPerPageChange={setItemsPerPage}
         />
       )}
+
+      {/* Export Modal */}
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        title="Xuất báo cáo Inventory Logs"
+        totalItems={pagination.totalItems}
+        filteredItems={pagination.totalItems}
+        availableColumns={[
+          { key: "date", label: "Ngày giờ", defaultChecked: true },
+          { key: "type", label: "Loại giao dịch", defaultChecked: true },
+          { key: "product", label: "Sản phẩm", defaultChecked: true },
+          { key: "warehouse", label: "Kho hàng", defaultChecked: true },
+          { key: "quantity", label: "Số lượng", defaultChecked: true },
+          { key: "user", label: "Người thực hiện", defaultChecked: true },
+          { key: "note", label: "Ghi chú", defaultChecked: false },
+        ]}
+        onExport={async (config) => {
+          // TODO: Implement actual export API
+          console.log("Export config:", config);
+          toast.success(`Đã xuất ${config.format.toUpperCase()} thành công!`);
+        }}
+      />
     </div>
   );
 }

@@ -95,9 +95,9 @@ export default function DeleteProductModal({
                     <div className="flex items-center gap-4 text-sm text-[#7a8451]">
                       <span>ID: #{product.id}</span>
                       <span>•</span>
-                      <span>{product.brand}</span>
+                      <span>{product.brand.name}</span>
                       <span>•</span>
-                      <span>{product.category}</span>
+                      <span>{product.category.name}</span>
                     </div>
                   </div>
                 </div>

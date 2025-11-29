@@ -120,7 +120,7 @@ export const mockPromotionStatistics: PromotionStatisticsResponse = {
   success: true,
   data: {
     promotion_id: 1,
-    promotion_code: "SUMMER2024",
+    promotionCode: "SUMMER2024",
     total_usage: 345,
     maxusage: 1000,
     remainingUsage: 655,

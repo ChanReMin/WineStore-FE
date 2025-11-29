@@ -12,11 +12,9 @@ import {
   Loader2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  getWarehouseDetail,
-  type WarehouseDetail,
-} from "@/lib/sellerWarehouse";
+import { warehouseService, type WarehouseDetail } from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
+import { toast } from "react-toastify";
 
 interface WarehouseDetailModalProps {
   isOpen: boolean;
@@ -69,10 +67,11 @@ export default function WarehouseDetailModal({
 
     setIsLoading(true);
     try {
-      const result = await getWarehouseDetail(warehouseId);
+      const result = await warehouseService.getWarehouseDetail(warehouseId);
       setWarehouse(result.data);
     } catch (error) {
       console.error("Error loading warehouse detail:", error);
+      toast.error("Không thể tải chi tiết kho hàng");
     } finally {
       setIsLoading(false);
     }

@@ -169,7 +169,7 @@ export default function ProductsTable({
                     <p className="font-medium text-[#3b4417] mb-1">
                       {product.name}
                     </p>
-                    <p className="text-sm text-[#7a8451]">{product.brand}</p>
+                    <p className="text-sm text-[#7a8451]">{product.brand.name}</p>
                   </div>
                 </TableCell>
                 <TableCell className="font-semibold text-[#3b4417]">
@@ -177,7 +177,7 @@ export default function ProductsTable({
                 </TableCell>
                 <TableCell>
                   <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#f5f3e8] text-[#3b4417] text-sm">
-                    {product.category}
+                    {product.category.name}
                   </span>
                 </TableCell>
                 <TableCell>
@@ -255,7 +255,7 @@ export default function ProductsTable({
       </div>
 
       {/* Approval Info for Approved Products */}
-      {products.some((p) => p.approvedAt) && (
+      {products.some((p) => p.status === 1) && (
         <div className="p-4 bg-[#fdfbf5] border-t border-[#e8e6dc]">
           <div className="flex items-start gap-3 text-sm">
             <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
@@ -287,25 +287,26 @@ export default function ProductsTable({
         initialData={
           selectedProduct
             ? {
-                categoryId: 1, // Map from category name to ID
-                brandId: 1, // Map from brand name to ID
+                categoryId: selectedProduct.category.id,
+                brandId: selectedProduct.brand.id,
                 name: selectedProduct.name,
                 price: selectedProduct.price,
-                winetype: "Vang đỏ",
-                countryOfProduction: "",
-                grapeVariety: "",
-                concentration: 0,
-                productionArea: "",
-                capacity: 750,
-                idealtemperature: "",
-                humidity: "",
-                avoidLight: "",
-                placeTheBottleHorizontally: "",
-                avoidVibration: "",
-                openedWine: "",
-                use_wine_cabinet: "",
-                images: [],
-                description: "",
+                winetype: selectedProduct.winetype || "",
+                countryOfProduction: selectedProduct.originCountry || "",
+                grapeVariety: selectedProduct.grapeVariety || "",
+                concentration: selectedProduct.concentration || 0,
+                productionArea: selectedProduct.productionArea || "",
+                capacity: selectedProduct.capacity || 750,
+                idealtemperature: selectedProduct.idealtemperature || "",
+                humidity: selectedProduct.humidity || "",
+                avoidLight: selectedProduct.avoidLight || "",
+                placeTheBottleHorizontally: selectedProduct.placeTheBottleHorizontally || "",
+                avoidVibration: selectedProduct.avoidVibration || "",
+                openedWine: selectedProduct.openedWine || "",
+                useWineCabinet: selectedProduct.useWineCabinet || "",
+                images: selectedProduct.images ? [selectedProduct.images] : [],
+                imageFiles: [],
+                description: selectedProduct.description || "",
               }
             : undefined
         }

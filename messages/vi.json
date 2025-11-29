@@ -409,7 +409,8 @@
       "logout": "Đăng xuất",
       "seller": "Người bán",
       "minutesAgo": "{count} phút trước",
-      "hoursAgo": "{count} giờ trước"
+      "hoursAgo": "{count} giờ trước",
+      "backtohomepage":"Trở lại trang chủ"
     },
     "products": {
       "title": "Quản lý sản phẩm",
@@ -428,11 +429,13 @@
       },
       "filters": {
         "all": "Tất cả",
-        "onSale": "Đang bán",
+        "active": "Hoạt động",
         "category": "Danh mục",
         "allCategories": "Tất cả danh mục",
         "brand": "Thương hiệu",
         "allBrands": "Tất cả thương hiệu",
+        "warehouse": "Kho hàng",
+        "allWarehouses": "Tất cả kho hàng",
         "price": "Giá (VND)",
         "from": "Từ",
         "to": "Đến",
@@ -648,6 +651,9 @@
         "value": "Giá trị",
         "updated": "Cập nhật",
         "totalProducts": "Tổng sản phẩm",
+        "inStock": "Còn hàng",
+        "lowStock": "Sắp hết",
+        "outOfStock": "Hết hàng",
         "stockIn": "Nhập kho",
         "stockOut": "Xuất kho"
       },
@@ -699,6 +705,7 @@
           "searchPlaceholder": "Tìm theo sản phẩm, người dùng, ghi chú...",
           "transactionType": "Loại giao dịch",
           "warehouse": "Kho hàng",
+          "dateRange": "Khoảng thời gian",
           "all": "Tất cả",
           "in": "Nhập",
           "out": "Xuất",
@@ -1504,7 +1511,7 @@
           "bio": "Mentor am hiểu tập trung vào hậu cần và phân phối rượu vang."
         },
         "10": {
-          "name": "Lucas Lâm",
+          "name": "Lucas Thái",
           "role": "Mentor",
           "bio": "Mentor sáng tạo nâng cao trải nghiệm rượu vang kỹ thuật số."
         },
@@ -1845,38 +1852,37 @@
       "title": "Quản lý duyệt sản phẩm",
       "subtitle": "Xem xét và phê duyệt sản phẩm từ người bán",
       "loading": "Đang tải...",
-      "searchPlaceholder": "Tìm theo tên sản phẩm, người bán, SKU...",
+      "searchPlaceholder": "Tìm theo tên sản phẩm...",
       "summary": {
-        "totalPending": "Chờ duyệt",
-        "approvedToday": "Đã duyệt hôm nay",
-        "rejectedToday": "Đã từ chối hôm nay"
+        "total": "Tổng sản phẩm",
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị cấm"
       },
       "filters": {
         "all": "Tất cả",
         "pending": "Chờ duyệt",
         "approved": "Đã duyệt",
-        "rejected": "Đã từ chối",
-        "newest": "Mới nhất",
-        "oldest": "Cũ nhất"
+        "banned": "Bị cấm"
       },
       "status": {
         "pending": "Chờ duyệt",
         "approved": "Đã duyệt",
-        "rejected": "Đã từ chối",
-        "pendingChanges": "Yêu cầu chỉnh sửa"
+        "banned": "Bị cấm"
       },
       "table": {
         "product": "Sản phẩm",
-        "seller": "Người bán",
+        "category": "Danh mục",
         "price": "Giá",
+        "inventory": "Tồn kho",
         "status": "Trạng thái",
-        "submittedAt": "Ngày gửi",
+        "createdAt": "Ngày tạo",
         "actions": "Thao tác"
       },
       "actions": {
         "viewDetail": "Xem chi tiết",
         "approve": "Duyệt",
-        "reject": "Từ chối"
+        "ban": "Cấm"
       },
       "pagination": {
         "showing": "Hiển thị",
@@ -1885,33 +1891,28 @@
       "detail": {
         "title": "Chi tiết sản phẩm",
         "productId": "Mã sản phẩm",
-        "images": "Hình ảnh sản phẩm",
         "productInfo": "Thông tin sản phẩm",
         "productName": "Tên sản phẩm",
-        "sku": "Mã SKU",
         "category": "Danh mục",
         "brand": "Thương hiệu",
         "price": "Giá bán",
-        "wineDetails": "Chi tiết rượu vang",
-        "grapeVariety": "Giống nho",
+        "profitMargin": "Lợi nhuận",
+        "additionalDetails": "Thông tin bổ sung",
         "concentration": "Nồng độ cồn",
-        "vintageYear": "Năm sản xuất",
-        "capacity": "Dung tích",
-        "productionArea": "Vùng sản xuất",
-        "idealTemperature": "Nhiệt độ lý tưởng",
-        "description": "Mô tả",
-        "sellerInfo": "Thông tin người bán",
-        "sellerName": "Tên người bán",
-        "totalProducts": "Tổng sản phẩm",
-        "approvedProducts": "Đã duyệt",
-        "rejectedProducts": "Đã từ chối",
+        "inventory": "Tồn kho",
+        "inStock": "Còn hàng",
+        "outOfStock": "Hết hàng",
+        "sold": "Đã bán",
         "rating": "Đánh giá",
-        "submissionInfo": "Thông tin gửi duyệt",
-        "submittedAt": "Ngày gửi",
+        "description": "Mô tả sản phẩm",
+        "timeline": "Thời gian",
+        "submissionInfo": "Thông tin sản phẩm",
         "createdAt": "Ngày tạo",
-        "approve": "Duyệt sản phẩm",
-        "reject": "Từ chối",
-        "requestChanges": "Yêu cầu chỉnh sửa"
+        "updatedAt": "Cập nhật",
+        "approvedAt": "Ngày duyệt",
+        "close": "Đóng",
+        "approve": "Duyệt",
+        "ban": "Cấm"
       },
       "approveModal": {
         "title": "Duyệt sản phẩm",
@@ -1925,11 +1926,11 @@
         "approving": "Đang duyệt..."
       },
       "rejectModal": {
-        "title": "Từ chối sản phẩm",
+        "title": "Cấm sản phẩm",
         "productName": "Tên sản phẩm",
-        "warningMessage": "Người bán sẽ nhận được thông báo về việc từ chối. Hãy cung cấp lý do rõ ràng.",
-        "reason": "Lý do từ chối",
-        "selectReason": "Vui lòng chọn lý do từ chối",
+        "warningMessage": "Sản phẩm sẽ bị cấm và không thể hiển thị. Hãy cung cấp lý do rõ ràng.",
+        "reason": "Lý do cấm",
+        "selectReason": "Vui lòng chọn lý do cấm",
         "selectReasonPlaceholder": "Chọn lý do...",
         "reasons": {
           "incomplete_info": "Thông tin không đầy đủ",
@@ -1941,9 +1942,9 @@
         },
         "note": "Ghi chú chi tiết",
         "optional": "tùy chọn",
-        "notePlaceholder": "Nhập ghi chú chi tiết về lý do từ chối...",
+        "notePlaceholder": "Nhập ghi chú chi tiết về lý do cấm...",
         "cancel": "Hủy",
-        "reject": "Từ chối",
+        "reject": "Cấm",
         "rejecting": "Đang xử lý..."
       },
       "requestChangesModal": {
@@ -2207,7 +2208,8 @@
       },
       "stats": {
         "orders": "đơn hàng",
-        "addresses": "địa chỉ"
+        "addresses": "địa chỉ",
+        "spent": "đã chi"
       },
       "table": {
         "user": "Người dùng",

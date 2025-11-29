@@ -45,9 +45,9 @@ export interface OrderDetail extends Order {
 }
 
 export interface CreateOrderRequest {
-  shippingAddress_id: number;
-  paymentMethod_id: number;
-  promotion_code?: string;
+  shippingAddressId: number;
+  paymentMethodId: number;
+  promotionCode?: string;
   note?: string;
 }
 

@@ -28,10 +28,10 @@ export interface LoginResponse {
   success: boolean;
   message: string;
   data: {
-    accessToken: string;
-    refreshToken: string;
-    tokenType: string;
-    expiresIn: number;
+    access_token: string;  // Backend trả về snake_case
+    refresh_token: string;
+    token_type: string;
+    expires_in: number;
     user: User;
   };
 }
@@ -39,8 +39,8 @@ export interface LoginResponse {
 export interface RefreshTokenResponse {
   success: boolean;
   data: {
-    accessToken: string;
-    expiresIn: number;
+    access_token: string;  // Backend trả về snake_case
+    expires_in: number;
   };
 }
 

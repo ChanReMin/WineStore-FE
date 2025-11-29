@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import ImageUpload from "./ImageUpload";
 import type { ProductFormData } from "@/types/productForm";
+import { fetchCategories, type Category } from "@/services/categoryService";
+import { fetchBrands, type Brand } from "@/services/brandService";
 
 interface ProductFormModalProps {
   isOpen: boolean;
@@ -15,27 +17,6 @@ interface ProductFormModalProps {
   initialData?: Partial<ProductFormData>;
   mode: "create" | "edit";
 }
-
-// Mock data - Replace with API
-const CATEGORIES = [
-  { id: 1, name: "French Wine" },
-  { id: 2, name: "Italy Wine" },
-  { id: 3, name: "Australian Wine" },
-  { id: 4, name: "American Wine" },
-  { id: 5, name: "Chile Wine" },
-  { id: 6, name: "Argentina Wine" },
-  { id: 7, name: "Spanish Wine" },
-];
-
-const BRANDS = [
-  { id: 1, name: "Château Margaux" },
-  { id: 2, name: "Bordeaux" },
-  { id: 3, name: "Château Lafite" },
-  { id: 4, name: "Barolo" },
-  { id: 5, name: "Brunello" },
-  { id: 6, name: "Penfolds" },
-  { id: 7, name: "Opus One" },
-];
 
 const WINETYPES = ["Red Wine", "White Wine", "Rosé Wine", "Sparkling Wine"];
 
@@ -48,12 +29,15 @@ export default function ProductFormModal({
 }: ProductFormModalProps) {
   const t = useTranslations("seller.products.form");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const [formData, setFormData] = useState<ProductFormData>({
     categoryId: initialData?.categoryId || 1,
     brandId: initialData?.brandId || 1,
     name: initialData?.name || "",
     price: initialData?.price || 0,
-    winetype: initialData?.winetype || "Vang đỏ",
+    winetype: initialData?.winetype || "Red Wine",
     countryOfProduction: initialData?.countryOfProduction || "",
     grapeVariety: initialData?.grapeVariety || "",
     concentration: initialData?.concentration || 0,
@@ -65,19 +49,42 @@ export default function ProductFormModal({
     placeTheBottleHorizontally: initialData?.placeTheBottleHorizontally || "",
     avoidVibration: initialData?.avoidVibration || "",
     openedWine: initialData?.openedWine || "",
-    use_wine_cabinet: initialData?.use_wine_cabinet || "",
+    useWineCabinet: initialData?.useWineCabinet || "",
     images: initialData?.images || [],
+    imageFiles: initialData?.imageFiles || [],
     description: initialData?.description || "",
   });
+
+  // Fetch categories and brands when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      const loadData = async () => {
+        setIsLoadingData(true);
+        try {
+          const [categoriesResponse, brandsResponse] = await Promise.all([
+            fetchCategories(),
+            fetchBrands(),
+          ]);
+          setCategories(categoriesResponse.data.categories);
+          setBrands(brandsResponse.data.brands);
+        } catch (error) {
+          console.error("Error loading categories/brands:", error);
+        } finally {
+          setIsLoadingData(false);
+        }
+      };
+      loadData();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (initialData && isOpen) {
       setFormData({
-        categoryId: initialData.categoryId || 1,
-        brandId: initialData.brandId || 1,
+        categoryId: initialData.categoryId || (categories[0]?.id || 1),
+        brandId: initialData.brandId || (brands[0]?.id || 1),
         name: initialData.name || "",
         price: initialData.price || 0,
-        winetype: initialData.winetype || "Vang đỏ",
+        winetype: initialData.winetype || "Red Wine",
         countryOfProduction: initialData.countryOfProduction || "",
         grapeVariety: initialData.grapeVariety || "",
         concentration: initialData.concentration || 0,
@@ -90,12 +97,13 @@ export default function ProductFormModal({
           initialData.placeTheBottleHorizontally || "",
         avoidVibration: initialData.avoidVibration || "",
         openedWine: initialData.openedWine || "",
-        use_wine_cabinet: initialData.use_wine_cabinet || "",
+        useWineCabinet: initialData.useWineCabinet || "",
         images: initialData.images || [],
+        imageFiles: initialData.imageFiles || [],
         description: initialData.description || "",
       });
     }
-  }, [initialData, isOpen]);
+  }, [initialData, isOpen, categories, brands]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -235,13 +243,20 @@ export default function ProductFormModal({
                           value={formData.categoryId}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
+                          disabled={isLoadingData}
+                          className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {CATEGORIES.map((cat) => (
-                            <option key={cat.id} value={cat.id}>
-                              {cat.name}
-                            </option>
-                          ))}
+                          {isLoadingData ? (
+                            <option>Loading...</option>
+                          ) : categories.length === 0 ? (
+                            <option>No categories available</option>
+                          ) : (
+                            categories.map((cat) => (
+                              <option key={cat.id} value={cat.id}>
+                                {cat.name}
+                              </option>
+                            ))
+                          )}
                         </select>
                       </div>
 
@@ -255,13 +270,20 @@ export default function ProductFormModal({
                           value={formData.brandId}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
+                          disabled={isLoadingData}
+                          className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          {BRANDS.map((brand) => (
-                            <option key={brand.id} value={brand.id}>
-                              {brand.name}
-                            </option>
-                          ))}
+                          {isLoadingData ? (
+                            <option>Loading...</option>
+                          ) : brands.length === 0 ? (
+                            <option>No brands available</option>
+                          ) : (
+                            brands.map((brand) => (
+                              <option key={brand.id} value={brand.id}>
+                                {brand.name} - {brand.country}
+                              </option>
+                            ))
+                          )}
                         </select>
                       </div>
 
@@ -468,8 +490,8 @@ export default function ProductFormModal({
                         </label>
                         <input
                           type="text"
-                          name="use_wine_cabinet"
-                          value={formData.use_wine_cabinet}
+                          name="useWineCabinet"
+                          value={formData.useWineCabinet}
                           onChange={handleChange}
                           className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417]"
                           placeholder="Nên sử dụng tủ rượu"
@@ -491,8 +513,12 @@ export default function ProductFormModal({
                         </label>
                         <ImageUpload
                           value={formData.images}
-                          onChange={(images) =>
-                            setFormData((prev) => ({ ...prev, images }))
+                          onChange={(images, files) =>
+                            setFormData((prev) => ({ 
+                              ...prev, 
+                              images,
+                              imageFiles: files 
+                            }))
                           }
                           maxFiles={5}
                           maxSizeMB={5}

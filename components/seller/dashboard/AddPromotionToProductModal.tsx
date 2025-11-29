@@ -139,7 +139,7 @@ export default function AddPromotionToProductModal({
               <p className="text-sm text-[#7a8451] mb-1">Product:</p>
               <p className="font-semibold text-[#3b4417]">{product.name}</p>
               <p className="text-sm text-[#7a8451] mt-1">
-                {product.brand} • {product.category}
+                {product.brand.name} • {product.category.name}
               </p>
             </div>
           </div>

@@ -3,17 +3,16 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, RefreshCw, RotateCcw } from "lucide-react";
-import type { InventoryLogType } from "@/types/inventoryLog";
-
 interface InventoryLogTypeBadgeProps {
-  type: InventoryLogType;
+  type: string;
 }
 
 export default function InventoryLogTypeBadge({
   type,
 }: InventoryLogTypeBadgeProps) {
   const getTypeConfig = () => {
-    switch (type) {
+    const typeUpper = type.toUpperCase();
+    switch (typeUpper) {
       case "IN":
         return {
           icon: TrendingUp,
@@ -49,6 +48,15 @@ export default function InventoryLogTypeBadge({
           textColor: "text-amber-700",
           border: "border-amber-200",
           iconColor: "text-amber-600",
+        };
+      default:
+        return {
+          icon: RefreshCw,
+          text: type,
+          bg: "bg-gray-50",
+          textColor: "text-gray-700",
+          border: "border-gray-200",
+          iconColor: "text-gray-600",
         };
     }
   };

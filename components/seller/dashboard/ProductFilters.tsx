@@ -1,24 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
+import { fetchCategories, type Category } from "@/services/categoryService";
+import { fetchBrands, type Brand } from "@/services/brandService";
 
 // Mock data - sẽ thay thế bằng API sau
-const mockCategories = [
-  { id: 1, name: "Red Wine" },
-  { id: 2, name: "White Wine" },
-  { id: 3, name: "Rosé Wine" },
-  { id: 4, name: "Champagne" },
-  { id: 5, name: "Sweet Wine" },
-];
-
-const mockBrands = [
-  { id: 1, name: "Château Margaux" },
-  { id: 2, name: "Penfolds" },
-  { id: 3, name: "Opus One" },
-  { id: 4, name: "Dom Pérignon" },
-  { id: 5, name: "Screaming Eagle" },
+const mockWarehouses = [
+  { id: 1, name: "Warehouse A" },
+  { id: 2, name: "Warehouse B" },
+  { id: 3, name: "Warehouse C" },
 ];
 
 interface ProductFiltersProps {
@@ -30,6 +23,8 @@ interface ProductFiltersProps {
   onCategoryChange: (value: string) => void;
   brandFilter: string;
   onBrandChange: (value: string) => void;
+  warehouseFilter: string;
+  onWarehouseChange: (value: string) => void;
   priceFrom: string;
   onPriceFromChange: (value: string) => void;
   priceTo: string;
@@ -56,6 +51,8 @@ export default function ProductFilters({
   onCategoryChange,
   brandFilter,
   onBrandChange,
+  warehouseFilter,
+  onWarehouseChange,
   priceFrom,
   onPriceFromChange,
   priceTo,
@@ -68,17 +65,53 @@ export default function ProductFilters({
   summary,
 }: ProductFiltersProps) {
   const t = useTranslations("seller.products");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [isLoadingBrands, setIsLoadingBrands] = useState(false);
+
+  // Fetch categories and brands from API
+  useEffect(() => {
+    const loadData = async () => {
+      // Load categories
+      setIsLoadingCategories(true);
+      try {
+        const categoriesResponse = await fetchCategories();
+        setCategories(categoriesResponse.data.categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setCategories([]);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+
+      // Load brands
+      setIsLoadingBrands(true);
+      try {
+        const brandsResponse = await fetchBrands();
+        setBrands(brandsResponse.data.brands);
+      } catch (error) {
+        console.error("Error fetching brands:", error);
+        setBrands([]);
+      } finally {
+        setIsLoadingBrands(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const statusOptions = [
     { value: "all", labelKey: "filters.all", count: summary.total },
-    { value: "1", labelKey: "summary.pending", count: summary.pending },
-    { value: "2", labelKey: "filters.onSale", count: summary.active },
-    { value: "3", labelKey: "summary.banned", count: summary.banned },
+    { value: "0", labelKey: "summary.pending", count: summary.pending },
+    { value: "1", labelKey: "filters.active", count: summary.active },
+    { value: "2", labelKey: "summary.banned", count: summary.banned },
   ];
 
   const hasActiveFilters =
     categoryFilter !== "all" ||
     brandFilter !== "all" ||
+    warehouseFilter !== "all" ||
     priceFrom !== "" ||
     priceTo !== "" ||
     concentrationFrom !== "" ||
@@ -126,7 +159,7 @@ export default function ProductFilters({
         </div>
 
         {/* Advanced Filters Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-[#d4d6b4]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-[#d4d6b4]">
           {/* Category Filter */}
           <div>
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
@@ -135,12 +168,15 @@ export default function ProductFilters({
             <select
               value={categoryFilter}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
+              disabled={isLoadingCategories}
+              className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <option value="all">{t("filters.allCategories")}</option>
-              {mockCategories.map((cat) => (
+              <option value="all">
+                {isLoadingCategories ? "Loading..." : t("filters.allCategories")}
+              </option>
+              {categories.map((cat) => (
                 <option key={cat.id} value={cat.id.toString()}>
-                  {cat.name}
+                  {cat.name} ({cat.productsCount})
                 </option>
               ))}
             </select>
@@ -154,12 +190,34 @@ export default function ProductFilters({
             <select
               value={brandFilter}
               onChange={(e) => onBrandChange(e.target.value)}
+              disabled={isLoadingBrands}
+              className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="all">
+                {isLoadingBrands ? "Loading..." : t("filters.allBrands")}
+              </option>
+              {brands.map((brand) => (
+                <option key={brand.id} value={brand.id.toString()}>
+                  {brand.name} - {brand.country} ({brand.productsCount})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Warehouse Filter */}
+          <div>
+            <label className="block text-sm font-medium text-[#3b4417] mb-2">
+              {t("filters.warehouse")}
+            </label>
+            <select
+              value={warehouseFilter}
+              onChange={(e) => onWarehouseChange(e.target.value)}
               className="w-full px-3 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white"
             >
-              <option value="all">{t("filters.allBrands")}</option>
-              {mockBrands.map((brand) => (
-                <option key={brand.id} value={brand.id.toString()}>
-                  {brand.name}
+              <option value="all">{t("filters.allWarehouses")}</option>
+              {mockWarehouses.map((warehouse) => (
+                <option key={warehouse.id} value={warehouse.id.toString()}>
+                  {warehouse.name}
                 </option>
               ))}
             </select>
@@ -189,7 +247,7 @@ export default function ProductFilters({
           </div>
 
           {/* Concentration Range */}
-          <div>
+          <div className="md:col-span-2 lg:col-span-1">
             <label className="block text-sm font-medium text-[#3b4417] mb-2">
               {t("filters.concentration")}
             </label>

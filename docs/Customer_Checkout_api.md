@@ -415,7 +415,7 @@ Content-Type: application/json
 
 ```json
 {
-  "promotion_code": "SUMMER2024",
+  "promotionCode": "SUMMER2024",
   "cart_total": 33500000.00,
   "productIds": [101, 102]
 }
@@ -425,7 +425,7 @@ Content-Type: application/json
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `promotion_code` | string | Yes | Mã khuyến mãi cần validate |
+| `promotionCode` | string | Yes | Mã khuyến mãi cần validate |
 | `cart_total` | decimal | Yes | Tổng giá trị giỏ hàng |
 | `productIds` | array | Yes | Danh sách ID sản phẩm trong giỏ |
 
@@ -512,7 +512,7 @@ Content-Type: application/json
 
 ```json
 {
-  "shippingAddress_id": 123,
+  "shippingAddressId": 123,
   "cart_total": 33500000.00,
   "total_weight": 2250
 }
@@ -522,7 +522,7 @@ Content-Type: application/json
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `shippingAddress_id` | bigint | Yes | ID địa chỉ giao hàng |
+| `shippingAddressId` | bigint | Yes | ID địa chỉ giao hàng |
 | `cart_total` | decimal | Yes | Tổng giá trị đơn hàng |
 | `total_weight` | integer | No | Tổng khối lượng (gram) |
 
@@ -569,9 +569,9 @@ Content-Type: application/json
 
 ```json
 {
-  "shippingAddress_id": 123,
-  "promotion_code": "SUMMER2024",
-  "paymentMethod_id": 1
+  "shippingAddressId": 123,
+  "promotionCode": "SUMMER2024",
+  "paymentMethodId": 1
 }
 ```
 

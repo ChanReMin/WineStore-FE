@@ -4,14 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { X, CheckCircle, Loader2 } from "lucide-react";
-import {
-  type ProductApproval,
-  approveProduct,
-} from "@/lib/adminProductApprovals";
+import { approveProduct } from "@/services/productService";
+import type { Product } from "@/types/product";
 import { Textarea } from "@/components/ui/textarea";
 
 interface ApproveModalProps {
-  product: ProductApproval;
+  product: Product;
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
@@ -91,7 +89,7 @@ export default function ApproveModal({
                     {product.name}
                   </p>
                   <p className="text-sm text-neutral-500 mt-1">
-                    SKU: {product.sku}
+                    ID: {product.id}
                   </p>
                 </div>
 

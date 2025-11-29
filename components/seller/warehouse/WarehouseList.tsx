@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { type Warehouse, deleteWarehouse } from "@/lib/sellerWarehouse";
+import { warehouseService, type Warehouse } from "@/services/warehouseService";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
@@ -77,11 +77,12 @@ export default function WarehouseList({
 
     setDeletingId(warehouse.id);
     try {
-      const result = await deleteWarehouse(warehouse.id);
-      toast.success(t("list.deleteSuccess"));
+      const result = await warehouseService.deleteWarehouse(warehouse.id);
+      toast.success(result.message || t("list.deleteSuccess"));
       onRefresh();
     } catch (error: any) {
-      toast.error(t("list.deleteError"));
+      console.error("Error deleting warehouse:", error);
+      toast.error(error.message || t("list.deleteError"));
     } finally {
       setDeletingId(null);
     }

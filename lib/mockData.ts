@@ -147,7 +147,7 @@ export const MOCK_PRODUCT_DETAIL = {
   placeTheBottleHorizontally: "Đặt chai nằm ngang",
   avoidVibration: "Tránh rung động",
   openedWine: "Sử dụng trong 3-5 ngày",
-  use_wine_cabinet: "Nên sử dụng tủ rượu chuyên dụng",
+  useWineCabinet: "Nên sử dụng tủ rượu chuyên dụng",
   images: [
     "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800",
     "https://images.unsplash.com/photo-1566754436900-c7f7f1b7e9b3?w=800",

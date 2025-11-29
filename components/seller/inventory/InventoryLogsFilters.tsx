@@ -3,6 +3,8 @@
 import { Search, Filter, Calendar } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
+import { DateRange } from "react-day-picker";
+import DateRangePicker from "./DateRangePicker";
 
 interface InventoryLogsFiltersProps {
   searchQuery: string;
@@ -12,6 +14,8 @@ interface InventoryLogsFiltersProps {
   warehouseFilter: string;
   onWarehouseChange: (value: string) => void;
   warehouses: Array<{ id: number; name: string }>;
+  dateRange?: DateRange;
+  onDateRangeChange?: (range: DateRange | undefined) => void;
 }
 
 export default function InventoryLogsFilters({
@@ -22,6 +26,8 @@ export default function InventoryLogsFilters({
   warehouseFilter,
   onWarehouseChange,
   warehouses,
+  dateRange,
+  onDateRangeChange,
 }: InventoryLogsFiltersProps) {
   const t = useTranslations("seller.inventory.logs.filters");
 
@@ -47,6 +53,22 @@ export default function InventoryLogsFilters({
             className="w-full pl-10 pr-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
           />
         </div>
+
+        {/* Date Range Filter */}
+        {onDateRangeChange && (
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <Calendar className="w-4 h-4 text-[#7a8451]" />
+              <span className="text-sm font-medium text-[#3b4417]">
+                {t("dateRange")}
+              </span>
+            </div>
+            <DateRangePicker
+              value={dateRange}
+              onChange={onDateRangeChange}
+            />
+          </div>
+        )}
 
         {/* Filters */}
         <div className="flex flex-col lg:flex-row gap-4">

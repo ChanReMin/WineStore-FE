@@ -17,7 +17,10 @@ import SortSelect from "@/components/products/SortSelect";
 import ProductsGrid from "@/components/products/ProductsGrid";
 import Pagination from "@/components/products/Pagination";
 import MobileFilterDrawer from "@/components/products/MobileFilterDrawer";
-import { MOCK_PRODUCTS, MOCK_BRANDS, MOCK_CATEGORIES } from "@/lib/mockData";
+import { fetchShopProducts } from "@/services/productService";
+import { fetchCategories } from "@/services/categoryService";
+import { fetchBrands } from "@/services/brandService";
+import type { Product } from "@/types/product";
 import { Playfair_Display } from "next/font/google";
 
 const displaySerif = Playfair_Display({
@@ -44,6 +47,13 @@ function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  
+  // API data states
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Initialize filters from URL or defaults
   const [filters, setFilters] = useState<ProductFilters>(() => ({
@@ -67,77 +77,71 @@ function ShopContent() {
     page: searchParams.get("page") ? Number(searchParams.get("page")) : 1,
     limit: 9,
   }));
-
-  // Filter and sort products using mock data
-  const { filteredProducts, totalItems, isLoading } = useMemo(() => {
-    let products = [...MOCK_PRODUCTS];
-
-    // Apply search filter
-    if (filters.q) {
-      products = products.filter(
-        (p) =>
-          p.name.toLowerCase().includes(filters.q!.toLowerCase()) ||
-          p.countryOfProduction.toLowerCase().includes(filters.q!.toLowerCase())
-      );
-    }
-
-    // Apply brand filter
-    if (filters.brandId) {
-      products = products.filter((p) => p.brand.id === Number(filters.brandId));
-    }
-
-    // Apply category filter
-    if (filters.categoryId) {
-      // Note: Mock data doesn't have categoryId, so this is placeholder
-      // You can add categoryId to MOCK_PRODUCTS if needed
-    }
-
-    // Apply price filter
-    if (filters.priceMin) {
-      products = products.filter((p) => p.price >= filters.priceMin!);
-    }
-    if (filters.priceMax) {
-      products = products.filter((p) => p.price <= filters.priceMax!);
-    }
-
-    // Apply concentration filter
-    if (filters.concentrationMin) {
-      products = products.filter(
-        (p) => p.concentration >= filters.concentrationMin!
-      );
-    }
-    if (filters.concentrationMax) {
-      products = products.filter(
-        (p) => p.concentration <= filters.concentrationMax!
-      );
-    }
-
-    // Sort products
-    products.sort((a, b) => {
-      let comparison = 0;
-
-      if (filters.sortby === "price") {
-        comparison = a.price - b.price;
-      } else if (filters.sortby === "name") {
-        comparison = a.name.localeCompare(b.name);
+  
+  // Fetch categories and brands on mount
+  useEffect(() => {
+    const loadFiltersData = async () => {
+      try {
+        const [categoriesRes, brandsRes] = await Promise.all([
+          fetchCategories(),
+          fetchBrands(),
+        ]);
+        setCategories(categoriesRes.data.categories);
+        setBrands(brandsRes.data.brands);
+      } catch (error) {
+        console.error("Error loading filters data:", error);
+        // Set empty arrays on error
+        setCategories([]);
+        setBrands([]);
       }
-
-      return filters.sortorder === "asc" ? comparison : -comparison;
-    });
-
-    const totalItems = products.length;
-    const page = filters.page || 1;
-    const limit = filters.limit || 9;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedProducts = products.slice(startIndex, endIndex);
-
-    return {
-      filteredProducts: paginatedProducts,
-      totalItems,
-      isLoading: false,
     };
-  }, [filters]);
+    loadFiltersData();
+  }, []);
+  
+  // Fetch products when filters change
+  useEffect(() => {
+    const loadProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetchShopProducts({
+          page: filters.page,
+          limit: filters.limit,
+          search: filters.q || undefined,
+          categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+          brandId: filters.brandId ? Number(filters.brandId) : undefined,
+          priceFrom: filters.priceMin,
+          priceTo: filters.priceMax,
+          concentrationFrom: filters.concentrationMin,
+          concentrationTo: filters.concentrationMax,
+        });
+        
+        setProducts(response.data.products);
+        setTotalItems(response.data.pagination.totalItems);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        // Set empty array on error
+        setProducts([]);
+        setTotalItems(0);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    loadProducts();
+  }, [
+    filters.page,
+    filters.limit,
+    filters.q,
+    filters.categoryId,
+    filters.brandId,
+    filters.priceMin,
+    filters.priceMax,
+    filters.concentrationMin,
+    filters.concentrationMax,
+  ]);
+
+  // Products are now fetched from API, no need for client-side filtering
+  const filteredProducts = products;
 
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>) => {
@@ -197,7 +201,7 @@ function ShopContent() {
           ? {
               key: "brandId",
               label:
-                MOCK_BRANDS.find(
+                brands.find(
                   (brand) => brand.id === Number(filters.brandId)
                 )?.name || "Brand",
               icon: <Tag className="h-3.5 w-3.5 text-[#7b5b2c]" />,
@@ -208,7 +212,7 @@ function ShopContent() {
           ? {
               key: "categoryId",
               label:
-                MOCK_CATEGORIES.find(
+                categories.find(
                   (category) => category.id === Number(filters.categoryId)
                 )?.name || "Category",
               icon: <Globe2 className="h-3.5 w-3.5 text-[#7b5b2c]" />,
@@ -251,6 +255,8 @@ function ShopContent() {
       filters.priceMax,
       filters.concentrationMin,
       filters.concentrationMax,
+      brands,
+      categories,
       handleFilterChange,
     ]
   );
@@ -530,7 +536,7 @@ function ShopContent() {
                 >
                   <span>
                     {
-                      MOCK_BRANDS.find((b) => b.id === Number(filters.brandId))
+                      brands.find((b) => b.id === Number(filters.brandId))
                         ?.name
                     }
                   </span>
@@ -698,9 +704,9 @@ function ShopContent() {
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
                     <option value="">All Brands</option>
-                    {MOCK_BRANDS.map((brand) => (
+                    {brands.map((brand) => (
                       <option key={brand.id} value={brand.id}>
-                        {brand.name}
+                        {brand.name} - {brand.country}
                       </option>
                     ))}
                   </select>
@@ -734,15 +740,10 @@ function ShopContent() {
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
                     <option value="">All Categories</option>
-                    {MOCK_CATEGORIES.map((category) => (
-                      <optgroup key={category.id} label={category.name}>
-                        <option value={category.id}>{category.name}</option>
-                        {category.children?.map((child) => (
-                          <option key={child.id} value={child.id}>
-                            &nbsp;&nbsp;{child.name}
-                          </option>
-                        ))}
-                      </optgroup>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
                     ))}
                   </select>
                   <svg

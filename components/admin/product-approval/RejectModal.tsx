@@ -4,10 +4,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { X, XCircle, Loader2, AlertTriangle } from "lucide-react";
-import {
-  type ProductApproval,
-  rejectProduct,
-} from "@/lib/adminProductApprovals";
+import { banProduct } from "@/services/productService";
+import type { Product } from "@/types/product";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -18,7 +16,7 @@ import {
 } from "@/components/ui/select";
 
 interface RejectModalProps {
-  product: ProductApproval;
+  product: Product;
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
@@ -52,13 +50,14 @@ export default function RejectModal({
 
     try {
       setLoading(true);
-      await rejectProduct(product.id, reason, note);
+      const noteWithReason = `${t(`reasons.${reason}`)}${note ? `: ${note}` : ""}`;
+      await banProduct(product.id, noteWithReason);
       onSuccess();
       onClose();
       setReason("");
       setNote("");
     } catch (error) {
-      console.error("Error rejecting product:", error);
+      console.error("Error banning product:", error);
     } finally {
       setLoading(false);
     }
@@ -114,7 +113,7 @@ export default function RejectModal({
                     {product.name}
                   </p>
                   <p className="text-sm text-neutral-500 mt-1">
-                    SKU: {product.sku}
+                    ID: {product.id}
                   </p>
                 </div>
 
