@@ -43,12 +43,12 @@ export interface Promotion {
   code: string;
   name: string;
   description: string;
-  discounttype: number;
+  discount_type: number;
   discountTypeText: string;
-  discountvalue: number;
+  discount_value: number;
   minOrderAmount: number;
-  startdate: string;
-  enddate: string;
+  start_date: string;
+  end_date: string;
 }
 
 export interface ShippingFee {
@@ -224,12 +224,12 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
         code: "SUMMER2024",
         name: "Giảm giá mùa hè 2024",
         description: "Giảm 5% cho đơn hàng từ 10 triệu",
-        discounttype: 1,
+        discount_type: 1,
         discountTypeText: "Phần trăm",
-        discountvalue: 5.0,
+        discount_value: 5.0,
         minOrderAmount: 10000000.0,
-        startdate: "2024-06-01T00:00:00Z",
-        enddate: "2024-08-31T23:59:59Z",
+        start_date: "2024-06-01T00:00:00Z",
+        end_date: "2024-08-31T23:59:59Z",
       });
     } else {
       setPromotion(null);
@@ -256,7 +256,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const subtotal = cart.reduce((sum, item) => sum + item.lineTotal, 0);
     const discountAmount = promotion
-      ? (subtotal * promotion.discountvalue) / 100
+      ? (subtotal * promotion.discount_value) / 100
       : 0;
     const shippingCost = shippingFee?.shippingFee || 0;
     const totalAmount = subtotal - discountAmount + shippingCost;

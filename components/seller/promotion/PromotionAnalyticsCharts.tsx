@@ -34,9 +34,9 @@ interface PromotionAnalyticsChartsProps {
     id: number;
     code: string;
     name: string;
-    usedcount: number;
-    maxusage: number;
-    discountvalue: number;
+    used_count: number;
+    max_usage: number;
+    discount_value: number;
   }>;
 }
 
@@ -46,19 +46,19 @@ export default function PromotionAnalyticsCharts({
 }: PromotionAnalyticsChartsProps) {
   // Prepare data for pie chart - top 5 promotions by usage
   const topPromotions = promotions
-    .sort((a, b) => b.usedcount - a.usedcount)
+    .sort((a, b) => b.used_count - a.used_count)
     .slice(0, 5)
     .map((promo, index) => ({
       name: promo.code,
-      value: promo.usedcount,
+      value: promo.used_count,
       fill: COLORS[index % COLORS.length],
     }));
 
   // Prepare data for comparison chart
   const comparisonData = promotions.slice(0, 5).map((promo) => ({
     name: promo.code,
-    used: promo.usedcount,
-    remaining: promo.maxusage - promo.usedcount,
+    used: promo.used_count,
+    remaining: promo.max_usage - promo.used_count,
   }));
 
   const formatCurrency = (value: number) => {

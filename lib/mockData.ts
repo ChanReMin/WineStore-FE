@@ -162,8 +162,8 @@ export const MOCK_PRODUCT_DETAIL = {
       id: 1,
       code: "SUMMER2024",
       name: "Giảm giá mùa hè",
-      discounttype: 1,
-      discountvalue: 10,
+      discount_type: 1,
+      discount_value: 10,
     },
   ],
 };

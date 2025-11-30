@@ -16,7 +16,7 @@ import {
   FileText,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import type { WarehouseRequest } from "@/lib/adminWarehouseApprovals";
+import type { WarehouseRequest } from "@/services/warehouseApprovalService";
 
 interface WarehouseDetailModalProps {
   warehouse: WarehouseRequest;

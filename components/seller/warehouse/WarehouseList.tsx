@@ -104,7 +104,7 @@ export default function WarehouseList({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-      {warehouses.map((warehouse, index) => (
+      {warehouses?.map((warehouse, index) => (
         <motion.div
           key={warehouse.id}
           initial={{ opacity: 0, y: 20 }}
@@ -190,8 +190,7 @@ export default function WarehouseList({
                     {t("list.quantity")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {warehouse.inventory_summary?.totalquantity.toLocaleString() ||
-                      0}
+                    {(warehouse.inventory_summary?.totalquantity ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>

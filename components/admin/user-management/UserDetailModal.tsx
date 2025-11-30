@@ -23,15 +23,14 @@ import {
 import {
   fetchUserDetail,
   fetchUserActivities,
-} from "@/lib/adminUserManagement";
-import type { User } from "@/lib/adminUserManagement";
+} from "@/services/userManagementService";
+import type { User } from "@/services/userManagementService";
 
 interface UserDetailModalProps {
   user: User;
   isOpen: boolean;
   onClose: () => void;
   onEdit: () => void;
-  onResetPassword: () => void;
 }
 
 export default function UserDetailModal({
@@ -39,7 +38,6 @@ export default function UserDetailModal({
   isOpen,
   onClose,
   onEdit,
-  onResetPassword,
 }: UserDetailModalProps) {
   const t = useTranslations("admin.userManagement");
   const [loading, setLoading] = useState(true);
@@ -344,15 +342,16 @@ export default function UserDetailModal({
               >
                 {t("detailModal.close")}
               </motion.button>
-              <motion.button
+              {/* Reset Password feature - Coming soon */}
+              {/* <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={onResetPassword}
+                onClick={() => {}}
                 className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
               >
                 <Key className="w-4 h-4" />
                 {t("detailModal.resetPassword")}
-              </motion.button>
+              </motion.button> */}
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

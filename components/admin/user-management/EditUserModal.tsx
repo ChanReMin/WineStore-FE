@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateUser, type User } from "@/lib/adminUserManagement";
+import { updateUser, type User } from "@/services/userManagementService";
 import { toast } from "react-toastify";
 
 interface EditUserModalProps {
@@ -59,14 +59,11 @@ export default function EditUserModal({
     try {
       setLoading(true);
       await updateUser(user.id, {
-        email: formData.email,
-        userInfo: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phoneNumber: formData.phoneNumber,
-          dateOfBirth: formData.dateOfBirth,
-          gender: formData.gender,
-        },
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
       });
 
       toast.success(t("editModal.success"));

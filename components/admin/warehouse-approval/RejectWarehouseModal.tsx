@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   rejectWarehouse,
   type WarehouseRequest,
-} from "@/lib/adminWarehouseApprovals";
+} from "@/services/warehouseApprovalService";
 
 interface RejectWarehouseModalProps {
   warehouse: WarehouseRequest;

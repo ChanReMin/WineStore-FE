@@ -1,15 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { Camera } from "lucide-react";
 import type { CustomerProfile } from "@/types/profile";
+import AvatarPreviewModal from "./AvatarPreviewModal";
+import AvatarEditModal from "./AvatarEditModal";
 
 interface ProfileHeaderProps {
   profile: CustomerProfile;
+  onAvatarUpdate?: (newAvatarUrl: string) => void;
 }
 
-export default function ProfileHeader({ profile }: ProfileHeaderProps) {
+export default function ProfileHeader({ profile, onAvatarUpdate }: ProfileHeaderProps) {
   const t = useTranslations("profile.header");
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [currentAvatar, setCurrentAvatar] = useState(
+    profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`
+  );
+
+  // Debug: Log state changes
+  console.log("ProfileHeader render - isEditOpen:", isEditOpen, "isPreviewOpen:", isPreviewOpen);
+
+  // Test function to directly open edit modal
+  const testOpenEditModal = () => {
+    console.log("TEST: Opening edit modal directly");
+    setIsEditOpen(true);
+  };
 
   const getGenderText = (gender?: number) => {
     switch (gender) {
@@ -24,15 +43,36 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
     }
   };
 
+  const handleAvatarSave = async (_file: File, previewUrl: string) => {
+    // Mock API call - replace with actual API when available
+    // TODO: Replace with actual API call: await profileService.updateAvatar(file);
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        setCurrentAvatar(previewUrl);
+        onAvatarUpdate?.(previewUrl);
+        resolve();
+      }, 1500);
+    });
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="relative overflow-hidden rounded-lg border border-neutral-200 bg-gradient-to-br from-amber-50 to-white p-8 shadow-sm"
-    >
-      {/* Decorative background */}
-      <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-[#33391d]/5 to-transparent" />
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative overflow-hidden rounded-lg border border-neutral-200 bg-gradient-to-br from-amber-50 to-white p-8 shadow-sm"
+      >
+        {/* Decorative background */}
+        <div className="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-[#33391d]/5 to-transparent" />
+        
+        {/* DEBUG: Test button */}
+        <button
+          onClick={testOpenEditModal}
+          className="absolute top-4 right-4 px-4 py-2 bg-red-500 text-white rounded text-xs z-10"
+        >
+          Open
+        </button>
 
       <div className="relative flex items-start gap-6">
         {/* Avatar */}
@@ -40,24 +80,41 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className="relative"
+          className="relative group"
         >
-          <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-white shadow-lg">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsPreviewOpen(true)}
+            className="relative h-24 w-24 overflow-hidden rounded-full border-4 border-white shadow-lg cursor-pointer"
+          >
             <img
-              src={
-                profile.avatar ||
-                `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.username}`
-              }
+              src={currentAvatar}
               alt={profile.username}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover transition-transform group-hover:scale-110"
             />
-          </div>
-          <motion.div
-            className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full border-2 border-white bg-green-500"
+            {/* Hover Overlay */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <Camera className="w-6 h-6 text-white" />
+            </div>
+          </motion.button>
+          
+          {/* Edit Button */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("Direct edit button clicked");
+              setIsEditOpen(true);
+            }}
+            className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full border-2 border-white bg-[#3b4417] flex items-center justify-center shadow-lg hover:bg-[#2a2f18] transition-colors"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.5, type: "spring" }}
-          />
+          >
+            <Camera className="w-4 h-4 text-white" />
+          </motion.button>
         </motion.div>
 
         {/* Info */}
@@ -138,6 +195,35 @@ export default function ProfileHeader({ profile }: ProfileHeaderProps) {
           </motion.div>
         </div>
       </div>
-    </motion.div>
+
+      </motion.div>
+      
+      {/* Modals - Render outside motion.div to avoid z-index issues */}
+      {/* Always render both modals */}
+      <AvatarPreviewModal
+        isOpen={isPreviewOpen}
+        onClose={() => {
+          console.log("Closing preview modal");
+          setIsPreviewOpen(false);
+        }}
+        onEdit={() => {
+          console.log("Edit button clicked - closing preview and opening edit");
+          setIsPreviewOpen(false);
+          setIsEditOpen(true);
+        }}
+        avatarUrl={currentAvatar}
+        userName={`${profile.firstName} ${profile.lastName}`}
+      />
+
+      <AvatarEditModal
+        isOpen={isEditOpen}
+        onClose={() => {
+          console.log("Closing edit modal");
+          setIsEditOpen(false);
+        }}
+        onSave={handleAvatarSave}
+        currentAvatar={currentAvatar}
+      />
+    </>
   );
 }

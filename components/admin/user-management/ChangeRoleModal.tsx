@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateUserRole, type User } from "@/lib/adminUserManagement";
+import { changeUserRole, type User } from "@/services/userManagementService";
 import { toast } from "react-toastify";
 
 interface ChangeRoleModalProps {
@@ -47,7 +47,7 @@ export default function ChangeRoleModal({
 
     try {
       setLoading(true);
-      await updateUserRole(user.id, role, note);
+      await changeUserRole(user.id, role, note);
 
       toast.success(t("roleModal.success"));
       onSuccess();

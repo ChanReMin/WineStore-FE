@@ -19,6 +19,10 @@ import { DraggablePromotionItem } from "./DraggablePromotionItem";
 import type { Promotion } from "@/types/promotion";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
+import {
+  assignPromotionToProduct,
+  removePromotionFromProduct,
+} from "@/services/promotionService";
 
 interface Product {
   id: number;
@@ -30,11 +34,13 @@ interface Product {
 interface PromotionProductDnDProps {
   promotions: Promotion[];
   initialProducts: Product[];
+  onDataChange?: () => void; // Callback to reload data after changes
 }
 
 export function PromotionProductDnD({
   promotions,
   initialProducts,
+  onDataChange,
 }: PromotionProductDnDProps) {
   const t = useTranslations("seller.promotions.assignment.toast");
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -139,7 +145,7 @@ export function PromotionProductDnD({
   }, []);
 
   const handleDragEnd = useCallback(
-    (event: DragEndEvent) => {
+    async (event: DragEndEvent) => {
       const { active, over } = event;
       setActivePromotion(null);
       toastShownRef.current = false; // Reset flag
@@ -157,86 +163,113 @@ export function PromotionProductDnD({
 
       if (!promotion || !productId) return;
 
-      // Lấy product trước để check và show toast
-      setProducts((prevProducts) => {
-        const targetProduct = prevProducts.find((p) => p.id === productId);
-        if (!targetProduct) return prevProducts;
+      // Lấy product từ state để check
+      const targetProduct = products.find((p) => p.id === productId);
+      if (!targetProduct) return;
 
-        // Kiểm tra xem promotion đã tồn tại chưa
-        const alreadyExists = targetProduct.promotions.some(
-          (p) => p.id === promotion.id
-        );
+      // Kiểm tra xem promotion đã tồn tại chưa
+      const alreadyExists = (targetProduct.promotions || []).some(
+        (p) => p.id === promotion.id
+      );
 
-        // Show toast chỉ 1 lần
+      if (alreadyExists) {
         if (!toastShownRef.current) {
           toastShownRef.current = true;
+          toast.warning(t("assignWarning", { promotion: promotion.name }));
+        }
+        return;
+      }
 
-          if (alreadyExists) {
-            toast.warning(t("assignWarning", { promotion: promotion.name }));
-          } else {
-            toast.success(
-              t("assignSuccess", {
-                promotion: promotion.name,
-                product: targetProduct.name,
-              })
-            );
-          }
+      // Call API to assign promotion
+      try {
+        await assignPromotionToProduct(productId, promotion.id);
+        
+        if (!toastShownRef.current) {
+          toastShownRef.current = true;
+          toast.success(
+            t("assignSuccess", {
+              promotion: promotion.name,
+              product: targetProduct.name,
+            })
+          );
         }
 
-        // Nếu đã tồn tại, không cập nhật state
-        if (alreadyExists) {
-          return prevProducts;
-        }
+        // Update local state
+        setProducts((prevProducts) =>
+          prevProducts.map((product) => {
+            if (product.id === productId) {
+              return {
+                ...product,
+                promotions: [...(product.promotions || []), promotion],
+              };
+            }
+            return product;
+          })
+        );
 
-        // Cập nhật state
-        return prevProducts.map((product) => {
-          if (product.id === productId) {
-            return {
-              ...product,
-              promotions: [...product.promotions, promotion],
-            };
-          }
-          return product;
-        });
-      });
+        // Reload data if callback provided
+        if (onDataChange) {
+          onDataChange();
+        }
+      } catch (error: any) {
+        console.error("Error assigning promotion:", error);
+        toast.error(
+          error?.response?.data?.message || "Không thể gán khuyến mãi"
+        );
+      }
     },
-    [t]
+    [t, products, onDataChange]
   );
 
   const handleRemovePromotion = useCallback(
-    (productId: number, promotionId: number) => {
+    async (productId: number, promotionId: number) => {
       // Lấy thông tin trước khi update để show toast
       const targetProduct = products.find((p) => p.id === productId);
-      const removedPromotion = targetProduct?.promotions.find(
+      const removedPromotion = targetProduct?.promotions?.find(
         (p) => p.id === promotionId
       );
 
-      // Cập nhật state
-      setProducts((prevProducts) =>
-        prevProducts.map((product) => {
-          if (product.id === productId) {
-            return {
-              ...product,
-              promotions: product.promotions.filter(
-                (p) => p.id !== promotionId
-              ),
-            };
-          }
-          return product;
-        })
-      );
+      if (!targetProduct || !removedPromotion) return;
 
-      // Hiển thị toast sau khi cập nhật (outside của setProducts)
-      if (removedPromotion && targetProduct) {
+      try {
+        // Call API to remove promotion
+        await removePromotionFromProduct(productId, promotionId);
+
+        // Cập nhật state
+        setProducts((prevProducts) =>
+          prevProducts.map((product) => {
+            if (product.id === productId) {
+              return {
+                ...product,
+                promotions: (product.promotions || []).filter(
+                  (p) => p.id !== promotionId
+                ),
+              };
+            }
+            return product;
+          })
+        );
+
+        // Hiển thị toast
         toast.info(
           t("removeSuccess", {
             promotion: removedPromotion.name,
             product: targetProduct.name,
           })
         );
+
+        // Reload data if callback provided
+        if (onDataChange) {
+          onDataChange();
+        }
+      } catch (error: any) {
+        console.error("Error removing promotion:", error);
+        toast.error(
+          error?.response?.data?.message || "Không thể gỡ khuyến mãi"
+        );
       }
     },
-    [products, t]
+    [products, t, onDataChange]
   );
 
   // Tạo Set các promotion ID đã được gán (memoized)

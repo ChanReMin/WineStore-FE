@@ -102,8 +102,8 @@ export default function AdminDashboard() {
       >
         <span className="text-sm text-neutral-600">{t("period")}:</span>
         <span className="text-sm font-medium text-[#3b4417]">
-          {new Date(systemData.period.startdate).toLocaleDateString("vi-VN")} -{" "}
-          {new Date(systemData.period.enddate).toLocaleDateString("vi-VN")}
+          {new Date(systemData.period.start_date).toLocaleDateString("vi-VN")} -{" "}
+          {new Date(systemData.period.end_date).toLocaleDateString("vi-VN")}
         </span>
       </motion.div>
 

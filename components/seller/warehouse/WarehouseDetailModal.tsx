@@ -186,7 +186,7 @@ export default function WarehouseDetailModal({
                           {t("detail.totalQuantity")}
                         </p>
                         <p className="text-2xl font-bold text-[#3b4417]">
-                          {warehouse.inventory.totalquantity.toLocaleString()}
+                          {(warehouse.inventory?.totalquantity ?? 0).toLocaleString()}
                         </p>
                       </div>
                       <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -216,54 +216,60 @@ export default function WarehouseDetailModal({
                         {t("detail.recentActivity")}
                       </h4>
                       <div className="space-y-3">
-                        {warehouse.recent_logs.map((log) => (
-                          <motion.div
-                            key={log.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="flex items-center gap-4 p-4 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors"
-                          >
-                            <div
-                              className={`p-2 rounded-full ${
-                                log.type === "IN"
-                                  ? "bg-green-100"
-                                  : "bg-red-100"
-                              }`}
+                        {warehouse.recent_logs && warehouse.recent_logs.length > 0 ? (
+                          warehouse.recent_logs.map((log) => (
+                            <motion.div
+                              key={log.id}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              className="flex items-center gap-4 p-4 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors"
                             >
-                              {log.type === "IN" ? (
-                                <TrendingUp
-                                  size={20}
-                                  className="text-green-600"
-                                />
-                              ) : (
-                                <TrendingDown
-                                  size={20}
-                                  className="text-red-600"
-                                />
-                              )}
-                            </div>
-                            <div className="flex-1">
-                              <p className="font-medium text-[#3b4417]">
-                                {log.productName}
-                              </p>
-                              <p className="text-sm text-[#7a8451]">
-                                {new Date(log.createdAt).toLocaleString(
-                                  "vi-VN"
+                              <div
+                                className={`p-2 rounded-full ${
+                                  log.type === "IN"
+                                    ? "bg-green-100"
+                                    : "bg-red-100"
+                                }`}
+                              >
+                                {log.type === "IN" ? (
+                                  <TrendingUp
+                                    size={20}
+                                    className="text-green-600"
+                                  />
+                                ) : (
+                                  <TrendingDown
+                                    size={20}
+                                    className="text-red-600"
+                                  />
                                 )}
-                              </p>
-                            </div>
-                            <div
-                              className={`text-lg font-bold ${
-                                log.type === "IN"
-                                  ? "text-green-600"
-                                  : "text-red-600"
-                              }`}
-                            >
-                              {log.type === "IN" ? "+" : ""}
-                              {log.quantity}
-                            </div>
-                          </motion.div>
-                        ))}
+                              </div>
+                              <div className="flex-1">
+                                <p className="font-medium text-[#3b4417]">
+                                  {log.productName}
+                                </p>
+                                <p className="text-sm text-[#7a8451]">
+                                  {new Date(log.createdAt).toLocaleString(
+                                    "vi-VN"
+                                  )}
+                                </p>
+                              </div>
+                              <div
+                                className={`text-lg font-bold ${
+                                  log.type === "IN"
+                                    ? "text-green-600"
+                                    : "text-red-600"
+                                }`}
+                              >
+                                {log.type === "IN" ? "+" : ""}
+                                {log.quantity}
+                              </div>
+                            </motion.div>
+                          ))
+                        ) : (
+                          <div className="text-center py-8 text-[#7a8451]">
+                            {t("detail.noRecentActivity")}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

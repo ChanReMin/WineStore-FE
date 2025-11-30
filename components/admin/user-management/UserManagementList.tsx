@@ -34,13 +34,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { fetchUsers, type User } from "@/lib/adminUserManagement";
+import { fetchUsers, type User } from "@/services/userManagementService";
 import UserDetailModal from "./UserDetailModal";
 import CreateUserModal from "./CreateUserModal";
 import EditUserModal from "./EditUserModal";
 import ChangeStatusModal from "./ChangeStatusModal";
 import ChangeRoleModal from "./ChangeRoleModal";
-import ResetPasswordModal from "./ResetPasswordModal";
 
 export default function UserManagementList() {
   const t = useTranslations("admin.userManagement");
@@ -73,7 +72,6 @@ export default function UserManagementList() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showRoleModal, setShowRoleModal] = useState(false);
-  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
 
   const loadData = async (page = 1) => {
     try {
@@ -125,11 +123,6 @@ export default function UserManagementList() {
   const handleChangeRole = (user: User) => {
     setSelectedUser(user);
     setShowRoleModal(true);
-  };
-
-  const handleResetPassword = (user: User) => {
-    setSelectedUser(user);
-    setShowResetPasswordModal(true);
   };
 
   const handleActionComplete = () => {
@@ -831,10 +824,6 @@ export default function UserManagementList() {
               setShowDetailModal(false);
               handleEdit(selectedUser);
             }}
-            onResetPassword={() => {
-              setShowDetailModal(false);
-              handleResetPassword(selectedUser);
-            }}
           />
           <EditUserModal
             user={selectedUser}
@@ -852,12 +841,6 @@ export default function UserManagementList() {
             user={selectedUser}
             isOpen={showRoleModal}
             onClose={() => setShowRoleModal(false)}
-            onSuccess={handleActionComplete}
-          />
-          <ResetPasswordModal
-            user={selectedUser}
-            isOpen={showResetPasswordModal}
-            onClose={() => setShowResetPasswordModal(false)}
             onSuccess={handleActionComplete}
           />
         </>

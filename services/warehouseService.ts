@@ -86,6 +86,26 @@ export interface UpdateWarehouseRequest {
   description: string;
 }
 
+export interface City {
+  name: string;
+  code?: string;
+  storeCount?: number;
+}
+
+export interface CitiesResponse {
+  success: boolean;
+  data: {
+    cities: City[];
+  };
+}
+
+export interface WarehousesByCityResponse {
+  success: boolean;
+  data: {
+    warehouses: Warehouse[];
+  };
+}
+
 export const warehouseService = {
   // Get warehouses list
   async getWarehouses(
@@ -171,6 +191,33 @@ export const warehouseService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting warehouse:", error);
+      throw error;
+    }
+  },
+
+  // Get cities list
+  async getCities(): Promise<CitiesResponse> {
+    try {
+      const response = await axiosInstance.get<CitiesResponse>(
+        "/api/v1/warehouses/cities"
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+      throw error;
+    }
+  },
+
+  // Get warehouses by city
+  async getWarehousesByCity(city: string): Promise<WarehousesByCityResponse> {
+    try {
+      const response = await axiosInstance.get<WarehousesByCityResponse>(
+        "/api/v1/warehouses/by-city",
+        { params: { city } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching warehouses by city:", error);
       throw error;
     }
   },

@@ -4,14 +4,18 @@ export interface Promotion {
   code: string;
   name: string;
   description: string;
-  discounttype: number; // 1: Percentage, 2: Fixed amount
-  discountvalue: number;
-  startdate: string;
-  enddate: string;
-  maxusage: number;
-  usedcount: number;
+  discount_type: number; // 0: Percentage, 1: Fixed amount
+  discount_type_text?: string;
+  discount_value: number;
+  start_date: string;
+  end_date: string;
+  max_usage: number;
+  used_count: number;
+  remaining_usage?: number;
   status: number; // 1: Active, 0: Inactive
-  createdAt: string;
+  status_text?: string;
+  applicable_products_count?: number;
+  created_at: string;
 }
 
 export interface ApplicableProduct {
@@ -25,9 +29,10 @@ export interface PromotionDetail extends Promotion {
 }
 
 export interface Pagination {
-  currentPage: number;
-  totalPages: number;
-  totalItems: number;
+  current_page: number;
+  total_pages: number;
+  total_items: number;
+  per_page?: number;
 }
 
 export interface PromotionListResponse {
@@ -69,11 +74,11 @@ export interface PromotionFormData {
   code: string;
   name: string;
   description: string;
-  discounttype: number;
-  discountvalue: number;
-  startdate: string;
-  enddate: string;
-  maxusage: number;
+  discount_type: number;
+  discount_value: number;
+  start_date: string;
+  end_date: string;
+  max_usage: number;
   productIds?: number[];
   status?: number;
 }

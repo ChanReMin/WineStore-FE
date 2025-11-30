@@ -239,6 +239,25 @@
         "2": "Quốc gia"
       }
     },
+    "locationModal": {
+      "title": "Chọn Địa Chỉ",
+      "description": "Vui lòng cung cấp thông tin địa chỉ để tiếp tục",
+      "city": "Thành phố",
+      "store": "Cửa hàng",
+      "selectCity": "Chọn thành phố",
+      "selectStore": "Chọn cửa hàng",
+      "selectCityFirst": "Chọn thành phố trước",
+      "complete": "Hoàn tất",
+      "loading": "Đang tải...",
+      "loadingCities": "Đang tải danh sách thành phố...",
+      "loadingStores": "Đang tải danh sách cửa hàng...",
+      "error": "Đã xảy ra lỗi",
+      "errorLoadCities": "Không thể tải danh sách thành phố. Vui lòng thử lại.",
+      "errorLoadStores": "Không thể tải danh sách cửa hàng. Vui lòng thử lại.",
+      "errorSelectCity": "Vui lòng chọn thành phố",
+      "errorSelectStore": "Vui lòng chọn cửa hàng",
+      "close": "Đóng"
+    },
     "wineStories": {
       "title": "Những câu chuyện rượu vang mới mẻ",
       "subtitle": "thành lập 1970",
@@ -909,6 +928,7 @@
         "inventoryValue": "Giá trị kho",
         "lowStockProducts": "Sắp hết hàng",
         "recentActivity": "Hoạt động gần đây",
+        "noRecentActivity": "Chưa có hoạt động nào",
         "created": "Tạo:",
         "updated": "Cập nhật:",
         "notFound": "Không tìm thấy thông tin kho hàng",
@@ -1046,6 +1066,41 @@
         "addSuccess": "Thêm địa chỉ thành công!",
         "updateSuccess": "Cập nhật địa chỉ thành công!",
         "error": "Có lỗi xảy ra. Vui lòng thử lại!"
+      }
+    },
+    "avatar": {
+      "preview": {
+        "subtitle": "Ảnh đại diện của bạn",
+        "editButton": "Chỉnh sửa avatar"
+      },
+      "edit": {
+        "title": "Chỉnh sửa Avatar",
+        "subtitle": "Tải lên ảnh đại diện mới của bạn",
+        "currentAvatar": "Avatar hiện tại",
+        "newAvatar": "Avatar mới",
+        "changeImage": "Đổi ảnh",
+        "dropzone": {
+          "title": "Kéo thả ảnh vào đây",
+          "subtitle": "hoặc click để chọn file",
+          "button": "Chọn ảnh",
+          "formats": "PNG, JPG, WEBP tối đa 5MB"
+        },
+        "info": {
+          "title": "Lưu ý:",
+          "formats": "Định dạng: PNG, JPG, WEBP",
+          "maxSize": "Kích thước tối đa: 5MB",
+          "recommended": "Khuyến nghị: Ảnh vuông, tỷ lệ 1:1"
+        },
+        "errors": {
+          "title": "Lỗi tải ảnh",
+          "invalidType": "Định dạng file không hợp lệ. Chỉ chấp nhận PNG, JPG, WEBP",
+          "tooLarge": "File quá lớn. Kích thước tối đa 5MB",
+          "uploadFailed": "Tải ảnh lên thất bại. Vui lòng thử lại"
+        },
+        "save": "Lưu thay đổi",
+        "saving": "Đang lưu...",
+        "cancel": "Hủy",
+        "success": "Cập nhật avatar thành công!"
       }
     },
     "loading": "Đang tải...",
@@ -2168,6 +2223,95 @@
         "actions": "Thao tác",
         "noSellers": "Chưa có người bán nào",
         "noSellersDesc": "Tạo người bán mới để bắt đầu"
+      }
+    },
+    "warehouseApproval": {
+      "title": "Duyệt kho hàng",
+      "subtitle": "Quản lý yêu cầu tạo kho từ người bán",
+      "loading": "Đang tải...",
+      "searchPlaceholder": "Tìm kiếm theo tên kho, địa chỉ, người quản lý...",
+      "products": "sản phẩm",
+      "approved": "đã duyệt",
+      "summary": {
+        "totalPending": "Chờ duyệt",
+        "totalActive": "Đang hoạt động",
+        "totalRequests": "Tổng yêu cầu"
+      },
+      "status": {
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị khóa"
+      },
+      "filters": {
+        "all": "Tất cả",
+        "pending": "Chờ duyệt",
+        "active": "Đang hoạt động",
+        "banned": "Bị khóa",
+        "newest": "Mới nhất",
+        "oldest": "Cũ nhất"
+      },
+      "table": {
+        "warehouse": "Kho hàng",
+        "location": "Địa chỉ",
+        "manager": "Người quản lý",
+        "status": "Trạng thái",
+        "createdAt": "Ngày tạo",
+        "actions": "Thao tác",
+        "noWarehouses": "Không có kho hàng nào",
+        "noWarehousesDesc": "Chưa có yêu cầu tạo kho nào"
+      },
+      "actions": {
+        "viewDetail": "Xem chi tiết",
+        "approve": "Phê duyệt",
+        "reject": "Từ chối"
+      },
+      "pagination": {
+        "showing": "Hiển thị",
+        "of": "trong số"
+      },
+      "detail": {
+        "requestId": "Mã yêu cầu",
+        "location": "Địa chỉ",
+        "description": "Mô tả",
+        "managerInfo": "Thông tin người quản lý",
+        "totalProducts": "sản phẩm",
+        "approved": "đã duyệt",
+        "timeline": "Thời gian",
+        "createdAt": "Ngày tạo",
+        "updatedAt": "Cập nhật lần cuối",
+        "inventorySummary": "Tổng quan kho hàng",
+        "totalQuantity": "Tổng số lượng",
+        "totalValue": "Tổng giá trị",
+        "cancel": "Hủy",
+        "reject": "Từ chối",
+        "approve": "Phê duyệt"
+      },
+      "approve": {
+        "title": "Phê duyệt kho hàng",
+        "subtitle": "Xác nhận phê duyệt yêu cầu tạo kho",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "noteLabel": "Ghi chú",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú về việc phê duyệt...",
+        "noteHint": "Ghi chú sẽ được gửi đến người quản lý kho",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận phê duyệt",
+        "approving": "Đang phê duyệt..."
+      },
+      "reject": {
+        "title": "Từ chối kho hàng",
+        "subtitle": "Xác nhận từ chối yêu cầu tạo kho",
+        "warning": "Cảnh báo: Hành động này không thể hoàn tác",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "reasonLabel": "Lý do từ chối",
+        "reasonPlaceholder": "Nhập lý do từ chối yêu cầu tạo kho...",
+        "reasonHint": "Lý do sẽ được gửi đến người quản lý kho",
+        "reasonRequired": "Vui lòng nhập lý do từ chối",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận từ chối",
+        "rejecting": "Đang từ chối..."
       }
     },
     "userManagement": {

@@ -1,4 +1,6 @@
 // types/product.ts
+import type { Promotion } from "./promotion";
+
 export interface Product {
   id: number;
   name: string;
@@ -34,6 +36,7 @@ export interface Product {
   ratingCount?: number;
   createdAt: string;
   updatedAt: string;
+  promotions?: Promotion[]; // Optional: only included when includePromotions=true
 }
 
 export interface Pagination {

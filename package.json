@@ -63,6 +63,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/recharts": "^1.8.29",
+    "baseline-browser-mapping": "^2.8.32",
     "eslint-config-next": "14.2.15",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
