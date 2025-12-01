@@ -16,8 +16,9 @@ export interface ProductFormData {
   placeTheBottleHorizontally: string;
   avoidVibration: string;
   openedWine: string;
-  use_wine_cabinet: string;
-  images: string[]; // Changed from string to string[] for multiple images
+  useWineCabinet: string;
+  images: string[]; // Base64 strings for preview
+  imageFiles?: File[]; // Actual file objects for upload
   description: string;
 }
 

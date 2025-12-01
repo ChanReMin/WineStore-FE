@@ -24,23 +24,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  fetchProductApprovals,
-  type ProductApproval,
-} from "@/lib/adminProductApprovals";
+import { fetchProducts } from "@/services/productService";
+import type { Product } from "@/types/product";
 import ProductDetailModal from "./ProductDetailModal";
 import ApproveModal from "./ApproveModal";
 import RejectModal from "./RejectModal";
-import RequestChangesModal from "./RequestChangesModal";
+
 
 export default function ProductApprovalList() {
   const t = useTranslations("admin.productApproval");
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<ProductApproval[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [summary, setSummary] = useState({
-    totalPending: 0,
-    totalApprovedToday: 0,
-    totalRejectedToday: 0,
+    total: 0,
+    pending: 0,
+    active: 0,
+    banned: 0,
   });
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -50,33 +49,34 @@ export default function ProductApprovalList() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<
-    "all" | "pending" | "approved" | "rejected"
-  >("all");
-  const [sortBy, setSortBy] = useState<"newest" | "oldest">("newest");
+  const [statusFilter, setStatusFilter] = useState<number | "all">("all");
 
   // Modals
-  const [selectedProduct, setSelectedProduct] =
-    useState<ProductApproval | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
-  const [showRequestChangesModal, setShowRequestChangesModal] = useState(false);
 
   const loadData = async (page = 1) => {
     try {
       setLoading(true);
-      const response = await fetchProductApprovals({
+      const params: any = {
         page,
         limit: 10,
-        status: statusFilter,
-        sort: sortBy,
-      });
+      };
+      
+      // Add status filter to API params
+      if (statusFilter !== "all") {
+        params.status = statusFilter;
+      }
+      
+      const response = await fetchProducts(params);
+      
       setProducts(response.data.products);
       setPagination(response.data.pagination);
       setSummary(response.data.summary);
     } catch (error) {
-      console.error("Error loading product approvals:", error);
+      console.error("Error loading products:", error);
     } finally {
       setLoading(false);
     }
@@ -84,65 +84,54 @@ export default function ProductApprovalList() {
 
   useEffect(() => {
     loadData();
-  }, [statusFilter, sortBy]);
+  }, [statusFilter]);
 
   const handlePageChange = (newPage: number) => {
     loadData(newPage);
   };
 
-  const handleViewDetail = (product: ProductApproval) => {
+  const handleViewDetail = (product: Product) => {
     setSelectedProduct(product);
     setShowDetailModal(true);
   };
 
-  const handleApprove = (product: ProductApproval) => {
+  const handleApprove = (product: Product) => {
     setSelectedProduct(product);
     setShowApproveModal(true);
   };
 
-  const handleReject = (product: ProductApproval) => {
+  const handleReject = (product: Product) => {
     setSelectedProduct(product);
     setShowRejectModal(true);
-  };
-
-  const handleRequestChanges = (product: ProductApproval) => {
-    setSelectedProduct(product);
-    setShowRequestChangesModal(true);
   };
 
   const handleActionComplete = () => {
     loadData(pagination.currentPage);
   };
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadge = (status: number, statusText: string) => {
     const badges = {
-      pending: {
+      0: {
         bg: "bg-amber-50",
         text: "text-amber-700",
         icon: Clock,
-        label: t("status.pending"),
+        label: statusText || t("status.pending"),
       },
-      approved: {
+      1: {
         bg: "bg-emerald-50",
         text: "text-emerald-700",
         icon: CheckCircle,
-        label: t("status.approved"),
+        label: statusText || t("status.approved"),
       },
-      rejected: {
+      2: {
         bg: "bg-red-50",
         text: "text-red-700",
         icon: XCircle,
-        label: t("status.rejected"),
-      },
-      pending_changes: {
-        bg: "bg-blue-50",
-        text: "text-blue-700",
-        icon: AlertCircle,
-        label: t("status.pendingChanges"),
+        label: statusText || t("status.banned"),
       },
     };
 
-    const badge = badges[status as keyof typeof badges] || badges.pending;
+    const badge = badges[status as keyof typeof badges] || badges[0];
     const Icon = badge.icon;
 
     return (
@@ -155,13 +144,8 @@ export default function ProductApprovalList() {
     );
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.seller.fullName
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      product.sku.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) {
@@ -190,21 +174,45 @@ export default function ProductApprovalList() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
+        >
+          <Card className="border-neutral-200 hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-neutral-600 mb-1">
+                    {t("summary.total")}
+                  </p>
+                  <p className="text-3xl font-bold text-neutral-900">
+                    {summary.total}
+                  </p>
+                </div>
+                <div className="bg-neutral-50 p-3 rounded-xl">
+                  <Package className="w-6 h-6 text-neutral-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
         >
           <Card className="border-amber-200 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.totalPending")}
+                    {t("summary.pending")}
                   </p>
                   <p className="text-3xl font-bold text-amber-600">
-                    {summary.totalPending}
+                    {summary.pending}
                   </p>
                 </div>
                 <div className="bg-amber-50 p-3 rounded-xl">
@@ -218,17 +226,17 @@ export default function ProductApprovalList() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
         >
           <Card className="border-emerald-200 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.approvedToday")}
+                    {t("summary.active")}
                   </p>
                   <p className="text-3xl font-bold text-emerald-600">
-                    {summary.totalApprovedToday}
+                    {summary.active}
                   </p>
                 </div>
                 <div className="bg-emerald-50 p-3 rounded-xl">
@@ -242,17 +250,17 @@ export default function ProductApprovalList() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.4 }}
         >
           <Card className="border-red-200 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.rejectedToday")}
+                    {t("summary.banned")}
                   </p>
                   <p className="text-3xl font-bold text-red-600">
-                    {summary.totalRejectedToday}
+                    {summary.banned}
                   </p>
                 </div>
                 <div className="bg-red-50 p-3 rounded-xl">
@@ -267,7 +275,7 @@ export default function ProductApprovalList() {
       {/* Filters */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
@@ -279,34 +287,19 @@ export default function ProductApprovalList() {
             </div>
 
             <Select
-              value={statusFilter}
-              onValueChange={(value: any) => setStatusFilter(value)}
+              value={String(statusFilter)}
+              onValueChange={(value) =>
+                setStatusFilter(value === "all" ? "all" : Number(value))
+              }
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t("filters.all")}</SelectItem>
-                <SelectItem value="pending">{t("filters.pending")}</SelectItem>
-                <SelectItem value="approved">
-                  {t("filters.approved")}
-                </SelectItem>
-                <SelectItem value="rejected">
-                  {t("filters.rejected")}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select
-              value={sortBy}
-              onValueChange={(value: any) => setSortBy(value)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">{t("filters.newest")}</SelectItem>
-                <SelectItem value="oldest">{t("filters.oldest")}</SelectItem>
+                <SelectItem value="0">{t("filters.pending")}</SelectItem>
+                <SelectItem value="1">{t("filters.approved")}</SelectItem>
+                <SelectItem value="2">{t("filters.banned")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -324,16 +317,19 @@ export default function ProductApprovalList() {
                     {t("table.product")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.seller")}
+                    {t("table.category")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
                     {t("table.price")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
+                    {t("table.inventory")}
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
                     {t("table.status")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.submittedAt")}
+                    {t("table.createdAt")}
                   </th>
                   <th className="px-6 py-4 text-right text-xs font-medium text-neutral-600 uppercase tracking-wider">
                     {t("table.actions")}
@@ -352,31 +348,19 @@ export default function ProductApprovalList() {
                       className="hover:bg-neutral-50 transition-colors"
                     >
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-12 h-12 rounded-lg object-cover"
-                          />
-                          <div>
-                            <p className="font-medium text-[#3b4417]">
-                              {product.name}
-                            </p>
-                            <p className="text-sm text-neutral-500">
-                              {product.sku}
-                            </p>
-                          </div>
+                        <div>
+                          <p className="font-medium text-[#3b4417]">
+                            {product.name}
+                          </p>
+                          <p className="text-sm text-neutral-500">
+                            {product.brand.name}
+                          </p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div>
-                          <p className="font-medium text-neutral-900">
-                            {product.seller.fullName}
-                          </p>
-                          <p className="text-sm text-neutral-500">
-                            {product.seller.email}
-                          </p>
-                        </div>
+                        <p className="text-sm text-neutral-900">
+                          {product.category.name}
+                        </p>
                       </td>
                       <td className="px-6 py-4">
                         <p className="font-medium text-neutral-900">
@@ -385,20 +369,17 @@ export default function ProductApprovalList() {
                             currency: "VND",
                           }).format(product.price)}
                         </p>
-                        {product.basePrice > product.price && (
-                          <p className="text-sm text-neutral-500 line-through">
-                            {new Intl.NumberFormat("vi-VN", {
-                              style: "currency",
-                              currency: "VND",
-                            }).format(product.basePrice)}
-                          </p>
-                        )}
                       </td>
                       <td className="px-6 py-4">
-                        {getStatusBadge(product.approvalStatus)}
+                        <p className="text-sm text-neutral-900">
+                          {product.totalInventory}
+                        </p>
+                      </td>
+                      <td className="px-6 py-4">
+                        {getStatusBadge(product.status, product.statusText)}
                       </td>
                       <td className="px-6 py-4 text-sm text-neutral-600">
-                        {new Date(product.submittedAt).toLocaleDateString(
+                        {new Date(product.createdAt).toLocaleDateString(
                           "vi-VN"
                         )}
                       </td>
@@ -413,7 +394,7 @@ export default function ProductApprovalList() {
                           >
                             <Eye className="w-4 h-4" />
                           </motion.button>
-                          {product.approvalStatus === "pending" && (
+                          {product.status === 0 && (
                             <>
                               <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -429,7 +410,7 @@ export default function ProductApprovalList() {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => handleReject(product)}
                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                title={t("actions.reject")}
+                                title={t("actions.ban")}
                               >
                                 <XCircle className="w-4 h-4" />
                               </motion.button>
@@ -496,10 +477,6 @@ export default function ProductApprovalList() {
               setShowDetailModal(false);
               handleReject(selectedProduct);
             }}
-            onRequestChanges={() => {
-              setShowDetailModal(false);
-              handleRequestChanges(selectedProduct);
-            }}
           />
           <ApproveModal
             product={selectedProduct}
@@ -513,12 +490,7 @@ export default function ProductApprovalList() {
             onClose={() => setShowRejectModal(false)}
             onSuccess={handleActionComplete}
           />
-          <RequestChangesModal
-            product={selectedProduct}
-            isOpen={showRequestChangesModal}
-            onClose={() => setShowRequestChangesModal(false)}
-            onSuccess={handleActionComplete}
-          />
+
         </>
       )}
     </div>

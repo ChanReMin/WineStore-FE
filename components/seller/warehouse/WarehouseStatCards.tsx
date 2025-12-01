@@ -23,28 +23,28 @@ export default function WarehouseStatCards({
   const cards = [
     {
       title: t("totalWarehouses"),
-      value: totalWarehouses.toString(),
+      value: (totalWarehouses ?? 0).toString(),
       icon: Warehouse,
       color: "text-[#3b4417]",
       bgColor: "bg-[#f5f3e8]",
     },
     {
       title: t("activeWarehouses"),
-      value: activeWarehouses.toString(),
+      value: (activeWarehouses ?? 0).toString(),
       icon: Package,
       color: "text-green-600",
       bgColor: "bg-green-50",
     },
     {
       title: t("pendingWarehouses"),
-      value: pendingWarehouses.toString(),
+      value: (pendingWarehouses ?? 0).toString(),
       icon: AlertCircle,
       color: "text-[#d4af37]",
       bgColor: "bg-amber-50",
     },
     {
       title: t("bannedWarehouses"),
-      value: bannedWarehouses.toString(),
+      value: (bannedWarehouses ?? 0).toString(),
       icon: Ban,
       color: "text-red-600",
       bgColor: "bg-red-50",

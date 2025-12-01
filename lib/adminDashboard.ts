@@ -4,8 +4,8 @@ export const mockSystemOverview = {
   success: true,
   data: {
     period: {
-      startdate: "2024-11-01",
-      enddate: "2024-11-30",
+      start_date: "2024-11-01",
+      end_date: "2024-11-30",
     },
     business_metrics: {
       totalRevenue: 250000000,

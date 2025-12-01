@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateUserStatus, type User } from "@/lib/adminUserManagement";
+import { changeUserStatus, type User } from "@/services/userManagementService";
 import { toast } from "react-toastify";
 
 interface ChangeStatusModalProps {
@@ -39,7 +39,7 @@ export default function ChangeStatusModal({
 
     try {
       setLoading(true);
-      await updateUserStatus(user.id, status, reason);
+      await changeUserStatus(user.id, status, reason);
 
       toast.success(t("statusModal.success"));
       onSuccess();

@@ -4,11 +4,16 @@ import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Download, Upload, Package } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { mockInventoryList } from "@/lib/inventory.mock";
+import { inventoryService } from "@/services/inventoryService";
+import { warehouseService } from "@/services/warehouseService";
 import InventoryFilters from "@/components/seller/inventory/InventoryFilters";
 import InventoryTable from "@/components/seller/inventory/InventoryTable";
 import InventoryPagination from "@/components/seller/inventory/InventoryPagination";
 import UpdateInventoryModal from "@/components/seller/inventory/UpdateInventoryModal";
+import ExportModal from "@/components/seller/inventory/ExportModal";
+import TransferModal from "@/components/seller/inventory/TransferModal";
+import InventoryDetailModal from "@/components/seller/inventory/InventoryDetailModal";
+import { Button } from "@/components/ui/button";
 import type { InventoryItem } from "@/types/inventory";
 import { toast } from "react-toastify";
 
@@ -21,57 +26,78 @@ export default function InventoryPage() {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  
+  // API data states
+  const [inventoryData, setInventoryData] = useState<InventoryItem[]>([]);
+  const [warehouses, setWarehouses] = useState<Array<{ id: number; name: string }>>([]);
+  const [summary, setSummary] = useState({
+    total: 0,
+    inStock: 0,
+    lowStock: 0,
+    outOfStock: 0,
+    totalValue: 0,
+  });
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Get unique warehouses
-  const warehouses = useMemo(() => {
-    const uniqueWarehouses = new Map();
-    mockInventoryList.data.forEach((item) => {
-      if (!uniqueWarehouses.has(item.warehouse.id)) {
-        uniqueWarehouses.set(item.warehouse.id, {
-          id: item.warehouse.id,
-          name: item.warehouse.name,
-        });
+  // Fetch warehouses
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const response = await warehouseService.getWarehouses({ status: 1 });
+        const warehouseList = response.data.warehouses.map((w) => ({
+          id: w.id,
+          name: w.name,
+        }));
+        setWarehouses(warehouseList);
+      } catch (error) {
+        console.error("Error fetching warehouses:", error);
+        toast.error("Không thể tải danh sách kho hàng");
       }
-    });
-    return Array.from(uniqueWarehouses.values());
+    };
+    fetchWarehouses();
   }, []);
 
-  // Filter inventory
-  const filteredItems = useMemo(() => {
-    let filtered = mockInventoryList.data;
+  // Fetch inventory data
+  useEffect(() => {
+    const fetchInventory = async () => {
+      setIsLoading(true);
+      try {
+        const response = await inventoryService.getInventoryList({
+          page: currentPage,
+          limit: itemsPerPage,
+          warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+          status: statusFilter !== "all" ? statusFilter : undefined,
+          search: searchQuery || undefined,
+        });
 
-    // Filter by status
-    if (statusFilter !== "all") {
-      filtered = filtered.filter((item) => item.status === statusFilter);
-    }
+        setInventoryData(response.data.inventory);
+        setSummary({
+          total: response.data.summary.totalProducts,
+          inStock: response.data.summary.inStock,
+          lowStock: response.data.summary.lowStock,
+          outOfStock: response.data.summary.outOfStock,
+          totalValue: response.data.summary.totalValue,
+        });
+        setPagination(response.data.pagination);
+      } catch (error) {
+        console.error("Error fetching inventory:", error);
+        toast.error("Không thể tải dữ liệu inventory");
+        setInventoryData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    // Filter by warehouse
-    if (warehouseFilter !== "all") {
-      filtered = filtered.filter(
-        (item) => item.warehouse.id === Number.parseInt(warehouseFilter)
-      );
-    }
-
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (item) =>
-          item.product.name.toLowerCase().includes(query) ||
-          item.warehouse.name.toLowerCase().includes(query) ||
-          item.warehouse.location.toLowerCase().includes(query)
-      );
-    }
-
-    return filtered;
-  }, [searchQuery, statusFilter, warehouseFilter]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+    fetchInventory();
+  }, [currentPage, itemsPerPage, warehouseFilter, statusFilter, searchQuery]);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -84,32 +110,60 @@ export default function InventoryPage() {
     setIsUpdateModalOpen(true);
   };
 
+  const handleTransfer = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setIsTransferModalOpen(true);
+  };
+
+  const handleViewDetails = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setIsDetailModalOpen(true);
+  };
+
   const handleUpdateSubmit = async (
     itemId: number,
     type: "in" | "out",
     quantity: number,
     note: string
   ) => {
-    // TODO: Call API
-    toast.success(
-      `${type === "in" ? "Stock In" : "Stock Out"} ${quantity} products #${itemId}${note ? ` - ${note}` : ""} (Mock)`
-    );
-  };
+    try {
+      const item = inventoryData.find(i => i.id === itemId);
+      if (!item) {
+        toast.error("Không tìm thấy sản phẩm");
+        return;
+      }
 
-  // Calculate summary
-  const summary = useMemo(() => {
-    const items = mockInventoryList.data;
-    return {
-      total: items.length,
-      inStock: items.filter((i) => i.status === "inStock").length,
-      lowStock: items.filter((i) => i.status === "lowStock").length,
-      outOfStock: items.filter((i) => i.status === "outOfStock").length,
-      totalValue: items.reduce(
-        (sum, item) => sum + item.product.price * item.quantityOnHand,
-        0
-      ),
-    };
-  }, []);
+      await inventoryService.updateInventory(itemId, {
+        warehouseId: item.warehouse.id,
+        productId: item.product.id,
+        type,
+        quantity,
+        note,
+      });
+      toast.success(
+        `${type === "in" ? "Nhập kho" : "Xuất kho"} ${quantity} sản phẩm thành công`
+      );
+      // Refresh data
+      const response = await inventoryService.getInventoryList({
+        page: currentPage,
+        limit: itemsPerPage,
+        warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+        status: statusFilter !== "all" ? statusFilter : undefined,
+        search: searchQuery || undefined,
+      });
+      setInventoryData(response.data.inventory);
+      setSummary({
+        total: response.data.summary.totalProducts,
+        inStock: response.data.summary.inStock,
+        lowStock: response.data.summary.lowStock,
+        outOfStock: response.data.summary.outOfStock,
+        totalValue: response.data.summary.totalValue,
+      });
+    } catch (error) {
+      console.error("Error updating inventory:", error);
+      toast.error("Không thể cập nhật inventory");
+    }
+  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -128,6 +182,13 @@ export default function InventoryPage() {
           </h1>
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
+        <Button
+          onClick={() => setIsExportModalOpen(true)}
+          className="bg-[#3b4417] hover:bg-[#2a2f18] text-white"
+        >
+          <Download className="w-4 h-4 mr-2" />
+          Xuất dữ liệu
+        </Button>
       </div>
 
       {/* Summary Cards */}
@@ -194,17 +255,25 @@ export default function InventoryPage() {
       />
 
       {/* Inventory Table */}
-      <InventoryTable
-        items={paginatedItems}
-        onUpdateStock={handleUpdateStock}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        </div>
+      ) : (
+        <InventoryTable
+          items={inventoryData}
+          onUpdateStock={handleUpdateStock}
+          onTransfer={handleTransfer}
+          onViewDetails={handleViewDetails}
+        />
+      )}
 
       {/* Pagination */}
-      {filteredItems.length > 0 && (
+      {pagination.totalItems > 0 && (
         <InventoryPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filteredItems.length}
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          totalItems={pagination.totalItems}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
           onItemsPerPageChange={setItemsPerPage}
@@ -217,6 +286,69 @@ export default function InventoryPage() {
         onClose={() => setIsUpdateModalOpen(false)}
         onSubmit={handleUpdateSubmit}
         item={selectedItem}
+      />
+
+      {/* Export Modal */}
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        title="Xuất dữ liệu Inventory"
+        totalItems={pagination.totalItems}
+        filteredItems={pagination.totalItems}
+        onExport={async (config) => {
+          // TODO: Implement actual export API
+          console.log("Export config:", config);
+          toast.success(`Đã xuất ${config.format.toUpperCase()} thành công!`);
+        }}
+      />
+
+      {/* Transfer Modal */}
+      <TransferModal
+        isOpen={isTransferModalOpen}
+        onClose={() => setIsTransferModalOpen(false)}
+        item={selectedItem}
+        warehouses={warehouses}
+        onTransfer={async (config) => {
+          try {
+            await inventoryService.transferInventory({
+              productId: config.productId,
+              fromWarehouseId: config.fromWarehouseId,
+              toWarehouseId: config.toWarehouseId,
+              quantity: config.quantity,
+              note: config.note,
+            });
+            toast.success(`Đã chuyển ${config.quantity} sản phẩm thành công!`);
+            // Refresh data
+            const response = await inventoryService.getInventoryList({
+              page: currentPage,
+              limit: itemsPerPage,
+              warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+              status: statusFilter !== "all" ? statusFilter : undefined,
+              search: searchQuery || undefined,
+            });
+            setInventoryData(response.data.inventory);
+            setSummary({
+              total: response.data.summary.totalProducts,
+              inStock: response.data.summary.inStock,
+              lowStock: response.data.summary.lowStock,
+              outOfStock: response.data.summary.outOfStock,
+              totalValue: response.data.summary.totalValue,
+            });
+          } catch (error) {
+            console.error("Error transferring inventory:", error);
+            toast.error("Không thể chuyển kho");
+          }
+        }}
+      />
+
+      {/* Detail Modal */}
+      <InventoryDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={() => setIsDetailModalOpen(false)}
+        item={selectedItem}
+        onStockIn={handleUpdateStock}
+        onStockOut={handleUpdateStock}
+        onTransfer={handleTransfer}
       />
     </div>
   );

@@ -8,6 +8,8 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
+  ArrowRightLeft,
+  Eye,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import {
@@ -25,11 +27,15 @@ import { useTranslations } from "next-intl";
 interface InventoryTableProps {
   items: InventoryItem[];
   onUpdateStock?: (item: InventoryItem) => void;
+  onTransfer?: (item: InventoryItem) => void;
+  onViewDetails?: (item: InventoryItem) => void;
 }
 
 export default function InventoryTable({
   items,
   onUpdateStock,
+  onTransfer,
+  onViewDetails,
 }: InventoryTableProps) {
   const t = useTranslations("seller.inventory.table");
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
@@ -196,7 +202,18 @@ export default function InventoryTable({
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center justify-end gap-1">
+                      {onViewDetails && (
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => onViewDetails(item)}
+                          className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
+                          title="Xem chi tiết"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </motion.button>
+                      )}
                       {onUpdateStock && (
                         <>
                           <motion.button
@@ -206,7 +223,7 @@ export default function InventoryTable({
                             className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors"
                             title={t("stockIn")}
                           >
-                            <TrendingUp className="w-6 h-6" />
+                            <TrendingUp className="w-5 h-5" />
                           </motion.button>
                           <motion.button
                             whileHover={{ scale: 1.1 }}
@@ -215,9 +232,20 @@ export default function InventoryTable({
                             className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"
                             title={t("stockOut")}
                           >
-                            <TrendingDown className="w-6 h-6" />
+                            <TrendingDown className="w-5 h-5" />
                           </motion.button>
                         </>
+                      )}
+                      {onTransfer && (
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => onTransfer(item)}
+                          className="p-2 rounded-lg hover:bg-[#f5f3e8] text-[#3b4417] transition-colors"
+                          title="Chuyển kho"
+                        >
+                          <ArrowRightLeft className="w-5 h-5" />
+                        </motion.button>
                       )}
                     </div>
                   </TableCell>

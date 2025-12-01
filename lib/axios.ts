@@ -96,17 +96,17 @@ axiosInstance.interceptors.response.use(
           { withCredentials: true }
         );
 
-        const { accessToken } = response.data.data;
+        const { access_token } = response.data.data;
 
         // Cập nhật access token mới vào store
-        setAccessToken(accessToken);
+        setAccessToken(access_token);
 
         // Xử lý các request đang chờ
-        processQueue(null, accessToken);
+        processQueue(null, access_token);
 
         // Retry request ban đầu với token mới
         if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
         }
 
         return axiosInstance(originalRequest);

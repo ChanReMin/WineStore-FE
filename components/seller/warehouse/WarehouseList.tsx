@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { type Warehouse, deleteWarehouse } from "@/lib/sellerWarehouse";
+import { warehouseService, type Warehouse } from "@/services/warehouseService";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 
@@ -77,11 +77,12 @@ export default function WarehouseList({
 
     setDeletingId(warehouse.id);
     try {
-      const result = await deleteWarehouse(warehouse.id);
-      toast.success(t("list.deleteSuccess"));
+      const result = await warehouseService.deleteWarehouse(warehouse.id);
+      toast.success(result.message || t("list.deleteSuccess"));
       onRefresh();
     } catch (error: any) {
-      toast.error(t("list.deleteError"));
+      console.error("Error deleting warehouse:", error);
+      toast.error(error.message || t("list.deleteError"));
     } finally {
       setDeletingId(null);
     }
@@ -103,7 +104,7 @@ export default function WarehouseList({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-      {warehouses.map((warehouse, index) => (
+      {warehouses?.map((warehouse, index) => (
         <motion.div
           key={warehouse.id}
           initial={{ opacity: 0, y: 20 }}
@@ -189,8 +190,7 @@ export default function WarehouseList({
                     {t("list.quantity")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {warehouse.inventory_summary?.totalquantity.toLocaleString() ||
-                      0}
+                    {(warehouse.inventory_summary?.totalquantity ?? 0).toLocaleString()}
                   </p>
                 </div>
               </div>

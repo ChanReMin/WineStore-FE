@@ -7,12 +7,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .min(8, "Password must contain at least 8 characters")
-    .max(100, "Password must not exceed 100 characters")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(
-      /[^A-Za-z0-9]/,
-      "Password must contain at least one special character"
-    ),
+    .max(100, "Password must not exceed 100 characters"),
 
   role: z.enum(["customer", "seller", "admin"]).default("customer"),
 });

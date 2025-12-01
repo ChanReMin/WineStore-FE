@@ -251,7 +251,7 @@ export const orderService = {
       status: 1,
       paymentStatus: 0,
       payment_url:
-        data.paymentMethod_id === 1
+        data.paymentMethodId === 1
           ? "https://payment.vnpay.vn/..."
           : undefined,
     };

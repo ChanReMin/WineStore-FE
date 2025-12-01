@@ -41,7 +41,7 @@ export default function PromotionsTable({
   };
 
   const formatDiscount = (type: number, value: number) => {
-    if (type === 1) {
+    if (type === 0) {
       return `${value}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
@@ -95,8 +95,8 @@ export default function PromotionsTable({
           <TableBody>
             {promotions.map((promo, index) => {
               const usagePercent = getUsagePercentage(
-                promo.usedcount,
-                promo.maxusage
+                promo.used_count,
+                promo.max_usage
               );
 
               return (
@@ -131,8 +131,8 @@ export default function PromotionsTable({
                       <Percent className="w-4 h-4 text-[#d4af37]" />
                       <span className="font-bold text-lg text-[#d4af37]">
                         {formatDiscount(
-                          promo.discounttype,
-                          promo.discountvalue
+                          promo.discount_type,
+                          promo.discount_value
                         )}
                       </span>
                     </div>
@@ -142,13 +142,13 @@ export default function PromotionsTable({
                       <div className="flex items-center gap-2 text-sm">
                         <Calendar className="w-3.5 h-3.5 text-[#7a8451]" />
                         <span className="text-[#3b4417]">
-                          {formatDate(promo.startdate)}
+                          {formatDate(promo.start_date)}
                         </span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Calendar className="w-3.5 h-3.5 text-[#7a8451]" />
                         <span className="text-[#3b4417]">
-                          {formatDate(promo.enddate)}
+                          {formatDate(promo.end_date)}
                         </span>
                       </div>
                     </div>
@@ -158,7 +158,7 @@ export default function PromotionsTable({
                       <div className="flex items-center gap-2">
                         <Users className="w-4 h-4 text-[#7a8451]" />
                         <span className="text-sm font-medium text-[#3b4417]">
-                          {promo.usedcount} / {promo.maxusage}
+                          {promo.used_count} / {promo.max_usage}
                         </span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
@@ -181,8 +181,8 @@ export default function PromotionsTable({
                   <TableCell>
                     <PromotionStatusBadge
                       status={promo.status}
-                      startDate={promo.startdate}
-                      endDate={promo.enddate}
+                      startDate={promo.start_date}
+                      endDate={promo.end_date}
                     />
                   </TableCell>
                   <TableCell>

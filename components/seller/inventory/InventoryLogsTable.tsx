@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import InventoryLogTypeBadge from "./InventoryLogTypeBadge";
-import type { InventoryLog } from "@/types/inventoryLog";
+import type { InventoryLog } from "@/services/inventoryLogService";
 import { useTranslations } from "next-intl";
 
 interface InventoryLogsTableProps {
@@ -104,29 +104,31 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                   </div>
                 </TableCell>
                 <TableCell>
-                  <InventoryLogTypeBadge type={log.type} />
+                  <InventoryLogTypeBadge type={log.type as string} />
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Package className="w-4 h-4 text-[#7a8451]" />
                     <span className="font-medium text-[#3b4417]">
-                      {log.product}
+                      {typeof log.product === 'string' ? log.product : log.product.name}
                     </span>
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-[#7a8451]" />
-                    <span className="text-[#3b4417]">{log.warehouse}</span>
+                    <span className="text-[#3b4417]">
+                      {typeof log.warehouse === 'string' ? log.warehouse : log.warehouse.name}
+                    </span>
                   </div>
                 </TableCell>
                 <TableCell className="text-center">
-                  {getQuantityDisplay(log.type, log.quantity)}
+                  {getQuantityDisplay(log.type as any, log.quantityChange)}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4 text-[#7a8451]" />
-                    <span className="text-[#3b4417]">{log.user}</span>
+                    <span className="text-[#3b4417]">{log.createdBy}</span>
                   </div>
                 </TableCell>
                 <TableCell>
@@ -159,21 +161,23 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
           <div>
             <p className="text-[#7a8451] mb-1">{t("stockIn")}</p>
             <p className="text-xl font-bold text-emerald-600">
-              {logs.filter((l) => l.type === "IN").length}
+              {logs.filter((l) => l.type === "IN" || l.type === "in").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("stockOut")}</p>
             <p className="text-xl font-bold text-red-600">
-              {logs.filter((l) => l.type === "OUT").length}
+              {logs.filter((l) => l.type === "OUT" || l.type === "out").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("others")}</p>
             <p className="text-xl font-bold text-blue-600">
               {
-                logs.filter((l) => l.type === "ADJUST" || l.type === "RETURN")
-                  .length
+                logs.filter((l) => 
+                  l.type === "ADJUST" || l.type === "RETURN" || 
+                  l.type === "adjust" || l.type === "return"
+                ).length
               }
             </p>
           </div>

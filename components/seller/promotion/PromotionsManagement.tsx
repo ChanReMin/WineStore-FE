@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Search, Filter, Download } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { mockGetPromotions } from "@/lib/promotions.mock";
 import PromotionsTable from "./PromotionsTable";
 import PromotionFormModal from "./PromotionFormModal";
 import PromotionDetailModal from "./PromotionDetailModal";
 import PromotionAnalyticsCharts from "./PromotionAnalyticsCharts";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import { mockPromotionStatistics } from "@/lib/promotions.mock";
 import type { Promotion } from "@/types/promotion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +19,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  fetchPromotions,
+  deletePromotion,
+} from "@/services/promotionService";
+import { toast } from "react-toastify";
 
 export default function PromotionsManagement() {
   const t = useTranslations("seller.promotions");
@@ -36,8 +39,39 @@ export default function PromotionsManagement() {
     null
   );
   const [isDeleting, setIsDeleting] = useState(false);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const promotions = mockGetPromotions.data.promotions;
+  // Fetch promotions
+  const loadPromotions = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const statusParam =
+        statusFilter === "all" ? undefined : parseInt(statusFilter);
+      const response = await fetchPromotions({
+        page,
+        limit: 100, // Get all promotions for now
+        search: searchQuery || undefined,
+        status: statusParam,
+      });
+      setPromotions(response.data.promotions);
+      setTotalPages(response.data.pagination.total_pages);
+    } catch (error: any) {
+      console.error("Error fetching promotions:", error);
+      toast.error(
+        error?.response?.data?.message || "Không thể tải danh sách khuyến mãi"
+      );
+      setPromotions([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page, searchQuery, statusFilter]);
+
+  useEffect(() => {
+    loadPromotions();
+  }, [loadPromotions]);
 
   // Filter promotions
   const filteredPromotions = promotions.filter((promo) => {
@@ -69,13 +103,21 @@ export default function PromotionsManagement() {
 
     setIsDeleting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      // TODO: Call API to delete
-      setIsDeleting(false);
+    try {
+      await deletePromotion(promotionToDelete.id);
+      toast.success("Xóa khuyến mãi thành công");
       setIsDeleteModalOpen(false);
       setPromotionToDelete(null);
-    }, 1500);
+      // Reload promotions
+      loadPromotions();
+    } catch (error: any) {
+      console.error("Error deleting promotion:", error);
+      toast.error(
+        error?.response?.data?.message || "Không thể xóa khuyến mãi"
+      );
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const handleCreate = () => {
@@ -86,6 +128,8 @@ export default function PromotionsManagement() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedPromotion(null);
+    // Reload promotions after create/update
+    loadPromotions();
   };
 
   const handleCloseDetailModal = () => {
@@ -187,7 +231,7 @@ export default function PromotionsManagement() {
             {t("summary.totalUsage")}
           </p>
           <p className="text-2xl font-bold text-[#3b4417]">
-            {promotions.reduce((sum, p) => sum + p.usedcount, 0)}
+            {promotions.reduce((sum, p) => sum + p.used_count, 0)}
           </p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-4">
@@ -195,21 +239,9 @@ export default function PromotionsManagement() {
             {t("summary.remaining")}
           </p>
           <p className="text-2xl font-bold text-orange-600">
-            {promotions.reduce((sum, p) => sum + (p.maxusage - p.usedcount), 0)}
+            {promotions.reduce((sum, p) => sum + (p.remaining_usage || (p.max_usage - p.used_count)), 0)}
           </p>
         </div>
-      </motion.div>
-
-      {/* Analytics Charts */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        <PromotionAnalyticsCharts
-          usageData={mockPromotionStatistics.data.usageByDate}
-          promotions={promotions}
-        />
       </motion.div>
 
       {/* Table */}
@@ -218,12 +250,19 @@ export default function PromotionsManagement() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <PromotionsTable
-          promotions={filteredPromotions}
-          onView={handleView}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        {isLoading ? (
+          <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-8 text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417] mx-auto"></div>
+            <p className="text-[#7a8451] mt-4">Đang tải...</p>
+          </div>
+        ) : (
+          <PromotionsTable
+            promotions={filteredPromotions}
+            onView={handleView}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
       </motion.div>
 
       {/* Modals */}

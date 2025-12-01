@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -34,11 +34,7 @@ import {
 import PromotionStatusBadge from "@/components/seller/promotion/PromotionStatusBadge";
 import PromotionFormModal from "@/components/seller/promotion/PromotionFormModal";
 import ConfirmDeleteModal from "@/components/seller/promotion/ConfirmDeleteModal";
-import {
-  mockPromotions,
-  mockPromotionDetail,
-  mockPromotionStatistics,
-} from "@/lib/promotions.mock";
+import { fetchPromotions, fetchPromotionStatistics } from "@/services/promotionService";
 
 export default function PromotionDetailPage() {
   const params = useParams();
@@ -48,10 +44,29 @@ export default function PromotionDetailPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [promotion, setPromotion] = useState<any>(null);
+  const [statistics, setStatistics] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // In real app, fetch data based on promotionId
-  const promotion = mockPromotionDetail.data;
-  const statistics = mockPromotionStatistics.data;
+  useEffect(() => {
+    loadData();
+  }, [promotionId]);
+
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const [promotionRes, statsRes] = await Promise.all([
+        fetchPromotions({ limit: 1 }),
+        fetchPromotionStatistics(Number(promotionId))
+      ]);
+      setPromotion(promotionRes.data.promotions[0]);
+      setStatistics(statsRes.data);
+    } catch (error) {
+      console.error("Error loading data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {
@@ -154,8 +169,8 @@ export default function PromotionDetailPage() {
                 </h3>
                 <PromotionStatusBadge
                   status={promotion.status}
-                  startDate={promotion.startdate}
-                  endDate={promotion.enddate}
+                  startDate={promotion.start_date}
+                  endDate={promotion.end_date}
                 />
               </div>
               <p className="text-xl font-semibold text-[#3b4417] mb-2">
@@ -165,20 +180,20 @@ export default function PromotionDetailPage() {
             </div>
             <div className="flex flex-col items-end gap-2">
               <div className="flex items-center gap-2">
-                {promotion.discounttype === 1 ? (
+                {promotion.discount_type === 1 ? (
                   <Percent className="h-10 w-10 text-[#d4af37]" />
                 ) : (
                   <DollarSign className="h-10 w-10 text-[#d4af37]" />
                 )}
                 <span className="text-4xl font-bold text-[#d4af37]">
                   {formatDiscount(
-                    promotion.discounttype,
-                    promotion.discountvalue
+                    promotion.discount_type,
+                    promotion.discount_value
                   )}
                 </span>
               </div>
               <span className="text-sm text-[#7a8451]">
-                {promotion.discounttype === 1 ? "Giảm theo %" : "Giảm cố định"}
+                {promotion.discount_type === 1 ? "Giảm theo %" : "Giảm cố định"}
               </span>
             </div>
           </div>
@@ -191,7 +206,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {formatDate(promotion.startdate)}
+                  {formatDate(promotion.start_date)}
                 </p>
               </div>
             </div>
@@ -202,7 +217,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {formatDate(promotion.enddate)}
+                  {formatDate(promotion.end_date)}
                 </p>
               </div>
             </div>
@@ -213,7 +228,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-[#3b4417]">
-                  {promotion.usedcount} / {promotion.maxusage}
+                  {promotion.used_count} / {promotion.max_usage}
                 </p>
               </div>
             </div>
@@ -222,7 +237,7 @@ export default function PromotionDetailPage() {
               <div className="flex items-center gap-2">
                 <Package className="h-5 w-5 text-[#7a8451]" />
                 <p className="font-semibold text-orange-600">
-                  {promotion.maxusage - promotion.usedcount}
+                  {promotion.max_usage - promotion.used_count}
                 </p>
               </div>
             </div>
@@ -347,9 +362,9 @@ export default function PromotionDetailPage() {
                 Sản phẩm áp dụng ({promotion.applicableProducts.length})
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {promotion.applicableProducts.map((product, index) => (
+                {promotion.applicableProducts.map((product: any, index: number) => (
                   <motion.div
-                    key={product.id}
+                    key={`product-${product.id}-${index}`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 + index * 0.05 }}

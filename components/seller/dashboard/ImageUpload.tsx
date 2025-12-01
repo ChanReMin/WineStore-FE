@@ -18,7 +18,7 @@ import {
 
 interface ImageUploadProps {
   value: string[];
-  onChange: (images: string[]) => void;
+  onChange: (images: string[], files?: File[]) => void;
   maxFiles?: number;
   maxSizeMB?: number;
   acceptedFormats?: string[];
@@ -38,6 +38,8 @@ export default function ImageUpload({
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [fileObjects, setFileObjects] = useState<File[]>([]);
+
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
 
@@ -52,6 +54,7 @@ export default function ImageUpload({
     }
 
     const newImages: string[] = [];
+    const newFiles: File[] = [];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -63,7 +66,10 @@ export default function ImageUpload({
         continue;
       }
 
-      // Compress and convert to base64
+      // Store original file
+      newFiles.push(file);
+
+      // Create preview (base64)
       try {
         let base64: string;
 
@@ -100,7 +106,9 @@ export default function ImageUpload({
     }
 
     if (newImages.length > 0) {
-      onChange([...value, ...newImages]);
+      const updatedFiles = [...fileObjects, ...newFiles];
+      setFileObjects(updatedFiles);
+      onChange([...value, ...newImages], updatedFiles);
     }
 
     setIsProcessing(false);
@@ -128,7 +136,9 @@ export default function ImageUpload({
 
   const removeImage = (index: number) => {
     const newImages = value.filter((_, i) => i !== index);
-    onChange(newImages);
+    const newFiles = fileObjects.filter((_, i) => i !== index);
+    setFileObjects(newFiles);
+    onChange(newImages, newFiles);
     setError(null);
   };
 

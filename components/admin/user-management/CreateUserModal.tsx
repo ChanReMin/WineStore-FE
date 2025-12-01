@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "@/lib/adminUserManagement";
+import { createUser } from "@/services/userManagementService";
 import { toast } from "react-toastify";
 
 interface CreateUserModalProps {
@@ -49,15 +49,13 @@ export default function CreateUserModal({
       await createUser({
         email: formData.email,
         password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phoneNumber,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
         role: formData.role,
         status: formData.status,
-        userInfo: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phoneNumber: formData.phoneNumber,
-          dateOfBirth: formData.dateOfBirth,
-          gender: formData.gender,
-        },
       });
 
       toast.success(t("createModal.success"));

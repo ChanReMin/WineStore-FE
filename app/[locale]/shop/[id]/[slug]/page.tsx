@@ -9,6 +9,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import { fetchProductDetail, fetchRelatedProducts } from "@/services/productService";
+import type { Product } from "@/types/product";
+import RelatedProducts from "@/components/products/RelatedProducts";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -27,33 +30,90 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "storage"
   >("description");
-  const [product, setProduct] = useState(MOCK_PRODUCT_DETAIL);
-  const [isLoading, setIsLoading] = useState(false);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingRelated, setIsLoadingRelated] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Helper to get product image
+  const getProductImage = (product: Product | null): string => {
+    if (!product) return "/placeholder-wine.jpg";
+    // API returns string, but mock might return array
+    if (typeof product.images === "string") {
+      return product.images || product.thumbnail || "/placeholder-wine.jpg";
+    }
+    return (product.images as any)[0] || product.thumbnail || "/placeholder-wine.jpg";
+  };
 
   // Fetch product by ID from API
   useEffect(() => {
     if (!productId) return;
 
-    const fetchProduct = async () => {
+    const loadProduct = async () => {
       setIsLoading(true);
+      setError(null);
       try {
-        // TODO: Replace with your actual API call
-        // const response = await axios.get(`/api/products/${productId}`);
-        // setProduct(response.data);
-
-        // For now, using mock data
-        console.log("Product ID for API:", productId);
-        console.log("Product slug for SEO:", productSlug);
-        setProduct(MOCK_PRODUCT_DETAIL);
-      } catch (error) {
-        console.error("Error fetching product:", error);
+        const response = await fetchProductDetail(Number(productId));
+        setProduct(response.data);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError("Không thể tải thông tin sản phẩm");
+        // Fallback to mock data
+        setProduct(MOCK_PRODUCT_DETAIL as any);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProduct();
-  }, [productId, productSlug]);
+    loadProduct();
+  }, [productId]);
+
+  // Fetch related products
+  useEffect(() => {
+    if (!productId || !product) return;
+
+    const loadRelatedProducts = async () => {
+      setIsLoadingRelated(true);
+      try {
+        const response = await fetchRelatedProducts(Number(productId));
+        setRelatedProducts(response.data.products);
+      } catch (err) {
+        console.error("Error fetching related products:", err);
+        setRelatedProducts([]);
+      } finally {
+        setIsLoadingRelated(false);
+      }
+    };
+
+    loadRelatedProducts();
+  }, [productId, product]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
+          <p className="mt-4 text-sm text-neutral-600">Đang tải sản phẩm...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error or no product
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg text-neutral-600 mb-4">{error || "Không tìm thấy sản phẩm"}</p>
+          <Link href="/shop" className="text-[#3b4417] underline">
+            Quay lại cửa hàng
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#faf8f5]">
@@ -93,7 +153,7 @@ export default function ProductDetailPage() {
             {/* Single Image - Elegant & Compact */}
             <div className="group relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50 shadow-lg">
               <Image
-                src={product.images[0]}
+                src={getProductImage(product)}
                 alt={product.name}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -127,7 +187,7 @@ export default function ProductDetailPage() {
                 </span>
                 <span className="text-neutral-300">·</span>
                 <span className="text-xs uppercase tracking-wider text-neutral-500">
-                  {product.brand.country}
+                  {product.originCountry || product.countryOfProduction || "Unknown"}
                 </span>
               </motion.div>
 
@@ -191,7 +251,7 @@ export default function ProductDetailPage() {
               </motion.div>
 
               {/* Availability Badge */}
-              {product.inventory.available && (
+              {product.totalInventory > 0 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -488,7 +548,7 @@ export default function ProductDetailPage() {
               className="space-y-6 border-t border-neutral-200/50 pt-8"
             >
               {/* Premium Action Buttons */}
-              {product.inventory.available ? (
+              {product.totalInventory > 0 ? (
                 <div className="space-y-4">
                   {/* Add to Cart with Quantity */}
                   <AddToCartButton
@@ -497,9 +557,9 @@ export default function ProductDetailPage() {
                     productSlug={product.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}
-                    productImage={product.images[0]}
+                    productImage={getProductImage(product)}
                     productPrice={product.price}
-                    maxQuantity={product.inventory.totalquantity}
+                    maxQuantity={product.totalInventory || 99}
                   />
 
                   {/* Secondary Actions */}
@@ -591,6 +651,12 @@ export default function ProductDetailPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Related Products Section */}
+      <RelatedProducts 
+        products={relatedProducts} 
+        isLoading={isLoadingRelated} 
+      />
     </div>
   );
 }

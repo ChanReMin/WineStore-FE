@@ -10,20 +10,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
-interface Product {
-  id: number;
-  name: string;
-  slug: string;
-  thumbnail: string;
-  price: number;
-  basePrice: number;
-  countryOfProduction: string;
-  concentration: number;
-  brand: {
-    id: number;
-    name: string;
-  };
-}
+import type { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
@@ -35,9 +22,14 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { addToCart } = useCartStore();
-  const discount = Math.round(
-    ((product.basePrice - product.price) / product.basePrice) * 100
-  );
+  
+  // Use thumbnail or images, and handle optional fields
+  const imageUrl = product.thumbnail || product.images || "/placeholder-wine.jpg";
+  const country = product.countryOfProduction || product.originCountry || "Unknown";
+  const basePrice = product.basePrice || product.price;
+  const discount = product.basePrice 
+    ? Math.round(((product.basePrice - product.price) / product.basePrice) * 100)
+    : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,7 +45,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       await addToCart(product.id, 1, {
         name: product.name,
         slug: product.slug,
-        image: product.thumbnail,
+        image: imageUrl,
         price: product.price,
         maxQuantity: 99,
       });
@@ -103,7 +95,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         {/* Image Container */}
         <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">
           <Image
-            src={product.thumbnail}
+            src={imageUrl}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -146,18 +138,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
         {/* Content */}
         <div className="relative p-6 bg-linear-to-b from-white to-[#fdfbf5]">
-          {/* Brand with Icon */}
-          <div className="flex items-center justify-between">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#7b5b2c]">
-              {product.brand.name}
-            </p>
-            {/* Rating Stars */}
-          </div>
-
-          {/* Decorative Divider */}
-          <div className="mt-3 flex items-center gap-2">
-            <span className="h-px flex-1 bg-linear-to-r from-transparent via-[#d4af37]/30 to-transparent" />
-          </div>
 
           {/* Name */}
           <h3 className="mt-4 line-clamp-2 min-h-14 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#d4af37] leading-snug">
@@ -167,7 +147,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           {/* Country & Concentration */}
           <div className="mt-3 flex items-center gap-2 text-[12px] text-neutral-600">
             <MapPin size={13} strokeWidth={1.5} className="text-[#7b5b2c]" />
-            <span className="italic">{product.countryOfProduction}</span>
+            <span className="italic">{country}</span>
             <span className="text-[#d4af37]">•</span>
             <span className="font-medium">{product.concentration}% ABV</span>
           </div>
@@ -180,7 +160,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               </span>
               {discount > 0 && (
                 <span className="text-[13px] text-neutral-400 line-through">
-                  {product.basePrice.toLocaleString("vi-VN")}₫
+                  {basePrice.toLocaleString("vi-VN")}₫
                 </span>
               )}
             </div>

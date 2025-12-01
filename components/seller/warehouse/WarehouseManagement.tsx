@@ -17,21 +17,18 @@ import WarehouseList from "./WarehouseList";
 import CreateWarehouseModal from "./CreateWarehouseModal";
 import EditWarehouseModal from "./EditWarehouseModal";
 import WarehouseDetailModal from "./WarehouseDetailModal";
-import {
-  getWarehouses,
-  getWarehouseStatistics,
-  type Warehouse,
-} from "@/lib/sellerWarehouse";
+import { warehouseService, type Warehouse } from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
+import { toast } from "react-toastify";
 
 export default function WarehouseManagement() {
   const t = useTranslations("seller.warehouses");
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [statistics, setStatistics] = useState({
     totalWarehouses: 0,
-    active_warehouses: 0,
-    pending_warehouses: 0,
-    banned_warehouses: 0,
+    activeWarehouses: 0,
+    pendingWarehouses: 0,
+    bannedWarehouses: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -56,22 +53,23 @@ export default function WarehouseManagement() {
     setIsLoading(true);
     try {
       const [warehousesResult, statsResult] = await Promise.all([
-        getWarehouses({
+        warehouseService.getWarehouses({
           status: statusFilter === "all" ? undefined : Number(statusFilter),
           search: searchQuery || undefined,
         }),
-        getWarehouseStatistics(),
+        warehouseService.getWarehouseStatistics(),
       ]);
 
       setWarehouses(warehousesResult.data.warehouses);
       setStatistics({
         totalWarehouses: statsResult.data.totalWarehouses,
-        active_warehouses: statsResult.data.active_warehouses,
-        pending_warehouses: statsResult.data.pending_warehouses,
-        banned_warehouses: statsResult.data.banned_warehouses,
+        activeWarehouses: statsResult.data.activeWarehouses,
+        pendingWarehouses: statsResult.data.pendingWarehouses,
+        bannedWarehouses: statsResult.data.bannedWarehouses,
       });
     } catch (error) {
       console.error("Error loading warehouses:", error);
+      toast.error("Không thể tải dữ liệu kho hàng");
     } finally {
       setIsLoading(false);
     }
@@ -113,9 +111,9 @@ export default function WarehouseManagement() {
       {/* Statistics Cards */}
       <WarehouseStatCards
         totalWarehouses={statistics.totalWarehouses}
-        activeWarehouses={statistics.active_warehouses}
-        pendingWarehouses={statistics.pending_warehouses}
-        bannedWarehouses={statistics.banned_warehouses}
+        activeWarehouses={statistics.activeWarehouses}
+        pendingWarehouses={statistics.pendingWarehouses}
+        bannedWarehouses={statistics.bannedWarehouses}
       />
 
       {/* Filters */}

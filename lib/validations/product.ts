@@ -76,7 +76,7 @@ export const productSchema = z.object({
     .min(1, "Opened wine information is required")
     .max(200, "This field must not exceed 200 characters"),
 
-  use_wine_cabinet: z
+  useWineCabinet: z
     .string()
     .min(1, "Wine cabinet usage information is required")
     .max(200, "This field must not exceed 200 characters"),

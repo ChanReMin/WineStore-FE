@@ -3,21 +3,7 @@
 import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import { Wine, Sparkles } from "lucide-react";
-
-interface Product {
-  id: number;
-  name: string;
-  slug: string;
-  thumbnail: string;
-  price: number;
-  basePrice: number;
-  countryOfProduction: string;
-  concentration: number;
-  brand: {
-    id: number;
-    name: string;
-  };
-}
+import type { Product } from "@/types/product";
 
 interface ProductsGridProps {
   products: Product[];

@@ -79,15 +79,6 @@ export default function AuthModal({
           }
         });
         setErrors(fieldErrors);
-
-        // Show first error in toast
-        const firstIssue = error.issues[0];
-        if (firstIssue) {
-          toast.error(firstIssue.message, {
-            position: "top-right",
-            autoClose: 3000,
-          });
-        }
         return;
       }
     }

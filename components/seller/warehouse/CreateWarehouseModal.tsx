@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { createWarehouse } from "@/lib/sellerWarehouse";
+import { warehouseService } from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
@@ -51,13 +51,14 @@ export default function CreateWarehouseModal({
 
     setIsSubmitting(true);
     try {
-      const result = await createWarehouse(formData);
-      alert(t("success"));
+      const result = await warehouseService.createWarehouse(formData);
+      toast.success(result.message || t("success"));
       setFormData({ name: "", location: "", description: "" });
       onSuccess();
       onClose();
     } catch (error) {
-      alert(t("error"));
+      console.error("Error creating warehouse:", error);
+      toast.error(t("error"));
     } finally {
       setIsSubmitting(false);
     }

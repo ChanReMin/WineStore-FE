@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -11,9 +11,9 @@ import {
   Percent,
   DollarSign,
 } from "lucide-react";
-import { mockPromotions } from "@/lib/promotions.mock";
 import type { Product } from "@/types/product";
 import type { Promotion } from "@/types/promotion";
+import { fetchPromotions } from "@/services/promotionService";
 
 interface AddPromotionToProductModalProps {
   isOpen: boolean;
@@ -32,16 +32,37 @@ export default function AddPromotionToProductModal({
   const [selectedPromotionIds, setSelectedPromotionIds] = useState<number[]>(
     []
   );
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Load promotions when modal opens
+  useState(() => {
+    if (isOpen) {
+      loadPromotions();
+    }
+  });
+
+  const loadPromotions = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetchPromotions({ status: 1, limit: 100 });
+      setPromotions(response.data.promotions);
+    } catch (error) {
+      console.error("Error loading promotions:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Filter active promotions
-  const activePromotions = mockPromotions.filter((p) => p.status === 1);
+  const activePromotions = promotions.filter((p: Promotion) => p.status === 1);
 
   // Filter by search
   const filteredPromotions = useMemo(() => {
     if (!searchQuery) return activePromotions;
     const query = searchQuery.toLowerCase();
     return activePromotions.filter(
-      (p) =>
+      (p: Promotion) =>
         p.code.toLowerCase().includes(query) ||
         p.name.toLowerCase().includes(query) ||
         p.description.toLowerCase().includes(query)
@@ -80,13 +101,13 @@ export default function AddPromotionToProductModal({
   };
 
   const getDiscountText = (promotion: Promotion) => {
-    if (promotion.discounttype === 1) {
-      return `${promotion.discountvalue}%`;
+    if (promotion.discount_type === 1) {
+      return `${promotion.discount_value}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(promotion.discountvalue);
+    }).format(promotion.discount_value);
   };
 
   if (!isOpen || !product) return null;
@@ -139,7 +160,7 @@ export default function AddPromotionToProductModal({
               <p className="text-sm text-[#7a8451] mb-1">Product:</p>
               <p className="font-semibold text-[#3b4417]">{product.name}</p>
               <p className="text-sm text-[#7a8451] mt-1">
-                {product.brand} • {product.category}
+                {product.brand.name} • {product.category.name}
               </p>
             </div>
           </div>
@@ -170,12 +191,12 @@ export default function AddPromotionToProductModal({
                   </p>
                 </div>
               ) : (
-                filteredPromotions.map((promotion) => {
+                filteredPromotions.map((promotion: Promotion) => {
                   const isSelected = selectedPromotionIds.includes(
                     promotion.id
                   );
                   const usagePercent =
-                    (promotion.usedcount / promotion.maxusage) * 100;
+                    (promotion.used_count / promotion.max_usage) * 100;
 
                   return (
                     <motion.button
@@ -226,7 +247,7 @@ export default function AddPromotionToProductModal({
                                       : "bg-emerald-100 text-emerald-700"
                                   }`}
                                 >
-                                  {promotion.usedcount}/{promotion.maxusage} đã
+                                  {promotion.used_count}/{promotion.max_usage} đã
                                   dùng
                                 </span>
                               </div>
@@ -241,7 +262,7 @@ export default function AddPromotionToProductModal({
                             {/* Discount Badge */}
                             <div className="shrink-0 text-right">
                               <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#d4af37] text-white rounded-lg font-bold">
-                                {promotion.discounttype === 1 ? (
+                                {promotion.discount_type === 1 ? (
                                   <Percent className="h-4 w-4" />
                                 ) : (
                                   <DollarSign className="h-4 w-4" />
@@ -255,8 +276,8 @@ export default function AddPromotionToProductModal({
                           <div className="flex items-center gap-2 text-xs text-[#7a8451] mt-2">
                             <Calendar className="h-3 w-3" />
                             <span>
-                              {formatDate(promotion.startdate)} -{" "}
-                              {formatDate(promotion.enddate)}
+                              {formatDate(promotion.start_date)} -{" "}
+                              {formatDate(promotion.end_date)}
                             </span>
                           </div>
                         </div>

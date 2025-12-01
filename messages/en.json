@@ -33,6 +33,7 @@
     "manageOrders": "Manage Orders",
     "products": "Products",
     "seller": "Seller",
+    "admin": "Admin",
     "logout": "Logout"
   },
   "becomeSeller": {
@@ -238,6 +239,25 @@
         "2": "Countries"
       }
     },
+    "locationModal": {
+      "title": "Select Location",
+      "description": "Please provide location information to continue",
+      "city": "City",
+      "store": "Store",
+      "selectCity": "Select a city",
+      "selectStore": "Select a store",
+      "selectCityFirst": "Select a city first",
+      "complete": "Complete",
+      "loading": "Loading...",
+      "loadingCities": "Loading cities...",
+      "loadingStores": "Loading stores...",
+      "error": "An error occurred",
+      "errorLoadCities": "Unable to load cities. Please try again.",
+      "errorLoadStores": "Unable to load stores. Please try again.",
+      "errorSelectCity": "Please select a city",
+      "errorSelectStore": "Please select a store",
+      "close": "Close"
+    },
     "wineStories": {
       "title": "The Fresh New Wine Stories",
       "subtitle": "estd 1970",
@@ -410,7 +430,8 @@
       "seller": "Seller",
       "admin": "Admin",
       "minutesAgo": "{count} minutes ago",
-      "hoursAgo": "{count} hours ago"
+      "hoursAgo": "{count} hours ago",
+      "backtohomepage":"Back to Home"
     },
     "products": {
       "title": "Product Management",
@@ -429,11 +450,13 @@
       },
       "filters": {
         "all": "All",
-        "onSale": "On sale",
+        "active": "Active",
         "category": "Category",
         "allCategories": "All Categories",
         "brand": "Brand",
         "allBrands": "All Brands",
+        "warehouse": "Warehouse",
+        "allWarehouses": "All Warehouses",
         "price": "Price (VND)",
         "from": "From",
         "to": "To",
@@ -649,6 +672,9 @@
         "value": "Value",
         "updated": "Updated",
         "totalProducts": "Total Products",
+        "inStock": "In Stock",
+        "lowStock": "Low Stock",
+        "outOfStock": "Out of Stock",
         "stockIn": "Stock In",
         "stockOut": "Stock Out"
       },
@@ -700,6 +726,7 @@
           "searchPlaceholder": "Search by product, user, note...",
           "transactionType": "Transaction Type",
           "warehouse": "Warehouse",
+          "dateRange": "Date Range",
           "all": "All",
           "in": "In",
           "out": "Out",
@@ -903,6 +930,7 @@
         "inventoryValue": "Inventory Value",
         "lowStockProducts": "Low Stock",
         "recentActivity": "Recent Activity",
+        "noRecentActivity": "No recent activity",
         "created": "Created:",
         "updated": "Updated:",
         "notFound": "Warehouse not found",
@@ -1040,6 +1068,41 @@
         "addSuccess": "Address added successfully!",
         "updateSuccess": "Address updated successfully!",
         "error": "An error occurred. Please try again!"
+      }
+    },
+    "avatar": {
+      "preview": {
+        "subtitle": "Your profile picture",
+        "editButton": "Edit Avatar"
+      },
+      "edit": {
+        "title": "Edit Avatar",
+        "subtitle": "Upload your new profile picture",
+        "currentAvatar": "Current Avatar",
+        "newAvatar": "New Avatar",
+        "changeImage": "Change Image",
+        "dropzone": {
+          "title": "Drag and drop image here",
+          "subtitle": "or click to select file",
+          "button": "Select Image",
+          "formats": "PNG, JPG, WEBP up to 5MB"
+        },
+        "info": {
+          "title": "Note:",
+          "formats": "Formats: PNG, JPG, WEBP",
+          "maxSize": "Maximum size: 5MB",
+          "recommended": "Recommended: Square image, 1:1 ratio"
+        },
+        "errors": {
+          "title": "Upload Error",
+          "invalidType": "Invalid file format. Only PNG, JPG, WEBP accepted",
+          "tooLarge": "File too large. Maximum size is 5MB",
+          "uploadFailed": "Upload failed. Please try again"
+        },
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "success": "Avatar updated successfully!"
       }
     },
     "loading": "Loading...",
@@ -1505,7 +1568,7 @@
           "bio": "Knowledgeable mentor with focus on wine logistics and distribution."
         },
         "10": {
-          "name": "Lucas Lâm",
+          "name": "Lucas Thái",
           "role": "Mentor",
           "bio": "Creative mentor enhancing digital wine experiences."
         },
@@ -1846,38 +1909,37 @@
       "title": "Product Approval Management",
       "subtitle": "Review and approve products from sellers",
       "loading": "Loading...",
-      "searchPlaceholder": "Search by product name, seller, SKU...",
+      "searchPlaceholder": "Search by product name...",
       "summary": {
-        "totalPending": "Pending",
-        "approvedToday": "Approved Today",
-        "rejectedToday": "Rejected Today"
+        "total": "Total Products",
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
       },
       "filters": {
         "all": "All",
         "pending": "Pending",
         "approved": "Approved",
-        "rejected": "Rejected",
-        "newest": "Newest",
-        "oldest": "Oldest"
+        "banned": "Banned"
       },
       "status": {
         "pending": "Pending",
         "approved": "Approved",
-        "rejected": "Rejected",
-        "pendingChanges": "Changes Requested"
+        "banned": "Banned"
       },
       "table": {
         "product": "Product",
-        "seller": "Seller",
+        "category": "Category",
         "price": "Price",
+        "inventory": "Inventory",
         "status": "Status",
-        "submittedAt": "Submitted",
+        "createdAt": "Created",
         "actions": "Actions"
       },
       "actions": {
         "viewDetail": "View Details",
         "approve": "Approve",
-        "reject": "Reject"
+        "ban": "Ban"
       },
       "pagination": {
         "showing": "Showing",
@@ -1886,33 +1948,28 @@
       "detail": {
         "title": "Product Details",
         "productId": "Product ID",
-        "images": "Product Images",
         "productInfo": "Product Information",
         "productName": "Product Name",
-        "sku": "SKU",
         "category": "Category",
         "brand": "Brand",
         "price": "Price",
-        "wineDetails": "Wine Details",
-        "grapeVariety": "Grape Variety",
+        "profitMargin": "Profit Margin",
+        "additionalDetails": "Additional Details",
         "concentration": "Alcohol Content",
-        "vintageYear": "Vintage Year",
-        "capacity": "Capacity",
-        "productionArea": "Production Area",
-        "idealTemperature": "Ideal Temperature",
-        "description": "Description",
-        "sellerInfo": "Seller Information",
-        "sellerName": "Seller Name",
-        "totalProducts": "Total Products",
-        "approvedProducts": "Approved",
-        "rejectedProducts": "Rejected",
+        "inventory": "Inventory",
+        "inStock": "In Stock",
+        "outOfStock": "Out of Stock",
+        "sold": "Sold",
         "rating": "Rating",
-        "submissionInfo": "Submission Information",
-        "submittedAt": "Submitted At",
-        "createdAt": "Created At",
-        "approve": "Approve Product",
-        "reject": "Reject",
-        "requestChanges": "Request Changes"
+        "description": "Product Description",
+        "timeline": "Timeline",
+        "submissionInfo": "Product Information",
+        "createdAt": "Created",
+        "updatedAt": "Updated",
+        "approvedAt": "Approved At",
+        "close": "Close",
+        "approve": "Approve",
+        "ban": "Ban"
       },
       "approveModal": {
         "title": "Approve Product",
@@ -1926,11 +1983,11 @@
         "approving": "Approving..."
       },
       "rejectModal": {
-        "title": "Reject Product",
+        "title": "Ban Product",
         "productName": "Product Name",
-        "warningMessage": "The seller will be notified of the rejection. Please provide a clear reason.",
-        "reason": "Rejection Reason",
-        "selectReason": "Please select a rejection reason",
+        "warningMessage": "The product will be banned and cannot be displayed. Please provide a clear reason.",
+        "reason": "Ban Reason",
+        "selectReason": "Please select a ban reason",
         "selectReasonPlaceholder": "Select reason...",
         "reasons": {
           "incomplete_info": "Incomplete Information",
@@ -1961,95 +2018,6 @@
         "cancel": "Cancel",
         "send": "Send Request",
         "sending": "Sending..."
-      }
-    },
-    "warehouseApproval": {
-      "title": "Warehouse Approval Management",
-      "subtitle": "Review and approve warehouse requests from sellers",
-      "loading": "Loading...",
-      "searchPlaceholder": "Search by warehouse name, location, seller...",
-      "products": "products",
-      "approved": "approved",
-      "summary": {
-        "totalPending": "Pending",
-        "totalActive": "Active",
-        "totalRequests": "Total Requests"
-      },
-      "filters": {
-        "all": "All",
-        "pending": "Pending",
-        "active": "Active",
-        "banned": "Banned",
-        "newest": "Newest",
-        "oldest": "Oldest"
-      },
-      "status": {
-        "pending": "Pending",
-        "active": "Active",
-        "banned": "Banned"
-      },
-      "actions": {
-        "viewDetail": "View Details",
-        "approve": "Approve",
-        "reject": "Reject"
-      },
-      "table": {
-        "warehouse": "Warehouse",
-        "location": "Location",
-        "manager": "Manager",
-        "status": "Status",
-        "createdAt": "Created",
-        "actions": "Actions",
-        "noWarehouses": "No requests found",
-        "noWarehousesDesc": "No warehouse creation requests from sellers yet"
-      },
-      "pagination": {
-        "showing": "Showing",
-        "of": "of"
-      },
-      "detail": {
-        "requestId": "Request ID",
-        "location": "Warehouse Location",
-        "description": "Description",
-        "managerInfo": "Manager Information",
-        "totalProducts": "products",
-        "approved": "approved",
-        "timeline": "Timeline",
-        "createdAt": "Created At",
-        "updatedAt": "Updated At",
-        "inventorySummary": "Inventory Summary",
-        "totalQuantity": "Total Quantity",
-        "totalValue": "Total Value",
-        "cancel": "Close",
-        "reject": "Reject",
-        "approve": "Approve Warehouse"
-      },
-      "approve": {
-        "title": "Approve Warehouse",
-        "subtitle": "Approve warehouse creation request",
-        "warehouseName": "Warehouse Name",
-        "manager": "Manager",
-        "noteLabel": "Note",
-        "optional": "optional",
-        "notePlaceholder": "Add note about approval...",
-        "noteHint": "Note will be sent to seller via notification",
-        "cancel": "Cancel",
-        "approving": "Approving...",
-        "confirm": "Confirm Approval"
-      },
-      "reject": {
-        "title": "Reject Warehouse Request",
-        "subtitle": "Reject and delete request",
-        "warning": "Warning: Request will be permanently deleted!",
-        "warehouseName": "Warehouse Name",
-        "manager": "Manager",
-        "reasonLabel": "Rejection Reason",
-        "reasonPlaceholder": "Enter reason for rejecting warehouse request...",
-        "reasonHint": "Reason will be sent to seller via notification",
-        "reasonRequired": "Please enter rejection reason",
-        "cancel": "Cancel",
-        "rejecting": "Processing...",
-        "confirm": "Confirm Rejection"
       }
     },
     "sellerManagement": {
@@ -2170,6 +2138,95 @@
         "noSellersDesc": "Create a new seller to get started"
       }
     },
+    "warehouseApproval": {
+      "title": "Warehouse Approval",
+      "subtitle": "Manage warehouse creation requests from sellers",
+      "loading": "Loading...",
+      "searchPlaceholder": "Search by warehouse name, location, manager...",
+      "products": "products",
+      "approved": "approved",
+      "summary": {
+        "totalPending": "Pending",
+        "totalActive": "Active",
+        "totalRequests": "Total Requests"
+      },
+      "status": {
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned"
+      },
+      "filters": {
+        "all": "All",
+        "pending": "Pending",
+        "active": "Active",
+        "banned": "Banned",
+        "newest": "Newest",
+        "oldest": "Oldest"
+      },
+      "table": {
+        "warehouse": "Warehouse",
+        "location": "Location",
+        "manager": "Manager",
+        "status": "Status",
+        "createdAt": "Created At",
+        "actions": "Actions",
+        "noWarehouses": "No warehouses",
+        "noWarehousesDesc": "No warehouse requests yet"
+      },
+      "actions": {
+        "viewDetail": "View Detail",
+        "approve": "Approve",
+        "reject": "Reject"
+      },
+      "pagination": {
+        "showing": "Showing",
+        "of": "of"
+      },
+      "detail": {
+        "requestId": "Request ID",
+        "location": "Location",
+        "description": "Description",
+        "managerInfo": "Manager Information",
+        "totalProducts": "products",
+        "approved": "approved",
+        "timeline": "Timeline",
+        "createdAt": "Created At",
+        "updatedAt": "Last Updated",
+        "inventorySummary": "Inventory Summary",
+        "totalQuantity": "Total Quantity",
+        "totalValue": "Total Value",
+        "cancel": "Cancel",
+        "reject": "Reject",
+        "approve": "Approve"
+      },
+      "approve": {
+        "title": "Approve Warehouse",
+        "subtitle": "Confirm warehouse creation approval",
+        "warehouseName": "Warehouse Name",
+        "manager": "Manager",
+        "noteLabel": "Note",
+        "optional": "optional",
+        "notePlaceholder": "Add a note about the approval...",
+        "noteHint": "Note will be sent to the warehouse manager",
+        "cancel": "Cancel",
+        "confirm": "Confirm Approval",
+        "approving": "Approving..."
+      },
+      "reject": {
+        "title": "Reject Warehouse",
+        "subtitle": "Confirm warehouse creation rejection",
+        "warning": "Warning: This action cannot be undone",
+        "warehouseName": "Warehouse Name",
+        "manager": "Manager",
+        "reasonLabel": "Rejection Reason",
+        "reasonPlaceholder": "Enter reason for rejecting the warehouse request...",
+        "reasonHint": "Reason will be sent to the warehouse manager",
+        "reasonRequired": "Please enter a rejection reason",
+        "cancel": "Cancel",
+        "confirm": "Confirm Rejection",
+        "rejecting": "Rejecting..."
+      }
+    },
     "userManagement": {
       "title": "User Management",
       "subtitle": "Manage all users in the system",
@@ -2208,7 +2265,8 @@
       },
       "stats": {
         "orders": "orders",
-        "addresses": "addresses"
+        "addresses": "addresses",
+        "spent": "spent"
       },
       "table": {
         "user": "User",

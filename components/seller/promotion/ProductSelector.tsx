@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, Package, Check } from "lucide-react";
-import { mockProductList } from "@/lib/products.mock";
+import { fetchProducts } from "@/services/productService";
+import type { Product } from "@/types/product";
 
 interface ProductSelectorProps {
   selectedProductIds: number[];
@@ -16,26 +17,44 @@ export default function ProductSelector({
 }: ProductSelectorProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [availableProducts, setAvailableProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Get all available products (status = 2: Đang bán)
-  const availableProducts = mockProductList.data.products.filter(
-    (p) => p.status === 2
-  );
+  // Fetch products when component mounts or expands
+  useEffect(() => {
+    if (isExpanded && availableProducts.length === 0) {
+      loadProducts();
+    }
+  }, [isExpanded]);
+
+  const loadProducts = async () => {
+    setIsLoading(true);
+    try {
+      // Fetch products with status = 2 (active/selling)
+      const response = await fetchProducts({ status: 2, limit: 100 });
+      setAvailableProducts(response.data.products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setAvailableProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Filter products by search
   const filteredProducts = useMemo(() => {
     if (!searchQuery) return availableProducts;
     const query = searchQuery.toLowerCase();
     return availableProducts.filter(
-      (p) =>
+      (p: Product) =>
         p.name.toLowerCase().includes(query) ||
-        p.brand.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query)
+        p.brand.name.toLowerCase().includes(query) ||
+        p.category.name.toLowerCase().includes(query)
     );
   }, [searchQuery, availableProducts]);
 
   // Get selected products details
-  const selectedProducts = availableProducts.filter((p) =>
+  const selectedProducts = availableProducts.filter((p: Product) =>
     selectedProductIds.includes(p.id)
   );
 
@@ -48,7 +67,7 @@ export default function ProductSelector({
   };
 
   const handleSelectAll = () => {
-    onChange(filteredProducts.map((p) => p.id));
+    onChange(filteredProducts.map((p: Product) => p.id));
   };
 
   const handleDeselectAll = () => {
@@ -77,7 +96,7 @@ export default function ProductSelector({
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {selectedProducts.map((product) => (
+            {selectedProducts.map((product: Product) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -165,13 +184,18 @@ export default function ProductSelector({
 
               {/* Product List */}
               <div className="max-h-[400px] overflow-y-auto space-y-2 pr-2">
-                {filteredProducts.length === 0 ? (
+                {isLoading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417] mx-auto"></div>
+                    <p className="text-sm text-[#7a8451] mt-2">Đang tải...</p>
+                  </div>
+                ) : filteredProducts.length === 0 ? (
                   <div className="text-center py-8 text-[#7a8451]">
                     <Package className="h-12 w-12 mx-auto mb-2 opacity-50" />
                     <p className="text-sm">Không tìm thấy sản phẩm</p>
                   </div>
                 ) : (
-                  filteredProducts.map((product) => {
+                  filteredProducts.map((product: Product) => {
                     const isSelected = selectedProductIds.includes(product.id);
                     return (
                       <motion.button
@@ -212,11 +236,11 @@ export default function ProductSelector({
                           </p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-xs text-[#7a8451]">
-                              {product.brand}
+                              {product.brand.name}
                             </span>
                             <span className="text-xs text-[#7a8451]">•</span>
                             <span className="text-xs text-[#7a8451]">
-                              {product.category}
+                              {product.category.name}
                             </span>
                           </div>
                         </div>

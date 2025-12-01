@@ -28,7 +28,7 @@ import {
 import {
   fetchWarehouseRequests,
   type WarehouseRequest,
-} from "@/lib/adminWarehouseApprovals";
+} from "@/services/warehouseApprovalService";
 import WarehouseDetailModal from "./WarehouseDetailModal";
 import ApproveWarehouseModal from "./ApproveWarehouseModal";
 import RejectWarehouseModal from "./RejectWarehouseModal";

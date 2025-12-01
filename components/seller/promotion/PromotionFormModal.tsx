@@ -20,7 +20,11 @@ import { promotionSchema } from "@/lib/validations/promotion";
 import { z } from "zod";
 import { toast } from "react-toastify";
 import type { PromotionFormData } from "@/types/promotion";
-import { mockPromotions } from "@/lib/promotions.mock";
+import {
+  createPromotion,
+  updatePromotion,
+  fetchPromotionDetail,
+} from "@/services/promotionService";
 
 interface PromotionFormModalProps {
   isOpen: boolean;
@@ -34,41 +38,75 @@ export default function PromotionFormModal({
   promotionId,
 }: PromotionFormModalProps) {
   const isEdit = promotionId !== null && promotionId !== undefined;
-  const existingPromotion = isEdit
-    ? mockPromotions.find((p) => p.id === promotionId)
-    : null;
 
   const [formData, setFormData] = useState<PromotionFormData>({
     code: "",
     name: "",
     description: "",
-    discounttype: 1,
-    discountvalue: 0,
-    startdate: "",
-    enddate: "",
-    maxusage: 100,
+    discount_type: 0,
+    discount_value: 0,
+    start_date: "",
+    end_date: "",
+    max_usage: 100,
     productIds: [],
     status: 1,
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Load promotion data when editing
   useEffect(() => {
-    if (existingPromotion) {
+    if (isEdit && promotionId && isOpen) {
+      loadPromotionData();
+    } else if (!isEdit && isOpen) {
+      // Reset form for new promotion
       setFormData({
-        code: existingPromotion.code,
-        name: existingPromotion.name,
-        description: existingPromotion.description,
-        discounttype: existingPromotion.discounttype,
-        discountvalue: existingPromotion.discountvalue,
-        startdate: existingPromotion.startdate.split("T")[0],
-        enddate: existingPromotion.enddate.split("T")[0],
-        maxusage: existingPromotion.maxusage,
-        status: existingPromotion.status,
+        code: "",
+        name: "",
+        description: "",
+        discount_type: 0,
+        discount_value: 0,
+        start_date: "",
+        end_date: "",
+        max_usage: 100,
+        productIds: [],
+        status: 1,
       });
+      setErrors({});
     }
-  }, [existingPromotion]);
+  }, [isEdit, promotionId, isOpen]);
+
+  const loadPromotionData = async () => {
+    if (!promotionId) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetchPromotionDetail(promotionId);
+      const promotion = response.data;
+      setFormData({
+        code: promotion.code,
+        name: promotion.name,
+        description: promotion.description,
+        discount_type: promotion.discount_type,
+        discount_value: promotion.discount_value,
+        start_date: promotion.start_date.split("T")[0],
+        end_date: promotion.end_date.split("T")[0],
+        max_usage: promotion.max_usage,
+        status: promotion.status,
+        productIds: promotion.applicableProducts?.map((p) => p.id) || [],
+      });
+    } catch (error: any) {
+      console.error("Error loading promotion:", error);
+      toast.error(
+        error?.response?.data?.message || "Không thể tải thông tin khuyến mãi"
+      );
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const validateForm = () => {
     try {
@@ -104,11 +142,36 @@ export default function PromotionFormModal({
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Format dates with timezone before sending to API
+      const formattedData = {
+        ...formData,
+        start_date: formData.start_date
+          ? `${formData.start_date}T00:00:00Z`
+          : formData.start_date,
+        end_date: formData.end_date
+          ? `${formData.end_date}T23:59:59Z`
+          : formData.end_date,
+      };
+
+      if (isEdit && promotionId) {
+        // Update existing promotion
+        await updatePromotion(promotionId, formattedData);
+        toast.success("Cập nhật khuyến mãi thành công");
+      } else {
+        // Create new promotion
+        await createPromotion(formattedData);
+        toast.success("Tạo khuyến mãi thành công");
+      }
       onClose();
-    }, 1000);
+    } catch (error: any) {
+      console.error("Error saving promotion:", error);
+      toast.error(
+        error?.response?.data?.message || "Không thể lưu khuyến mãi"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -148,27 +211,36 @@ export default function PromotionFormModal({
         >
           {/* Header */}
           <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#d4d6b4] bg-[#f5f3e8] px-6 py-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3b4417]">
-                <Tag className="h-5 w-5 text-amber-50" />
+            {isLoading ? (
+              <div className="flex items-center gap-3">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417]"></div>
+                <p className="text-[#7a8451]">Đang tải...</p>
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-[#3b4417]">
-                  {isEdit ? "Chỉnh sửa khuyến mãi" : "Tạo khuyến mãi mới"}
-                </h2>
-                <p className="text-sm text-[#7a8451]">
-                  {isEdit
-                    ? "Cập nhật thông tin khuyến mãi"
-                    : "Điền thông tin để tạo khuyến mãi"}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="rounded-lg p-2 text-[#7a8451] transition-colors hover:bg-white"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            ) : (
+              <>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3b4417]">
+                    <Tag className="h-5 w-5 text-amber-50" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-[#3b4417]">
+                      {isEdit ? "Chỉnh sửa khuyến mãi" : "Tạo khuyến mãi mới"}
+                    </h2>
+                    <p className="text-sm text-[#7a8451]">
+                      {isEdit
+                        ? "Cập nhật thông tin khuyến mãi"
+                        : "Điền thông tin để tạo khuyến mãi"}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="rounded-lg p-2 text-[#7a8451] transition-colors hover:bg-white"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </>
+            )}
           </div>
 
           {/* Form */}
@@ -236,28 +308,28 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="discounttype"
+                  htmlFor="discount_type"
                   className="text-[#3b4417] font-semibold"
                 >
                   Loại giảm giá *
                 </Label>
                 <Select
-                  value={formData.discounttype.toString()}
+                  value={formData.discount_type.toString()}
                   onValueChange={(value) =>
-                    handleChange("discounttype", parseInt(value))
+                    handleChange("discount_type", parseInt(value))
                   }
                 >
                   <SelectTrigger className="border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">
+                    <SelectItem value="0">
                       <div className="flex items-center gap-2">
                         <Percent className="h-4 w-4 text-[#d4af37]" />
                         Phần trăm (%)
                       </div>
                     </SelectItem>
-                    <SelectItem value="2">
+                    <SelectItem value="1">
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-4 w-4 text-[#d4af37]" />
                         Số tiền cố định (VNĐ)
@@ -269,34 +341,34 @@ export default function PromotionFormModal({
 
               <div className="space-y-2">
                 <Label
-                  htmlFor="discountvalue"
+                  htmlFor="discount_value"
                   className="text-[#3b4417] font-semibold"
                 >
                   Giá trị giảm *
                 </Label>
-                <div className="relative">
-                  {formData.discounttype === 1 ? (
-                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                  ) : (
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                  )}
-                  <Input
-                    id="discountvalue"
-                    type="number"
-                    value={formData.discountvalue}
-                    onChange={(e) =>
-                      handleChange("discountvalue", parseFloat(e.target.value))
-                    }
-                    placeholder={
-                      formData.discounttype === 1 ? "VD: 10" : "VD: 100000"
-                    }
-                    className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
-                    min="0"
-                    step={formData.discounttype === 1 ? "1" : "1000"}
-                  />
-                </div>
-                {errors.discountvalue && (
-                  <p className="text-xs text-red-600">{errors.discountvalue}</p>
+                  <div className="relative">
+                    {formData.discount_type === 0 ? (
+                      <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
+                    ) : (
+                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
+                    )}
+                    <Input
+                      id="discount_value"
+                      type="number"
+                      value={formData.discount_value}
+                      onChange={(e) =>
+                        handleChange("discount_value", parseFloat(e.target.value))
+                      }
+                      placeholder={
+                        formData.discount_type === 0 ? "VD: 10" : "VD: 100000"
+                      }
+                      className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
+                      min="0"
+                      step={formData.discount_type === 0 ? "1" : "1000"}
+                    />
+                  </div>
+                {errors.discount_value && (
+                  <p className="text-xs text-red-600">{errors.discount_value}</p>
                 )}
               </div>
             </div>
@@ -305,32 +377,32 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="startdate"
+                  htmlFor="start_date"
                   className="text-[#3b4417] font-semibold"
                 >
                   Ngày bắt đầu *
                 </Label>
                 <DatePicker
-                  value={formData.startdate}
-                  onChange={(date) => handleChange("startdate", date)}
+                  value={formData.start_date}
+                  onChange={(date) => handleChange("start_date", date)}
                   placeholder="Chọn ngày bắt đầu"
-                  error={errors.startdate}
+                  error={errors.start_date}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label
-                  htmlFor="enddate"
+                  htmlFor="end_date"
                   className="text-[#3b4417] font-semibold"
                 >
                   Ngày kết thúc *
                 </Label>
                 <DatePicker
-                  value={formData.enddate}
-                  onChange={(date) => handleChange("enddate", date)}
+                  value={formData.end_date}
+                  onChange={(date) => handleChange("end_date", date)}
                   placeholder="Chọn ngày kết thúc"
-                  minDate={formData.startdate || undefined}
-                  error={errors.enddate}
+                  minDate={formData.start_date || undefined}
+                  error={errors.end_date}
                 />
               </div>
             </div>
@@ -339,7 +411,7 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label
-                  htmlFor="maxusage"
+                  htmlFor="max_usage"
                   className="text-[#3b4417] font-semibold"
                 >
                   Số lượt sử dụng tối đa *
@@ -347,19 +419,19 @@ export default function PromotionFormModal({
                 <div className="relative">
                   <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
                   <Input
-                    id="maxusage"
+                    id="max_usage"
                     type="number"
-                    value={formData.maxusage}
+                    value={formData.max_usage}
                     onChange={(e) =>
-                      handleChange("maxusage", parseInt(e.target.value))
+                      handleChange("max_usage", parseInt(e.target.value))
                     }
                     placeholder="VD: 1000"
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
-                    min="1"
+                    min="0"
                   />
                 </div>
-                {errors.maxusage && (
-                  <p className="text-xs text-red-600">{errors.maxusage}</p>
+                {errors.max_usage && (
+                  <p className="text-xs text-red-600">{errors.max_usage}</p>
                 )}
               </div>
 

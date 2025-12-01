@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { updateWarehouse, type Warehouse } from "@/lib/sellerWarehouse";
+import { warehouseService, type Warehouse } from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
@@ -65,12 +65,13 @@ export default function EditWarehouseModal({
 
     setIsSubmitting(true);
     try {
-      const result = await updateWarehouse(warehouse.id, formData);
-      alert(t("edit.success"));
+      const result = await warehouseService.updateWarehouse(warehouse.id, formData);
+      toast.success(result.message || t("edit.success"));
       onSuccess();
       onClose();
     } catch (error: any) {
-      alert(t("edit.error"));
+      console.error("Error updating warehouse:", error);
+      toast.error(error.message || t("edit.error"));
     } finally {
       setIsSubmitting(false);
     }

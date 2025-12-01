@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const SLIDE_IMAGES = [
   "/hero/slide-1.jpg",
@@ -12,27 +13,58 @@ const SLIDE_IMAGES = [
   "/hero/slide-4.jpg",
   "/hero/slide-5.jpg",
 ];
-// "/hero/slide-00.png",
 
+// Smooth slide animation with crossfade
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction === 1 ? "100%" : "-100%",
+    x: direction > 0 ? "100%" : "-100%",
     opacity: 0,
+    scale: 1.1,
+    zIndex: 2,
   }),
   center: {
     x: 0,
     opacity: 1,
+    scale: 1,
+    zIndex: 2,
   },
   exit: (direction: number) => ({
-    x: direction === 1 ? "-100%" : "100%",
+    x: direction > 0 ? "-100%" : "100%",
     opacity: 0,
+    scale: 0.95,
+    zIndex: 1,
   }),
 };
 
 export default function Hero() {
   const t = useTranslations("home.hero");
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // 1: next, -1: prev
+  const [direction, setDirection] = useState(1); // Track slide direction
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Preload all images for smooth transitions
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = SLIDE_IMAGES.map((src) => {
+        return new Promise((resolve, reject) => {
+          const img = new window.Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error("Error preloading images:", error);
+        setImagesLoaded(true); // Continue anyway
+      }
+    };
+
+    preloadImages();
+  }, []);
 
   const prev = () => {
     setDirection(-1);
@@ -46,13 +78,15 @@ export default function Hero() {
 
   // ===== AUTOPLAY: tự chuyển slide mỗi 6 giây =====
   useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1); // đi tới
-      setIndex((i) => (i + 1) % SLIDE_IMAGES.length);
-    }, 6000); // 6000ms = 6 giây
+    if (!imagesLoaded) return; // Wait for images to load before autoplay
 
-    return () => clearInterval(timer); // cleanup khi unmount
-  }, []);
+    const timer = setInterval(() => {
+      setDirection(1);
+      setIndex((i) => (i + 1) % SLIDE_IMAGES.length);
+    }, 6000);
+
+    return () => clearInterval(timer);
+  }, [imagesLoaded]);
 
   const currentImage = SLIDE_IMAGES[index];
   const currentTitle = t(`slides.${index}.title`);
@@ -60,9 +94,9 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-black isolate">
-      {/* BACKGROUND + ANIMATION */}
+      {/* BACKGROUND + ANIMATION - Optimized slide with no black gap */}
       <div className="absolute inset-0 pointer-events-none">
-        <AnimatePresence custom={direction}>
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={currentImage}
             custom={direction}
@@ -70,82 +104,132 @@ export default function Hero() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 1, ease: "easeInOut" }}
+            transition={{
+              x: {
+                type: "tween",
+                duration: 0.8,
+                ease: [0.25, 0.1, 0.25, 1], // Custom easing for smooth motion
+              },
+              opacity: { 
+                duration: 0.6,
+                ease: "easeInOut"
+              },
+              scale: {
+                duration: 0.8,
+                ease: "easeOut"
+              }
+            }}
             className="absolute inset-0 pointer-events-none"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center pointer-events-none"
-              style={{ backgroundImage: `url(${currentImage})` }}
+            <Image
+              src={currentImage}
+              alt={currentTitle}
+              fill
+              priority={index === 0} // Priority for first image
+              quality={90}
+              sizes="100vw"
+              className="object-cover pointer-events-none"
+              style={{
+                willChange: "transform, opacity", // GPU acceleration hint
+              }}
             />
           </motion.div>
         </AnimatePresence>
       </div>
 
+      {/* Preload next and previous images */}
+      <div className="hidden">
+        <Image
+          src={SLIDE_IMAGES[(index + 1) % SLIDE_IMAGES.length]}
+          alt="preload next"
+          width={1920}
+          height={1080}
+          priority
+        />
+        <Image
+          src={
+            SLIDE_IMAGES[
+              (index - 1 + SLIDE_IMAGES.length) % SLIDE_IMAGES.length
+            ]
+          }
+          alt="preload prev"
+          width={1920}
+          height={1080}
+          priority
+        />
+      </div>
+
       {/* TEXT GIỮA MỖI SLIDE */}
-      <div className="relative flex h-full w-full items-center justify-center px-4">
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          className="text-center text-white"
-        >
-          <h2 className="text-[26px] md:text-[40px] lg:text-[52px] font-semibold tracking-[0.35em] uppercase">
-            {currentTitle}
-          </h2>
-
-          <div className="mt-4 flex flex-col items-center gap-2">
-            <div className="flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]">
-              <span className="h-px w-16 md:w-24 bg-white/70" />
-              <span>{t("estd")}</span>
-              <span className="h-px w-16 md:w-24 bg-white/70" />
-            </div>
-
-            <p className="mt-1 max-w-xl text-xs md:text-sm text-white/85">
-              {currentTagline}
-            </p>
-          </div>
-
-          {/* CTA Buttons */}
+      <div className="relative flex h-full w-full items-center justify-center px-4 z-10">
+        <AnimatePresence mode="wait">
           <motion.div
+            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row z-20"
+            exit={{ opacity: 0, y: -20 }}
+            transition={{
+              duration: 0.6,
+              ease: "easeOut",
+            }}
+            className="text-center text-white"
+            style={{
+              willChange: "transform, opacity",
+            }}
           >
-            <motion.a
-              href="/shop"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center gap-3 bg-white px-10 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
-            >
-              {t("shopNow")}
-              <ChevronRight
-                size={16}
-                className="transition-transform group-hover:translate-x-1"
-              />
-            </motion.a>
+            <h2 className="text-[26px] md:text-[40px] lg:text-[52px] font-semibold tracking-[0.35em] uppercase">
+              {currentTitle}
+            </h2>
 
-            <motion.a
-              href="/our-story"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
-            >
-              {t("ourStory")}
-            </motion.a>
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <div className="flex items-center justify-center gap-4 text-[11px] italic tracking-[0.25em]">
+                <span className="h-px w-16 md:w-24 bg-white/70" />
+                <span>{t("estd")}</span>
+                <span className="h-px w-16 md:w-24 bg-white/70" />
+              </div>
+
+              <p className="mt-1 max-w-xl text-xs md:text-sm text-white/85">
+                {currentTagline}
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row z-20">
+              <motion.a
+                href="/shop"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="group flex items-center gap-3 bg-white px-10 py-4 text-[11px] tracking-[0.25em] text-[#3b4417] transition-all hover:bg-[#f5f3e8] uppercase"
+              >
+                {t("shopNow")}
+                <ChevronRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </motion.a>
+
+              <motion.a
+                href="/our-story"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="group flex items-center gap-3 border-2 border-white/60 bg-white/10 px-10 py-4 text-[11px] tracking-[0.25em] text-white backdrop-blur-sm transition-all hover:border-white hover:bg-white/20 uppercase"
+              >
+                {t("ourStory")}
+              </motion.a>
+            </div>
           </motion.div>
-        </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* NÚT TRÁI / PHẢI */}
-      <div className="absolute inset-y-0 flex w-full items-center justify-between px-6 md:px-10 pointer-events-none">
+      <div className="absolute inset-y-0 flex w-full items-center justify-between px-6 md:px-10 pointer-events-none z-20">
         <motion.button
           type="button"
           onClick={prev}
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.05 }}
-          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto"
+          transition={{ duration: 0.2 }}
+          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto hover:bg-black/40 transition-colors"
+          aria-label="Previous slide"
         >
           <ChevronLeft size={32} strokeWidth={1.25} />
         </motion.button>
@@ -155,10 +239,30 @@ export default function Hero() {
           onClick={next}
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.05 }}
-          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto"
+          transition={{ duration: 0.2 }}
+          className="hidden md:flex h-16 w-16 items-center justify-center rounded-full bg-black/25 text-white backdrop-blur-lg cursor-pointer pointer-events-auto hover:bg-black/40 transition-colors"
+          aria-label="Next slide"
         >
           <ChevronRight size={32} strokeWidth={1.25} />
         </motion.button>
+      </div>
+
+      {/* SLIDE INDICATORS (DOTS) */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+        {SLIDE_IMAGES.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => {
+              setDirection(i > index ? 1 : -1);
+              setIndex(i);
+            }}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === index ? "w-8 bg-white" : "w-2 bg-white/40 hover:bg-white/60"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );

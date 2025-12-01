@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -22,9 +23,10 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import PromotionStatusBadge from "./PromotionStatusBadge";
 import type { PromotionDetail } from "@/types/promotion";
 import {
-  mockPromotionDetail,
-  mockPromotionStatistics,
-} from "@/lib/promotions.mock";
+  fetchPromotionDetail,
+  fetchPromotionStatistics,
+} from "@/services/promotionService";
+import { toast } from "react-toastify";
 
 interface PromotionDetailModalProps {
   isOpen: boolean;
@@ -37,9 +39,35 @@ export default function PromotionDetailModal({
   onClose,
   promotionId,
 }: PromotionDetailModalProps) {
-  // In real app, fetch data based on promotionId
-  const promotion = mockPromotionDetail.data;
-  const statistics = mockPromotionStatistics.data;
+  const [promotion, setPromotion] = useState<PromotionDetail | null>(null);
+  const [statistics, setStatistics] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && promotionId) {
+      loadPromotionData();
+    }
+  }, [isOpen, promotionId]);
+
+  const loadPromotionData = async () => {
+    setIsLoading(true);
+    try {
+      const [detailResponse, statisticsResponse] = await Promise.all([
+        fetchPromotionDetail(promotionId),
+        fetchPromotionStatistics(promotionId),
+      ]);
+      setPromotion(detailResponse.data);
+      setStatistics(statisticsResponse.data);
+    } catch (error: any) {
+      console.error("Error loading promotion detail:", error);
+      toast.error(
+        error?.response?.data?.message || "Không thể tải thông tin khuyến mãi"
+      );
+      onClose();
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {
@@ -62,6 +90,33 @@ export default function PromotionDetailModal({
   };
 
   if (!isOpen) return null;
+
+  if (isLoading || !promotion || !statistics) {
+    return (
+      <AnimatePresence>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="relative bg-white rounded-2xl shadow-2xl p-8"
+          >
+            <div className="flex flex-col items-center gap-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417]"></div>
+              <p className="text-[#7a8451]">Đang tải...</p>
+            </div>
+          </motion.div>
+        </div>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>
@@ -117,8 +172,8 @@ export default function PromotionDetailModal({
                     </h3>
                     <PromotionStatusBadge
                       status={promotion.status}
-                      startDate={promotion.startdate}
-                      endDate={promotion.enddate}
+                      startDate={promotion.start_date}
+                      endDate={promotion.end_date}
                     />
                   </div>
                   <p className="text-lg font-semibold text-[#3b4417]">
@@ -127,15 +182,15 @@ export default function PromotionDetailModal({
                   <p className="text-[#7a8451] mt-1">{promotion.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  {promotion.discounttype === 1 ? (
-                    <Percent className="h-8 w-8 text-[#d4af37]" />
-                  ) : (
-                    <DollarSign className="h-8 w-8 text-[#d4af37]" />
-                  )}
+                  {promotion.discount_type === 0 ? (
+                      <Percent className="h-8 w-8 text-[#d4af37]" />
+                    ) : (
+                      <DollarSign className="h-8 w-8 text-[#d4af37]" />
+                    )}
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
-                      promotion.discounttype,
-                      promotion.discountvalue
+                      promotion.discount_type,
+                      promotion.discount_value
                     )}
                   </span>
                 </div>
@@ -149,7 +204,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {formatDate(promotion.startdate)}
+                      {formatDate(promotion.start_date)}
                     </p>
                   </div>
                 </div>
@@ -160,7 +215,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {formatDate(promotion.enddate)}
+                      {formatDate(promotion.end_date)}
                     </p>
                   </div>
                 </div>
@@ -171,7 +226,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-[#3b4417]">
-                      {promotion.usedcount} / {promotion.maxusage}
+                      {promotion.used_count} / {promotion.max_usage}
                     </p>
                   </div>
                 </div>
@@ -182,7 +237,7 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-orange-600">
-                      {promotion.maxusage - promotion.usedcount}
+                      {promotion.remaining_usage ?? (promotion.max_usage - promotion.used_count)}
                     </p>
                   </div>
                 </div>
@@ -223,58 +278,60 @@ export default function PromotionDetailModal({
               </div>
 
               {/* Usage Chart */}
-              <div className="mt-6">
-                <h5 className="text-sm font-semibold text-[#3b4417] mb-4">
-                  Lượt sử dụng theo ngày
-                </h5>
-                <ChartContainer
-                  config={{
-                    usageCount: {
-                      label: "Lượt sử dụng",
-                      color: "#3b4417",
-                    },
-                    discountAmount: {
-                      label: "Giảm giá (VNĐ)",
-                      color: "#d4af37",
-                    },
-                  }}
-                  className="h-[300px] w-full"
-                >
-                  <BarChart data={statistics.usageByDate}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e8e6dc" />
-                    <XAxis
-                      dataKey="date"
-                      tickFormatter={(value) => {
-                        const date = new Date(value);
-                        return `${date.getDate()}/${date.getMonth() + 1}`;
-                      }}
-                      stroke="#7a8451"
-                      fontSize={12}
-                    />
-                    <YAxis stroke="#7a8451" fontSize={12} />
-                    <ChartTooltip
-                      content={
-                        <ChartTooltipContent
-                          labelFormatter={(value) => {
-                            return formatDate(value as string);
-                          }}
-                          formatter={(value, name) => {
-                            if (name === "discountAmount") {
-                              return formatCurrency(value as number);
-                            }
-                            return value;
-                          }}
-                        />
-                      }
-                    />
-                    <Bar
-                      dataKey="usageCount"
-                      fill="#3b4417"
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ChartContainer>
-              </div>
+              {statistics.usageByDate && statistics.usageByDate.length > 0 && (
+                <div className="mt-6">
+                  <h5 className="text-sm font-semibold text-[#3b4417] mb-4">
+                    Lượt sử dụng theo ngày
+                  </h5>
+                  <ChartContainer
+                    config={{
+                      usageCount: {
+                        label: "Lượt sử dụng",
+                        color: "#3b4417",
+                      },
+                      discountAmount: {
+                        label: "Giảm giá (VNĐ)",
+                        color: "#d4af37",
+                      },
+                    }}
+                    className="h-[300px] w-full"
+                  >
+                    <BarChart data={statistics.usageByDate}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e8e6dc" />
+                      <XAxis
+                        dataKey="date"
+                        tickFormatter={(value) => {
+                          const date = new Date(value);
+                          return `${date.getDate()}/${date.getMonth() + 1}`;
+                        }}
+                        stroke="#7a8451"
+                        fontSize={12}
+                      />
+                      <YAxis stroke="#7a8451" fontSize={12} />
+                      <ChartTooltip
+                        content={
+                          <ChartTooltipContent
+                            labelFormatter={(value) => {
+                              return formatDate(value as string);
+                            }}
+                            formatter={(value, name) => {
+                              if (name === "discountAmount") {
+                                return formatCurrency(value as number);
+                              }
+                              return value;
+                            }}
+                          />
+                        }
+                      />
+                      <Bar
+                        dataKey="usageCount"
+                        fill="#3b4417"
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ChartContainer>
+                </div>
+              )}
             </Card>
 
             {/* Applicable Products */}

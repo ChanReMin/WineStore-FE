@@ -35,7 +35,7 @@ export default function OrderReviewStep() {
 
   const subtotal = cart.reduce((sum, item) => sum + item.lineTotal, 0);
   const discountAmount = promotion
-    ? (subtotal * promotion.discountvalue) / 100
+    ? (subtotal * promotion.discount_value) / 100
     : 0;
   const shippingCost = shippingFee?.shippingFee || 0;
   const total = subtotal - discountAmount + shippingCost;
