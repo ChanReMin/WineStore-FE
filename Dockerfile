@@ -31,11 +31,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-RUN mkdir -p .next/cache \
-    && chown -R nextjs:nodejs .next
 
 # Optional: drop root privileges
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+RUN mkdir -p .next/cache \
+    && chown -R nextjs:nodejs .next
 USER nextjs
 
 EXPOSE 3000

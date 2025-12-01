@@ -6,7 +6,7 @@
   "TitleBgColor": "rgb(246,243,234)",
   "GreetingSentence": "🤖 Greetings! I am Wine Assistant, your guide to fine wines. How may I assist you with your selection today?",
   "HolderInputText": "Message...",
-  "BadgeNumber": true,
+  "BadgeNumber": false,
   "BgColor": "rgb(51,57,29)",
   "BgMaskColor": "rgb(246,243,234)",
   "BgOpacity": 0.3,
