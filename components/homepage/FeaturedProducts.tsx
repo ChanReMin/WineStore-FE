@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ShoppingBag, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -45,23 +45,27 @@ const FEATURED_WINES = [
   },
 ];
 
-const containerVariants: any = {
+// ✅ OPTIMIZED: Giảm complexity và thời gian animation
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
+      staggerChildren: 0.1, // Giảm từ 0.15
+      delayChildren: 0.1,   // Giảm từ 0.2
     },
   },
 };
 
-const itemVariants: any = {
-  hidden: { opacity: 0, y: 40 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 }, // Giảm từ 40px xuống 20px
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as any },
+    transition: { 
+      duration: 0.4,  // Giảm từ 0.6s xuống 0.4s
+      ease: "easeOut" // Đơn giản hóa easing
+    },
   },
 };
 

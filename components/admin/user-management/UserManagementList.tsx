@@ -83,11 +83,53 @@ export default function UserManagementList() {
         role: roleFilter,
         status: statusFilter,
       });
-      setUsers(response.data.users);
-      setPagination(response.data.pagination);
-      setSummary(response.data.summary);
+      
+      const users = response.data.users || [];
+      setUsers(users);
+      
+      // Map pagination from API response
+      const paginationData = response.data.pagination;
+      setPagination({
+        currentPage: paginationData?.currentPage || 1,
+        totalPages: paginationData?.totalPages || 1,
+        total: paginationData?.totalUsers || 0,
+      });
+      
+      // Calculate summary from users data since API doesn't provide it
+      const totalUsers = paginationData?.totalUsers || users.length;
+      const activeUsers = users.filter(u => u.status === 'active').length;
+      const inactiveUsers = users.filter(u => u.status === 'inactive').length;
+      const customers = users.filter(u => u.role === 'customer').length;
+      const sellers = users.filter(u => u.role === 'seller').length;
+      const admins = users.filter(u => u.role === 'admin').length;
+      
+      setSummary({
+        totalUsers,
+        activeUsers,
+        inactiveUsers,
+        lockedUsers: 0, // API doesn't provide this
+        customers,
+        sellers,
+        admins,
+      });
     } catch (error) {
       console.error("Error loading users:", error);
+      // Set default values on error
+      setUsers([]);
+      setPagination({
+        currentPage: 1,
+        totalPages: 1,
+        total: 0,
+      });
+      setSummary({
+        totalUsers: 0,
+        activeUsers: 0,
+        inactiveUsers: 0,
+        lockedUsers: 0,
+        customers: 0,
+        sellers: 0,
+        admins: 0,
+      });
     } finally {
       setLoading(false);
     }
@@ -129,21 +171,21 @@ export default function UserManagementList() {
     loadData(pagination.currentPage);
   };
 
-  const getStatusBadge = (status: number) => {
+  const getStatusBadge = (status: string) => {
     const badges = {
-      1: {
+      active: {
         bg: "bg-emerald-50",
         text: "text-emerald-700",
         icon: CheckCircle,
         label: t("status.active"),
       },
-      0: {
+      inactive: {
         bg: "bg-amber-50",
         text: "text-amber-700",
         icon: AlertCircle,
         label: t("status.inactive"),
       },
-      "-1": {
+      locked: {
         bg: "bg-red-50",
         text: "text-red-700",
         icon: XCircle,
@@ -151,7 +193,7 @@ export default function UserManagementList() {
       },
     };
 
-    const badge = badges[status as keyof typeof badges] || badges[0];
+    const badge = badges[status as keyof typeof badges] || badges.inactive;
     const Icon = badge.icon;
 
     return (
@@ -164,21 +206,21 @@ export default function UserManagementList() {
     );
   };
 
-  const getRoleBadge = (role: number) => {
+  const getRoleBadge = (role: string) => {
     const badges = {
-      0: {
+      customer: {
         bg: "bg-blue-50",
         text: "text-blue-700",
         icon: ShoppingBag,
         label: t("role.customer"),
       },
-      1: {
+      seller: {
         bg: "bg-purple-50",
         text: "text-purple-700",
         icon: Store,
         label: t("role.seller"),
       },
-      2: {
+      admin: {
         bg: "bg-orange-50",
         text: "text-orange-700",
         icon: Shield,
@@ -186,7 +228,7 @@ export default function UserManagementList() {
       },
     };
 
-    const badge = badges[role as keyof typeof badges] || badges[0];
+    const badge = badges[role as keyof typeof badges] || badges.customer;
     const Icon = badge.icon;
 
     return (
@@ -224,15 +266,6 @@ export default function UserManagementList() {
           </h1>
           <p className="text-sm md:text-base text-[#7a8451]">{t("subtitle")}</p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-[#3b4417] text-amber-50 rounded-lg hover:bg-[#4c5b23] transition-colors whitespace-nowrap"
-        >
-          <UserPlus className="w-4 h-4" />
-          <span>{t("createUser")}</span>
-        </motion.button>
       </div>
 
       {/* Summary Cards */}
@@ -508,14 +541,12 @@ export default function UserManagementList() {
                       {/* User Info */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={user.userInfo.avatar}
-                            alt={`${user.userInfo.firstName} ${user.userInfo.lastName}`}
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
+                            {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                          </div>
                           <div>
                             <p className="font-medium text-[#3b4417]">
-                              {user.userInfo.firstName} {user.userInfo.lastName}
+                              {user.name}
                             </p>
                             <p className="text-xs text-neutral-500">
                               ID: {user.id}
@@ -530,13 +561,13 @@ export default function UserManagementList() {
                           <div className="flex items-center gap-2 text-sm text-neutral-900">
                             <Mail className="w-3.5 h-3.5 text-neutral-400" />
                             <span className="truncate max-w-[200px]">
-                              {user.account.email}
+                              {user.email}
                             </span>
                           </div>
-                          {user.userInfo.phoneNumber && (
+                          {user.phone && (
                             <div className="flex items-center gap-2 text-sm text-neutral-600">
                               <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                              <span>{user.userInfo.phoneNumber}</span>
+                              <span>{user.phone}</span>
                             </div>
                           )}
                         </div>
@@ -544,7 +575,7 @@ export default function UserManagementList() {
 
                       {/* Role */}
                       <td className="px-6 py-4">
-                        {getRoleBadge(user.account.role)}
+                        {getRoleBadge(user.role)}
                       </td>
 
                       {/* Statistics */}
@@ -553,7 +584,7 @@ export default function UserManagementList() {
                           <div className="flex items-center gap-2 text-sm">
                             <ShoppingBag className="w-3.5 h-3.5 text-blue-500" />
                             <span className="text-neutral-600">
-                              {user.stats.totalOrders} {t("stats.orders")}
+                              {user.totalOrders} {t("stats.orders")}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
@@ -563,7 +594,7 @@ export default function UserManagementList() {
                                 style: "currency",
                                 currency: "VND",
                                 notation: "compact",
-                              }).format(user.stats.totalSpent)}
+                              }).format(user.totalSpent)}
                             </span>
                           </div>
                         </div>
@@ -571,7 +602,7 @@ export default function UserManagementList() {
 
                       {/* Status */}
                       <td className="px-6 py-4">
-                        {getStatusBadge(user.account.status)}
+                        {getStatusBadge(user.status)}
                       </td>
 
                       {/* Actions */}
@@ -609,17 +640,17 @@ export default function UserManagementList() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleChangeStatus(user)}
                             className={`p-2 rounded-lg transition-colors ${
-                              user.account.status === 1
+                              user.status === 'active'
                                 ? "text-amber-600 hover:bg-amber-50"
                                 : "text-emerald-600 hover:bg-emerald-50"
                             }`}
                             title={
-                              user.account.status === 1
+                              user.status === 'active'
                                 ? t("actions.deactivate")
                                 : t("actions.activate")
                             }
                           >
-                            {user.account.status === 1 ? (
+                            {user.status === 'active' ? (
                               <Lock className="w-4 h-4" />
                             ) : (
                               <Unlock className="w-4 h-4" />
@@ -665,18 +696,18 @@ export default function UserManagementList() {
                   {/* User Header */}
                   <div className="flex items-start gap-3 mb-4">
                     <img
-                      src={user.userInfo.avatar}
-                      alt={`${user.userInfo.firstName} ${user.userInfo.lastName}`}
+                      src={user.name}
+                      alt={`${user.name} ${""}`}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-[#3b4417] truncate">
-                        {user.userInfo.firstName} {user.userInfo.lastName}
+                        {user.name} {""}
                       </h3>
                       <p className="text-xs text-neutral-500">ID: {user.id}</p>
                       <div className="flex gap-2 mt-2">
-                        {getRoleBadge(user.account.role)}
-                        {getStatusBadge(user.account.status)}
+                        {getRoleBadge(user.role)}
+                        {getStatusBadge(user.status)}
                       </div>
                     </div>
                   </div>
@@ -686,14 +717,14 @@ export default function UserManagementList() {
                     <div className="flex items-center gap-2 text-sm">
                       <Mail className="w-4 h-4 text-neutral-400 shrink-0" />
                       <span className="truncate text-neutral-700">
-                        {user.account.email}
+                        {user.email}
                       </span>
                     </div>
-                    {user.userInfo.phoneNumber && (
+                    {user.phone && (
                       <div className="flex items-center gap-2 text-sm">
                         <Phone className="w-4 h-4 text-neutral-400 shrink-0" />
                         <span className="text-neutral-700">
-                          {user.userInfo.phoneNumber}
+                          {user.phone}
                         </span>
                       </div>
                     )}
@@ -709,7 +740,7 @@ export default function UserManagementList() {
                         </span>
                       </div>
                       <p className="text-lg font-bold text-blue-600">
-                        {user.stats.totalOrders}
+                        {user.totalOrders}
                       </p>
                     </div>
                     <div className="bg-emerald-50 rounded-lg p-3">
@@ -724,7 +755,7 @@ export default function UserManagementList() {
                           style: "currency",
                           currency: "VND",
                           notation: "compact",
-                        }).format(user.stats.totalSpent)}
+                        }).format(user.totalSpent)}
                       </p>
                     </div>
                   </div>
@@ -854,3 +885,4 @@ export default function UserManagementList() {
     </div>
   );
 }
+

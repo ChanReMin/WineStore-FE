@@ -79,7 +79,6 @@ export const fetchProducts = async (params?: {
   priceTo?: number;
   concentrationFrom?: number;
   concentrationTo?: number;
-  includePromotions?: boolean; // Include promotions data for each product
 }): Promise<ProductResponse> => {
   const { 
     page = 1, 
@@ -93,7 +92,6 @@ export const fetchProducts = async (params?: {
     priceTo,
     concentrationFrom,
     concentrationTo,
-    includePromotions
   } = params || {};
   
   const queryParams = new URLSearchParams();
@@ -110,7 +108,6 @@ export const fetchProducts = async (params?: {
   if (priceTo !== undefined) queryParams.append('priceTo', priceTo.toString());
   if (concentrationFrom !== undefined) queryParams.append('concentrationFrom', concentrationFrom.toString());
   if (concentrationTo !== undefined) queryParams.append('concentrationTo', concentrationTo.toString());
-  if (includePromotions) queryParams.append('includePromotions', 'true');
   
   const response = await axiosInstance.get<ProductResponse>(
     `/api/v1/products?${queryParams.toString()}`
@@ -358,7 +355,7 @@ export interface RelatedProductsResponse {
 }
 
 /**
- * Lấy danh sách sản phẩm liên quan
+ * Lấy danh sách sản phẩm liên quan (chỉ lấy 4 sản phẩm đầu tiên)
  */
 export const fetchRelatedProducts = async (
   productId: number
@@ -367,5 +364,11 @@ export const fetchRelatedProducts = async (
     `/api/v1/products/${productId}/related`
   );
   
-  return response.data;
+  // Chỉ lấy 4 sản phẩm đầu tiên
+  return {
+    ...response.data,
+    data: {
+      products: response.data.data.products.slice(0, 4)
+    }
+  };
 };

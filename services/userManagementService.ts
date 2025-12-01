@@ -2,51 +2,28 @@ import axiosInstance from "@/lib/axios";
 
 // Types
 export interface User {
-  id: number;
-  account: {
-    id: number;
-    email: string;
-    role: number;
-    roleName: string;
-    status: number;
-    statusName: string;
-    lastLoginAt: string;
-    createdAt: string;
-  };
-  userInfo: {
-    avatar: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    gender: number;
-    genderName: string;
-  };
-  stats: {
-    totalOrders: number;
-    totalSpent: number;
-    addressCount: number;
-  };
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  role: string; // "customer" | "seller" | "admin"
+  status: string; // "active" | "inactive"
+  emailVerified: boolean;
+  createdAt: string;
+  totalOrders: number;
+  totalSpent: number;
 }
 
 export interface UserListResponse {
   success: boolean;
+  message: string;
   data: {
     users: User[];
     pagination: {
+      limit: number;
       currentPage: number;
-      perPage: number;
-      total: number;
       totalPages: number;
-    };
-    summary: {
       totalUsers: number;
-      activeUsers: number;
-      inactiveUsers: number;
-      lockedUsers: number;
-      customers: number;
-      sellers: number;
-      admins: number;
     };
   };
 }
@@ -181,7 +158,7 @@ export const fetchUsers = async (params?: {
   queryParams.append("sortOrder", sortOrder);
 
   const response = await axiosInstance.get<UserListResponse>(
-    `/api/v1/admin/users?${queryParams.toString()}`
+    `/api/v1/users?${queryParams.toString()}`
   );
 
   return response.data;
@@ -191,10 +168,10 @@ export const fetchUsers = async (params?: {
  * API 2: Lấy chi tiết người dùng
  */
 export const fetchUserDetail = async (
-  userId: number
+  userId: string | number
 ): Promise<UserDetailResponse> => {
   const response = await axiosInstance.get<UserDetailResponse>(
-    `/api/v1/admin/users/${userId}`
+    `/api/v1/users/${userId}`
   );
 
   return response.data;
@@ -204,7 +181,7 @@ export const fetchUserDetail = async (
  * API 3: Cập nhật thông tin người dùng
  */
 export const updateUser = async (
-  userId: number,
+  userId: string | number,
   data: {
     firstName?: string;
     lastName?: string;
@@ -218,7 +195,7 @@ export const updateUser = async (
   data: User;
 }> => {
   const response = await axiosInstance.put(
-    `/api/v1/admin/users/${userId}`,
+    `/api/v1/users/${userId}`,
     data
   );
 
@@ -229,8 +206,8 @@ export const updateUser = async (
  * API 4: Thay đổi trạng thái người dùng
  */
 export const changeUserStatus = async (
-  userId: number,
-  status: number,
+  userId: string | number,
+  status: string | number,
   reason?: string
 ): Promise<{
   success: boolean;
@@ -242,7 +219,7 @@ export const changeUserStatus = async (
   };
 }> => {
   const response = await axiosInstance.patch(
-    `/api/v1/admin/users/${userId}/status`,
+    `/api/v1/users/${userId}/status`,
     { status, reason }
   );
 
@@ -253,8 +230,8 @@ export const changeUserStatus = async (
  * API 5: Thay đổi vai trò người dùng
  */
 export const changeUserRole = async (
-  userId: number,
-  role: number,
+  userId: string | number,
+  role: string | number,
   note?: string
 ): Promise<{
   success: boolean;
@@ -266,7 +243,7 @@ export const changeUserRole = async (
   };
 }> => {
   const response = await axiosInstance.patch(
-    `/api/v1/admin/users/${userId}/role`,
+    `/api/v1/users/${userId}/role`,
     { role, note }
   );
 
@@ -291,7 +268,7 @@ export const createUser = async (data: {
   message: string;
   data: User;
 }> => {
-  const response = await axiosInstance.post("/api/v1/admin/users", data);
+  const response = await axiosInstance.post("/api/v1/users", data);
 
   return response.data;
 };
@@ -310,7 +287,7 @@ export const deleteUser = async (
   if (permanent) queryParams.append("permanent", "true");
 
   const response = await axiosInstance.delete(
-    `/api/v1/admin/users/${userId}?${queryParams.toString()}`
+    `/api/v1/users/${userId}?${queryParams.toString()}`
   );
 
   return response.data;
@@ -328,7 +305,7 @@ export const fetchUserStatistics = async (params?: {
   if (params?.endDate) queryParams.append("endDate", params.endDate);
 
   const response = await axiosInstance.get<UserStatistics>(
-    `/api/v1/admin/users/statistics?${queryParams.toString()}`
+    `/api/v1/users/statistics?${queryParams.toString()}`
   );
 
   return response.data;
@@ -338,7 +315,7 @@ export const fetchUserStatistics = async (params?: {
  * API 9: Lấy lịch sử hoạt động người dùng
  */
 export const fetchUserActivities = async (
-  userId: number,
+  userId: string | number,
   params?: {
     page?: number;
     limit?: number;
@@ -353,7 +330,7 @@ export const fetchUserActivities = async (
   if (type) queryParams.append("type", type);
 
   const response = await axiosInstance.get<ActivityLogsResponse>(
-    `/api/v1/admin/users/${userId}/activities?${queryParams.toString()}`
+    `/api/v1/users/${userId}/activities?${queryParams.toString()}`
   );
 
   return response.data;

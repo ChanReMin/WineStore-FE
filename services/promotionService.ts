@@ -136,7 +136,7 @@ export const assignPromotionToProduct = async (
 ): Promise<AssignPromotionToProductResponse> => {
   const response = await axiosInstance.post<AssignPromotionToProductResponse>(
     `/api/v1/products/${productId}/promotions`,
-    { promotionId }
+    { promotionIds: [promotionId] }
   );
 
   return response.data;

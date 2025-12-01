@@ -32,23 +32,23 @@ export default function EditUserModal({
   const t = useTranslations("admin.userManagement");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    email: user.account.email,
-    firstName: user.userInfo.firstName,
-    lastName: user.userInfo.lastName,
-    phoneNumber: user.userInfo.phoneNumber || "",
-    dateOfBirth: user.userInfo.dateOfBirth || "",
-    gender: user.userInfo.gender || 1,
+    email: user.email,
+    firstName: user.name.split(" ")[0],
+    lastName: user.name.split(" ").slice(1).join(" "),
+    phoneNumber: user.phone || "",
+    dateOfBirth: "",
+    gender: 1 || 1,
   });
 
   useEffect(() => {
     if (isOpen) {
       setFormData({
-        email: user.account.email,
-        firstName: user.userInfo.firstName,
-        lastName: user.userInfo.lastName,
-        phoneNumber: user.userInfo.phoneNumber || "",
-        dateOfBirth: user.userInfo.dateOfBirth || "",
-        gender: user.userInfo.gender || 1,
+        email: user.email,
+        firstName: user.name.split(" ")[0],
+        lastName: user.name.split(" ").slice(1).join(" "),
+        phoneNumber: user.phone || "",
+        dateOfBirth: "",
+        gender: 1 || 1,
       });
     }
   }, [isOpen, user]);
@@ -102,7 +102,7 @@ export default function EditUserModal({
                 <div>
                   <h2 className="text-xl font-bold">{t("editModal.title")}</h2>
                   <p className="text-sm text-white/80">
-                    {user.userInfo.firstName} {user.userInfo.lastName}
+                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -252,3 +252,6 @@ export default function EditUserModal({
     </AnimatePresence>
   );
 }
+
+
+

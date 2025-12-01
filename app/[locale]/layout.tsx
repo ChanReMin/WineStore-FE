@@ -19,6 +19,10 @@ import { routing } from "@/i18n/routing";
 import DevLogin from "@/components/dev/DevLogin";
 import ChatbotWrapper from "@/components/ChatbotWrapper";
 
+// ✅ MONITORING TOOLS - Performance tracking
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -155,6 +159,10 @@ export default async function LocaleLayout({
             {process.env.NODE_ENV !== "production" && <DevLogin />}
           </AuthProvider>
         </NextIntlClientProvider>
+        
+        {/* ✅ MONITORING - Track performance và analytics */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

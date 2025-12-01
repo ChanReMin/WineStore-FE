@@ -4,7 +4,8 @@ import { useState, useMemo, useCallback } from "react";
 import { DroppableProductItem } from "./DroppableProductItem";
 import type { Promotion } from "@/types/promotion";
 import { useTranslations } from "next-intl";
-import { Search, Package } from "lucide-react";
+import { Search, Package, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Product {
   id: number;
@@ -13,14 +14,23 @@ interface Product {
   promotions: Promotion[];
 }
 
+interface ProductPagination {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+}
+
 interface ProductPromotionZoneProps {
   products: Product[];
   onRemovePromotion: (productId: number, promotionId: number) => void;
+  productPagination?: ProductPagination;
 }
 
 export function ProductPromotionZone({
   products,
   onRemovePromotion,
+  productPagination,
 }: ProductPromotionZoneProps) {
   const t = useTranslations("seller.promotions.assignment.productZone");
   const [searchQuery, setSearchQuery] = useState("");
@@ -141,6 +151,40 @@ export function ProductPromotionZone({
           ))
         )}
       </div>
+      
+      {/* Product Pagination */}
+      {productPagination && productPagination.totalPages > 1 && (
+        <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-600">
+              Showing {products.length} of {productPagination.totalItems} products
+            </span>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => productPagination.onPageChange(productPagination.currentPage - 1)}
+                disabled={productPagination.currentPage === 1}
+                className="h-7 px-2"
+              >
+                <ChevronLeft className="h-3 w-3" />
+              </Button>
+              <span className="text-xs font-medium">
+                {productPagination.currentPage} / {productPagination.totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => productPagination.onPageChange(productPagination.currentPage + 1)}
+                disabled={productPagination.currentPage === productPagination.totalPages}
+                className="h-7 px-2"
+              >
+                <ChevronRight className="h-3 w-3" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

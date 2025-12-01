@@ -31,7 +31,7 @@ export default function ChangeStatusModal({
 }: ChangeStatusModalProps) {
   const t = useTranslations("admin.userManagement");
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(user.account.status);
+  const [status, setStatus] = useState(user.status);
   const [reason, setReason] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,7 +73,7 @@ export default function ChangeStatusModal({
             <div className="bg-linear-to-r from-amber-600 to-amber-700 text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-2 rounded-lg">
-                  {status === 1 ? (
+                  {status === 'active' ? (
                     <Unlock className="w-5 h-5" />
                   ) : (
                     <Lock className="w-5 h-5" />
@@ -84,7 +84,7 @@ export default function ChangeStatusModal({
                     {t("statusModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.userInfo.firstName} {user.userInfo.lastName}
+                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -108,16 +108,16 @@ export default function ChangeStatusModal({
               <div className="space-y-2">
                 <Label htmlFor="status">{t("statusModal.newStatus")} *</Label>
                 <Select
-                  value={status.toString()}
-                  onValueChange={(value) => setStatus(parseInt(value))}
+                  value={status}
+                  onValueChange={(value) => setStatus(value)}
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">{t("status.active")}</SelectItem>
-                    <SelectItem value="0">{t("status.inactive")}</SelectItem>
-                    <SelectItem value="-1">{t("status.locked")}</SelectItem>
+                    <SelectItem value="active">{t("status.active")}</SelectItem>
+                    <SelectItem value="inactive">{t("status.inactive")}</SelectItem>
+                    <SelectItem value="locked">{t("status.locked")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -158,7 +158,7 @@ export default function ChangeStatusModal({
                     </>
                   ) : (
                     <>
-                      {status === 1 ? (
+                      {status === 'active' ? (
                         <Unlock className="w-4 h-4" />
                       ) : (
                         <Lock className="w-4 h-4" />
@@ -175,3 +175,4 @@ export default function ChangeStatusModal({
     </AnimatePresence>
   );
 }
+

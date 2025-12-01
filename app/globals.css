@@ -161,19 +161,36 @@
     transparent 100%
   );
   background-size: 1000px 100%;
+  will-change: background-position; /* ✅ Hint browser về animation */
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out;
+  will-change: transform, opacity; /* ✅ Optimize transform và opacity */
+}
+
+/* ✅ Remove will-change sau animation complete để tránh memory overhead */
+.animate-fade-in-up.animation-complete {
+  will-change: auto;
 }
 
 .animate-slide-in-right {
   animation: slideInRight 0.3s ease-out;
+  will-change: transform, opacity; /* ✅ Optimize animation */
+}
+
+.animate-slide-in-right.animation-complete {
+  will-change: auto;
 }
 
 /* Smooth transitions for form inputs */
 input:focus {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: border-color, box-shadow; /* ✅ Hint về focus state changes */
+}
+
+input:not(:focus) {
+  will-change: auto; /* ✅ Reset khi không focus */
 }
 
 /* DatePicker styling for profile page */

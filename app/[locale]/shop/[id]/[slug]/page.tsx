@@ -28,7 +28,7 @@ export default function ProductDetailPage() {
   const productSlug = params.slug as string; // "chateau-margaux-2015"
 
   const [activeTab, setActiveTab] = useState<
-    "description" | "specs" | "storage"
+    "description" | "specs" | "storage" 
   >("description");
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
@@ -208,11 +208,11 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.5 }}
                 className="flex items-center gap-4 text-sm text-neutral-600"
               >
-                <span className="font-medium">{product.winetype}</span>
+                <span className="font-medium">{product.wineType || product.winetype || "N/A"}</span>
                 <span className="text-neutral-300">|</span>
-                <span>{product.productionArea}</span>
+                <span>{product.productionArea || "N/A"}</span>
                 <span className="text-neutral-300">|</span>
-                <span>{product.concentration}% ABV</span>
+                <span>{product.concentration ? `${product.concentration}% ABV` : "N/A"}</span>
               </motion.div>
 
               {/* Price - Premium Display with Original Price */}
@@ -251,7 +251,7 @@ export default function ProductDetailPage() {
               </motion.div>
 
               {/* Availability Badge */}
-              {product.totalInventory > 0 && (
+              {(product.totalInventory ?? 0) > 0 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -272,6 +272,35 @@ export default function ProductDetailPage() {
                   <span className="font-medium">{t("inStock")}</span>
                 </motion.div>
               )}
+
+              {/* Seller Information */}
+              {product.seller && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.75 }}
+                  className="rounded-lg border border-neutral-200 bg-white p-4"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-neutral-500 mb-1">
+                        Người bán
+                      </p>
+                      <p className="text-base font-semibold text-neutral-900">
+                        {product.seller.name}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <svg className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                      <span className="text-sm font-medium text-neutral-900">
+                        {product.seller.rating.toFixed(1)}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </div>
 
             {/* Elegant Tabs */}
@@ -282,7 +311,7 @@ export default function ProductDetailPage() {
               className="space-y-6"
             >
               {/* Tab Navigation */}
-              <div className="flex gap-8 border-b border-neutral-200">
+              <div className="flex gap-8 border-b border-neutral-200 overflow-x-auto">
                 {[
                   { id: "description", label: t("tabs.description") },
                   { id: "specs", label: t("tabs.specs") },
@@ -291,7 +320,7 @@ export default function ProductDetailPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`relative pb-4 text-sm font-medium uppercase tracking-[0.15em] transition-colors ${
+                    className={`relative pb-4 text-sm font-medium uppercase tracking-[0.15em] transition-colors whitespace-nowrap ${
                       activeTab === tab.id
                         ? "text-neutral-900"
                         : "text-neutral-400 hover:text-neutral-600"
@@ -326,15 +355,38 @@ export default function ProductDetailPage() {
                   {activeTab === "description" && (
                     <div className="prose prose-neutral max-w-none">
                       <p className="text-base leading-relaxed text-neutral-600">
-                        {product.description}
+                        {product.description || product.fullDescription || "Chưa có mô tả"}
                       </p>
+                      
+                      {/* Food Pairing */}
+                      {product.foodPairing && product.foodPairing.length > 0 && (
+                        <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 p-4">
+                          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-900 flex items-center gap-2">
+                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Kết hợp món ăn
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {product.foodPairing.map((food, index) => (
+                              <span
+                                key={index}
+                                className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm text-amber-800 border border-amber-300"
+                              >
+                                {food}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="mt-6 grid gap-4 sm:grid-cols-2">
                         <div className="rounded-lg bg-neutral-50 p-4">
                           <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-neutral-900">
                             {t("specs.grapeVariety")}
                           </h4>
                           <p className="text-neutral-600">
-                            {product.grapeVariety}
+                            {product.grapeVariety || "N/A"}
                           </p>
                         </div>
                         <div className="rounded-lg bg-neutral-50 p-4">
@@ -342,8 +394,8 @@ export default function ProductDetailPage() {
                             {t("specs.region")}
                           </h4>
                           <p className="text-neutral-600">
-                            {product.productionArea},{" "}
-                            {product.countryOfProduction}
+                            {product.productionArea || "N/A"},{" "}
+                            {product.originCountry || product.countryOfProduction || "N/A"}
                           </p>
                         </div>
                       </div>
@@ -355,27 +407,35 @@ export default function ProductDetailPage() {
                       {[
                         {
                           label: t("specs.wineType"),
-                          value: product.winetype,
+                          value: product.wineType || product.winetype || "N/A",
                         },
                         {
                           label: t("specs.alcoholContent"),
-                          value: `${product.concentration}%`,
+                          value: product.concentration ? `${product.concentration}%` : "N/A",
                         },
                         {
                           label: t("specs.volume"),
-                          value: `${product.capacity}ml`,
+                          value: product.volume || product.capacity ? `${product.volume || product.capacity}ml` : "N/A",
                         },
                         {
                           label: t("specs.servingTemp"),
-                          value: product.idealtemperature,
+                          value: product.servingTemperature || product.idealtemperature || product.temperature || "N/A",
                         },
                         {
                           label: t("specs.origin"),
-                          value: `${product.productionArea}, ${product.countryOfProduction}`,
+                          value: `${product.productionArea || "N/A"}, ${product.originCountry || product.countryOfProduction || "N/A"}`,
                         },
                         {
                           label: t("specs.grapeVariety"),
-                          value: product.grapeVariety,
+                          value: product.grapeVariety || "N/A",
+                        },
+                        {
+                          label: "SKU",
+                          value: product.sku || "N/A",
+                        },
+                        {
+                          label: "Profit Margin",
+                          value: product.profitMargin ? `${product.profitMargin}%` : "N/A",
                         },
                       ].map((spec, i) => (
                         <motion.div
@@ -416,7 +476,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.temperature"),
-                          text: product.idealtemperature,
+                          text: product.servingTemperature || product.idealtemperature || product.temperature || "N/A",
                         },
                         {
                           icon: (
@@ -435,7 +495,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.humidity"),
-                          text: product.humidity,
+                          text: product.humidity || "N/A",
                         },
                         {
                           icon: (
@@ -454,7 +514,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.light"),
-                          text: product.avoidLight,
+                          text: product.light || product.avoidLight || "N/A",
                         },
                         {
                           icon: (
@@ -473,7 +533,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.position"),
-                          text: product.placeTheBottleHorizontally,
+                          text: product.position || product.placeTheBottleHorizontally || "N/A",
                         },
                         {
                           icon: (
@@ -492,7 +552,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.vibration"),
-                          text: product.avoidVibration,
+                          text: product.vibration || product.avoidVibration || "N/A",
                         },
                         {
                           icon: (
@@ -511,7 +571,7 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.afterOpening"),
-                          text: product.openedWine,
+                          text: product.afterOpening || product.openedWine || "N/A",
                         },
                       ].map((item, i) => (
                         <motion.div
@@ -548,7 +608,7 @@ export default function ProductDetailPage() {
               className="space-y-6 border-t border-neutral-200/50 pt-8"
             >
               {/* Premium Action Buttons */}
-              {product.totalInventory > 0 ? (
+              {(product.totalInventory ?? 0) > 0 ? (
                 <div className="space-y-4">
                   {/* Add to Cart with Quantity */}
                   <AddToCartButton
@@ -620,7 +680,16 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
 
-        {/* Elegant Divider */}
+        
+      </div>
+
+      {/* Related Products Section */}
+      <RelatedProducts 
+        products={relatedProducts} 
+        isLoading={isLoadingRelated} 
+      />
+
+      {/* Elegant Divider */}
         <div className="my-20 border-t border-neutral-200/50" />
 
         {/* Back to Collection - Minimal */}
@@ -650,13 +719,8 @@ export default function ProductDetailPage() {
             {t("backToCollection")}
           </Link>
         </motion.div>
-      </div>
 
-      {/* Related Products Section */}
-      <RelatedProducts 
-        products={relatedProducts} 
-        isLoading={isLoadingRelated} 
-      />
+        <div className="mt-20 border-t border-neutral-200/50" />
     </div>
   );
 }

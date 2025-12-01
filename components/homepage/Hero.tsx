@@ -42,28 +42,45 @@ export default function Hero() {
   const [direction, setDirection] = useState(1); // Track slide direction
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  // Preload all images for smooth transitions
+  // ✅ OPTIMIZED: Preload strategy cho performance tốt hơn
   useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = SLIDE_IMAGES.map((src) => {
-        return new Promise((resolve, reject) => {
-          const img = new window.Image();
-          img.src = src;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
+    // 1. Priority preload ảnh đầu tiên (LCP critical)
+    const firstImageLink = document.createElement('link');
+    firstImageLink.rel = 'preload';
+    firstImageLink.as = 'image';
+    firstImageLink.href = SLIDE_IMAGES[0];
+    firstImageLink.setAttribute('fetchpriority', 'high');
+    document.head.appendChild(firstImageLink);
 
-      try {
-        await Promise.all(imagePromises);
-        setImagesLoaded(true);
-      } catch (error) {
-        console.error("Error preloading images:", error);
-        setImagesLoaded(true); // Continue anyway
-      }
+    // 2. Preload ảnh thứ 2 (sẽ hiển thị tiếp theo)
+    const secondImg = new window.Image();
+    secondImg.src = SLIDE_IMAGES[1];
+
+    // 3. Lazy preload các ảnh còn lại
+    const preloadRemainingImages = () => {
+      SLIDE_IMAGES.slice(2).forEach((src) => {
+        const img = new window.Image();
+        img.src = src;
+      });
     };
 
-    preloadImages();
+    // Preload sau 2s hoặc khi user hover vào hero section
+    const timer = setTimeout(preloadRemainingImages, 2000);
+    const heroElement = document.querySelector('section');
+    const hoverHandler = () => {
+      preloadRemainingImages();
+    };
+    heroElement?.addEventListener('mouseenter', hoverHandler, { once: true });
+
+    setImagesLoaded(true); // Cho phép component render ngay
+
+    return () => {
+      clearTimeout(timer);
+      heroElement?.removeEventListener('mouseenter', hoverHandler);
+      if (firstImageLink.parentNode) {
+        document.head.removeChild(firstImageLink);
+      }
+    };
   }, []);
 
   const prev = () => {
