@@ -48,38 +48,48 @@ export default function PromotionAssignmentPage() {
         fetchProducts({ status: 1, limit: productPerPage, page: productCurrentPage }), // Only approved products with promotions
       ]);
 
-      setPromotions(promotionsResponse.data.promotions);
+      // Safely handle promotions data
+      const promotionsData = promotionsResponse?.data?.promotions || [];
+      setPromotions(promotionsData);
       
       // Update pagination info for promotions
-      if (promotionsResponse.data.pagination) {
-        setTotalPages(promotionsResponse.data.pagination.total_pages);
-        setTotalItems(promotionsResponse.data.pagination.total_items);
+      if (promotionsResponse?.data?.pagination) {
+        setTotalPages(promotionsResponse.data.pagination.total_pages || 1);
+        setTotalItems(promotionsResponse.data.pagination.total_items || 0);
         if (promotionsResponse.data.pagination.per_page) {
           setPerPage(promotionsResponse.data.pagination.per_page);
         }
       }
       
       // Update pagination info for products
-      if (productsResponse.data.pagination) {
-        setProductTotalPages(productsResponse.data.pagination.totalPages);
-        setProductTotalItems(productsResponse.data.pagination.totalItems);
+      if (productsResponse?.data?.pagination) {
+        setProductTotalPages(productsResponse.data.pagination.totalPages || 1);
+        setProductTotalItems(productsResponse.data.pagination.totalItems || 0);
       }
 
-      // Transform products to include promotions
+      // Transform products to include promotions with safe defaults
+      const productsData = productsResponse?.data?.products || [];
       const productsWithPromotions: ProductWithPromotions[] =
-        productsResponse.data.products.map((product: any) => ({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          promotions: product.promotions || [],
+        productsData.map((product: any) => ({
+          id: product.id || 0,
+          name: product.name || "Unknown Product",
+          price: product.price || 0,
+          promotions: Array.isArray(product.promotions) ? product.promotions : [],
         }));
 
       setProducts(productsWithPromotions);
     } catch (error: any) {
       console.error("Error loading data:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể tải dữ liệu"
-      );
+      
+      // Set empty data on error to prevent crashes
+      setPromotions([]);
+      setProducts([]);
+      
+      const errorMessage = error?.response?.status === 500 
+        ? "Lỗi server (500). Vui lòng thử lại sau hoặc liên hệ admin."
+        : error?.response?.data?.message || "Không thể tải dữ liệu";
+      
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

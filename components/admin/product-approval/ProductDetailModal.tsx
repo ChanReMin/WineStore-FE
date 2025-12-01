@@ -53,7 +53,7 @@ export default function ProductDetailModal({
               transition={{ duration: 0.2 }}
               className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             >
-              <div className="bg-gradient-to-r from-[#3b4417] to-[#5d6c2e] p-6 text-white flex items-start justify-between">
+              <div className="bg-linear-to-r from-[#3b4417] to-[#5d6c2e] p-6 text-white flex items-start justify-between">
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold mb-1">{product.name}</h2>
                   <p className="text-amber-100 text-sm">{product.slug}</p>
@@ -130,7 +130,7 @@ export default function ProductDetailModal({
                     </div>
 
                     {/* Price */}
-                    <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-white">
+                    <Card className="border-emerald-200 bg-linear-to-br from-emerald-50 to-white">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-2">
                           <Tag className="w-5 h-5 text-emerald-600" />
@@ -217,7 +217,7 @@ export default function ProductDetailModal({
                       </Card>
                     )}
 
-                    <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-white">
+                    <Card className="border-blue-200 bg-linear-to-br from-blue-50 to-white">
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-3">
                           <Calendar className="w-5 h-5 text-blue-600" />

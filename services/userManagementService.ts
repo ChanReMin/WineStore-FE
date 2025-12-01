@@ -130,10 +130,10 @@ export const fetchUsers = async (params?: {
   page?: number;
   limit?: number;
   search?: string;
-  role?: number | "all";
-  status?: number | "all";
+  role?: string;
+  status?: string;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: string;
 }): Promise<UserListResponse> => {
   const {
     page = 1,
@@ -150,12 +150,10 @@ export const fetchUsers = async (params?: {
   queryParams.append("limit", limit.toString());
 
   if (search) queryParams.append("search", search);
-  if (role !== undefined && role !== "all")
-    queryParams.append("role", role.toString());
-  if (status !== undefined && status !== "all")
-    queryParams.append("status", status.toString());
+  if (role) queryParams.append("role", role);
+  if (status) queryParams.append("status", status);
   if (sortBy) queryParams.append("sortBy", sortBy);
-  queryParams.append("sortOrder", sortOrder);
+  if (sortOrder) queryParams.append("sortOrder", sortOrder);
 
   const response = await axiosInstance.get<UserListResponse>(
     `/api/v1/users?${queryParams.toString()}`

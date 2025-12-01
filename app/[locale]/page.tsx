@@ -11,13 +11,11 @@ import CTASection from "@/components/homepage/CTASection";
 import Testimonials from "@/components/homepage/Testimonials";
 import Newsletter from "@/components/homepage/Newsletter";
 import AgeVerificationModal from "@/components/homepage/AgeVerificationModal";
-import LocationModal from "@/components/homepage/LocationModal";
 import { AnimatePresence } from "framer-motion";
 import { Playfair_Display } from "next/font/google";
 import { useEffect, useState } from "react";
 import ScrollToTopButton from "@/components/homepage/ScrollToTopButton";
 import { toast } from "react-toastify";
-import ChatbotTemplates, { StatusComponentProvider } from "quocle-chatbot-ui";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -34,80 +32,62 @@ export default function Home() {
     return true;
   });
   const [showAgeModal, setShowAgeModal] = useState(false);
-  const [showLocationModal, setShowLocationModal] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      new LocomotiveScroll();
+  let scrollInstance: any;
 
-      const hasSeenPreloader = sessionStorage.getItem("preloaderShown");
-      const hasVerifiedAge = localStorage.getItem("age");
-      const storedLocation = localStorage.getItem("location");
+  const init = async () => {
+    const LocomotiveScroll = (await import("locomotive-scroll")).default;
+    scrollInstance = new LocomotiveScroll();
 
-      // Hàm xử lý việc hiển thị modal (tránh trùng logic)
-      const handleModals = (delay: number) => {
-        setTimeout(() => {
-          // Nếu chưa xác minh tuổi → bật age modal
-          if (!hasVerifiedAge) {
-            setShowAgeModal(true);
-            return;
-          }
+    document.body.style.cursor = "default";
 
-          // Nếu đã xác minh tuổi → kiểm tra location
-          if (hasVerifiedAge === "true" && !storedLocation) {
-            setShowLocationModal(true);
-          }
-        }, delay);
-      };
+    const hasSeenPreloader = sessionStorage.getItem("preloaderShown");
+    const hasVerifiedAge = localStorage.getItem("age");
 
-      document.body.style.cursor = "default";
-
-      // --- Nếu preloader đã hiển thị ---
-      if (hasSeenPreloader) {
-        handleModals(500);
-        return;
-      }
-
-      // --- Lần đầu trong session → hiển thị preloader ---
+    const showModals = (delay: number) => {
       setTimeout(() => {
-        setIsLoading(false);
-        sessionStorage.setItem("preloaderShown", "true");
-        document.body.style.cursor = "default";
-        window.scrollTo(0, 0);
+        if (!hasVerifiedAge) {
+          setShowAgeModal(true);
+        }
+      }, delay);
+    };
 
-        handleModals(1500);
-      }, 2000);
-    })();
-  }, []);
+    // Đã có preloader → vào thẳng trang
+    if (hasSeenPreloader) {
+      showModals(500);
+      return;
+    }
+
+    // Lần đầu vào → chạy preloader
+    setTimeout(() => {
+      setIsLoading(false);
+      sessionStorage.setItem("preloaderShown", "true");
+      window.scrollTo(0, 0);
+      document.body.style.cursor = "default";
+      showModals(1500);
+    }, 2000);
+  };
+
+  init();
+
+  return () => {
+    if (scrollInstance && scrollInstance.destroy) {
+      scrollInstance.destroy();
+    }
+  };
+}, []);
+
 
   const handleAgeVerification = (isAdult: boolean) => {
     localStorage.setItem("age", isAdult.toString());
     setShowAgeModal(false);
 
-    if (isAdult) {
-      // Check if location already exists
-      const storedLocation = localStorage.getItem("location");
-
-      // Only show location modal if no location saved
-      if (!storedLocation) {
-        setTimeout(() => {
-          setShowLocationModal(true);
-        }, 600);
-      }
-    } else {
-      // Show message for underage users
+    if (!isAdult) {
       toast.error("You must be at least 18 years old to enter this site.");
     }
   };
 
-  const handleLocationComplete = (data: { city: string; store: string }) => {
-    localStorage.setItem("location", JSON.stringify(data));
-    setShowLocationModal(false);
-
-    // Dispatch custom event to notify header about location update
-    window.dispatchEvent(new CustomEvent("locationUpdated", { detail: data }));
-  };
 
   return (
     <main
@@ -120,11 +100,6 @@ export default function Home() {
       <AgeVerificationModal
         isOpen={showAgeModal}
         onVerify={handleAgeVerification}
-      />
-      {/* Location Modal */}
-      <LocationModal
-        isOpen={showLocationModal}
-        onComplete={handleLocationComplete}
       />
       <Hero />
       <ValuePropositions />

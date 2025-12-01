@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Search, X, Sparkles } from "lucide-react";
@@ -20,22 +20,42 @@ export default function SearchBar({
   const defaultPlaceholder = placeholder || t("placeholder");
   const [localValue, setLocalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
+  
+  // Use ref to store the latest onChange without triggering useEffect
+  const onChangeRef = useRef(onChange);
+  // Store the previous value to detect actual changes
+  const prevValueRef = useRef(value);
+  
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      onChange(localValue);
+      // Only call onChange if the local value is different from what we started with
+      console.log('SearchBar debounce: localValue=', localValue, 'prevValue=', prevValueRef.current);
+      if (localValue !== prevValueRef.current) {
+        console.log('SearchBar: Calling onChange with:', localValue);
+        prevValueRef.current = localValue;
+        onChangeRef.current(localValue);
+      }
     }, 2000); // 2 seconds debounce
 
     return () => clearTimeout(timer);
-  }, [localValue, onChange]);
+  }, [localValue]); // Only depend on localValue
 
+  // Sync with external value changes (e.g., reset button)
   useEffect(() => {
-    setLocalValue(value);
+    if (value !== prevValueRef.current) {
+      setLocalValue(value);
+      prevValueRef.current = value;
+    }
   }, [value]);
 
   const handleClear = () => {
     setLocalValue("");
-    onChange("");
+    prevValueRef.current = "";
+    onChangeRef.current("");
   };
 
   return (

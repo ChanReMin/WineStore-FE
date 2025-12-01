@@ -62,8 +62,10 @@ export default function UserManagementList() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
-  const [roleFilter, setRoleFilter] = useState<number | "all">("all");
-  const [statusFilter, setStatusFilter] = useState<number | "all">("all");
+  const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   // Modals
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -80,8 +82,10 @@ export default function UserManagementList() {
         page,
         limit: 10,
         search: searchQuery,
-        role: roleFilter,
-        status: statusFilter,
+        role: roleFilter === "all" ? undefined : roleFilter,
+        status: statusFilter === "all" ? undefined : statusFilter,
+        sortBy: sortBy,
+        sortOrder: sortOrder,
       });
       
       const users = response.data.users || [];
@@ -137,7 +141,16 @@ export default function UserManagementList() {
 
   useEffect(() => {
     loadData();
-  }, [roleFilter, statusFilter]);
+  }, [roleFilter, statusFilter, sortBy, sortOrder]);
+
+  // Debounce search query - automatically call API after 1 second
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadData(1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleSearch = () => {
     loadData(1);
@@ -368,7 +381,7 @@ export default function UserManagementList() {
       </div>
 
       {/* Role Distribution */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -420,82 +433,110 @@ export default function UserManagementList() {
             </CardContent>
           </Card>
         </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-        >
-          <Card className="border-orange-200 hover:shadow-lg transition-all duration-300">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="bg-orange-50 p-3 rounded-xl">
-                    <Shield className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-neutral-600">
-                      {t("role.admin")}
-                    </p>
-                    <p className="text-2xl font-bold text-orange-600">
-                      {summary.admins}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
       </div>
 
       {/* Filters */}
-      <Card>
+      <Card className="border-neutral-200">
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="relative sm:col-span-2">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-              <Input
-                placeholder={t("searchPlaceholder")}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                className="pl-10"
-              />
+          <div className="flex flex-col gap-6">
+            {/* Search Bar */}
+            <div className="w-full">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                <Input
+                  placeholder={t("searchPlaceholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-11 h-11 text-base border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]"
+                />
+              </div>
             </div>
 
-            <Select
-              value={roleFilter.toString()}
-              onValueChange={(value) =>
-                setRoleFilter(value === "all" ? "all" : parseInt(value))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("filters.allRoles")}</SelectItem>
-                <SelectItem value="0">{t("filters.customers")}</SelectItem>
-                <SelectItem value="1">{t("filters.sellers")}</SelectItem>
-                <SelectItem value="2">{t("filters.admins")}</SelectItem>
-              </SelectContent>
-            </Select>
+            {/* Filters Row */}
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* Filter Section */}
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-neutral-600 uppercase tracking-wide">
+                    {t("filters.role")}
+                  </label>
+                  <Select
+                    value={roleFilter}
+                    onValueChange={(value) => setRoleFilter(value)}
+                  >
+                    <SelectTrigger className="h-10 border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t("filters.allRoles")}</SelectItem>
+                      <SelectItem value="customer">{t("filters.customers")}</SelectItem>
+                      <SelectItem value="seller">{t("filters.sellers")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-            <Select
-              value={statusFilter.toString()}
-              onValueChange={(value) =>
-                setStatusFilter(value === "all" ? "all" : parseInt(value))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("filters.allStatus")}</SelectItem>
-                <SelectItem value="1">{t("filters.active")}</SelectItem>
-                <SelectItem value="0">{t("filters.inactive")}</SelectItem>
-                <SelectItem value="-1">{t("filters.locked")}</SelectItem>
-              </SelectContent>
-            </Select>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-neutral-600 uppercase tracking-wide">
+                    {t("filters.status")}
+                  </label>
+                  <Select
+                    value={statusFilter}
+                    onValueChange={(value) => setStatusFilter(value)}
+                  >
+                    <SelectTrigger className="h-10 border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t("filters.allStatus")}</SelectItem>
+                      <SelectItem value="active">{t("filters.active")}</SelectItem>
+                      <SelectItem value="inactive">{t("filters.inactive")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Sort Section */}
+              <div className="lg:w-[400px] grid grid-cols-2 gap-3 lg:border-l lg:border-neutral-200 lg:pl-6">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-neutral-600 uppercase tracking-wide">
+                    {t("filters.sortBy")}
+                  </label>
+                  <Select
+                    value={sortBy}
+                    onValueChange={(value) => setSortBy(value)}
+                  >
+                    <SelectTrigger className="h-10 border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="createdAt">{t("filters.sortByCreatedAt")}</SelectItem>
+                      <SelectItem value="name">{t("filters.sortByName")}</SelectItem>
+                      <SelectItem value="email">{t("filters.sortByEmail")}</SelectItem>
+                      <SelectItem value="totalOrders">{t("filters.sortByOrders")}</SelectItem>
+                      <SelectItem value="totalSpent">{t("filters.sortBySpent")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-neutral-600 uppercase tracking-wide">
+                    {t("filters.order")}
+                  </label>
+                  <Select
+                    value={sortOrder}
+                    onValueChange={(value) => setSortOrder(value as "asc" | "desc")}
+                  >
+                    <SelectTrigger className="h-10 border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="asc">{t("filters.ascending")}</SelectItem>
+                      <SelectItem value="desc">{t("filters.descending")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -541,7 +582,7 @@ export default function UserManagementList() {
                       {/* User Info */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
+                          <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
                             {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
                           </div>
                           <div>
@@ -616,15 +657,6 @@ export default function UserManagementList() {
                             title={t("actions.view")}
                           >
                             <Eye className="w-4 h-4" />
-                          </motion.button>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleEdit(user)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title={t("actions.edit")}
-                          >
-                            <Edit className="w-4 h-4" />
                           </motion.button>
                           <motion.button
                             whileHover={{ scale: 1.05 }}

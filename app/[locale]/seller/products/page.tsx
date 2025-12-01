@@ -13,27 +13,25 @@ import ProductPagination from "@/components/seller/dashboard/ProductPagination";
 import ProductFormModal from "@/components/seller/dashboard/ProductFormModal";
 import type { ProductFormData } from "@/types/productForm";
 import { toast } from "react-toastify";
+import { getErrorMessage } from "@/lib/errorHandler";
 
 export default function ProductsPage() {
   const t = useTranslations("seller.products");
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [brandFilter, setBrandFilter] = useState("all");
   const [warehouseFilter, setWarehouseFilter] = useState("all");
-  const [priceFrom, setPriceFrom] = useState("");
-  const [priceTo, setPriceTo] = useState("");
-  const [concentrationFrom, setConcentrationFrom] = useState("");
-  const [concentrationTo, setConcentrationTo] = useState("");
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const [concentrationRange, setConcentrationRange] = useState<[number, number]>([0, 20]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   
-  // Debounced values for price and concentration
-  const [debouncedPriceFrom, setDebouncedPriceFrom] = useState("");
-  const [debouncedPriceTo, setDebouncedPriceTo] = useState("");
-  const [debouncedConcentrationFrom, setDebouncedConcentrationFrom] = useState("");
-  const [debouncedConcentrationTo, setDebouncedConcentrationTo] = useState("");
+  // Debounced values for price and concentration ranges
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState<[number, number]>([0, 10000]);
+  const [debouncedConcentrationRange, setDebouncedConcentrationRange] = useState<[number, number]>([0, 20]);
   
   // API data states
   const [products, setProducts] = useState<Product[]>([]);
@@ -50,17 +48,24 @@ export default function ProductsPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Debounce price and concentration inputs (2 seconds)
+  // Debounce search query (1 second)
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedPriceFrom(priceFrom);
-      setDebouncedPriceTo(priceTo);
-      setDebouncedConcentrationFrom(concentrationFrom);
-      setDebouncedConcentrationTo(concentrationTo);
-    }, 2000);
+      setDebouncedSearchQuery(searchQuery);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [priceFrom, priceTo, concentrationFrom, concentrationTo]);
+  }, [searchQuery]);
+
+  // Debounce price and concentration ranges (1 second for better UX)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedPriceRange(priceRange);
+      setDebouncedConcentrationRange(concentrationRange);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [priceRange, concentrationRange]);
 
   // Fetch products from API
   useEffect(() => {
@@ -70,15 +75,15 @@ export default function ProductsPage() {
         const response = await fetchProducts({
           page: currentPage,
           limit: itemsPerPage,
-          search: searchQuery || undefined,
+          search: debouncedSearchQuery || undefined,
           status: statusFilter !== "all" ? Number(statusFilter) : undefined,
           categoryId: categoryFilter !== "all" ? Number(categoryFilter) : undefined,
           brandId: brandFilter !== "all" ? Number(brandFilter) : undefined,
           warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
-          priceFrom: debouncedPriceFrom ? Number(debouncedPriceFrom) : undefined,
-          priceTo: debouncedPriceTo ? Number(debouncedPriceTo) : undefined,
-          concentrationFrom: debouncedConcentrationFrom ? Number(debouncedConcentrationFrom) : undefined,
-          concentrationTo: debouncedConcentrationTo ? Number(debouncedConcentrationTo) : undefined,
+          priceFrom: debouncedPriceRange[0] > 0 ? debouncedPriceRange[0] : undefined,
+          priceTo: debouncedPriceRange[1] < 10000 ? debouncedPriceRange[1] : undefined,
+          concentrationFrom: debouncedConcentrationRange[0] > 0 ? debouncedConcentrationRange[0] : undefined,
+          concentrationTo: debouncedConcentrationRange[1] < 20 ? debouncedConcentrationRange[1] : undefined,
         });
         
         setProducts(response.data.products);
@@ -86,7 +91,7 @@ export default function ProductsPage() {
         setPagination(response.data.pagination);
       } catch (error) {
         console.error("Error fetching products:", error);
-        toast.error("Không thể tải danh sách sản phẩm");
+        toast.error(getErrorMessage(error, "Không thể tải danh sách sản phẩm"));
         setProducts([]);
       } finally {
         setIsLoading(false);
@@ -97,15 +102,13 @@ export default function ProductsPage() {
   }, [
     currentPage, 
     itemsPerPage, 
-    searchQuery,
+    debouncedSearchQuery,
     statusFilter, 
     categoryFilter, 
     brandFilter,
     warehouseFilter,
-    debouncedPriceFrom,
-    debouncedPriceTo,
-    debouncedConcentrationFrom,
-    debouncedConcentrationTo
+    debouncedPriceRange,
+    debouncedConcentrationRange
   ]);
 
   // Clear all filters
@@ -113,10 +116,8 @@ export default function ProductsPage() {
     setCategoryFilter("all");
     setBrandFilter("all");
     setWarehouseFilter("all");
-    setPriceFrom("");
-    setPriceTo("");
-    setConcentrationFrom("");
-    setConcentrationTo("");
+    setPriceRange([0, 10000]);
+    setConcentrationRange([0, 20]);
   };
 
   // No need for client-side filtering anymore - API handles all filters
@@ -126,15 +127,13 @@ export default function ProductsPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [
-    searchQuery,
+    debouncedSearchQuery,
     statusFilter, 
     categoryFilter, 
     brandFilter,
     warehouseFilter,
-    debouncedPriceFrom,
-    debouncedPriceTo,
-    debouncedConcentrationFrom,
-    debouncedConcentrationTo
+    debouncedPriceRange,
+    debouncedConcentrationRange
   ]);
 
   // Handlers
@@ -173,10 +172,10 @@ export default function ProductsPage() {
         categoryId: categoryFilter !== "all" ? Number(categoryFilter) : undefined,
         brandId: brandFilter !== "all" ? Number(brandFilter) : undefined,
         warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
-        priceFrom: debouncedPriceFrom ? Number(debouncedPriceFrom) : undefined,
-        priceTo: debouncedPriceTo ? Number(debouncedPriceTo) : undefined,
-        concentrationFrom: debouncedConcentrationFrom ? Number(debouncedConcentrationFrom) : undefined,
-        concentrationTo: debouncedConcentrationTo ? Number(debouncedConcentrationTo) : undefined,
+        priceFrom: debouncedPriceRange[0] > 0 ? debouncedPriceRange[0] : undefined,
+        priceTo: debouncedPriceRange[1] < 10000 ? debouncedPriceRange[1] : undefined,
+        concentrationFrom: debouncedConcentrationRange[0] > 0 ? debouncedConcentrationRange[0] : undefined,
+        concentrationTo: debouncedConcentrationRange[1] < 20 ? debouncedConcentrationRange[1] : undefined,
       });
       
       setProducts(response.data.products);
@@ -184,7 +183,7 @@ export default function ProductsPage() {
       setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error creating product:", error);
-      toast.error("Không thể tạo sản phẩm. Vui lòng thử lại!");
+      toast.error(getErrorMessage(error, "Không thể tạo sản phẩm. Vui lòng thử lại!"));
     }
   };
 
@@ -223,10 +222,10 @@ export default function ProductsPage() {
         categoryId: categoryFilter !== "all" ? Number(categoryFilter) : undefined,
         brandId: brandFilter !== "all" ? Number(brandFilter) : undefined,
         warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
-        priceFrom: debouncedPriceFrom ? Number(debouncedPriceFrom) : undefined,
-        priceTo: debouncedPriceTo ? Number(debouncedPriceTo) : undefined,
-        concentrationFrom: debouncedConcentrationFrom ? Number(debouncedConcentrationFrom) : undefined,
-        concentrationTo: debouncedConcentrationTo ? Number(debouncedConcentrationTo) : undefined,
+        priceFrom: debouncedPriceRange[0] > 0 ? debouncedPriceRange[0] : undefined,
+        priceTo: debouncedPriceRange[1] < 10000 ? debouncedPriceRange[1] : undefined,
+        concentrationFrom: debouncedConcentrationRange[0] > 0 ? debouncedConcentrationRange[0] : undefined,
+        concentrationTo: debouncedConcentrationRange[1] < 20 ? debouncedConcentrationRange[1] : undefined,
       });
       
       setProducts(response.data.products);
@@ -234,7 +233,7 @@ export default function ProductsPage() {
       setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error updating product:", error);
-      toast.error("Không thể cập nhật sản phẩm. Vui lòng thử lại!");
+      toast.error(getErrorMessage(error, "Không thể cập nhật sản phẩm. Vui lòng thử lại!"));
     }
   };
 
@@ -253,10 +252,10 @@ export default function ProductsPage() {
         categoryId: categoryFilter !== "all" ? Number(categoryFilter) : undefined,
         brandId: brandFilter !== "all" ? Number(brandFilter) : undefined,
         warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
-        priceFrom: debouncedPriceFrom ? Number(debouncedPriceFrom) : undefined,
-        priceTo: debouncedPriceTo ? Number(debouncedPriceTo) : undefined,
-        concentrationFrom: debouncedConcentrationFrom ? Number(debouncedConcentrationFrom) : undefined,
-        concentrationTo: debouncedConcentrationTo ? Number(debouncedConcentrationTo) : undefined,
+        priceFrom: debouncedPriceRange[0] > 0 ? debouncedPriceRange[0] : undefined,
+        priceTo: debouncedPriceRange[1] < 10000 ? debouncedPriceRange[1] : undefined,
+        concentrationFrom: debouncedConcentrationRange[0] > 0 ? debouncedConcentrationRange[0] : undefined,
+        concentrationTo: debouncedConcentrationRange[1] < 20 ? debouncedConcentrationRange[1] : undefined,
       });
       
       setProducts(response.data.products);
@@ -264,7 +263,7 @@ export default function ProductsPage() {
       setPagination(response.data.pagination);
     } catch (error) {
       console.error("Error deleting product:", error);
-      toast.error("Không thể xóa sản phẩm. Vui lòng thử lại!");
+      toast.error(getErrorMessage(error, "Không thể xóa sản phẩm. Vui lòng thử lại!"));
     }
   };
 
@@ -319,14 +318,10 @@ export default function ProductsPage() {
         onBrandChange={setBrandFilter}
         warehouseFilter={warehouseFilter}
         onWarehouseChange={setWarehouseFilter}
-        priceFrom={priceFrom}
-        onPriceFromChange={setPriceFrom}
-        priceTo={priceTo}
-        onPriceToChange={setPriceTo}
-        concentrationFrom={concentrationFrom}
-        onConcentrationFromChange={setConcentrationFrom}
-        concentrationTo={concentrationTo}
-        onConcentrationToChange={setConcentrationTo}
+        priceRange={priceRange}
+        onPriceRangeChange={setPriceRange}
+        concentrationRange={concentrationRange}
+        onConcentrationRangeChange={setConcentrationRange}
         onClearFilters={handleClearFilters}
         summary={summary}
       />

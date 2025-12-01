@@ -139,6 +139,12 @@ export default function WarehouseDetailModal({
                             <MapPin size={16} />
                             <span>{warehouse.location}</span>
                           </div>
+                          {warehouse.city && (
+                            <div className="flex items-center gap-2 mt-1 text-[#7a8451]">
+                              <MapPin size={16} className="opacity-0" />
+                              <span className="text-sm">{warehouse.city}</span>
+                            </div>
+                          )}
                         </div>
                         {getStatusBadge(warehouse.status)}
                       </div>

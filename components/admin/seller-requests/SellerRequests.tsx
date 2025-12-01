@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
@@ -38,6 +38,7 @@ export default function SellerRequests() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<
     "all" | "pending" | "approved" | "rejected"
   >("all");
@@ -74,20 +75,33 @@ export default function SellerRequests() {
     setRefreshing(false);
   };
 
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   useEffect(() => {
     loadData();
   }, [statusFilter, sortBy, pagination.currentPage]);
 
-  // Filter requests by search query
-  const filteredRequests = requests.filter((request) => {
-    const searchLower = searchQuery.toLowerCase();
+  // Filter requests by search query with useMemo for optimization
+  const filteredRequests = useMemo(
+    () =>
+      requests.filter((request) => {
+    const searchLower = debouncedSearchQuery.toLowerCase();
     return (
       request.user.fullName.toLowerCase().includes(searchLower) ||
       request.user.email.toLowerCase().includes(searchLower) ||
-      request.user.phoneNumber.includes(searchQuery) ||
-      request.id.toString().includes(searchQuery)
+      request.user.phoneNumber.includes(debouncedSearchQuery) ||
+      request.id.toString().includes(debouncedSearchQuery)
     );
-  });
+      }),
+    [requests, debouncedSearchQuery]
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -112,6 +126,19 @@ export default function SellerRequests() {
         return <XCircle className="w-4 h-4" />;
       default:
         return null;
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "pending":
+        return t("status.pending");
+      case "approved":
+        return t("status.approved");
+      case "rejected":
+        return t("status.rejected");
+      default:
+        return status;
     }
   };
 
@@ -213,9 +240,9 @@ export default function SellerRequests() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-lg border border-neutral-200 p-4"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-row gap-4">
             {/* Search */}
-            <div className="relative">
+            <div className="flex-3 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <input
                 type="text"
@@ -227,7 +254,7 @@ export default function SellerRequests() {
             </div>
 
             {/* Status Filter */}
-            <div className="relative">
+            <div className="flex-1 relative">
               <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <select
                 value={statusFilter}
@@ -253,7 +280,7 @@ export default function SellerRequests() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as "newest" | "oldest")}
-              className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent appearance-none bg-white"
+              className="flex-1 w-full px-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent appearance-none bg-white"
             >
               <option value="newest">{t("filters.newest")}</option>
               <option value="oldest">{t("filters.oldest")}</option>
@@ -367,7 +394,7 @@ export default function SellerRequests() {
                             )}`}
                           >
                             {getStatusIcon(request.status)}
-                            {request.statusText}
+                            {getStatusText(request.status)}
                           </span>
                         </td>
                         <td className="px-4 py-4 text-sm text-neutral-600">

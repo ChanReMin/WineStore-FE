@@ -135,20 +135,6 @@ export default function UpdateOrderStatusModal({
                   </div>
                 </div>
 
-                {/* Note */}
-                <div>
-                  <label className="block text-sm font-medium text-[#3b4417] mb-2">
-                    {t("updateStatus.noteLabel")}
-                  </label>
-                  <textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    rows={4}
-                    className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] resize-none"
-                    placeholder={t("updateStatus.notePlaceholder")}
-                  />
-                </div>
-
                 {/* Warning */}
                 {selectedStatus === 5 && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4">

@@ -116,15 +116,6 @@ export default function InventoryLogsPage() {
           </h1>
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
-        <div className="flex gap-3">
-          <button 
-            onClick={() => setIsExportModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#3b4417] hover:bg-[#2a2f18] text-white rounded-lg transition-colors font-medium"
-          >
-            <Download className="w-4 h-4" />
-            {t("exportReport")}
-          </button>
-        </div>
       </div>
 
       {/* Summary Cards */}

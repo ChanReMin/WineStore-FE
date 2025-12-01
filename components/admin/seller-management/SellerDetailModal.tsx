@@ -162,7 +162,7 @@ export default function SellerDetailModal({
                   <h4 className="text-lg font-semibold text-[#3b4417] mb-4">
                     {t("detailModal.statistics")}
                   </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-4 bg-blue-50 rounded-lg">
                       <div className="flex items-center gap-2 mb-2">
                         <TrendingUp className="w-5 h-5 text-blue-600" />
@@ -187,17 +187,6 @@ export default function SellerDetailModal({
                           currency: "VND",
                           notation: "compact",
                         }).format(seller.statistics.totalRevenue)}
-                      </p>
-                    </div>
-                    <div className="p-4 bg-amber-50 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xl">⭐</span>
-                        <p className="text-sm text-amber-600 font-medium">
-                          {t("stats.rating")}
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-amber-700">
-                        {seller.statistics.average_rating.toFixed(1)}
                       </p>
                     </div>
                   </div>
@@ -239,17 +228,6 @@ export default function SellerDetailModal({
                   {t("detailModal.activity")}
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
-                    <Clock className="w-5 h-5 text-[#7a8451]" />
-                    <div>
-                      <p className="text-xs text-neutral-500">
-                        {t("detailModal.lastLogin")}
-                      </p>
-                      <p className="font-medium text-neutral-900">
-                        {new Date(seller.lastLoginAt).toLocaleString("vi-VN")}
-                      </p>
-                    </div>
-                  </div>
                   <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
                     <Calendar className="w-5 h-5 text-[#7a8451]" />
                     <div>

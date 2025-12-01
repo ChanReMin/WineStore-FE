@@ -110,23 +110,6 @@ export default function MetricsCards({
                   <p className="text-2xl font-bold text-[#3b4417] mb-2">
                     {card.value}
                   </p>
-                  <div className="flex items-center gap-1">
-                    {card.trendUp ? (
-                      <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
-                    ) : (
-                      <TrendingDown className="w-3.5 h-3.5 text-red-600" />
-                    )}
-                    <span
-                      className={`text-xs font-medium ${
-                        card.trendUp ? "text-emerald-600" : "text-red-600"
-                      }`}
-                    >
-                      {card.trend}
-                    </span>
-                    <span className="text-xs text-neutral-500">
-                      {t("vsLastMonth")}
-                    </span>
-                  </div>
                 </div>
                 <div
                   className={`${card.bgColor} p-3 rounded-xl transition-all duration-300 group-hover:scale-110`}

@@ -47,7 +47,7 @@ export function DroppableProductItemSortable({
             <h3 className="font-semibold text-gray-900">{product.name}</h3>
             <div className="flex items-center gap-1 text-sm text-gray-600 mt-1">
               <DollarSign className="w-4 h-4" />
-              <span>{product.price.toLocaleString()}đ</span>
+              <span>{(product.price || 0).toLocaleString()}đ</span>
             </div>
           </div>
         </div>

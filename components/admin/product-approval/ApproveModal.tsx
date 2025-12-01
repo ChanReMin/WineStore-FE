@@ -88,28 +88,12 @@ export default function ApproveModal({
                   <p className="font-semibold text-neutral-900">
                     {product.name}
                   </p>
-                  <p className="text-sm text-neutral-500 mt-1">
-                    ID: {product.id}
-                  </p>
                 </div>
 
                 <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                   <p className="text-sm text-emerald-800">
                     {t("confirmMessage")}
                   </p>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    {t("note")} ({t("optional")})
-                  </label>
-                  <Textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder={t("notePlaceholder")}
-                    rows={4}
-                    className="w-full"
-                  />
                 </div>
               </div>
 

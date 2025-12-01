@@ -31,12 +31,6 @@ const getMenuItems = (locale: string): MenuItem[] => [
     href: `/${locale}/admin`,
   },
   {
-    icon: UserCheck,
-    labelKey: "sellerRequest",
-    href: `/${locale}/admin/seller-requests`,
-    badge: 5,
-  },
-  {
     icon: Package,
     labelKey: "productApproval",
     href: `/${locale}/admin/product-approval`,
@@ -57,6 +51,12 @@ const getMenuItems = (locale: string): MenuItem[] => [
     icon: Store,
     labelKey: "sellerManagement",
     href: `/${locale}/admin/seller-management`,
+  },
+   {
+    icon: UserCheck,
+    labelKey: "sellerRequest",
+    href: `/${locale}/admin/seller-requests`,
+    badge: 5,
   },
 ];
 
@@ -149,11 +149,7 @@ export default function AdminSidebar({
                       )}
                     </AnimatePresence>
                   </div>
-                  {!isCollapsed && item.badge && (
-                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold text-white">
-                      {item.badge}
-                    </span>
-                  )}
+                 
                 </Link>
               </li>
             );

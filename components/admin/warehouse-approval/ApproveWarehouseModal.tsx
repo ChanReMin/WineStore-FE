@@ -104,25 +104,6 @@ export default function ApproveWarehouseModal({
                       {warehouse.manager.firstName} {warehouse.manager.lastName}
                     </p>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-2">
-                      {t("noteLabel")}{" "}
-                      <span className="text-neutral-400">
-                        ({t("optional")})
-                      </span>
-                    </label>
-                    <Textarea
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      placeholder={t("notePlaceholder")}
-                      rows={4}
-                      className="resize-none"
-                    />
-                    <p className="text-xs text-neutral-500 mt-1">
-                      {t("noteHint")}
-                    </p>
-                  </div>
                 </div>
 
                 {error && (

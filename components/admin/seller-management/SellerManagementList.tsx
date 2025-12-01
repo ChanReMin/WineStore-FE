@@ -87,6 +87,15 @@ export default function SellerManagementList() {
     loadData();
   }, [statusFilter]);
 
+  // Debounce search query - automatically call API after 1 second
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadData(1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const handleSearch = () => {
     loadData(1);
   };
@@ -174,15 +183,6 @@ export default function SellerManagementList() {
           </h1>
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-[#3b4417] text-amber-50 rounded-lg hover:bg-[#4c5b23] transition-colors"
-        >
-          <UserPlus className="w-4 h-4" />
-          <span className="hidden sm:inline">{t("createSeller")}</span>
-        </motion.button>
       </div>
 
       {/* Summary Cards */}
@@ -294,7 +294,6 @@ export default function SellerManagementList() {
                 placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 className="pl-10"
               />
             </div>

@@ -165,7 +165,12 @@ export default function WarehouseList({
               {/* Location */}
               <div className="flex items-start gap-2 text-sm text-[#7a8451] mb-4">
                 <MapPin size={16} className="mt-0.5 shrink-0" />
-                <span className="line-clamp-2">{warehouse.location}</span>
+                <div className="flex flex-col">
+                  <span className="line-clamp-2">{warehouse.location}</span>
+                  {warehouse.city && (
+                    <span className="text-xs mt-0.5">{warehouse.city}</span>
+                  )}
+                </div>
               </div>
 
               {/* Description */}

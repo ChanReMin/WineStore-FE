@@ -136,6 +136,128 @@ export default function AuthModal({
     }
   };
 
+  const validateDateOfBirth = (dateString: string) => {
+    if (!dateString) {
+      // Optional field, no error if empty
+      return "";
+    }
+
+    const selectedDate = new Date(dateString);
+    const today = new Date();
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 100); // Maximum 100 years old
+
+    // Check if date is valid
+    if (isNaN(selectedDate.getTime())) {
+      return t("validation.invalidDate");
+    }
+
+    // Check if date is in the future
+    if (selectedDate > today) {
+      return t("validation.dateInFuture");
+    }
+
+    // Check if date is too old (more than 100 years)
+    if (selectedDate < minDate) {
+      return t("validation.dateTooOld");
+    }
+
+    // Check if user is at least 18 years old (for wine website)
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+    
+    if (selectedDate > eighteenYearsAgo) {
+      return t("validation.mustBe18");
+    }
+
+    return "";
+  };
+
+  const handleDateOfBirthBlur = () => {
+    if (formData.dateOfBirth) {
+      const error = validateDateOfBirth(formData.dateOfBirth);
+      if (error) {
+        setErrors({ ...errors, dateOfBirth: error });
+      }
+    }
+  };
+
+  const validatePassword = (password: string) => {
+    if (!password) {
+      return t("validation.passwordRequired");
+    }
+
+    if (password.length < 8) {
+      return t("validation.passwordTooShort");
+    }
+
+    if (password.length > 50) {
+      return t("validation.passwordTooLong");
+    }
+
+    // Check for at least one uppercase letter
+    if (!/[A-Z]/.test(password)) {
+      return t("validation.passwordNeedsUppercase");
+    }
+
+    // Check for at least one lowercase letter
+    if (!/[a-z]/.test(password)) {
+      return t("validation.passwordNeedsLowercase");
+    }
+
+    // Check for at least one number
+    if (!/[0-9]/.test(password)) {
+      return t("validation.passwordNeedsNumber");
+    }
+
+    // Check for at least one special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return t("validation.passwordNeedsSpecial");
+    }
+
+    return "";
+  };
+
+  const validateConfirmPassword = (confirmPassword: string, password: string) => {
+    if (!confirmPassword) {
+      return t("validation.confirmPasswordRequired");
+    }
+
+    if (confirmPassword !== password) {
+      return t("validation.passwordMismatch");
+    }
+
+    return "";
+  };
+
+  const handlePasswordBlur = () => {
+    if (mode === "register" && formData.password) {
+      const error = validatePassword(formData.password);
+      if (error) {
+        setErrors({ ...errors, password: error });
+      } else {
+        // Clear password error if valid
+        const newErrors = { ...errors };
+        delete newErrors.password;
+        setErrors(newErrors);
+      }
+    }
+  };
+
+  const handleConfirmPasswordBlur = () => {
+    if (mode === "register" && formData.confirmPassword) {
+      const error = validateConfirmPassword(formData.confirmPassword, formData.password);
+      if (error) {
+        setErrors({ ...errors, confirmPassword: error });
+      } else {
+        // Clear confirm password error if valid
+        const newErrors = { ...errors };
+        delete newErrors.confirmPassword;
+        setErrors(newErrors);
+      }
+    }
+  };
+
   const switchMode = () => {
     setMode(mode === "login" ? "register" : "login");
     setErrors({});
@@ -257,9 +379,6 @@ export default function AuthModal({
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.firstName")}{" "}
-                              <span className="text-neutral-400">
-                                ({t("fields.optional")})
-                              </span>
                             </label>
                             <input
                               type="text"
@@ -277,9 +396,6 @@ export default function AuthModal({
                               className="block text-xs uppercase tracking-wider text-neutral-700"
                             >
                               {t("fields.lastName")}{" "}
-                              <span className="text-neutral-400">
-                                ({t("fields.optional")})
-                              </span>
                             </label>
                             <input
                               type="text"
@@ -370,6 +486,7 @@ export default function AuthModal({
                               name="dateOfBirth"
                               value={formData.dateOfBirth}
                               onChange={handleChange}
+                              onBlur={handleDateOfBirthBlur}
                               max={new Date().toISOString().split("T")[0]}
                               className={`mt-1 w-full border bg-white px-4 py-2.5 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
                                 errors.dateOfBirth
@@ -434,6 +551,7 @@ export default function AuthModal({
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
+                                onBlur={handlePasswordBlur}
                                 className={`mt-1 w-full border bg-white px-4 py-2.5 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
                                   errors.password
                                     ? "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -494,6 +612,7 @@ export default function AuthModal({
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
+                                onBlur={handleConfirmPasswordBlur}
                                 className={`mt-1 w-full border bg-white px-4 py-2.5 pr-10 text-sm text-neutral-900 transition-all focus:outline-none focus:ring-1 ${
                                   errors.confirmPassword
                                     ? "border-red-500 focus:border-red-500 focus:ring-red-500"
