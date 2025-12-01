@@ -92,6 +92,21 @@
     "errors": {
       "emailPasswordRequired": "Email and password are required",
       "passwordMismatch": "Confirm password does not match"
+    },
+    "validation": {
+      "invalidDate": "Invalid date format",
+      "dateInFuture": "Date of birth cannot be in the future",
+      "dateTooOld": "Please enter a valid date of birth",
+      "mustBe18": "You must be at least 18 years old to register",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordTooLong": "Password must not exceed 50 characters",
+      "passwordNeedsUppercase": "Password must contain at least one uppercase letter",
+      "passwordNeedsLowercase": "Password must contain at least one lowercase letter",
+      "passwordNeedsNumber": "Password must contain at least one number",
+      "passwordNeedsSpecial": "Password must contain at least one special character (!@#$%^&*)",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordMismatch": "Passwords do not match"
     }
   },
   "cart": {
@@ -238,25 +253,6 @@
         "1": "Premium Wines",
         "2": "Countries"
       }
-    },
-    "locationModal": {
-      "title": "Select Location",
-      "description": "Please provide location information to continue",
-      "city": "City",
-      "store": "Store",
-      "selectCity": "Select a city",
-      "selectStore": "Select a store",
-      "selectCityFirst": "Select a city first",
-      "complete": "Complete",
-      "loading": "Loading...",
-      "loadingCities": "Loading cities...",
-      "loadingStores": "Loading stores...",
-      "error": "An error occurred",
-      "errorLoadCities": "Unable to load cities. Please try again.",
-      "errorLoadStores": "Unable to load stores. Please try again.",
-      "errorSelectCity": "Please select a city",
-      "errorSelectStore": "Please select a store",
-      "close": "Close"
     },
     "wineStories": {
       "title": "The Fresh New Wine Stories",
@@ -414,7 +410,7 @@
       "warehouses": "Warehouses",
       "inventory": "Inventory",
       "inventoryLogs": "Inventory Logs",
-      "promotions": "Promotions & Discounts",
+      "promotions": "Promotions",
       "promotionList": "Promotion List",
       "promotionAssignment": "Promotion Assignment"
     },
@@ -902,6 +898,9 @@
         "location": "Location",
         "locationPlaceholder": "e.g., 123 Nguyen Hue, District 1, HCMC",
         "locationRequired": "Location is required",
+        "city": "City",
+        "cityPlaceholder": "e.g., Ho Chi Minh City",
+        "cityRequired": "City is required",
         "description": "Description",
         "descriptionPlaceholder": "Describe the warehouse...",
         "note": "Note:",
@@ -971,7 +970,7 @@
     "addToCart": "Add to Cart",
     "buyNow": "Buy Now",
     "save": "Save",
-    "unavailable": "Currently Unavailable",
+    "unavailable": "Coming Soon",
     "trust": {
       "authentic": "Authentic Guarantee",
       "freeShipping": "Free Shipping",
@@ -1832,7 +1831,7 @@
         "rejected": "Rejected"
       },
       "filters": {
-        "searchPlaceholder": "Search by name, email, phone, ID...",
+        "searchPlaceholder": "Search by name",
         "all": "All",
         "pending": "Pending",
         "approved": "Approved",
@@ -1852,6 +1851,11 @@
         "view": "View",
         "noRequests": "No requests found",
         "noRequestsDesc": "No seller upgrade requests yet"
+      },
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
       },
       "pagination": {
         "showing": "Showing",
@@ -2240,6 +2244,8 @@
         "lockedUsers": "Locked"
       },
       "filters": {
+        "role": "Role",
+        "status": "Status",
         "allRoles": "All Roles",
         "customers": "Customers",
         "sellers": "Sellers",
@@ -2247,7 +2253,17 @@
         "allStatus": "All Status",
         "active": "Active",
         "inactive": "Inactive",
-        "locked": "Locked"
+        "locked": "Locked",
+        "sortBy": "Sort By",
+        "sortByCreatedAt": "Created Date",
+        "sortByName": "Name",
+        "sortByEmail": "Email",
+        "sortByOrders": "Total Orders",
+        "sortBySpent": "Total Spent",
+        "order": "Order",
+        "sortOrder": "Sort Order",
+        "ascending": "Ascending",
+        "descending": "Descending"
       },
       "status": {
         "active": "Active",

@@ -137,12 +137,6 @@ export default function ChangeRoleModal({
                         {t("role.seller")}
                       </div>
                     </SelectItem>
-                    <SelectItem value="admin">
-                      <div className="flex items-center gap-2">
-                        <Shield className="w-4 h-4" />
-                        {t("role.admin")}
-                      </div>
-                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

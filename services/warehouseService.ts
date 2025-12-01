@@ -4,6 +4,7 @@ export interface Warehouse {
   id: number;
   name: string;
   location: string;
+  city: string;
   description: string;
   status: 0 | 1 | 2; // 0=pending, 1=active, 2=banned
   manager_id: number;
@@ -77,12 +78,14 @@ export interface WarehouseListResponse {
 export interface CreateWarehouseRequest {
   name: string;
   location: string;
+  city: string;
   description: string;
 }
 
 export interface UpdateWarehouseRequest {
   name: string;
   location: string;
+  city: string;
   description: string;
 }
 

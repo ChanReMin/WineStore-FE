@@ -92,6 +92,21 @@
     "errors": {
       "emailPasswordRequired": "Email và mật khẩu là bắt buộc",
       "passwordMismatch": "Mật khẩu xác nhận không khớp"
+    },
+    "validation": {
+      "invalidDate": "Định dạng ngày không hợp lệ",
+      "dateInFuture": "Ngày sinh không thể là ngày trong tương lai",
+      "dateTooOld": "Vui lòng nhập ngày sinh hợp lệ",
+      "mustBe18": "Bạn phải đủ 18 tuổi trở lên để đăng ký",
+      "passwordRequired": "Mật khẩu là bắt buộc",
+      "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự",
+      "passwordTooLong": "Mật khẩu không được vượt quá 50 ký tự",
+      "passwordNeedsUppercase": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa",
+      "passwordNeedsLowercase": "Mật khẩu phải chứa ít nhất một chữ cái viết thường",
+      "passwordNeedsNumber": "Mật khẩu phải chứa ít nhất một chữ số",
+      "passwordNeedsSpecial": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*)",
+      "confirmPasswordRequired": "Vui lòng xác nhận mật khẩu",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp"
     }
   },
   "cart": {
@@ -238,25 +253,6 @@
         "1": "Rượu vang cao cấp",
         "2": "Quốc gia"
       }
-    },
-    "locationModal": {
-      "title": "Chọn Địa Chỉ",
-      "description": "Vui lòng cung cấp thông tin địa chỉ để tiếp tục",
-      "city": "Thành phố",
-      "store": "Cửa hàng",
-      "selectCity": "Chọn thành phố",
-      "selectStore": "Chọn cửa hàng",
-      "selectCityFirst": "Chọn thành phố trước",
-      "complete": "Hoàn tất",
-      "loading": "Đang tải...",
-      "loadingCities": "Đang tải danh sách thành phố...",
-      "loadingStores": "Đang tải danh sách cửa hàng...",
-      "error": "Đã xảy ra lỗi",
-      "errorLoadCities": "Không thể tải danh sách thành phố. Vui lòng thử lại.",
-      "errorLoadStores": "Không thể tải danh sách cửa hàng. Vui lòng thử lại.",
-      "errorSelectCity": "Vui lòng chọn thành phố",
-      "errorSelectStore": "Vui lòng chọn cửa hàng",
-      "close": "Đóng"
     },
     "wineStories": {
       "title": "Những câu chuyện rượu vang mới mẻ",
@@ -900,6 +896,9 @@
         "location": "Địa chỉ",
         "locationPlaceholder": "VD: 123 Nguyễn Huệ, Quận 1, TP.HCM",
         "locationRequired": "Địa chỉ không được để trống",
+        "city": "Thành phố",
+        "cityPlaceholder": "VD: Thành phố Hồ Chí Minh",
+        "cityRequired": "Thành phố không được để trống",
         "description": "Mô tả",
         "descriptionPlaceholder": "Mô tả về kho hàng...",
         "note": "Lưu ý:",
@@ -969,7 +968,7 @@
     "addToCart": "Thêm vào giỏ",
     "buyNow": "Mua ngay",
     "save": "Lưu",
-    "unavailable": "Hiện không có sẵn",
+    "unavailable": "Hàng sắp tới",
     "trust": {
       "authentic": "Đảm bảo chính hãng",
       "freeShipping": "Miễn phí vận chuyển",
@@ -1851,6 +1850,11 @@
         "noRequests": "Không có yêu cầu nào",
         "noRequestsDesc": "Chưa có yêu cầu nâng cấp người bán nào"
       },
+      "status": {
+        "pending": "Chờ duyệt",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối"
+      },
       "pagination": {
         "showing": "Hiển thị",
         "of": "trong số",
@@ -2225,95 +2229,6 @@
         "noSellersDesc": "Tạo người bán mới để bắt đầu"
       }
     },
-    "warehouseApproval": {
-      "title": "Duyệt kho hàng",
-      "subtitle": "Quản lý yêu cầu tạo kho từ người bán",
-      "loading": "Đang tải...",
-      "searchPlaceholder": "Tìm kiếm theo tên kho, địa chỉ, người quản lý...",
-      "products": "sản phẩm",
-      "approved": "đã duyệt",
-      "summary": {
-        "totalPending": "Chờ duyệt",
-        "totalActive": "Đang hoạt động",
-        "totalRequests": "Tổng yêu cầu"
-      },
-      "status": {
-        "pending": "Chờ duyệt",
-        "active": "Đang hoạt động",
-        "banned": "Bị khóa"
-      },
-      "filters": {
-        "all": "Tất cả",
-        "pending": "Chờ duyệt",
-        "active": "Đang hoạt động",
-        "banned": "Bị khóa",
-        "newest": "Mới nhất",
-        "oldest": "Cũ nhất"
-      },
-      "table": {
-        "warehouse": "Kho hàng",
-        "location": "Địa chỉ",
-        "manager": "Người quản lý",
-        "status": "Trạng thái",
-        "createdAt": "Ngày tạo",
-        "actions": "Thao tác",
-        "noWarehouses": "Không có kho hàng nào",
-        "noWarehousesDesc": "Chưa có yêu cầu tạo kho nào"
-      },
-      "actions": {
-        "viewDetail": "Xem chi tiết",
-        "approve": "Phê duyệt",
-        "reject": "Từ chối"
-      },
-      "pagination": {
-        "showing": "Hiển thị",
-        "of": "trong số"
-      },
-      "detail": {
-        "requestId": "Mã yêu cầu",
-        "location": "Địa chỉ",
-        "description": "Mô tả",
-        "managerInfo": "Thông tin người quản lý",
-        "totalProducts": "sản phẩm",
-        "approved": "đã duyệt",
-        "timeline": "Thời gian",
-        "createdAt": "Ngày tạo",
-        "updatedAt": "Cập nhật lần cuối",
-        "inventorySummary": "Tổng quan kho hàng",
-        "totalQuantity": "Tổng số lượng",
-        "totalValue": "Tổng giá trị",
-        "cancel": "Hủy",
-        "reject": "Từ chối",
-        "approve": "Phê duyệt"
-      },
-      "approve": {
-        "title": "Phê duyệt kho hàng",
-        "subtitle": "Xác nhận phê duyệt yêu cầu tạo kho",
-        "warehouseName": "Tên kho",
-        "manager": "Người quản lý",
-        "noteLabel": "Ghi chú",
-        "optional": "tùy chọn",
-        "notePlaceholder": "Thêm ghi chú về việc phê duyệt...",
-        "noteHint": "Ghi chú sẽ được gửi đến người quản lý kho",
-        "cancel": "Hủy",
-        "confirm": "Xác nhận phê duyệt",
-        "approving": "Đang phê duyệt..."
-      },
-      "reject": {
-        "title": "Từ chối kho hàng",
-        "subtitle": "Xác nhận từ chối yêu cầu tạo kho",
-        "warning": "Cảnh báo: Hành động này không thể hoàn tác",
-        "warehouseName": "Tên kho",
-        "manager": "Người quản lý",
-        "reasonLabel": "Lý do từ chối",
-        "reasonPlaceholder": "Nhập lý do từ chối yêu cầu tạo kho...",
-        "reasonHint": "Lý do sẽ được gửi đến người quản lý kho",
-        "reasonRequired": "Vui lòng nhập lý do từ chối",
-        "cancel": "Hủy",
-        "confirm": "Xác nhận từ chối",
-        "rejecting": "Đang từ chối..."
-      }
-    },
     "userManagement": {
       "title": "Quản lý người dùng",
       "subtitle": "Quản lý tất cả người dùng trong hệ thống",
@@ -2327,6 +2242,8 @@
         "lockedUsers": "Bị khóa"
       },
       "filters": {
+        "role": "Vai trò",
+        "status": "Trạng thái",
         "allRoles": "Tất cả vai trò",
         "customers": "Khách hàng",
         "sellers": "Người bán",
@@ -2334,7 +2251,17 @@
         "allStatus": "Tất cả trạng thái",
         "active": "Đang hoạt động",
         "inactive": "Tạm ngưng",
-        "locked": "Bị khóa"
+        "locked": "Bị khóa",
+        "sortBy": "Sắp xếp theo",
+        "sortByCreatedAt": "Ngày tạo",
+        "sortByName": "Tên",
+        "sortByEmail": "Email",
+        "sortByOrders": "Tổng đơn hàng",
+        "sortBySpent": "Tổng chi tiêu",
+        "order": "Thứ tự",
+        "sortOrder": "Thứ tự",
+        "ascending": "Tăng dần",
+        "descending": "Giảm dần"
       },
       "status": {
         "active": "Đang hoạt động",

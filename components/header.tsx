@@ -7,10 +7,9 @@ import { useAuth } from "@/hooks/useAuth";
 import AuthModal from "./auth/AuthModal";
 import { UserMenu } from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
-import LocationModal from "./homepage/LocationModal";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";
-import { Menu, X, MapPin } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const headerVariants: any = {
   hidden: { y: -40, opacity: 0 },
@@ -46,12 +45,6 @@ export default function Header() {
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
     "login"
   );
-  const [userCity, setUserCity] = useState<string>("");
-  const [userLocation, setUserLocation] = useState<{
-    city: string;
-    store: string;
-  } | null>(null);
-  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const baseLink = "transition-all hover:opacity-60";
@@ -60,35 +53,6 @@ export default function Header() {
     setAuthModalMode(mode);
     setIsAuthModalOpen(true);
   };
-
-  useEffect(() => {
-    const location = localStorage.getItem("location");
-    if (location) {
-      try {
-        const data = JSON.parse(location);
-        setUserCity(data.city);
-        setUserLocation(data);
-      } catch (e) {
-        console.error("Failed to parse location data");
-      }
-    }
-
-    const handleLocationUpdate = (event: CustomEvent) => {
-      setUserCity(event.detail.city);
-    };
-
-    window.addEventListener(
-      "locationUpdated",
-      handleLocationUpdate as EventListener
-    );
-
-    return () => {
-      window.removeEventListener(
-        "locationUpdated",
-        handleLocationUpdate as EventListener
-      );
-    };
-  }, []);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -213,23 +177,6 @@ export default function Header() {
             {/* Language Switcher */}
             <LanguageSwitcher />
 
-            {userCity && (
-              <motion.button
-                type="button"
-                onClick={() => setIsLocationModalOpen(true)}
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-sm text-neutral-600 transition-all hover:border-neutral-300 hover:bg-white/50"
-                title="Thay đổi địa chỉ"
-              >
-                <MapPin className="h-4 w-4 transition-transform group-hover:scale-110" />
-                <span className="text-[14px] tracking-[0.25em] uppercase whitespace-nowrap">
-                  {userCity}
-                </span>
-              </motion.button>
-            )}
             {isAuthenticated ? (
               <>
                 <CartDropdown />
@@ -347,23 +294,6 @@ export default function Header() {
                   </Link>
                 </nav>
 
-                {/* Location Button */}
-                {userCity && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsLocationModalOpen(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="flex items-center gap-2 w-full px-4 py-3 text-sm text-neutral-600 bg-white/50 rounded-md hover:bg-white/70 transition-colors"
-                  >
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-[14px] tracking-[0.2em] uppercase">
-                      {userCity}
-                    </span>
-                  </button>
-                )}
-
                 {/* Auth Buttons or User Menu */}
                 {isAuthenticated ? (
                   <div className="pt-4 border-t border-neutral-200">
@@ -404,29 +334,6 @@ export default function Header() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         initialMode={authModalMode}
-      />
-
-      {/* Location Modal */}
-      <LocationModal
-        isOpen={isLocationModalOpen}
-        onClose={() => setIsLocationModalOpen(false)}
-        onComplete={(data) => {
-          // Save to localStorage
-          localStorage.setItem("location", JSON.stringify(data));
-
-          // Update state
-          setUserCity(data.city);
-          setUserLocation(data);
-
-          // Dispatch custom event for other components
-          window.dispatchEvent(
-            new CustomEvent("locationUpdated", { detail: data })
-          );
-
-          // Close modal
-          setIsLocationModalOpen(false);
-        }}
-        defaultValues={userLocation}
       />
     </>
   );

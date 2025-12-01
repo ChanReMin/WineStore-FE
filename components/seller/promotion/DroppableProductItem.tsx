@@ -53,7 +53,7 @@ export const DroppableProductItem = memo(function DroppableProductItem({
               </h3>
               <div className="flex items-center gap-1 text-xs text-gray-500">
                 <DollarSign className="w-3 h-3" />
-                <span>{product.price.toLocaleString()}đ</span>
+                <span>{(product.price || 0).toLocaleString()}đ</span>
               </div>
             </div>
           </div>
@@ -123,8 +123,8 @@ export const DroppableProductItem = memo(function DroppableProductItem({
                       </span>
                       <span className="bg-green-500 text-white px-1.5 py-0.5 rounded text-xs font-bold flex-shrink-0">
                         {promotion.discount_type === 1
-                          ? `${promotion.discount_value}%`
-                          : `${promotion.discount_value.toLocaleString()}đ`}
+                          ? `${promotion.discount_value || 0}%`
+                          : `${(promotion.discount_value || 0).toLocaleString()}đ`}
                       </span>
                     </div>
                     <span className="text-xs text-gray-500 font-mono">

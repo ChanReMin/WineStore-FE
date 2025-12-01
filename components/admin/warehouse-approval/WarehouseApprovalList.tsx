@@ -82,6 +82,15 @@ export default function WarehouseApprovalList() {
     loadData();
   }, [statusFilter, sortOrder]);
 
+  // Debounce search query - automatically call API after 1 second
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadData(1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const handleSearch = () => {
     loadData(1);
   };
@@ -254,7 +263,6 @@ export default function WarehouseApprovalList() {
                 placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 className="pl-10"
               />
             </div>

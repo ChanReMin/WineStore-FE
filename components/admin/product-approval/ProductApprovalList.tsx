@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
@@ -49,6 +49,7 @@ export default function ProductApprovalList() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<number | "all">("all");
 
   // Modals
@@ -82,6 +83,15 @@ export default function ProductApprovalList() {
       setLoading(false);
     }
   };
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   useEffect(() => {
     loadData();
@@ -145,8 +155,12 @@ export default function ProductApprovalList() {
     );
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = useMemo(
+    () =>
+      products.filter((product) =>
+        product.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+      ),
+    [products, debouncedSearchQuery]
   );
 
   if (loading) {

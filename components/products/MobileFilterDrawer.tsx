@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { MOCK_BRANDS, MOCK_CATEGORIES } from "@/lib/mockData";
+import RangeSlider from "./RangeSlider";
 
 interface ProductFilters {
   q?: string;
@@ -23,7 +24,7 @@ interface MobileFilterDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   filters: ProductFilters;
-  onFilterChange: (filters: Partial<ProductFilters>) => void;
+  onFilterChange: (filters: Partial<ProductFilters>, apply?: boolean) => void;
   onReset: () => void;
 }
 
@@ -145,30 +146,26 @@ export default function MobileFilterDrawer({
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
                   {t("priceRange")}
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="number"
-                    placeholder={t("min")}
-                    value={filters.priceMin || ""}
-                    onChange={(e) =>
-                      onFilterChange({
-                        priceMin: Number(e.target.value) || undefined,
-                      })
-                    }
-                    className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
-                  />
-                  <input
-                    type="number"
-                    placeholder={t("max")}
-                    value={filters.priceMax || ""}
-                    onChange={(e) =>
-                      onFilterChange({
-                        priceMax: Number(e.target.value) || undefined,
-                      })
-                    }
-                    className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
-                  />
-                </div>
+                <RangeSlider
+                  min={0}
+                  max={10000}
+                  step={100}
+                  value={[
+                    filters.priceMin || 0,
+                    filters.priceMax || 10000,
+                  ]}
+                  onChange={([min, max]) => {
+                    onFilterChange(
+                      {
+                        priceMin: min > 0 ? min : undefined,
+                        priceMax: max < 10000 ? max : undefined,
+                      },
+                      true
+                    );
+                  }}
+                  unit=""
+                  formatValue={(val) => `$${val.toLocaleString()}`}
+                />
               </div>
 
               {/* Concentration Range */}
@@ -176,32 +173,25 @@ export default function MobileFilterDrawer({
                 <label className="block text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-600">
                   {t("abv")}
                 </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <input
-                    type="number"
-                    step="0.1"
-                    placeholder={t("min")}
-                    value={filters.concentrationMin || ""}
-                    onChange={(e) =>
-                      onFilterChange({
-                        concentrationMin: Number(e.target.value) || undefined,
-                      })
-                    }
-                    className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
-                  />
-                  <input
-                    type="number"
-                    step="0.1"
-                    placeholder={t("max")}
-                    value={filters.concentrationMax || ""}
-                    onChange={(e) =>
-                      onFilterChange({
-                        concentrationMax: Number(e.target.value) || undefined,
-                      })
-                    }
-                    className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
-                  />
-                </div>
+                <RangeSlider
+                  min={0}
+                  max={20}
+                  step={0.5}
+                  value={[
+                    filters.concentrationMin || 0,
+                    filters.concentrationMax || 100,
+                  ]}
+                  onChange={([min, max]) => {
+                    onFilterChange(
+                      {
+                        concentrationMin: min > 0 ? min : undefined,
+                        concentrationMax: max < 20 ? max : undefined,
+                      },
+                      true
+                    );
+                  }}
+                  unit="%"
+                />
               </div>
 
               <button

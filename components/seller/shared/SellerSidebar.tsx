@@ -11,11 +11,7 @@ import {
   ShoppingCart,
   Warehouse,
   Gift,
-  Users,
-  BarChart3,
-  Settings,
   ChevronDown,
-  ChevronRight,
   Menu,
   X,
   PanelRightOpen,
@@ -250,11 +246,6 @@ export default function SellerSidebar({
                             }`}
                           >
                             <span>{t(`sidebar.${child.labelKey}`)}</span>
-                            {child.badge && (
-                              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 text-xs font-semibold text-white">
-                                {child.badge}
-                              </span>
-                            )}
                           </Link>
                         </li>
                       ))}

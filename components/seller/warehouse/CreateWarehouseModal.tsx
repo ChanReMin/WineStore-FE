@@ -26,6 +26,7 @@ export default function CreateWarehouseModal({
   const [formData, setFormData] = useState({
     name: "",
     location: "",
+    city: "",
     description: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -43,6 +44,9 @@ export default function CreateWarehouseModal({
     if (!formData.location.trim()) {
       newErrors.location = t("locationRequired");
     }
+    if (!formData.city.trim()) {
+      newErrors.city = t("cityRequired");
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -53,7 +57,7 @@ export default function CreateWarehouseModal({
     try {
       const result = await warehouseService.createWarehouse(formData);
       toast.success(result.message || t("success"));
-      setFormData({ name: "", location: "", description: "" });
+      setFormData({ name: "", location: "", city: "", description: "" });
       onSuccess();
       onClose();
     } catch (error) {
@@ -66,7 +70,7 @@ export default function CreateWarehouseModal({
 
   const handleClose = () => {
     if (!isSubmitting) {
-      setFormData({ name: "", location: "", description: "" });
+      setFormData({ name: "", location: "", city: "", description: "" });
       setErrors({});
       onClose();
     }
@@ -152,6 +156,28 @@ export default function CreateWarehouseModal({
                   />
                   {errors.location && (
                     <p className="text-sm text-red-500">{errors.location}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="city" className="text-[#3b4417]">
+                    {t("city")}{" "}
+                    <span className="text-red-500">{t("required")}</span>
+                  </Label>
+                  <Input
+                    id="city"
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                    placeholder={t("cityPlaceholder")}
+                    className={`border-[#d4d6b4] focus:border-[#3b4417] ${
+                      errors.city ? "border-red-500" : ""
+                    }`}
+                    disabled={isSubmitting}
+                  />
+                  {errors.city && (
+                    <p className="text-sm text-red-500">{errors.city}</p>
                   )}
                 </div>
 

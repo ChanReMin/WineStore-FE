@@ -25,6 +25,7 @@ import {
   updatePromotion,
   fetchPromotionDetail,
 } from "@/services/promotionService";
+import { getErrorMessage } from "@/lib/errorHandler";
 
 interface PromotionFormModalProps {
   isOpen: boolean;
@@ -99,9 +100,7 @@ export default function PromotionFormModal({
       });
     } catch (error: any) {
       console.error("Error loading promotion:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể tải thông tin khuyến mãi"
-      );
+      toast.error(getErrorMessage(error, "Không thể tải thông tin khuyến mãi"));
       onClose();
     } finally {
       setIsLoading(false);
@@ -166,9 +165,7 @@ export default function PromotionFormModal({
       onClose();
     } catch (error: any) {
       console.error("Error saving promotion:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể lưu khuyến mãi"
-      );
+      toast.error(getErrorMessage(error, "Không thể lưu khuyến mãi"));
     } finally {
       setIsSubmitting(false);
     }

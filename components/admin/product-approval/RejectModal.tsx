@@ -112,9 +112,6 @@ export default function RejectModal({
                   <p className="font-semibold text-neutral-900">
                     {product.name}
                   </p>
-                  <p className="text-sm text-neutral-500 mt-1">
-                    ID: {product.id}
-                  </p>
                 </div>
 
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -124,37 +121,6 @@ export default function RejectModal({
                       {t("warningMessage")}
                     </p>
                   </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    {t("reason")} <span className="text-red-600">*</span>
-                  </label>
-                  <Select value={reason} onValueChange={setReason}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t("selectReasonPlaceholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {rejectReasons.map((r) => (
-                        <SelectItem key={r} value={r}>
-                          {t(`reasons.${r}`)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-2">
-                    {t("note")} ({t("optional")})
-                  </label>
-                  <Textarea
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                    placeholder={t("notePlaceholder")}
-                    rows={4}
-                    className="w-full"
-                  />
                 </div>
               </div>
 

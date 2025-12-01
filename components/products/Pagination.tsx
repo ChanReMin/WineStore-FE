@@ -73,7 +73,7 @@ export default function Pagination({
           whileTap={{ scale: currentPage === 1 ? 1 : 0.95 }}
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="group relative flex h-12 w-12 items-center justify-center border-2 border-neutral-300 bg-white text-neutral-600 transition-all hover:border-[#d4af37] hover:bg-gradient-to-br hover:from-[#3b4417] hover:to-[#2a2f18] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-neutral-300 disabled:hover:bg-white disabled:hover:text-neutral-600 shadow-sm hover:shadow-md"
+          className="group relative flex h-12 w-12 items-center justify-center border-2 border-neutral-300 bg-white text-neutral-600 transition-all hover:border-[#d4af37] hover:bg-linear-to-br hover:from-[#3b4417] hover:to-[#2a2f18] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-neutral-300 disabled:hover:bg-white disabled:hover:text-neutral-600 shadow-sm hover:shadow-md"
         >
           <ChevronLeft size={20} strokeWidth={2} />
 

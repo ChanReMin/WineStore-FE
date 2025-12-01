@@ -24,6 +24,7 @@ import {
   deletePromotion,
 } from "@/services/promotionService";
 import { toast } from "react-toastify";
+import { getErrorMessage } from "@/lib/errorHandler";
 
 export default function PromotionsManagement() {
   const t = useTranslations("seller.promotions");
@@ -31,6 +32,7 @@ export default function PromotionsManagement() {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedPromotion, setSelectedPromotion] = useState<number | null>(
     null
@@ -44,6 +46,17 @@ export default function PromotionsManagement() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 2000); // 2 seconds delay
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
   // Fetch promotions
   const loadPromotions = useCallback(async () => {
     setIsLoading(true);
@@ -53,31 +66,29 @@ export default function PromotionsManagement() {
       const response = await fetchPromotions({
         page,
         limit: 100, // Get all promotions for now
-        search: searchQuery || undefined,
+        search: debouncedSearchQuery || undefined,
         status: statusParam,
       });
       setPromotions(response.data.promotions);
       setTotalPages(response.data.pagination.total_pages);
     } catch (error: any) {
       console.error("Error fetching promotions:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể tải danh sách khuyến mãi"
-      );
+      toast.error(getErrorMessage(error, "Không thể tải danh sách khuyến mãi"));
       setPromotions([]);
     } finally {
       setIsLoading(false);
     }
-  }, [page, searchQuery, statusFilter]);
+  }, [page, debouncedSearchQuery, statusFilter]);
 
   useEffect(() => {
     loadPromotions();
   }, [loadPromotions]);
 
-  // Filter promotions
+  // Filter promotions (using debounced search for client-side filtering)
   const filteredPromotions = promotions.filter((promo) => {
     const matchesSearch =
-      promo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      promo.code.toLowerCase().includes(searchQuery.toLowerCase());
+      promo.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+      promo.code.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || promo.status.toString() === statusFilter;
     return matchesSearch && matchesStatus;
@@ -112,9 +123,7 @@ export default function PromotionsManagement() {
       loadPromotions();
     } catch (error: any) {
       console.error("Error deleting promotion:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể xóa khuyến mãi"
-      );
+      toast.error(getErrorMessage(error, "Không thể xóa khuyến mãi"));
     } finally {
       setIsDeleting(false);
     }
@@ -184,8 +193,13 @@ export default function PromotionsManagement() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setSearchQuery(e.target.value)
               }
-              className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
+              className="pl-10 pr-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
             />
+            {searchQuery !== debouncedSearchQuery && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#3b4417] border-t-transparent"></div>
+              </div>
+            )}
           </div>
 
           {/* Status Filter */}

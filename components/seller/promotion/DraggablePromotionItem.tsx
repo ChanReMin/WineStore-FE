@@ -33,8 +33,8 @@ export const DraggablePromotionItem = memo(function DraggablePromotionItem({
   const discountDisplay = useMemo(
     () =>
       promotion.discount_type === 1
-        ? `${promotion.discount_value}%`
-        : `${promotion.discount_value.toLocaleString()}đ`,
+        ? `${promotion.discount_value || 0}%`
+        : `${(promotion.discount_value || 0).toLocaleString()}đ`,
     [promotion.discount_type, promotion.discount_value]
   );
 

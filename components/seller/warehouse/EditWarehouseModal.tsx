@@ -28,6 +28,7 @@ export default function EditWarehouseModal({
   const [formData, setFormData] = useState({
     name: "",
     location: "",
+    city: "",
     description: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -38,6 +39,7 @@ export default function EditWarehouseModal({
       setFormData({
         name: warehouse.name,
         location: warehouse.location,
+        city: warehouse.city || "",
         description: warehouse.description,
       });
     }
@@ -56,6 +58,9 @@ export default function EditWarehouseModal({
     }
     if (!formData.location.trim()) {
       newErrors.location = t("create.locationRequired");
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = t("create.cityRequired");
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -166,6 +171,28 @@ export default function EditWarehouseModal({
                   />
                   {errors.location && (
                     <p className="text-sm text-red-500">{errors.location}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="edit-city" className="text-[#3b4417]">
+                    {t("create.city")}{" "}
+                    <span className="text-red-500">{t("create.required")}</span>
+                  </Label>
+                  <Input
+                    id="edit-city"
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                    placeholder={t("create.cityPlaceholder")}
+                    className={`border-[#d4d6b4] focus:border-[#3b4417] ${
+                      errors.city ? "border-red-500" : ""
+                    }`}
+                    disabled={isSubmitting}
+                  />
+                  {errors.city && (
+                    <p className="text-sm text-red-500">{errors.city}</p>
                   )}
                 </div>
 

@@ -132,22 +132,7 @@ export default function CartDropdown() {
                     mass: 0.8,
                   }}
                 >
-                  {/* Curved edge decoration */}
-                  <div className="absolute left-0 top-0 h-full w-8 -translate-x-full">
-                    <svg
-                      className="h-full w-full"
-                      viewBox="0 0 32 800"
-                      fill="none"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M32 0 Q0 400 32 800 L32 0"
-                        fill="#fef3e2"
-                        className="drop-shadow-lg"
-                      />
-                    </svg>
-                  </div>
-
+              
                   {/* Decorative top accent */}
                   <div className="absolute left-0 right-0 top-0 h-1 bg-linear-to-r from-[#33391d] via-amber-700 to-[#33391d]" />
 
