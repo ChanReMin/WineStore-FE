@@ -8,6 +8,8 @@ import { fetchPromotions } from "@/services/promotionService";
 import { fetchProducts } from "@/services/productService";
 import type { Product } from "@/types/product";
 import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductWithPromotions {
   id: number;
@@ -21,20 +23,47 @@ export default function PromotionAssignmentPage() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [products, setProducts] = useState<ProductWithPromotions[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Pagination state for promotions
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [perPage, setPerPage] = useState(5);
+  
+  // Pagination state for products
+  const [productCurrentPage, setProductCurrentPage] = useState(1);
+  const [productTotalPages, setProductTotalPages] = useState(1);
+  const [productTotalItems, setProductTotalItems] = useState(0);
+  const [productPerPage, setProductPerPage] = useState(10);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [currentPage, productCurrentPage]);
 
   const loadData = async () => {
     setIsLoading(true);
     try {
       const [promotionsResponse, productsResponse] = await Promise.all([
-        fetchPromotions({ status: 1, limit: 100 }), // Only active promotions
-        fetchProducts({ status: 1, includePromotions: true, limit: 100 }), // Only approved products with promotions
+        fetchPromotions({ status: 1, limit: perPage, page: currentPage }), // Only active promotions
+        fetchProducts({ status: 1, limit: productPerPage, page: productCurrentPage }), // Only approved products with promotions
       ]);
 
       setPromotions(promotionsResponse.data.promotions);
+      
+      // Update pagination info for promotions
+      if (promotionsResponse.data.pagination) {
+        setTotalPages(promotionsResponse.data.pagination.total_pages);
+        setTotalItems(promotionsResponse.data.pagination.total_items);
+        if (promotionsResponse.data.pagination.per_page) {
+          setPerPage(promotionsResponse.data.pagination.per_page);
+        }
+      }
+      
+      // Update pagination info for products
+      if (productsResponse.data.pagination) {
+        setProductTotalPages(productsResponse.data.pagination.totalPages);
+        setProductTotalItems(productsResponse.data.pagination.totalItems);
+      }
 
       // Transform products to include promotions
       const productsWithPromotions: ProductWithPromotions[] =
@@ -53,6 +82,18 @@ export default function PromotionAssignmentPage() {
       );
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  
+  const handleProductPageChange = (page: number) => {
+    if (page >= 1 && page <= productTotalPages) {
+      setProductCurrentPage(page);
     }
   };
 
@@ -80,8 +121,40 @@ export default function PromotionAssignmentPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="max-w-[1800px] mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
-          <p className="text-sm text-gray-600 mt-1">{t("subtitle")}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+              <p className="text-sm text-gray-600 mt-1">{t("subtitle")}</p>
+            </div>
+            
+            {/* Pagination Controls */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">
+                Showing {promotions.length} of {totalItems} promotions
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <span className="text-sm font-medium">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -91,6 +164,12 @@ export default function PromotionAssignmentPage() {
           promotions={promotions}
           initialProducts={products}
           onDataChange={loadData}
+          productPagination={{
+            currentPage: productCurrentPage,
+            totalPages: productTotalPages,
+            totalItems: productTotalItems,
+            onPageChange: handleProductPageChange,
+          }}
         />
       </div>
     </div>

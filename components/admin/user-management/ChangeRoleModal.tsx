@@ -39,7 +39,7 @@ export default function ChangeRoleModal({
 }: ChangeRoleModalProps) {
   const t = useTranslations("admin.userManagement");
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState(user.account.role);
+  const [role, setRole] = useState(user.role);
   const [note, setNote] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,9 +60,9 @@ export default function ChangeRoleModal({
     }
   };
 
-  const getRoleIcon = (roleValue: number) => {
-    if (roleValue === 0) return ShoppingBag;
-    if (roleValue === 1) return Store;
+  const getRoleIcon = (roleValue: string) => {
+    if (roleValue === 'customer') return ShoppingBag;
+    if (roleValue === 'seller') return Store;
     return Shield;
   };
 
@@ -94,7 +94,7 @@ export default function ChangeRoleModal({
                 <div>
                   <h2 className="text-xl font-bold">{t("roleModal.title")}</h2>
                   <p className="text-sm text-white/80">
-                    {user.userInfo.firstName} {user.userInfo.lastName}
+                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -118,26 +118,26 @@ export default function ChangeRoleModal({
               <div className="space-y-2">
                 <Label htmlFor="role">{t("roleModal.newRole")} *</Label>
                 <Select
-                  value={role.toString()}
-                  onValueChange={(value) => setRole(parseInt(value))}
+                  value={role}
+                  onValueChange={(value) => setRole(value)}
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="0">
+                    <SelectItem value="customer">
                       <div className="flex items-center gap-2">
                         <ShoppingBag className="w-4 h-4" />
                         {t("role.customer")}
                       </div>
                     </SelectItem>
-                    <SelectItem value="1">
+                    <SelectItem value="seller">
                       <div className="flex items-center gap-2">
                         <Store className="w-4 h-4" />
                         {t("role.seller")}
                       </div>
                     </SelectItem>
-                    <SelectItem value="2">
+                    <SelectItem value="admin">
                       <div className="flex items-center gap-2">
                         <Shield className="w-4 h-4" />
                         {t("role.admin")}
@@ -196,3 +196,4 @@ export default function ChangeRoleModal({
     </AnimatePresence>
   );
 }
+

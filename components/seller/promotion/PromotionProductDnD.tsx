@@ -31,16 +31,25 @@ interface Product {
   promotions: Promotion[];
 }
 
+interface ProductPagination {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+}
+
 interface PromotionProductDnDProps {
   promotions: Promotion[];
   initialProducts: Product[];
   onDataChange?: () => void; // Callback to reload data after changes
+  productPagination?: ProductPagination;
 }
 
 export function PromotionProductDnD({
   promotions,
   initialProducts,
   onDataChange,
+  productPagination,
 }: PromotionProductDnDProps) {
   const t = useTranslations("seller.promotions.assignment.toast");
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -306,6 +315,7 @@ export function PromotionProductDnD({
         <ProductPromotionZone
           products={products}
           onRemovePromotion={handleRemovePromotion}
+          productPagination={productPagination}
         />
       </div>
 

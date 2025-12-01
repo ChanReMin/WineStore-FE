@@ -1,6 +1,6 @@
 "use client";
-import { motion } from "motion/react";
-import type { Transition } from "motion";
+import { motion } from "framer-motion";
+import type { Transition } from "framer-motion";
 
 export const LoaderOne = () => {
   const transition = (x: number): Transition => {

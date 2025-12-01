@@ -231,7 +231,7 @@ export default function ProductDetailModal({
                               {t("createdAt")}
                             </p>
                             <p className="text-sm font-semibold text-blue-900">
-                              {new Date(product.createdAt).toLocaleString("vi-VN")}
+                              {product.createdAt ? new Date(product.createdAt).toLocaleString("vi-VN") : '-'}
                             </p>
                           </div>
                           <div>
@@ -239,7 +239,7 @@ export default function ProductDetailModal({
                               {t("updatedAt")}
                             </p>
                             <p className="text-sm font-semibold text-blue-900">
-                              {new Date(product.updatedAt).toLocaleString("vi-VN")}
+                              {product.updatedAt ? new Date(product.updatedAt).toLocaleString("vi-VN") : '-'}
                             </p>
                           </div>
                         </div>

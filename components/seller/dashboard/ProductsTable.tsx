@@ -98,7 +98,8 @@ export default function ProductsTable({
     }).format(price);
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return '-';
     return new Date(dateString).toLocaleDateString("vi-VN", {
       day: "2-digit",
       month: "2-digit",
@@ -185,12 +186,12 @@ export default function ProductsTable({
                     <Package className="w-4 h-4 text-[#7a8451]" />
                     <span
                       className={`font-medium ${
-                        product.totalInventory < 20
+                        (product.totalInventory ?? 0) < 20
                           ? "text-orange-600"
                           : "text-[#3b4417]"
                       }`}
                     >
-                      {product.totalInventory}
+                      {product.totalInventory ?? 0}
                     </span>
                   </div>
                 </TableCell>

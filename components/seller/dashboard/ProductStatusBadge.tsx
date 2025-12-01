@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 interface ProductStatusBadgeProps {
-  status: number;
+  status: number | undefined;
   statusText?: string;
 }
 
@@ -16,22 +16,22 @@ export default function ProductStatusBadge({
   const t = useTranslations("seller.inventory.productStatus");
 
   const getStatusConfig = () => {
-    switch (status) {
-      case 1: // Pending
+    switch (status ?? 0) {
+      case 0: // Pending
         return {
           textKey: "pending",
           bg: "bg-amber-50",
           text: "text-amber-700",
           border: "border-amber-200",
         };
-      case 2: // Active
+      case 1: // Active
         return {
           textKey: "active",
           bg: "bg-emerald-50",
           text: "text-emerald-700",
           border: "border-emerald-200",
         };
-      case 3: // Banned
+      case 2: // Banned
         return {
           textKey: "banned",
           bg: "bg-red-50",

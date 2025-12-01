@@ -127,7 +127,7 @@ export default function UserDetailModal({
                     {t("detailModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.userInfo.firstName} {user.userInfo.lastName}
+                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -368,3 +368,4 @@ export default function UserDetailModal({
     </AnimatePresence>
   );
 }
+

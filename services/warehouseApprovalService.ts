@@ -120,7 +120,7 @@ export const fetchWarehouseRequests = async (params?: {
   queryParams.append("sortorder", sortorder);
 
   const response = await axiosInstance.get<WarehouseApprovalsResponse>(
-    `/api/v1/admin/warehouses?${queryParams.toString()}`
+    `/api/v1/warehouses?${queryParams.toString()}`
   );
 
   return response.data;
@@ -133,7 +133,7 @@ export const fetchWarehouseDetail = async (
   warehouseId: number
 ): Promise<WarehouseDetailResponse> => {
   const response = await axiosInstance.get<WarehouseDetailResponse>(
-    `/api/v1/admin/warehouses/${warehouseId}`
+    `/api/v1/warehouses/${warehouseId}`
   );
 
   return response.data;
@@ -146,8 +146,8 @@ export const approveWarehouse = async (
   warehouseId: number,
   note?: string
 ): Promise<ApproveWarehouseResponse> => {
-  const response = await axiosInstance.post<ApproveWarehouseResponse>(
-    `/api/v1/admin/warehouses/${warehouseId}/approve`,
+  const response = await axiosInstance.patch<ApproveWarehouseResponse>(
+    `/api/v1/warehouses/${warehouseId}/approve`,
     { reason: note }
   );
 
@@ -161,8 +161,8 @@ export const rejectWarehouse = async (
   warehouseId: number,
   reason: string
 ): Promise<RejectWarehouseResponse> => {
-  const response = await axiosInstance.post<RejectWarehouseResponse>(
-    `/api/v1/admin/warehouses/${warehouseId}/reject`,
+  const response = await axiosInstance.patch<RejectWarehouseResponse>(
+    `/api/v1/warehouses/${warehouseId}/reject`,
     { reason }
   );
 
@@ -186,7 +186,7 @@ export const fetchApprovalHistory = async (
   }>;
 }> => {
   const response = await axiosInstance.get(
-    `/api/v1/admin/warehouses/${warehouseId}/approval-history`
+    `/api/v1/warehouses/${warehouseId}/approval-history`
   );
 
   return response.data;
@@ -198,7 +198,7 @@ export const fetchApprovalHistory = async (
 export const fetchWarehouseStatistics =
   async (): Promise<WarehouseStatistics> => {
     const response = await axiosInstance.get<WarehouseStatistics>(
-      "/api/v1/admin/warehouses/stats"
+      "/api/v1/warehouses/stats"
     );
 
     return response.data;

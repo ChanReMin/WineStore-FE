@@ -24,7 +24,7 @@ export default function SearchBar({
   useEffect(() => {
     const timer = setTimeout(() => {
       onChange(localValue);
-    }, 400);
+    }, 2000); // 2 seconds debounce
 
     return () => clearTimeout(timer);
   }, [localValue, onChange]);

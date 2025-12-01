@@ -75,6 +75,7 @@ export default function ProductApprovalList() {
       setProducts(response.data.products);
       setPagination(response.data.pagination);
       setSummary(response.data.summary);
+      console.log(response.data.summary)
     } catch (error) {
       console.error("Error loading products:", error);
     } finally {
@@ -109,7 +110,7 @@ export default function ProductApprovalList() {
     loadData(pagination.currentPage);
   };
 
-  const getStatusBadge = (status: number, statusText: string) => {
+  const getStatusBadge = (status: number | undefined, statusText: string | undefined) => {
     const badges = {
       0: {
         bg: "bg-amber-50",
@@ -131,7 +132,7 @@ export default function ProductApprovalList() {
       },
     };
 
-    const badge = badges[status as keyof typeof badges] || badges[0];
+    const badge = badges[(status ?? 0) as keyof typeof badges] || badges[0];
     const Icon = badge.icon;
 
     return (
@@ -275,8 +276,8 @@ export default function ProductApprovalList() {
       {/* Filters */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="relative">
+          <div className="flex flex-row gap-4">
+            <div className="relative flex-4">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 placeholder={t("searchPlaceholder")}
@@ -286,22 +287,24 @@ export default function ProductApprovalList() {
               />
             </div>
 
-            <Select
-              value={String(statusFilter)}
-              onValueChange={(value) =>
-                setStatusFilter(value === "all" ? "all" : Number(value))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("filters.all")}</SelectItem>
-                <SelectItem value="0">{t("filters.pending")}</SelectItem>
-                <SelectItem value="1">{t("filters.approved")}</SelectItem>
-                <SelectItem value="2">{t("filters.banned")}</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="w-48 flex-1">
+              <Select
+                value={String(statusFilter)}
+                onValueChange={(value) =>
+                  setStatusFilter(value === "all" ? "all" : Number(value))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t("filters.all")}</SelectItem>
+                  <SelectItem value="0">{t("filters.pending")}</SelectItem>
+                  <SelectItem value="1">{t("filters.approved")}</SelectItem>
+                  <SelectItem value="2">{t("filters.banned")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -379,9 +382,9 @@ export default function ProductApprovalList() {
                         {getStatusBadge(product.status, product.statusText)}
                       </td>
                       <td className="px-6 py-4 text-sm text-neutral-600">
-                        {new Date(product.createdAt).toLocaleDateString(
+                        {product.createdAt ? new Date(product.createdAt).toLocaleDateString(
                           "vi-VN"
-                        )}
+                        ) : '-'}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
