@@ -45,11 +45,11 @@ export default function Hero() {
   // ✅ OPTIMIZED: Preload strategy cho performance tốt hơn
   useEffect(() => {
     // 1. Priority preload ảnh đầu tiên (LCP critical)
-    const firstImageLink = document.createElement('link');
-    firstImageLink.rel = 'preload';
-    firstImageLink.as = 'image';
+    const firstImageLink = document.createElement("link");
+    firstImageLink.rel = "preload";
+    firstImageLink.as = "image";
     firstImageLink.href = SLIDE_IMAGES[0];
-    firstImageLink.setAttribute('fetchpriority', 'high');
+    firstImageLink.setAttribute("fetchpriority", "high");
     document.head.appendChild(firstImageLink);
 
     // 2. Preload ảnh thứ 2 (sẽ hiển thị tiếp theo)
@@ -66,17 +66,17 @@ export default function Hero() {
 
     // Preload sau 2s hoặc khi user hover vào hero section
     const timer = setTimeout(preloadRemainingImages, 2000);
-    const heroElement = document.querySelector('section');
+    const heroElement = document.querySelector("section");
     const hoverHandler = () => {
       preloadRemainingImages();
     };
-    heroElement?.addEventListener('mouseenter', hoverHandler, { once: true });
+    heroElement?.addEventListener("mouseenter", hoverHandler, { once: true });
 
     setImagesLoaded(true); // Cho phép component render ngay
 
     return () => {
       clearTimeout(timer);
-      heroElement?.removeEventListener('mouseenter', hoverHandler);
+      heroElement?.removeEventListener("mouseenter", hoverHandler);
       if (firstImageLink.parentNode) {
         document.head.removeChild(firstImageLink);
       }
@@ -127,14 +127,14 @@ export default function Hero() {
                 duration: 0.8,
                 ease: [0.25, 0.1, 0.25, 1], // Custom easing for smooth motion
               },
-              opacity: { 
+              opacity: {
                 duration: 0.6,
-                ease: "easeInOut"
+                ease: "easeInOut",
               },
               scale: {
                 duration: 0.8,
-                ease: "easeOut"
-              }
+                ease: "easeOut",
+              },
             }}
             className="absolute inset-0 pointer-events-none"
           >

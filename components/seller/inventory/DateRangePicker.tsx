@@ -16,7 +16,11 @@ interface DateRangePickerProps {
   className?: string;
 }
 
-export default function DateRangePicker({ value, onChange, className }: DateRangePickerProps) {
+export default function DateRangePicker({
+  value,
+  onChange,
+  className,
+}: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [tempRange, setTempRange] = useState<DateRange | undefined>(value);
 
@@ -84,7 +88,7 @@ export default function DateRangePicker({ value, onChange, className }: DateRang
     setIsOpen(false);
   };
 
-  const handlePresetClick = (preset: typeof presets[0]) => {
+  const handlePresetClick = (preset: (typeof presets)[0]) => {
     const range = preset.getValue();
     setTempRange(range);
     onChange(range);
@@ -106,15 +110,16 @@ export default function DateRangePicker({ value, onChange, className }: DateRang
         onClick={() => setIsOpen(!isOpen)}
         className={`
           flex items-center gap-3 px-4 py-2.5 rounded-lg border transition-all
-          ${value?.from 
-            ? "border-[#d4af37] bg-[#fdfbf5] text-[#3b4417]" 
-            : "border-[#d4d6b4] bg-white text-neutral-600 hover:border-[#d4af37]"
+          ${
+            value?.from
+              ? "border-[#d4af37] bg-[#fdfbf5] text-[#3b4417]"
+              : "border-[#d4d6b4] bg-white text-neutral-600 hover:border-[#d4af37]"
           }
         `}
       >
         <Calendar className="w-4 h-4" />
         <span className="text-sm font-medium">{formatDateRange(value)}</span>
-        
+
         {value?.from && (
           <button
             onClick={(e) => {
@@ -179,10 +184,7 @@ export default function DateRangePicker({ value, onChange, className }: DateRang
                 </p>
 
                 {/* Date Range Picker */}
-                <DateRangePickerUI
-                  value={tempRange}
-                  onChange={setTempRange}
-                />
+                <DateRangePickerUI value={tempRange} onChange={setTempRange} />
 
                 {/* Actions */}
                 <div className="flex gap-2 mt-4 pt-4 border-t border-[#e8e6dc]">

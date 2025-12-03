@@ -8,12 +8,14 @@ interface AddressCardProps {
   address: Address;
   onEdit: (address: Address) => void;
   onDelete: (id: number) => void;
+  onSetDefault: (id: number) => void;
 }
 
 export default function AddressCard({
   address,
   onEdit,
   onDelete,
+  onSetDefault,
 }: AddressCardProps) {
   const t = useTranslations("profile.addresses.card");
   return (
@@ -38,11 +40,29 @@ export default function AddressCard({
 
       <div className="space-y-3">
         {/* Name & Phone */}
-        <div>
-          <h3 className="text-lg font-semibold text-[#33391d]">
-            {address.fullName}
-          </h3>
-          <p className="text-sm text-neutral-600">{address.phoneNumber}</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className="text-lg font-semibold text-[#33391d]">
+              {address.fullName}
+            </h3>
+            <p className="text-sm text-neutral-600">{address.phoneNumber}</p>
+          </div>
+          {/* Address Type Badge */}
+          {address.addressType && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium text-neutral-800">
+              {address.addressType === "HOME" && "🏠"}
+              {address.addressType === "OFFICE" && "🏢"}
+              {address.addressType === "OTHER" && "📍"}
+              <span className="ml-1">
+                {address.addressType === "HOME" &&
+                  (t("addressTypes.home") || "Nhà riêng")}
+                {address.addressType === "OFFICE" &&
+                  (t("addressTypes.office") || "Văn phòng")}
+                {address.addressType === "OTHER" &&
+                  (t("addressTypes.other") || "Khác")}
+              </span>
+            </span>
+          )}
         </div>
 
         {/* Address */}
@@ -69,13 +89,37 @@ export default function AddressCard({
           <div>
             <p>{address.addressLine}</p>
             <p>
-              {address.city}, {address.state}, {address.country}
+              {address.ward}, {address.district}, {address.city}
             </p>
+            <p>{address.country}</p>
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex gap-2 pt-2">
+          {!address.isDefault && (
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onSetDefault(address.id)}
+              className="flex items-center gap-1.5 rounded-md border border-neutral-300 px-3 py-1.5 text-sm text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              {t("setDefault") || "Đặt mặc định"}
+            </motion.button>
+          )}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

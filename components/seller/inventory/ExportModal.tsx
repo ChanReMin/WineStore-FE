@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, FileText, FileSpreadsheet, FileImage, X, Loader2, CheckCircle } from "lucide-react";
+import {
+  Download,
+  FileText,
+  FileSpreadsheet,
+  FileImage,
+  X,
+  Loader2,
+  CheckCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -48,9 +56,11 @@ export default function ExportModal({
   onExport,
 }: ExportModalProps) {
   const [format, setFormat] = useState<"csv" | "excel" | "pdf">("excel");
-  const [range, setRange] = useState<"current" | "filtered" | "custom">("filtered");
+  const [range, setRange] = useState<"current" | "filtered" | "custom">(
+    "filtered"
+  );
   const [selectedColumns, setSelectedColumns] = useState<string[]>(
-    availableColumns.filter(col => col.defaultChecked).map(col => col.key)
+    availableColumns.filter((col) => col.defaultChecked).map((col) => col.key)
   );
   const [isExporting, setIsExporting] = useState(false);
   const [exportSuccess, setExportSuccess] = useState(false);
@@ -87,9 +97,9 @@ export default function ExportModal({
   ];
 
   const handleColumnToggle = (columnKey: string) => {
-    setSelectedColumns(prev =>
+    setSelectedColumns((prev) =>
       prev.includes(columnKey)
-        ? prev.filter(k => k !== columnKey)
+        ? prev.filter((k) => k !== columnKey)
         : [...prev, columnKey]
     );
   };
@@ -98,7 +108,7 @@ export default function ExportModal({
     if (selectedColumns.length === availableColumns.length) {
       setSelectedColumns([]);
     } else {
-      setSelectedColumns(availableColumns.map(col => col.key));
+      setSelectedColumns(availableColumns.map((col) => col.key));
     }
   };
 
@@ -108,7 +118,7 @@ export default function ExportModal({
 
     // Simulate progress
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (prev >= 90) {
           clearInterval(progressInterval);
           return 90;
@@ -128,7 +138,7 @@ export default function ExportModal({
         await onExport(config);
       } else {
         // Simulate export
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       }
 
       clearInterval(progressInterval);
@@ -190,7 +200,9 @@ export default function ExportModal({
                         <Download className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#3b4417]">{title}</h2>
+                        <h2 className="text-xl font-bold text-[#3b4417]">
+                          {title}
+                        </h2>
                         <p className="text-sm text-neutral-600 mt-0.5">
                           Chọn định dạng và dữ liệu cần xuất
                         </p>
@@ -221,17 +233,24 @@ export default function ExportModal({
                           onClick={() => setFormat(fmt.value as any)}
                           className={`
                             p-4 rounded-lg border-2 transition-all text-left
-                            ${format === fmt.value
-                              ? `${fmt.borderColor} ${fmt.bgColor}`
-                              : "border-[#e8e6dc] bg-white hover:border-[#d4d6b4]"
+                            ${
+                              format === fmt.value
+                                ? `${fmt.borderColor} ${fmt.bgColor}`
+                                : "border-[#e8e6dc] bg-white hover:border-[#d4d6b4]"
                             }
                           `}
                         >
-                          <fmt.icon className={`w-6 h-6 mb-2 ${format === fmt.value ? fmt.color : "text-neutral-400"}`} />
-                          <p className={`font-semibold mb-1 ${format === fmt.value ? fmt.color : "text-[#3b4417]"}`}>
+                          <fmt.icon
+                            className={`w-6 h-6 mb-2 ${format === fmt.value ? fmt.color : "text-neutral-400"}`}
+                          />
+                          <p
+                            className={`font-semibold mb-1 ${format === fmt.value ? fmt.color : "text-[#3b4417]"}`}
+                          >
                             {fmt.label}
                           </p>
-                          <p className="text-xs text-neutral-500">{fmt.description}</p>
+                          <p className="text-xs text-neutral-500">
+                            {fmt.description}
+                          </p>
                         </motion.button>
                       ))}
                     </div>
@@ -244,9 +263,21 @@ export default function ExportModal({
                     </Label>
                     <div className="space-y-2">
                       {[
-                        { value: "current", label: "Trang hiện tại", count: 10 },
-                        { value: "filtered", label: "Tất cả kết quả lọc", count: filteredItems },
-                        { value: "custom", label: "Tùy chỉnh phạm vi", count: totalItems },
+                        {
+                          value: "current",
+                          label: "Trang hiện tại",
+                          count: 10,
+                        },
+                        {
+                          value: "filtered",
+                          label: "Tất cả kết quả lọc",
+                          count: filteredItems,
+                        },
+                        {
+                          value: "custom",
+                          label: "Tùy chỉnh phạm vi",
+                          count: totalItems,
+                        },
                       ].map((option) => (
                         <motion.button
                           key={option.value}
@@ -254,22 +285,27 @@ export default function ExportModal({
                           onClick={() => setRange(option.value as any)}
                           className={`
                             w-full p-4 rounded-lg border-2 transition-all text-left flex items-center justify-between
-                            ${range === option.value
-                              ? "border-[#d4af37] bg-[#fdfbf5]"
-                              : "border-[#e8e6dc] bg-white hover:border-[#d4d6b4]"
+                            ${
+                              range === option.value
+                                ? "border-[#d4af37] bg-[#fdfbf5]"
+                                : "border-[#e8e6dc] bg-white hover:border-[#d4d6b4]"
                             }
                           `}
                         >
                           <div className="flex items-center gap-3">
-                            <div className={`
+                            <div
+                              className={`
                               w-5 h-5 rounded-full border-2 flex items-center justify-center
                               ${range === option.value ? "border-[#d4af37]" : "border-neutral-300"}
-                            `}>
+                            `}
+                            >
                               {range === option.value && (
                                 <div className="w-3 h-3 rounded-full bg-[#d4af37]" />
                               )}
                             </div>
-                            <span className="font-medium text-[#3b4417]">{option.label}</span>
+                            <span className="font-medium text-[#3b4417]">
+                              {option.label}
+                            </span>
                           </div>
                           <span className="text-sm text-neutral-600">
                             {option.count} mục
@@ -291,16 +327,23 @@ export default function ExportModal({
                         size="sm"
                         className="text-[#3b4417] hover:text-[#d4af37]"
                       >
-                        {selectedColumns.length === availableColumns.length ? "Bỏ chọn tất cả" : "Chọn tất cả"}
+                        {selectedColumns.length === availableColumns.length
+                          ? "Bỏ chọn tất cả"
+                          : "Chọn tất cả"}
                       </Button>
                     </div>
                     <div className="grid grid-cols-2 gap-3 p-4 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc]">
                       {availableColumns.map((column) => (
-                        <div key={column.key} className="flex items-center gap-2">
+                        <div
+                          key={column.key}
+                          className="flex items-center gap-2"
+                        >
                           <Checkbox
                             id={column.key}
                             checked={selectedColumns.includes(column.key)}
-                            onCheckedChange={() => handleColumnToggle(column.key)}
+                            onCheckedChange={() =>
+                              handleColumnToggle(column.key)
+                            }
                           />
                           <Label
                             htmlFor={column.key}
@@ -322,9 +365,13 @@ export default function ExportModal({
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-[#3b4417]">
-                          {exportSuccess ? "Hoàn thành!" : "Đang xuất dữ liệu..."}
+                          {exportSuccess
+                            ? "Hoàn thành!"
+                            : "Đang xuất dữ liệu..."}
                         </span>
-                        <span className="text-sm font-bold text-[#d4af37]">{progress}%</span>
+                        <span className="text-sm font-bold text-[#d4af37]">
+                          {progress}%
+                        </span>
                       </div>
                       <div className="w-full bg-white rounded-full h-2 overflow-hidden">
                         <motion.div
@@ -342,8 +389,15 @@ export default function ExportModal({
                 <div className="p-6 border-t border-[#e8e6dc] bg-[#fdfbf5]">
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-neutral-600">
-                      Sẽ xuất <span className="font-bold text-[#3b4417]">{getItemCount()}</span> mục với{" "}
-                      <span className="font-bold text-[#3b4417]">{selectedColumns.length}</span> cột
+                      Sẽ xuất{" "}
+                      <span className="font-bold text-[#3b4417]">
+                        {getItemCount()}
+                      </span>{" "}
+                      mục với{" "}
+                      <span className="font-bold text-[#3b4417]">
+                        {selectedColumns.length}
+                      </span>{" "}
+                      cột
                     </p>
                     <div className="flex gap-3">
                       <Button

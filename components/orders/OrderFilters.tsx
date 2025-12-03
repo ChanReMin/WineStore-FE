@@ -18,9 +18,8 @@ export default function OrderFilters({
   const statusOptions = [
     { value: null, label: t("all") },
     { value: ORDER_STATUS.PENDING, label: t("pending") },
-    { value: ORDER_STATUS.PROCESSING, label: t("processing") },
-    { value: ORDER_STATUS.SHIPPING, label: t("shipping") },
-    { value: ORDER_STATUS.DELIVERED, label: t("delivered") },
+    { value: ORDER_STATUS.CONFIRMED, label: t("confirmed") },
+    { value: ORDER_STATUS.PAID, label: t("paid") },
     { value: ORDER_STATUS.CANCELLED, label: t("cancelled") },
   ];
   return (

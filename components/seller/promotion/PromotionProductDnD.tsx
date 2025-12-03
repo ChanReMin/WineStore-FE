@@ -35,6 +35,7 @@ interface ProductPagination {
   currentPage: number;
   totalPages: number;
   totalItems: number;
+  perPage?: number;
   onPageChange: (page: number) => void;
 }
 
@@ -43,6 +44,8 @@ interface PromotionProductDnDProps {
   initialProducts: Product[];
   onDataChange?: () => void; // Callback to reload data after changes
   productPagination?: ProductPagination;
+  productSearchQuery?: string;
+  onProductSearchChange?: (query: string) => void;
 }
 
 export function PromotionProductDnD({
@@ -50,12 +53,19 @@ export function PromotionProductDnD({
   initialProducts,
   onDataChange,
   productPagination,
+  productSearchQuery,
+  onProductSearchChange,
 }: PromotionProductDnDProps) {
   const t = useTranslations("seller.promotions.assignment.toast");
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [activePromotion, setActivePromotion] = useState<Promotion | null>(
     null
   );
+
+  // Update products when initialProducts changes (e.g., when page changes)
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
 
   // Ref để prevent duplicate toast
   const toastShownRef = useRef(false);
@@ -192,7 +202,7 @@ export function PromotionProductDnD({
       // Call API to assign promotion
       try {
         await assignPromotionToProduct(productId, promotion.id);
-        
+
         if (!toastShownRef.current) {
           toastShownRef.current = true;
           toast.success(
@@ -316,6 +326,8 @@ export function PromotionProductDnD({
           products={products}
           onRemovePromotion={handleRemovePromotion}
           productPagination={productPagination}
+          searchQuery={productSearchQuery}
+          onSearchChange={onProductSearchChange}
         />
       </div>
 

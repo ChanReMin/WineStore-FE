@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { CheckCircle, AlertTriangle, XCircle } from "lucide-react";
 
 interface InventoryStatusBadgeProps {
-  status: "inStock" | "lowStock" | "outOfStock";
+  status: "in_Stock" | "low_Stock" | "out_Of_Stock";
   quantity?: number;
   safetyStock?: number;
 }
@@ -20,7 +20,7 @@ export default function InventoryStatusBadge({
 
   const getStatusConfig = () => {
     switch (status) {
-      case "inStock":
+      case "in_Stock":
         return {
           icon: CheckCircle,
           textKey: "inStock",
@@ -29,7 +29,7 @@ export default function InventoryStatusBadge({
           border: "border-emerald-200",
           iconColor: "text-emerald-600",
         };
-      case "lowStock":
+      case "low_Stock":
         return {
           icon: AlertTriangle,
           textKey: "lowStock",
@@ -38,7 +38,7 @@ export default function InventoryStatusBadge({
           border: "border-amber-200",
           iconColor: "text-amber-600",
         };
-      case "outOfStock":
+      case "out_Of_Stock":
         return {
           icon: XCircle,
           textKey: "outOfStock",
@@ -46,6 +46,16 @@ export default function InventoryStatusBadge({
           textColor: "text-red-700",
           border: "border-red-200",
           iconColor: "text-red-600",
+        };
+      default:
+        // Default fallback for unknown status
+        return {
+          icon: AlertTriangle,
+          textKey: "inStock",
+          bg: "bg-gray-50",
+          textColor: "text-gray-700",
+          border: "border-gray-200",
+          iconColor: "text-gray-600",
         };
     }
   };

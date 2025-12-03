@@ -239,7 +239,7 @@ export default function Header() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className="lg:hidden border-t border-neutral-200 bg-amber-50/98 backdrop-blur-md overflow-hidden"
             >
-              <div className="px-4 py-6 space-y-6">
+              <div className="px-4 py-6 space-y-6 max-h-[calc(100vh-80px)] overflow-y-auto">
                 {/* Navigation Links */}
                 <nav className="space-y-4">
                   <Link
@@ -297,7 +297,7 @@ export default function Header() {
                 {/* Auth Buttons or User Menu */}
                 {isAuthenticated ? (
                   <div className="pt-4 border-t border-neutral-200">
-                    <UserMenu />
+                    <UserMenu isMobile={true} />
                   </div>
                 ) : (
                   <div className="flex flex-col gap-3 pt-4 border-t border-neutral-200">

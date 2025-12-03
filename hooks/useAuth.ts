@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { authService } from "@/services/authService";
@@ -22,20 +24,20 @@ export const useAuth = () => {
       if (response.success) {
         // API trả về snake_case, cần map sang camelCase
         const { user, access_token, refresh_token } = response.data as any;
-        
+
         // 🔍 DEBUG: Log tokens
         console.log("🔍 User:", user);
         console.log("🔍 Access Token:", access_token);
         console.log("🔍 Refresh Token:", refresh_token);
-        
+
         setAuth(user, access_token, refresh_token);
-        
+
         // 🔍 DEBUG: Kiểm tra localStorage sau khi setAuth
         setTimeout(() => {
-          const stored = localStorage.getItem('auth-storage');
+          const stored = localStorage.getItem("auth-storage");
           console.log("🔍 LocalStorage after setAuth:", stored);
         }, 100);
-        
+
         toast.success(response.message || "Login successful!");
         router.push("/");
         return { success: true };

@@ -1,309 +1,153 @@
-// Mock data for Admin Dashboard based on API documentation
+// Admin Dashboard API integration
+import axiosInstance from "@/lib/axios";
 
-export const mockSystemOverview = {
-  success: true,
+// API Response Types based on Swagger documentation
+export interface SystemOverviewResponse {
+  success: boolean;
+  message?: string;
   data: {
     period: {
-      start_date: "2024-11-01",
-      end_date: "2024-11-30",
-    },
-    business_metrics: {
-      totalRevenue: 250000000,
-      gross_profit: 75000000,
-      profit_margin_percent: 30,
-      totalOrders: 150,
-      average_order_value: 1666667,
-      conversion_rate: 3.2,
-    },
+      startDate: string;
+      endDate: string;
+    };
+    businessMetrics: {
+      totalRevenue: number;
+      grossProfit: number;
+      profitMarginPercent: number;
+      totalOrders: number;
+      averageOrderValue: number;
+      conversionRate: number;
+    };
     users: {
-      totalUsers: 1250,
-      customers: 1200,
-      sellers: 45,
-      admins: 1,
-      new_this_month: 85,
-      activeUsers: 890,
-      pendingSellerRequests: 8,
-    },
+      totalUsers: number;
+      customers: number;
+      sellers: number;
+      admins: number;
+      newThisMonth: number;
+      activeUsers: number;
+      pendingSellerRequests: number;
+    };
     products: {
-      total: 450,
-      active: 442,
-      pendingApproval: 15,
-      rejected: 3,
-      outOfStock: 8,
-    },
+      total: number;
+      active: number;
+      pendingApproval: number;
+      rejected: number;
+      outOfStock: number;
+    };
     orders: {
-      total: 150,
+      total: number;
       byStatus: {
-        pending: 10,
-        confirmed: 15,
-        packaging: 8,
-        shipping: 20,
-        delivered: 85,
-        cancelled: 12,
-      },
-      cancellation_rate: 8,
-    },
+        [key: string]: number;
+      };
+      cancellationRate: number;
+    };
     inventory: {
-      total_value: 5000000000,
-      totalquantity: 8500,
-      totalWarehouses: 3,
-      lowStockProducts: 25,
-      outOfStock_products: 8,
-    },
-    system_health: {
-      database_size_mb: 2450,
-      total_images: 1250,
-      storage_used_gb: 15.6,
-      api_calls_today: 45890,
-      average_response_time_ms: 245,
-    },
-  },
-};
+      totalValue: number;
+      totalQuantity: number;
+      totalWarehouses: number;
+      lowStockProducts: number;
+      outOfStockProducts: number;
+    };
+  };
+}
 
-export const mockRevenueAnalytics = {
-  success: true,
+export interface RevenueAnalyticsResponse {
+  success: boolean;
+  message?: string;
   data: {
-    revenue_chart: [
-      {
-        date: "2024-11-01",
-        revenue: 8500000,
-        orders: 5,
-        profit: 2550000,
-        customers: 4,
-      },
-      {
-        date: "2024-11-02",
-        revenue: 9200000,
-        orders: 6,
-        profit: 2760000,
-        customers: 5,
-      },
-      {
-        date: "2024-11-03",
-        revenue: 7800000,
-        orders: 4,
-        profit: 2340000,
-        customers: 4,
-      },
-      {
-        date: "2024-11-04",
-        revenue: 10500000,
-        orders: 7,
-        profit: 3150000,
-        customers: 6,
-      },
-      {
-        date: "2024-11-05",
-        revenue: 8900000,
-        orders: 5,
-        profit: 2670000,
-        customers: 5,
-      },
-      {
-        date: "2024-11-06",
-        revenue: 9800000,
-        orders: 6,
-        profit: 2940000,
-        customers: 5,
-      },
-      {
-        date: "2024-11-07",
-        revenue: 11200000,
-        orders: 8,
-        profit: 3360000,
-        customers: 7,
-      },
-      {
-        date: "2024-11-08",
-        revenue: 8300000,
-        orders: 5,
-        profit: 2490000,
-        customers: 4,
-      },
-      {
-        date: "2024-11-09",
-        revenue: 9600000,
-        orders: 6,
-        profit: 2880000,
-        customers: 5,
-      },
-      {
-        date: "2024-11-10",
-        revenue: 10800000,
-        orders: 7,
-        profit: 3240000,
-        customers: 6,
-      },
-      {
-        date: "2024-11-11",
-        revenue: 12500000,
-        orders: 9,
-        profit: 3750000,
-        customers: 8,
-      },
-      {
-        date: "2024-11-12",
-        revenue: 9100000,
-        orders: 6,
-        profit: 2730000,
-        customers: 5,
-      },
-      {
-        date: "2024-11-13",
-        revenue: 8700000,
-        orders: 5,
-        profit: 2610000,
-        customers: 4,
-      },
-      {
-        date: "2024-11-14",
-        revenue: 10200000,
-        orders: 7,
-        profit: 3060000,
-        customers: 6,
-      },
-    ],
+    revenueChart: Array<{
+      date: string;
+      revenue: number;
+      orders: number;
+      profit: number;
+      customers: number;
+    }>;
     paymentMethods: {
-      COD: {
-        total: 150000000,
-        percentage: 60,
-        orders: 90,
-      },
-      VNPAY: {
-        total: 70000000,
-        percentage: 28,
-        orders: 42,
-      },
-      MOMO: {
-        total: 30000000,
-        percentage: 12,
-        orders: 18,
-      },
-    },
-    categories_performance: [
-      {
-        categoryId: 5,
-        categoryname: "Rượu vang đỏ",
-        revenue: 180000000,
-        orders: 95,
-        percentage: 72,
-      },
-      {
-        categoryId: 6,
-        categoryname: "Rượu vang trắng",
-        revenue: 50000000,
-        orders: 35,
-        percentage: 20,
-      },
-      {
-        categoryId: 7,
-        categoryname: "Rượu vang hồng",
-        revenue: 20000000,
-        orders: 20,
-        percentage: 8,
-      },
-    ],
-    regions_performance: [
-      {
-        region: "TP. Hồ Chí Minh",
-        revenue: 120000000,
-        orders: 75,
-        percentage: 48,
-      },
-      {
-        region: "Hà Nội",
-        revenue: 90000000,
-        orders: 55,
-        percentage: 36,
-      },
-      {
-        region: "Đà Nẵng",
-        revenue: 40000000,
-        orders: 20,
-        percentage: 16,
-      },
-    ],
-  },
-};
+      [key: string]: {
+        total: number;
+        percentage: number;
+        orders: number;
+      };
+    };
+    categoriesPerformance: Array<{
+      categoryId: number;
+      categoryName: string;
+      revenue: number;
+      orders: number;
+      percentage: number;
+    }>;
+    regionsPerformance: Array<{
+      region: string;
+      revenue: number;
+      orders: number;
+      percentage: number;
+    }>;
+  };
+}
 
-export const mockUserAnalytics = {
-  success: true,
+export interface UserAnalyticsResponse {
+  success: boolean;
+  message?: string;
   data: {
-    user_growth: [
-      { date: "2024-11-01", new_users: 3, totalUsers: 1165 },
-      { date: "2024-11-02", new_users: 5, totalUsers: 1170 },
-      { date: "2024-11-03", new_users: 2, totalUsers: 1172 },
-      { date: "2024-11-04", new_users: 4, totalUsers: 1176 },
-      { date: "2024-11-05", new_users: 6, totalUsers: 1182 },
-      { date: "2024-11-06", new_users: 3, totalUsers: 1185 },
-      { date: "2024-11-07", new_users: 7, totalUsers: 1192 },
-    ],
-    user_segments: {
-      vip: {
-        count: 25,
-        totalSpent: 500000000,
-        average_order_value: 20000000,
-      },
-      regular: {
-        count: 450,
-        totalSpent: 450000000,
-        average_order_value: 1000000,
-      },
-      new: {
-        count: 725,
-        totalSpent: 145000000,
-        average_order_value: 200000,
-      },
-    },
-    retention_metrics: {
-      day_1: 85,
-      day_7: 65,
-      day_30: 45,
-      day_90: 32,
-    },
-    acquisition_channels: [
-      {
-        channel: "Organic Search",
-        users: 450,
-        percentage: 36,
-      },
-      {
-        channel: "Social Media",
-        users: 350,
-        percentage: 28,
-      },
-      {
-        channel: "Direct",
-        users: 300,
-        percentage: 24,
-      },
-      {
-        channel: "Referral",
-        users: 150,
-        percentage: 12,
-      },
-    ],
-  },
+    userGrowth: Array<{
+      date: string;
+      newUsers: number;
+      totalUsers: number;
+    }>;
+    userSegments: {
+      [key: string]: {
+        count: number;
+        totalSpent: number;
+        averageOrderValue: number;
+      };
+    };
+  };
+}
+
+// Real API calls
+export const fetchSystemOverview = async (params?: {
+  startDate?: string;
+  endDate?: string;
+}): Promise<SystemOverviewResponse> => {
+  const queryParams = new URLSearchParams();
+  if (params?.startDate) queryParams.append("startDate", params.startDate);
+  if (params?.endDate) queryParams.append("endDate", params.endDate);
+
+  const response = await axiosInstance.get<SystemOverviewResponse>(
+    `/api/v1/admin/dashboard/overview${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
+  );
+
+  return response.data;
 };
 
-// Simulate API call
-export const fetchSystemOverview = async (): Promise<
-  typeof mockSystemOverview
-> => {
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return mockSystemOverview;
+export const fetchRevenueAnalytics = async (params?: {
+  startDate?: string;
+  endDate?: string;
+  groupBy?: "day" | "week" | "month";
+}): Promise<RevenueAnalyticsResponse> => {
+  const queryParams = new URLSearchParams();
+  if (params?.startDate) queryParams.append("startDate", params.startDate);
+  if (params?.endDate) queryParams.append("endDate", params.endDate);
+  if (params?.groupBy) queryParams.append("groupBy", params.groupBy);
+
+  const response = await axiosInstance.get<RevenueAnalyticsResponse>(
+    `/api/v1/admin/dashboard/revenue-analytics${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
+  );
+
+  return response.data;
 };
 
-export const fetchRevenueAnalytics = async (): Promise<
-  typeof mockRevenueAnalytics
-> => {
-  await new Promise((resolve) => setTimeout(resolve, 600));
-  return mockRevenueAnalytics;
-};
+export const fetchUserAnalytics = async (params?: {
+  startDate?: string;
+  endDate?: string;
+}): Promise<UserAnalyticsResponse> => {
+  const queryParams = new URLSearchParams();
+  if (params?.startDate) queryParams.append("startDate", params.startDate);
+  if (params?.endDate) queryParams.append("endDate", params.endDate);
 
-export const fetchUserAnalytics = async (): Promise<
-  typeof mockUserAnalytics
-> => {
-  await new Promise((resolve) => setTimeout(resolve, 700));
-  return mockUserAnalytics;
+  const response = await axiosInstance.get<UserAnalyticsResponse>(
+    `/api/v1/admin/dashboard/user-analytics${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
+  );
+
+  return response.data;
 };

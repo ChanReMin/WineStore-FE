@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Download, Upload, Package } from "lucide-react";
+import { Download, Upload, Package, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { inventoryService } from "@/services/inventoryService";
 import { warehouseService } from "@/services/warehouseService";
@@ -13,6 +13,7 @@ import UpdateInventoryModal from "@/components/seller/inventory/UpdateInventoryM
 import ExportModal from "@/components/seller/inventory/ExportModal";
 import TransferModal from "@/components/seller/inventory/TransferModal";
 import InventoryDetailModal from "@/components/seller/inventory/InventoryDetailModal";
+import AddProductToWarehouseModal from "@/components/seller/inventory/AddProductToWarehouseModal";
 import { Button } from "@/components/ui/button";
 import type { InventoryItem } from "@/types/inventory";
 import { toast } from "react-toastify";
@@ -29,10 +30,13 @@ export default function InventoryPage() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+
   // API data states
   const [inventoryData, setInventoryData] = useState<InventoryItem[]>([]);
-  const [warehouses, setWarehouses] = useState<Array<{ id: number; name: string }>>([]);
+  const [warehouses, setWarehouses] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
   const [summary, setSummary] = useState({
     total: 0,
     inStock: 0,
@@ -73,7 +77,8 @@ export default function InventoryPage() {
         const response = await inventoryService.getInventoryList({
           page: currentPage,
           limit: itemsPerPage,
-          warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+          warehouseId:
+            warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
           status: statusFilter !== "all" ? statusFilter : undefined,
           search: searchQuery || undefined,
         });
@@ -127,7 +132,7 @@ export default function InventoryPage() {
     note: string
   ) => {
     try {
-      const item = inventoryData.find(i => i.id === itemId);
+      const item = inventoryData.find((i) => i.id === itemId);
       if (!item) {
         toast.error("Không tìm thấy sản phẩm");
         return;
@@ -139,6 +144,8 @@ export default function InventoryPage() {
         type,
         quantity,
         note,
+        referenceCode: "",
+        typeEnum: type === "in" ? "0" : "1",
       });
       toast.success(
         `${type === "in" ? "Nhập kho" : "Xuất kho"} ${quantity} sản phẩm thành công`
@@ -147,7 +154,8 @@ export default function InventoryPage() {
       const response = await inventoryService.getInventoryList({
         page: currentPage,
         limit: itemsPerPage,
-        warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+        warehouseId:
+          warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
         status: statusFilter !== "all" ? statusFilter : undefined,
         search: searchQuery || undefined,
       });
@@ -182,65 +190,81 @@ export default function InventoryPage() {
           </h1>
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
-        <Button
-          onClick={() => setIsExportModalOpen(true)}
-          className="bg-[#3b4417] hover:bg-[#2a2f18] text-white"
-        >
-          <Download className="w-4 h-4 mr-2" />
-          Xuất dữ liệu
-        </Button>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => setIsAddProductModalOpen(true)}
+            className="bg-[#d4af37] hover:bg-[#b8941f] text-white"
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            {t("addProductModal.addButton")}
+          </Button>
+        </div>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {[
-          {
-            labelKey: "summary.totalProducts",
-            value: summary.total,
-            color: "bg-[#f5f3e8]",
-            icon: Package,
-          },
-          {
-            labelKey: "summary.inStock",
-            value: summary.inStock,
-            color: "bg-emerald-50",
-            icon: Package,
-          },
-          {
-            labelKey: "summary.lowStock",
-            value: summary.lowStock,
-            color: "bg-amber-50",
-            icon: Package,
-          },
-          {
-            labelKey: "summary.outOfStock",
-            value: summary.outOfStock,
-            color: "bg-red-50",
-            icon: Package,
-          },
-          {
-            labelKey: "summary.inventoryValue",
-            value: formatPrice(summary.totalValue),
-            color: "bg-blue-50",
-            icon: Package,
-            isPrice: true,
-          },
-        ].map((stat, index) => (
-          <motion.div
-            key={stat.labelKey}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`${stat.color} border border-[#e8e6dc] rounded-lg p-4`}
-          >
-            <p className="text-sm text-[#7a8451] mb-1">{t(stat.labelKey)}</p>
-            <p
-              className={`${stat.isPrice ? "text-xl" : "text-2xl"} font-bold text-[#3b4417]`}
+        {(
+          [
+            {
+              labelKey: "summary.totalProducts",
+              value: summary.total,
+              color: "bg-[#f5f3e8]",
+              icon: Package,
+            },
+            {
+              labelKey: "summary.inStock",
+              value: summary.inStock,
+              color: "bg-emerald-50",
+              icon: Package,
+            },
+            {
+              labelKey: "summary.lowStock",
+              value: summary.lowStock,
+              color: "bg-amber-50",
+              icon: Package,
+            },
+            {
+              labelKey: "summary.outOfStock",
+              value: summary.outOfStock,
+              color: "bg-red-50",
+              icon: Package,
+            },
+            {
+              labelKey: "summary.inventoryValue",
+              value: formatPrice(summary.totalValue),
+              color: "bg-blue-50",
+              icon: Package,
+              isPrice: true,
+            },
+          ] as Array<{
+            labelKey: string;
+            value: number | string;
+            color: string;
+            icon: LucideIcon;
+            isPrice?: boolean;
+          }>
+        ).map((stat, index) => {
+          const Icon = stat.icon;
+          return (
+            <motion.div
+              key={stat.labelKey}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className={`${stat.color} border border-[#e8e6dc] rounded-lg p-4`}
             >
-              {stat.value}
-            </p>
-          </motion.div>
-        ))}
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm text-[#7a8451]">{t(stat.labelKey)}</p>
+                {Icon && <Icon className="w-5 h-5 text-[#7a8451]" />}
+              </div>
+              <p
+                className={`${stat.isPrice ? "text-xl" : "text-2xl"} font-bold text-[#3b4417]`}
+              >
+                {stat.value}
+              </p>
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Filters */}
@@ -288,20 +312,6 @@ export default function InventoryPage() {
         item={selectedItem}
       />
 
-      {/* Export Modal */}
-      <ExportModal
-        isOpen={isExportModalOpen}
-        onClose={() => setIsExportModalOpen(false)}
-        title="Xuất dữ liệu Inventory"
-        totalItems={pagination.totalItems}
-        filteredItems={pagination.totalItems}
-        onExport={async (config) => {
-          // TODO: Implement actual export API
-          console.log("Export config:", config);
-          toast.success(`Đã xuất ${config.format.toUpperCase()} thành công!`);
-        }}
-      />
-
       {/* Transfer Modal */}
       <TransferModal
         isOpen={isTransferModalOpen}
@@ -322,7 +332,8 @@ export default function InventoryPage() {
             const response = await inventoryService.getInventoryList({
               page: currentPage,
               limit: itemsPerPage,
-              warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+              warehouseId:
+                warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
               status: statusFilter !== "all" ? statusFilter : undefined,
               search: searchQuery || undefined,
             });
@@ -349,6 +360,42 @@ export default function InventoryPage() {
         onStockIn={handleUpdateStock}
         onStockOut={handleUpdateStock}
         onTransfer={handleTransfer}
+      />
+
+      {/* Add Product to Warehouse Modal */}
+      <AddProductToWarehouseModal
+        isOpen={isAddProductModalOpen}
+        onClose={() => setIsAddProductModalOpen(false)}
+        warehouses={warehouses}
+        onSubmit={async (data) => {
+          try {
+            await inventoryService.addProductToWarehouse(data);
+            toast.success(
+              `Đã thêm ${data.quantity} sản phẩm vào kho thành công!`
+            );
+            // Refresh data
+            const response = await inventoryService.getInventoryList({
+              page: currentPage,
+              limit: itemsPerPage,
+              warehouseId:
+                warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+              status: statusFilter !== "all" ? statusFilter : undefined,
+              search: searchQuery || undefined,
+            });
+            setInventoryData(response.data.inventory);
+            setSummary({
+              total: response.data.summary.totalProducts,
+              inStock: response.data.summary.inStock,
+              lowStock: response.data.summary.lowStock,
+              outOfStock: response.data.summary.outOfStock,
+              totalValue: response.data.summary.totalValue,
+            });
+          } catch (error) {
+            console.error("Error adding product to warehouse:", error);
+            toast.error("Không thể thêm sản phẩm vào kho");
+            throw error;
+          }
+        }}
       />
     </div>
   );

@@ -4,15 +4,18 @@ export interface Warehouse {
   id: number;
   name: string;
   location: string;
-  city: string;
+  city?: string;
   description: string;
   status: 0 | 1 | 2; // 0=pending, 1=active, 2=banned
-  manager_id: number;
+  manager_id?: number;
   createdAt: string;
   updatedAt: string;
-  inventory_summary?: {
+  inventorySummary?: {
     totalProducts: number;
-    totalquantity: number;
+    totalQuantity: number;
+    totalValue: number;
+    lowStockProducts: number;
+    outOfStockProducts: number;
   };
 }
 
@@ -34,11 +37,12 @@ export interface WarehouseStatistics {
 export interface WarehouseDetail extends Warehouse {
   inventory: {
     totalProducts: number;
-    totalquantity: number;
-    total_value: number;
+    totalQuantity: number;
+    totalValue: number;
     lowStockProducts: number;
+    outOfStockProducts: number;
   };
-  recent_logs: Array<{
+  recentLogs: Array<{
     id: number;
     type: "IN" | "OUT";
     productName: string;
@@ -63,13 +67,14 @@ export interface WarehouseListResponse {
       totalPages: number;
       totalItems: number;
       perPage: number;
-      has_next: boolean;
-      has_prev: boolean;
+      hasNext: boolean;
+      hasPrev: boolean;
     };
     summary: {
       totalWarehouses: number;
       active: number;
       pending: number;
+      rejected: number;
       banned: number;
     };
   };
@@ -127,11 +132,14 @@ export const warehouseService = {
   },
 
   // Get warehouse detail
-  async getWarehouseDetail(id: number): Promise<{ success: boolean; data: WarehouseDetail }> {
+  async getWarehouseDetail(
+    id: number
+  ): Promise<{ success: boolean; data: WarehouseDetail }> {
     try {
-      const response = await axiosInstance.get<{ success: boolean; data: WarehouseDetail }>(
-        `/api/v1/warehouses/${id}`
-      );
+      const response = await axiosInstance.get<{
+        success: boolean;
+        data: WarehouseDetail;
+      }>(`/api/v1/warehouses/${id}`);
       return response.data;
     } catch (error) {
       console.error("Error fetching warehouse detail:", error);
@@ -140,11 +148,15 @@ export const warehouseService = {
   },
 
   // Get warehouse statistics
-  async getWarehouseStatistics(): Promise<{ success: boolean; data: WarehouseStatistics }> {
+  async getWarehouseStatistics(): Promise<{
+    success: boolean;
+    data: WarehouseStatistics;
+  }> {
     try {
-      const response = await axiosInstance.get<{ success: boolean; data: WarehouseStatistics }>(
-        "/api/v1/warehouses/statistics"
-      );
+      const response = await axiosInstance.get<{
+        success: boolean;
+        data: WarehouseStatistics;
+      }>("/api/v1/warehouses/statistics");
       return response.data;
     } catch (error) {
       console.error("Error fetching warehouse statistics:", error);
@@ -157,10 +169,11 @@ export const warehouseService = {
     data: CreateWarehouseRequest
   ): Promise<{ success: boolean; message: string; data: Warehouse }> {
     try {
-      const response = await axiosInstance.post<{ success: boolean; message: string; data: Warehouse }>(
-        "/api/v1/warehouses",
-        data
-      );
+      const response = await axiosInstance.post<{
+        success: boolean;
+        message: string;
+        data: Warehouse;
+      }>("/api/v1/warehouses", data);
       return response.data;
     } catch (error) {
       console.error("Error creating warehouse:", error);
@@ -174,10 +187,11 @@ export const warehouseService = {
     data: UpdateWarehouseRequest
   ): Promise<{ success: boolean; message: string; data: Warehouse }> {
     try {
-      const response = await axiosInstance.put<{ success: boolean; message: string; data: Warehouse }>(
-        `/api/v1/warehouses/${id}`,
-        data
-      );
+      const response = await axiosInstance.put<{
+        success: boolean;
+        message: string;
+        data: Warehouse;
+      }>(`/api/v1/warehouses/${id}`, data);
       return response.data;
     } catch (error) {
       console.error("Error updating warehouse:", error);
@@ -186,11 +200,14 @@ export const warehouseService = {
   },
 
   // Delete warehouse
-  async deleteWarehouse(id: number): Promise<{ success: boolean; message: string }> {
+  async deleteWarehouse(
+    id: number
+  ): Promise<{ success: boolean; message: string }> {
     try {
-      const response = await axiosInstance.delete<{ success: boolean; message: string }>(
-        `/api/v1/warehouses/${id}`
-      );
+      const response = await axiosInstance.delete<{
+        success: boolean;
+        message: string;
+      }>(`/api/v1/warehouses/${id}`);
       return response.data;
     } catch (error) {
       console.error("Error deleting warehouse:", error);

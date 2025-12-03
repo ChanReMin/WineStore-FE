@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
@@ -8,22 +7,17 @@ import {
   Mail,
   Phone,
   Calendar,
-  MapPin,
   ShoppingBag,
   DollarSign,
-  TrendingUp,
   User as UserIcon,
   Edit,
-  Key,
   CheckCircle,
   XCircle,
   AlertCircle,
   Clock,
+  Shield,
+  Store,
 } from "lucide-react";
-import {
-  fetchUserDetail,
-  fetchUserActivities,
-} from "@/services/userManagementService";
 import type { User } from "@/services/userManagementService";
 
 interface UserDetailModalProps {
@@ -40,54 +34,62 @@ export default function UserDetailModal({
   onEdit,
 }: UserDetailModalProps) {
   const t = useTranslations("admin.userManagement");
-  const [loading, setLoading] = useState(true);
-  const [userDetail, setUserDetail] = useState<any>(null);
-  const [activities, setActivities] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (isOpen) {
-      loadData();
-    }
-  }, [isOpen, user.id]);
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      const [detailResponse, activitiesResponse] = await Promise.all([
-        fetchUserDetail(user.id),
-        fetchUserActivities(user.id, { limit: 5 }),
-      ]);
-      setUserDetail(detailResponse.data);
-      setActivities(activitiesResponse.data.activities);
-    } catch (error) {
-      console.error("Error loading user data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getStatusBadge = (status: number) => {
+  const getStatusBadge = (status: string) => {
     const badges = {
-      1: {
+      active: {
         bg: "bg-emerald-50",
         text: "text-emerald-700",
         icon: CheckCircle,
         label: t("status.active"),
       },
-      0: {
+      inactive: {
         bg: "bg-amber-50",
         text: "text-amber-700",
         icon: AlertCircle,
         label: t("status.inactive"),
       },
-      "-1": {
+      locked: {
         bg: "bg-red-50",
         text: "text-red-700",
         icon: XCircle,
         label: t("status.locked"),
       },
     };
-    const badge = badges[status as keyof typeof badges] || badges[0];
+    const badge = badges[status as keyof typeof badges] || badges.inactive;
+    const Icon = badge.icon;
+    return (
+      <span
+        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${badge.bg} ${badge.text}`}
+      >
+        <Icon className="w-3.5 h-3.5" />
+        {badge.label}
+      </span>
+    );
+  };
+
+  const getRoleBadge = (role: string) => {
+    const badges = {
+      customer: {
+        bg: "bg-blue-50",
+        text: "text-blue-700",
+        icon: ShoppingBag,
+        label: t("role.customer"),
+      },
+      seller: {
+        bg: "bg-purple-50",
+        text: "text-purple-700",
+        icon: Store,
+        label: t("role.seller"),
+      },
+      admin: {
+        bg: "bg-orange-50",
+        text: "text-orange-700",
+        icon: Shield,
+        label: t("role.admin"),
+      },
+    };
+    const badge = badges[role as keyof typeof badges] || badges.customer;
     const Icon = badge.icon;
     return (
       <span
@@ -127,7 +129,8 @@ export default function UserDetailModal({
                     {t("detailModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
+                    {user.name.split(" ")[0]}{" "}
+                    {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -140,197 +143,165 @@ export default function UserDetailModal({
             </div>
 
             <div className="overflow-y-auto max-h-[calc(90vh-80px)] p-6">
-              {loading ? (
-                <div className="flex items-center justify-center py-12">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full"
-                  />
-                </div>
-              ) : userDetail ? (
-                <div className="space-y-6">
-                  <div className="flex items-start gap-6 p-6 bg-linear-to-br from-[#f5f3e8] to-white rounded-xl border border-[#3b4417]/10">
-                    <img
-                      src={userDetail.userInfo.avatar}
-                      alt={`${userDetail.userInfo.firstName} ${userDetail.userInfo.lastName}`}
-                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
-                    />
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-[#3b4417] mb-2">
-                        {userDetail.userInfo.firstName}{" "}
-                        {userDetail.userInfo.lastName}
-                      </h3>
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {getStatusBadge(userDetail.account.status)}
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            userDetail.account.role === 0
-                              ? "bg-blue-50 text-blue-700"
-                              : userDetail.account.role === 1
-                                ? "bg-purple-50 text-purple-700"
-                                : "bg-orange-50 text-orange-700"
-                          }`}
-                        >
-                          {userDetail.account.role === 0
-                            ? t("role.customer")
-                            : userDetail.account.role === 1
-                              ? t("role.seller")
-                              : t("role.admin")}
+              <div className="space-y-6">
+                {/* User Info Card */}
+                <div className="flex items-start gap-6 p-6 bg-gradient-to-br from-[#f5f3e8] to-white rounded-xl border border-[#3b4417]/10">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white text-3xl font-bold border-4 border-white shadow-lg">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-[#3b4417] mb-2">
+                      {user.name}
+                    </h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {getStatusBadge(user.status)}
+                      {getRoleBadge(user.role)}
+                      {user.emailVerified && (
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
+                          <CheckCircle className="w-3.5 h-3.5" />
+                          {t("detailModal.emailVerified")}
+                        </span>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="flex items-center gap-2 text-sm text-neutral-600">
+                        <Mail className="w-4 h-4" />
+                        <span className="truncate">{user.email}</span>
+                      </div>
+                      {user.phone && (
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <Phone className="w-4 h-4" />
+                          <span>{user.phone}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 text-sm text-neutral-600">
+                        <Clock className="w-4 h-4" />
+                        <span>
+                          {t("detailModal.joined")}:{" "}
+                          {new Date(user.createdAt).toLocaleDateString("vi-VN")}
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="flex items-center gap-2 text-sm text-neutral-600">
-                          <Mail className="w-4 h-4" />
-                          <span>{userDetail.account.email}</span>
-                        </div>
-                        {userDetail.userInfo.phoneNumber && (
-                          <div className="flex items-center gap-2 text-sm text-neutral-600">
-                            <Phone className="w-4 h-4" />
-                            <span>{userDetail.userInfo.phoneNumber}</span>
-                          </div>
-                        )}
-                        {userDetail.userInfo.dateOfBirth && (
-                          <div className="flex items-center gap-2 text-sm text-neutral-600">
-                            <Calendar className="w-4 h-4" />
-                            <span>
-                              {new Date(
-                                userDetail.userInfo.dateOfBirth
-                              ).toLocaleDateString("vi-VN")}
-                            </span>
-                          </div>
-                        )}
+                      {user.lastLogin && (
                         <div className="flex items-center gap-2 text-sm text-neutral-600">
                           <Clock className="w-4 h-4" />
                           <span>
-                            {t("detailModal.joined")}:{" "}
-                            {new Date(
-                              userDetail.account.createdAt
-                            ).toLocaleDateString("vi-VN")}
+                            {t("detailModal.lastLogin")}:{" "}
+                            {new Date(user.lastLogin).toLocaleDateString(
+                              "vi-VN"
+                            )}
                           </span>
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
-                      <div className="flex items-center gap-3 mb-2">
-                        <ShoppingBag className="w-5 h-5 text-blue-600" />
-                        <span className="text-sm font-medium text-blue-900">
-                          {t("detailModal.totalOrders")}
-                        </span>
-                      </div>
-                      <p className="text-2xl font-bold text-blue-600">
-                        {userDetail.orderStats.totalOrders}
-                      </p>
-                      <p className="text-xs text-blue-600 mt-1">
-                        {userDetail.orderStats.completedOrders}{" "}
-                        {t("detailModal.completed")}
-                      </p>
-                    </div>
-
-                    <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
-                      <div className="flex items-center gap-3 mb-2">
-                        <DollarSign className="w-5 h-5 text-emerald-600" />
-                        <span className="text-sm font-medium text-emerald-900">
-                          {t("detailModal.totalSpent")}
-                        </span>
-                      </div>
-                      <p className="text-2xl font-bold text-emerald-600">
-                        {new Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                          notation: "compact",
-                        }).format(userDetail.orderStats.totalSpent)}
-                      </p>
-                    </div>
-
-                    <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
-                      <div className="flex items-center gap-3 mb-2">
-                        <TrendingUp className="w-5 h-5 text-purple-600" />
-                        <span className="text-sm font-medium text-purple-900">
-                          {t("detailModal.avgOrder")}
-                        </span>
-                      </div>
-                      <p className="text-2xl font-bold text-purple-600">
-                        {new Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                          notation: "compact",
-                        }).format(userDetail.orderStats.avgOrderValue)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {userDetail.addresses && userDetail.addresses.length > 0 && (
-                    <div className="p-6 bg-white rounded-xl border border-neutral-200">
-                      <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
-                        <MapPin className="w-5 h-5" />
-                        {t("detailModal.addresses")}
-                      </h4>
-                      <div className="space-y-3">
-                        {userDetail.addresses.map((address: any) => (
-                          <div
-                            key={address.id}
-                            className="p-4 bg-neutral-50 rounded-lg"
-                          >
-                            <div className="flex items-start justify-between mb-2">
-                              <p className="font-medium text-neutral-900">
-                                {address.fullName}
-                              </p>
-                              {address.isDefault && (
-                                <span className="px-2 py-1 bg-[#3b4417] text-white text-xs rounded">
-                                  {t("detailModal.default")}
-                                </span>
-                              )}
-                            </div>
-                            <p className="text-sm text-neutral-600">
-                              {address.phoneNumber}
-                            </p>
-                            <p className="text-sm text-neutral-600">
-                              {address.addressLine}, {address.ward},{" "}
-                              {address.district}, {address.city}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {activities.length > 0 && (
-                    <div className="p-6 bg-white rounded-xl border border-neutral-200">
-                      <h4 className="text-lg font-bold text-[#3b4417] mb-4">
-                        {t("detailModal.recentActivities")}
-                      </h4>
-                      <div className="space-y-3">
-                        {activities.map((activity) => (
-                          <div
-                            key={activity.id}
-                            className="flex items-start gap-3 p-3 bg-neutral-50 rounded-lg"
-                          >
-                            <div className="w-2 h-2 bg-[#3b4417] rounded-full mt-2" />
-                            <div className="flex-1">
-                              <p className="text-sm font-medium text-neutral-900">
-                                {activity.description}
-                              </p>
-                              <p className="text-xs text-neutral-500">
-                                {new Date(activity.createdAt).toLocaleString(
-                                  "vi-VN"
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
-              ) : null}
+
+                {/* Statistics Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-6 bg-blue-50 rounded-xl border border-blue-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-3 bg-blue-100 rounded-lg">
+                        <ShoppingBag className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <span className="text-sm font-medium text-blue-900">
+                        {t("detailModal.totalOrders")}
+                      </span>
+                    </div>
+                    <p className="text-3xl font-bold text-blue-600">
+                      {user.totalOrders}
+                    </p>
+                    <p className="text-xs text-blue-600 mt-2">
+                      {t("detailModal.ordersPlaced")}
+                    </p>
+                  </div>
+
+                  <div className="p-6 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-3 bg-emerald-100 rounded-lg">
+                        <DollarSign className="w-6 h-6 text-emerald-600" />
+                      </div>
+                      <span className="text-sm font-medium text-emerald-900">
+                        {t("detailModal.totalSpent")}
+                      </span>
+                    </div>
+                    <p className="text-3xl font-bold text-emerald-600">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                        notation: "compact",
+                      }).format(user.totalSpent)}
+                    </p>
+                    <p className="text-xs text-emerald-600 mt-2">
+                      {t("detailModal.lifetimeValue")}
+                    </p>
+                  </div>
+                </div>
+
+                {/* User ID Card */}
+                <div className="p-6 bg-white rounded-xl border border-neutral-200">
+                  <h4 className="text-lg font-bold text-[#3b4417] mb-4">
+                    {t("detailModal.accountInfo")}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-neutral-500 mb-1">
+                        {t("detailModal.userId")}
+                      </p>
+                      <p className="text-sm font-mono font-medium text-neutral-900">
+                        {user.id}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-neutral-500 mb-1">
+                        {t("detailModal.accountStatus")}
+                      </p>
+                      <p className="text-sm font-medium text-neutral-900">
+                        {getStatusBadge(user.status)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-neutral-500 mb-1">
+                        {t("detailModal.role")}
+                      </p>
+                      <p className="text-sm font-medium text-neutral-900">
+                        {getRoleBadge(user.role)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-neutral-500 mb-1">
+                        {t("detailModal.emailStatus")}
+                      </p>
+                      <p className="text-sm font-medium text-neutral-900">
+                        {user.emailVerified ? (
+                          <span className="text-green-600 flex items-center gap-1">
+                            <CheckCircle className="w-4 h-4" />
+                            {t("detailModal.verified")}
+                          </span>
+                        ) : (
+                          <span className="text-amber-600 flex items-center gap-1">
+                            <AlertCircle className="w-4 h-4" />
+                            {t("detailModal.notVerified")}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Avatar Display */}
+                {user.avatar && (
+                  <div className="p-6 bg-white rounded-xl border border-neutral-200">
+                    <h4 className="text-lg font-bold text-[#3b4417] mb-4">
+                      {t("detailModal.avatar")}
+                    </h4>
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="w-32 h-32 rounded-lg object-cover border-2 border-neutral-200"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="sticky bottom-0 bg-white border-t border-neutral-200 px-6 py-4 flex items-center justify-end gap-3">
@@ -368,4 +339,3 @@ export default function UserDetailModal({
     </AnimatePresence>
   );
 }
-

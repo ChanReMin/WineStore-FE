@@ -10,7 +10,7 @@ interface ProductSummaryCardsProps {
     total: number;
     pending: number;
     active: number;
-    banned: number;
+    reject: number;
   };
 }
 
@@ -45,8 +45,8 @@ export default function ProductSummaryCards({
       descriptionKey: "approved",
     },
     {
-      titleKey: "banned",
-      value: summary.banned,
+      titleKey: "reject",
+      value: summary.reject,
       icon: XCircle,
       color: "text-red-600",
       bgColor: "bg-red-50",

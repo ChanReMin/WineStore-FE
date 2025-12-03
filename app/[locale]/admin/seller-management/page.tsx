@@ -2,8 +2,12 @@ import { Metadata } from "next";
 import SellerManagementList from "@/components/admin/seller-management/SellerManagementList";
 
 export const metadata: Metadata = {
-  title: "Seller Management | Admin Dashboard",
-  description: "Manage sellers and seller members",
+  title: "Quản lý Seller | Admin",
+  description: "Quản lý các seller và thành viên của seller trong hệ thống.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function SellerManagementPage() {

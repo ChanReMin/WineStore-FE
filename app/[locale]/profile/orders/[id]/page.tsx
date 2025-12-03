@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
-import { orderService } from "@/services/orderService";
-import type { OrderDetail } from "@/types/order";
+import orderService from "@/services/orderService";
+import type { OrderDetail, OrderItem } from "@/types/order";
 import { ArrowLeft, Package, MapPin, CreditCard, Clock } from "lucide-react";
 import OrderTimeline from "@/components/orders/OrderTimeline";
 
@@ -222,7 +222,7 @@ export default function OrderDetailPage() {
           </div>
 
           <div className="space-y-4">
-            {order.items.map((item) => (
+            {order.items.map((item: OrderItem) => (
               <div
                 key={item.id}
                 className="flex gap-4 border-b border-neutral-100 pb-4 last:border-0 last:pb-0"

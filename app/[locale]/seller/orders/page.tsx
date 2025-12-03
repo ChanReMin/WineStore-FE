@@ -1,76 +1,124 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { mockOrderList } from "@/lib/orders.mock";
 import OrderFilters from "@/components/seller/order/OrderFilters";
 import OrdersTable from "@/components/seller/order/OrdersTable";
 import OrderPagination from "@/components/seller/order/OrderPagination";
 import UpdateOrderStatusModal from "@/components/seller/order/UpdateOrderStatusModal";
 import OrderDetailModal from "@/components/seller/order/OrderDetailModal";
-// Removed Order import - using any type for seller orders to avoid conflict with customer Order type
 import { toast } from "react-toastify";
+import orderService from "@/services/orderService";
+import { OrderStatus } from "@/types/order";
 
 export default function OrdersPage() {
   const t = useTranslations("seller.orders");
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [paymentFilter, setPaymentFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [fromDate, setFromDate] = useState<string>("");
+  const [toDate, setToDate] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+    totalItems: 0,
+    perPage: 10,
+  });
+  const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState({
+    total: 0,
+    pending: 0,
+    confirmed: 0,
+    paid: 0,
+    cancelled: 0,
+  });
 
-  // Filter orders
-  const filteredOrders = useMemo(() => {
-    let filtered = mockOrderList.data.orders;
+  // Fetch orders from API
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const params: any = {
+        page: currentPage,
+        limit: itemsPerPage,
+      };
 
-    // Filter by status
-    if (statusFilter !== "all") {
-      filtered = filtered.filter(
-        (order: any) => order.status === Number.parseInt(statusFilter)
-      );
+      if (statusFilter !== "all") {
+        params.status = Number.parseInt(statusFilter);
+      }
+
+      if (fromDate) {
+        params.fromDate = fromDate;
+      }
+
+      if (toDate) {
+        params.toDate = toDate;
+      }
+
+      if (searchQuery) {
+        params.search = searchQuery;
+      }
+
+      const response = await orderService.seller.getOrders(params);
+      setOrders(response.orders);
+      setPagination(response.pagination);
+
+      // Calculate summary from all orders (you might want to get this from a separate API)
+      calculateSummary(response.orders);
+    } catch (error: any) {
+      toast.error(error.message || "Không thể tải danh sách đơn hàng");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Filter by payment status
-    if (paymentFilter !== "all") {
-      filtered = filtered.filter(
-        (order: any) => order.paymentStatus === Number.parseInt(paymentFilter)
-      );
-    }
+  // Calculate summary stats
+  const calculateSummary = (ordersList: any[]) => {
+    setSummary({
+      total: ordersList.length,
+      pending: ordersList.filter((o: any) => o.status === OrderStatus.PENDING)
+        .length,
+      confirmed: ordersList.filter(
+        (o: any) => o.status === OrderStatus.CONFIRMED
+      ).length,
+      paid: ordersList.filter((o: any) => o.status === OrderStatus.PAID).length,
+      cancelled: ordersList.filter(
+        (o: any) => o.status === OrderStatus.CANCELLED
+      ).length,
+    });
+  };
 
-    // Filter by search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (order: any) =>
-          order.orderCode.toLowerCase().includes(query) ||
-          order.customer.name.toLowerCase().includes(query) ||
-          order.customer.email.toLowerCase().includes(query)
-      );
-    }
-
-    return filtered;
-  }, [searchQuery, statusFilter, paymentFilter]);
-
-  // Pagination
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
-  const paginatedOrders = filteredOrders.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  // Reset to page 1 when filters change
+  // Fetch orders when filters or pagination change
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, statusFilter, paymentFilter]);
+    fetchOrders();
+  }, [currentPage, itemsPerPage, statusFilter, fromDate, toDate]);
+
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (currentPage === 1) {
+        fetchOrders();
+      } else {
+        setCurrentPage(1);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Handlers
-  const handleViewDetails = (order: any) => {
-    setSelectedOrder(order);
-    setIsDetailModalOpen(true);
+  const handleViewDetails = async (order: any) => {
+    try {
+      const orderDetail = await orderService.seller.getOrderDetail(order.id);
+      setSelectedOrder(orderDetail);
+      setIsDetailModalOpen(true);
+    } catch (error: any) {
+      toast.error(error.message || "Không thể tải chi tiết đơn hàng");
+    }
   };
 
   const handleUpdateStatus = (order: any) => {
@@ -83,24 +131,15 @@ export default function OrdersPage() {
     status: number,
     note: string
   ) => {
-    // TODO: Call API PUT /seller/orders/{orderId}/status
-    toast.success(
-      `Updated order #${orderId} status to ${status}${note ? ` - Note: ${note}` : ""} (Mock)`
-    );
+    try {
+      await orderService.seller.updateOrderStatus(orderId, status, note);
+      toast.success("Cập nhật trạng thái đơn hàng thành công");
+      setIsUpdateModalOpen(false);
+      fetchOrders(); // Refresh list
+    } catch (error: any) {
+      toast.error(error.message || "Không thể cập nhật trạng thái đơn hàng");
+    }
   };
-
-  // Calculate summary stats
-  const summary = useMemo(() => {
-    const orders = mockOrderList.data.orders;
-    return {
-      total: orders.length,
-      pending: orders.filter((o: any) => o.status === 1).length,
-      processing: orders.filter((o: any) => o.status === 2).length,
-      shipping: orders.filter((o: any) => o.status === 3).length,
-      completed: orders.filter((o: any) => o.status === 4).length,
-      cancelled: orders.filter((o: any) => o.status === 5).length,
-    };
-  }, []);
 
   return (
     <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
@@ -115,49 +154,105 @@ export default function OrdersPage() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           {
             labelKey: "summary.totalOrders",
-            value: summary.total,
-            color: "bg-[#f5f3e8]",
+            value: pagination.totalItems,
+            iconColor: "text-[#3b4417]",
+            IconComponent: (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            ),
           },
           {
             labelKey: "summary.pending",
             value: summary.pending,
-            color: "bg-amber-50",
+            iconColor: "text-amber-600",
+            IconComponent: (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            ),
           },
           {
-            labelKey: "summary.processing",
-            value: summary.processing,
-            color: "bg-blue-50",
+            labelKey: "summary.confirmed",
+            value: summary.confirmed,
+            iconColor: "text-blue-600",
+            IconComponent: (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            ),
           },
           {
-            labelKey: "summary.shipping",
-            value: summary.shipping,
-            color: "bg-purple-50",
-          },
-          {
-            labelKey: "summary.completed",
-            value: summary.completed,
-            color: "bg-emerald-50",
-          },
-          {
-            labelKey: "summary.cancelled",
-            value: summary.cancelled,
-            color: "bg-red-50",
+            labelKey: "summary.paid",
+            value: summary.paid,
+            iconColor: "text-emerald-600",
+            IconComponent: (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+            ),
           },
         ].map((stat, index) => (
-          <motion.div
+          <div
             key={stat.labelKey}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`${stat.color} border border-[#e8e6dc] rounded-lg p-4`}
+            className="bg-white border border-[#d4d6b4] rounded-lg p-4"
           >
-            <p className="text-sm text-[#7a8451] mb-1">{t(stat.labelKey)}</p>
-            <p className="text-2xl font-bold text-[#3b4417]">{stat.value}</p>
-          </motion.div>
+            <div className="flex items-center justify-between mb-2">
+              <div className={stat.iconColor}>
+                {stat.IconComponent}
+              </div>
+              <p className={`text-2xl font-bold ${stat.iconColor}`}>
+                {stat.value}
+              </p>
+            </div>
+            <p className="text-sm text-[#7a8451]">
+              {t(stat.labelKey)}
+            </p>
+          </div>
         ))}
       </div>
 
@@ -167,27 +262,38 @@ export default function OrdersPage() {
         onSearchChange={setSearchQuery}
         statusFilter={statusFilter}
         onStatusChange={setStatusFilter}
-        paymentFilter={paymentFilter}
-        onPaymentChange={setPaymentFilter}
+        fromDate={fromDate}
+        onFromDateChange={setFromDate}
+        toDate={toDate}
+        onToDateChange={setToDate}
       />
 
-      {/* Orders Table */}
-      <OrdersTable
-        orders={paginatedOrders}
-        onViewDetails={handleViewDetails}
-        onUpdateStatus={handleUpdateStatus}
-      />
+      {/* Loading State */}
+      {loading ? (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        </div>
+      ) : (
+        <>
+          {/* Orders Table */}
+          <OrdersTable
+            orders={orders}
+            onViewDetails={handleViewDetails}
+            onUpdateStatus={handleUpdateStatus}
+          />
 
-      {/* Pagination */}
-      {filteredOrders.length > 0 && (
-        <OrderPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filteredOrders.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setCurrentPage}
-          onItemsPerPageChange={setItemsPerPage}
-        />
+          {/* Pagination */}
+          {pagination.totalItems > 0 && (
+            <OrderPagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              totalItems={pagination.totalItems}
+              itemsPerPage={itemsPerPage}
+              onPageChange={setCurrentPage}
+              onItemsPerPageChange={setItemsPerPage}
+            />
+          )}
+        </>
       )}
 
       {/* Modals */}

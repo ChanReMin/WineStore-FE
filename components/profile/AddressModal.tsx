@@ -26,10 +26,12 @@ export default function AddressModal({
     fullName: "",
     phoneNumber: "",
     addressLine: "",
+    ward: "",
+    district: "",
     city: "",
-    state: "",
     country: "Việt Nam",
     isDefault: false,
+    addressType: "HOME",
   });
 
   useEffect(() => {
@@ -38,26 +40,37 @@ export default function AddressModal({
         fullName: editAddress.fullName,
         phoneNumber: editAddress.phoneNumber,
         addressLine: editAddress.addressLine,
+        ward: editAddress.ward,
+        district: editAddress.district,
         city: editAddress.city,
-        state: editAddress.state,
         country: editAddress.country,
         isDefault: editAddress.isDefault,
+        addressType: editAddress.addressType,
       });
     } else {
       setFormData({
         fullName: "",
         phoneNumber: "",
         addressLine: "",
+        ward: "",
+        district: "",
         city: "",
-        state: "",
         country: "Việt Nam",
         isDefault: false,
+        addressType: "HOME",
       });
     }
   }, [editAddress, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate phone number
+    if (formData.phoneNumber.length < 10 || formData.phoneNumber.length > 20) {
+      toast.error(t("phoneError") || "Phone number must be 10-20 digits");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -151,13 +164,18 @@ export default function AddressModal({
                     <input
                       type="tel"
                       value={formData.phoneNumber}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
                         setFormData({
                           ...formData,
-                          phoneNumber: e.target.value,
-                        })
-                      }
+                          phoneNumber: value,
+                        });
+                      }}
                       required
+                      minLength={10}
+                      maxLength={20}
+                      pattern="[0-9]{10,20}"
+                      placeholder="0123456789"
                       className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
                     />
                   </div>
@@ -181,7 +199,45 @@ export default function AddressModal({
                   />
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2">
+                  {/* Ward */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-neutral-700">
+                      {t("ward")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.ward}
+                      onChange={(e) =>
+                        setFormData({ ...formData, ward: e.target.value })
+                      }
+                      required
+                      placeholder={t("wardPlaceholder")}
+                      className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
+                    />
+                  </div>
+
+                  {/* District */}
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-neutral-700">
+                      {t("district")}{" "}
+                      <span className="text-red-500">{t("required")}</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.district}
+                      onChange={(e) =>
+                        setFormData({ ...formData, district: e.target.value })
+                      }
+                      required
+                      placeholder={t("districtPlaceholder")}
+                      className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
                   {/* City */}
                   <div>
                     <label className="mb-2 block text-sm font-medium text-neutral-700">
@@ -195,23 +251,7 @@ export default function AddressModal({
                         setFormData({ ...formData, city: e.target.value })
                       }
                       required
-                      className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
-                    />
-                  </div>
-
-                  {/* State */}
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-neutral-700">
-                      {t("state")}{" "}
-                      <span className="text-red-500">{t("required")}</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.state}
-                      onChange={(e) =>
-                        setFormData({ ...formData, state: e.target.value })
-                      }
-                      required
+                      placeholder={t("cityPlaceholder")}
                       className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
                     />
                   </div>
@@ -232,6 +272,26 @@ export default function AddressModal({
                       className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
                     />
                   </div>
+                </div>
+
+                {/* Address Type */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-neutral-700">
+                    {t("addressType")}
+                  </label>
+                  <select
+                    value={formData.addressType}
+                    onChange={(e) =>
+                      setFormData({ ...formData, addressType: e.target.value })
+                    }
+                    className="w-full rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 transition-all focus:border-[#33391d] focus:outline-none focus:ring-2 focus:ring-[#33391d]/20"
+                  >
+                    <option value="HOME">🏠 {t("addressTypes.home")}</option>
+                    <option value="OFFICE">
+                      🏢 {t("addressTypes.office")}
+                    </option>
+                    <option value="OTHER">📍 {t("addressTypes.other")}</option>
+                  </select>
                 </div>
 
                 {/* Default Checkbox */}

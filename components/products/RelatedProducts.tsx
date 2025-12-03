@@ -20,7 +20,9 @@ export default function RelatedProducts({
         <div className="container mx-auto px-6">
           <div className="text-center">
             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
-            <p className="mt-4 text-sm text-neutral-600">Đang tải sản phẩm liên quan...</p>
+            <p className="mt-4 text-sm text-neutral-600">
+              Đang tải sản phẩm liên quan...
+            </p>
           </div>
         </div>
       </section>

@@ -6,12 +6,15 @@ export interface Warehouse {
   location: string;
   description: string;
   status: 0 | 1 | 2; // 0=pending, 1=active, 2=banned
-  manager_id: number;
+  manager_id?: number;
   createdAt: string;
   updatedAt: string;
-  inventory_summary?: {
+  inventorySummary?: {
     totalProducts: number;
-    totalquantity: number;
+    totalQuantity: number;
+    totalValue: number;
+    lowStockProducts: number;
+    outOfStockProducts: number;
   };
 }
 
@@ -33,11 +36,12 @@ export interface WarehouseStatistics {
 export interface WarehouseDetail extends Warehouse {
   inventory: {
     totalProducts: number;
-    totalquantity: number;
-    total_value: number;
+    totalQuantity: number;
+    totalValue: number;
     lowStockProducts: number;
+    outOfStockProducts: number;
   };
-  recent_logs: Array<{
+  recentLogs: Array<{
     id: number;
     type: "IN" | "OUT";
     productName: string;
@@ -57,9 +61,12 @@ export const mockWarehouses: Warehouse[] = [
     manager_id: 5,
     createdAt: "2024-11-15T10:00:00Z",
     updatedAt: "2024-11-20T08:00:00Z",
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 150,
-      totalquantity: 5000,
+      totalQuantity: 5000,
+      totalValue: 2500000000,
+      lowStockProducts: 12,
+      outOfStockProducts: 0,
     },
   },
   {
@@ -71,9 +78,12 @@ export const mockWarehouses: Warehouse[] = [
     manager_id: 5,
     createdAt: "2024-11-10T14:30:00Z",
     updatedAt: "2024-11-25T16:00:00Z",
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 85,
-      totalquantity: 2800,
+      totalQuantity: 2800,
+      totalValue: 1800000000,
+      lowStockProducts: 8,
+      outOfStockProducts: 0,
     },
   },
   {
@@ -85,9 +95,12 @@ export const mockWarehouses: Warehouse[] = [
     manager_id: 5,
     createdAt: "2024-11-26T10:30:00Z",
     updatedAt: "2024-11-26T10:30:00Z",
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 0,
-      totalquantity: 0,
+      totalQuantity: 0,
+      totalValue: 0,
+      lowStockProducts: 0,
+      outOfStockProducts: 0,
     },
   },
   {
@@ -99,9 +112,12 @@ export const mockWarehouses: Warehouse[] = [
     manager_id: 5,
     createdAt: "2024-10-05T09:00:00Z",
     updatedAt: "2024-11-22T11:30:00Z",
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 120,
-      totalquantity: 3500,
+      totalQuantity: 3500,
+      totalValue: 1500000000,
+      lowStockProducts: 5,
+      outOfStockProducts: 0,
     },
   },
   {
@@ -113,9 +129,12 @@ export const mockWarehouses: Warehouse[] = [
     manager_id: 5,
     createdAt: "2024-09-20T08:00:00Z",
     updatedAt: "2024-11-01T10:00:00Z",
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 45,
-      totalquantity: 800,
+      totalQuantity: 800,
+      totalValue: 400000000,
+      lowStockProducts: 3,
+      outOfStockProducts: 0,
     },
   },
 ];
@@ -142,11 +161,12 @@ export const mockWarehouseDetails: Record<number, WarehouseDetail> = {
     ...mockWarehouses[0],
     inventory: {
       totalProducts: 150,
-      totalquantity: 5000,
-      total_value: 2500000000,
+      totalQuantity: 5000,
+      totalValue: 2500000000,
       lowStockProducts: 12,
+      outOfStockProducts: 0,
     },
-    recent_logs: [
+    recentLogs: [
       {
         id: 1001,
         type: "IN",
@@ -181,11 +201,12 @@ export const mockWarehouseDetails: Record<number, WarehouseDetail> = {
     ...mockWarehouses[1],
     inventory: {
       totalProducts: 85,
-      totalquantity: 2800,
-      total_value: 1800000000,
+      totalQuantity: 2800,
+      totalValue: 1800000000,
       lowStockProducts: 8,
+      outOfStockProducts: 0,
     },
-    recent_logs: [
+    recentLogs: [
       {
         id: 2001,
         type: "IN",
@@ -320,9 +341,12 @@ export const createWarehouse = async (data: {
     manager_id: 5,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 0,
-      totalquantity: 0,
+      totalQuantity: 0,
+      totalValue: 0,
+      lowStockProducts: 0,
+      outOfStockProducts: 0,
     },
   };
 

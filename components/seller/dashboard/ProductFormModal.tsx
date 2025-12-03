@@ -9,6 +9,7 @@ import ImageUpload from "./ImageUpload";
 import type { ProductFormData } from "@/types/productForm";
 import { fetchCategories, type Category } from "@/services/categoryService";
 import { fetchBrands, type Brand } from "@/services/brandService";
+import { toast } from "react-toastify";
 
 interface ProductFormModalProps {
   isOpen: boolean;
@@ -50,8 +51,9 @@ export default function ProductFormModal({
     avoidVibration: initialData?.avoidVibration || "",
     openedWine: initialData?.openedWine || "",
     useWineCabinet: initialData?.useWineCabinet || "",
-    images: initialData?.images || [],
-    imageFiles: initialData?.imageFiles || [],
+    images: initialData?.images || "",
+    imagePreview: initialData?.imagePreview || [],
+    image: initialData?.image || [],
     description: initialData?.description || "",
   });
 
@@ -80,8 +82,8 @@ export default function ProductFormModal({
   useEffect(() => {
     if (initialData && isOpen) {
       setFormData({
-        categoryId: initialData.categoryId || (categories[0]?.id || 1),
-        brandId: initialData.brandId || (brands[0]?.id || 1),
+        categoryId: initialData.categoryId || categories[0]?.id || 1,
+        brandId: initialData.brandId || brands[0]?.id || 1,
         name: initialData.name || "",
         price: initialData.price || 0,
         winetype: initialData.winetype || "Red Wine",
@@ -98,8 +100,9 @@ export default function ProductFormModal({
         avoidVibration: initialData.avoidVibration || "",
         openedWine: initialData.openedWine || "",
         useWineCabinet: initialData.useWineCabinet || "",
-        images: initialData.images || [],
-        imageFiles: initialData.imageFiles || [],
+        images: initialData.images || "",
+        imagePreview: initialData.imagePreview || [],
+        image: initialData.image || [],
         description: initialData.description || "",
       });
     }
@@ -107,6 +110,26 @@ export default function ProductFormModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validation
+    if (mode === "create") {
+      // Create mode: image is required
+      if (!formData.image || formData.image.length === 0) {
+        toast.error("vui lòng nhập ảnh");
+        return;
+      }
+    } else {
+      // Edit mode: Either keep existing images OR upload new ones
+      // If user deleted existing images, they must upload new ones
+      const hasExistingImages = formData.images && formData.images.trim() !== "";
+      const hasNewImages = formData.image && formData.image.length > 0;
+      
+      if (!hasExistingImages && !hasNewImages) {
+        toast.error("Sản phẩm phải có ảnh. Vui lòng tải lên ảnh mới hoặc giữ ảnh hiện tại");
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     try {
       await onSubmit(formData);
@@ -512,12 +535,15 @@ export default function ProductFormModal({
                           <span className="text-red-600">{t("required")}</span>
                         </label>
                         <ImageUpload
-                          value={formData.images}
-                          onChange={(images, files) =>
-                            setFormData((prev) => ({ 
-                              ...prev, 
-                              images,
-                              imageFiles: files 
+                          value={formData.imagePreview || []}
+                          existingImageUrl={formData.images}
+                          onChange={(previews, files) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              imagePreview: previews,
+                              image: files,
+                              // If user deletes existing image (both arrays are empty), clear the images field
+                              images: (previews.length === 0 && (!files || files.length === 0)) ? "" : prev.images,
                             }))
                           }
                           maxFiles={5}

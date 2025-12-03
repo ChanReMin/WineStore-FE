@@ -110,7 +110,9 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                   <div className="flex items-center gap-2">
                     <Package className="w-4 h-4 text-[#7a8451]" />
                     <span className="font-medium text-[#3b4417]">
-                      {typeof log.product === 'string' ? log.product : log.product.name}
+                      {typeof log.product === "string"
+                        ? log.product
+                        : log.product.name}
                     </span>
                   </div>
                 </TableCell>
@@ -118,7 +120,9 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
                   <div className="flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-[#7a8451]" />
                     <span className="text-[#3b4417]">
-                      {typeof log.warehouse === 'string' ? log.warehouse : log.warehouse.name}
+                      {typeof log.warehouse === "string"
+                        ? log.warehouse
+                        : log.warehouse.name}
                     </span>
                   </div>
                 </TableCell>
@@ -174,9 +178,12 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
             <p className="text-[#7a8451] mb-1">{t("others")}</p>
             <p className="text-xl font-bold text-blue-600">
               {
-                logs.filter((l) => 
-                  l.type === "ADJUST" || l.type === "RETURN" || 
-                  l.type === "adjust" || l.type === "return"
+                logs.filter(
+                  (l) =>
+                    l.type === "ADJUST" ||
+                    l.type === "RETURN" ||
+                    l.type === "adjust" ||
+                    l.type === "return"
                 ).length
               }
             </p>

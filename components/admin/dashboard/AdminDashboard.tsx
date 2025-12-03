@@ -24,14 +24,23 @@ export default function AdminDashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
+      
+      // Calculate date range (last 30 days by default)
+      const endDate = new Date().toISOString().split("T")[0];
+      const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0];
+
       const [system, revenue] = await Promise.all([
-        fetchSystemOverview(),
-        fetchRevenueAnalytics(),
+        fetchSystemOverview({ startDate, endDate }),
+        fetchRevenueAnalytics({ startDate, endDate, groupBy: "day" }),
       ]);
+      
       setSystemData(system.data);
       setRevenueData(revenue.data);
     } catch (error) {
       console.error("Error loading dashboard data:", error);
+      // Optionally add toast notification here
     } finally {
       setLoading(false);
     }
@@ -102,23 +111,23 @@ export default function AdminDashboard() {
       >
         <span className="text-sm text-neutral-600">{t("period")}:</span>
         <span className="text-sm font-medium text-[#3b4417]">
-          {new Date(systemData.period.start_date).toLocaleDateString("vi-VN")} -{" "}
-          {new Date(systemData.period.end_date).toLocaleDateString("vi-VN")}
+          {new Date(systemData.period.startDate).toLocaleDateString("vi-VN")} -{" "}
+          {new Date(systemData.period.endDate).toLocaleDateString("vi-VN")}
         </span>
       </motion.div>
 
       {/* Metrics Cards */}
       <MetricsCards
-        totalRevenue={systemData.business_metrics.totalRevenue}
-        totalOrders={systemData.business_metrics.totalOrders}
+        totalRevenue={systemData.businessMetrics.totalRevenue}
+        totalOrders={systemData.businessMetrics.totalOrders}
         totalUsers={systemData.users.totalUsers}
         totalProducts={systemData.products.total}
-        conversionRate={systemData.business_metrics.conversion_rate}
-        profitMargin={systemData.business_metrics.profit_margin_percent}
+        conversionRate={systemData.businessMetrics.conversionRate}
+        profitMargin={systemData.businessMetrics.profitMarginPercent}
       />
 
       {/* Revenue Chart */}
-      <RevenueChart data={revenueData.revenue_chart} />
+      <RevenueChart data={revenueData.revenueChart} />
 
       {/* Quick Stats */}
       <QuickStats
@@ -128,11 +137,6 @@ export default function AdminDashboard() {
         inventory={systemData.inventory}
       />
 
-      {/* Category & Payment Methods */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        <CategoryPerformance categories={revenueData.categories_performance} />
-        <PaymentMethodsChart paymentMethods={revenueData.paymentMethods} />
-      </div>
     </div>
   );
 }

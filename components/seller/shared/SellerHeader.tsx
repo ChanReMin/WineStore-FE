@@ -37,6 +37,10 @@ export default function SellerHeader() {
     router.push("/");
   };
 
+  const goProfile = () => {
+    router.push("/profile");
+  };
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-neutral-200 bg-white px-6 shadow-sm">
       {/* Search Bar */}
@@ -145,7 +149,6 @@ export default function SellerHeader() {
                         {t("hoursAgo", { count: 1 })}
                       </p>
                     </div>
-
                   </div>
                   <div className="border-t border-neutral-200 p-3 text-center">
                     <button
@@ -198,15 +201,10 @@ export default function SellerHeader() {
                   <div className="p-2">
                     <button
                       type="button"
+                      onClick={goProfile}
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
                     >
                       {t("myProfile")}
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
-                    >
-                      {t("settings")}
                     </button>
                     <button
                       type="button"

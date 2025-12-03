@@ -6,14 +6,12 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { fetchCategories, type Category } from "@/services/categoryService";
 import { fetchBrands, type Brand } from "@/services/brandService";
+import {
+  fetchSellerWarehouses,
+  type WarehouseRequest,
+} from "@/services/warehouseApprovalService";
+import { useAuthStore } from "@/stores/authStore";
 import RangeSlider from "@/components/products/RangeSlider";
-
-// Mock data - sẽ thay thế bằng API sau
-const mockWarehouses = [
-  { id: 1, name: "Warehouse A" },
-  { id: 2, name: "Warehouse B" },
-  { id: 3, name: "Warehouse C" },
-];
 
 interface ProductFiltersProps {
   searchQuery: string;
@@ -35,7 +33,7 @@ interface ProductFiltersProps {
     total: number;
     pending: number;
     active: number;
-    banned: number;
+    reject: number;
   };
 }
 
@@ -58,12 +56,15 @@ export default function ProductFilters({
   summary,
 }: ProductFiltersProps) {
   const t = useTranslations("seller.products");
+  const { user } = useAuthStore();
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(false);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [isLoadingBrands, setIsLoadingBrands] = useState(false);
+  const [warehouses, setWarehouses] = useState<WarehouseRequest[]>([]);
+  const [isLoadingWarehouses, setIsLoadingWarehouses] = useState(false);
 
-  // Fetch categories and brands from API
+  // Fetch categories, brands and warehouses from API
   useEffect(() => {
     const loadData = async () => {
       // Load categories
@@ -89,16 +90,34 @@ export default function ProductFilters({
       } finally {
         setIsLoadingBrands(false);
       }
+
+      // Load warehouses by managerId
+      if (user?.id) {
+        setIsLoadingWarehouses(true);
+        try {
+          const warehousesResponse = await fetchSellerWarehouses({
+            managerId: user.id,
+            status: 1, // Only fetch approved warehouses
+            limit: 100,
+          });
+          setWarehouses(warehousesResponse.data.warehouses);
+        } catch (error) {
+          console.error("Error fetching warehouses:", error);
+          setWarehouses([]);
+        } finally {
+          setIsLoadingWarehouses(false);
+        }
+      }
     };
 
     loadData();
-  }, []);
+  }, [user?.id]);
 
   const statusOptions = [
     { value: "all", labelKey: "filters.all", count: summary.total },
     { value: "0", labelKey: "summary.pending", count: summary.pending },
     { value: "1", labelKey: "filters.active", count: summary.active },
-    { value: "2", labelKey: "summary.banned", count: summary.banned },
+    { value: "2", labelKey: "summary.reject", count: summary.reject },
   ];
 
   const hasActiveFilters =
@@ -106,9 +125,9 @@ export default function ProductFilters({
     brandFilter !== "all" ||
     warehouseFilter !== "all" ||
     priceRange[0] > 0 ||
-    priceRange[1] < 10000 ||
+    priceRange[1] < 2000000 ||
     concentrationRange[0] > 0 ||
-    concentrationRange[1] < 20;
+    concentrationRange[1] < 100;
 
   return (
     <Card className="overflow-hidden border-[#d4d6b4] bg-linear-to-br from-white to-[#fdfbf5] shadow-lg">
@@ -120,8 +139,12 @@ export default function ProductFilters({
             <Filter className="w-5 h-5 text-[#d4af37]" />
           </div>
           <div>
-            <h3 className="text-white font-semibold text-lg">Product Filters</h3>
-            <p className="text-[#d4af37]/80 text-xs">Refine your product search</p>
+            <h3 className="text-white font-semibold text-lg">
+              Product Filters
+            </h3>
+            <p className="text-[#d4af37]/80 text-xs">
+              Refine your product search
+            </p>
           </div>
         </div>
       </div>
@@ -164,11 +187,13 @@ export default function ProductFilters({
               >
                 <span className="relative z-10 flex items-center gap-2">
                   {t(option.labelKey)}
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                    statusFilter === option.value
-                      ? "bg-[#d4af37]/30 text-[#d4af37]"
-                      : "bg-[#f5f3e8] text-[#7a8451]"
-                  }`}>
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                      statusFilter === option.value
+                        ? "bg-[#d4af37]/30 text-[#d4af37]"
+                        : "bg-[#f5f3e8] text-[#7a8451]"
+                    }`}
+                  >
                     {option.count}
                   </span>
                 </span>
@@ -212,7 +237,9 @@ export default function ProductFilters({
                   className="w-full px-4 py-3 border-2 border-[#d4d6b4] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50 focus:border-[#d4af37] transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed appearance-none cursor-pointer font-medium shadow-sm hover:shadow-md"
                 >
                   <option value="all">
-                    {isLoadingCategories ? "Loading..." : t("filters.allCategories")}
+                    {isLoadingCategories
+                      ? "Loading..."
+                      : t("filters.allCategories")}
                   </option>
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id.toString()}>
@@ -221,8 +248,18 @@ export default function ProductFilters({
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg className="w-4 h-4 text-[#7a8451]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-4 h-4 text-[#7a8451]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -250,8 +287,18 @@ export default function ProductFilters({
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg className="w-4 h-4 text-[#7a8451]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-4 h-4 text-[#7a8451]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -266,18 +313,33 @@ export default function ProductFilters({
                 <select
                   value={warehouseFilter}
                   onChange={(e) => onWarehouseChange(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-[#d4d6b4] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50 focus:border-[#d4af37] transition-all text-[#3b4417] bg-white appearance-none cursor-pointer font-medium shadow-sm hover:shadow-md"
+                  disabled={isLoadingWarehouses}
+                  className="w-full px-4 py-3 border-2 border-[#d4d6b4] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#d4af37]/50 focus:border-[#d4af37] transition-all text-[#3b4417] bg-white disabled:opacity-50 disabled:cursor-not-allowed appearance-none cursor-pointer font-medium shadow-sm hover:shadow-md"
                 >
-                  <option value="all">{t("filters.allWarehouses")}</option>
-                  {mockWarehouses.map((warehouse) => (
+                  <option value="all">
+                    {isLoadingWarehouses
+                      ? "Loading..."
+                      : t("filters.allWarehouses")}
+                  </option>
+                  {warehouses?.map((warehouse) => (
                     <option key={warehouse.id} value={warehouse.id.toString()}>
                       {warehouse.name}
                     </option>
                   ))}
                 </select>
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                  <svg className="w-4 h-4 text-[#7a8451]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-4 h-4 text-[#7a8451]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
               </div>
@@ -291,11 +353,11 @@ export default function ProductFilters({
               <div className="bg-linear-to-br from-[#f5f3e8] to-white p-4 rounded-xl border border-[#d4d6b4]">
                 <RangeSlider
                   min={0}
-                  max={10000}
+                  max={2000000}
                   step={100}
                   value={priceRange}
                   onChange={onPriceRangeChange}
-                  formatValue={(val) => `$${val.toLocaleString()}`}
+                  formatValue={(val) => `${val.toLocaleString()}`}
                 />
               </div>
             </div>
@@ -308,7 +370,7 @@ export default function ProductFilters({
               <div className="bg-linear-to-br from-[#f5f3e8] to-white p-4 rounded-xl border border-[#d4d6b4]">
                 <RangeSlider
                   min={0}
-                  max={20}
+                  max={100}
                   step={0.5}
                   value={concentrationRange}
                   onChange={onConcentrationRangeChange}

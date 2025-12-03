@@ -32,12 +32,9 @@ export default function EditSellerModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
-    firstName: seller.firstName,
-    lastName: seller.lastName,
-    phoneNumber: seller.phoneNumber,
-    dateOfBirth: seller.dateOfBirth,
-    gender: seller.gender.toString(),
-    role: seller.role.toString(),
+    name: seller.name,
+    email: seller.email,
+    phone: seller.phone || "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,12 +44,9 @@ export default function EditSellerModal({
     try {
       setLoading(true);
       await updateSeller(seller.id, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phoneNumber: formData.phoneNumber,
-        dateOfBirth: formData.dateOfBirth,
-        gender: parseInt(formData.gender),
-        role: parseInt(formData.role),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
       });
 
       onSuccess();
@@ -107,103 +101,46 @@ export default function EditSellerModal({
               )}
               <div className="space-y-4">
                 {/* Name */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName">
-                      {t("editModal.firstName")} *
-                    </Label>
-                    <Input
-                      id="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, firstName: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">
-                      {t("editModal.lastName")} *
-                    </Label>
-                    <Input
-                      id="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, lastName: e.target.value })
-                      }
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="name">{t("editModal.name")} *</Label>
+                  <Input
+                    id="name"
+                    required
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
                 </div>
 
-                {/* Phone & DOB */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="phoneNumber">{t("editModal.phone")}</Label>
-                    <Input
-                      id="phoneNumber"
-                      type="tel"
-                      value={formData.phoneNumber}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          phoneNumber: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="dateOfBirth">{t("editModal.dob")}</Label>
-                    <Input
-                      id="dateOfBirth"
-                      type="date"
-                      value={formData.dateOfBirth}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          dateOfBirth: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                {/* Email */}
+                <div>
+                  <Label htmlFor="email">{t("editModal.email")} *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
                 </div>
 
-                {/* Gender & Role */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="gender">{t("editModal.gender")}</Label>
-                    <Select
-                      value={formData.gender}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, gender: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">{t("gender.male")}</SelectItem>
-                        <SelectItem value="2">{t("gender.female")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label htmlFor="role">{t("editModal.role")}</Label>
-                    <Select
-                      value={formData.role}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, role: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">{t("role.seller")}</SelectItem>
-                        <SelectItem value="2">{t("role.admin")}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                {/* Phone */}
+                <div>
+                  <Label htmlFor="phone">{t("editModal.phone")}</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        phone: e.target.value,
+                      })
+                    }
+                  />
                 </div>
               </div>
             </form>

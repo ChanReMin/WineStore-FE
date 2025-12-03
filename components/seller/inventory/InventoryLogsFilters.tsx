@@ -63,10 +63,7 @@ export default function InventoryLogsFilters({
                 {t("dateRange")}
               </span>
             </div>
-            <DateRangePicker
-              value={dateRange}
-              onChange={onDateRangeChange}
-            />
+            <DateRangePicker value={dateRange} onChange={onDateRangeChange} />
           </div>
         )}
 

@@ -2,8 +2,12 @@ import { Metadata } from "next";
 import WarehouseApprovalList from "@/components/admin/warehouse-approval/WarehouseApprovalList";
 
 export const metadata: Metadata = {
-  title: "Warehouse Approval | Admin Dashboard",
-  description: "Manage warehouse approval requests from sellers",
+  title: "Phê duyệt kho hàng | Admin",
+  description: "Quản lý và phê duyệt yêu cầu tạo kho hàng từ seller.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function WarehouseApprovalPage() {

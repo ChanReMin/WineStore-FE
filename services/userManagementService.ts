@@ -8,8 +8,10 @@ export interface User {
   phone: string;
   role: string; // "customer" | "seller" | "admin"
   status: string; // "active" | "inactive"
+  avatar?: string;
   emailVerified: boolean;
   createdAt: string;
+  lastLogin?: string;
   totalOrders: number;
   totalSpent: number;
 }
@@ -192,10 +194,7 @@ export const updateUser = async (
   message: string;
   data: User;
 }> => {
-  const response = await axiosInstance.put(
-    `/api/v1/users/${userId}`,
-    data
-  );
+  const response = await axiosInstance.put(`/api/v1/users/${userId}`, data);
 
   return response.data;
 };
@@ -216,10 +215,10 @@ export const changeUserStatus = async (
     updatedAt: string;
   };
 }> => {
-  const response = await axiosInstance.patch(
-    `/api/v1/users/${userId}/status`,
-    { status, reason }
-  );
+  const response = await axiosInstance.patch(`/api/v1/users/${userId}/status`, {
+    status,
+    reason,
+  });
 
   return response.data;
 };
@@ -240,10 +239,10 @@ export const changeUserRole = async (
     updatedAt: string;
   };
 }> => {
-  const response = await axiosInstance.patch(
-    `/api/v1/users/${userId}/role`,
-    { role, note }
-  );
+  const response = await axiosInstance.patch(`/api/v1/users/${userId}/role`, {
+    role,
+    note,
+  });
 
   return response.data;
 };

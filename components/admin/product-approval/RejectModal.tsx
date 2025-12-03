@@ -43,11 +43,6 @@ export default function RejectModal({
   ];
 
   const handleSubmit = async () => {
-    if (!reason) {
-      alert(t("selectReason"));
-      return;
-    }
-
     try {
       setLoading(true);
       const noteWithReason = `${t(`reasons.${reason}`)}${note ? `: ${note}` : ""}`;
@@ -139,7 +134,6 @@ export default function RejectModal({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSubmit}
-                  disabled={loading || !reason}
                   className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center gap-2"
                 >
                   {loading ? (

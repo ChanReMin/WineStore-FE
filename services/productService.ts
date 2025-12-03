@@ -31,36 +31,39 @@ export const fetchShopProducts = async (params?: {
   concentrationFrom?: number;
   concentrationTo?: number;
 }): Promise<ProductResponse> => {
-  const { 
-    page = 1, 
-    limit = 9, 
+  const {
+    page = 1,
+    limit = 9,
     search,
     categoryId,
     brandId,
     priceFrom,
     priceTo,
     concentrationFrom,
-    concentrationTo
+    concentrationTo,
   } = params || {};
-  
+
   const queryParams = new URLSearchParams();
-  queryParams.append('page', page.toString());
-  queryParams.append('limit', limit.toString());
-  queryParams.append('status', '1'); // Only approved products for shop
-  
+  queryParams.append("page", page.toString());
+  queryParams.append("limit", limit.toString());
+  queryParams.append("status", "1"); // Only approved products for shop
+
   // Add optional filters
-  if (search) queryParams.append('search', search);
-  if (categoryId) queryParams.append('categoryId', categoryId.toString());
-  if (brandId) queryParams.append('brandId', brandId.toString());
-  if (priceFrom !== undefined) queryParams.append('priceFrom', priceFrom.toString());
-  if (priceTo !== undefined) queryParams.append('priceTo', priceTo.toString());
-  if (concentrationFrom !== undefined) queryParams.append('concentrationFrom', concentrationFrom.toString());
-  if (concentrationTo !== undefined) queryParams.append('concentrationTo', concentrationTo.toString());
-  
+  if (search) queryParams.append("search", search);
+  if (categoryId) queryParams.append("categoryId", categoryId.toString());
+  if (brandId) queryParams.append("brandId", brandId.toString());
+  if (priceFrom !== undefined)
+    queryParams.append("priceFrom", priceFrom.toString());
+  if (priceTo !== undefined) queryParams.append("priceTo", priceTo.toString());
+  if (concentrationFrom !== undefined)
+    queryParams.append("concentrationFrom", concentrationFrom.toString());
+  if (concentrationTo !== undefined)
+    queryParams.append("concentrationTo", concentrationTo.toString());
+
   const response = await axiosInstance.get<ProductResponse>(
     `/api/v1/products?${queryParams.toString()}`
   );
-  
+
   return response.data;
 };
 
@@ -80,9 +83,9 @@ export const fetchProducts = async (params?: {
   concentrationFrom?: number;
   concentrationTo?: number;
 }): Promise<ProductResponse> => {
-  const { 
-    page = 1, 
-    limit = 10, 
+  const {
+    page = 1,
+    limit = 10,
     search,
     status,
     categoryId,
@@ -93,26 +96,29 @@ export const fetchProducts = async (params?: {
     concentrationFrom,
     concentrationTo,
   } = params || {};
-  
+
   const queryParams = new URLSearchParams();
-  queryParams.append('page', page.toString());
-  queryParams.append('limit', limit.toString());
-  
+  queryParams.append("page", page.toString());
+  queryParams.append("limit", limit.toString());
+
   // Add optional filters
-  if (search) queryParams.append('search', search);
-  if (status !== undefined) queryParams.append('status', status.toString());
-  if (categoryId) queryParams.append('categoryId', categoryId.toString());
-  if (warehouseId) queryParams.append('warehouseId', warehouseId.toString());
-  if (brandId) queryParams.append('brandId', brandId.toString());
-  if (priceFrom !== undefined) queryParams.append('priceFrom', priceFrom.toString());
-  if (priceTo !== undefined) queryParams.append('priceTo', priceTo.toString());
-  if (concentrationFrom !== undefined) queryParams.append('concentrationFrom', concentrationFrom.toString());
-  if (concentrationTo !== undefined) queryParams.append('concentrationTo', concentrationTo.toString());
-  
+  if (search) queryParams.append("search", search);
+  if (status !== undefined) queryParams.append("status", status.toString());
+  if (categoryId) queryParams.append("categoryId", categoryId.toString());
+  if (warehouseId) queryParams.append("warehouseId", warehouseId.toString());
+  if (brandId) queryParams.append("brandId", brandId.toString());
+  if (priceFrom !== undefined)
+    queryParams.append("priceFrom", priceFrom.toString());
+  if (priceTo !== undefined) queryParams.append("priceTo", priceTo.toString());
+  if (concentrationFrom !== undefined)
+    queryParams.append("concentrationFrom", concentrationFrom.toString());
+  if (concentrationTo !== undefined)
+    queryParams.append("concentrationTo", concentrationTo.toString());
+
   const response = await axiosInstance.get<ProductResponse>(
     `/api/v1/products?${queryParams.toString()}`
   );
-  
+
   return response.data;
 };
 
@@ -125,12 +131,12 @@ export const fetchProductDetail = async (
   const response = await axiosInstance.get<ProductDetailResponse>(
     `/api/v1/products/${productId}`
   );
-  
+
   return response.data;
 };
 
 /**
- * Cập nhật trạng thái sản phẩm (approve/ban)
+ * Cập nhật trạng thái sản phẩm (approve/reject)
  */
 export const updateProductStatus = async (
   productId: number,
@@ -140,7 +146,7 @@ export const updateProductStatus = async (
     `/api/v1/products/${productId}/status`,
     payload
   );
-  
+
   return response.data;
 };
 
@@ -192,7 +198,8 @@ export interface UpdateProductPayload {
   avoidVibration: string;
   openedWine: string;
   useWineCabinet: string;
-  images?: File[]; // For file upload
+  images: string; // Existing image URL (required - must keep current URL)
+  image?: File[]; // For file upload (optional - only if user wants to change image)
   description: string;
 }
 
@@ -211,44 +218,50 @@ export const updateProduct = async (
 ): Promise<UpdateProductResponse> => {
   // Create FormData for multipart/form-data
   const formData = new FormData();
-  
+
   // Append all fields
-  formData.append('categoryId', payload.categoryId.toString());
-  formData.append('brandId', payload.brandId.toString());
-  formData.append('name', payload.name);
-  formData.append('price', payload.price.toString());
-  formData.append('winetype', payload.winetype);
-  formData.append('countryOfProduction', payload.countryOfProduction);
-  formData.append('grapeVariety', payload.grapeVariety);
-  formData.append('concentration', payload.concentration.toString());
-  formData.append('productionArea', payload.productionArea);
-  formData.append('capacity', payload.capacity.toString());
-  formData.append('idealtemperature', payload.idealtemperature);
-  formData.append('humidity', payload.humidity);
-  formData.append('avoidLight', payload.avoidLight);
-  formData.append('placeTheBottleHorizontally', payload.placeTheBottleHorizontally);
-  formData.append('avoidVibration', payload.avoidVibration);
-  formData.append('openedWine', payload.openedWine);
-  formData.append('useWineCabinet', payload.useWineCabinet);
-  formData.append('description', payload.description);
-  
-  // Append images if provided
-  if (payload.images && payload.images.length > 0) {
-    for (const image of payload.images) {
-      formData.append('image', image);
+  formData.append("categoryId", payload.categoryId.toString());
+  formData.append("brandId", payload.brandId.toString());
+  formData.append("name", payload.name);
+  formData.append("price", payload.price.toString());
+  formData.append("winetype", payload.winetype);
+  formData.append("countryOfProduction", payload.countryOfProduction);
+  formData.append("grapeVariety", payload.grapeVariety);
+  formData.append("concentration", payload.concentration.toString());
+  formData.append("productionArea", payload.productionArea);
+  formData.append("capacity", payload.capacity.toString());
+  formData.append("idealtemperature", payload.idealtemperature);
+  formData.append("humidity", payload.humidity);
+  formData.append("avoidLight", payload.avoidLight);
+  formData.append(
+    "placeTheBottleHorizontally",
+    payload.placeTheBottleHorizontally
+  );
+  formData.append("avoidVibration", payload.avoidVibration);
+  formData.append("openedWine", payload.openedWine);
+  formData.append("useWineCabinet", payload.useWineCabinet);
+  formData.append("description", payload.description);
+
+  // Always send existing images URL (required)
+  formData.append("images", payload.images);
+
+  // Append new image files if provided (optional - will replace existing)
+  if (payload.image && payload.image.length > 0) {
+    for (const imageFile of payload.image) {
+      formData.append("image", imageFile);
     }
   }
-  
+
   const response = await axiosInstance.put<UpdateProductResponse>(
     `/api/v1/products/${productId}`,
     formData,
     {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     }
   );
-  
+
   return response.data;
 };
 
@@ -270,7 +283,7 @@ export interface CreateProductPayload {
   avoidVibration: string;
   openedWine: string;
   useWineCabinet: string;
-  images?: File[]; // For file upload
+  image?: File[]; // For file upload (required for create)
   description: string;
 }
 
@@ -288,44 +301,47 @@ export const createProduct = async (
 ): Promise<CreateProductResponse> => {
   // Create FormData for multipart/form-data
   const formData = new FormData();
-  
+
   // Append all fields
-  formData.append('categoryId', payload.categoryId.toString());
-  formData.append('brandId', payload.brandId.toString());
-  formData.append('name', payload.name);
-  formData.append('price', payload.price.toString());
-  formData.append('winetype', payload.winetype);
-  formData.append('countryOfProduction', payload.countryOfProduction);
-  formData.append('grapeVariety', payload.grapeVariety);
-  formData.append('concentration', payload.concentration.toString());
-  formData.append('productionArea', payload.productionArea);
-  formData.append('capacity', payload.capacity.toString());
-  formData.append('idealtemperature', payload.idealtemperature);
-  formData.append('humidity', payload.humidity);
-  formData.append('avoidLight', payload.avoidLight);
-  formData.append('placeTheBottleHorizontally', payload.placeTheBottleHorizontally);
-  formData.append('avoidVibration', payload.avoidVibration);
-  formData.append('openedWine', payload.openedWine);
-  formData.append('useWineCabinet', payload.useWineCabinet);
-  formData.append('description', payload.description);
-  
-  // Append images if provided
-  if (payload.images && payload.images.length > 0) {
-    for (const image of payload.images) {
-      formData.append('image', image);
+  formData.append("categoryId", payload.categoryId.toString());
+  formData.append("brandId", payload.brandId.toString());
+  formData.append("name", payload.name);
+  formData.append("price", payload.price.toString());
+  formData.append("winetype", payload.winetype);
+  formData.append("countryOfProduction", payload.countryOfProduction);
+  formData.append("grapeVariety", payload.grapeVariety);
+  formData.append("concentration", payload.concentration.toString());
+  formData.append("productionArea", payload.productionArea);
+  formData.append("capacity", payload.capacity.toString());
+  formData.append("idealtemperature", payload.idealtemperature);
+  formData.append("humidity", payload.humidity);
+  formData.append("avoidLight", payload.avoidLight);
+  formData.append(
+    "placeTheBottleHorizontally",
+    payload.placeTheBottleHorizontally
+  );
+  formData.append("avoidVibration", payload.avoidVibration);
+  formData.append("openedWine", payload.openedWine);
+  formData.append("useWineCabinet", payload.useWineCabinet);
+  formData.append("description", payload.description);
+
+  // Append image files if provided
+  if (payload.image && payload.image.length > 0) {
+    for (const imageFile of payload.image) {
+      formData.append("image", imageFile);
     }
   }
-  
+
   const response = await axiosInstance.post<CreateProductResponse>(
-    '/api/v1/products',
+    "/api/v1/products",
     formData,
     {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     }
   );
-  
+
   return response.data;
 };
 
@@ -343,7 +359,34 @@ export const deleteProduct = async (
   const response = await axiosInstance.delete<DeleteProductResponse>(
     `/api/v1/products/${productId}`
   );
-  
+
+  return response.data;
+};
+
+export interface CheckStockResponse {
+  success: boolean;
+  data: {
+    productId: number;
+    productName: string;
+    available: boolean;
+    currentStock: number;
+    requestedQuantity: number;
+    message: string;
+  };
+}
+
+/**
+ * Kiểm tra tồn kho sản phẩm trước khi đặt hàng
+ */
+export const checkStock = async (
+  productId: number,
+  quantity: number
+): Promise<CheckStockResponse> => {
+  const response = await axiosInstance.post<CheckStockResponse>(
+    `/api/v1/products/${productId}/check-stock`,
+    { quantity }
+  );
+
   return response.data;
 };
 
@@ -363,12 +406,12 @@ export const fetchRelatedProducts = async (
   const response = await axiosInstance.get<RelatedProductsResponse>(
     `/api/v1/products/${productId}/related`
   );
-  
+
   // Chỉ lấy 4 sản phẩm đầu tiên
   return {
     ...response.data,
     data: {
-      products: response.data.data.products.slice(0, 4)
-    }
+      products: response.data.data.products.slice(0, 4),
+    },
   };
 };

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useCartStore } from "@/stores/cartStore";
 import { toast } from "react-toastify";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
@@ -26,7 +26,7 @@ export default function CartPage() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/");
       return;
     }
     fetchCart();
@@ -153,12 +153,13 @@ export default function CartPage() {
                   >
                     {/* Product Image */}
                     <div className="relative h-40 w-32 shrink-0 overflow-hidden rounded-lg bg-neutral-100">
-                      <Image
+                      <ImageWithFallback
                         src={item.product.image}
                         alt={item.product.name}
                         fill
                         sizes="128px"
                         className="object-cover transition-transform group-hover:scale-105"
+                        priority={index < 3}
                       />
                     </div>
 
@@ -215,21 +216,29 @@ export default function CartPage() {
                               <Minus className="h-4 w-4" />
                             </motion.button>
 
-                            <span className="min-w-[3rem] text-center text-base font-semibold text-neutral-900">
+                            <span className="min-w-12 text-center text-base font-semibold text-neutral-900">
                               {item.quantity}
                             </span>
 
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() =>
-                                handleUpdateQuantity(item.id, item.quantity + 1)
-                              }
+                              onClick={() => {
+                                console.log("Plus clicked:", {
+                                  itemId: item.id,
+                                  currentQuantity: item.quantity,
+                                  newQuantity: item.quantity + 1,
+                                  maxQuantity: item.product.maxQuantity,
+                                  isLoading,
+                                });
+                                handleUpdateQuantity(item.id, item.quantity + 1);
+                              }}
                               disabled={
                                 item.quantity >= item.product.maxQuantity ||
                                 isLoading
                               }
                               className="p-2 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
+                              title={`Max: ${item.product.maxQuantity}, Current: ${item.quantity}, Loading: ${isLoading}`}
                             >
                               <Plus className="h-4 w-4" />
                             </motion.button>
@@ -286,20 +295,16 @@ export default function CartPage() {
                     </span>
                   </div>
 
-                  {/* Shipping */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-neutral-600">{t("shipping")}</span>
-                    {cart && cart.summary.estimatedshipping > 0 ? (
+                  {/* Shipping - Only show if there's a fee */}
+                  {cart && cart.summary.estimatedshipping > 0 && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-neutral-600">{t("shipping")}</span>
                       <span className="font-semibold text-neutral-900">
                         {cart.summary.estimatedshipping.toLocaleString("vi-VN")}
                         ₫
                       </span>
-                    ) : (
-                      <span className="font-semibold text-green-600">
-                        {t("freeShipping")}
-                      </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   {/* Divider */}
                   <div className="border-t-2 border-neutral-200" />

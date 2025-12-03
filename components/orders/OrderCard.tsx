@@ -3,30 +3,15 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import type { Order } from "@/types/order";
+import type { OrderListItem } from "@/types/order";
 import { formatCurrency } from "@/lib/utils";
+import { ORDER_STATUS } from "@/types/order";
+import OrderStatusBadge from "./OrderStatusBadge";
 
 interface OrderCardProps {
-  order: Order;
+  order: OrderListItem;
   index: number;
 }
-
-const getStatusColor = (status: number) => {
-  switch (status) {
-    case 1:
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
-    case 2:
-      return "bg-blue-100 text-blue-800 border-blue-200";
-    case 3:
-      return "bg-purple-100 text-purple-800 border-purple-200";
-    case 4:
-      return "bg-green-100 text-green-800 border-green-200";
-    case 5:
-      return "bg-red-100 text-red-800 border-red-200";
-    default:
-      return "bg-gray-100 text-gray-800 border-gray-200";
-  }
-};
 
 const getPaymentStatusColor = (status: number) => {
   switch (status) {
@@ -77,12 +62,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         </div>
 
         {/* Status Badge */}
-        <motion.span
-          whileHover={{ scale: 1.05 }}
-          className={`rounded-full border px-3 py-1 text-xs font-medium ${getStatusColor(order.status)}`}
-        >
-          {order.statusText}
-        </motion.span>
+        <OrderStatusBadge status={order.status} />
       </div>
 
       {/* Divider */}
@@ -93,7 +73,7 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         <div className="flex justify-between text-sm">
           <span className="text-neutral-600">{t("itemsCount")}</span>
           <span className="font-medium text-neutral-900">
-            {order.items_count} {t("products")}
+            {order.itemCount} {t("products")}
           </span>
         </div>
 
@@ -103,15 +83,6 @@ export default function OrderCard({ order, index }: OrderCardProps) {
             {formatCurrency(order.totalAmount)}
           </span>
         </div>
-
-        {order.discountAmount > 0 && (
-          <div className="flex justify-between text-sm">
-            <span className="text-neutral-600">{t("discount")}</span>
-            <span className="font-medium text-green-600">
-              -{formatCurrency(order.discountAmount)}
-            </span>
-          </div>
-        )}
 
         <div className="flex justify-between border-t border-neutral-200 pt-2">
           <span className="font-medium text-neutral-900">
@@ -123,8 +94,8 @@ export default function OrderCard({ order, index }: OrderCardProps) {
         </div>
       </div>
 
-      {/* Payment Status */}
-      <div className="mt-4 flex items-center justify-between">
+      {/* Actions */}
+      <div className="mt-4 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           {order.paymentStatus === 1 ? (
             <svg
@@ -158,33 +129,63 @@ export default function OrderCard({ order, index }: OrderCardProps) {
           <span
             className={`text-sm font-medium ${getPaymentStatusColor(order.paymentStatus)}`}
           >
-            {order.paymentstatusText}
+            {order.paymentStatusText}
           </span>
         </div>
 
-        {/* View Detail Button */}
-        <Link href={`/profile/orders/${order.id}`}>
-          <motion.button
-            whileHover={{ scale: 1.05, x: 4 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-1 text-sm font-medium text-[#33391d] transition-colors hover:text-[#5a6332]"
-          >
-            {t("viewDetail")}
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        <div
+          className="flex items-center gap-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Payment Button for Confirmed Orders */}
+          {order.status === ORDER_STATUS.CONFIRMED &&
+            order.paymentStatus === 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-1 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium transition-all hover:bg-blue-600 animate-pulse"
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                  />
+                </svg>
+                {t("payment")}
+              </motion.button>
+            )}
+
+          {/* View Detail Button */}
+          <Link href={`/profile/orders/${order.id}`}>
+            <motion.button
+              whileHover={{ scale: 1.05, x: 4 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-1 text-sm font-medium text-[#33391d] transition-colors hover:text-[#5a6332]"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </motion.button>
-        </Link>
+              {t("viewDetail")}
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </motion.button>
+          </Link>
+        </div>
       </div>
     </motion.div>
   );

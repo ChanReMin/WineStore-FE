@@ -88,6 +88,30 @@ export default function ProfilePage() {
     setEditingAddress(null);
   };
 
+  const handleSetDefaultAddress = async (id: number) => {
+    try {
+      await profileService.setDefaultAddress(id);
+      // Update local state to reflect change
+      setAddresses(
+        addresses.map((addr) => ({
+          ...addr,
+          isDefault: addr.id === id,
+        }))
+      );
+      toast.success(
+        tAddresses("card.setDefaultSuccess") || "Đã đặt làm mặc định"
+      );
+    } catch (error) {
+      toast.error(tAddresses("card.setDefaultError") || "Lỗi khi đặt mặc định");
+    }
+  };
+
+  const handleAvatarUpdate = (newAvatarUrl: string) => {
+    if (profile) {
+      setProfile({ ...profile, avatar: newAvatarUrl });
+    }
+  };
+
   // Show skeleton while checking auth or loading data
   if (isCheckingAuth || isLoading) {
     return <ProfileSkeleton />;
@@ -100,7 +124,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-amber-50 py-12">
       <div className="mx-auto max-w-6xl px-6">
         {/* Header */}
-        <ProfileHeader profile={profile} />
+        <ProfileHeader profile={profile} onAvatarUpdate={handleAvatarUpdate} />
 
         {/* Tabs */}
         <motion.div
@@ -267,6 +291,7 @@ export default function ProfilePage() {
                         address={address}
                         onEdit={handleEditAddress}
                         onDelete={handleDeleteAddress}
+                        onSetDefault={handleSetDefaultAddress}
                       />
                     ))}
                   </div>

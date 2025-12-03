@@ -99,7 +99,7 @@ export default function ProductsTable({
   };
 
   const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return '-';
+    if (!dateString) return "-";
     return new Date(dateString).toLocaleDateString("vi-VN", {
       day: "2-digit",
       month: "2-digit",
@@ -170,7 +170,9 @@ export default function ProductsTable({
                     <p className="font-medium text-[#3b4417] mb-1">
                       {product.name}
                     </p>
-                    <p className="text-sm text-[#7a8451]">{product.brand.name}</p>
+                    <p className="text-sm text-[#7a8451]">
+                      {product.brand.name}
+                    </p>
                   </div>
                 </TableCell>
                 <TableCell className="font-semibold text-[#3b4417]">
@@ -293,7 +295,7 @@ export default function ProductsTable({
                 name: selectedProduct.name,
                 price: selectedProduct.price,
                 winetype: selectedProduct.winetype || "",
-                countryOfProduction: selectedProduct.originCountry || "",
+                countryOfProduction: selectedProduct.countryOfProduction || selectedProduct.originCountry || "",
                 grapeVariety: selectedProduct.grapeVariety || "",
                 concentration: selectedProduct.concentration || 0,
                 productionArea: selectedProduct.productionArea || "",
@@ -301,12 +303,14 @@ export default function ProductsTable({
                 idealtemperature: selectedProduct.idealtemperature || "",
                 humidity: selectedProduct.humidity || "",
                 avoidLight: selectedProduct.avoidLight || "",
-                placeTheBottleHorizontally: selectedProduct.placeTheBottleHorizontally || "",
+                placeTheBottleHorizontally:
+                  selectedProduct.placeTheBottleHorizontally || "",
                 avoidVibration: selectedProduct.avoidVibration || "",
                 openedWine: selectedProduct.openedWine || "",
                 useWineCabinet: selectedProduct.useWineCabinet || "",
-                images: selectedProduct.images ? [selectedProduct.images] : [],
-                imageFiles: [],
+                images: selectedProduct.images || "",
+                imagePreview: [],
+                image: [],
                 description: selectedProduct.description || "",
               }
             : undefined

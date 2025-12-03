@@ -8,29 +8,32 @@ import {
   CheckCircle,
   Check,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CheckoutStep } from "@/contexts/CheckoutContext";
 
 interface CheckoutProgressProps {
   currentStep: CheckoutStep;
 }
 
-const STEPS = [
-  { key: "cart", label: "Giỏ hàng", icon: ShoppingCart },
-  { key: "address", label: "Địa chỉ", icon: MapPin },
-  { key: "payment", label: "Thanh toán", icon: CreditCard },
-  { key: "review", label: "Xác nhận", icon: CheckCircle },
-];
-
 export default function CheckoutProgress({
   currentStep,
 }: CheckoutProgressProps) {
+  const t = useTranslations("checkout.progress");
+
+  const STEPS = [
+    { key: "cart", label: t("cart"), icon: ShoppingCart },
+    { key: "address", label: t("address"), icon: MapPin },
+    { key: "payment", label: t("payment"), icon: CreditCard },
+    { key: "review", label: t("review"), icon: CheckCircle },
+  ];
+
   if (currentStep === "success") return null;
 
   const currentIndex = STEPS.findIndex((step) => step.key === currentStep);
 
   return (
-    <div className="mb-12">
-      <div className="flex items-center justify-between max-w-4xl mx-auto">
+    <div className="mb-3 md:mb-5 lg:mb-8 xl:mb-10">
+      <div className="flex items-center justify-between max-w-2xl lg:max-w-3xl mx-auto">
         {STEPS.map((step, index) => {
           const Icon = step.icon;
           const isActive = index === currentIndex;
@@ -51,14 +54,14 @@ export default function CheckoutProgress({
                         : "#e8e6dc",
                   }}
                   transition={{ duration: 0.3 }}
-                  className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center relative z-10 ${
+                  className={`w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 rounded-full flex items-center justify-center relative z-10 ${
                     isCompleted || isActive ? "text-white" : "text-neutral-400"
                   }`}
                 >
                   {isCompleted ? (
-                    <Check size={24} strokeWidth={3} />
+                    <Check size={16} className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6" strokeWidth={3} />
                   ) : (
-                    <Icon size={24} strokeWidth={isActive ? 2 : 1.5} />
+                    <Icon size={16} className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6" strokeWidth={isActive ? 2 : 1.5} />
                   )}
                 </motion.div>
 
@@ -68,14 +71,14 @@ export default function CheckoutProgress({
                     color: isCompleted || isActive ? "#3b4417" : "#9ca3af",
                     fontWeight: isActive ? 600 : 400,
                   }}
-                  className="mt-2 text-xs md:text-sm text-center uppercase tracking-wide"
+                  className="mt-1 md:mt-1.5 text-[8px] md:text-[10px] lg:text-xs xl:text-sm text-center uppercase tracking-wide"
                 >
                   {step.label}
                 </motion.p>
               </div>
 
               {index < STEPS.length - 1 && (
-                <div className="flex-1 h-0.5 bg-[#e8e6dc] relative -mt-8 mx-2">
+                <div className="flex-1 h-0.5 bg-[#e8e6dc] relative -mt-4 md:-mt-5 lg:-mt-6 xl:-mt-8 mx-1 md:mx-2">
                   <motion.div
                     initial={false}
                     animate={{

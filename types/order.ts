@@ -1,109 +1,158 @@
-// Order Types
-export interface Order {
-  id: number;
-  orderCode: string;
-  status: number;
-  statusText: string;
-  paymentStatus: number;
-  paymentstatusText: string;
-  totalAmount: number;
-  discountAmount: number;
-  finalAmount: number;
-  createdAt: string;
-  items_count: number;
-  paid_at?: string;
-  note?: string;
-}
+// Order types matching backend API
 
 export interface OrderItem {
   id: number;
   productId: number;
   productName: string;
+  productSlug: string;
   productImage: string;
   quantity: number;
   unitPrice: number;
   lineTotal: number;
 }
 
-export interface ShippingAddress {
+export interface OrderAddress {
   fullName: string;
   phoneNumber: string;
   addressLine: string;
   city: string;
+  state?: string;
+  country: string;
 }
 
-export interface PaymentMethod {
+export interface OrderPaymentMethod {
   id: number;
   name: string;
   code: string;
 }
 
-export interface OrderDetail extends Order {
-  shippingAddress: ShippingAddress;
+export interface OrderCoupon {
+  code: string;
+  discountType: number;
+  discountValue: number;
+  discountAmount: number;
+}
+
+export interface OrderShippingInfo {
+  carrier: string;
+  trackingNumber: string;
+  estimatedDelivery: string;
+}
+
+export interface OrderTimelineItem {
+  status: number;
+  statusText: string;
+  timestamp: string;
+  note?: string;
+}
+
+export interface Order {
+  id: number;
+  orderCode: string;
+  status: number;
+  statusText: string;
+  paymentStatus: number;
+  paymentStatusText: string;
+  totalAmount: number;
+  discountAmount: number;
+  shippingFee: number;
+  finalAmount: number;
+  createdAt: string;
+  paidAt?: string;
+  confirmedAt?: string;
+  shippedAt?: string;
+  note?: string;
   items: OrderItem[];
-  paymentMethod: PaymentMethod;
+  shippingAddress: OrderAddress;
+  paymentMethod: OrderPaymentMethod;
+  coupon?: OrderCoupon;
+  shippingInfo?: OrderShippingInfo;
+  timeline: OrderTimelineItem[];
+}
+
+export interface OrderListItem {
+  id: number;
+  orderCode: string;
+  status: number;
+  statusText: string;
+  paymentStatus: number;
+  paymentStatusText: string;
+  totalAmount: number;
+  finalAmount: number;
+  createdAt: string;
+  itemCount: number;
 }
 
 export interface CreateOrderRequest {
-  shippingAddressId: number;
+  addressId: number;
   paymentMethodId: number;
-  promotionCode?: string;
+  couponCode?: string | null;
   note?: string;
 }
 
 export interface CreateOrderResponse {
-  order_id: number;
+  orderId: number;
   orderCode: string;
   totalAmount: number;
   discountAmount: number;
+  shippingFee: number;
   finalAmount: number;
   status: number;
+  statusText: string;
   paymentStatus: number;
-  payment_url?: string;
+  paymentStatusText: string;
+  paymentUrl?: string;
+  createdAt: string;
 }
 
-export interface OrderListParams {
-  page?: number;
-  limit?: number;
-  status?: number;
-  from_date?: string;
-  to_date?: string;
+// Order status enums (matching backend)
+export enum OrderStatus {
+  PENDING = 1, // Pending Confirmation - đợi xác nhận thông tin
+  CONFIRMED = 2, // Confirmed - đã xác nhận
+  PAID = 3, // Paid - đã thanh toán
+  CANCELLED = 6, // Cancelled - đã hủy
 }
 
-export interface OrderListResponse {
-  orders: Order[];
+// Alias for backward compatibility
+export const ORDER_STATUS = OrderStatus;
+
+export enum PaymentStatus {
+  UNPAID = 0,
+  PAID = 1,
+  REFUNDED = 2,
+  FAILED = 3,
+}
+
+// Seller order types
+export interface SellerOrderListItem {
+  id: number;
+  orderCode: string;
+  status: number;
+  statusText: string;
+  paymentStatus: number;
+  paymentStatusText: string;
+  totalAmount: number;
+  discountAmount: number;
+  shippingFee: number;
+  finalAmount: number;
+  createdAt: string;
+  itemCount?: number;
+  customer?: {
+    name: string;
+    email: string;
+    phone?: string;
+  };
+}
+
+export interface SellerOrdersResponse {
   pagination: {
     currentPage: number;
     totalPages: number;
     totalItems: number;
+    perPage: number;
   };
+  orders: SellerOrderListItem[];
 }
 
-// Order Status Constants
-export const ORDER_STATUS = {
-  PENDING: 1,
-  PROCESSING: 2,
-  SHIPPING: 3,
-  DELIVERED: 4,
-  CANCELLED: 5,
-} as const;
-
-export const ORDER_statusText: Record<number, string> = {
-  1: "Chờ xác nhận",
-  2: "Đang xử lý",
-  3: "Đang giao hàng",
-  4: "Đã giao hàng",
-  5: "Đã hủy",
-};
-
-export const paymentStatus = {
-  UNPAID: 0,
-  PAID: 1,
-  REFUNDED: 2,
-} as const;
-
-export const paymentstatusText: Record<number, string> = {
-  0: "Chưa thanh toán",
-  1: "Đã thanh toán",
-  2: "Đã hoàn tiền",
-};
+// Re-export OrderDetail type alias
+export type OrderDetail = Order;

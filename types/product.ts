@@ -56,7 +56,7 @@ export interface Product {
     name: string;
     rating: number;
   };
-  promotions?: Promotion[]; // Optional: only included when 
+  promotions?: Promotion[]; // Optional: only included when
 }
 
 export interface Pagination {
@@ -70,7 +70,7 @@ export interface Summary {
   total: number;
   pending: number;
   active: number;
-  banned: number;
+  reject: number;
 }
 
 export interface ProductResponse {

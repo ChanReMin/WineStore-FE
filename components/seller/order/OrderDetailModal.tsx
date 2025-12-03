@@ -73,12 +73,10 @@ export default function OrderDetailModal({
   ];
 
   const shippingAddress = (order as any).shippingAddress || {
-    fullName: (order as any).customer.name,
-    phone: (order as any).customer.phone || "0123456789",
-    address: "123 Đường ABC",
-    city: "Hà Nội",
-    district: "Quận Ba Đình",
-    ward: "Phường Điện Biên",
+    fullName: "N/A",
+    phoneNumber: "N/A",
+    addressLine: "N/A",
+    city: "N/A",
   };
 
   const subtotal = (order as any).subtotal || order.finalAmount;
@@ -158,20 +156,14 @@ export default function OrderDetailModal({
                     <div className="flex items-center gap-3">
                       <User className="w-4 h-4 text-[#7a8451]" />
                       <span className="text-[#3b4417] font-medium">
-                        {order.customer.name}
+                        {shippingAddress.fullName}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Mail className="w-4 h-4 text-[#7a8451]" />
-                      <span className="text-[#3b4417]">
-                        {order.customer.email}
-                      </span>
-                    </div>
-                    {order.customer.phone && (
+                    {shippingAddress.phoneNumber && (
                       <div className="flex items-center gap-3">
                         <Phone className="w-4 h-4 text-[#7a8451]" />
                         <span className="text-[#3b4417]">
-                          {order.customer.phone}
+                          {shippingAddress.phoneNumber}
                         </span>
                       </div>
                     )}
@@ -190,11 +182,10 @@ export default function OrderDetailModal({
                     </p>
                     <p className="text-[#7a8451] flex items-center gap-2">
                       <Phone className="w-4 h-4" />
-                      {shippingAddress.phone}
+                      {shippingAddress.phoneNumber}
                     </p>
                     <p className="text-[#3b4417]">
-                      {shippingAddress.address}, {shippingAddress.ward},{" "}
-                      {shippingAddress.district}, {shippingAddress.city}
+                      {shippingAddress.addressLine}, {shippingAddress.city}
                     </p>
                   </div>
                 </div>
@@ -207,7 +198,7 @@ export default function OrderDetailModal({
                   </h3>
                   <div className="border border-[#e8e6dc] rounded-lg overflow-hidden">
                     <div className="overflow-x-auto">
-                      <table className="w-full">
+                      <table className="w-full min-w-[600px]">
                         <thead className="bg-[#f5f3e8]">
                           <tr>
                             <th className="text-left p-4 text-sm font-semibold text-[#3b4417]">
@@ -348,7 +339,7 @@ export default function OrderDetailModal({
                 >
                   {t("detail.close")}
                 </button>
-                {onUpdateStatus && order.status !== 4 && order.status !== 5 && (
+                {onUpdateStatus && order.status !== 6 && (
                   <button
                     onClick={() => {
                       onUpdateStatus(order);

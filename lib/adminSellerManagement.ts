@@ -1,47 +1,32 @@
-// Mock data for Admin Seller Management based on API documentation
+// API service for Admin Seller Management
+
+import { axiosInstance } from "./axios";
 
 export interface Seller {
-  id: number;
-  accountId: number;
+  id: string;
   email: string;
-  role: number;
-  status: number;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  avatar: string;
-  dateOfBirth: string;
-  gender: number;
-  lastLoginAt: string;
+  name: string;
+  phone: string;
+  role: string; // "seller"
+  status: string; // "active" | "inactive"
+  avatar?: string;
+  emailVerified: boolean;
   createdAt: string;
-  updatedAt?: string;
-  managedWarehouses: {
-    warehouseId: number;
-    warehouseName: string;
-    location?: string;
-  }[];
-  statistics?: {
-    totalOrdersHandled: number;
-    totalRevenue: number;
-    average_rating: number;
-  };
+  lastLogin?: string;
+  totalOrders: number;
+  totalSpent: number;
 }
 
 export interface SellerListResponse {
   success: boolean;
+  message: string;
   data: {
-    sellers: Seller[];
+    users: Seller[];
     pagination: {
+      limit: number;
       currentPage: number;
       totalPages: number;
-      totalRecords: number;
-      limit: number;
-    };
-    summary: {
-      totalSellers: number;
-      activeSellers: number;
-      inactiveSellers: number;
-      lockedSellers: number;
+      totalUsers: number;
     };
   };
 }
@@ -51,381 +36,206 @@ export interface SellerDetailResponse {
   data: Seller;
 }
 
-// Mock sellers data
-const mockSellers: Seller[] = [
-  {
-    id: 1,
-    accountId: 5,
-    email: "seller01@wineshop.com",
-    role: 1,
-    status: 1,
-    firstName: "Nguyễn",
-    lastName: "Văn A",
-    phoneNumber: "0901234567",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller01",
-    dateOfBirth: "1990-05-15",
-    gender: 1,
-    lastLoginAt: "2024-11-26T10:30:00Z",
-    createdAt: "2024-01-15T08:00:00Z",
-    updatedAt: "2024-11-20T14:22:00Z",
-    managedWarehouses: [
-      {
-        warehouseId: 1,
-        warehouseName: "Kho Hà Nội",
-        location: "Số 123, Đường ABC, Hà Nội",
-      },
-    ],
-    statistics: {
-      totalOrdersHandled: 245,
-      totalRevenue: 125000000,
-      average_rating: 4.5,
-    },
-  },
-  {
-    id: 2,
-    accountId: 8,
-    email: "seller02@wineshop.com",
-    role: 1,
-    status: 1,
-    firstName: "Trần",
-    lastName: "Thị B",
-    phoneNumber: "0912345678",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller02",
-    dateOfBirth: "1995-08-20",
-    gender: 2,
-    lastLoginAt: "2024-11-25T15:45:00Z",
-    createdAt: "2024-02-10T09:30:00Z",
-    updatedAt: "2024-11-18T11:15:00Z",
-    managedWarehouses: [
-      {
-        warehouseId: 2,
-        warehouseName: "Kho TP.HCM",
-        location: "Số 456, Đường XYZ, TP.HCM",
-      },
-      {
-        warehouseId: 3,
-        warehouseName: "Kho Đà Nẵng",
-        location: "Số 789, Đường DEF, Đà Nẵng",
-      },
-    ],
-    statistics: {
-      totalOrdersHandled: 189,
-      totalRevenue: 98500000,
-      average_rating: 4.7,
-    },
-  },
-  {
-    id: 3,
-    accountId: 12,
-    email: "seller03@wineshop.com",
-    role: 1,
-    status: 0,
-    firstName: "Lê",
-    lastName: "Văn C",
-    phoneNumber: "0923456789",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller03",
-    dateOfBirth: "1988-03-12",
-    gender: 1,
-    lastLoginAt: "2024-11-20T08:20:00Z",
-    createdAt: "2024-03-05T10:00:00Z",
-    updatedAt: "2024-11-15T16:30:00Z",
-    managedWarehouses: [],
-    statistics: {
-      totalOrdersHandled: 156,
-      totalRevenue: 75000000,
-      average_rating: 4.3,
-    },
-  },
-  {
-    id: 4,
-    accountId: 15,
-    email: "seller04@wineshop.com",
-    role: 1,
-    status: 1,
-    firstName: "Phạm",
-    lastName: "Thị D",
-    phoneNumber: "0934567890",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller04",
-    dateOfBirth: "1992-11-25",
-    gender: 2,
-    lastLoginAt: "2024-11-26T09:15:00Z",
-    createdAt: "2024-04-20T11:45:00Z",
-    updatedAt: "2024-11-22T13:50:00Z",
-    managedWarehouses: [
-      {
-        warehouseId: 1,
-        warehouseName: "Kho Hà Nội",
-        location: "Số 123, Đường ABC, Hà Nội",
-      },
-    ],
-    statistics: {
-      totalOrdersHandled: 312,
-      totalRevenue: 156000000,
-      average_rating: 4.8,
-    },
-  },
-  {
-    id: 5,
-    accountId: 18,
-    email: "seller05@wineshop.com",
-    role: 1,
-    status: -1,
-    firstName: "Hoàng",
-    lastName: "Văn E",
-    phoneNumber: "0945678901",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller05",
-    dateOfBirth: "1993-07-08",
-    gender: 1,
-    lastLoginAt: "2024-11-10T14:30:00Z",
-    createdAt: "2024-05-12T08:20:00Z",
-    updatedAt: "2024-11-10T15:00:00Z",
-    managedWarehouses: [],
-    statistics: {
-      totalOrdersHandled: 89,
-      totalRevenue: 42000000,
-      average_rating: 3.9,
-    },
-  },
-  {
-    id: 6,
-    accountId: 22,
-    email: "seller06@wineshop.com",
-    role: 1,
-    status: 1,
-    firstName: "Vũ",
-    lastName: "Thị F",
-    phoneNumber: "0956789012",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=seller06",
-    dateOfBirth: "1991-09-30",
-    gender: 2,
-    lastLoginAt: "2024-11-26T11:00:00Z",
-    createdAt: "2024-06-18T09:15:00Z",
-    updatedAt: "2024-11-24T10:20:00Z",
-    managedWarehouses: [
-      {
-        warehouseId: 2,
-        warehouseName: "Kho TP.HCM",
-        location: "Số 456, Đường XYZ, TP.HCM",
-      },
-    ],
-    statistics: {
-      totalOrdersHandled: 278,
-      totalRevenue: 142000000,
-      average_rating: 4.6,
-    },
-  },
-];
-
-export const fetchSellers = async (params: {
+/**
+ * Fetch sellers list with filters
+ * @param params - Query parameters including page, limit, search, status, sortBy, sortOrder
+ * @returns SellerListResponse with sellers data and pagination
+ */
+export const fetchSellers = async (params?: {
   page?: number;
   limit?: number;
   search?: string;
-  status?: number | "all";
-  role?: number;
+  status?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
 }): Promise<SellerListResponse> => {
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      status,
+      sortBy,
+      sortOrder = "desc",
+    } = params || {};
 
-  let filteredSellers = [...mockSellers];
+    // Build query parameters
+    const queryParams = new URLSearchParams();
+    queryParams.append("page", page.toString());
+    queryParams.append("limit", limit.toString());
+    queryParams.append("role", "seller");
 
-  // Filter by search
-  if (params.search) {
-    const searchLower = params.search.toLowerCase();
-    filteredSellers = filteredSellers.filter(
-      (seller) =>
-        seller.email.toLowerCase().includes(searchLower) ||
-        `${seller.firstName} ${seller.lastName}`
-          .toLowerCase()
-          .includes(searchLower) ||
-        seller.phoneNumber.includes(searchLower)
+    // Add status filter if provided and not "all"
+    if (status && status !== "all") {
+      queryParams.append("status", status);
+    }
+
+    // Add search query if provided
+    if (search) {
+      queryParams.append("search", search);
+    }
+
+    // Add sorting if provided
+    if (sortBy) {
+      queryParams.append("sortBy", sortBy);
+    }
+    if (sortOrder) {
+      queryParams.append("sortOrder", sortOrder);
+    }
+
+    const response = await axiosInstance.get<SellerListResponse>(
+      `/api/v1/users?${queryParams.toString()}`
     );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching sellers:", error);
+    throw error;
   }
-
-  // Filter by status
-  if (params.status !== undefined && params.status !== "all") {
-    filteredSellers = filteredSellers.filter(
-      (seller) => seller.status === params.status
-    );
-  }
-
-  // Filter by role
-  if (params.role !== undefined) {
-    filteredSellers = filteredSellers.filter(
-      (seller) => seller.role === params.role
-    );
-  }
-
-  const page = params.page || 1;
-  const limit = params.limit || 20;
-  const startIndex = (page - 1) * limit;
-  const endIndex = startIndex + limit;
-  const paginatedSellers = filteredSellers.slice(startIndex, endIndex);
-
-  return {
-    success: true,
-    data: {
-      sellers: paginatedSellers,
-      pagination: {
-        currentPage: page,
-        totalPages: Math.ceil(filteredSellers.length / limit),
-        totalRecords: filteredSellers.length,
-        limit,
-      },
-      summary: {
-        totalSellers: mockSellers.length,
-        activeSellers: mockSellers.filter((s) => s.status === 1).length,
-        inactiveSellers: mockSellers.filter((s) => s.status === 0).length,
-        lockedSellers: mockSellers.filter((s) => s.status === -1).length,
-      },
-    },
-  };
 };
 
+/**
+ * Fetch seller detail by ID
+ * @param sellerId - Seller ID
+ * @returns SellerDetailResponse with seller data
+ */
 export const fetchSellerDetail = async (
-  sellerId: number
+  sellerId: string | number
 ): Promise<SellerDetailResponse> => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  try {
+    const response = await axiosInstance.get<SellerDetailResponse>(
+      `/api/v1/users/${sellerId}`
+    );
 
-  const seller = mockSellers.find((s) => s.id === sellerId);
-
-  if (!seller) {
-    throw new Error("Seller not found");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching seller detail:", error);
+    throw error;
   }
-
-  return {
-    success: true,
-    data: seller,
-  };
 };
 
+/**
+ * Create a new seller
+ * @param data - Seller creation data
+ * @returns Success response with new seller data
+ */
 export const createSeller = async (data: {
   email: string;
   password: string;
-  role: number;
   firstName: string;
   lastName: string;
   phoneNumber?: string;
   dateOfBirth?: string;
-  gender?: number;
-  warehouseIds?: number[];
+  gender: number;
+  role: number;
 }): Promise<{ success: boolean; message: string; data: Seller }> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  try {
+    const response = await axiosInstance.post<{
+      success: boolean;
+      message: string;
+      data: Seller;
+    }>("/api/v1/users", { ...data, role: "seller" });
 
-  // Simulate validation
-  if (mockSellers.some((s) => s.email === data.email)) {
-    throw new Error("Email đã tồn tại trong hệ thống");
+    return response.data;
+  } catch (error) {
+    console.error("Error creating seller:", error);
+    throw error;
   }
-
-  const newSeller: Seller = {
-    id: mockSellers.length + 1,
-    accountId: 100 + mockSellers.length,
-    email: data.email,
-    role: data.role,
-    status: 1,
-    firstName: data.firstName,
-    lastName: data.lastName,
-    phoneNumber: data.phoneNumber || "",
-    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${data.email}`,
-    dateOfBirth: data.dateOfBirth || "",
-    gender: data.gender || 1,
-    lastLoginAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    managedWarehouses: [],
-    statistics: {
-      totalOrdersHandled: 0,
-      totalRevenue: 0,
-      average_rating: 0,
-    },
-  };
-
-  mockSellers.push(newSeller);
-
-  return {
-    success: true,
-    message: "Tạo seller thành công",
-    data: newSeller,
-  };
 };
 
+/**
+ * Update seller information
+ * @param sellerId - Seller ID
+ * @param data - Partial seller data to update
+ * @returns Success response with updated seller data
+ */
 export const updateSeller = async (
-  sellerId: number,
-  data: Partial<Seller>
+  sellerId: string | number,
+  data: {
+    name?: string;
+    phone?: string;
+    email?: string;
+  }
 ): Promise<{ success: boolean; message: string; data: Seller }> => {
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  try {
+    const response = await axiosInstance.put<{
+      success: boolean;
+      message: string;
+      data: Seller;
+    }>(`/api/v1/users/${sellerId}`, data);
 
-  const sellerIndex = mockSellers.findIndex((s) => s.id === sellerId);
-
-  if (sellerIndex === -1) {
-    throw new Error("Không tìm thấy seller");
+    return response.data;
+  } catch (error) {
+    console.error("Error updating seller:", error);
+    throw error;
   }
-
-  mockSellers[sellerIndex] = {
-    ...mockSellers[sellerIndex],
-    ...data,
-    updatedAt: new Date().toISOString(),
-  };
-
-  return {
-    success: true,
-    message: "Cập nhật thông tin seller thành công",
-    data: mockSellers[sellerIndex],
-  };
 };
 
+/**
+ * Update seller status
+ * @param sellerId - Seller ID
+ * @param status - New status ("active" | "inactive" | "locked")
+ * @param reason - Optional reason for status change
+ * @returns Success response
+ */
 export const updateSellerStatus = async (
-  sellerId: number,
-  status: number
+  sellerId: string | number,
+  status: string,
+  reason?: string
 ): Promise<{ success: boolean; message: string }> => {
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  try {
+    const response = await axiosInstance.patch<{
+      success: boolean;
+      message: string;
+    }>(`/api/v1/users/${sellerId}/status`, { status, reason });
 
-  const sellerIndex = mockSellers.findIndex((s) => s.id === sellerId);
-
-  if (sellerIndex === -1) {
-    throw new Error("Không tìm thấy seller");
+    return response.data;
+  } catch (error) {
+    console.error("Error updating seller status:", error);
+    throw error;
   }
-
-  mockSellers[sellerIndex].status = status;
-  mockSellers[sellerIndex].updatedAt = new Date().toISOString();
-
-  return {
-    success: true,
-    message: "Cập nhật trạng thái thành công",
-  };
 };
 
+/**
+ * Update seller password
+ * @param sellerId - Seller ID
+ * @param newPassword - New password
+ * @returns Success response
+ */
 export const updateSellerPassword = async (
-  sellerId: number,
+  sellerId: string | number,
   newPassword: string
 ): Promise<{ success: boolean; message: string }> => {
-  await new Promise((resolve) => setTimeout(resolve, 700));
+  try {
+    const response = await axiosInstance.patch<{
+      success: boolean;
+      message: string;
+    }>(`/api/v1/users/${sellerId}/password`, { password: newPassword });
 
-  const seller = mockSellers.find((s) => s.id === sellerId);
-
-  if (!seller) {
-    throw new Error("Không tìm thấy seller");
+    return response.data;
+  } catch (error) {
+    console.error("Error updating seller password:", error);
+    throw error;
   }
-
-  return {
-    success: true,
-    message: "Đổi mật khẩu thành công",
-  };
 };
 
+/**
+ * Delete seller (soft delete)
+ * @param sellerId - Seller ID
+ * @returns Success response
+ */
 export const deleteSeller = async (
-  sellerId: number
+  sellerId: string | number
 ): Promise<{ success: boolean; message: string }> => {
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  try {
+    const response = await axiosInstance.delete<{
+      success: boolean;
+      message: string;
+    }>(`/api/v1/users/${sellerId}`);
 
-  const sellerIndex = mockSellers.findIndex((s) => s.id === sellerId);
-
-  if (sellerIndex === -1) {
-    throw new Error("Không tìm thấy seller");
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting seller:", error);
+    throw error;
   }
-
-  // Soft delete - set status to 0
-  mockSellers[sellerIndex].status = 0;
-
-  return {
-    success: true,
-    message: "Xóa seller thành công",
-  };
 };

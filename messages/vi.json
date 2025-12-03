@@ -7,7 +7,8 @@
     "shop": "Cửa hàng",
     "login": "Đăng nhập",
     "register": "Đăng ký",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "unknown": "Không rõ"
   },
   "header": {
     "title": "Wine Store",
@@ -310,17 +311,15 @@
     "stats": {
       "total": "Tổng đơn",
       "pending": "Chờ xác nhận",
-      "processing": "Đang xử lý",
-      "shipping": "Đang giao",
-      "delivered": "Đã giao",
+      "confirmed": "Đã xác nhận",
+      "paid": "Đã thanh toán",
       "cancelled": "Đã hủy"
     },
     "filters": {
       "all": "Tất cả",
       "pending": "Chờ xác nhận",
-      "processing": "Đang xử lý",
-      "shipping": "Đang giao",
-      "delivered": "Đã giao",
+      "confirmed": "Đã xác nhận",
+      "paid": "Đã thanh toán",
       "cancelled": "Đã hủy"
     },
     "card": {
@@ -329,14 +328,95 @@
       "total": "Tổng tiền:",
       "discount": "Giảm giá:",
       "finalAmount": "Thành tiền:",
-      "viewDetail": "Xem chi tiết"
+      "viewDetail": "Xem chi tiết",
+      "payment": "Thanh toán"
     },
     "empty": {
       "title": "Chưa có đơn hàng nào",
       "description": "Hãy khám phá bộ sưu tập rượu vang cao cấp của chúng tôi",
       "button": "Khám phá ngay"
     },
-    "error": "Không thể tải danh sách đơn hàng"
+    "status": {
+      "1": "Chờ xác nhận",
+      "2": "Đã xác nhận",
+      "3": "Đã thanh toán",
+      "4": "Đã giao hàng",
+      "5": "Đã hủy",
+      "pending": "Chờ xác nhận",
+      "confirmed": "Đã xác nhận",
+      "paid": "Đã thanh toán",
+      "cancelled": "Đã hủy"
+    },
+    "paymentStatus": {
+      "0": "Chưa thanh toán",
+      "1": "Đã thanh toán",
+      "2": "Đã hoàn tiền"
+    },
+    "timeline": {
+      "pendingLabel": "Chờ xác nhận thông tin",
+      "pendingDesc": "Đơn hàng đang chờ được xác nhận",
+      "confirmedLabel": "Đã xác nhận",
+      "confirmedDesc": "Thông tin đơn hàng đã được xác nhận",
+      "paidLabel": "Đã thanh toán",
+      "paidDesc": "Đơn hàng đã được thanh toán thành công",
+      "cancelledTitle": "Đơn hàng đã bị hủy",
+      "cancelledDesc": "Đơn hàng của bạn đã được hủy"
+    },
+    "detail": {
+      "title": "Chi tiết đơn hàng",
+      "orderCode": "Mã đơn hàng",
+      "shippingAddress": "Địa chỉ giao hàng",
+      "products": "Sản phẩm",
+      "totalAmount": "Tổng tiền hàng:",
+      "discount": "Giảm giá:",
+      "finalAmount": "Tổng thanh toán:",
+      "paymentMethod": "Phương thức thanh toán:",
+      "paymentStatus": "Trạng thái thanh toán:",
+      "note": "Ghi chú:",
+      "cancelTitle": "Hủy đơn hàng",
+      "cancelPlaceholder": "Nhập lý do hủy đơn...",
+      "cancelButton": "Xác nhận hủy đơn",
+      "cancelling": "Đang xử lý...",
+      "cancelSuccess": "Hủy đơn hàng thành công!",
+      "cancelError": "Có lỗi xảy ra",
+      "cancelReasonRequired": "Vui lòng nhập lý do hủy đơn",
+      "cancelConfirm": "Bạn có chắc muốn hủy đơn hàng này?",
+      "loadError": "Không thể tải chi tiết đơn hàng"
+    },
+    "statusCard": {
+      "pendingTitle": "Chờ xác nhận thông tin",
+      "pendingDesc": "Đơn hàng của bạn đang được xem xét",
+      "confirmedTitle": "Đã xác nhận",
+      "confirmedDescPaid": "Đơn hàng đã được xác nhận và thanh toán",
+      "confirmedDescUnpaid": "Vui lòng thanh toán để hoàn tất đơn hàng",
+      "paidTitle": "Đã thanh toán thành công",
+      "paidDesc": "Cảm ơn bạn đã mua hàng!",
+      "cancelledTitle": "Đã hủy",
+      "cancelledDesc": "Đơn hàng đã bị hủy",
+      "orderCodeLabel": "Mã đơn hàng",
+      "totalLabel": "Tổng tiền",
+      "paymentLabel": "Thanh toán",
+      "statusLabel": "Trạng thái",
+      "paidStatus": "Đã thanh toán",
+      "unpaidStatus": "Chưa thanh toán",
+      "cancelAction": "Hủy đơn hàng",
+      "payAction": "Thanh toán ngay",
+      "viewAction": "Xem chi tiết",
+      "reorderAction": "Đặt lại"
+    },
+    "error": "Không thể tải danh sách đơn hàng",
+    "backToOrders": "Quay lại danh sách đơn hàng",
+    "orderDetail": "Chi tiết đơn hàng",
+    "shippingAddress": "Địa chỉ giao hàng",
+    "paymentInfo": "Thông tin thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "paymentStatus": "Trạng thái thanh toán",
+    "orderItems": "Sản phẩm đã đặt",
+    "quantity": "Số lượng",
+    "subtotal": "Tạm tính",
+    "discount": "Giảm giá",
+    "total": "Tổng cộng",
+    "notes": "Ghi chú"
   },
   "shop": {
     "hero": {
@@ -425,7 +505,7 @@
       "seller": "Người bán",
       "minutesAgo": "{count} phút trước",
       "hoursAgo": "{count} giờ trước",
-      "backtohomepage":"Trở lại trang chủ"
+      "backtohomepage": "Trở lại trang chủ"
     },
     "products": {
       "title": "Quản lý sản phẩm",
@@ -439,7 +519,7 @@
         "waitingForAdmin": "Đang chờ Quản trị viên",
         "active": "Đang bán",
         "approved": "Đã duyệt",
-        "banned": "Bị cấm",
+        "reject": "Bị từ chối",
         "notAllowedToSell": "Không được phép bán"
       },
       "filters": {
@@ -550,14 +630,20 @@
       "summary": {
         "totalOrders": "Tổng đơn hàng",
         "pending": "Chờ xác nhận",
+        "confirmed": "Đã xác nhận",
+        "paid": "Đã thanh toán",
         "processing": "Đang xử lý",
         "shipping": "Đang giao",
         "completed": "Hoàn thành",
         "cancelled": "Đã hủy"
       },
       "filters": {
+        "search": "Tìm kiếm",
         "searchPlaceholder": "Tìm kiếm theo mã đơn, tên hoặc email khách hàng...",
         "allOrders": "Tất cả đơn hàng",
+        "orderStatus": "Trạng thái đơn hàng",
+        "fromDate": "Từ ngày",
+        "toDate": "Đến ngày",
         "allPayments": "Tất cả thanh toán",
         "paid": "Đã thanh toán",
         "unpaid": "Chưa thanh toán"
@@ -578,6 +664,8 @@
       },
       "status": {
         "pending": "Chờ xác nhận",
+        "confirmed": "Đã xác nhận",
+        "paid": "Đã thanh toán",
         "processing": "Đang xử lý",
         "shipping": "Đang giao",
         "completed": "Hoàn thành",
@@ -617,7 +705,8 @@
         "currentStatus": "Trạng thái hiện tại:",
         "newStatus": "Trạng thái mới",
         "required": "*",
-        "noteLabel": "Ghi chú (tùy chọn)",
+        "note": "Ghi chú",
+        "optional": "tùy chọn",
         "notePlaceholder": "Nhập ghi chú về cập nhật trạng thái...",
         "warningTitle": "Cảnh báo",
         "cancelWarning": "Bạn đang hủy đơn hàng này. Hành động này sẽ thông báo cho khách hàng và có thể ảnh hưởng đến đánh giá của bạn.",
@@ -680,7 +769,7 @@
       "productStatus": {
         "pending": "Chờ duyệt",
         "active": "Đang bán",
-        "banned": "Bị cấm"
+        "rejected": "Bị từ chối"
       },
       "updateModal": {
         "title": "Cập nhật tồn kho",
@@ -702,6 +791,24 @@
         "confirmStockOut": "Xác nhận xuất kho",
         "stockWillChange": "Tồn kho sẽ thay đổi từ",
         "exceedsStock": "Số lượng vượt quá tồn kho hiện tại!"
+      },
+      "addProductModal": {
+        "title": "Thêm sản phẩm vào kho",
+        "subtitle": "Chọn sản phẩm và kho hàng",
+        "selectProduct": "Chọn sản phẩm",
+        "searchPlaceholder": "Tìm kiếm sản phẩm...",
+        "selectWarehouse": "Chọn kho hàng",
+        "selectWarehousePlaceholder": "-- Chọn kho --",
+        "quantity": "Số lượng",
+        "note": "Ghi chú (tùy chọn)",
+        "notePlaceholder": "Nhập ghi chú...",
+        "cancel": "Hủy",
+        "submit": "Thêm vào kho",
+        "submitting": "Đang thêm...",
+        "loadingProducts": "Đang tải sản phẩm...",
+        "noProducts": "Không tìm thấy sản phẩm",
+        "addButton": "Thêm sản phẩm vào kho",
+        "exportButton": "Xuất dữ liệu"
       },
       "logs": {
         "title": "Nhật ký tồn kho",
@@ -986,7 +1093,9 @@
         "female": "Nữ",
         "other": "Khác",
         "notUpdated": "Chưa cập nhật"
-      }
+      },
+      "avatarUpdateSuccess": "Cập nhật avatar thành công",
+      "avatarUpdateError": "Cập nhật avatar thất bại"
     },
     "tabs": {
       "personalInfo": "Thông tin cá nhân",
@@ -1053,9 +1162,20 @@
         "phoneNumber": "Số điện thoại",
         "addressLine": "Địa chỉ",
         "addressPlaceholder": "Số nhà, tên đường",
-        "city": "Thành phố",
+        "ward": "Phường/Xã",
+        "wardPlaceholder": "Phường/Xã",
+        "district": "Quận/Huyện",
+        "districtPlaceholder": "Quận/Huyện",
+        "city": "Tỉnh/Thành phố",
+        "cityPlaceholder": "Tỉnh/Thành phố",
         "state": "Tỉnh/Thành",
         "country": "Quốc gia",
+        "addressType": "Loại địa chỉ",
+        "addressTypes": {
+          "home": "Nhà riêng",
+          "office": "Văn phòng",
+          "other": "Khác"
+        },
         "isDefault": "Đặt làm địa chỉ mặc định",
         "required": "*",
         "submit": "Thêm địa chỉ",
@@ -1064,7 +1184,8 @@
         "cancel": "Hủy",
         "addSuccess": "Thêm địa chỉ thành công!",
         "updateSuccess": "Cập nhật địa chỉ thành công!",
-        "error": "Có lỗi xảy ra. Vui lòng thử lại!"
+        "error": "Có lỗi xảy ra. Vui lòng thử lại!",
+        "phoneError": "Số điện thoại phải có từ 10-20 chữ số"
       }
     },
     "avatar": {
@@ -1916,18 +2037,18 @@
         "total": "Tổng sản phẩm",
         "pending": "Chờ duyệt",
         "active": "Đang hoạt động",
-        "banned": "Bị cấm"
+        "reject": "Bị từ chối"
       },
       "filters": {
         "all": "Tất cả",
         "pending": "Chờ duyệt",
         "approved": "Đã duyệt",
-        "banned": "Bị cấm"
+        "banned": "Bị từ chối"
       },
       "status": {
         "pending": "Chờ duyệt",
         "approved": "Đã duyệt",
-        "banned": "Bị cấm"
+        "banned": "Bị từ chối"
       },
       "table": {
         "product": "Sản phẩm",
@@ -1985,11 +2106,11 @@
         "approving": "Đang duyệt..."
       },
       "rejectModal": {
-        "title": "Cấm sản phẩm",
+        "title": "Từ chối sản phẩm",
         "productName": "Tên sản phẩm",
-        "warningMessage": "Sản phẩm sẽ bị cấm và không thể hiển thị. Hãy cung cấp lý do rõ ràng.",
-        "reason": "Lý do cấm",
-        "selectReason": "Vui lòng chọn lý do cấm",
+        "warningMessage": "Sản phẩm sẽ bị từ chối và không thể hiển thị. Hãy cung cấp lý do rõ ràng.",
+        "reason": "Lý do từ chối",
+        "selectReason": "Vui lòng chọn lý do từ chối",
         "selectReasonPlaceholder": "Chọn lý do...",
         "reasons": {
           "incomplete_info": "Thông tin không đầy đủ",
@@ -2031,26 +2152,31 @@
       "approved": "đã duyệt",
       "summary": {
         "totalPending": "Chờ duyệt",
-        "totalActive": "Đang hoạt động",
-        "totalRequests": "Tổng yêu cầu"
+        "totalApproved": "Đã duyệt",
+        "totalRejected": "Đã từ chối",
+        "totalBanned": "Bị khóa"
       },
       "filters": {
         "all": "Tất cả",
         "pending": "Chờ duyệt",
-        "active": "Đang hoạt động",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối",
         "banned": "Bị khóa",
         "newest": "Mới nhất",
         "oldest": "Cũ nhất"
       },
       "status": {
         "pending": "Chờ duyệt",
-        "active": "Đang hoạt động",
+        "approved": "Đã duyệt",
+        "rejected": "Đã từ chối",
         "banned": "Bị khóa"
       },
       "actions": {
         "viewDetail": "Xem chi tiết",
         "approve": "Duyệt",
-        "reject": "Từ chối"
+        "reject": "Từ chối",
+        "ban": "Khóa kho",
+        "unban": "Mở khóa"
       },
       "table": {
         "warehouse": "Kho hàng",
@@ -2081,7 +2207,9 @@
         "totalValue": "Tổng giá trị",
         "cancel": "Đóng",
         "reject": "Từ chối",
-        "approve": "Duyệt kho"
+        "approve": "Duyệt kho",
+        "ban": "Khóa kho",
+        "unban": "Mở khóa"
       },
       "approve": {
         "title": "Duyệt kho hàng",
@@ -2109,6 +2237,33 @@
         "cancel": "Hủy",
         "rejecting": "Đang xử lý...",
         "confirm": "Xác nhận từ chối"
+      },
+      "ban": {
+        "title": "Khóa kho hàng",
+        "subtitle": "Khóa kho và ngừng hoạt động",
+        "warning": "Cảnh báo: Kho sẽ bị khóa và không thể hoạt động!",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "reasonLabel": "Lý do khóa",
+        "reasonPlaceholder": "Nhập lý do khóa kho...",
+        "reasonHint": "Lý do sẽ được gửi đến người bán qua thông báo",
+        "reasonRequired": "Vui lòng nhập lý do khóa",
+        "cancel": "Hủy",
+        "banning": "Đang khóa...",
+        "confirm": "Xác nhận khóa"
+      },
+      "unban": {
+        "title": "Mở khóa kho hàng",
+        "subtitle": "Mở khóa và cho phép hoạt động trở lại",
+        "warehouseName": "Tên kho",
+        "manager": "Người quản lý",
+        "noteLabel": "Ghi chú",
+        "optional": "tùy chọn",
+        "notePlaceholder": "Thêm ghi chú về việc mở khóa...",
+        "noteHint": "Ghi chú sẽ được gửi đến người bán qua thông báo",
+        "cancel": "Hủy",
+        "unbanning": "Đang mở khóa...",
+        "confirm": "Xác nhận mở khóa"
       }
     },
     "sellerManagement": {
@@ -2135,7 +2290,7 @@
         "locked": "Bị khóa"
       },
       "role": {
-        "seller": "người bán",
+        "seller": "Người bán",
         "admin": "Quản trị viên"
       },
       "gender": {
@@ -2149,8 +2304,8 @@
       },
       "warehouses": "Kho quản lý",
       "actions": {
-        "view": "Xem",
-        "edit": "Sửa",
+        "view": "Xem chi tiết",
+        "edit": "Chỉnh sửa",
         "activate": "Kích hoạt",
         "deactivate": "Tạm ngưng"
       },
@@ -2169,11 +2324,13 @@
         "activity": "Hoạt động",
         "lastLogin": "Đăng nhập gần nhất",
         "createdAt": "Ngày tạo",
+        "verified": "Đã xác thực",
         "close": "Đóng",
         "edit": "Chỉnh sửa"
       },
       "createModal": {
         "title": "Tạo người bán mới",
+        "name": "Họ và tên",
         "email": "Email",
         "password": "Mật khẩu",
         "confirmPassword": "Xác nhận mật khẩu",
@@ -2194,6 +2351,8 @@
       },
       "editModal": {
         "title": "Chỉnh sửa người bán",
+        "name": "Họ và tên",
+        "email": "Email",
         "firstName": "Họ",
         "lastName": "Tên",
         "phone": "Số điện thoại",
@@ -2221,6 +2380,8 @@
       "table": {
         "seller": "Người bán",
         "contact": "Liên hệ",
+        "orders": "Đơn hàng",
+        "revenue": "Doanh thu",
         "warehouses": "Kho quản lý",
         "statistics": "Thống kê",
         "status": "Trạng thái",
@@ -2306,13 +2467,25 @@
       "detailModal": {
         "title": "Chi tiết người dùng",
         "joined": "Tham gia",
+        "lastLogin": "Đăng nhập lần cuối",
         "totalOrders": "Tổng đơn hàng",
+        "ordersPlaced": "đơn hàng đã đặt",
         "completed": "hoàn thành",
         "totalSpent": "Tổng chi tiêu",
+        "lifetimeValue": "giá trị trọn đời",
         "avgOrder": "Trung bình/đơn",
         "addresses": "Địa chỉ",
         "default": "Mặc định",
         "recentActivities": "Hoạt động gần đây",
+        "accountInfo": "Thông tin tài khoản",
+        "userId": "ID người dùng",
+        "accountStatus": "Trạng thái tài khoản",
+        "role": "Vai trò",
+        "emailStatus": "Trạng thái email",
+        "emailVerified": "Email đã xác thực",
+        "verified": "Đã xác thực",
+        "notVerified": "Chưa xác thực",
+        "avatar": "Ảnh đại diện",
         "close": "Đóng",
         "resetPassword": "Đặt lại mật khẩu",
         "edit": "Chỉnh sửa"
@@ -2391,6 +2564,98 @@
         "passwordMismatch": "Mật khẩu xác nhận không khớp",
         "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
       }
+    }
+  },
+  "checkout": {
+    "progress": {
+      "cart": "Giỏ hàng",
+      "address": "Địa chỉ",
+      "payment": "Thanh toán",
+      "review": "Xác nhận"
+    },
+    "cart": {
+      "title": "Giỏ hàng của bạn",
+      "empty": {
+        "title": "Giỏ hàng trống",
+        "description": "Hãy thêm sản phẩm vào giỏ hàng của bạn",
+        "button": "Tiếp tục mua sắm"
+      },
+      "items": "sản phẩm",
+      "subtotal": "Tạm tính:",
+      "continue": "Tiếp tục"
+    },
+    "address": {
+      "title": "Địa chỉ giao hàng",
+      "default": "Mặc định",
+      "addNew": "Thêm địa chỉ mới",
+      "form": {
+        "fullName": "Họ và tên",
+        "phoneNumber": "Số điện thoại",
+        "addressLine": "Địa chỉ chi tiết",
+        "ward": "Phường/Xã",
+        "district": "Quận/Huyện",
+        "city": "Tỉnh/Thành phố",
+        "country": "Quốc gia",
+        "addressType": "Loại địa chỉ",
+        "addressTypes": {
+          "home": "Nhà riêng",
+          "office": "Văn phòng",
+          "other": "Khác"
+        },
+        "isDefault": "Đặt làm địa chỉ mặc định",
+        "required": "*",
+        "cancel": "Hủy",
+        "save": "Lưu địa chỉ",
+        "saving": "Đang lưu..."
+      },
+      "back": "Quay lại",
+      "continue": "Tiếp tục"
+    },
+    "payment": {
+      "title": "Phương thức thanh toán",
+      "back": "Quay lại",
+      "continue": "Tiếp tục"
+    },
+    "review": {
+      "title": "Xác nhận đơn hàng",
+      "products": "Sản phẩm",
+      "shippingAddress": "Địa chỉ giao hàng",
+      "paymentMethod": "Phương thức thanh toán",
+      "shipping": "Vận chuyển",
+      "calculatingShipping": "Đang tính phí...",
+      "shippingFee": "Phí vận chuyển:",
+      "estimatedDelivery": "Dự kiến giao: {days} ngày",
+      "summary": {
+        "title": "Tổng cộng",
+        "subtotal": "Tạm tính:",
+        "discount": "Giảm giá:",
+        "shippingFee": "Phí vận chuyển:",
+        "total": "Tổng:"
+      },
+      "placeOrder": "Đặt hàng",
+      "processing": "Đang xử lý...",
+      "back": "Quay lại"
+    },
+    "success": {
+      "title": "Đặt hàng thành công!",
+      "thankYou": "Cảm ơn bạn đã tin tưởng và mua sắm tại Wine Store",
+      "orderCode": "Mã đơn hàng của bạn:",
+      "status": {
+        "processing": {
+          "title": "Đang xử lý",
+          "description": "Đơn hàng của bạn đang được chuẩn bị"
+        },
+        "email": {
+          "title": "Email xác nhận",
+          "description": "Chúng tôi đã gửi email xác nhận đơn hàng"
+        },
+        "delivery": {
+          "title": "Giao hàng",
+          "description": "Dự kiến giao trong 3-5 ngày làm việc"
+        }
+      },
+      "viewOrders": "Xem đơn hàng",
+      "backHome": "Về trang chủ"
     }
   }
 }

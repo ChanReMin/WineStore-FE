@@ -1,4 +1,5 @@
-// Mock Profile Service
+// Profile Service - Real API Integration
+import axiosInstance from "@/lib/axios";
 import type {
   CustomerProfile,
   UpdateProfileRequest,
@@ -8,101 +9,56 @@ import type {
   UpdateAddressRequest,
 } from "@/types/profile";
 
-// Mock data
-let mockProfile: CustomerProfile = {
-  id: 1,
-  email: "customer@example.com",
-  username: "johndoe",
-  firstName: "John",
-  lastName: "Doe",
-  avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-  phoneNumber: "0123456789",
-  dateOfBirth: "1990-01-01",
-  gender: 1,
-  createdAt: "2024-01-01T00:00:00Z",
-};
-
-let mockAddresses: Address[] = [
-  {
-    id: 1,
-    fullName: "John Doe",
-    phoneNumber: "0123456789",
-    addressLine: "123 Đường Lê Lợi",
-    city: "Hà Nội",
-    state: "Hà Nội",
-    country: "Việt Nam",
-    isDefault: true,
-    createdAt: "2024-01-01T00:00:00Z",
-  },
-  {
-    id: 2,
-    fullName: "John Doe",
-    phoneNumber: "0987654321",
-    addressLine: "456 Đường Nguyễn Huệ",
-    city: "TP. Hồ Chí Minh",
-    state: "TP. Hồ Chí Minh",
-    country: "Việt Nam",
-    isDefault: false,
-    createdAt: "2024-02-01T00:00:00Z",
-  },
-];
-
-// Simulate API delay
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const profileService = {
-  // Get profile
+  // Get current user profile
   async getProfile(): Promise<CustomerProfile> {
-    await delay(500);
-    return mockProfile;
+    const response = await axiosInstance.get("/api/v1/profile");
+    return response.data.data;
   },
 
-  // Update profile
-  async updateProfile(data: UpdateProfileRequest): Promise<CustomerProfile> {
-    await delay(800);
-    mockProfile = { ...mockProfile, ...data };
-    return mockProfile;
+  // Update profile (with optional avatar upload)
+  async updateProfile(
+    data: UpdateProfileRequest,
+    avatarFile?: File
+  ): Promise<CustomerProfile> {
+    const formData = new FormData();
+
+    // Append fields only if they exist
+    if (data.firstName) formData.append("firstName", data.firstName);
+    if (data.lastName) formData.append("lastName", data.lastName);
+    if (data.phoneNumber) formData.append("phoneNumber", data.phoneNumber);
+    if (data.dateOfBirth) formData.append("dateOfBirth", data.dateOfBirth);
+    if (data.gender !== undefined)
+      formData.append("gender", data.gender.toString());
+    if (avatarFile) formData.append("avatar", avatarFile);
+
+    const response = await axiosInstance.put("/api/v1/profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data.data;
   },
 
   // Change password
   async changePassword(data: ChangePasswordRequest): Promise<void> {
-    await delay(800);
-    // Mock validation
-    if (data.oldPassword !== "OldPassword123!") {
-      throw new Error("Mật khẩu cũ không đúng");
-    }
-    if (data.newPassword !== data.confirmPassword) {
-      throw new Error("Mật khẩu xác nhận không khớp");
-    }
-    // Success - no return needed
+    await axiosInstance.put("/api/v1/profile/password", data);
   },
 
-  // Get addresses
+  // Get all user addresses
   async getAddresses(): Promise<Address[]> {
-    await delay(500);
-    return mockAddresses;
+    const response = await axiosInstance.get("/api/v1/profile/addresses");
+    return response.data.data.addresses;
   },
 
-  // Add address
+  // Add new address
   async addAddress(data: CreateAddressRequest): Promise<Address> {
-    await delay(800);
-    const newAddress: Address = {
-      id: mockAddresses.length + 1,
-      ...data,
-      isDefault: data.isDefault || false,
-      createdAt: new Date().toISOString(),
-    };
-
-    // If new address is default, set others to false
-    if (newAddress.isDefault) {
-      mockAddresses = mockAddresses.map((addr) => ({
-        ...addr,
-        isDefault: false,
-      }));
-    }
-
-    mockAddresses.push(newAddress);
-    return newAddress;
+    const response = await axiosInstance.post(
+      "/api/v1/profile/addresses",
+      data
+    );
+    return response.data.data;
   },
 
   // Update address
@@ -110,25 +66,38 @@ export const profileService = {
     id: number,
     data: UpdateAddressRequest
   ): Promise<Address> {
-    await delay(800);
-    const index = mockAddresses.findIndex((addr) => addr.id === id);
-    if (index === -1) throw new Error("Không tìm thấy địa chỉ");
-
-    // If updating to default, set others to false
-    if (data.isDefault) {
-      mockAddresses = mockAddresses.map((addr) => ({
-        ...addr,
-        isDefault: false,
-      }));
-    }
-
-    mockAddresses[index] = { ...mockAddresses[index], ...data };
-    return mockAddresses[index];
+    const response = await axiosInstance.put(
+      `/api/v1/profile/addresses/${id}`,
+      data
+    );
+    return response.data.data;
   },
 
   // Delete address
   async deleteAddress(id: number): Promise<void> {
-    await delay(500);
-    mockAddresses = mockAddresses.filter((addr) => addr.id !== id);
+    await axiosInstance.delete(`/api/v1/profile/addresses/${id}`);
+  },
+
+  // Set default address (bonus API)
+  async setDefaultAddress(id: number): Promise<void> {
+    await axiosInstance.put(`/api/v1/profile/addresses/${id}/set-default`);
+  },
+
+  // Upload avatar
+  async uploadAvatar(avatarFile: File): Promise<{ avatar: string }> {
+    const formData = new FormData();
+    formData.append("avatar", avatarFile);
+
+    const response = await axiosInstance.patch(
+      "/api/v1/users/avatar",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response.data.data;
   },
 };

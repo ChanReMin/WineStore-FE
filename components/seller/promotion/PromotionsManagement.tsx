@@ -19,10 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  fetchPromotions,
-  deletePromotion,
-} from "@/services/promotionService";
+import { fetchPromotions, deletePromotion } from "@/services/promotionService";
 import { toast } from "react-toastify";
 import { getErrorMessage } from "@/lib/errorHandler";
 
@@ -253,7 +250,11 @@ export default function PromotionsManagement() {
             {t("summary.remaining")}
           </p>
           <p className="text-2xl font-bold text-orange-600">
-            {promotions.reduce((sum, p) => sum + (p.remaining_usage || (p.max_usage - p.used_count)), 0)}
+            {promotions.reduce(
+              (sum, p) =>
+                sum + (p.remaining_usage || p.max_usage - p.used_count),
+              0
+            )}
           </p>
         </div>
       </motion.div>

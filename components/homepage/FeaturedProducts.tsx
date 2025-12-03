@@ -1,49 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import { ShoppingBag, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-
-const FEATURED_WINES = [
-  {
-    id: 1,
-    name: "Château Margaux 2015",
-    region: "Bordeaux, France",
-    price: "$450",
-    rating: 4.9,
-    image: "/wines/wine-1.jpg",
-    badge: "Best Seller",
-  },
-  {
-    id: 2,
-    name: "Opus One 2018",
-    region: "Napa Valley, USA",
-    price: "$380",
-    rating: 4.8,
-    image: "/wines/wine-2.jpg",
-    badge: "Limited",
-  },
-  {
-    id: 3,
-    name: "Penfolds Grange 2016",
-    region: "South Australia",
-    price: "$620",
-    rating: 5.0,
-    image: "/wines/wine-3.jpg",
-    badge: "Award Winner",
-  },
-  {
-    id: 4,
-    name: "Sassicaia 2017",
-    region: "Tuscany, Italy",
-    price: "$290",
-    rating: 4.7,
-    image: "/wines/wine-4.jpg",
-    badge: "New Arrival",
-  },
-];
+import { Link } from "@/i18n/routing";
+import { useState, useEffect } from "react";
+import { fetchShopProducts } from "@/services/productService";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import type { Product } from "@/types/product";
 
 // ✅ OPTIMIZED: Giảm complexity và thời gian animation
 const containerVariants: Variants = {
@@ -52,7 +16,7 @@ const containerVariants: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1, // Giảm từ 0.15
-      delayChildren: 0.1,   // Giảm từ 0.2
+      delayChildren: 0.1, // Giảm từ 0.2
     },
   },
 };
@@ -62,24 +26,45 @@ const itemVariants: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { 
-      duration: 0.4,  // Giảm từ 0.6s xuống 0.4s
-      ease: "easeOut" // Đơn giản hóa easing
+    transition: {
+      duration: 0.4, // Giảm từ 0.6s xuống 0.4s
+      ease: "easeOut", // Đơn giản hóa easing
     },
   },
 };
 
 export default function FeaturedProducts() {
   const t = useTranslations("home.featured");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getBadgeText = (badge: string) => {
-    const badgeMap: Record<string, string> = {
-      "Best Seller": t("badges.bestSeller"),
-      Limited: t("badges.limited"),
-      "Award Winner": t("badges.awardWinner"),
-      "New Arrival": t("badges.newArrival"),
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await fetchShopProducts({ page: 1, limit: 4 });
+        setProducts(response.data.products);
+      } catch (error) {
+        console.error("Error loading featured products:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    return badgeMap[badge] || badge;
+
+    loadProducts();
+  }, []);
+
+  const getBadgeText = (index: number) => {
+    const badges = [
+      t("badges.bestSeller"),
+      t("badges.limited"),
+      t("badges.awardWinner"),
+      t("badges.newArrival"),
+    ];
+    return badges[index % badges.length];
+  };
+
+  const getProductImage = (product: Product): string => {
+    return product.images || product.thumbnail || "/placeholder-wine.jpg";
   };
 
   return (
@@ -109,71 +94,99 @@ export default function FeaturedProducts() {
         </motion.div>
 
         {/* Products Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {FEATURED_WINES.map((wine) => (
-            <motion.div
-              key={wine.id}
-              variants={itemVariants}
-              whileHover={{ y: -8 }}
-              className="group relative bg-white"
-            >
-              {/* Badge */}
-              <div className="absolute left-4 top-4 z-10">
-                <span className="bg-[#3b4417] px-3 py-1 text-[10px] tracking-[0.2em] text-white uppercase">
-                  {getBadgeText(wine.badge)}
-                </span>
-              </div>
+        {isLoading ? (
+          <div className="mt-16 flex justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {products.map((product, index) => (
+              <motion.div
+                key={product.id}
+                variants={itemVariants}
+                whileHover={{ y: -8 }}
+                className="group relative bg-white"
+              >
+                {/* Badge */}
+                <div className="absolute left-4 top-4 z-10">
+                  <span className="bg-[#3b4417] px-3 py-1 text-[10px] tracking-[0.2em] text-white uppercase">
+                    {getBadgeText(index)}
+                  </span>
+                </div>
 
-              {/* Image */}
-              <div className="relative aspect-3/4 overflow-hidden bg-neutral-100">
-                <Image
-                  src={wine.image}
-                  alt={wine.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                {/* Link to Product Detail */}
+                <Link href={`/shop/${product.id}/${product.slug}`}>
+                  {/* Image */}
+                  <div className="relative aspect-3/4 overflow-hidden bg-neutral-100">
+                    <ImageWithFallback
+                      src={getProductImage(product)}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
 
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
+                    {/* Overlay on hover */}
+                    <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
 
-                {/* Quick Add Button */}
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 bg-white px-6 py-3 text-[11px] tracking-[0.25em] text-[#3b4417] opacity-0 transition-all duration-500 group-hover:opacity-100 uppercase"
-                >
-                  <ShoppingBag size={14} />
-                  {t("addToCart")}
-                </motion.button>
-              </div>
+                    {/* Quick Add Button */}
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // TODO: Add to cart functionality
+                      }}
+                      className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 bg-white px-6 py-3 text-[11px] tracking-[0.25em] text-[#3b4417] opacity-0 transition-all duration-500 group-hover:opacity-100 uppercase"
+                    >
+                      <ShoppingBag size={14} />
+                      {t("addToCart")}
+                    </motion.button>
+                  </div>
 
-              {/* Info */}
-              <div className="p-6">
-                {/* Name */}
-                <h3 className="mt-3 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#5a6b2a]">
-                  {wine.name}
-                </h3>
+                  {/* Info */}
+                  <div className="p-6">
+                    {/* Name */}
+                    <h3 className="mt-3 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#5a6b2a]">
+                      {product.name}
+                    </h3>
 
-                {/* Region */}
-                <p className="mt-1 text-[13px] italic text-neutral-500">
-                  {wine.region}
-                </p>
+                    {/* Region */}
+                    <p className="mt-1 text-[13px] italic text-neutral-500">
+                      {product.productionArea || product.originCountry || "N/A"}
+                    </p>
 
-                {/* Price */}
-                <p className="mt-4 text-[22px] font-semibold tracking-wider text-[#3b4417]">
-                  {wine.price}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+                    {/* Price */}
+                    <div className="mt-4">
+                      {product.basePrice &&
+                      product.price < product.basePrice ? (
+                        <div className="flex items-center gap-2">
+                          <p className="text-[18px] font-semibold tracking-wider text-[#3b4417]">
+                            {product.price.toLocaleString("vi-VN")}₫
+                          </p>
+                          <p className="text-[14px] text-neutral-400 line-through">
+                            {product.basePrice.toLocaleString("vi-VN")}₫
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-[22px] font-semibold tracking-wider text-[#3b4417]">
+                          {product.price.toLocaleString("vi-VN")}₫
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* View All Button */}
         <motion.div

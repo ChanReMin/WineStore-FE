@@ -12,7 +12,6 @@ import OrderReviewStep from "@/components/checkout/OrderReviewStep";
 import CheckoutSuccessStep from "@/components/checkout/CheckoutSuccessStep";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
-import { MOCK_ADDRESSES, MOCK_paymentMethodS } from "@/lib/mockCheckoutData";
 import type { CartItem as CheckoutCartItem } from "@/contexts/CheckoutContext";
 
 function CheckoutContent() {
@@ -25,37 +24,64 @@ function CheckoutContent() {
   // Check authentication and fetch cart
   useEffect(() => {
     if (!isAuthenticated) {
-      router.push("/login");
+      router.push("/");
       return;
     }
     fetchCart();
   }, [isAuthenticated, router, fetchCart]);
 
+  // Flush any pending cart updates before checkout
+  useEffect(() => {
+    const flushUpdates = async () => {
+      const { flushPendingUpdates } = useCartStore.getState();
+      await flushPendingUpdates();
+    };
+    flushUpdates();
+  }, []);
+
   // Initialize checkout with real cart data
   useEffect(() => {
-    if (storeCart && cart.length === 0 && checkoutContext.initializeData) {
-      // Convert cart store items to checkout format
-      const checkoutItems: CheckoutCartItem[] = storeCart.items.map((item) => ({
-        id: item.id,
-        productId: item.product.id,
-        productName: item.product.name,
-        productSlug: item.product.slug,
-        productImage: item.product.image,
-        sku: item.product.sku || "",
-        unitPrice: item.unitPrice,
-        quantity: item.quantity,
-        lineTotal: item.lineTotal,
-        stockAvailable: item.product.maxQuantity,
-        isAvailable: item.product.inStock,
-      }));
+    const initializeCheckout = async () => {
+      if (storeCart && cart.length === 0 && checkoutContext.initializeData) {
+        // Convert cart store items to checkout format
+        const checkoutItems: CheckoutCartItem[] = storeCart.items.map(
+          (item) => ({
+            id: item.id,
+            productId: item.product.id,
+            productName: item.product.name,
+            productSlug: item.product.slug,
+            productImage: item.product.image,
+            sku: item.product.sku || "",
+            unitPrice: item.unitPrice,
+            quantity: item.quantity,
+            lineTotal: item.lineTotal,
+            stockAvailable: item.product.maxQuantity,
+            isAvailable: item.product.inStock,
+          })
+        );
 
-      checkoutContext.initializeData(
-        checkoutItems,
-        MOCK_ADDRESSES,
-        MOCK_paymentMethodS
-      );
-    }
-  }, [storeCart, cart.length, checkoutContext]);
+        // Use mock payment methods (no API call needed)
+        const { MOCK_PAYMENT_METHODS } = await import(
+          "@/lib/mockCheckoutData"
+        );
+
+        // Initialize cart and payment methods
+        checkoutContext.initializeData(
+          checkoutItems,
+          [], // Empty addresses - will load from API
+          MOCK_PAYMENT_METHODS
+        );
+
+        // Load addresses from API
+        if (checkoutContext.loadAddresses) {
+          checkoutContext.loadAddresses();
+        }
+      }
+    };
+
+    initializeCheckout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storeCart, cart.length]);
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -73,8 +99,8 @@ function CheckoutContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfbf5] py-12">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-[#fdfbf5] py-2 md:py-4 lg:py-8 xl:py-12">
+      <div className="max-w-5xl xl:max-w-6xl mx-auto px-3 md:px-4">
         <CheckoutProgress currentStep={currentStep} />
 
         <AnimatePresence mode="wait">

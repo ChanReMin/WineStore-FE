@@ -187,7 +187,7 @@ export default function WarehouseList({
                     {t("list.products")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {warehouse.inventory_summary?.totalProducts || 0}
+                    {warehouse.inventorySummary?.totalProducts || 0}
                   </p>
                 </div>
                 <div className="bg-[#f5f3e8] rounded-lg p-3">
@@ -195,7 +195,9 @@ export default function WarehouseList({
                     {t("list.quantity")}
                   </p>
                   <p className="text-lg font-bold text-[#3b4417]">
-                    {(warehouse.inventory_summary?.totalquantity ?? 0).toLocaleString()}
+                    {(
+                      warehouse.inventorySummary?.totalQuantity ?? 0
+                    ).toLocaleString()}
                   </p>
                 </div>
               </div>

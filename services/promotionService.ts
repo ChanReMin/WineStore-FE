@@ -161,4 +161,3 @@ export const removePromotionFromProduct = async (
 
   return response.data;
 };
-

@@ -15,6 +15,9 @@ import {
   MapPin,
   User,
   Package,
+  Ban,
+  ShieldCheck,
+  AlertCircle,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -32,6 +35,8 @@ import {
 import WarehouseDetailModal from "./WarehouseDetailModal";
 import ApproveWarehouseModal from "./ApproveWarehouseModal";
 import RejectWarehouseModal from "./RejectWarehouseModal";
+import BanWarehouseModal from "./BanWarehouseModal";
+import UnbanWarehouseModal from "./UnbanWarehouseModal";
 
 export default function WarehouseApprovalList() {
   const t = useTranslations("admin.warehouseApproval");
@@ -54,6 +59,8 @@ export default function WarehouseApprovalList() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showBanModal, setShowBanModal] = useState(false);
+  const [showUnbanModal, setShowUnbanModal] = useState(false);
 
   const loadData = async (page = 1) => {
     try {
@@ -114,6 +121,16 @@ export default function WarehouseApprovalList() {
     setShowRejectModal(true);
   };
 
+  const handleBan = (warehouse: WarehouseRequest) => {
+    setSelectedWarehouse(warehouse);
+    setShowBanModal(true);
+  };
+
+  const handleUnban = (warehouse: WarehouseRequest) => {
+    setSelectedWarehouse(warehouse);
+    setShowUnbanModal(true);
+  };
+
   const handleActionComplete = () => {
     loadData(pagination.currentPage);
   };
@@ -130,12 +147,18 @@ export default function WarehouseApprovalList() {
         bg: "bg-emerald-50",
         text: "text-emerald-700",
         icon: CheckCircle,
-        label: t("status.active"),
+        label: t("status.approved"),
       },
       2: {
+        bg: "bg-purple-50",
+        text: "text-purple-700",
+        icon: AlertCircle,
+        label: t("status.rejected"),
+      },
+      3: {
         bg: "bg-red-50",
         text: "text-red-700",
-        icon: XCircle,
+        icon: Ban,
         label: t("status.banned"),
       },
     };
@@ -179,7 +202,7 @@ export default function WarehouseApprovalList() {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -214,7 +237,7 @@ export default function WarehouseApprovalList() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.totalActive")}
+                    {t("summary.totalApproved")}
                   </p>
                   <p className="text-3xl font-bold text-emerald-600">
                     {warehouses.filter((w) => w.status === 1).length}
@@ -233,19 +256,43 @@ export default function WarehouseApprovalList() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="border-[#3b4417] hover:shadow-lg transition-all duration-300">
+          <Card className="border-purple-200 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.totalRequests")}
+                    {t("summary.totalRejected")}
                   </p>
-                  <p className="text-3xl font-bold text-[#3b4417]">
-                    {pagination.totalItems}
+                  <p className="text-3xl font-bold text-purple-600">
+                    {warehouses.filter((w) => w.status === 2).length}
                   </p>
                 </div>
-                <div className="bg-[#f5f3e8] p-3 rounded-xl">
-                  <Warehouse className="w-6 h-6 text-[#3b4417]" />
+                <div className="bg-purple-50 p-3 rounded-xl">
+                  <AlertCircle className="w-6 h-6 text-purple-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Card className="border-red-200 hover:shadow-lg transition-all duration-300">
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-neutral-600 mb-1">
+                    {t("summary.totalBanned")}
+                  </p>
+                  <p className="text-3xl font-bold text-red-600">
+                    {warehouses.filter((w) => w.status === 3).length}
+                  </p>
+                </div>
+                <div className="bg-red-50 p-3 rounded-xl">
+                  <Ban className="w-6 h-6 text-red-600" />
                 </div>
               </div>
             </CardContent>
@@ -256,8 +303,8 @@ export default function WarehouseApprovalList() {
       {/* Filters */}
       <Card>
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="relative md:col-span-1">
+          <div className="flex flex-row gap-4">
+            <div className="flex-3 relative md:col-span-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <Input
                 placeholder={t("searchPlaceholder")}
@@ -267,37 +314,42 @@ export default function WarehouseApprovalList() {
               />
             </div>
 
-            <Select
-              value={statusFilter.toString()}
-              onValueChange={(value) =>
-                setStatusFilter(
-                  value === "all" ? "all" : Number.parseInt(value)
-                )
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("filters.all")}</SelectItem>
-                <SelectItem value="0">{t("filters.pending")}</SelectItem>
-                <SelectItem value="1">{t("filters.active")}</SelectItem>
-                <SelectItem value="2">{t("filters.banned")}</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex-1">
+              <Select
+                value={statusFilter.toString()}
+                onValueChange={(value) =>
+                  setStatusFilter(
+                    value === "all" ? "all" : Number.parseInt(value)
+                  )
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{t("filters.all")}</SelectItem>
+                  <SelectItem value="0">{t("filters.pending")}</SelectItem>
+                  <SelectItem value="1">{t("filters.approved")}</SelectItem>
+                  <SelectItem value="2">{t("filters.rejected")}</SelectItem>
+                  <SelectItem value="3">{t("filters.banned")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Select
-              value={sortOrder}
-              onValueChange={(value: "asc" | "desc") => setSortOrder(value)}
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="desc">{t("filters.newest")}</SelectItem>
-                <SelectItem value="asc">{t("filters.oldest")}</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex-1">
+              <Select
+                value={sortOrder}
+                onValueChange={(value: "asc" | "desc") => setSortOrder(value)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="desc">{t("filters.newest")}</SelectItem>
+                  <SelectItem value="asc">{t("filters.oldest")}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -305,150 +357,236 @@ export default function WarehouseApprovalList() {
       {/* Warehouses Table */}
       <Card>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-neutral-50 border-b border-neutral-200">
-                <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.warehouse")}
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.location")}
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.manager")}
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.status")}
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.createdAt")}
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.actions")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-neutral-200">
-                <AnimatePresence mode="popLayout">
-                  {warehouses.map((warehouse, index) => (
-                    <motion.tr
-                      key={warehouse.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="hover:bg-neutral-50 transition-colors"
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="bg-[#f5f3e8] p-2 rounded-lg">
-                            <Warehouse className="w-5 h-5 text-[#3b4417]" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-[#3b4417]">
-                              {warehouse.name}
-                            </p>
-                            {warehouse.manager.totalProducts !== undefined && (
-                              <p className="text-sm text-neutral-500">
-                                {warehouse.manager.totalProducts}{" "}
-                                {t("products")} ·{" "}
-                                {warehouse.manager.approvedProducts}{" "}
-                                {t("approved")}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-start gap-2 max-w-xs">
-                          <MapPin className="w-4 h-4 text-neutral-400 mt-0.5 shrink-0" />
-                          <span className="text-sm text-neutral-600 line-clamp-2">
-                            {warehouse.location}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div>
-                          <p className="font-medium text-neutral-900">
-                            {warehouse.manager.firstName}{" "}
-                            {warehouse.manager.lastName}
-                          </p>
-                          <p className="text-sm text-neutral-500">
-                            {warehouse.manager.email}
-                          </p>
-                          <p className="text-sm text-neutral-500">
-                            {warehouse.manager.phoneNumber}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        {getStatusBadge(warehouse.status)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-neutral-600">
-                        {new Date(warehouse.createdAt).toLocaleDateString(
-                          "vi-VN",
-                          {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          }
-                        )}
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-end gap-2">
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleViewDetail(warehouse)}
-                            className="p-2 text-[#3b4417] hover:bg-[#f5f3e8] rounded-lg transition-colors"
-                            title={t("actions.viewDetail")}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </motion.button>
-                          {warehouse.status === 0 && (
-                            <>
-                              <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => handleApprove(warehouse)}
-                                className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
-                                title={t("actions.approve")}
-                              >
-                                <CheckCircle className="w-4 h-4" />
-                              </motion.button>
-                              <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => handleReject(warehouse)}
-                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                title={t("actions.reject")}
-                              >
-                                <XCircle className="w-4 h-4" />
-                              </motion.button>
-                            </>
-                          )}
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </AnimatePresence>
-              </tbody>
-            </table>
-          </div>
-
-          {/* Empty State */}
-          {warehouses.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-12">
-              <div className="bg-neutral-100 p-4 rounded-full mb-4">
-                <Warehouse className="w-8 h-8 text-neutral-400" />
+          {warehouses.length === 0 ? (
+            /* Empty State */
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="bg-neutral-100 p-6 rounded-full mb-4">
+                <Warehouse className="w-12 h-12 text-neutral-400" />
               </div>
-              <p className="text-neutral-600 font-medium mb-1">
+              <p className="text-lg text-neutral-600 font-medium mb-2">
                 {t("table.noWarehouses")}
               </p>
               <p className="text-sm text-neutral-500">
                 {t("table.noWarehousesDesc")}
               </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[800px]">
+                <thead className="bg-linear-to-r from-neutral-50 to-neutral-100 border-b-2 border-neutral-200">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.warehouse")}
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.location")}
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.manager")}
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.status")}
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.createdAt")}
+                    </th>
+                    <th className="px-6 py-4 text-center text-xs font-semibold text-neutral-700 uppercase tracking-wider">
+                      {t("table.actions")}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-neutral-100">
+                  <AnimatePresence mode="popLayout">
+                    {warehouses.map((warehouse, index) => (
+                      <motion.tr
+                        key={warehouse.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="hover:bg-linear-to-r hover:from-neutral-50 hover:to-transparent transition-all duration-200"
+                      >
+                        <td className="px-6 py-5">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-linear-to-br from-[#f5f3e8] to-[#e8e6d8] p-3 rounded-xl shadow-sm">
+                              <Warehouse className="w-5 h-5 text-[#3b4417]" />
+                            </div>
+                            <div>
+                              <p className="font-semibold text-[#3b4417] text-base">
+                                {warehouse.name}
+                              </p>
+                              {warehouse.manager.totalProducts !==
+                                undefined && (
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="inline-flex items-center gap-1 text-xs text-neutral-600 bg-neutral-100 px-2 py-0.5 rounded-full">
+                                    <Package className="w-3 h-3" />
+                                    {warehouse.manager.totalProducts}{" "}
+                                    {t("products")}
+                                  </span>
+                                  <span className="inline-flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                                    <CheckCircle className="w-3 h-3" />
+                                    {warehouse.manager.approvedProducts}{" "}
+                                    {t("approved")}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-5">
+                          <div className="flex items-start gap-2 max-w-xs">
+                            <MapPin className="w-4 h-4 text-[#7a8451] mt-0.5 shrink-0" />
+                            <span className="text-sm text-neutral-700 line-clamp-2 leading-relaxed">
+                              {warehouse.location}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-5">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-linear-to-br from-blue-50 to-blue-100 p-2 rounded-full">
+                              <User className="w-4 h-4 text-blue-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-neutral-900">
+                                {warehouse.manager.firstName}{" "}
+                                {warehouse.manager.lastName}
+                              </p>
+                              <p className="text-xs text-neutral-500 mt-0.5">
+                                {warehouse.manager.email}
+                              </p>
+                              <p className="text-xs text-neutral-500">
+                                {warehouse.manager.phoneNumber}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-5 text-center">
+                          {getStatusBadge(warehouse.status)}
+                        </td>
+                        <td className="px-6 py-5 text-center">
+                          <div className="inline-flex flex-col items-center">
+                            <p className="text-sm font-medium text-neutral-900">
+                              {new Date(warehouse.createdAt).toLocaleDateString(
+                                "vi-VN",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                }
+                              )}
+                            </p>
+                            <p className="text-xs text-neutral-500">
+                              {new Date(warehouse.createdAt).toLocaleTimeString(
+                                "vi-VN",
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                }
+                              )}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-5">
+                          <div className="flex items-center justify-center gap-2">
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => handleViewDetail(warehouse)}
+                              className="p-2.5 text-[#3b4417] hover:bg-[#f5f3e8] rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                              title={t("actions.viewDetail")}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </motion.button>
+
+                            {/* Pending: Approve, Reject, Ban */}
+                            {warehouse.status === 0 && (
+                              <>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleApprove(warehouse)}
+                                  className="p-2.5 text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                  title={t("actions.approve")}
+                                >
+                                  <CheckCircle className="w-4 h-4" />
+                                </motion.button>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleReject(warehouse)}
+                                  className="p-2.5 text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                  title={t("actions.reject")}
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                </motion.button>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleBan(warehouse)}
+                                  className="p-2.5 text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                  title={t("actions.ban")}
+                                >
+                                  <Ban className="w-4 h-4" />
+                                </motion.button>
+                              </>
+                            )}
+
+                            {/* Approved: Ban */}
+                            {warehouse.status === 1 && (
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => handleBan(warehouse)}
+                                className="p-2.5 text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                title={t("actions.ban")}
+                              >
+                                <Ban className="w-4 h-4" />
+                              </motion.button>
+                            )}
+
+                            {/* Rejected: Approve, Ban */}
+                            {warehouse.status === 2 && (
+                              <>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleApprove(warehouse)}
+                                  className="p-2.5 text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                  title={t("actions.approve")}
+                                >
+                                  <CheckCircle className="w-4 h-4" />
+                                </motion.button>
+                                <motion.button
+                                  whileHover={{ scale: 1.1 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleBan(warehouse)}
+                                  className="p-2.5 text-orange-600 hover:bg-orange-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                  title={t("actions.ban")}
+                                >
+                                  <Ban className="w-4 h-4" />
+                                </motion.button>
+                              </>
+                            )}
+
+                            {/* Banned: Unban */}
+                            {warehouse.status === 3 && (
+                              <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => handleUnban(warehouse)}
+                                className="p-2.5 text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                title={t("actions.unban")}
+                              >
+                                <ShieldCheck className="w-4 h-4" />
+                              </motion.button>
+                            )}
+                          </div>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </AnimatePresence>
+                </tbody>
+              </table>
             </div>
           )}
         </CardContent>
@@ -508,6 +646,14 @@ export default function WarehouseApprovalList() {
               setShowDetailModal(false);
               handleReject(selectedWarehouse);
             }}
+            onBan={() => {
+              setShowDetailModal(false);
+              handleBan(selectedWarehouse);
+            }}
+            onUnban={() => {
+              setShowDetailModal(false);
+              handleUnban(selectedWarehouse);
+            }}
           />
           <ApproveWarehouseModal
             warehouse={selectedWarehouse}
@@ -519,6 +665,18 @@ export default function WarehouseApprovalList() {
             warehouse={selectedWarehouse}
             isOpen={showRejectModal}
             onClose={() => setShowRejectModal(false)}
+            onSuccess={handleActionComplete}
+          />
+          <BanWarehouseModal
+            warehouse={selectedWarehouse}
+            isOpen={showBanModal}
+            onClose={() => setShowBanModal(false)}
+            onSuccess={handleActionComplete}
+          />
+          <UnbanWarehouseModal
+            warehouse={selectedWarehouse}
+            isOpen={showUnbanModal}
+            onClose={() => setShowUnbanModal(false)}
             onSuccess={handleActionComplete}
           />
         </>

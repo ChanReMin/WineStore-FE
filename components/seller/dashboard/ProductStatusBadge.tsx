@@ -31,9 +31,9 @@ export default function ProductStatusBadge({
           text: "text-emerald-700",
           border: "border-emerald-200",
         };
-      case 2: // Banned
+      case 2: // Rejected
         return {
-          textKey: "banned",
+          textKey: "rejected",
           bg: "bg-red-50",
           text: "text-red-700",
           border: "border-red-200",

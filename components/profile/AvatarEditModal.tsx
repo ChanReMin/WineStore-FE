@@ -2,7 +2,13 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, Image as ImageIcon, Check, AlertCircle } from "lucide-react";
+import {
+  X,
+  Upload,
+  Image as ImageIcon,
+  Check,
+  AlertCircle,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
@@ -209,10 +215,10 @@ export default function AvatarEditModal({
                   isDragging
                     ? "border-[#3b4417] bg-[#f5f3e8]"
                     : error
-                    ? "border-red-300 bg-red-50"
-                    : previewUrl
-                    ? "border-[#3b4417] bg-[#f5f3e8]"
-                    : "border-[#d4d6b4] bg-[#fdfbf5] hover:border-[#3b4417] hover:bg-[#f5f3e8]"
+                      ? "border-red-300 bg-red-50"
+                      : previewUrl
+                        ? "border-[#3b4417] bg-[#f5f3e8]"
+                        : "border-[#d4d6b4] bg-[#fdfbf5] hover:border-[#3b4417] hover:bg-[#f5f3e8]"
                 }`}
               >
                 {previewUrl ? (
@@ -294,7 +300,9 @@ export default function AvatarEditModal({
                   <ul className="list-disc list-inside space-y-0.5 text-blue-700">
                     <li>{t("edit.info.formats")}</li>
                     <li>{t("edit.info.maxSize")}</li>
-                    <li className="hidden sm:list-item">{t("edit.info.recommended")}</li>
+                    <li className="hidden sm:list-item">
+                      {t("edit.info.recommended")}
+                    </li>
                   </ul>
                 </div>
               </div>

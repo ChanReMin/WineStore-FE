@@ -12,9 +12,6 @@ import { useTranslations } from "next-intl";
 interface AddToCartButtonProps {
   productId: number;
   productName: string;
-  productSlug?: string;
-  productImage?: string;
-  productPrice?: number;
   maxQuantity?: number;
   variant?: "default" | "compact";
   className?: string;
@@ -23,9 +20,6 @@ interface AddToCartButtonProps {
 export default function AddToCartButton({
   productId,
   productName,
-  productSlug = "",
-  productImage = "",
-  productPrice = 0,
   maxQuantity = 99,
   variant = "default",
   className = "",
@@ -40,18 +34,12 @@ export default function AddToCartButton({
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
       toast.info(t("loginRequired"));
-      router.push("/login");
+      router.push("/");
       return;
     }
 
     try {
-      await addToCart(productId, quantity, {
-        name: productName,
-        slug: productSlug,
-        image: productImage,
-        price: productPrice,
-        maxQuantity: maxQuantity,
-      });
+      await addToCart(productId, quantity);
       setIsAdded(true);
       toast.success(t("success", { quantity, productName }));
 
@@ -115,7 +103,7 @@ export default function AddToCartButton({
           <Minus className="h-4 w-4" />
         </motion.button>
 
-        <span className="min-w-[2rem] text-center font-medium text-neutral-900">
+        <span className="min-w-8 text-center font-medium text-neutral-900">
           {quantity}
         </span>
 

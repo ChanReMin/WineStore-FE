@@ -47,17 +47,17 @@ const getMenuItems = (locale: string): MenuItem[] => [
     labelKey: "userManagement",
     href: `/${locale}/admin/user-management`,
   },
-  {
-    icon: Store,
-    labelKey: "sellerManagement",
-    href: `/${locale}/admin/seller-management`,
-  },
-   {
-    icon: UserCheck,
-    labelKey: "sellerRequest",
-    href: `/${locale}/admin/seller-requests`,
-    badge: 5,
-  },
+  // {
+  //   icon: Store,
+  //   labelKey: "sellerManagement",
+  //   href: `/${locale}/admin/seller-management`,
+  // },
+  //  {
+  //   icon: UserCheck,
+  //   labelKey: "sellerRequest",
+  //   href: `/${locale}/admin/seller-requests`,
+  //   badge: 5,
+  // },
 ];
 
 interface AdminSidebarProps {
@@ -149,7 +149,6 @@ export default function AdminSidebar({
                       )}
                     </AnimatePresence>
                   </div>
-                 
                 </Link>
               </li>
             );

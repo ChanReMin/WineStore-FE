@@ -266,19 +266,19 @@ export default function InventoryTable({
           <div>
             <p className="text-[#7a8451] mb-1">{t("inStock")}</p>
             <p className="text-xl font-bold text-emerald-600">
-              {items.filter((i) => i.status === "inStock").length}
+              {items.filter((i) => i.status === "in_Stock").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("lowStock")}</p>
             <p className="text-xl font-bold text-amber-600">
-              {items.filter((i) => i.status === "lowStock").length}
+              {items.filter((i) => i.status === "low_Stock").length}
             </p>
           </div>
           <div>
             <p className="text-[#7a8451] mb-1">{t("outOfStock")}</p>
             <p className="text-xl font-bold text-red-600">
-              {items.filter((i) => i.status === "outOfStock").length}
+              {items.filter((i) => i.status === "out_Of_Stock").length}
             </p>
           </div>
         </div>

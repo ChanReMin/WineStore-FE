@@ -148,17 +148,14 @@ export default function MobileFilterDrawer({
                 </label>
                 <RangeSlider
                   min={0}
-                  max={10000}
+                  max={2000000}
                   step={100}
-                  value={[
-                    filters.priceMin || 0,
-                    filters.priceMax || 10000,
-                  ]}
+                  value={[filters.priceMin || 0, filters.priceMax || 2000000]}
                   onChange={([min, max]) => {
                     onFilterChange(
                       {
                         priceMin: min > 0 ? min : undefined,
-                        priceMax: max < 10000 ? max : undefined,
+                        priceMax: max < 2000000 ? max : undefined,
                       },
                       true
                     );

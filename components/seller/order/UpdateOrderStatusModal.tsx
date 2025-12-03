@@ -28,10 +28,9 @@ export default function UpdateOrderStatusModal({
 
   const statusOptions = [
     { value: 1, labelKey: "status.pending", disabled: false },
-    { value: 2, labelKey: "status.processing", disabled: false },
-    { value: 3, labelKey: "status.shipping", disabled: false },
-    { value: 4, labelKey: "status.completed", disabled: false },
-    { value: 5, labelKey: "status.cancelled", disabled: false },
+    { value: 2, labelKey: "status.confirmed", disabled: false },
+    { value: 3, labelKey: "status.paid", disabled: false },
+    { value: 6, labelKey: "status.cancelled", disabled: false },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -135,8 +134,22 @@ export default function UpdateOrderStatusModal({
                   </div>
                 </div>
 
+                {/* Note */}
+                <div>
+                  <label className="block text-sm font-medium text-[#3b4417] mb-2">
+                    {t("updateStatus.note")} ({t("updateStatus.optional")})
+                  </label>
+                  <textarea
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    rows={3}
+                    placeholder={t("updateStatus.notePlaceholder")}
+                    className="w-full px-4 py-2.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] placeholder:text-[#7a8451]/50"
+                  />
+                </div>
+
                 {/* Warning */}
-                {selectedStatus === 5 && (
+                {selectedStatus === 6 && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                     <div className="flex items-start gap-3">
                       <AlertCircle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
@@ -152,16 +165,16 @@ export default function UpdateOrderStatusModal({
                   </div>
                 )}
 
-                {selectedStatus === 4 && (
+                {selectedStatus === 3 && (
                   <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
                     <div className="flex items-start gap-3">
                       <AlertCircle className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
                       <div>
                         <p className="font-medium text-emerald-900 mb-1">
-                          {t("updateStatus.completeTitle")}
+                          Xác nhận thanh toán
                         </p>
                         <p className="text-sm text-emerald-700">
-                          {t("updateStatus.completeMessage")}
+                          Đơn hàng sẽ được đánh dấu là đã thanh toán
                         </p>
                       </div>
                     </div>

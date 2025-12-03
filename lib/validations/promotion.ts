@@ -27,7 +27,9 @@ export const promotionSchema = z
       message: "Invalid discount type. 0: Percentage, 1: Fixed amount",
     }),
 
-    discount_value: z.number().positive("Discount value must be greater than 0"),
+    discount_value: z
+      .number()
+      .positive("Discount value must be greater than 0"),
 
     start_date: z
       .string()

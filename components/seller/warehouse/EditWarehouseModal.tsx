@@ -70,7 +70,10 @@ export default function EditWarehouseModal({
 
     setIsSubmitting(true);
     try {
-      const result = await warehouseService.updateWarehouse(warehouse.id, formData);
+      const result = await warehouseService.updateWarehouse(
+        warehouse.id,
+        formData
+      );
       toast.success(result.message || t("edit.success"));
       onSuccess();
       onClose();

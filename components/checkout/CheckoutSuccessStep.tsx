@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 import { CheckCircle2, Package, Mail, Home } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useCheckout } from "@/contexts/CheckoutContext";
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
 
 export default function CheckoutSuccessStep() {
+  const t = useTranslations("checkout.success");
   const { orderId, resetCheckout } = useCheckout();
   const [showConfetti, setShowConfetti] = useState(true);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
@@ -71,7 +73,7 @@ export default function CheckoutSuccessStep() {
           transition={{ delay: 0.3 }}
           className="text-3xl md:text-4xl font-semibold text-[#3b4417] mb-4 tracking-wide uppercase"
         >
-          Đặt hàng thành công!
+          {t("title")}
         </motion.h1>
 
         <motion.p
@@ -80,7 +82,7 @@ export default function CheckoutSuccessStep() {
           transition={{ delay: 0.4 }}
           className="text-lg text-neutral-600 mb-2"
         >
-          Cảm ơn bạn đã tin tưởng và mua sắm tại Wine Store
+          {t("thankYou")}
         </motion.p>
 
         <motion.div
@@ -89,55 +91,10 @@ export default function CheckoutSuccessStep() {
           transition={{ delay: 0.5 }}
           className="inline-block bg-[#f5f3e8] px-6 py-3 border border-[#d4d6b4] mb-8"
         >
-          <p className="text-sm text-neutral-600 mb-1">Mã đơn hàng của bạn:</p>
+          <p className="text-sm text-neutral-600 mb-1">{t("orderCode")}</p>
           <p className="text-2xl font-bold text-[#3b4417] tracking-wider">
             {orderId}
           </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"
-        >
-          <div className="bg-white p-6 border border-[#e8e6dc]">
-            <Package
-              size={40}
-              className="text-[#3b4417] mx-auto mb-3"
-              strokeWidth={1.5}
-            />
-            <h3 className="font-semibold text-[#3b4417] mb-2">Đang xử lý</h3>
-            <p className="text-sm text-neutral-600">
-              Đơn hàng của bạn đang được chuẩn bị
-            </p>
-          </div>
-
-          <div className="bg-white p-6 border border-[#e8e6dc]">
-            <Mail
-              size={40}
-              className="text-[#3b4417] mx-auto mb-3"
-              strokeWidth={1.5}
-            />
-            <h3 className="font-semibold text-[#3b4417] mb-2">
-              Email xác nhận
-            </h3>
-            <p className="text-sm text-neutral-600">
-              Chúng tôi đã gửi email xác nhận đơn hàng
-            </p>
-          </div>
-
-          <div className="bg-white p-6 border border-[#e8e6dc]">
-            <Home
-              size={40}
-              className="text-[#3b4417] mx-auto mb-3"
-              strokeWidth={1.5}
-            />
-            <h3 className="font-semibold text-[#3b4417] mb-2">Giao hàng</h3>
-            <p className="text-sm text-neutral-600">
-              Dự kiến giao trong 3-5 ngày làm việc
-            </p>
-          </div>
         </motion.div>
 
         <motion.div
@@ -152,7 +109,7 @@ export default function CheckoutSuccessStep() {
             onClick={handleViewOrders}
             className="bg-[#3b4417] text-white px-8 py-4 text-sm tracking-widest uppercase hover:bg-[#2a2f18] transition-colors"
           >
-            Xem đơn hàng
+            {t("viewOrders")}
           </motion.button>
 
           <motion.button
@@ -161,7 +118,7 @@ export default function CheckoutSuccessStep() {
             onClick={handleGoHome}
             className="border-2 border-[#d4d6b4] text-[#3b4417] px-8 py-4 text-sm tracking-widest uppercase hover:border-[#3b4417] hover:bg-[#f5f3e8] transition-colors"
           >
-            Về trang chủ
+            {t("backHome")}
           </motion.button>
         </motion.div>
       </motion.div>

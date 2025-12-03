@@ -89,22 +89,36 @@ export default function ProductDetailModal({
                     <div className="grid grid-cols-2 gap-4">
                       <Card className="border-neutral-200">
                         <CardContent className="p-4">
-                          <p className="text-xs text-neutral-600 uppercase mb-1">ID</p>
-                          <p className="text-2xl font-bold text-neutral-900">#{product.id}</p>
+                          <p className="text-xs text-neutral-600 uppercase mb-1">
+                            ID
+                          </p>
+                          <p className="text-2xl font-bold text-neutral-900">
+                            #{product.id}
+                          </p>
                         </CardContent>
                       </Card>
-                      <Card className={`border-2 ${
-                        product.status === 0 ? 'border-amber-300 bg-amber-50' :
-                        product.status === 1 ? 'border-emerald-300 bg-emerald-50' :
-                        'border-red-300 bg-red-50'
-                      }`}>
+                      <Card
+                        className={`border-2 ${
+                          product.status === 0
+                            ? "border-amber-300 bg-amber-50"
+                            : product.status === 1
+                              ? "border-emerald-300 bg-emerald-50"
+                              : "border-red-300 bg-red-50"
+                        }`}
+                      >
                         <CardContent className="p-4">
-                          <p className="text-xs text-neutral-600 uppercase mb-1">Trạng thái</p>
-                          <p className={`text-lg font-bold ${
-                            product.status === 0 ? 'text-amber-700' :
-                            product.status === 1 ? 'text-emerald-700' :
-                            'text-red-700'
-                          }`}>
+                          <p className="text-xs text-neutral-600 uppercase mb-1">
+                            Trạng thái
+                          </p>
+                          <p
+                            className={`text-lg font-bold ${
+                              product.status === 0
+                                ? "text-amber-700"
+                                : product.status === 1
+                                  ? "text-emerald-700"
+                                  : "text-red-700"
+                            }`}
+                          >
                             {product.statusText}
                           </p>
                         </CardContent>
@@ -115,16 +129,28 @@ export default function ProductDetailModal({
                     <div className="grid grid-cols-2 gap-4">
                       <Card className="border-purple-200 bg-purple-50">
                         <CardContent className="p-4">
-                          <p className="text-xs text-purple-700 uppercase mb-1">Danh mục</p>
-                          <p className="text-lg font-bold text-purple-900">{product.category.name}</p>
-                          <p className="text-xs text-purple-600 mt-1">ID: {product.category.id}</p>
+                          <p className="text-xs text-purple-700 uppercase mb-1">
+                            Danh mục
+                          </p>
+                          <p className="text-lg font-bold text-purple-900">
+                            {product.category.name}
+                          </p>
+                          <p className="text-xs text-purple-600 mt-1">
+                            ID: {product.category.id}
+                          </p>
                         </CardContent>
                       </Card>
                       <Card className="border-indigo-200 bg-indigo-50">
                         <CardContent className="p-4">
-                          <p className="text-xs text-indigo-700 uppercase mb-1">Thương hiệu</p>
-                          <p className="text-lg font-bold text-indigo-900">{product.brand.name}</p>
-                          <p className="text-xs text-indigo-600 mt-1">ID: {product.brand.id}</p>
+                          <p className="text-xs text-indigo-700 uppercase mb-1">
+                            Thương hiệu
+                          </p>
+                          <p className="text-lg font-bold text-indigo-900">
+                            {product.brand.name}
+                          </p>
+                          <p className="text-xs text-indigo-600 mt-1">
+                            ID: {product.brand.id}
+                          </p>
                         </CardContent>
                       </Card>
                     </div>
@@ -134,7 +160,9 @@ export default function ProductDetailModal({
                       <CardContent className="p-6">
                         <div className="flex items-center gap-2 mb-2">
                           <Tag className="w-5 h-5 text-emerald-600" />
-                          <h3 className="font-bold text-emerald-900">Giá bán</h3>
+                          <h3 className="font-bold text-emerald-900">
+                            Giá bán
+                          </h3>
                         </div>
                         <p className="text-3xl font-bold text-emerald-600">
                           {new Intl.NumberFormat("vi-VN", {
@@ -144,65 +172,6 @@ export default function ProductDetailModal({
                         </p>
                       </CardContent>
                     </Card>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <Card>
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Package className="w-4 h-4 text-blue-600" />
-                            <p className="text-xs text-neutral-600 uppercase">Tồn kho</p>
-                          </div>
-                          <p className="text-2xl font-bold text-neutral-900">
-                            {product.totalInventory}
-                          </p>
-                          <p className={`text-xs mt-1 ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
-                            {product.inStock ? '✓ Còn hàng' : '✗ Hết hàng'}
-                          </p>
-                        </CardContent>
-                      </Card>
-
-                      <Card>
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <ShoppingCart className="w-4 h-4 text-purple-600" />
-                            <p className="text-xs text-neutral-600 uppercase">Đã bán</p>
-                          </div>
-                          <p className="text-2xl font-bold text-neutral-900">
-                            {product.soldCount}
-                          </p>
-                        </CardContent>
-                      </Card>
-
-                      <Card>
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Star className="w-4 h-4 text-amber-600" />
-                            <p className="text-xs text-neutral-600 uppercase">Đánh giá</p>
-                          </div>
-                          <div className="flex items-baseline gap-2">
-                            <p className="text-2xl font-bold text-amber-900">
-                              {product.ratingAverage.toFixed(1)}
-                            </p>
-                            <p className="text-xs text-neutral-600">
-                              ({product.ratingCount} đánh giá)
-                            </p>
-                          </div>
-                        </CardContent>
-                      </Card>
-
-                      <Card>
-                        <CardContent className="p-4">
-                          <div className="flex items-center gap-2 mb-2">
-                            <BarChart3 className="w-4 h-4 text-indigo-600" />
-                            <p className="text-xs text-neutral-600 uppercase">Lợi nhuận</p>
-                          </div>
-                          <p className="text-2xl font-bold text-neutral-900">
-                            {product.profitMargin}%
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </div>
 
                     {product.description && (
                       <Card>
@@ -231,7 +200,11 @@ export default function ProductDetailModal({
                               {t("createdAt")}
                             </p>
                             <p className="text-sm font-semibold text-blue-900">
-                              {product.createdAt ? new Date(product.createdAt).toLocaleString("vi-VN") : '-'}
+                              {product.createdAt
+                                ? new Date(product.createdAt).toLocaleString(
+                                    "vi-VN"
+                                  )
+                                : "-"}
                             </p>
                           </div>
                           <div>
@@ -239,7 +212,11 @@ export default function ProductDetailModal({
                               {t("updatedAt")}
                             </p>
                             <p className="text-sm font-semibold text-blue-900">
-                              {product.updatedAt ? new Date(product.updatedAt).toLocaleString("vi-VN") : '-'}
+                              {product.updatedAt
+                                ? new Date(product.updatedAt).toLocaleString(
+                                    "vi-VN"
+                                  )
+                                : "-"}
                             </p>
                           </div>
                         </div>

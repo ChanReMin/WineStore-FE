@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -58,12 +59,17 @@ export default function OrderPagination({
   };
 
   return (
-    <Card className="p-4 border-[#d4d6b4] bg-white">
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="p-5 border-2 border-[#d4d6b4] bg-linear-to-r from-white via-[#fdfbf5] to-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
         {/* Left: Items per page selector */}
         {onItemsPerPageChange && (
-          <div className="flex items-center gap-3 bg-[#fdfbf5] px-4 py-2 rounded-lg border border-[#e8e6dc]">
-            <span className="text-sm text-[#7a8451] whitespace-nowrap font-medium">
+          <div className="flex items-center gap-3 bg-linear-to-br from-[#f5f3e8] to-[#fdfbf5] px-5 py-3 rounded-lg border-2 border-[#d4d6b4] shadow-sm">
+            <span className="text-sm text-[#7a8451] whitespace-nowrap font-semibold tracking-wide">
               Hiển thị:
             </span>
             <select
@@ -72,7 +78,7 @@ export default function OrderPagination({
                 onItemsPerPageChange(Number(e.target.value));
                 onPageChange(1); // Reset to first page
               }}
-              className="px-3 py-1.5 border border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417] focus:border-transparent transition-all text-[#3b4417] bg-white font-semibold text-sm cursor-pointer hover:border-[#3b4417]"
+              className="px-4 py-2 border-2 border-[#d4d6b4] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3b4417]/20 focus:border-[#3b4417] transition-all text-[#3b4417] bg-white font-bold text-sm cursor-pointer hover:border-[#3b4417] hover:shadow-md"
             >
               {itemsPerPageOptions.map((option) => (
                 <option key={option} value={option}>
@@ -80,24 +86,24 @@ export default function OrderPagination({
                 </option>
               ))}
             </select>
-            <span className="text-sm text-[#7a8451] whitespace-nowrap">
+            <span className="text-sm text-[#7a8451] whitespace-nowrap font-medium">
               / trang
             </span>
           </div>
         )}
 
         {/* Center: Info */}
-        <div className="text-sm text-[#7a8451] text-center">
+        <div className="text-sm text-[#7a8451] text-center tracking-wide">
           Hiển thị{" "}
-          <span className="font-semibold text-[#3b4417]">
+          <span className="font-bold text-[#3b4417] text-base">
             {(currentPage - 1) * itemsPerPage + 1}
           </span>{" "}
           -{" "}
-          <span className="font-semibold text-[#3b4417]">
+          <span className="font-bold text-[#3b4417] text-base">
             {Math.min(currentPage * itemsPerPage, totalItems)}
           </span>{" "}
           trong tổng số{" "}
-          <span className="font-semibold text-[#3b4417]">{totalItems}</span> đơn
+          <span className="font-bold text-[#3b4417] text-base">{totalItems}</span> đơn
           hàng
         </div>
 
@@ -106,9 +112,9 @@ export default function OrderPagination({
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="p-2 rounded-lg border border-[#d4d6b4] hover:bg-[#f5f3e8] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-2.5 rounded-lg border-2 border-[#d4d6b4] hover:bg-linear-to-br hover:from-[#3b4417] hover:to-[#5a6b2a] hover:border-[#3b4417] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group hover:shadow-md"
           >
-            <ChevronLeft className="w-5 h-5 text-[#3b4417]" />
+            <ChevronLeft className="w-5 h-5 text-[#3b4417] group-hover:text-white transition-colors" />
           </button>
 
           {getPageNumbers().map((page, index) => (
@@ -116,12 +122,12 @@ export default function OrderPagination({
               key={index}
               onClick={() => typeof page === "number" && onPageChange(page)}
               disabled={page === "..."}
-              className={`min-w-10 h-10 rounded-lg font-medium text-sm transition-all ${
+              className={`min-w-11 h-11 rounded-lg font-bold text-sm transition-all duration-300 ${
                 page === currentPage
-                  ? "bg-[#3b4417] text-white shadow-md"
+                  ? "bg-linear-to-br from-[#3b4417] to-[#5a6b2a] text-white shadow-lg scale-110 ring-2 ring-[#3b4417]/20"
                   : page === "..."
-                    ? "cursor-default text-[#7a8451]"
-                    : "border border-[#d4d6b4] text-[#3b4417] hover:bg-[#f5f3e8]"
+                    ? "cursor-default text-[#7a8451] font-normal"
+                    : "border-2 border-[#d4d6b4] text-[#3b4417] hover:bg-linear-to-br hover:from-[#f5f3e8] hover:to-[#e8e6dc] hover:border-[#3b4417] hover:scale-105 hover:shadow-md"
               }`}
             >
               {page}
@@ -131,12 +137,13 @@ export default function OrderPagination({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="p-2 rounded-lg border border-[#d4d6b4] hover:bg-[#f5f3e8] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-2.5 rounded-lg border-2 border-[#d4d6b4] hover:bg-linear-to-br hover:from-[#3b4417] hover:to-[#5a6b2a] hover:border-[#3b4417] disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 group hover:shadow-md"
           >
-            <ChevronRight className="w-5 h-5 text-[#3b4417]" />
+            <ChevronRight className="w-5 h-5 text-[#3b4417] group-hover:text-white transition-colors" />
           </button>
         </div>
       </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

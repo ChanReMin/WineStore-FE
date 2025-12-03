@@ -9,6 +9,8 @@ export interface CustomerProfile {
   phoneNumber?: string;
   dateOfBirth?: string;
   gender?: number; // 1: Male, 2: Female, 3: Other
+  role?: string;
+  loyaltyPoints?: number;
   createdAt: string;
 }
 
@@ -18,7 +20,6 @@ export interface UpdateProfileRequest {
   phoneNumber?: string;
   dateOfBirth?: string;
   gender?: number;
-  avatar?: string;
 }
 
 export interface ChangePasswordRequest {
@@ -33,10 +34,12 @@ export interface Address {
   fullName: string;
   phoneNumber: string;
   addressLine: string;
+  ward: string;
+  district: string;
   city: string;
-  state: string;
   country: string;
   isDefault: boolean;
+  addressType: string;
   createdAt: string;
 }
 
@@ -44,10 +47,12 @@ export interface CreateAddressRequest {
   fullName: string;
   phoneNumber: string;
   addressLine: string;
+  ward: string;
+  district: string;
   city: string;
-  state: string;
   country: string;
   isDefault?: boolean;
+  addressType?: string;
 }
 
 export interface UpdateAddressRequest extends Partial<CreateAddressRequest> {}
