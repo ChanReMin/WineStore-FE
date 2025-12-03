@@ -16,24 +16,17 @@ export const useAuth = () => {
       const response = await authService.login(credentials);
 
       // 🔍 DEBUG: Log response để kiểm tra
-      console.log("🔍 Login Response:", response);
-      console.log("🔍 Response Data:", response.data);
 
       if (response.success) {
         // API trả về snake_case, cần map sang camelCase
         const { user, access_token, refresh_token } = response.data as any;
         
-        // 🔍 DEBUG: Log tokens
-        console.log("🔍 User:", user);
-        console.log("🔍 Access Token:", access_token);
-        console.log("🔍 Refresh Token:", refresh_token);
-        
+       
         setAuth(user, access_token, refresh_token);
         
         // 🔍 DEBUG: Kiểm tra localStorage sau khi setAuth
         setTimeout(() => {
           const stored = localStorage.getItem('auth-storage');
-          console.log("🔍 LocalStorage after setAuth:", stored);
         }, 100);
         
         toast.success(response.message || "Login successful!");
@@ -41,7 +34,6 @@ export const useAuth = () => {
         return { success: true };
       }
     } catch (error: any) {
-      console.error("❌ Login Error:", error);
       const errorMessage = error.response?.data?.message || "Login failed";
       toast.error(errorMessage);
       return { success: false, error: errorMessage };
@@ -97,6 +89,30 @@ export const useAuth = () => {
     }
   };
 
+  const getAccessToken = (): string | null => {
+    try {
+      const authStorage = localStorage.getItem("auth-storage");
+      if (!authStorage) return null;
+      
+      const parsed = JSON.parse(authStorage);
+      return parsed.state?.accessToken || null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const getRefreshToken = (): string | null => {
+    try {
+      const authStorage = localStorage.getItem("auth-storage");
+      if (!authStorage) return null;
+      
+      const parsed = JSON.parse(authStorage);
+      return parsed.state?.refreshToken || null;
+    } catch (error) {
+      return null;
+    }
+  };
+
   return {
     user,
     isAuthenticated,
@@ -104,5 +120,7 @@ export const useAuth = () => {
     login,
     register,
     logout,
+    getAccessToken,
+    getRefreshToken,
   };
 };
