@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import InventoryStatusBadge from "./InventoryStatusBadge";
 import type { InventoryItem } from "@/types/inventory";
 
-
 interface InventoryDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -150,7 +149,9 @@ export default function InventoryDetailModal({
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm text-neutral-600">Địa chỉ:</span>
+                        <span className="text-sm text-neutral-600">
+                          Địa chỉ:
+                        </span>
                         <span className="text-sm text-[#3b4417]">
                           {item.warehouse.location}
                         </span>
@@ -184,7 +185,9 @@ export default function InventoryDetailModal({
                       <div className="p-4 bg-white rounded-lg border border-[#e8e6dc] text-center">
                         <p className="text-xs text-neutral-500 mb-1">Giá trị</p>
                         <p className="text-lg font-bold text-emerald-600">
-                          {formatPrice(item.product.price * item.quantityOnHand)}
+                          {formatPrice(
+                            item.product.price * item.quantityOnHand
+                          )}
                         </p>
                       </div>
                     </div>
@@ -243,7 +246,9 @@ export default function InventoryDetailModal({
                                 {log.quantity}
                               </span>
                             </p>
-                            <p className="text-xs text-neutral-500">{log.note}</p>
+                            <p className="text-xs text-neutral-500">
+                              {log.note}
+                            </p>
                           </div>
                           <span className="text-xs text-neutral-400">
                             {formatDate(log.date)}

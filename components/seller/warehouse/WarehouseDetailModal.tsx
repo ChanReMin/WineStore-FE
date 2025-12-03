@@ -12,7 +12,10 @@ import {
   Loader2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { warehouseService, type WarehouseDetail } from "@/services/warehouseService";
+import {
+  warehouseService,
+  type WarehouseDetail,
+} from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 
@@ -192,7 +195,9 @@ export default function WarehouseDetailModal({
                           {t("detail.totalQuantity")}
                         </p>
                         <p className="text-2xl font-bold text-[#3b4417]">
-                          {(warehouse.inventory?.totalquantity ?? 0).toLocaleString()}
+                          {(
+                            warehouse.inventory?.totalQuantity ?? 0
+                          ).toLocaleString()}
                         </p>
                       </div>
                       <div className="bg-[#f5f3e8] rounded-lg p-4">
@@ -201,7 +206,7 @@ export default function WarehouseDetailModal({
                         </p>
                         <p className="text-2xl font-bold text-[#3b4417]">
                           {(
-                            warehouse.inventory.total_value / 1000000000
+                            warehouse.inventory.totalValue / 1000000000
                           ).toFixed(1)}
                           B
                         </p>
@@ -222,8 +227,9 @@ export default function WarehouseDetailModal({
                         {t("detail.recentActivity")}
                       </h4>
                       <div className="space-y-3">
-                        {warehouse.recent_logs && warehouse.recent_logs.length > 0 ? (
-                          warehouse.recent_logs.map((log) => (
+                        {warehouse.recentLogs &&
+                        warehouse.recentLogs.length > 0 ? (
+                          warehouse.recentLogs.map((log) => (
                             <motion.div
                               key={log.id}
                               initial={{ opacity: 0, x: -20 }}

@@ -25,21 +25,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { fetchProducts } from "@/services/productService";
-import type { Product } from "@/types/product";
+import type { Product, Summary } from "@/types/product";
 import ProductDetailModal from "./ProductDetailModal";
 import ApproveModal from "./ApproveModal";
 import RejectModal from "./RejectModal";
-
 
 export default function ProductApprovalList() {
   const t = useTranslations("admin.productApproval");
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
-  const [summary, setSummary] = useState({
+  const [summary, setSummary] = useState<Summary>({
     total: 0,
     pending: 0,
     active: 0,
-    banned: 0,
+    reject: 0,
   });
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -65,18 +64,18 @@ export default function ProductApprovalList() {
         page,
         limit: 10,
       };
-      
+
       // Add status filter to API params
       if (statusFilter !== "all") {
         params.status = statusFilter;
       }
-      
+
       const response = await fetchProducts(params);
-      
+
       setProducts(response.data.products);
       setPagination(response.data.pagination);
       setSummary(response.data.summary);
-      console.log(response.data.summary)
+      console.log(response.data.summary);
     } catch (error) {
       console.error("Error loading products:", error);
     } finally {
@@ -120,7 +119,10 @@ export default function ProductApprovalList() {
     loadData(pagination.currentPage);
   };
 
-  const getStatusBadge = (status: number | undefined, statusText: string | undefined) => {
+  const getStatusBadge = (
+    status: number | undefined,
+    statusText: string | undefined
+  ) => {
     const badges = {
       0: {
         bg: "bg-amber-50",
@@ -272,10 +274,10 @@ export default function ProductApprovalList() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-neutral-600 mb-1">
-                    {t("summary.banned")}
+                    {t("summary.reject")}
                   </p>
                   <p className="text-3xl font-bold text-red-600">
-                    {summary.banned}
+                    {summary.reject}
                   </p>
                 </div>
                 <div className="bg-red-50 p-3 rounded-xl">
@@ -327,7 +329,7 @@ export default function ProductApprovalList() {
       <Card>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[900px]">
               <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
@@ -396,9 +398,11 @@ export default function ProductApprovalList() {
                         {getStatusBadge(product.status, product.statusText)}
                       </td>
                       <td className="px-6 py-4 text-sm text-neutral-600">
-                        {product.createdAt ? new Date(product.createdAt).toLocaleDateString(
-                          "vi-VN"
-                        ) : '-'}
+                        {product.createdAt
+                          ? new Date(product.createdAt).toLocaleDateString(
+                              "vi-VN"
+                            )
+                          : "-"}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">
@@ -507,7 +511,6 @@ export default function ProductApprovalList() {
             onClose={() => setShowRejectModal(false)}
             onSuccess={handleActionComplete}
           />
-
         </>
       )}
     </div>

@@ -92,13 +92,13 @@ export default function SellerRequests() {
   const filteredRequests = useMemo(
     () =>
       requests.filter((request) => {
-    const searchLower = debouncedSearchQuery.toLowerCase();
-    return (
-      request.user.fullName.toLowerCase().includes(searchLower) ||
-      request.user.email.toLowerCase().includes(searchLower) ||
-      request.user.phoneNumber.includes(debouncedSearchQuery) ||
-      request.id.toString().includes(debouncedSearchQuery)
-    );
+        const searchLower = debouncedSearchQuery.toLowerCase();
+        return (
+          request.user.fullName.toLowerCase().includes(searchLower) ||
+          request.user.email.toLowerCase().includes(searchLower) ||
+          request.user.phoneNumber.includes(debouncedSearchQuery) ||
+          request.id.toString().includes(debouncedSearchQuery)
+        );
       }),
     [requests, debouncedSearchQuery]
   );
@@ -295,7 +295,7 @@ export default function SellerRequests() {
           className="bg-white rounded-lg border border-neutral-200 overflow-hidden"
         >
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[800px]">
               <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
                   <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">

@@ -19,9 +19,8 @@ export interface CategoriesResponse {
  * Lấy danh sách tất cả categories
  */
 export const fetchCategories = async (): Promise<CategoriesResponse> => {
-  const response = await axiosInstance.get<CategoriesResponse>(
-    "/api/v1/categories"
-  );
-  
+  const response =
+    await axiosInstance.get<CategoriesResponse>("/api/v1/categories");
+
   return response.data;
 };

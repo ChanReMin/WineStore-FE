@@ -28,7 +28,7 @@ export interface LoginResponse {
   success: boolean;
   message: string;
   data: {
-    access_token: string;  // Backend trả về snake_case
+    access_token: string; // Backend trả về snake_case
     refresh_token: string;
     token_type: string;
     expires_in: number;
@@ -39,7 +39,7 @@ export interface LoginResponse {
 export interface RefreshTokenResponse {
   success: boolean;
   data: {
-    access_token: string;  // Backend trả về snake_case
+    access_token: string; // Backend trả về snake_case
     expires_in: number;
   };
 }

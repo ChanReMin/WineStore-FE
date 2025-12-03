@@ -55,7 +55,7 @@ export default function SellerManagementList() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<number | "all">("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   // Modals
   const [selectedSeller, setSelectedSeller] = useState<Seller | null>(null);
@@ -71,11 +71,34 @@ export default function SellerManagementList() {
         page,
         limit: 10,
         search: searchQuery,
-        status: statusFilter,
+        status: statusFilter === "all" ? undefined : statusFilter,
       });
-      setSellers(response.data.sellers);
-      setPagination(response.data.pagination);
-      setSummary(response.data.summary);
+
+      const sellers = response.data.users || [];
+      setSellers(sellers);
+
+      // Map pagination from API response
+      const paginationData = response.data.pagination;
+      setPagination({
+        currentPage: paginationData?.currentPage || 1,
+        totalPages: paginationData?.totalPages || 1,
+        totalRecords: paginationData?.totalUsers || 0,
+      });
+
+      // Calculate summary from sellers data
+      const totalSellers = paginationData?.totalUsers || sellers.length;
+      const activeSellers = sellers.filter((s) => s.status === "active").length;
+      const inactiveSellers = sellers.filter(
+        (s) => s.status === "inactive"
+      ).length;
+      const lockedSellers = sellers.filter((s) => s.status === "locked").length;
+
+      setSummary({
+        totalSellers,
+        activeSellers,
+        inactiveSellers,
+        lockedSellers,
+      });
     } catch (error) {
       console.error("Error loading sellers:", error);
     } finally {
@@ -123,21 +146,21 @@ export default function SellerManagementList() {
     loadData(pagination.currentPage);
   };
 
-  const getStatusBadge = (status: number) => {
+  const getStatusBadge = (status: string) => {
     const badges = {
-      1: {
+      active: {
         bg: "bg-emerald-50",
         text: "text-emerald-700",
         icon: CheckCircle,
         label: t("status.active"),
       },
-      0: {
+      inactive: {
         bg: "bg-amber-50",
         text: "text-amber-700",
         icon: AlertCircle,
         label: t("status.inactive"),
       },
-      "-1": {
+      locked: {
         bg: "bg-red-50",
         text: "text-red-700",
         icon: XCircle,
@@ -145,7 +168,7 @@ export default function SellerManagementList() {
       },
     };
 
-    const badge = badges[status as keyof typeof badges] || badges[0];
+    const badge = badges[status as keyof typeof badges] || badges.inactive;
     const Icon = badge.icon;
 
     return (
@@ -299,19 +322,19 @@ export default function SellerManagementList() {
             </div>
 
             <Select
-              value={statusFilter.toString()}
-              onValueChange={(value) =>
-                setStatusFilter(value === "all" ? "all" : parseInt(value))
-              }
+              value={statusFilter}
+              onValueChange={(value) => setStatusFilter(value)}
             >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">{t("filters.all")}</SelectItem>
-                <SelectItem value="1">{t("filters.active")}</SelectItem>
-                <SelectItem value="0">{t("filters.inactive")}</SelectItem>
-                <SelectItem value="-1">{t("filters.locked")}</SelectItem>
+                <SelectItem value="active">{t("filters.active")}</SelectItem>
+                <SelectItem value="inactive">
+                  {t("filters.inactive")}
+                </SelectItem>
+                <SelectItem value="locked">{t("filters.locked")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -322,7 +345,7 @@ export default function SellerManagementList() {
       <Card>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[900px]">
               <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
@@ -332,10 +355,10 @@ export default function SellerManagementList() {
                     {t("table.contact")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.warehouses")}
+                    {t("table.orders")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
-                    {t("table.statistics")}
+                    {t("table.revenue")}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
                     {t("table.status")}
@@ -359,14 +382,22 @@ export default function SellerManagementList() {
                       {/* Seller Info */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={seller.avatar}
-                            alt={`${seller.firstName} ${seller.lastName}`}
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
+                          {seller.avatar ? (
+                            <img
+                              src={seller.avatar}
+                              alt={seller.name}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
+                              {seller.name
+                                ? seller.name.charAt(0).toUpperCase()
+                                : "S"}
+                            </div>
+                          )}
                           <div>
                             <p className="font-medium text-[#3b4417]">
-                              {seller.firstName} {seller.lastName}
+                              {seller.name}
                             </p>
                             <p className="text-xs text-neutral-500">
                               ID: {seller.id}
@@ -384,49 +415,31 @@ export default function SellerManagementList() {
                               {seller.email}
                             </span>
                           </div>
-                          {seller.phoneNumber && (
+                          {seller.phone && (
                             <div className="flex items-center gap-2 text-sm text-neutral-600">
                               <Phone className="w-3.5 h-3.5 text-neutral-400" />
-                              <span>{seller.phoneNumber}</span>
+                              <span>{seller.phone}</span>
                             </div>
                           )}
                         </div>
                       </td>
 
-                      {/* Warehouses */}
+                      {/* Orders */}
                       <td className="px-6 py-4">
-                        {seller.managedWarehouses.length > 0 ? (
-                          <div className="flex flex-wrap gap-1 max-w-[200px]">
-                            {seller.managedWarehouses.map((warehouse) => (
-                              <span
-                                key={warehouse.warehouseId}
-                                className="inline-flex items-center gap-1 px-2 py-1 bg-[#f5f3e8] text-[#3b4417] text-xs rounded"
-                              >
-                                <Warehouse className="w-3 h-3" />
-                                {warehouse.warehouseName}
-                              </span>
-                            ))}
-                          </div>
-                        ) : (
-                          <span className="text-sm text-neutral-400">—</span>
-                        )}
+                        <div className="text-sm text-neutral-900">
+                          {seller.totalOrders} {t("table.orders")}
+                        </div>
                       </td>
 
-                      {/* Statistics */}
+                      {/* Revenue */}
                       <td className="px-6 py-4">
-                        {seller.statistics ? (
-                          <div className="space-y-1">
-                            <div className="text-sm font-medium text-emerald-600">
-                              {new Intl.NumberFormat("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                                notation: "compact",
-                              }).format(seller.statistics.totalRevenue)}
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-sm text-neutral-400">—</span>
-                        )}
+                        <div className="text-sm font-medium text-emerald-600">
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                            notation: "compact",
+                          }).format(seller.totalSpent)}
+                        </div>
                       </td>
 
                       {/* Status */}
@@ -449,30 +462,19 @@ export default function SellerManagementList() {
                           <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => handleEdit(seller)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title={t("actions.edit")}
-                          >
-                            <Edit className="w-4 h-4" />
-                          </motion.button>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
                             onClick={() => handleChangeStatus(seller)}
                             className={`p-2 rounded-lg transition-colors ${
-                              seller.status === 1
+                              seller.status === "active"
                                 ? "text-amber-600 hover:bg-amber-50"
-                                : seller.status === 0
-                                  ? "text-emerald-600 hover:bg-emerald-50"
-                                  : "text-red-600 hover:bg-red-50"
+                                : "text-emerald-600 hover:bg-emerald-50"
                             }`}
                             title={
-                              seller.status === 1
+                              seller.status === "active"
                                 ? t("actions.deactivate")
                                 : t("actions.activate")
                             }
                           >
-                            {seller.status === 1 ? (
+                            {seller.status === "active" ? (
                               <Lock className="w-4 h-4" />
                             ) : (
                               <Unlock className="w-4 h-4" />

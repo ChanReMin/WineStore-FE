@@ -98,7 +98,9 @@ export const inventoryService = {
   },
 
   // Get inventory detail
-  async getInventoryDetail(inventoryId: number): Promise<InventoryDetailResponse> {
+  async getInventoryDetail(
+    inventoryId: number
+  ): Promise<InventoryDetailResponse> {
     try {
       const response = await axiosInstance.get<InventoryDetailResponse>(
         `/api/v1/inventory/${inventoryId}`
@@ -144,7 +146,9 @@ export const inventoryService = {
   },
 
   // Delete inventory
-  async deleteInventory(inventoryId: number): Promise<{ success: boolean; message: string }> {
+  async deleteInventory(
+    inventoryId: number
+  ): Promise<{ success: boolean; message: string }> {
     try {
       const response = await axiosInstance.delete(
         `/api/v1/inventory/${inventoryId}`
@@ -152,6 +156,31 @@ export const inventoryService = {
       return response.data;
     } catch (error) {
       console.error("Error deleting inventory:", error);
+      throw error;
+    }
+  },
+
+  // Add product to warehouse
+  async addProductToWarehouse(data: {
+    productId: number;
+    warehouseId: number;
+    quantity: number;
+    note?: string;
+  }): Promise<{ success: boolean; message: string; data: any }> {
+    try {
+      const payload = {
+        warehouseId: data.warehouseId,
+        productId: data.productId,
+        type: "in", // Type for adding new product to warehouse
+        quantity: data.quantity,
+        note: data.note || "",
+        referenceCode: "", // Optional reference code
+        typeEnum: "0", // 0 for stock in
+      };
+      const response = await axiosInstance.post("/api/v1/inventory", payload);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding product to warehouse:", error);
       throw error;
     }
   },

@@ -23,72 +23,91 @@ export default function PromotionAssignmentPage() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [products, setProducts] = useState<ProductWithPromotions[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Pagination state for promotions
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [perPage, setPerPage] = useState(5);
-  
+
   // Pagination state for products
   const [productCurrentPage, setProductCurrentPage] = useState(1);
   const [productTotalPages, setProductTotalPages] = useState(1);
   const [productTotalItems, setProductTotalItems] = useState(0);
   const [productPerPage, setProductPerPage] = useState(10);
 
+  // Search state for products
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+
   useEffect(() => {
     loadData();
-  }, [currentPage, productCurrentPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, productCurrentPage, productSearchQuery]);
 
   const loadData = async () => {
     setIsLoading(true);
     try {
       const [promotionsResponse, productsResponse] = await Promise.all([
         fetchPromotions({ status: 1, limit: perPage, page: currentPage }), // Only active promotions
-        fetchProducts({ status: 1, limit: productPerPage, page: productCurrentPage }), // Only approved products with promotions
+        fetchProducts({
+          status: 1,
+          limit: productPerPage,
+          page: productCurrentPage,
+          search: productSearchQuery || undefined, // Pass search query to API
+        }), // Only approved products
       ]);
 
       // Safely handle promotions data
       const promotionsData = promotionsResponse?.data?.promotions || [];
       setPromotions(promotionsData);
-      
-      // Update pagination info for promotions
+
+      // Update pagination info for promotions (API uses snake_case)
       if (promotionsResponse?.data?.pagination) {
+        setCurrentPage(promotionsResponse.data.pagination.current_page || 1);
         setTotalPages(promotionsResponse.data.pagination.total_pages || 1);
         setTotalItems(promotionsResponse.data.pagination.total_items || 0);
         if (promotionsResponse.data.pagination.per_page) {
           setPerPage(promotionsResponse.data.pagination.per_page);
         }
       }
-      
-      // Update pagination info for products
+
       if (productsResponse?.data?.pagination) {
-        setProductTotalPages(productsResponse.data.pagination.totalPages || 1);
-        setProductTotalItems(productsResponse.data.pagination.totalItems || 0);
+        const pagination = productsResponse.data.pagination;
+
+        setProductCurrentPage(pagination.currentPage || 1);
+        setProductTotalPages(pagination.totalPages || 1);
+        setProductTotalItems(pagination.totalItems || 0);
+        if (pagination.perPage) {
+          setProductPerPage(pagination.perPage);
+        }
       }
 
       // Transform products to include promotions with safe defaults
       const productsData = productsResponse?.data?.products || [];
-      const productsWithPromotions: ProductWithPromotions[] =
-        productsData.map((product: any) => ({
+      const productsWithPromotions: ProductWithPromotions[] = productsData.map(
+        (product: any) => ({
           id: product.id || 0,
           name: product.name || "Unknown Product",
           price: product.price || 0,
-          promotions: Array.isArray(product.promotions) ? product.promotions : [],
-        }));
+          promotions: Array.isArray(product.promotions)
+            ? product.promotions
+            : [],
+        })
+      );
 
       setProducts(productsWithPromotions);
     } catch (error: any) {
       console.error("Error loading data:", error);
-      
+
       // Set empty data on error to prevent crashes
       setPromotions([]);
       setProducts([]);
-      
-      const errorMessage = error?.response?.status === 500 
-        ? "Lỗi server (500). Vui lòng thử lại sau hoặc liên hệ admin."
-        : error?.response?.data?.message || "Không thể tải dữ liệu";
-      
+
+      const errorMessage =
+        error?.response?.status === 500
+          ? "Lỗi server (500). Vui lòng thử lại sau hoặc liên hệ admin."
+          : error?.response?.data?.message || "Không thể tải dữ liệu";
+
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -100,7 +119,7 @@ export default function PromotionAssignmentPage() {
       setCurrentPage(page);
     }
   };
-  
+
   const handleProductPageChange = (page: number) => {
     if (page >= 1 && page <= productTotalPages) {
       setProductCurrentPage(page);
@@ -136,34 +155,38 @@ export default function PromotionAssignmentPage() {
               <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
               <p className="text-sm text-gray-600 mt-1">{t("subtitle")}</p>
             </div>
-            
+
             {/* Pagination Controls */}
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                Showing {promotions.length} of {totalItems} promotions
-              </span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <span className="text-sm font-medium">
-                  Page {currentPage} of {totalPages}
+            {totalItems > 0 && (
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-gray-600">
+                  Hiển thị {(currentPage - 1) * perPage + 1}-
+                  {Math.min(currentPage * perPage, totalItems)} trong tổng số{" "}
+                  {totalItems} khuyến mãi
                 </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <span className="text-sm font-medium">
+                    Trang {currentPage} / {totalPages}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -178,8 +201,11 @@ export default function PromotionAssignmentPage() {
             currentPage: productCurrentPage,
             totalPages: productTotalPages,
             totalItems: productTotalItems,
+            perPage: productPerPage,
             onPageChange: handleProductPageChange,
           }}
+          productSearchQuery={productSearchQuery}
+          onProductSearchChange={setProductSearchQuery}
         />
       </div>
     </div>

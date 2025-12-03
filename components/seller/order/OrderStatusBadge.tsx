@@ -17,35 +17,28 @@ export default function OrderStatusBadge({
 
   const getStatusConfig = () => {
     switch (status) {
-      case 1: // Chờ xác nhận
+      case 1: // Pending Confirmation
         return {
           textKey: "pending",
           bg: "bg-amber-50",
           text: "text-amber-700",
           border: "border-amber-200",
         };
-      case 2: // Đang xử lý
+      case 2: // Confirmed
         return {
-          textKey: "processing",
+          textKey: "confirmed",
           bg: "bg-blue-50",
           text: "text-blue-700",
           border: "border-blue-200",
         };
-      case 3: // Đang giao
+      case 3: // Paid
         return {
-          textKey: "shipping",
-          bg: "bg-purple-50",
-          text: "text-purple-700",
-          border: "border-purple-200",
-        };
-      case 4: // Hoàn thành
-        return {
-          textKey: "completed",
+          textKey: "paid",
           bg: "bg-emerald-50",
           text: "text-emerald-700",
           border: "border-emerald-200",
         };
-      case 5: // Đã hủy
+      case 6: // Cancelled
         return {
           textKey: "cancelled",
           bg: "bg-red-50",

@@ -15,7 +15,11 @@ interface MenuItem {
   isAction?: boolean;
 }
 
-export const UserMenu = () => {
+interface UserMenuProps {
+  isMobile?: boolean;
+}
+
+export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -164,6 +168,93 @@ export const UserMenu = () => {
     });
   }
 
+  // Mobile version - no dropdown, show items directly
+  if (isMobile) {
+    return (
+      <div className="space-y-3">
+        {/* User Info */}
+        <div className="flex items-center gap-3 pb-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-[#33391d] to-[#4c5b23] text-sm font-semibold tracking-wider text-amber-50 shadow-sm">
+            {getInitials()}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-sm font-semibold tracking-wide text-[#33391d]">
+              {getDisplayName()}
+            </p>
+            <p className="truncate text-xs text-neutral-600 mt-0.5">
+              {user?.email}
+            </p>
+            {user?.role && (
+              <span className="mt-1.5 inline-block border border-[#33391d]/20 bg-[#33391d]/5 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-[#33391d]">
+                {user.role}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Menu Items */}
+        <div className="space-y-1">
+          {menuItems.map((item) => (
+            <div key={item.href}>
+              {item.isAction ? (
+                <button
+                  type="button"
+                  onClick={() => setIsSellerModalOpen(true)}
+                  className="group flex w-full items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-emerald-50/60 hover:text-emerald-700 rounded-md"
+                >
+                  <span className="text-neutral-500 transition-colors group-hover:text-emerald-600">
+                    {item.icon}
+                  </span>
+                  {item.label}
+                </button>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="group flex items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d] rounded-md"
+                >
+                  <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
+                    {item.icon}
+                  </span>
+                  {item.label}
+                </Link>
+              )}
+            </div>
+          ))}
+
+          {/* Logout Button */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="group flex w-full items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-red-50/80 hover:text-red-700 rounded-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-neutral-500 transition-colors group-hover:text-red-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            {t("logout")}
+          </button>
+        </div>
+
+        {/* Become Seller Modal */}
+        <BecomeSellerModal
+          isOpen={isSellerModalOpen}
+          onClose={() => setIsSellerModalOpen(false)}
+        />
+      </div>
+    );
+  }
+
+  // Desktop version with dropdown
   return (
     <div className="relative">
       {/* User Avatar Button - Minimalist Design */}

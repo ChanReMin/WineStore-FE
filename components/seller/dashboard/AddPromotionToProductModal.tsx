@@ -101,7 +101,7 @@ export default function AddPromotionToProductModal({
   };
 
   const getDiscountText = (promotion: Promotion) => {
-    if (promotion.discount_type === 1) {
+    if (promotion.discount_type === 0) {
       return `${promotion.discount_value}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
@@ -247,8 +247,8 @@ export default function AddPromotionToProductModal({
                                       : "bg-emerald-100 text-emerald-700"
                                   }`}
                                 >
-                                  {promotion.used_count}/{promotion.max_usage} đã
-                                  dùng
+                                  {promotion.used_count}/{promotion.max_usage}{" "}
+                                  đã dùng
                                 </span>
                               </div>
                               <p className="font-semibold text-[#3b4417] mb-1">
@@ -262,7 +262,7 @@ export default function AddPromotionToProductModal({
                             {/* Discount Badge */}
                             <div className="shrink-0 text-right">
                               <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#d4af37] text-white rounded-lg font-bold">
-                                {promotion.discount_type === 1 ? (
+                                {promotion.discount_type === 0 ? (
                                   <Percent className="h-4 w-4" />
                                 ) : (
                                   <DollarSign className="h-4 w-4" />

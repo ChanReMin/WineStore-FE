@@ -37,13 +37,13 @@ export default function ChangeStatusModal({
   const t = useTranslations("admin.sellerManagement");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [newStatus, setNewStatus] = useState(seller.status.toString());
+  const [newStatus, setNewStatus] = useState(seller.status);
 
   const handleSubmit = async () => {
     setError("");
     try {
       setLoading(true);
-      await updateSellerStatus(seller.id, parseInt(newStatus));
+      await updateSellerStatus(seller.id, newStatus);
 
       onSuccess();
       onClose();
@@ -56,11 +56,11 @@ export default function ChangeStatusModal({
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "1":
+      case "active":
         return <CheckCircle className="w-6 h-6 text-emerald-600" />;
-      case "0":
+      case "inactive":
         return <AlertTriangle className="w-6 h-6 text-amber-600" />;
-      case "-1":
+      case "locked":
         return <Lock className="w-6 h-6 text-red-600" />;
       default:
         return <AlertTriangle className="w-6 h-6 text-neutral-600" />;
@@ -69,11 +69,11 @@ export default function ChangeStatusModal({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "1":
+      case "active":
         return "bg-emerald-50 border-emerald-200";
-      case "0":
+      case "inactive":
         return "bg-amber-50 border-amber-200";
-      case "-1":
+      case "locked":
         return "bg-red-50 border-red-200";
       default:
         return "bg-neutral-50 border-neutral-200";
@@ -120,15 +120,19 @@ export default function ChangeStatusModal({
               )}
               {/* Seller Info */}
               <div className="flex items-center gap-3 mb-6 p-4 bg-neutral-50 rounded-lg">
-                <img
-                  src={seller.avatar}
-                  alt={`${seller.firstName} ${seller.lastName}`}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
+                {seller.avatar ? (
+                  <img
+                    src={seller.avatar}
+                    alt={seller.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
+                    {seller.name ? seller.name.charAt(0).toUpperCase() : "S"}
+                  </div>
+                )}
                 <div>
-                  <p className="font-semibold text-[#3b4417]">
-                    {seller.firstName} {seller.lastName}
-                  </p>
+                  <p className="font-semibold text-[#3b4417]">{seller.name}</p>
                   <p className="text-sm text-neutral-500">{seller.email}</p>
                 </div>
               </div>
@@ -142,9 +146,15 @@ export default function ChangeStatusModal({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">{t("status.active")}</SelectItem>
-                      <SelectItem value="0">{t("status.inactive")}</SelectItem>
-                      <SelectItem value="-1">{t("status.locked")}</SelectItem>
+                      <SelectItem value="active">
+                        {t("status.active")}
+                      </SelectItem>
+                      <SelectItem value="inactive">
+                        {t("status.inactive")}
+                      </SelectItem>
+                      <SelectItem value="locked">
+                        {t("status.locked")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -157,16 +167,16 @@ export default function ChangeStatusModal({
                     {getStatusIcon(newStatus)}
                     <div>
                       <p className="font-medium text-neutral-900">
-                        {newStatus === "1"
+                        {newStatus === "active"
                           ? t("status.active")
-                          : newStatus === "0"
+                          : newStatus === "inactive"
                             ? t("status.inactive")
                             : t("status.locked")}
                       </p>
                       <p className="text-sm text-neutral-600">
-                        {newStatus === "1"
+                        {newStatus === "active"
                           ? t("statusModal.activeDesc")
-                          : newStatus === "0"
+                          : newStatus === "inactive"
                             ? t("statusModal.inactiveDesc")
                             : t("statusModal.lockedDesc")}
                       </p>
@@ -191,7 +201,7 @@ export default function ChangeStatusModal({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubmit}
-                disabled={loading || newStatus === seller.status.toString()}
+                disabled={loading || newStatus === seller.status}
                 className="flex items-center gap-2 px-6 py-2 bg-[#3b4417] text-amber-50 rounded-lg hover:bg-[#4c5b23] transition-colors disabled:opacity-50"
               >
                 {loading ? (

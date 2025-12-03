@@ -14,7 +14,7 @@ import {
 
 interface QuickStatsProps {
   users: {
-    new_this_month: number;
+    newThisMonth: number;
     activeUsers: number;
     pendingSellerRequests: number;
   };
@@ -24,10 +24,7 @@ interface QuickStatsProps {
   };
   orders: {
     byStatus: {
-      pending: number;
-      confirmed: number;
-      shipping: number;
-      delivered: number;
+      [key: string]: number;
     };
   };
   inventory: {
@@ -64,7 +61,7 @@ export default function QuickStats({
         },
         {
           label: t("pendingOrders"),
-          value: orders.byStatus.pending,
+          value: orders.byStatus?.pending || orders.byStatus?.PENDING || 0,
           icon: Clock,
           color: "text-amber-600",
           bgColor: "bg-amber-50",
@@ -102,21 +99,21 @@ export default function QuickStats({
       items: [
         {
           label: t("confirmed"),
-          value: orders.byStatus.confirmed,
+          value: orders.byStatus?.confirmed || orders.byStatus?.CONFIRMED || 0,
           icon: CheckCircle,
           color: "text-emerald-600",
           bgColor: "bg-emerald-50",
         },
         {
           label: t("shipping"),
-          value: orders.byStatus.shipping,
+          value: orders.byStatus?.shipping || orders.byStatus?.SHIPPING || 0,
           icon: Package,
           color: "text-blue-600",
           bgColor: "bg-blue-50",
         },
         {
           label: t("delivered"),
-          value: orders.byStatus.delivered,
+          value: orders.byStatus?.delivered || orders.byStatus?.DELIVERED || 0,
           icon: CheckCircle,
           color: "text-green-600",
           bgColor: "bg-green-50",

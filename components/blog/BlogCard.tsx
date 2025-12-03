@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Link } from "@/i18n/routing";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blogData";
 import { useTranslations } from "next-intl";
@@ -44,7 +44,14 @@ export default function BlogCard({ post, index }: BlogCardProps) {
             transition={{ duration: 0.6 }}
             className="h-full w-full"
           >
-            <Image src={post.image} alt={title} fill className="object-cover" />
+            <ImageWithFallback 
+              src={post.image} 
+              alt={title} 
+              fill 
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover" 
+              priority={index < 3}
+            />
           </motion.div>
 
           {/* Overlay */}

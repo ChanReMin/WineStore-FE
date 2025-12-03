@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { authService } from "@/services/authService";
@@ -23,12 +25,12 @@ export const useAuth = () => {
         
        
         setAuth(user, access_token, refresh_token);
-        
+
         // 🔍 DEBUG: Kiểm tra localStorage sau khi setAuth
         setTimeout(() => {
           const stored = localStorage.getItem('auth-storage');
         }, 100);
-        
+
         toast.success(response.message || "Login successful!");
         router.push("/");
         return { success: true };

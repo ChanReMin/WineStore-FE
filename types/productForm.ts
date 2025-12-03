@@ -17,8 +17,9 @@ export interface ProductFormData {
   avoidVibration: string;
   openedWine: string;
   useWineCabinet: string;
-  images: string[]; // Base64 strings for preview
-  imageFiles?: File[]; // Actual file objects for upload
+  images?: string; // URL of existing image (from server) - for display
+  imagePreview?: string[]; // Base64 strings for preview of new images
+  image?: File[]; // Actual file objects for upload (new images)
   description: string;
 }
 

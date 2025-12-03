@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { MOCK_PRODUCT_DETAIL } from "@/lib/mockData";
@@ -9,9 +8,13 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 import AddToCartButton from "@/components/cart/AddToCartButton";
-import { fetchProductDetail, fetchRelatedProducts } from "@/services/productService";
+import {
+  fetchProductDetail,
+  fetchRelatedProducts,
+} from "@/services/productService";
 import type { Product } from "@/types/product";
 import RelatedProducts from "@/components/products/RelatedProducts";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -28,7 +31,7 @@ export default function ProductDetailPage() {
   const productSlug = params.slug as string; // "chateau-margaux-2015"
 
   const [activeTab, setActiveTab] = useState<
-    "description" | "specs" | "storage" 
+    "description" | "specs" | "storage"
   >("description");
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
@@ -43,7 +46,9 @@ export default function ProductDetailPage() {
     if (typeof product.images === "string") {
       return product.images || product.thumbnail || "/placeholder-wine.jpg";
     }
-    return (product.images as any)[0] || product.thumbnail || "/placeholder-wine.jpg";
+    return (
+      (product.images as any)[0] || product.thumbnail || "/placeholder-wine.jpg"
+    );
   };
 
   // Fetch product by ID from API
@@ -106,7 +111,9 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg text-neutral-600 mb-4">{error || "Không tìm thấy sản phẩm"}</p>
+          <p className="text-lg text-neutral-600 mb-4">
+            {error || "Không tìm thấy sản phẩm"}
+          </p>
           <Link href="/shop" className="text-[#3b4417] underline">
             Quay lại cửa hàng
           </Link>
@@ -152,7 +159,7 @@ export default function ProductDetailPage() {
           >
             {/* Single Image - Elegant & Compact */}
             <div className="group relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50 shadow-lg">
-              <Image
+              <ImageWithFallback
                 src={getProductImage(product)}
                 alt={product.name}
                 fill
@@ -187,7 +194,9 @@ export default function ProductDetailPage() {
                 </span>
                 <span className="text-neutral-300">·</span>
                 <span className="text-xs uppercase tracking-wider text-neutral-500">
-                  {product.originCountry || product.countryOfProduction || "Unknown"}
+                  {product.originCountry ||
+                    product.countryOfProduction ||
+                    "Unknown"}
                 </span>
               </motion.div>
 
@@ -208,11 +217,17 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.5 }}
                 className="flex items-center gap-4 text-sm text-neutral-600"
               >
-                <span className="font-medium">{product.wineType || product.winetype || "N/A"}</span>
+                <span className="font-medium">
+                  {product.wineType || product.winetype || "N/A"}
+                </span>
                 <span className="text-neutral-300">|</span>
                 <span>{product.productionArea || "N/A"}</span>
                 <span className="text-neutral-300">|</span>
-                <span>{product.concentration ? `${product.concentration}% ABV` : "N/A"}</span>
+                <span>
+                  {product.concentration
+                    ? `${product.concentration}% ABV`
+                    : "N/A"}
+                </span>
               </motion.div>
 
               {/* Price - Premium Display with Original Price */}
@@ -290,14 +305,6 @@ export default function ProductDetailPage() {
                         {product.seller.name}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <svg className="h-5 w-5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                      <span className="text-sm font-medium text-neutral-900">
-                        {product.seller.rating.toFixed(1)}
-                      </span>
-                    </div>
                   </div>
                 </motion.div>
               )}
@@ -355,30 +362,43 @@ export default function ProductDetailPage() {
                   {activeTab === "description" && (
                     <div className="prose prose-neutral max-w-none">
                       <p className="text-base leading-relaxed text-neutral-600">
-                        {product.description || product.fullDescription || "Chưa có mô tả"}
+                        {product.description ||
+                          product.fullDescription ||
+                          "Chưa có mô tả"}
                       </p>
-                      
+
                       {/* Food Pairing */}
-                      {product.foodPairing && product.foodPairing.length > 0 && (
-                        <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 p-4">
-                          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-900 flex items-center gap-2">
-                            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                            Kết hợp món ăn
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {product.foodPairing.map((food, index) => (
-                              <span
-                                key={index}
-                                className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm text-amber-800 border border-amber-300"
+                      {product.foodPairing &&
+                        product.foodPairing.length > 0 && (
+                          <div className="mt-6 rounded-lg bg-amber-50 border border-amber-200 p-4">
+                            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-900 flex items-center gap-2">
+                              <svg
+                                className="h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                               >
-                                {food}
-                              </span>
-                            ))}
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                />
+                              </svg>
+                              Kết hợp món ăn
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {product.foodPairing.map((food, index) => (
+                                <span
+                                  key={index}
+                                  className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm text-amber-800 border border-amber-300"
+                                >
+                                  {food}
+                                </span>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       <div className="mt-6 grid gap-4 sm:grid-cols-2">
                         <div className="rounded-lg bg-neutral-50 p-4">
@@ -395,7 +415,9 @@ export default function ProductDetailPage() {
                           </h4>
                           <p className="text-neutral-600">
                             {product.productionArea || "N/A"},{" "}
-                            {product.originCountry || product.countryOfProduction || "N/A"}
+                            {product.originCountry ||
+                              product.countryOfProduction ||
+                              "N/A"}
                           </p>
                         </div>
                       </div>
@@ -411,15 +433,24 @@ export default function ProductDetailPage() {
                         },
                         {
                           label: t("specs.alcoholContent"),
-                          value: product.concentration ? `${product.concentration}%` : "N/A",
+                          value: product.concentration
+                            ? `${product.concentration}%`
+                            : "N/A",
                         },
                         {
                           label: t("specs.volume"),
-                          value: product.volume || product.capacity ? `${product.volume || product.capacity}ml` : "N/A",
+                          value:
+                            product.volume || product.capacity
+                              ? `${product.volume || product.capacity}ml`
+                              : "N/A",
                         },
                         {
                           label: t("specs.servingTemp"),
-                          value: product.servingTemperature || product.idealtemperature || product.temperature || "N/A",
+                          value:
+                            product.servingTemperature ||
+                            product.idealtemperature ||
+                            product.temperature ||
+                            "N/A",
                         },
                         {
                           label: t("specs.origin"),
@@ -435,7 +466,9 @@ export default function ProductDetailPage() {
                         },
                         {
                           label: "Profit Margin",
-                          value: product.profitMargin ? `${product.profitMargin}%` : "N/A",
+                          value: product.profitMargin
+                            ? `${product.profitMargin}%`
+                            : "N/A",
                         },
                       ].map((spec, i) => (
                         <motion.div
@@ -476,7 +509,11 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.temperature"),
-                          text: product.servingTemperature || product.idealtemperature || product.temperature || "N/A",
+                          text:
+                            product.servingTemperature ||
+                            product.idealtemperature ||
+                            product.temperature ||
+                            "N/A",
                         },
                         {
                           icon: (
@@ -533,7 +570,10 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.position"),
-                          text: product.position || product.placeTheBottleHorizontally || "N/A",
+                          text:
+                            product.position ||
+                            product.placeTheBottleHorizontally ||
+                            "N/A",
                         },
                         {
                           icon: (
@@ -552,7 +592,10 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.vibration"),
-                          text: product.vibration || product.avoidVibration || "N/A",
+                          text:
+                            product.vibration ||
+                            product.avoidVibration ||
+                            "N/A",
                         },
                         {
                           icon: (
@@ -571,7 +614,8 @@ export default function ProductDetailPage() {
                             </svg>
                           ),
                           title: t("storage.afterOpening"),
-                          text: product.afterOpening || product.openedWine || "N/A",
+                          text:
+                            product.afterOpening || product.openedWine || "N/A",
                         },
                       ].map((item, i) => (
                         <motion.div
@@ -614,11 +658,6 @@ export default function ProductDetailPage() {
                   <AddToCartButton
                     productId={product.id}
                     productName={product.name}
-                    productSlug={product.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}
-                    productImage={getProductImage(product)}
-                    productPrice={product.price}
                     maxQuantity={product.totalInventory || 99}
                   />
 
@@ -679,48 +718,46 @@ export default function ProductDetailPage() {
             </motion.div>
           </motion.div>
         </div>
-
-        
       </div>
 
       {/* Related Products Section */}
-      <RelatedProducts 
-        products={relatedProducts} 
-        isLoading={isLoadingRelated} 
+      <RelatedProducts
+        products={relatedProducts}
+        isLoading={isLoadingRelated}
       />
 
       {/* Elegant Divider */}
-        <div className="my-20 border-t border-neutral-200/50" />
+      <div className="my-20 border-t border-neutral-200/50" />
 
-        {/* Back to Collection - Minimal */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="text-center"
+      {/* Back to Collection - Minimal */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="text-center"
+      >
+        <Link
+          href="/shop"
+          className="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-neutral-600 transition-colors hover:text-neutral-900"
         >
-          <Link
-            href="/shop"
-            className="group inline-flex items-center gap-3 text-sm font-medium uppercase tracking-[0.2em] text-neutral-600 transition-colors hover:text-neutral-900"
+          <svg
+            className="h-4 w-4 transition-transform group-hover:-translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            <svg
-              className="h-4 w-4 transition-transform group-hover:-translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            {t("backToCollection")}
-          </Link>
-        </motion.div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          {t("backToCollection")}
+        </Link>
+      </motion.div>
 
-        <div className="mt-20 border-t border-neutral-200/50" />
+      <div className="mt-20 border-t border-neutral-200/50" />
     </div>
   );
 }

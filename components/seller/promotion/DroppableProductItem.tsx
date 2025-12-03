@@ -122,7 +122,7 @@ export const DroppableProductItem = memo(function DroppableProductItem({
                         {promotion.name}
                       </span>
                       <span className="bg-green-500 text-white px-1.5 py-0.5 rounded text-xs font-bold flex-shrink-0">
-                        {promotion.discount_type === 1
+                        {promotion.discount_type === 0
                           ? `${promotion.discount_value || 0}%`
                           : `${(promotion.discount_value || 0).toLocaleString()}đ`}
                       </span>

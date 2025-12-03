@@ -18,9 +18,7 @@ export interface BrandsResponse {
  * Lấy danh sách tất cả brands
  */
 export const fetchBrands = async (): Promise<BrandsResponse> => {
-  const response = await axiosInstance.get<BrandsResponse>(
-    "/api/v1/brands"
-  );
-  
+  const response = await axiosInstance.get<BrandsResponse>("/api/v1/brands");
+
   return response.data;
 };

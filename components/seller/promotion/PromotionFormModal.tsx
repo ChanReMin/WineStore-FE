@@ -146,10 +146,10 @@ export default function PromotionFormModal({
       const formattedData = {
         ...formData,
         start_date: formData.start_date
-          ? `${formData.start_date}T00:00:00Z`
+          ? `${formData.start_date}`
           : formData.start_date,
         end_date: formData.end_date
-          ? `${formData.end_date}T23:59:59Z`
+          ? `${formData.end_date}`
           : formData.end_date,
       };
 
@@ -343,29 +343,31 @@ export default function PromotionFormModal({
                 >
                   Giá trị giảm *
                 </Label>
-                  <div className="relative">
-                    {formData.discount_type === 0 ? (
-                      <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                    ) : (
-                      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
-                    )}
-                    <Input
-                      id="discount_value"
-                      type="number"
-                      value={formData.discount_value}
-                      onChange={(e) =>
-                        handleChange("discount_value", parseFloat(e.target.value))
-                      }
-                      placeholder={
-                        formData.discount_type === 0 ? "VD: 10" : "VD: 100000"
-                      }
-                      className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
-                      min="0"
-                      step={formData.discount_type === 0 ? "1" : "1000"}
-                    />
-                  </div>
+                <div className="relative">
+                  {formData.discount_type === 0 ? (
+                    <Percent className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
+                  ) : (
+                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
+                  )}
+                  <Input
+                    id="discount_value"
+                    type="number"
+                    value={formData.discount_value}
+                    onChange={(e) =>
+                      handleChange("discount_value", parseFloat(e.target.value))
+                    }
+                    placeholder={
+                      formData.discount_type === 0 ? "VD: 10" : "VD: 100000"
+                    }
+                    className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
+                    min="0"
+                    step={formData.discount_type === 0 ? "1" : "1000"}
+                  />
+                </div>
                 {errors.discount_value && (
-                  <p className="text-xs text-red-600">{errors.discount_value}</p>
+                  <p className="text-xs text-red-600">
+                    {errors.discount_value}
+                  </p>
                 )}
               </div>
             </div>

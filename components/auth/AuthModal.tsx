@@ -165,7 +165,7 @@ export default function AuthModal({
     // Check if user is at least 18 years old (for wine website)
     const eighteenYearsAgo = new Date();
     eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
-    
+
     if (selectedDate > eighteenYearsAgo) {
       return t("validation.mustBe18");
     }
@@ -218,7 +218,10 @@ export default function AuthModal({
     return "";
   };
 
-  const validateConfirmPassword = (confirmPassword: string, password: string) => {
+  const validateConfirmPassword = (
+    confirmPassword: string,
+    password: string
+  ) => {
     if (!confirmPassword) {
       return t("validation.confirmPasswordRequired");
     }
@@ -246,7 +249,10 @@ export default function AuthModal({
 
   const handleConfirmPasswordBlur = () => {
     if (mode === "register" && formData.confirmPassword) {
-      const error = validateConfirmPassword(formData.confirmPassword, formData.password);
+      const error = validateConfirmPassword(
+        formData.confirmPassword,
+        formData.password
+      );
       if (error) {
         setErrors({ ...errors, confirmPassword: error });
       } else {

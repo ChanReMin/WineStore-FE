@@ -7,9 +7,8 @@ interface OrderStatsProps {
   stats: {
     total: number;
     pending: number;
-    processing: number;
-    shipping: number;
-    delivered: number;
+    confirmed: number;
+    paid: number;
     cancelled: number;
   };
 }
@@ -63,30 +62,8 @@ export default function OrderStats({ stats }: OrderStatsProps) {
       textColor: "text-yellow-900",
     },
     {
-      label: t("shipping"),
-      value: stats.shipping,
-      icon: (
-        <svg
-          className="h-8 w-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"
-          />
-        </svg>
-      ),
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-900",
-    },
-    {
-      label: t("delivered"),
-      value: stats.delivered,
+      label: t("confirmed"),
+      value: stats.confirmed,
       icon: (
         <svg
           className="h-8 w-8"
@@ -102,6 +79,28 @@ export default function OrderStats({ stats }: OrderStatsProps) {
           />
         </svg>
       ),
+      color: "from-blue-500 to-blue-600",
+      bgColor: "bg-blue-50",
+      textColor: "text-blue-900",
+    },
+    {
+      label: t("paid"),
+      value: stats.paid,
+      icon: (
+        <svg
+          className="h-8 w-8"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      ),
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50",
       textColor: "text-green-900",
@@ -109,7 +108,7 @@ export default function OrderStats({ stats }: OrderStatsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
       {statItems.map((item, index) => (
         <motion.div
           key={item.label}

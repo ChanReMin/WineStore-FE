@@ -83,7 +83,9 @@ export const inventoryLogService = {
   },
 
   // Get inventory log detail
-  async getInventoryLogDetail(logId: number): Promise<InventoryLogDetailResponse> {
+  async getInventoryLogDetail(
+    logId: number
+  ): Promise<InventoryLogDetailResponse> {
     try {
       const response = await axiosInstance.get<InventoryLogDetailResponse>(
         `/api/v1/inventory/logs/${logId}`

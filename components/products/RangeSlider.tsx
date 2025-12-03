@@ -45,29 +45,35 @@ export default function RangeSlider({
   const handleMouseUp = useCallback(() => {
     if (isDragging) {
       setIsDragging(null);
-      console.log('RangeSlider: Mouse up, calling onChange with:', localValue);
+      console.log("RangeSlider: Mouse up, calling onChange with:", localValue);
       onChangeRef.current(localValue);
     }
   }, [isDragging, localValue]);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !sliderRef.current) return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging || !sliderRef.current) return;
 
-    const rect = sliderRef.current.getBoundingClientRect();
-    const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    const rawValue = min + percent * (max - min);
-    const steppedValue = Math.round(rawValue / step) * step;
+      const rect = sliderRef.current.getBoundingClientRect();
+      const percent = Math.max(
+        0,
+        Math.min(1, (e.clientX - rect.left) / rect.width)
+      );
+      const rawValue = min + percent * (max - min);
+      const steppedValue = Math.round(rawValue / step) * step;
 
-    setLocalValue((prev) => {
-      if (isDragging === "min") {
-        const newMin = Math.min(steppedValue, prev[1] - step);
-        return [Math.max(min, newMin), prev[1]];
-      } else {
-        const newMax = Math.max(steppedValue, prev[0] + step);
-        return [prev[0], Math.min(max, newMax)];
-      }
-    });
-  }, [isDragging, min, max, step]);
+      setLocalValue((prev) => {
+        if (isDragging === "min") {
+          const newMin = Math.min(steppedValue, prev[1] - step);
+          return [Math.max(min, newMin), prev[1]];
+        } else {
+          const newMax = Math.max(steppedValue, prev[0] + step);
+          return [prev[0], Math.min(max, newMax)];
+        }
+      });
+    },
+    [isDragging, min, max, step]
+  );
 
   useEffect(() => {
     if (isDragging) {
@@ -162,7 +168,8 @@ export default function RangeSlider({
                   repeat: isDragging === "min" ? Infinity : 0,
                 }}
                 style={{
-                  background: "radial-gradient(circle, rgba(212,175,55,0.4) 0%, rgba(212,175,55,0) 70%)",
+                  background:
+                    "radial-gradient(circle, rgba(212,175,55,0.4) 0%, rgba(212,175,55,0) 70%)",
                   width: "32px",
                   height: "32px",
                   left: "-8px",
@@ -205,7 +212,8 @@ export default function RangeSlider({
                   repeat: isDragging === "max" ? Infinity : 0,
                 }}
                 style={{
-                  background: "radial-gradient(circle, rgba(212,175,55,0.4) 0%, rgba(212,175,55,0) 70%)",
+                  background:
+                    "radial-gradient(circle, rgba(212,175,55,0.4) 0%, rgba(212,175,55,0) 70%)",
                   width: "32px",
                   height: "32px",
                   left: "-8px",

@@ -29,38 +29,48 @@ export const MOCK_CART_ITEMS: CartItem[] = [
   },
 ];
 
+// DEPRECATED: Addresses are now loaded from API via profileService.getAddresses()
+// This mock data is kept for reference only
 export const MOCK_ADDRESSES: Address[] = [
   {
     id: 123,
-    userId: 456,
     fullName: "Nguyễn Văn A",
     phoneNumber: "0912345678",
     addressLine: "123 Nguyễn Huệ",
     ward: "Phường Bến Nghé",
     district: "Quận 1",
     city: "TP. Hồ Chí Minh",
+    country: "Việt Nam",
     isDefault: true,
+    addressType: "HOME",
     createdAt: "2024-01-15T08:00:00Z",
   },
   {
     id: 124,
-    userId: 456,
     fullName: "Nguyễn Văn A",
     phoneNumber: "0912345678",
     addressLine: "456 Lê Lợi",
     ward: "Phường Bến Thành",
     district: "Quận 1",
     city: "TP. Hồ Chí Minh",
+    country: "Việt Nam",
     isDefault: false,
+    addressType: "HOME",
     createdAt: "2024-03-20T10:30:00Z",
   },
 ];
 
-export const MOCK_paymentMethodS: PaymentMethod[] = [
+// FALLBACK ONLY: Payment methods are now loaded from API via paymentService.getPaymentMethods()
+// This mock data is kept as fallback if API fails
+// Payment Method IDs from backend:
+// 1: COD (Cash on Delivery) - No payment URL, direct order success
+// 2: VNPAY - Returns paymentUrl for redirect to VNPAY gateway
+// 3: MOMO - Returns paymentUrl for redirect to MoMo gateway
+export const MOCK_PAYMENT_METHODS: PaymentMethod[] = [
   {
     id: 1,
     code: "COD",
-    name: "Thanh toán khi nhận hàng",
+    name: "Thanh toán khi nhận hàng (COD)",
     description: "Thanh toán bằng tiền mặt khi nhận hàng",
     isActive: true,
   },
@@ -68,21 +78,14 @@ export const MOCK_paymentMethodS: PaymentMethod[] = [
     id: 2,
     code: "VNPAY",
     name: "Thanh toán qua VNPAY",
-    description: "Thanh toán online qua cổng VNPAY",
+    description: "Thanh toán online qua cổng VNPAY - Chuyển hướng sang trang thanh toán",
     isActive: true,
   },
   {
     id: 3,
     code: "MOMO",
     name: "Ví điện tử MoMo",
-    description: "Thanh toán qua ví điện tử MoMo",
-    isActive: true,
-  },
-  {
-    id: 4,
-    code: "BANK_TRANSFER",
-    name: "Chuyển khoản ngân hàng",
-    description: "Chuyển khoản trực tiếp vào tài khoản công ty",
+    description: "Thanh toán qua ví điện tử MoMo - Chuyển hướng sang ứng dụng MoMo",
     isActive: true,
   },
 ];
@@ -94,13 +97,21 @@ export const mockAPI = {
     return MOCK_CART_ITEMS;
   },
 
+  // DEPRECATED: Use profileService.getAddresses() instead
   getAddresses: async (): Promise<Address[]> => {
+    console.warn(
+      "mockAPI.getAddresses is deprecated. Use profileService.getAddresses() instead."
+    );
     await new Promise((resolve) => setTimeout(resolve, 600));
     return MOCK_ADDRESSES;
   },
 
+  // DEPRECATED: Use paymentService.getPaymentMethods() instead
   getPaymentMethods: async (): Promise<PaymentMethod[]> => {
+    console.warn(
+      "mockAPI.getPaymentMethods is deprecated. Use paymentService.getPaymentMethods() instead."
+    );
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return MOCK_paymentMethodS;
+    return MOCK_PAYMENT_METHODS;
   },
 };

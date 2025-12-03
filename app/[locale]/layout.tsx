@@ -26,11 +26,15 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui", "arial"],
 });
 
 const geistMono = Roboto_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["monospace"],
 });
 
 const structuredData = JSON.stringify(defaultStructuredData);
@@ -156,10 +160,10 @@ export default async function LocaleLayout({
               limit={3}
             />
             {/* Dev Login - Only in development */}
-            {process.env.NODE_ENV !== "production" && <DevLogin />}
+            {/* {process.env.NODE_ENV !== "production" && <DevLogin />} */}
           </AuthProvider>
         </NextIntlClientProvider>
-        
+
         {/* ✅ MONITORING - Track performance và analytics */}
         <Analytics />
         <SpeedInsights />

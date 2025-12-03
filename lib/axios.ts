@@ -1,5 +1,6 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { RefreshTokenResponse } from "@/types/auth";
+import { isTokenExpiringSoon } from "./tokenUtils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -15,7 +16,7 @@ export const axiosInstance = axios.create({
 // Biến để theo dõi trạng thái refresh token
 let isRefreshing = false;
 let failedQueue: Array<{
-  resolve: (value?: unknown) => void;
+  resolve: (value: string | null) => void;
   reject: (reason?: unknown) => void;
 }> = [];
 
@@ -31,11 +32,86 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Request interceptor - Thêm access token vào header
+/**
+ * Refresh access token proactively
+ * @returns New access token or null if refresh failed
+ */
+const refreshAccessToken = async (): Promise<string | null> => {
+  if (isRefreshing) {
+    // Nếu đang refresh, đợi trong queue
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject });
+    }) as Promise<string | null>;
+  }
+
+  isRefreshing = true;
+
+  try {
+    // Lấy refreshToken từ auth-storage trong localStorage
+    let refreshToken: string | null = null;
+    if (typeof window !== "undefined") {
+      const authStorageString = localStorage.getItem("auth-storage");
+      if (authStorageString) {
+        const authStorage = JSON.parse(authStorageString);
+        refreshToken = authStorage.state?.refreshToken || null;
+      }
+    }
+
+    if (!refreshToken) {
+      console.warn("⚠️ No refresh token available. User needs to re-login.");
+      throw new Error("Session expired. Please login again.");
+    }
+
+    const response = await axios.post<RefreshTokenResponse>(
+      `${API_URL}/api/v1/auth/refresh`,
+      { refreshToken },
+      { withCredentials: true }
+    );
+
+    const { access_token } = response.data.data;
+
+    // Cập nhật access token mới vào store
+    setAccessToken(access_token);
+
+    // Xử lý các request đang chờ
+    processQueue(null, access_token);
+
+    console.log("✅ Token refreshed successfully");
+    return access_token;
+  } catch (refreshError) {
+    console.error("❌ Token refresh failed:", refreshError);
+    processQueue(refreshError as Error, null);
+
+    // Xóa token và redirect về login
+    clearAuth();
+
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
+    }
+
+    return null;
+  } finally {
+    isRefreshing = false;
+  }
+};
+
+// Request interceptor - Thêm access token vào header và auto-refresh nếu sắp hết hạn
 axiosInstance.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
+    // Bỏ qua refresh token endpoint để tránh vòng lặp vô hạn
+    if (config.url?.includes("/auth/refresh")) {
+      return config;
+    }
+
     // Lấy access token từ Zustand store
-    const token = getAccessToken();
+    let token = getAccessToken();
+
+    // Kiểm tra nếu token sắp hết hạn (trong vòng 5 phút)
+    if (token && isTokenExpiringSoon(token, 300)) {
+      console.log("⏰ Token expiring soon, refreshing...");
+      const newToken = await refreshAccessToken();
+      token = newToken || token;
+    }
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -77,57 +153,23 @@ axiosInstance.interceptors.response.use(
       }
 
       originalRequest._retry = true;
-      isRefreshing = true;
 
       try {
-        // Gọi API refresh token
-        const refreshToken = getRefreshToken();
+        // Sử dụng hàm refresh chung
+        const newToken = await refreshAccessToken();
 
-        if (!refreshToken) {
-          // RefreshToken không có sẵn (có thể do page refresh)
-          // User cần login lại
-          console.warn("⚠️ No refresh token available. User needs to re-login.");
-          throw new Error("Session expired. Please login again.");
+        if (!newToken) {
+          throw new Error("Failed to refresh token");
         }
-
-        const response = await axios.post<RefreshTokenResponse>(
-          `${API_URL}/api/v1/auth/refresh`,
-          { refreshToken },
-          { withCredentials: true }
-        );
-
-        const { access_token } = response.data.data;
-
-        // Cập nhật access token mới vào store
-        setAccessToken(access_token);
-
-        // Xử lý các request đang chờ
-        processQueue(null, access_token);
 
         // Retry request ban đầu với token mới
         if (originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
         }
 
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        // Log error để debugging
-        console.error("❌ Token refresh failed:", refreshError);
-
-        processQueue(refreshError as Error, null);
-
-        // Xóa token và redirect về login
-        clearAuth();
-
-        if (typeof window !== "undefined") {
-          // TODO: Cải thiện UX - Sử dụng Next.js router thay vì hard redirect
-          // hoặc emit event để component xử lý
-          window.location.href = "/";
-        }
-
         return Promise.reject(refreshError);
-      } finally {
-        isRefreshing = false;
       }
     }
 

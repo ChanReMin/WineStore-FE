@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { ShoppingBag, MapPin, Star, Sparkles } from "lucide-react";
@@ -9,6 +8,7 @@ import { toast } from "react-toastify";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 
 import type { Product } from "@/types/product";
 
@@ -22,13 +22,17 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { addToCart } = useCartStore();
-  
+
   // Use thumbnail or images, and handle optional fields
-  const imageUrl = product.thumbnail || product.images || "/placeholder-wine.jpg";
-  const country = product.countryOfProduction || product.originCountry || "Unknown";
+  const imageUrl =
+    product.thumbnail || product.images || "/placeholder-wine.jpg";
+  const country =
+    product.countryOfProduction || product.originCountry || "Unknown";
   const basePrice = product.basePrice || product.price;
-  const discount = product.basePrice 
-    ? Math.round(((product.basePrice - product.price) / product.basePrice) * 100)
+  const discount = product.basePrice
+    ? Math.round(
+        ((product.basePrice - product.price) / product.basePrice) * 100
+      )
     : 0;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -37,18 +41,12 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
     if (!isAuthenticated) {
       toast.info("Vui lòng đăng nhập để thêm vào giỏ hàng");
-      router.push("/login");
+      router.push("/");
       return;
     }
 
     try {
-      await addToCart(product.id, 1, {
-        name: product.name,
-        slug: product.slug,
-        image: imageUrl,
-        price: product.price,
-        maxQuantity: 99,
-      });
+      await addToCart(product.id, 1);
       toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
     } catch (error) {
       toast.error(
@@ -94,7 +92,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
         {/* Image Container */}
         <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">
-          <Image
+          <ImageWithFallback
             src={imageUrl}
             alt={product.name}
             fill
@@ -138,7 +136,6 @@ export default function ProductCard({ product, index }: ProductCardProps) {
 
         {/* Content */}
         <div className="relative p-6 bg-linear-to-b from-white to-[#fdfbf5]">
-
           {/* Name */}
           <h3 className="mt-4 line-clamp-2 min-h-14 text-[18px] font-semibold tracking-wide text-[#3b4417] transition-colors group-hover:text-[#d4af37] leading-snug">
             {product.name}

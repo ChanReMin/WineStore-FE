@@ -85,7 +85,7 @@ export default function PromotionDetailModal({
   };
 
   const formatDiscount = (type: number, value: number) => {
-    if (type === 1) return `${value}%`;
+    if (type === 0) return `${value}%`;
     return formatCurrency(value);
   };
 
@@ -183,10 +183,10 @@ export default function PromotionDetailModal({
                 </div>
                 <div className="flex items-center gap-2">
                   {promotion.discount_type === 0 ? (
-                      <Percent className="h-8 w-8 text-[#d4af37]" />
-                    ) : (
-                      <DollarSign className="h-8 w-8 text-[#d4af37]" />
-                    )}
+                    <Percent className="h-8 w-8 text-[#d4af37]" />
+                  ) : (
+                    <DollarSign className="h-8 w-8 text-[#d4af37]" />
+                  )}
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
                       promotion.discount_type,
@@ -237,128 +237,13 @@ export default function PromotionDetailModal({
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-[#7a8451]" />
                     <p className="font-semibold text-orange-600">
-                      {promotion.remaining_usage ?? (promotion.max_usage - promotion.used_count)}
+                      {promotion.remaining_usage ??
+                        promotion.max_usage - promotion.used_count}
                     </p>
                   </div>
                 </div>
               </div>
             </Card>
-
-            {/* Statistics */}
-            <Card className="border-[#d4d6b4] p-6">
-              <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Thống kê sử dụng
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Tổng đơn hàng
-                  </p>
-                  <p className="text-2xl font-bold text-[#3b4417]">
-                    {statistics.totalOrders}
-                  </p>
-                </div>
-                <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Tổng giảm giá
-                  </p>
-                  <p className="text-2xl font-bold text-[#d4af37]">
-                    {formatCurrency(statistics.totalDiscountAmount)}
-                  </p>
-                </div>
-                <div className="bg-[#f5f3e8] rounded-lg p-4">
-                  <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Còn lại
-                  </p>
-                  <p className="text-2xl font-bold text-orange-600">
-                    {statistics.remainingUsage}
-                  </p>
-                </div>
-              </div>
-
-              {/* Usage Chart */}
-              {statistics.usageByDate && statistics.usageByDate.length > 0 && (
-                <div className="mt-6">
-                  <h5 className="text-sm font-semibold text-[#3b4417] mb-4">
-                    Lượt sử dụng theo ngày
-                  </h5>
-                  <ChartContainer
-                    config={{
-                      usageCount: {
-                        label: "Lượt sử dụng",
-                        color: "#3b4417",
-                      },
-                      discountAmount: {
-                        label: "Giảm giá (VNĐ)",
-                        color: "#d4af37",
-                      },
-                    }}
-                    className="h-[300px] w-full"
-                  >
-                    <BarChart data={statistics.usageByDate}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e8e6dc" />
-                      <XAxis
-                        dataKey="date"
-                        tickFormatter={(value) => {
-                          const date = new Date(value);
-                          return `${date.getDate()}/${date.getMonth() + 1}`;
-                        }}
-                        stroke="#7a8451"
-                        fontSize={12}
-                      />
-                      <YAxis stroke="#7a8451" fontSize={12} />
-                      <ChartTooltip
-                        content={
-                          <ChartTooltipContent
-                            labelFormatter={(value) => {
-                              return formatDate(value as string);
-                            }}
-                            formatter={(value, name) => {
-                              if (name === "discountAmount") {
-                                return formatCurrency(value as number);
-                              }
-                              return value;
-                            }}
-                          />
-                        }
-                      />
-                      <Bar
-                        dataKey="usageCount"
-                        fill="#3b4417"
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </BarChart>
-                  </ChartContainer>
-                </div>
-              )}
-            </Card>
-
-            {/* Applicable Products */}
-            {promotion.applicableProducts &&
-              promotion.applicableProducts.length > 0 && (
-                <Card className="border-[#d4d6b4] p-6">
-                  <h4 className="text-lg font-bold text-[#3b4417] mb-4 flex items-center gap-2">
-                    <Package className="h-5 w-5" />
-                    Sản phẩm áp dụng ({promotion.applicableProducts.length})
-                  </h4>
-                  <div className="space-y-2">
-                    {promotion.applicableProducts.map((product) => (
-                      <div
-                        key={product.id}
-                        className="flex items-center justify-between p-3 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc]"
-                      >
-                        <p className="font-medium text-[#3b4417]">
-                          {product.name}
-                        </p>
-                        <p className="font-semibold text-[#d4af37]">
-                          {formatCurrency(product.price)}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              )}
           </div>
 
           {/* Footer */}

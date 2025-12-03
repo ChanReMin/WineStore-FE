@@ -17,7 +17,7 @@ export interface InventoryItem {
   product: InventoryProduct;
   quantityOnHand: number;
   safetyStock: number;
-  status: "inStock" | "lowStock" | "outOfStock";
+  status: "in_Stock" | "low_Stock" | "out_Of_Stock";
   lastUpdatedAt: string;
 }
 
@@ -32,4 +32,6 @@ export interface InventoryUpdateRequest {
   quantity: number;
   type: "in" | "out"; // Nhập kho hoặc xuất kho
   note?: string;
+  referenceCode?: string;
+  typeEnum?: "0" | "1"; // 0: in, 1: out
 }

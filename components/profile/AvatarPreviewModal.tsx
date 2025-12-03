@@ -41,10 +41,10 @@ export default function AvatarPreviewModal({
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
-              transition={{ 
-                type: "spring", 
-                damping: 25, 
-                stiffness: 300 
+              transition={{
+                type: "spring",
+                damping: 25,
+                stiffness: 300,
               }}
               className="relative max-w-xs sm:max-w-sm w-full"
               onClick={(e) => e.stopPropagation()}

@@ -61,8 +61,8 @@ export default function ChangeRoleModal({
   };
 
   const getRoleIcon = (roleValue: string) => {
-    if (roleValue === 'customer') return ShoppingBag;
-    if (roleValue === 'seller') return Store;
+    if (roleValue === "customer") return ShoppingBag;
+    if (roleValue === "seller") return Store;
     return Shield;
   };
 
@@ -94,7 +94,8 @@ export default function ChangeRoleModal({
                 <div>
                   <h2 className="text-xl font-bold">{t("roleModal.title")}</h2>
                   <p className="text-sm text-white/80">
-                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
+                    {user.name.split(" ")[0]}{" "}
+                    {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -117,10 +118,7 @@ export default function ChangeRoleModal({
 
               <div className="space-y-2">
                 <Label htmlFor="role">{t("roleModal.newRole")} *</Label>
-                <Select
-                  value={role}
-                  onValueChange={(value) => setRole(value)}
-                >
+                <Select value={role} onValueChange={(value) => setRole(value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -190,4 +188,3 @@ export default function ChangeRoleModal({
     </AnimatePresence>
   );
 }
-

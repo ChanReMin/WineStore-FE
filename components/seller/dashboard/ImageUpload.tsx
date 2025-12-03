@@ -18,6 +18,7 @@ import {
 
 interface ImageUploadProps {
   value: string[];
+  existingImageUrl?: string; // URL of existing image from server
   onChange: (images: string[], files?: File[]) => void;
   maxFiles?: number;
   maxSizeMB?: number;
@@ -27,6 +28,7 @@ interface ImageUploadProps {
 
 export default function ImageUpload({
   value = [],
+  existingImageUrl,
   onChange,
   maxFiles = 5,
   maxSizeMB = 5,
@@ -39,6 +41,10 @@ export default function ImageUpload({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [fileObjects, setFileObjects] = useState<File[]>([]);
+
+  // Determine if we should show existing image or new uploads
+  const hasNewImages = value.length > 0;
+  const shouldShowExisting = existingImageUrl && !hasNewImages;
 
   const handleFiles = async (files: FileList | null) => {
     if (!files) return;
@@ -142,6 +148,13 @@ export default function ImageUpload({
     setError(null);
   };
 
+  const removeExistingImage = () => {
+    // When removing existing image, just clear it from UI
+    // The actual removal will be sent when user submits the form
+    onChange([], []);
+    setError(null);
+  };
+
   return (
     <div className="space-y-4">
       {/* Upload Area */}
@@ -227,9 +240,46 @@ export default function ImageUpload({
       </AnimatePresence>
 
       {/* Image Preview Grid */}
-      {value.length > 0 && (
+      {(existingImageUrl || value.length > 0) && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           <AnimatePresence>
+            {/* Show existing image if no new images uploaded */}
+            {existingImageUrl && value.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="relative group aspect-square rounded-lg overflow-hidden border-2 border-[#d4d6b4] hover:border-[#3b4417] transition-all"
+              >
+                {/* Image */}
+                <img
+                  src={existingImageUrl}
+                  alt="Current product image"
+                  className="w-full h-full object-cover"
+                />
+
+                {/* Overlay with Delete Button */}
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeExistingImage();
+                    }}
+                    className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
+                    title="Xóa ảnh hiện tại"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Current Image Badge */}
+                <div className="absolute top-2 left-2 px-2 py-1 bg-blue-600 text-white text-xs font-semibold rounded">
+                  Ảnh hiện tại
+                </div>
+              </motion.div>
+            )}
+
+            {/* Show new uploaded images */}
             {value.map((image, index) => (
               <motion.div
                 key={index}
@@ -261,7 +311,7 @@ export default function ImageUpload({
                 {/* Primary Badge */}
                 {index === 0 && (
                   <div className="absolute top-2 left-2 px-2 py-1 bg-[#3b4417] text-white text-xs font-semibold rounded">
-                    Ảnh chính
+                    {existingImageUrl ? "Ảnh mới (chính)" : "Ảnh chính"}
                   </div>
                 )}
 
@@ -276,7 +326,7 @@ export default function ImageUpload({
       )}
 
       {/* Info */}
-      {value.length === 0 && (
+      {!hasNewImages && !shouldShowExisting && (
         <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <ImageIcon className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
           <div>

@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Eye, Edit, Calendar, User, ShoppingBag } from "lucide-react";
+import {
+	Eye,
+	Edit,
+	Calendar,
+	User,
+	Wine,
+	Receipt,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import {
@@ -14,7 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import OrderStatusBadge from "./OrderStatusBadge";
-import PaymentStatusBadge from "./PaymentStatusBadge";
+
 interface OrdersTableProps {
   orders: any[];
   onViewDetails?: (order: any) => void;
@@ -27,7 +34,6 @@ export default function OrdersTable({
   onUpdateStatus,
 }: OrdersTableProps) {
   const t = useTranslations("seller.orders");
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
@@ -49,7 +55,7 @@ export default function OrdersTable({
   if (orders.length === 0) {
     return (
       <Card className="p-12 text-center border-[#d4d6b4]">
-        <ShoppingBag className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
+        <Wine className="w-16 h-16 mx-auto text-[#7a8451] mb-4 opacity-50" />
         <h3 className="text-xl font-semibold text-[#3b4417] mb-2">
           {t("table.noOrders")}
         </h3>
@@ -74,9 +80,6 @@ export default function OrdersTable({
                 {t("table.orderStatus")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
-                {t("table.paymentStatus")}
-              </TableHead>
-              <TableHead className="font-semibold text-[#3b4417]">
                 {t("table.totalAmount")}
               </TableHead>
               <TableHead className="font-semibold text-[#3b4417]">
@@ -94,14 +97,12 @@ export default function OrdersTable({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                onMouseEnter={() => setHoveredRow(order.id)}
-                onMouseLeave={() => setHoveredRow(null)}
                 className="border-b border-[#e8e6dc] hover:bg-[#fdfbf5] transition-colors"
               >
                 <TableCell className="font-medium text-[#3b4417]">
                   <div className="flex items-center gap-2">
-                    <ShoppingBag className="w-4 h-4 text-[#7a8451]" />
-                    {order.orderCode}
+                    <Receipt className="w-4 h-4 text-[#7a8451]" />
+                    <span>{order.orderCode}</span>
                   </div>
                 </TableCell>
                 <TableCell>
@@ -109,10 +110,10 @@ export default function OrdersTable({
                     <User className="w-4 h-4 text-[#7a8451] mt-1" />
                     <div>
                       <p className="font-medium text-[#3b4417]">
-                        {order.customer.name}
+                        {order.shippingAddress?.fullName || "N/A"}
                       </p>
                       <p className="text-sm text-[#7a8451]">
-                        {order.customer.email}
+                        {order.shippingAddress?.phoneNumber || "N/A"}
                       </p>
                     </div>
                   </div>
@@ -122,9 +123,6 @@ export default function OrdersTable({
                     status={order.status}
                     statusText={order.statusText}
                   />
-                </TableCell>
-                <TableCell>
-                  <PaymentStatusBadge status={order.paymentStatus} />
                 </TableCell>
                 <TableCell className="font-semibold text-[#3b4417]">
                   {formatPrice(order.finalAmount)}
@@ -150,19 +148,17 @@ export default function OrdersTable({
                         <Eye className="w-4 h-4" />
                       </motion.button>
                     )}
-                    {onUpdateStatus &&
-                      order.status !== 4 &&
-                      order.status !== 5 && (
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => onUpdateStatus(order)}
-                          className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
-                          title={t("table.updateStatus")}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </motion.button>
-                      )}
+                    {onUpdateStatus && order.status !== 6 && (
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => onUpdateStatus(order)}
+                        className="p-2 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors"
+                        title={t("table.updateStatus")}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </motion.button>
+                    )}
                   </div>
                 </TableCell>
               </motion.tr>

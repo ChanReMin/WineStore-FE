@@ -34,50 +34,49 @@ export default function Home() {
   const [showAgeModal, setShowAgeModal] = useState(false);
 
   useEffect(() => {
-  let scrollInstance: any;
+    let scrollInstance: any;
 
-  const init = async () => {
-    const LocomotiveScroll = (await import("locomotive-scroll")).default;
-    scrollInstance = new LocomotiveScroll();
+    const init = async () => {
+      const LocomotiveScroll = (await import("locomotive-scroll")).default;
+      scrollInstance = new LocomotiveScroll();
 
-    document.body.style.cursor = "default";
+      document.body.style.cursor = "default";
 
-    const hasSeenPreloader = sessionStorage.getItem("preloaderShown");
-    const hasVerifiedAge = localStorage.getItem("age");
+      const hasSeenPreloader = sessionStorage.getItem("preloaderShown");
+      const hasVerifiedAge = localStorage.getItem("age");
 
-    const showModals = (delay: number) => {
+      const showModals = (delay: number) => {
+        setTimeout(() => {
+          if (!hasVerifiedAge) {
+            setShowAgeModal(true);
+          }
+        }, delay);
+      };
+
+      // Đã có preloader → vào thẳng trang
+      if (hasSeenPreloader) {
+        showModals(500);
+        return;
+      }
+
+      // Lần đầu vào → chạy preloader
       setTimeout(() => {
-        if (!hasVerifiedAge) {
-          setShowAgeModal(true);
-        }
-      }, delay);
+        setIsLoading(false);
+        sessionStorage.setItem("preloaderShown", "true");
+        window.scrollTo(0, 0);
+        document.body.style.cursor = "default";
+        showModals(1500);
+      }, 2000);
     };
 
-    // Đã có preloader → vào thẳng trang
-    if (hasSeenPreloader) {
-      showModals(500);
-      return;
-    }
+    init();
 
-    // Lần đầu vào → chạy preloader
-    setTimeout(() => {
-      setIsLoading(false);
-      sessionStorage.setItem("preloaderShown", "true");
-      window.scrollTo(0, 0);
-      document.body.style.cursor = "default";
-      showModals(1500);
-    }, 2000);
-  };
-
-  init();
-
-  return () => {
-    if (scrollInstance && scrollInstance.destroy) {
-      scrollInstance.destroy();
-    }
-  };
-}, []);
-
+    return () => {
+      if (scrollInstance && scrollInstance.destroy) {
+        scrollInstance.destroy();
+      }
+    };
+  }, []);
 
   const handleAgeVerification = (isAdult: boolean) => {
     localStorage.setItem("age", isAdult.toString());
@@ -87,7 +86,6 @@ export default function Home() {
       toast.error("You must be at least 18 years old to enter this site.");
     }
   };
-
 
   return (
     <main

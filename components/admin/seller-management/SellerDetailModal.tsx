@@ -65,34 +65,45 @@ export default function SellerDetailModal({
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
               {/* Profile Section */}
               <div className="flex items-start gap-6 mb-6 p-6 bg-[#fdfbf5] rounded-xl">
-                <img
-                  src={seller.avatar}
-                  alt={`${seller.firstName} ${seller.lastName}`}
-                  className="w-24 h-24 rounded-full object-cover"
-                />
+                {seller.avatar ? (
+                  <img
+                    src={seller.avatar}
+                    alt={seller.name}
+                    className="w-24 h-24 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white text-3xl font-bold">
+                    {seller.name ? seller.name.charAt(0).toUpperCase() : "S"}
+                  </div>
+                )}
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-[#3b4417] mb-2">
-                    {seller.firstName} {seller.lastName}
+                    {seller.name}
                   </h3>
                   <div className="flex items-center gap-2 mb-3">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        seller.status === 1
+                        seller.status === "active"
                           ? "bg-emerald-50 text-emerald-700"
-                          : seller.status === 0
+                          : seller.status === "inactive"
                             ? "bg-amber-50 text-amber-700"
                             : "bg-red-50 text-red-700"
                       }`}
                     >
-                      {seller.status === 1
+                      {seller.status === "active"
                         ? t("status.active")
-                        : seller.status === 0
+                        : seller.status === "inactive"
                           ? t("status.inactive")
                           : t("status.locked")}
                     </span>
                     <span className="text-sm text-neutral-500">
                       ID: {seller.id}
                     </span>
+                    {seller.emailVerified && (
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-50 text-green-700">
+                        {t("detailModal.verified")}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -112,7 +123,7 @@ export default function SellerDetailModal({
                       </p>
                     </div>
                   </div>
-                  {seller.phoneNumber && (
+                  {seller.phone && (
                     <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
                       <Phone className="w-5 h-5 text-[#7a8451]" />
                       <div>
@@ -120,107 +131,48 @@ export default function SellerDetailModal({
                           {t("detailModal.phone")}
                         </p>
                         <p className="font-medium text-neutral-900">
-                          {seller.phoneNumber}
+                          {seller.phone}
                         </p>
                       </div>
                     </div>
                   )}
-                  {seller.dateOfBirth && (
-                    <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
-                      <Calendar className="w-5 h-5 text-[#7a8451]" />
-                      <div>
-                        <p className="text-xs text-neutral-500">
-                          {t("detailModal.dob")}
-                        </p>
-                        <p className="font-medium text-neutral-900">
-                          {new Date(seller.dateOfBirth).toLocaleDateString(
-                            "vi-VN"
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                  <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
-                    <User className="w-5 h-5 text-[#7a8451]" />
-                    <div>
-                      <p className="text-xs text-neutral-500">
-                        {t("detailModal.gender")}
-                      </p>
-                      <p className="font-medium text-neutral-900">
-                        {seller.gender === 1
-                          ? t("gender.male")
-                          : t("gender.female")}
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
               {/* Statistics */}
-              {seller.statistics && (
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-[#3b4417] mb-4">
-                    {t("detailModal.statistics")}
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 bg-blue-50 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <TrendingUp className="w-5 h-5 text-blue-600" />
-                        <p className="text-sm text-blue-600 font-medium">
-                          {t("stats.orders")}
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-blue-700">
-                        {seller.statistics.totalOrdersHandled}
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-[#3b4417] mb-4">
+                  {t("detailModal.statistics")}
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingUp className="w-5 h-5 text-blue-600" />
+                      <p className="text-sm text-blue-600 font-medium">
+                        {t("stats.orders")}
                       </p>
                     </div>
-                    <div className="p-4 bg-emerald-50 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <TrendingUp className="w-5 h-5 text-emerald-600" />
-                        <p className="text-sm text-emerald-600 font-medium">
-                          {t("stats.revenue")}
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-emerald-700">
-                        {new Intl.NumberFormat("vi-VN", {
-                          style: "currency",
-                          currency: "VND",
-                          notation: "compact",
-                        }).format(seller.statistics.totalRevenue)}
+                    <p className="text-2xl font-bold text-blue-700">
+                      {seller.totalOrders}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-emerald-50 rounded-lg">
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingUp className="w-5 h-5 text-emerald-600" />
+                      <p className="text-sm text-emerald-600 font-medium">
+                        {t("stats.revenue")}
                       </p>
                     </div>
+                    <p className="text-2xl font-bold text-emerald-700">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                        notation: "compact",
+                      }).format(seller.totalSpent)}
+                    </p>
                   </div>
                 </div>
-              )}
-
-              {/* Managed Warehouses */}
-              {seller.managedWarehouses.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-[#3b4417] mb-4">
-                    {t("detailModal.warehouses")}
-                  </h4>
-                  <div className="space-y-3">
-                    {seller.managedWarehouses.map((warehouse) => (
-                      <div
-                        key={warehouse.warehouseId}
-                        className="flex items-center gap-3 p-4 bg-[#f5f3e8] rounded-lg"
-                      >
-                        <Warehouse className="w-5 h-5 text-[#3b4417]" />
-                        <div>
-                          <p className="font-medium text-[#3b4417]">
-                            {warehouse.warehouseName}
-                          </p>
-                          {warehouse.location && (
-                            <p className="text-sm text-neutral-600">
-                              {warehouse.location}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              </div>
 
               {/* Activity Info */}
               <div>
@@ -239,6 +191,19 @@ export default function SellerDetailModal({
                       </p>
                     </div>
                   </div>
+                  {seller.lastLogin && (
+                    <div className="flex items-center gap-3 p-4 bg-neutral-50 rounded-lg">
+                      <Clock className="w-5 h-5 text-[#7a8451]" />
+                      <div>
+                        <p className="text-xs text-neutral-500">
+                          {t("detailModal.lastLogin")}
+                        </p>
+                        <p className="font-medium text-neutral-900">
+                          {new Date(seller.lastLogin).toLocaleString("vi-VN")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

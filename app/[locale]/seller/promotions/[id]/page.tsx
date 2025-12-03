@@ -1,6 +1,15 @@
 "use client";
 
-import { AwaitedReactNode, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState, useEffect } from "react";
+import {
+  AwaitedReactNode,
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  useState,
+  useEffect,
+} from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -34,7 +43,10 @@ import {
 import PromotionStatusBadge from "@/components/seller/promotion/PromotionStatusBadge";
 import PromotionFormModal from "@/components/seller/promotion/PromotionFormModal";
 import ConfirmDeleteModal from "@/components/seller/promotion/ConfirmDeleteModal";
-import { fetchPromotions, fetchPromotionStatistics } from "@/services/promotionService";
+import {
+  fetchPromotions,
+  fetchPromotionStatistics,
+} from "@/services/promotionService";
 
 export default function PromotionDetailPage() {
   const params = useParams();
@@ -57,7 +69,7 @@ export default function PromotionDetailPage() {
     try {
       const [promotionRes, statsRes] = await Promise.all([
         fetchPromotions({ limit: 1 }),
-        fetchPromotionStatistics(Number(promotionId))
+        fetchPromotionStatistics(Number(promotionId)),
       ]);
       setPromotion(promotionRes.data.promotions[0]);
       setStatistics(statsRes.data);
@@ -362,32 +374,34 @@ export default function PromotionDetailPage() {
                 Sản phẩm áp dụng ({promotion.applicableProducts.length})
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {promotion.applicableProducts.map((product: any, index: number) => (
-                  <motion.div
-                    key={`product-${product.id}-${index}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 + index * 0.05 }}
-                    className="flex items-center justify-between p-4 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc] hover:border-[#3b4417] transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-[#f5f3e8] flex items-center justify-center">
-                        <Package className="w-5 h-5 text-[#7a8451]" />
+                {promotion.applicableProducts.map(
+                  (product: any, index: number) => (
+                    <motion.div
+                      key={`product-${product.id}-${index}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + index * 0.05 }}
+                      className="flex items-center justify-between p-4 bg-[#fdfbf5] rounded-lg border border-[#e8e6dc] hover:border-[#3b4417] transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[#f5f3e8] flex items-center justify-center">
+                          <Package className="w-5 h-5 text-[#7a8451]" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-[#3b4417]">
+                            {product.name}
+                          </p>
+                          <p className="text-xs text-[#7a8451]">
+                            ID: {product.id}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-[#3b4417]">
-                          {product.name}
-                        </p>
-                        <p className="text-xs text-[#7a8451]">
-                          ID: {product.id}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="font-bold text-[#d4af37]">
-                      {formatCurrency(product.price)}
-                    </p>
-                  </motion.div>
-                ))}
+                      <p className="font-bold text-[#d4af37]">
+                        {formatCurrency(product.price)}
+                      </p>
+                    </motion.div>
+                  )
+                )}
               </div>
             </Card>
           </motion.div>

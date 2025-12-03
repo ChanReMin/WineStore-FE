@@ -9,7 +9,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
 import { Trash2, Plus, Minus } from "lucide-react";
 import { toast } from "react-toastify";
-import Image from "next/image";
+import ImageWithFallback from "@/components/ui/ImageWithFallback";
 
 export default function CartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -132,7 +132,6 @@ export default function CartDropdown() {
                     mass: 0.8,
                   }}
                 >
-              
                   {/* Decorative top accent */}
                   <div className="absolute left-0 right-0 top-0 h-1 bg-linear-to-r from-[#33391d] via-amber-700 to-[#33391d]" />
 
@@ -293,7 +292,7 @@ export default function CartDropdown() {
 
                               {/* Product Image */}
                               <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-md bg-neutral-100">
-                                <Image
+                                <ImageWithFallback
                                   src={item.product.image}
                                   alt={item.product.name}
                                   fill
@@ -349,18 +348,25 @@ export default function CartDropdown() {
                                     <motion.button
                                       whileHover={{ scale: 1.1 }}
                                       whileTap={{ scale: 0.9 }}
-                                      onClick={() =>
+                                      onClick={() => {
+                                        console.log("Plus clicked (dropdown):", {
+                                          itemId: item.id,
+                                          currentQuantity: item.quantity,
+                                          newQuantity: item.quantity + 1,
+                                          maxQuantity: item.product.maxQuantity,
+                                          isLoading,
+                                        });
                                         handleUpdateQuantity(
                                           item.id,
                                           item.quantity + 1
-                                        )
-                                      }
+                                        );
+                                      }}
                                       disabled={
                                         item.quantity >=
                                           item.product.maxQuantity || isLoading
                                       }
                                       className="p-1.5 text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-[#33391d] disabled:cursor-not-allowed disabled:opacity-30"
-                                      title={t("increaseQuantity")}
+                                      title={`${t("increaseQuantity")} - Max: ${item.product.maxQuantity}, Current: ${item.quantity}, Loading: ${isLoading}`}
                                     >
                                       <Plus className="h-3 w-3" />
                                     </motion.button>
@@ -437,6 +443,7 @@ export default function CartDropdown() {
                             {subtotal.toLocaleString("vi-VN")}₫
                           </span>
                         </div>
+                        {/* Shipping - Only show if there's a fee */}
                         {cart && cart.summary.estimatedshipping > 0 && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-neutral-600">
@@ -450,18 +457,6 @@ export default function CartDropdown() {
                             </span>
                           </div>
                         )}
-                        {cart &&
-                          cart.summary.estimatedshipping === 0 &&
-                          subtotal > 0 && (
-                            <div className="flex items-center justify-between text-sm">
-                              <span className="text-green-600">
-                                {t("freeShipping")}
-                              </span>
-                              <span className="font-semibold text-green-600">
-                                0₫
-                              </span>
-                            </div>
-                          )}
                         <div className="flex items-center justify-between border-t border-neutral-200 pt-2">
                           <span className="text-base font-bold uppercase tracking-wide text-neutral-900">
                             {t("total")}
@@ -474,20 +469,6 @@ export default function CartDropdown() {
                           </span>
                         </div>
                       </div>
-
-                      {/* Checkout Button */}
-                      <motion.button
-                        type="button"
-                        onClick={() => {
-                          setIsOpen(false);
-                          // Navigate to checkout
-                        }}
-                        className="mb-2 w-full bg-[#33391d] py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#2a2f18] hover:shadow-lg"
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                      >
-                        {t("checkoutNow")}
-                      </motion.button>
 
                       {/* View Cart Link */}
                       <Link

@@ -133,27 +133,27 @@ export default function TransferModal({
           />
 
           {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="w-full max-w-2xl"
+              className="w-full max-w-2xl max-h-[95vh] overflow-hidden"
             >
-              <Card className="border-[#d4d6b4] shadow-2xl overflow-hidden">
+              <Card className="border-[#d4d6b4] shadow-2xl overflow-hidden flex flex-col max-h-[95vh]">
                 {/* Header */}
-                <div className="p-6 border-b border-[#e8e6dc] bg-[#fdfbf5]">
+                <div className="p-4 md:p-6 border-b border-[#e8e6dc] bg-[#fdfbf5]">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 bg-[#3b4417] rounded-lg">
-                        <ArrowRightLeft className="w-5 h-5 text-white" />
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <div className="p-2 md:p-2.5 bg-[#3b4417] rounded-lg">
+                        <ArrowRightLeft className="w-4 md:w-5 h-4 md:h-5 text-white" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-[#3b4417]">
+                        <h2 className="text-lg md:text-xl font-bold text-[#3b4417]">
                           Chuyển kho
                         </h2>
-                        <p className="text-sm text-neutral-600 mt-0.5">
+                        <p className="text-xs md:text-sm text-neutral-600 mt-0.5">
                           Chuyển sản phẩm giữa các kho
                         </p>
                       </div>
@@ -168,37 +168,37 @@ export default function TransferModal({
                 </div>
 
                 {/* Content */}
-                <div className="p-6 space-y-6">
+                <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6">
                   {/* Product Info */}
-                  <div className="p-4 bg-[#f5f3e8] rounded-lg border border-[#e8e6dc]">
-                    <div className="flex items-center gap-3 mb-3">
-                      <Package className="w-5 h-5 text-[#7a8451]" />
-                      <h3 className="font-semibold text-[#3b4417]">
+                  <div className="p-3 md:p-4 bg-[#f5f3e8] rounded-lg border border-[#e8e6dc]">
+                    <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+                      <Package className="w-4 md:w-5 h-4 md:h-5 text-[#7a8451]" />
+                      <h3 className="text-sm md:text-base font-semibold text-[#3b4417]">
                         Thông tin sản phẩm
                       </h3>
                     </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-neutral-600">
+                    <div className="space-y-1.5 md:space-y-2">
+                      <div className="flex justify-between gap-2">
+                        <span className="text-xs md:text-sm text-neutral-600">
                           Sản phẩm:
                         </span>
-                        <span className="text-sm font-medium text-[#3b4417]">
+                        <span className="text-xs md:text-sm font-medium text-[#3b4417] text-right">
                           {item.product.name}
                         </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-neutral-600">
+                      <div className="flex justify-between gap-2">
+                        <span className="text-xs md:text-sm text-neutral-600">
                           Kho hiện tại:
                         </span>
-                        <span className="text-sm font-medium text-[#3b4417]">
+                        <span className="text-xs md:text-sm font-medium text-[#3b4417]">
                           {item.warehouse.name}
                         </span>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-neutral-600">
+                      <div className="flex justify-between gap-2">
+                        <span className="text-xs md:text-sm text-neutral-600">
                           Tồn kho:
                         </span>
-                        <span className="text-lg font-bold text-emerald-600">
+                        <span className="text-base md:text-lg font-bold text-emerald-600">
                           {item.quantityOnHand} sản phẩm
                         </span>
                       </div>
@@ -209,10 +209,13 @@ export default function TransferModal({
                   <div className="space-y-4">
                     {/* To Warehouse */}
                     <div>
-                      <Label className="text-sm font-semibold text-[#3b4417] mb-2 block">
+                      <Label className="text-xs md:text-sm font-semibold text-[#3b4417] mb-1.5 md:mb-2 block">
                         Kho đích <span className="text-red-500">*</span>
                       </Label>
-                      <Select value={toWarehouseId} onValueChange={setToWarehouseId}>
+                      <Select
+                        value={toWarehouseId}
+                        onValueChange={setToWarehouseId}
+                      >
                         <SelectTrigger className="border-[#d4d6b4]">
                           <SelectValue placeholder="Chọn kho đích..." />
                         </SelectTrigger>
@@ -225,7 +228,9 @@ export default function TransferModal({
                               <div className="flex items-center gap-2">
                                 <MapPin className="w-4 h-4 text-[#7a8451]" />
                                 <div>
-                                  <p className="font-medium">{warehouse.name}</p>
+                                  <p className="font-medium">
+                                    {warehouse.name}
+                                  </p>
                                   <p className="text-xs text-neutral-500">
                                     {warehouse.location}
                                   </p>
@@ -239,7 +244,7 @@ export default function TransferModal({
 
                     {/* Quantity */}
                     <div>
-                      <Label className="text-sm font-semibold text-[#3b4417] mb-2 block">
+                      <Label className="text-xs md:text-sm font-semibold text-[#3b4417] mb-1.5 md:mb-2 block">
                         Số lượng chuyển <span className="text-red-500">*</span>
                       </Label>
                       <Input
@@ -256,14 +261,14 @@ export default function TransferModal({
 
                     {/* Note */}
                     <div>
-                      <Label className="text-sm font-semibold text-[#3b4417] mb-2 block">
+                      <Label className="text-xs md:text-sm font-semibold text-[#3b4417] mb-1.5 md:mb-2 block">
                         Ghi chú
                       </Label>
                       <Textarea
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="Nhập lý do chuyển kho..."
-                        className="border-[#d4d6b4] min-h-[80px]"
+                        className="border-[#d4d6b4] min-h-[60px] md:min-h-[80px] text-sm"
                       />
                     </div>
                   </div>
@@ -273,12 +278,12 @@ export default function TransferModal({
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="p-4 bg-blue-50 rounded-lg border border-blue-200"
+                      className="p-3 md:p-4 bg-blue-50 rounded-lg border border-blue-200"
                     >
-                      <p className="text-sm font-medium text-blue-900">
+                      <p className="text-xs md:text-sm font-medium text-blue-900">
                         Xác nhận chuyển kho:
                       </p>
-                      <p className="text-sm text-blue-700 mt-1">
+                      <p className="text-xs md:text-sm text-blue-700 mt-1">
                         Chuyển <span className="font-bold">{quantity}</span> sản
                         phẩm từ{" "}
                         <span className="font-bold">{item.warehouse.name}</span>{" "}
@@ -304,20 +309,20 @@ export default function TransferModal({
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-[#e8e6dc] bg-[#fdfbf5]">
-                  <div className="flex gap-3 justify-end">
+                <div className="p-4 md:p-6 border-t border-[#e8e6dc] bg-[#fdfbf5]">
+                  <div className="flex gap-2 md:gap-3 justify-end">
                     <Button
                       onClick={onClose}
                       variant="outline"
                       disabled={isTransferring}
-                      className="border-[#d4d6b4] hover:bg-white"
+                      className="border-[#d4d6b4] hover:bg-white text-sm md:text-base px-4 md:px-6"
                     >
                       Hủy
                     </Button>
                     <Button
                       onClick={handleTransfer}
                       disabled={isTransferring || !toWarehouseId || !quantity}
-                      className="bg-[#3b4417] hover:bg-[#2a2f18] text-white min-w-[120px]"
+                      className="bg-[#3b4417] hover:bg-[#2a2f18] text-white min-w-[100px] md:min-w-[120px] text-sm md:text-base px-4 md:px-6"
                     >
                       {isTransferring ? (
                         <>

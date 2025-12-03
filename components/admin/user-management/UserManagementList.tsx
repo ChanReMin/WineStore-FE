@@ -87,10 +87,10 @@ export default function UserManagementList() {
         sortBy: sortBy,
         sortOrder: sortOrder,
       });
-      
+
       const users = response.data.users || [];
       setUsers(users);
-      
+
       // Map pagination from API response
       const paginationData = response.data.pagination;
       setPagination({
@@ -98,15 +98,15 @@ export default function UserManagementList() {
         totalPages: paginationData?.totalPages || 1,
         total: paginationData?.totalUsers || 0,
       });
-      
+
       // Calculate summary from users data since API doesn't provide it
       const totalUsers = paginationData?.totalUsers || users.length;
-      const activeUsers = users.filter(u => u.status === 'active').length;
-      const inactiveUsers = users.filter(u => u.status === 'inactive').length;
-      const customers = users.filter(u => u.role === 'customer').length;
-      const sellers = users.filter(u => u.role === 'seller').length;
-      const admins = users.filter(u => u.role === 'admin').length;
-      
+      const activeUsers = users.filter((u) => u.status === "active").length;
+      const inactiveUsers = users.filter((u) => u.status === "inactive").length;
+      const customers = users.filter((u) => u.role === "customer").length;
+      const sellers = users.filter((u) => u.role === "seller").length;
+      const admins = users.filter((u) => u.role === "admin").length;
+
       setSummary({
         totalUsers,
         activeUsers,
@@ -468,9 +468,15 @@ export default function UserManagementList() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">{t("filters.allRoles")}</SelectItem>
-                      <SelectItem value="customer">{t("filters.customers")}</SelectItem>
-                      <SelectItem value="seller">{t("filters.sellers")}</SelectItem>
+                      <SelectItem value="all">
+                        {t("filters.allRoles")}
+                      </SelectItem>
+                      <SelectItem value="customer">
+                        {t("filters.customers")}
+                      </SelectItem>
+                      <SelectItem value="seller">
+                        {t("filters.sellers")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -487,9 +493,18 @@ export default function UserManagementList() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">{t("filters.allStatus")}</SelectItem>
-                      <SelectItem value="active">{t("filters.active")}</SelectItem>
-                      <SelectItem value="inactive">{t("filters.inactive")}</SelectItem>
+                      <SelectItem value="all">
+                        {t("filters.allStatus")}
+                      </SelectItem>
+                      <SelectItem value="active">
+                        {t("filters.active")}
+                      </SelectItem>
+                      <SelectItem value="inactive">
+                        {t("filters.inactive")}
+                      </SelectItem>
+                      <SelectItem value="locked">
+                        {t("filters.locked")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -509,11 +524,21 @@ export default function UserManagementList() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="createdAt">{t("filters.sortByCreatedAt")}</SelectItem>
-                      <SelectItem value="name">{t("filters.sortByName")}</SelectItem>
-                      <SelectItem value="email">{t("filters.sortByEmail")}</SelectItem>
-                      <SelectItem value="totalOrders">{t("filters.sortByOrders")}</SelectItem>
-                      <SelectItem value="totalSpent">{t("filters.sortBySpent")}</SelectItem>
+                      <SelectItem value="createdAt">
+                        {t("filters.sortByCreatedAt")}
+                      </SelectItem>
+                      <SelectItem value="name">
+                        {t("filters.sortByName")}
+                      </SelectItem>
+                      <SelectItem value="email">
+                        {t("filters.sortByEmail")}
+                      </SelectItem>
+                      <SelectItem value="totalOrders">
+                        {t("filters.sortByOrders")}
+                      </SelectItem>
+                      <SelectItem value="totalSpent">
+                        {t("filters.sortBySpent")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -524,14 +549,20 @@ export default function UserManagementList() {
                   </label>
                   <Select
                     value={sortOrder}
-                    onValueChange={(value) => setSortOrder(value as "asc" | "desc")}
+                    onValueChange={(value) =>
+                      setSortOrder(value as "asc" | "desc")
+                    }
                   >
                     <SelectTrigger className="h-10 border-neutral-300 focus:border-[#3b4417] focus:ring-[#3b4417]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="asc">{t("filters.ascending")}</SelectItem>
-                      <SelectItem value="desc">{t("filters.descending")}</SelectItem>
+                      <SelectItem value="asc">
+                        {t("filters.ascending")}
+                      </SelectItem>
+                      <SelectItem value="desc">
+                        {t("filters.descending")}
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -545,7 +576,7 @@ export default function UserManagementList() {
       <Card className="hidden lg:block">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[900px]">
               <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-medium text-neutral-600 uppercase tracking-wider">
@@ -583,7 +614,9 @@ export default function UserManagementList() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
-                            {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                            {user.name
+                              ? user.name.charAt(0).toUpperCase()
+                              : "U"}
                           </div>
                           <div>
                             <p className="font-medium text-[#3b4417]">
@@ -615,9 +648,7 @@ export default function UserManagementList() {
                       </td>
 
                       {/* Role */}
-                      <td className="px-6 py-4">
-                        {getRoleBadge(user.role)}
-                      </td>
+                      <td className="px-6 py-4">{getRoleBadge(user.role)}</td>
 
                       {/* Statistics */}
                       <td className="px-6 py-4">
@@ -672,17 +703,17 @@ export default function UserManagementList() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleChangeStatus(user)}
                             className={`p-2 rounded-lg transition-colors ${
-                              user.status === 'active'
+                              user.status === "active"
                                 ? "text-amber-600 hover:bg-amber-50"
                                 : "text-emerald-600 hover:bg-emerald-50"
                             }`}
                             title={
-                              user.status === 'active'
+                              user.status === "active"
                                 ? t("actions.deactivate")
                                 : t("actions.activate")
                             }
                           >
-                            {user.status === 'active' ? (
+                            {user.status === "active" ? (
                               <Lock className="w-4 h-4" />
                             ) : (
                               <Unlock className="w-4 h-4" />
@@ -727,14 +758,12 @@ export default function UserManagementList() {
                 <CardContent className="p-4">
                   {/* User Header */}
                   <div className="flex items-start gap-3 mb-4">
-                    <img
-                      src={user.name}
-                      alt={`${user.name} ${""}`}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold shrink-0">
+                      {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-[#3b4417] truncate">
-                        {user.name} {""}
+                        {user.name}
                       </h3>
                       <p className="text-xs text-neutral-500">ID: {user.id}</p>
                       <div className="flex gap-2 mt-2">
@@ -755,9 +784,7 @@ export default function UserManagementList() {
                     {user.phone && (
                       <div className="flex items-center gap-2 text-sm">
                         <Phone className="w-4 h-4 text-neutral-400 shrink-0" />
-                        <span className="text-neutral-700">
-                          {user.phone}
-                        </span>
+                        <span className="text-neutral-700">{user.phone}</span>
                       </div>
                     )}
                   </div>
@@ -917,4 +944,3 @@ export default function UserManagementList() {
     </div>
   );
 }
-

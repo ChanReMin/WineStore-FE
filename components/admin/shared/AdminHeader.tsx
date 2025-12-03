@@ -34,6 +34,10 @@ export default function AdminHeader() {
     router.push("/");
   };
 
+  const goProfile = () => {
+    router.push("/profile");
+  };
+
   const currentLanguage = languages.find((l) => l.code === locale);
 
   return (
@@ -204,15 +208,10 @@ export default function AdminHeader() {
                   <div className="p-2">
                     <button
                       type="button"
+                      onClick={goProfile}
                       className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
                     >
                       {t("myProfile")}
-                    </button>
-                    <button
-                      type="button"
-                      className="w-full rounded-lg px-4 py-2 text-left text-sm text-neutral-700 transition-colors hover:bg-neutral-100"
-                    >
-                      {t("settings")}
                     </button>
                     <button
                       type="button"

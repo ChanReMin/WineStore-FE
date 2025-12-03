@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
+import type { Address as ProfileAddress } from "@/types/profile";
 
 // Types
 export interface CartItem {
@@ -17,18 +18,8 @@ export interface CartItem {
   isAvailable: boolean;
 }
 
-export interface Address {
-  id: number;
-  userId: number;
-  fullName: string;
-  phoneNumber: string;
-  addressLine: string;
-  ward?: string;
-  district?: string;
-  city: string;
-  isDefault: boolean;
-  createdAt: string;
-}
+// Use Address type from profile (matches backend API)
+export interface Address extends ProfileAddress {}
 
 export interface PaymentMethod {
   id: number;
@@ -38,35 +29,14 @@ export interface PaymentMethod {
   isActive: boolean;
 }
 
-export interface Promotion {
-  id: number;
-  code: string;
-  name: string;
-  description: string;
-  discount_type: number;
-  discountTypeText: string;
-  discount_value: number;
-  minOrderAmount: number;
-  start_date: string;
-  end_date: string;
-}
-
-export interface ShippingFee {
-  shippingFee: number;
-  estimatedDeliveryDays: number;
-  freeShippingThreshold: number;
-  note: string;
-}
+// Promotion and Shipping removed - not used in this implementation
 
 export interface OrderPreview {
   items: CartItem[];
   shippingAddress: Address;
   paymentMethod: PaymentMethod;
-  promotion?: Promotion;
   summary: {
     subtotal: number;
-    discountAmount: number;
-    shippingFee: number;
     totalAmount: number;
   };
 }
@@ -85,29 +55,18 @@ interface CheckoutContextType {
   addresses: Address[];
   selectedPaymentMethod: PaymentMethod | null;
   paymentMethods: PaymentMethod[];
-  promotion: Promotion | null;
-  promotionCode: string;
-  shippingFee: ShippingFee | null;
   orderPreview: OrderPreview | null;
   orderId: string | null;
   isLoadingCart: boolean;
   isLoadingAddresses: boolean;
   isLoadingPaymentMethods: boolean;
-  isValidatingPromotion: boolean;
-  isCalculatingShipping: boolean;
   isCreatingOrder: boolean;
   setCurrentStep: (step: CheckoutStep) => void;
   updateCartItemQuantity: (itemId: number, quantity: number) => Promise<void>;
   removeCartItem: (itemId: number) => Promise<void>;
   selectAddress: (address: Address) => void;
-  addNewAddress: (
-    address: Omit<Address, "id" | "userId" | "createdAt">
-  ) => Promise<void>;
+  addNewAddress: (address: Omit<Address, "id" | "createdAt">) => Promise<void>;
   selectPaymentMethod: (method: PaymentMethod) => void;
-  setPromotionCode: (code: string) => void;
-  validatePromotion: () => Promise<void>;
-  calculateShipping: () => Promise<void>;
-  createOrderPreview: () => Promise<void>;
   submitOrder: () => Promise<void>;
   resetCheckout: () => void;
   initializeData?: (
@@ -115,6 +74,7 @@ interface CheckoutContextType {
     addressData: Address[],
     paymentData: PaymentMethod[]
   ) => void;
+  loadAddresses: () => Promise<void>;
 }
 
 const CheckoutContext = createContext<CheckoutContextType | undefined>(
@@ -139,19 +99,14 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<PaymentMethod | null>(null);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
-  const [promotion, setPromotion] = useState<Promotion | null>(null);
-  const [promotionCode, setPromotionCode] = useState("");
-  const [shippingFee, setShippingFee] = useState<ShippingFee | null>(null);
   const [orderPreview, setOrderPreview] = useState<OrderPreview | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [isLoadingCart, setIsLoadingCart] = useState(false);
   const [isLoadingAddresses, setIsLoadingAddresses] = useState(false);
   const [isLoadingPaymentMethods, setIsLoadingPaymentMethods] = useState(false);
-  const [isValidatingPromotion, setIsValidatingPromotion] = useState(false);
-  const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
   const [isCreatingOrder, setIsCreatingOrder] = useState(false);
 
-  // Initialize with mock data
+  // Initialize checkout data
   const initializeData = useCallback(
     (
       cartData: CartItem[],
@@ -169,6 +124,27 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     },
     []
   );
+
+  // Load addresses from API
+  const loadAddresses = useCallback(async () => {
+    setIsLoadingAddresses(true);
+    try {
+      const { profileService } = await import("@/services/profileService");
+      const addressData = await profileService.getAddresses();
+      setAddresses(addressData);
+      if (addressData.length > 0) {
+        setSelectedAddress(
+          addressData.find((a) => a.isDefault) || addressData[0]
+        );
+      }
+    } catch (error) {
+      console.error("Failed to load addresses:", error);
+      const { toast } = await import("react-toastify");
+      toast.error("Không thể tải danh sách địa chỉ");
+    } finally {
+      setIsLoadingAddresses(false);
+    }
+  }, []);
 
   const updateCartItemQuantity = useCallback(
     async (itemId: number, quantity: number) => {
@@ -194,18 +170,27 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const addNewAddress = useCallback(
-    async (addressData: Omit<Address, "id" | "userId" | "createdAt">) => {
+    async (addressData: Omit<Address, "id" | "createdAt">) => {
       setIsLoadingAddresses(true);
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      const newAddress: Address = {
-        ...addressData,
-        id: Date.now(),
-        userId: 456,
-        createdAt: new Date().toISOString(),
-      };
-      setAddresses((prev) => [...prev, newAddress]);
-      setSelectedAddress(newAddress);
-      setIsLoadingAddresses(false);
+      try {
+        const { profileService } = await import("@/services/profileService");
+        const { toast } = await import("react-toastify");
+
+        const newAddress = await profileService.addAddress(addressData);
+        setAddresses((prev) => [...prev, newAddress]);
+        setSelectedAddress(newAddress);
+
+        toast.success("Đã thêm địa chỉ mới");
+      } catch (error: any) {
+        console.error("Failed to add address:", error);
+        const { toast } = await import("react-toastify");
+        const message =
+          error.response?.data?.message || "Không thể thêm địa chỉ";
+        toast.error(message);
+        throw error;
+      } finally {
+        setIsLoadingAddresses(false);
+      }
     },
     []
   );
@@ -214,83 +199,74 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     setSelectedPaymentMethod(method);
   }, []);
 
-  const validatePromotion = useCallback(async () => {
-    if (!promotionCode.trim()) return;
-    setIsValidatingPromotion(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (promotionCode.toUpperCase() === "SUMMER2024") {
-      setPromotion({
-        id: 5,
-        code: "SUMMER2024",
-        name: "Giảm giá mùa hè 2024",
-        description: "Giảm 5% cho đơn hàng từ 10 triệu",
-        discount_type: 1,
-        discountTypeText: "Phần trăm",
-        discount_value: 5.0,
-        minOrderAmount: 10000000.0,
-        start_date: "2024-06-01T00:00:00Z",
-        end_date: "2024-08-31T23:59:59Z",
-      });
-    } else {
-      setPromotion(null);
-      alert("Mã khuyến mãi không hợp lệ");
-    }
-    setIsValidatingPromotion(false);
-  }, [promotionCode]);
-
-  const calculateShipping = useCallback(async () => {
-    if (!selectedAddress) return;
-    setIsCalculatingShipping(true);
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setShippingFee({
-      shippingFee: 50000.0,
-      estimatedDeliveryDays: 3,
-      freeShippingThreshold: 50000000.0,
-      note: "Miễn phí vận chuyển cho đơn hàng từ 50 triệu",
-    });
-    setIsCalculatingShipping(false);
-  }, [selectedAddress]);
-
-  const createOrderPreview = useCallback(async () => {
-    if (!selectedAddress || !selectedPaymentMethod) return;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const subtotal = cart.reduce((sum, item) => sum + item.lineTotal, 0);
-    const discountAmount = promotion
-      ? (subtotal * promotion.discount_value) / 100
-      : 0;
-    const shippingCost = shippingFee?.shippingFee || 0;
-    const totalAmount = subtotal - discountAmount + shippingCost;
-    setOrderPreview({
-      items: cart,
-      shippingAddress: selectedAddress,
-      paymentMethod: selectedPaymentMethod,
-      promotion: promotion || undefined,
-      summary: {
-        subtotal,
-        discountAmount,
-        shippingFee: shippingCost,
-        totalAmount,
-      },
-    });
-  }, [cart, selectedAddress, selectedPaymentMethod, promotion, shippingFee]);
-
   const submitOrder = useCallback(async () => {
     setIsCreatingOrder(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const newOrderId = `ORD-${Date.now()}`;
-    setOrderId(newOrderId);
-    setCurrentStep("success");
-    setIsCreatingOrder(false);
-  }, []);
+
+    try {
+      const { toast } = await import("react-toastify");
+
+      // Validate address & payment method
+      if (!selectedAddress || !selectedPaymentMethod) {
+        toast.error("Vui lòng chọn đầy đủ địa chỉ và phương thức thanh toán");
+        return;
+      }
+
+      // Create order via API
+      // POST /api/v1/orders
+      // Returns: { orderId, orderCode, paymentUrl, ... }
+      const orderService = (await import("@/services/orderService")).default;
+      const orderResponse = await orderService.createOrder({
+        shippingAddressId: selectedAddress.id,
+        paymentMethodId: selectedPaymentMethod.id, // 1: COD, 2: VNPAY, 3: MOMO
+        couponCode: "",
+        note: undefined,
+      });
+
+      // Set order ID
+      setOrderId(orderResponse.orderCode);
+
+      // Backend has cleared the cart, fetch updated cart from API
+      if (typeof window !== "undefined") {
+        const { useCartStore } = await import("@/stores/cartStore");
+        await useCartStore.getState().fetchCart(); // Fetch updated cart (will be empty)
+      }
+      // Clear checkout cart items
+      setCart([]);
+
+      // Handle payment redirect based on payment method
+      if (orderResponse.paymentUrl) {
+        // For online payment methods (paymentMethodId 2: VNPAY, 3: MOMO)
+        // Redirect to payment gateway URL immediately
+        toast.success("Đang chuyển đến trang thanh toán...");
+        window.location.href = orderResponse.paymentUrl;
+        return; // Stop execution, browser will redirect
+      }
+
+      // For COD (paymentMethodId 1) - No payment URL needed
+      // Show success page directly
+      setCurrentStep("success");
+      toast.success("Đặt hàng thành công!");
+    } catch (error: any) {
+      console.error("Order creation failed:", error);
+
+      const { toast } = await import("react-toastify");
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Đặt hàng thất bại. Vui lòng thử lại.";
+      toast.error(message);
+
+      throw error;
+    } finally {
+      setIsCreatingOrder(false);
+    }
+  }, [selectedAddress, selectedPaymentMethod]);
 
   const resetCheckout = useCallback(() => {
     setCurrentStep("cart");
     setCart([]);
     setSelectedAddress(null);
     setSelectedPaymentMethod(null);
-    setPromotion(null);
-    setPromotionCode("");
-    setShippingFee(null);
     setOrderPreview(null);
     setOrderId(null);
   }, []);
@@ -302,16 +278,11 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     addresses,
     selectedPaymentMethod,
     paymentMethods,
-    promotion,
-    promotionCode,
-    shippingFee,
     orderPreview,
     orderId,
     isLoadingCart,
     isLoadingAddresses,
     isLoadingPaymentMethods,
-    isValidatingPromotion,
-    isCalculatingShipping,
     isCreatingOrder,
     setCurrentStep,
     updateCartItemQuantity,
@@ -319,13 +290,10 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     selectAddress,
     addNewAddress,
     selectPaymentMethod,
-    setPromotionCode,
-    validatePromotion,
-    calculateShipping,
-    createOrderPreview,
     submitOrder,
     resetCheckout,
     initializeData,
+    loadAddresses,
   };
 
   return (

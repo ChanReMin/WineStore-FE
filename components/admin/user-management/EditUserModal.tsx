@@ -102,7 +102,8 @@ export default function EditUserModal({
                 <div>
                   <h2 className="text-xl font-bold">{t("editModal.title")}</h2>
                   <p className="text-sm text-white/80">
-                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
+                    {user.name.split(" ")[0]}{" "}
+                    {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -252,6 +253,3 @@ export default function EditUserModal({
     </AnimatePresence>
   );
 }
-
-
-

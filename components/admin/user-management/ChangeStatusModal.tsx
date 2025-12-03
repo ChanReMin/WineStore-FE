@@ -73,7 +73,7 @@ export default function ChangeStatusModal({
             <div className="bg-linear-to-r from-amber-600 to-amber-700 text-white px-6 py-4 flex items-center justify-between rounded-t-2xl">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-2 rounded-lg">
-                  {status === 'active' ? (
+                  {status === "active" ? (
                     <Unlock className="w-5 h-5" />
                   ) : (
                     <Lock className="w-5 h-5" />
@@ -84,7 +84,8 @@ export default function ChangeStatusModal({
                     {t("statusModal.title")}
                   </h2>
                   <p className="text-sm text-white/80">
-                    {user.name.split(" ")[0]} {user.name.split(" ").slice(1).join(" ")}
+                    {user.name.split(" ")[0]}{" "}
+                    {user.name.split(" ").slice(1).join(" ")}
                   </p>
                 </div>
               </div>
@@ -116,7 +117,9 @@ export default function ChangeStatusModal({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="active">{t("status.active")}</SelectItem>
-                    <SelectItem value="inactive">{t("status.inactive")}</SelectItem>
+                    <SelectItem value="inactive">
+                      {t("status.inactive")}
+                    </SelectItem>
                     <SelectItem value="locked">{t("status.locked")}</SelectItem>
                   </SelectContent>
                 </Select>
@@ -158,7 +161,7 @@ export default function ChangeStatusModal({
                     </>
                   ) : (
                     <>
-                      {status === 'active' ? (
+                      {status === "active" ? (
                         <Unlock className="w-4 h-4" />
                       ) : (
                         <Lock className="w-4 h-4" />
@@ -175,4 +178,3 @@ export default function ChangeStatusModal({
     </AnimatePresence>
   );
 }
-

@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo, Suspense, useRef } from "react";
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Suspense,
+  useRef,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -23,6 +30,7 @@ import { fetchCategories } from "@/services/categoryService";
 import { fetchBrands } from "@/services/brandService";
 import type { Product } from "@/types/product";
 import { Playfair_Display } from "next/font/google";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -48,7 +56,7 @@ function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  
+
   // API data states
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -57,11 +65,6 @@ function ShopContent() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Global debounce timer for all filter changes
-  const filterDebounceTimer = useRef<NodeJS.Timeout | null>(null);
-  // Track if we're currently changing pages to prevent race conditions
-  const isChangingPage = useRef(false);
 
   // Filters synced from URL (for API calls)
   const [filters, setFilters] = useState<ProductFilters>({
@@ -80,15 +83,20 @@ function ShopContent() {
     sortby: "createdAt",
     sortorder: "desc",
   });
-  
+
   // Ref to store the latest localFilters without triggering useCallback re-creation
   const localFiltersRef = useRef<ProductFilters>(localFilters);
-  
+
   // Update ref whenever localFilters changes
   useEffect(() => {
     localFiltersRef.current = localFilters;
   }, [localFilters]);
-  
+
+  // Debounced function to push filters to URL (for text inputs like search)
+  const debouncedPushFiltersToURL = useDebounce((filtersToApply: ProductFilters) => {
+    pushFiltersToURL(filtersToApply);
+  }, 300); // 300ms debounce for search and range inputs
+
   // Sync filters with URL params
   useEffect(() => {
     const urlFilters: ProductFilters = {
@@ -112,11 +120,11 @@ function ShopContent() {
       page: searchParams.get("page") ? Number(searchParams.get("page")) : 1,
       limit: 9,
     };
-    console.log('URL sync - searchParams changed, new page:', urlFilters.page);
+    console.log("URL sync - searchParams changed, new page:", urlFilters.page);
     setFilters(urlFilters);
     setLocalFilters(urlFilters);
   }, [searchParams]); // Sync with URL changes
-  
+
   // Fetch categories and brands on mount
   useEffect(() => {
     const loadFiltersData = async () => {
@@ -136,29 +144,34 @@ function ShopContent() {
     };
     loadFiltersData();
   }, []);
-  
+
   // Fetch products when filters change
   useEffect(() => {
     let isCancelled = false;
-    
+
     const loadProducts = async () => {
       setIsLoading(true);
-      console.log('Fetching products with page:', filters.page);
+      console.log("Fetching products with page:", filters.page);
       try {
         const response = await fetchShopProducts({
           page: filters.page,
           limit: filters.limit,
           search: filters.search || undefined,
-          categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+          categoryId: filters.categoryId
+            ? Number(filters.categoryId)
+            : undefined,
           brandId: filters.brandId ? Number(filters.brandId) : undefined,
           priceFrom: filters.priceFrom,
           priceTo: filters.priceTo,
           concentrationFrom: filters.concentrationFrom,
           concentrationTo: filters.concentrationTo,
         });
-        
+
         if (!isCancelled) {
-          console.log('API Response - currentPage:', response.data.pagination.currentPage);
+          console.log(
+            "API Response - currentPage:",
+            response.data.pagination.currentPage
+          );
           setProducts(response.data.products);
           setTotalItems(response.data.pagination.totalItems);
           setTotalPages(response.data.pagination.totalPages);
@@ -179,9 +192,9 @@ function ShopContent() {
         }
       }
     };
-    
+
     loadProducts();
-    
+
     return () => {
       isCancelled = true;
     };
@@ -201,63 +214,77 @@ function ShopContent() {
   const filteredProducts = products;
 
   // Push filters to URL (triggers API call via useEffect)
-  const pushFiltersToURL = useCallback((filtersToApply: ProductFilters) => {
-    const params = new URLSearchParams();
-    
-    if (filtersToApply.search) params.set("search", filtersToApply.search);
-    if (filtersToApply.brandId) params.set("brandId", filtersToApply.brandId);
-    if (filtersToApply.categoryId) params.set("categoryId", filtersToApply.categoryId);
-    if (filtersToApply.priceFrom) params.set("priceFrom", String(filtersToApply.priceFrom));
-    if (filtersToApply.priceTo) params.set("priceTo", String(filtersToApply.priceTo));
-    if (filtersToApply.concentrationFrom) params.set("concentrationFrom", String(filtersToApply.concentrationFrom));
-    if (filtersToApply.concentrationTo) params.set("concentrationTo", String(filtersToApply.concentrationTo));
-    if (filtersToApply.sortby && filtersToApply.sortby !== "createdAt") params.set("sortby", filtersToApply.sortby);
-    if (filtersToApply.sortorder && filtersToApply.sortorder !== "desc") params.set("sortorder", filtersToApply.sortorder);
-    if (filtersToApply.page && filtersToApply.page > 1) params.set("page", String(filtersToApply.page));
-    
-    const newParamsString = params.toString();
-    const currentParamsString = searchParams.toString();
-    
-    if (newParamsString !== currentParamsString) {
-      const newUrl = newParamsString ? `?${newParamsString}` : '?';
-      console.log('Pushing URL:', newUrl, 'with page:', filtersToApply.page);
-      router.replace(newUrl, { scroll: false });
-    }
-  }, [searchParams, router]);
+  const pushFiltersToURL = useCallback(
+    (filtersToApply: ProductFilters) => {
+      const params = new URLSearchParams();
+
+      if (filtersToApply.search) params.set("search", filtersToApply.search);
+      if (filtersToApply.brandId) params.set("brandId", filtersToApply.brandId);
+      if (filtersToApply.categoryId)
+        params.set("categoryId", filtersToApply.categoryId);
+      if (filtersToApply.priceFrom)
+        params.set("priceFrom", String(filtersToApply.priceFrom));
+      if (filtersToApply.priceTo)
+        params.set("priceTo", String(filtersToApply.priceTo));
+      if (filtersToApply.concentrationFrom)
+        params.set(
+          "concentrationFrom",
+          String(filtersToApply.concentrationFrom)
+        );
+      if (filtersToApply.concentrationTo)
+        params.set("concentrationTo", String(filtersToApply.concentrationTo));
+      if (filtersToApply.sortby && filtersToApply.sortby !== "createdAt")
+        params.set("sortby", filtersToApply.sortby);
+      if (filtersToApply.sortorder && filtersToApply.sortorder !== "desc")
+        params.set("sortorder", filtersToApply.sortorder);
+      if (filtersToApply.page && filtersToApply.page > 1)
+        params.set("page", String(filtersToApply.page));
+
+      const newParamsString = params.toString();
+      const currentParamsString = searchParams.toString();
+
+      if (newParamsString !== currentParamsString) {
+        const newUrl = newParamsString ? `?${newParamsString}` : "?";
+        console.log("Pushing URL:", newUrl, "with page:", filtersToApply.page);
+        router.replace(newUrl, { scroll: false });
+      }
+    },
+    [searchParams, router]
+  );
 
   // Immediate filter change (no debounce) - for dropdowns and pagination
   const handleFilterChangeImmediate = useCallback(
     (newFilters: Partial<ProductFilters>) => {
-      console.log('handleFilterChangeImmediate called with:', newFilters);
-      
+      console.log("handleFilterChangeImmediate called with:", newFilters);
+
       const currentFilters = localFiltersRef.current;
-      
+
       // Merge with current local filters
       const updatedFilters = {
         ...currentFilters,
         ...newFilters,
       };
-      
+
       // Reset to page 1 ONLY if we're actually changing search/filters values
       // AND if page is not explicitly being set
       if (newFilters.page === undefined) {
-        const isFilterChange = Object.keys(newFilters).some(key => {
-          if (key === 'page' || key === 'limit') return false;
+        const isFilterChange = Object.keys(newFilters).some((key) => {
+          if (key === "page" || key === "limit") return false;
           const newValue = newFilters[key as keyof ProductFilters];
           const currentValue = currentFilters[key as keyof ProductFilters];
           return newValue !== currentValue;
         });
-        
+
         if (isFilterChange) {
           updatedFilters.page = 1;
         }
       }
-      
-      console.log('updatedFilters:', updatedFilters);
-      
+
+      console.log("updatedFilters:", updatedFilters);
+
       // Update local state immediately
       setLocalFilters(updatedFilters);
-      
+
       // Push to URL (triggers API call)
       pushFiltersToURL(updatedFilters);
     },
@@ -268,94 +295,85 @@ function ShopContent() {
   // Using useCallback without localFilters dependency to prevent SearchBar re-triggering
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>, immediate = false) => {
-      console.log('handleFilterChange called with:', newFilters, 'immediate:', immediate);
-      
+      console.log(
+        "handleFilterChange called with:",
+        newFilters,
+        "immediate:",
+        immediate
+      );
+
       // Capture current filters BEFORE updating state
       const currentFilters = localFiltersRef.current;
-      
+
       // Update local state immediately for display
-      setLocalFilters(prev => ({ ...prev, ...newFilters }));
-      
-      // Clear existing debounce timer
-      if (filterDebounceTimer.current) {
-        clearTimeout(filterDebounceTimer.current);
+      setLocalFilters((prev) => ({ ...prev, ...newFilters }));
+
+      // Prepare updated filters
+      const updatedFilters = { ...currentFilters, ...newFilters };
+
+      // Reset to page 1 if changing filters (not pagination)
+      // BUT only if page is not explicitly being set
+      if (newFilters.page === undefined) {
+        const isFilterChange = Object.keys(newFilters).some((key) => {
+          if (key === "page" || key === "limit") return false;
+          return (
+            newFilters[key as keyof ProductFilters] !==
+            currentFilters[key as keyof ProductFilters]
+          );
+        });
+
+        if (isFilterChange) {
+          updatedFilters.page = 1;
+        }
       }
 
-      // If immediate (pagination, dropdowns, sliders), push to URL right away
+      // If immediate (pagination, dropdowns, checkboxes), push to URL right away
       if (immediate) {
-        const updatedFilters = { ...currentFilters, ...newFilters };
-        
-        // Reset to page 1 if changing filters (not pagination)
-        // BUT only if page is not explicitly being set
-        if (newFilters.page === undefined) {
-          const isFilterChange = Object.keys(newFilters).some(key => {
-            if (key === 'page' || key === 'limit') return false;
-            return newFilters[key as keyof ProductFilters] !== currentFilters[key as keyof ProductFilters];
-          });
-          
-          if (isFilterChange) {
-            updatedFilters.page = 1;
-          }
-        }
-        
-        console.log('Immediate filter change, pushing to URL:', updatedFilters);
+        console.log("Immediate filter change, pushing to URL:", updatedFilters);
         pushFiltersToURL(updatedFilters);
         return;
       }
 
-      // For text inputs (search), debounce: wait 2 seconds from last change
-      // Note: SearchBar already has its own 2s debounce, so this adds another layer
-      filterDebounceTimer.current = setTimeout(() => {
-        // Use the newFilters values directly since they're captured in closure
-        const updatedFilters = { ...currentFilters, ...newFilters };
-        
-        // Reset to page 1 when changing filters
-        updatedFilters.page = 1;
-        
-        console.log('Debounced filter change (search), pushing to URL:', updatedFilters);
-        pushFiltersToURL(updatedFilters);
-      }, 500); // Reduced to 500ms since SearchBar already has 2s debounce
+      // For text inputs and range sliders, use debounced push
+      console.log("Debounced filter change, scheduling URL push:", updatedFilters);
+      debouncedPushFiltersToURL(updatedFilters);
     },
-    [pushFiltersToURL]
+    [pushFiltersToURL, debouncedPushFiltersToURL]
   );
 
-  // Cleanup debounce timer on unmount
-  useEffect(() => {
-    return () => {
-      if (filterDebounceTimer.current) {
-        clearTimeout(filterDebounceTimer.current);
+  const handleSortChange = useCallback(
+    (sortValue: string) => {
+      const [sortby, sortorder] = sortValue.split("_");
+      const order =
+        sortorder === "asc" || sortorder === "desc" ? sortorder : "desc";
+
+      handleFilterChange(
+        {
+          sortby: sortby === "created" ? "createdAt" : sortby,
+          sortorder: order,
+          page: 1,
+        },
+        true
+      ); // immediate
+    },
+    [handleFilterChange]
+  );
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      console.log("handlePageChange called with page:", page);
+      if (page !== currentPage) {
+        handleFilterChangeImmediate({ page }); // Use immediate function directly
+        // Scroll after a short delay to ensure page change has been processed
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 100);
       }
-    };
-  }, []);
-
-  const handleSortChange = useCallback((sortValue: string) => {
-    const [sortby, sortorder] = sortValue.split("_");
-    const order =
-      sortorder === "asc" || sortorder === "desc" ? sortorder : "desc";
-
-    handleFilterChange({
-      sortby: sortby === "created" ? "createdAt" : sortby,
-      sortorder: order,
-      page: 1,
-    }, true); // immediate
-  }, [handleFilterChange]);
-
-  const handlePageChange = useCallback((page: number) => {
-    console.log('handlePageChange called with page:', page);
-    if (page !== currentPage) {
-      handleFilterChangeImmediate({ page }); // Use immediate function directly
-      // Scroll after a short delay to ensure page change has been processed
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, 100);
-    }
-  }, [handleFilterChangeImmediate, currentPage]);
+    },
+    [handleFilterChangeImmediate, currentPage]
+  );
 
   const handleReset = useCallback(() => {
-    // Clear debounce timer
-    if (filterDebounceTimer.current) {
-      clearTimeout(filterDebounceTimer.current);
-    }
     // Reset local filters
     const resetFilters: ProductFilters = {
       search: "",
@@ -402,7 +420,8 @@ function ShopContent() {
                   (category) => category.id === Number(localFilters.categoryId)
                 )?.name || "Category",
               icon: <Globe2 className="h-3.5 w-3.5 text-[#7b5b2c]" />,
-              onRemove: () => handleFilterChange({ categoryId: undefined }, true),
+              onRemove: () =>
+                handleFilterChange({ categoryId: undefined }, true),
             }
           : null,
         localFilters.priceFrom || localFilters.priceTo
@@ -413,10 +432,13 @@ function ShopContent() {
               }`,
               icon: <BadgeCheck className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () =>
-                handleFilterChange({
-                  priceFrom: undefined,
-                  priceTo: undefined,
-                }, true),
+                handleFilterChange(
+                  {
+                    priceFrom: undefined,
+                    priceTo: undefined,
+                  },
+                  true
+                ),
             }
           : null,
         localFilters.concentrationFrom || localFilters.concentrationTo
@@ -427,10 +449,13 @@ function ShopContent() {
               }%`,
               icon: <Droplet className="h-3.5 w-3.5 text-[#7b5b2c]" />,
               onRemove: () =>
-                handleFilterChange({
-                  concentrationFrom: undefined,
-                  concentrationTo: undefined,
-                }, true),
+                handleFilterChange(
+                  {
+                    concentrationFrom: undefined,
+                    concentrationTo: undefined,
+                  },
+                  true
+                ),
             }
           : null,
       ].filter(Boolean),
@@ -719,7 +744,9 @@ function ShopContent() {
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  onClick={() => handleFilterChange({ brandId: undefined }, true)}
+                  onClick={() =>
+                    handleFilterChange({ brandId: undefined }, true)
+                  }
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
                   <span>
@@ -749,16 +776,19 @@ function ShopContent() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   onClick={() =>
-                    handleFilterChange({
-                      priceFrom: undefined,
-                      priceTo: undefined,
-                    }, true)
+                    handleFilterChange(
+                      {
+                        priceFrom: undefined,
+                        priceTo: undefined,
+                      },
+                      true
+                    )
                   }
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
                   <span>
-                    Price: ${localFilters.priceFrom?.toLocaleString() || "0"} - $
-                    {localFilters.priceTo?.toLocaleString() || "∞"}
+                    Price: ${localFilters.priceFrom?.toLocaleString() || "0"} -
+                    ${localFilters.priceTo?.toLocaleString() || "∞"}
                   </span>
                   <svg
                     className="h-3 w-3"
@@ -776,15 +806,19 @@ function ShopContent() {
                 </motion.button>
               )}
 
-              {(localFilters.concentrationFrom || localFilters.concentrationTo) && (
+              {(localFilters.concentrationFrom ||
+                localFilters.concentrationTo) && (
                 <motion.button
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   onClick={() =>
-                    handleFilterChange({
-                      concentrationFrom: undefined,
-                      concentrationTo: undefined,
-                    }, true)
+                    handleFilterChange(
+                      {
+                        concentrationFrom: undefined,
+                        concentrationTo: undefined,
+                      },
+                      true
+                    )
                   }
                   className="flex items-center gap-2 bg-[#3b4417]/10 px-3 py-1.5 text-[12px] text-[#3b4417] transition-all hover:bg-[#3b4417]/20"
                 >
@@ -879,7 +913,10 @@ function ShopContent() {
                   <select
                     value={localFilters.brandId || ""}
                     onChange={(e) =>
-                      handleFilterChange({ brandId: e.target.value || undefined }, true)
+                      handleFilterChange(
+                        { brandId: e.target.value || undefined },
+                        true
+                      )
                     }
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
@@ -915,7 +952,10 @@ function ShopContent() {
                   <select
                     value={localFilters.categoryId || ""}
                     onChange={(e) =>
-                      handleFilterChange({ categoryId: e.target.value || undefined }, true)
+                      handleFilterChange(
+                        { categoryId: e.target.value || undefined },
+                        true
+                      )
                     }
                     className="w-full appearance-none border-2 border-neutral-200 bg-white px-4 py-3.5 text-[14px] text-neutral-800 transition-all hover:border-neutral-300 focus:border-[#3b4417] focus:outline-none focus:shadow-md focus:shadow-[#3b4417]/10 cursor-pointer"
                   >
@@ -949,21 +989,24 @@ function ShopContent() {
                 </label>
                 <RangeSlider
                   min={0}
-                  max={10000}
+                  max={2000000}
                   step={100}
                   value={[
                     localFilters.priceFrom || 0,
-                    localFilters.priceTo || 10000,
+                    localFilters.priceTo || 2000000,
                   ]}
                   onChange={([min, max]) => {
-                    console.log('Price range changed:', min, max);
-                    handleFilterChange({
-                      priceFrom: min > 0 ? min : undefined,
-                      priceTo: max < 10000 ? max : undefined,
-                    }, true);
+                    console.log("Price range changed:", min, max);
+                    handleFilterChange(
+                      {
+                        priceFrom: min > 0 ? min : undefined,
+                        priceTo: max < 2000000 ? max : undefined,
+                      },
+                      true
+                    );
                   }}
                   unit=""
-                  formatValue={(val) => `$${val.toLocaleString()}`}
+                  formatValue={(val) => `${val.toLocaleString()}`}
                 />
               </div>
 
@@ -981,11 +1024,14 @@ function ShopContent() {
                     localFilters.concentrationTo || 100,
                   ]}
                   onChange={([min, max]) => {
-                    console.log('ABV range changed:', min, max);
-                    handleFilterChange({
-                      concentrationFrom: min > 0 ? min : undefined,
-                      concentrationTo: max < 100 ? max : undefined,
-                    }, true);
+                    console.log("ABV range changed:", min, max);
+                    handleFilterChange(
+                      {
+                        concentrationFrom: min > 0 ? min : undefined,
+                        concentrationTo: max < 100 ? max : undefined,
+                      },
+                      true
+                    );
                   }}
                   unit="%"
                 />

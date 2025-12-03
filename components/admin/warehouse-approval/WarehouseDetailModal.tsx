@@ -14,6 +14,8 @@ import {
   XCircle,
   Calendar,
   FileText,
+  Ban,
+  ShieldCheck,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { WarehouseRequest } from "@/services/warehouseApprovalService";
@@ -24,6 +26,8 @@ interface WarehouseDetailModalProps {
   onClose: () => void;
   onApprove: () => void;
   onReject: () => void;
+  onBan: () => void;
+  onUnban: () => void;
 }
 
 export default function WarehouseDetailModal({
@@ -32,6 +36,8 @@ export default function WarehouseDetailModal({
   onClose,
   onApprove,
   onReject,
+  onBan,
+  onUnban,
 }: WarehouseDetailModalProps) {
   const t = useTranslations("admin.warehouseApproval.detail");
 
@@ -211,7 +217,7 @@ export default function WarehouseDetailModal({
                   </Card>
 
                   {/* Inventory Summary (if available) */}
-                  {warehouse.inventory_summary && (
+                  {warehouse.inventorySummary && (
                     <Card>
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
@@ -228,7 +234,7 @@ export default function WarehouseDetailModal({
                                   {t("totalProducts")}
                                 </p>
                                 <p className="text-lg font-bold text-[#3b4417]">
-                                  {warehouse.inventory_summary.totalProducts}
+                                  {warehouse.inventorySummary.totalProducts}
                                 </p>
                               </div>
                               <div>
@@ -236,7 +242,7 @@ export default function WarehouseDetailModal({
                                   {t("totalQuantity")}
                                 </p>
                                 <p className="text-lg font-bold text-[#3b4417]">
-                                  {warehouse.inventory_summary.totalquantity.toLocaleString()}
+                                  {warehouse.inventorySummary.totalQuantity.toLocaleString()}
                                 </p>
                               </div>
                               <div>
@@ -248,7 +254,7 @@ export default function WarehouseDetailModal({
                                     notation: "compact",
                                     compactDisplay: "short",
                                   }).format(
-                                    warehouse.inventory_summary.total_value
+                                    warehouse.inventorySummary.totalValue
                                   )}
                                 </p>
                               </div>
@@ -262,6 +268,7 @@ export default function WarehouseDetailModal({
               </div>
 
               {/* Footer Actions */}
+              {/* Pending: Approve, Reject, Ban */}
               {warehouse.status === 0 && (
                 <div className="border-t border-neutral-200 p-6 bg-neutral-50">
                   <div className="flex items-center justify-end gap-3">
@@ -276,11 +283,104 @@ export default function WarehouseDetailModal({
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+                      onClick={onBan}
+                      className="px-6 py-2.5 rounded-lg bg-orange-600 text-white hover:bg-orange-700 transition-colors font-medium flex items-center gap-2"
+                    >
+                      <Ban className="w-4 h-4" />
+                      {t("ban")}
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={onReject}
-                      className="px-6 py-2.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors font-medium flex items-center gap-2"
+                      className="px-6 py-2.5 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors font-medium flex items-center gap-2"
                     >
                       <XCircle className="w-4 h-4" />
                       {t("reject")}
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onApprove}
+                      className="px-6 py-2.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors font-medium flex items-center gap-2"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      {t("approve")}
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+
+              {/* Approved: Ban */}
+              {warehouse.status === 1 && (
+                <div className="border-t border-neutral-200 p-6 bg-neutral-50">
+                  <div className="flex items-center justify-end gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onClose}
+                      className="px-6 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition-colors font-medium"
+                    >
+                      {t("cancel")}
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onBan}
+                      className="px-6 py-2.5 rounded-lg bg-orange-600 text-white hover:bg-orange-700 transition-colors font-medium flex items-center gap-2"
+                    >
+                      <Ban className="w-4 h-4" />
+                      {t("ban")}
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+
+              {/* Banned: Unban */}
+              {warehouse.status === 2 && (
+                <div className="border-t border-neutral-200 p-6 bg-neutral-50">
+                  <div className="flex items-center justify-end gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onClose}
+                      className="px-6 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition-colors font-medium"
+                    >
+                      {t("cancel")}
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onUnban}
+                      className="px-6 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium flex items-center gap-2"
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      {t("unban")}
+                    </motion.button>
+                  </div>
+                </div>
+              )}
+
+              {/* Rejected: Approve, Ban */}
+              {warehouse.status === 3 && (
+                <div className="border-t border-neutral-200 p-6 bg-neutral-50">
+                  <div className="flex items-center justify-end gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onClose}
+                      className="px-6 py-2.5 rounded-lg border border-neutral-300 text-neutral-700 hover:bg-neutral-100 transition-colors font-medium"
+                    >
+                      {t("cancel")}
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onBan}
+                      className="px-6 py-2.5 rounded-lg bg-orange-600 text-white hover:bg-orange-700 transition-colors font-medium flex items-center gap-2"
+                    >
+                      <Ban className="w-4 h-4" />
+                      {t("ban")}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.02 }}

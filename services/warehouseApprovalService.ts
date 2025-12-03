@@ -6,7 +6,7 @@ export interface WarehouseRequest {
   name: string;
   location: string;
   description: string;
-  status: 0 | 1 | 2; // 0=pending, 1=active, 2=banned
+  status: 0 | 1 | 2 | 3; // 0=pending, 1=approved, 2=banned, 3=rejected
   manager: {
     id: number;
     email: string;
@@ -18,10 +18,12 @@ export interface WarehouseRequest {
   };
   createdAt: string;
   updatedAt: string;
-  inventory_summary?: {
+  inventorySummary?: {
     totalProducts: number;
-    totalquantity: number;
-    total_value: number;
+    totalQuantity: number;
+    totalValue: number;
+    lowStockProducts: number;
+    outOfStockProducts: number;
   };
 }
 
@@ -36,6 +38,28 @@ export interface WarehouseApprovalsResponse {
       perPage: number;
       has_next: boolean;
       has_prev: boolean;
+    };
+  };
+}
+
+export interface SellerWarehousesResponse {
+  success: boolean;
+  data: {
+    warehouses: WarehouseRequest[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalItems: number;
+      perPage: number;
+      hasNext: boolean;
+      hasPrev: boolean;
+    };
+    summary?: {
+      totalWarehouses: number;
+      active: number;
+      pending: number;
+      rejected: number;
+      banned: number;
     };
   };
 }
@@ -87,8 +111,20 @@ export interface RejectWarehouseResponse {
   message: string;
 }
 
+export interface BanWarehouseResponse {
+  success: boolean;
+  message: string;
+  data: WarehouseRequest;
+}
+
+export interface UnbanWarehouseResponse {
+  success: boolean;
+  message: string;
+  data: WarehouseRequest;
+}
+
 /**
- * API 1: Lấy danh sách warehouse chờ duyệt
+ * API 1: Lấy danh sách warehouse chờ duyệt (Admin)
  */
 export const fetchWarehouseRequests = async (params?: {
   page?: number;
@@ -120,6 +156,45 @@ export const fetchWarehouseRequests = async (params?: {
   queryParams.append("sortorder", sortorder);
 
   const response = await axiosInstance.get<WarehouseApprovalsResponse>(
+    `/api/v1/warehouses?${queryParams.toString()}`
+  );
+
+  return response.data;
+};
+
+/**
+ * API: Lấy danh sách warehouse của seller (trả về data.warehouses)
+ */
+export const fetchSellerWarehouses = async (params?: {
+  page?: number;
+  limit?: number;
+  status?: number;
+  managerId?: number;
+  search?: string;
+  sortby?: string;
+  sortorder?: "asc" | "desc";
+}): Promise<SellerWarehousesResponse> => {
+  const {
+    page = 1,
+    limit = 100,
+    status,
+    managerId,
+    search,
+    sortby,
+    sortorder = "desc",
+  } = params || {};
+
+  const queryParams = new URLSearchParams();
+  queryParams.append("page", page.toString());
+  queryParams.append("limit", limit.toString());
+
+  if (status !== undefined) queryParams.append("status", status.toString());
+  if (managerId) queryParams.append("managerId", managerId.toString());
+  if (search) queryParams.append("search", search);
+  if (sortby) queryParams.append("sortby", sortby);
+  queryParams.append("sortorder", sortorder);
+
+  const response = await axiosInstance.get<SellerWarehousesResponse>(
     `/api/v1/warehouses?${queryParams.toString()}`
   );
 
@@ -170,7 +245,37 @@ export const rejectWarehouse = async (
 };
 
 /**
- * API 5: Lấy lịch sử phê duyệt (nếu có endpoint riêng)
+ * API 5: Ban warehouse
+ */
+export const banWarehouse = async (
+  warehouseId: number,
+  reason: string
+): Promise<BanWarehouseResponse> => {
+  const response = await axiosInstance.patch<BanWarehouseResponse>(
+    `/api/v1/warehouses/${warehouseId}/ban`,
+    { reason }
+  );
+
+  return response.data;
+};
+
+/**
+ * API 6: Unban warehouse
+ */
+export const unbanWarehouse = async (
+  warehouseId: number,
+  note?: string
+): Promise<UnbanWarehouseResponse> => {
+  const response = await axiosInstance.patch<UnbanWarehouseResponse>(
+    `/api/v1/warehouses/${warehouseId}/unban`,
+    { reason: note }
+  );
+
+  return response.data;
+};
+
+/**
+ * API 7: Lấy lịch sử phê duyệt (nếu có endpoint riêng)
  */
 export const fetchApprovalHistory = async (
   warehouseId: number
@@ -193,7 +298,7 @@ export const fetchApprovalHistory = async (
 };
 
 /**
- * API 6: Thống kê warehouse
+ * API 8: Thống kê warehouse
  */
 export const fetchWarehouseStatistics =
   async (): Promise<WarehouseStatistics> => {

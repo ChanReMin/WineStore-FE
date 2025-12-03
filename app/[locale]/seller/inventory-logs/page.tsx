@@ -12,7 +12,10 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DateRange } from "react-day-picker";
-import { inventoryLogService, type InventoryLog } from "@/services/inventoryLogService";
+import {
+  inventoryLogService,
+  type InventoryLog,
+} from "@/services/inventoryLogService";
 import { warehouseService } from "@/services/warehouseService";
 import InventoryLogsFilters from "@/components/seller/inventory/InventoryLogsFilters";
 import InventoryLogsTable from "@/components/seller/inventory/InventoryLogsTable";
@@ -32,7 +35,9 @@ export default function InventoryLogsPage() {
 
   // API data states
   const [logsData, setLogsData] = useState<InventoryLog[]>([]);
-  const [warehouses, setWarehouses] = useState<Array<{ id: number; name: string }>>([]);
+  const [warehouses, setWarehouses] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
   const [summary, setSummary] = useState({
     total: 0,
     stockIn: 0,
@@ -76,7 +81,8 @@ export default function InventoryLogsPage() {
         const response = await inventoryLogService.getInventoryLogs({
           page: currentPage,
           limit: itemsPerPage,
-          warehouseId: warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
+          warehouseId:
+            warehouseFilter !== "all" ? Number(warehouseFilter) : undefined,
           type: typeFilter !== "all" ? typeFilter : undefined,
           from_date: dateRange?.from?.toISOString(),
           to_date: dateRange?.to?.toISOString(),
@@ -84,7 +90,7 @@ export default function InventoryLogsPage() {
 
         setLogsData(response.data.logs);
         setPagination(response.data.pagination);
-        
+
         // Set summary if provided by API, otherwise calculate
         if (response.data.summary) {
           setSummary(response.data.summary);
@@ -116,93 +122,6 @@ export default function InventoryLogsPage() {
           </h1>
           <p className="text-[#7a8451]">{t("subtitle")}</p>
         </div>
-      </div>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-[#f5f3e8] border border-[#e8e6dc] rounded-lg p-4"
-        >
-          <p className="text-sm text-[#7a8451] mb-1">
-            {t("summary.totalTransactions")}
-          </p>
-          <p className="text-2xl font-bold text-[#3b4417]">{summary.total}</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="bg-emerald-50 border border-emerald-200 rounded-lg p-4"
-        >
-          <p className="text-sm text-emerald-700 mb-1">
-            {t("summary.stockIn")}
-          </p>
-          <p className="text-2xl font-bold text-emerald-600">
-            {summary.stockIn}
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="bg-red-50 border border-red-200 rounded-lg p-4"
-        >
-          <p className="text-sm text-red-700 mb-1">{t("summary.stockOut")}</p>
-          <p className="text-2xl font-bold text-red-600">{summary.stockOut}</p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="bg-blue-50 border border-blue-200 rounded-lg p-4"
-        >
-          <p className="text-sm text-blue-700 mb-1">
-            {t("summary.adjustments")}
-          </p>
-          <p className="text-2xl font-bold text-blue-600">
-            {summary.adjustments}
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="bg-purple-50 border border-purple-200 rounded-lg p-4"
-        >
-          <p className="text-sm text-purple-700 mb-1">{t("summary.returns")}</p>
-          <p className="text-2xl font-bold text-purple-600">
-            {summary.returns}
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className={`${
-            summary.netChange >= 0
-              ? "bg-emerald-50 border-emerald-200"
-              : "bg-red-50 border-red-200"
-          } border rounded-lg p-4`}
-        >
-          <p
-            className={`text-sm mb-1 ${summary.netChange >= 0 ? "text-emerald-700" : "text-red-700"}`}
-          >
-            {t("summary.totalStockIn")}
-          </p>
-          <p
-            className={`text-2xl font-bold ${summary.netChange >= 0 ? "text-emerald-600" : "text-red-600"}`}
-          >
-            {summary.netChange >= 0 ? "+" : ""}
-            {summary.netChange}
-          </p>
-        </motion.div>
       </div>
 
       {/* Filters */}
@@ -257,7 +176,6 @@ export default function InventoryLogsPage() {
         ]}
         onExport={async (config) => {
           // TODO: Implement actual export API
-          console.log("Export config:", config);
           toast.success(`Đã xuất ${config.format.toUpperCase()} thành công!`);
         }}
       />

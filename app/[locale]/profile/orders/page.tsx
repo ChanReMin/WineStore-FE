@@ -5,14 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import { orderService } from "@/services/orderService";
-import type { Order } from "@/types/order";
+import { useRouter } from "@/i18n/routing";
+import orderService from "@/services/orderService";
+import type { OrderListItem } from "@/types/order";
 import OrderCard from "@/components/orders/OrderCard";
 import OrderFilters from "@/components/orders/OrderFilters";
 import OrderSkeleton from "@/components/orders/OrderSkeleton";
 import EmptyOrders from "@/components/orders/EmptyOrders";
-import OrderDetailModal from "@/components/orders/OrderDetailModal";
 import OrderStats from "@/components/orders/OrderStats";
 
 export default function OrdersPage() {
@@ -20,15 +19,14 @@ export default function OrdersPage() {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-  const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const [allOrders, setAllOrders] = useState<OrderListItem[]>([]);
 
   useEffect(() => {
     setIsCheckingAuth(false);
@@ -106,6 +104,134 @@ export default function OrdersPage() {
           <p className="mt-2 text-neutral-600">{t("subtitle")}</p>
         </motion.div>
 
+        {/* Payment Reminder Banner */}
+        {(() => {
+          const unpaidOrders = allOrders.filter(
+            (order) => order.status === 2 && order.paymentStatus === 0
+          );
+
+          if (unpaidOrders.length === 0) return null;
+
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-6 overflow-hidden rounded-lg border-l-4 border-amber-500 bg-amber-50 shadow-md"
+            >
+              <div className="flex items-start gap-4 p-5">
+                <div className="flex-shrink-0">
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 10, -10, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                    }}
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100"
+                  >
+                    <svg
+                      className="h-6 w-6 text-amber-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </motion.div>
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-semibold text-amber-900 mb-1">
+                    Bạn có {unpaidOrders.length} đơn hàng cần thanh toán
+                  </h3>
+                  <p className="text-sm text-amber-700 mb-3">
+                    Vui lòng thanh toán trong vòng 24h để tránh đơn hàng bị hủy
+                    tự động
+                  </p>
+
+                  {/* Show first unpaid order */}
+                  <div className="flex items-center gap-2 text-sm text-amber-800 mb-3">
+                    <span className="font-medium">Đơn hàng gần nhất:</span>
+                    <span className="font-mono bg-amber-100 px-2 py-1 rounded">
+                      {unpaidOrders[0].orderCode}
+                    </span>
+                    <span>•</span>
+                    <span className="font-semibold">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(unpaidOrders[0].finalAmount)}
+                    </span>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() =>
+                      router.push(`/profile/orders/${unpaidOrders[0].id}`)
+                    }
+                    className="inline-flex items-center gap-2 rounded-md bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                  >
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                      />
+                    </svg>
+                    Thanh toán ngay
+                  </motion.button>
+
+                  {unpaidOrders.length > 1 && (
+                    <button
+                      onClick={() => setSelectedStatus(2)}
+                      className="ml-3 text-sm font-medium text-amber-700 hover:text-amber-900 underline"
+                    >
+                      Xem tất cả {unpaidOrders.length} đơn hàng
+                    </button>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => {
+                    // You can add a dismiss functionality here if needed
+                  }}
+                  className="flex-shrink-0 text-amber-400 hover:text-amber-600 transition-colors"
+                >
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+          );
+        })()}
+
         {/* Stats */}
         {allOrders.length > 0 && (
           <motion.div
@@ -118,9 +244,8 @@ export default function OrdersPage() {
               stats={{
                 total: allOrders.length,
                 pending: allOrders.filter((o) => o.status === 1).length,
-                processing: allOrders.filter((o) => o.status === 2).length,
-                shipping: allOrders.filter((o) => o.status === 3).length,
-                delivered: allOrders.filter((o) => o.status === 4).length,
+                confirmed: allOrders.filter((o) => o.status === 2).length,
+                paid: allOrders.filter((o) => o.status === 3).length,
                 cancelled: allOrders.filter((o) => o.status === 5).length,
               }}
             />
@@ -185,7 +310,7 @@ export default function OrdersPage() {
               {orders.map((order, index) => (
                 <div
                   key={order.id}
-                  onClick={() => setSelectedOrderId(order.id)}
+                  onClick={() => router.push(`/profile/orders/${order.id}`)}
                   className="cursor-pointer"
                 >
                   <OrderCard order={order} index={index} />
@@ -241,16 +366,6 @@ export default function OrdersPage() {
           </motion.div>
         )}
       </div>
-
-      {/* Order Detail Modal */}
-      {selectedOrderId && (
-        <OrderDetailModal
-          isOpen={!!selectedOrderId}
-          onClose={() => setSelectedOrderId(null)}
-          orderId={selectedOrderId}
-          onOrderUpdated={loadOrders}
-        />
-      )}
     </div>
   );
 }

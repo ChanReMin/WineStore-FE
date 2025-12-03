@@ -86,11 +86,11 @@ export default function CreateWarehouseModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/50 z-50 h-[120%]"
           />
 
           {/* Modal */}
-          <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 flex items-center justify-center z-50 px-6 py-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -99,7 +99,7 @@ export default function CreateWarehouseModal({
               className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-neutral-200">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
                 <h2 className="text-xl font-bold text-[#3b4417]">
                   {t("title")}
                 </h2>
@@ -114,7 +114,7 @@ export default function CreateWarehouseModal({
               </div>
 
               {/* Content */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-[#3b4417]">
                     {t("name")}{" "}
@@ -196,12 +196,6 @@ export default function CreateWarehouseModal({
                     className="border-[#d4d6b4] focus:border-[#3b4417] resize-none"
                     disabled={isSubmitting}
                   />
-                </div>
-
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                  <p className="text-sm text-amber-800">
-                    <strong>{t("note")}</strong> {t("noteMessage")}
-                  </p>
                 </div>
 
                 {/* Actions */}

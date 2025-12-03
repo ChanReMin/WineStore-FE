@@ -3,10 +3,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import type { OrderDetail } from "@/types/order";
-import { orderService } from "@/services/orderService";
+import { useTranslations } from "next-intl";
+import type { OrderDetail, OrderItem } from "@/types/order";
+import { ORDER_STATUS } from "@/types/order";
+import orderService from "@/services/orderService";
 import { formatCurrency } from "@/lib/utils";
 import OrderTimeline from "./OrderTimeline";
+import OrderStatusBadge from "./OrderStatusBadge";
+import OrderStatusCard from "./OrderStatusCard";
 
 interface OrderDetailModalProps {
   isOpen: boolean;
@@ -21,6 +25,7 @@ export default function OrderDetailModal({
   orderId,
   onOrderUpdated,
 }: OrderDetailModalProps) {
+  const t = useTranslations("orders.detail");
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isCancelling, setIsCancelling] = useState(false);
@@ -38,7 +43,7 @@ export default function OrderDetailModal({
       const data = await orderService.getOrderDetail(orderId);
       setOrder(data);
     } catch (error) {
-      toast.error("Không thể tải chi tiết đơn hàng");
+      toast.error(t("loadError"));
       onClose();
     } finally {
       setIsLoading(false);
@@ -47,39 +52,22 @@ export default function OrderDetailModal({
 
   const handleCancelOrder = async () => {
     if (!cancelReason.trim()) {
-      toast.error("Vui lòng nhập lý do hủy đơn");
+      toast.error(t("cancelReasonRequired"));
       return;
     }
 
-    if (!confirm("Bạn có chắc muốn hủy đơn hàng này?")) return;
+    if (!confirm(t("cancelConfirm"))) return;
 
     setIsCancelling(true);
     try {
       await orderService.cancelOrder(orderId, cancelReason);
-      toast.success("Hủy đơn hàng thành công!");
+      toast.success(t("cancelSuccess"));
       onOrderUpdated?.();
       onClose();
     } catch (error: any) {
-      toast.error(error.message || "Có lỗi xảy ra");
+      toast.error(error.message || t("cancelError"));
     } finally {
       setIsCancelling(false);
-    }
-  };
-
-  const getStatusColor = (status: number) => {
-    switch (status) {
-      case 1:
-        return "bg-yellow-100 text-yellow-800";
-      case 2:
-        return "bg-blue-100 text-blue-800";
-      case 3:
-        return "bg-purple-100 text-purple-800";
-      case 4:
-        return "bg-green-100 text-green-800";
-      case 5:
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -107,7 +95,7 @@ export default function OrderDetailModal({
               {/* Header */}
               <div className="sticky top-0 z-10 flex items-center justify-between border-b border-neutral-200 bg-white p-6">
                 <h2 className="text-2xl font-bold text-[#33391d]">
-                  Chi tiết đơn hàng
+                  {t("title")}
                 </h2>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}
@@ -148,12 +136,34 @@ export default function OrderDetailModal({
                     animate={{ opacity: 1 }}
                     className="space-y-6"
                   >
+                    {/* Order Status Card */}
+                    <OrderStatusCard
+                      status={order.status}
+                      totalAmount={order.finalAmount}
+                      paymentMethod={order.paymentMethod.name}
+                      isPaid={order.paymentStatus === 1}
+                      orderCode={order.orderCode}
+                      onPaymentClick={() => {
+                        // TODO: Implement payment redirect
+                        toast.info("Đang chuyển đến trang thanh toán...");
+                      }}
+                      onCancelClick={() => {
+                        // Scroll to cancel section
+                        document
+                          .getElementById("cancel-section")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }}
+                      onViewDetailClick={() => {
+                        // Already in detail view
+                      }}
+                    />
+
                     {/* Order Info */}
                     <div className="rounded-lg bg-amber-50 p-4">
                       <div className="flex items-start justify-between">
                         <div>
                           <p className="text-sm text-neutral-600">
-                            Mã đơn hàng
+                            {t("orderCode")}
                           </p>
                           <p className="text-lg font-bold text-[#33391d]">
                             {order.orderCode}
@@ -162,11 +172,7 @@ export default function OrderDetailModal({
                             {new Date(order.createdAt).toLocaleString("vi-VN")}
                           </p>
                         </div>
-                        <span
-                          className={`rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(order.status)}`}
-                        >
-                          {order.statusText}
-                        </span>
+                        <OrderStatusBadge status={order.status} />
                       </div>
                     </div>
 
@@ -195,7 +201,7 @@ export default function OrderDetailModal({
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                           />
                         </svg>
-                        Địa chỉ giao hàng
+                        {t("shippingAddress")}
                       </h3>
                       <div className="rounded-lg border border-neutral-200 p-4">
                         <p className="font-medium text-neutral-900">
@@ -227,10 +233,10 @@ export default function OrderDetailModal({
                             d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
                           />
                         </svg>
-                        Sản phẩm
+                        {t("products")}
                       </h3>
                       <div className="space-y-3">
-                        {order.items.map((item, index) => (
+                        {order.items.map((item: OrderItem, index: number) => (
                           <motion.div
                             key={item.id}
                             initial={{ opacity: 0, x: -20 }}
@@ -263,11 +269,11 @@ export default function OrderDetailModal({
                     </div>
 
                     {/* Payment Summary */}
-                    <div className="rounded-lg border border-neutral-200 bg-gradient-to-br from-amber-50 to-orange-50 p-4">
+                    <div className="rounded-lg border border-neutral-200 bg-linear-to-br from-amber-50 to-orange-50 p-4">
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="text-neutral-600">
-                            Tổng tiền hàng:
+                            {t("totalAmount")}
                           </span>
                           <span className="font-medium">
                             {formatCurrency(order.totalAmount)}
@@ -275,7 +281,9 @@ export default function OrderDetailModal({
                         </div>
                         {order.discountAmount > 0 && (
                           <div className="flex justify-between text-sm">
-                            <span className="text-neutral-600">Giảm giá:</span>
+                            <span className="text-neutral-600">
+                              {t("discount")}
+                            </span>
                             <span className="font-medium text-green-600">
                               -{formatCurrency(order.discountAmount)}
                             </span>
@@ -284,7 +292,7 @@ export default function OrderDetailModal({
                         <div className="border-t border-neutral-200 pt-2">
                           <div className="flex justify-between">
                             <span className="font-semibold text-neutral-900">
-                              Tổng thanh toán:
+                              {t("finalAmount")}
                             </span>
                             <span className="text-xl font-bold text-[#33391d]">
                               {formatCurrency(order.finalAmount)}
@@ -293,7 +301,7 @@ export default function OrderDetailModal({
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-neutral-600">
-                            Phương thức thanh toán:
+                            {t("paymentMethod")}
                           </span>
                           <span className="font-medium">
                             {order.paymentMethod.name}
@@ -301,12 +309,12 @@ export default function OrderDetailModal({
                         </div>
                         <div className="flex justify-between text-sm">
                           <span className="text-neutral-600">
-                            Trạng thái thanh toán:
+                            {t("paymentStatus")}
                           </span>
                           <span
                             className={`font-medium ${order.paymentStatus === 1 ? "text-green-600" : "text-orange-600"}`}
                           >
-                            {order.paymentstatusText}
+                            {order.paymentStatusText}
                           </span>
                         </div>
                       </div>
@@ -331,7 +339,7 @@ export default function OrderDetailModal({
                           </svg>
                           <div>
                             <p className="text-sm font-medium text-blue-900">
-                              Ghi chú:
+                              {t("note")}
                             </p>
                             <p className="mt-1 text-sm text-blue-700">
                               {order.note}
@@ -342,8 +350,11 @@ export default function OrderDetailModal({
                     )}
 
                     {/* Cancel Order Section */}
-                    {order.status < 3 && order.status !== 5 && (
-                      <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                    {order.status === ORDER_STATUS.PENDING && (
+                      <div
+                        id="cancel-section"
+                        className="rounded-lg border border-red-200 bg-red-50 p-4"
+                      >
                         <div className="mb-2 flex items-center gap-2">
                           <svg
                             className="h-5 w-5 text-red-600"
@@ -359,13 +370,13 @@ export default function OrderDetailModal({
                             />
                           </svg>
                           <h4 className="font-medium text-red-900">
-                            Hủy đơn hàng
+                            {t("cancelTitle")}
                           </h4>
                         </div>
                         <textarea
                           value={cancelReason}
                           onChange={(e) => setCancelReason(e.target.value)}
-                          placeholder="Nhập lý do hủy đơn..."
+                          placeholder={t("cancelPlaceholder")}
                           className="w-full rounded border border-red-200 p-2 text-sm focus:border-red-400 focus:outline-none"
                           rows={3}
                         />
@@ -376,7 +387,7 @@ export default function OrderDetailModal({
                           disabled={isCancelling}
                           className="mt-2 w-full rounded bg-red-600 py-2 text-white transition-colors hover:bg-red-700 disabled:opacity-50"
                         >
-                          {isCancelling ? "Đang xử lý..." : "Xác nhận hủy đơn"}
+                          {isCancelling ? t("cancelling") : t("cancelButton")}
                         </motion.button>
                       </div>
                     )}

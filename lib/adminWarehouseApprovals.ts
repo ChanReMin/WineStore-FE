@@ -17,10 +17,12 @@ export interface WarehouseRequest {
   };
   createdAt: string;
   updatedAt: string;
-  inventory_summary?: {
+  inventorySummary?: {
     totalProducts: number;
-    totalquantity: number;
-    total_value: number;
+    totalQuantity: number;
+    totalValue: number;
+    lowStockProducts: number;
+    outOfStockProducts: number;
   };
 }
 
@@ -184,10 +186,12 @@ const mockActiveWarehouses: WarehouseRequest[] = [
       lastName: "Văn A",
       phoneNumber: "0901234567",
     },
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 150,
-      totalquantity: 5000,
-      total_value: 2500000000,
+      totalQuantity: 5000,
+      totalValue: 2500000000,
+      lowStockProducts: 10,
+      outOfStockProducts: 0,
     },
     createdAt: "2024-11-15T10:00:00Z",
     updatedAt: "2024-11-20T08:00:00Z",
@@ -205,10 +209,12 @@ const mockActiveWarehouses: WarehouseRequest[] = [
       lastName: "Văn A",
       phoneNumber: "0901234567",
     },
-    inventory_summary: {
+    inventorySummary: {
       totalProducts: 80,
-      totalquantity: 2000,
-      total_value: 1200000000,
+      totalQuantity: 2000,
+      totalValue: 1200000000,
+      lowStockProducts: 5,
+      outOfStockProducts: 0,
     },
     createdAt: "2024-11-18T14:00:00Z",
     updatedAt: "2024-11-25T10:00:00Z",

@@ -85,20 +85,20 @@ export default function UpdateInventoryModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl z-50 p-4"
+            className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-2xl z-50"
           >
-            <Card className="border-[#d4d6b4] shadow-2xl overflow-hidden">
+            <Card className="h-full md:h-auto md:max-h-[85vh] border-[#d4d6b4] shadow-2xl overflow-hidden flex flex-col">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-[#e8e6dc] bg-[#f5f3e8]">
+              <div className="flex items-center justify-between p-4 md:p-6 border-b border-[#e8e6dc] bg-[#f5f3e8]">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#3b4417] rounded-lg">
                     <Package className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-[#3b4417]">
+                    <h2 className="text-lg md:text-xl font-bold text-[#3b4417]">
                       {t("title")}
                     </h2>
-                    <p className="text-sm text-[#7a8451]">
+                    <p className="text-xs md:text-sm text-[#7a8451] line-clamp-1">
                       {item.product.name}
                     </p>
                   </div>
@@ -113,28 +113,31 @@ export default function UpdateInventoryModal({
               </div>
 
               {/* Content */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <form
+                onSubmit={handleSubmit}
+                className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6"
+              >
                 {/* Current Stock Info */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-3 md:p-4">
+                    <p className="text-xs md:text-sm text-[#7a8451] mb-1">
                       {t("warehouse")}
                     </p>
-                    <p className="font-semibold text-[#3b4417]">
+                    <p className="font-semibold text-[#3b4417] text-sm md:text-base">
                       {item.warehouse.name}
                     </p>
-                    <p className="text-sm text-[#7a8451]">
+                    <p className="text-xs md:text-sm text-[#7a8451]">
                       {item.warehouse.location}
                     </p>
                   </div>
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <p className="text-sm text-[#7a8451] mb-1">
+                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-3 md:p-4">
+                    <p className="text-xs md:text-sm text-[#7a8451] mb-1">
                       {t("currentStock")}
                     </p>
-                    <p className="text-3xl font-bold text-[#3b4417]">
+                    <p className="text-2xl md:text-3xl font-bold text-[#3b4417]">
                       {item.quantityOnHand}
                     </p>
-                    <p className="text-sm text-[#7a8451]">
+                    <p className="text-xs md:text-sm text-[#7a8451]">
                       Safety Stock: {item.safetyStock}
                     </p>
                   </div>
@@ -142,58 +145,58 @@ export default function UpdateInventoryModal({
 
                 {/* Type Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-[#3b4417] mb-3">
+                  <label className="block text-xs md:text-sm font-medium text-[#3b4417] mb-2 md:mb-3">
                     {t("type")}{" "}
                     <span className="text-red-600">{t("required")}</span>
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2 md:gap-3">
                     <button
                       type="button"
                       onClick={() => setType("in")}
-                      className={`p-4 rounded-lg border-2 transition-all ${
+                      className={`p-3 md:p-4 rounded-lg border-2 transition-all ${
                         type === "in"
                           ? "border-emerald-500 bg-emerald-50"
                           : "border-[#d4d6b4] bg-white hover:border-emerald-500"
                       }`}
                     >
                       <TrendingUp
-                        className={`w-8 h-8 mx-auto mb-2 ${
+                        className={`w-6 md:w-8 h-6 md:h-8 mx-auto mb-1 md:mb-2 ${
                           type === "in" ? "text-emerald-600" : "text-[#7a8451]"
                         }`}
                       />
                       <p
-                        className={`font-semibold ${
+                        className={`font-semibold text-sm md:text-base ${
                           type === "in" ? "text-emerald-700" : "text-[#3b4417]"
                         }`}
                       >
                         {t("stockIn")}
                       </p>
-                      <p className="text-sm text-[#7a8451] mt-1">
+                      <p className="text-xs md:text-sm text-[#7a8451] mt-0.5 md:mt-1">
                         {t("stockInDesc")}
                       </p>
                     </button>
                     <button
                       type="button"
                       onClick={() => setType("out")}
-                      className={`p-4 rounded-lg border-2 transition-all ${
+                      className={`p-3 md:p-4 rounded-lg border-2 transition-all ${
                         type === "out"
                           ? "border-red-500 bg-red-50"
                           : "border-[#d4d6b4] bg-white hover:border-red-500"
                       }`}
                     >
                       <TrendingDown
-                        className={`w-8 h-8 mx-auto mb-2 ${
+                        className={`w-6 md:w-8 h-6 md:h-8 mx-auto mb-1 md:mb-2 ${
                           type === "out" ? "text-red-600" : "text-[#7a8451]"
                         }`}
                       />
                       <p
-                        className={`font-semibold ${
+                        className={`font-semibold text-sm md:text-base ${
                           type === "out" ? "text-red-700" : "text-[#3b4417]"
                         }`}
                       >
                         {t("stockOut")}
                       </p>
-                      <p className="text-sm text-[#7a8451] mt-1">
+                      <p className="text-xs md:text-sm text-[#7a8451] mt-0.5 md:mt-1">
                         {t("stockOutDesc")}
                       </p>
                     </button>
@@ -279,12 +282,12 @@ export default function UpdateInventoryModal({
               </form>
 
               {/* Footer */}
-              <div className="flex items-center justify-end gap-3 p-6 border-t border-[#e8e6dc] bg-[#fdfbf5]">
+              <div className="flex items-center justify-end gap-2 md:gap-3 p-4 md:p-6 border-t border-[#e8e6dc] bg-[#fdfbf5]">
                 <button
                   type="button"
                   onClick={onClose}
                   disabled={isSubmitting}
-                  className="px-6 py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50"
+                  className="px-4 md:px-6 py-2 md:py-2.5 border border-[#d4d6b4] text-[#3b4417] rounded-lg hover:bg-[#f5f3e8] transition-colors font-medium disabled:opacity-50 text-sm md:text-base"
                 >
                   {t("cancel")}
                 </button>
@@ -292,7 +295,7 @@ export default function UpdateInventoryModal({
                   type="submit"
                   onClick={handleSubmit}
                   disabled={isSubmitting || !isValid}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-2.5 bg-[#3b4417] text-white rounded-lg hover:bg-[#2a2f18] transition-colors font-medium disabled:opacity-50 text-sm md:text-base"
                 >
                   {isSubmitting ? (
                     <>
