@@ -72,7 +72,7 @@ export default function AddressStep() {
             exit={{ opacity: 0 }}
             className="space-y-2 md:space-y-3 lg:space-y-4"
           >
-            {addresses.map((address, index) => (
+            {addresses.map((address: any, index: number) => (
               <motion.div
                 key={address.id}
                 initial={{ opacity: 0, x: -20 }}
@@ -87,14 +87,18 @@ export default function AddressStep() {
               >
                 <div className="flex items-start gap-2 md:gap-3 lg:gap-4">
                   <div
-                    className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 md:mt-1 ${
+                    className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 md:mt-1 ${
                       selectedAddress?.id === address.id
                         ? "border-[#3b4417] bg-[#3b4417]"
                         : "border-[#d4d6b4]"
                     }`}
                   >
                     {selectedAddress?.id === address.id && (
-                      <Check size={12} className="md:w-[14px] md:h-[14px] text-white" strokeWidth={3} />
+                      <Check
+                        size={12}
+                        className="md:w-3.5 md:h-3.5 text-white"
+                        strokeWidth={3}
+                      />
                     )}
                   </div>
 
@@ -120,7 +124,10 @@ export default function AddressStep() {
                     </p>
                   </div>
 
-                  <MapPin size={16} className="md:w-5 md:h-5 text-[#3b4417] flex-shrink-0" />
+                  <MapPin
+                    size={16}
+                    className="md:w-5 md:h-5 text-[#3b4417] shrink-0"
+                  />
                 </div>
               </motion.div>
             ))}
@@ -284,7 +291,10 @@ export default function AddressStep() {
                 }
                 className="w-3.5 h-3.5 md:w-4 md:h-4 accent-[#3b4417]"
               />
-              <label htmlFor="isDefault" className="text-xs md:text-sm text-neutral-700">
+              <label
+                htmlFor="isDefault"
+                className="text-xs md:text-sm text-neutral-700"
+              >
                 {t("form.isDefault")}
               </label>
             </div>

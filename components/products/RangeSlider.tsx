@@ -45,7 +45,6 @@ export default function RangeSlider({
   const handleMouseUp = useCallback(() => {
     if (isDragging) {
       setIsDragging(null);
-      console.log("RangeSlider: Mouse up, calling onChange with:", localValue);
       onChangeRef.current(localValue);
     }
   }, [isDragging, localValue]);

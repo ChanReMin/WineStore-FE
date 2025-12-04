@@ -32,11 +32,13 @@ interface InventoryItem {
 }
 
 interface InventoryAlertsProps {
-  inventory: InventoryItem[];
+  alerts: InventoryItem[];
 }
 
 const getStatusBadge = (status: string) => {
-  if (status === "outOfStock") {
+  const statusLower = status.toLowerCase();
+  
+  if (statusLower.includes("out") || statusLower === "outofstock") {
     return (
       <Badge className="bg-red-50 text-red-700 border border-red-300">
         <AlertTriangle className="w-3 h-3 mr-1" />
@@ -44,7 +46,7 @@ const getStatusBadge = (status: string) => {
       </Badge>
     );
   }
-  if (status === "lowStock") {
+  if (statusLower.includes("low") || statusLower === "lowstock") {
     return (
       <Badge className="bg-[#fdfbf5] text-[#d4af37] border border-[#d4af37]">
         <AlertTriangle className="w-3 h-3 mr-1" />
@@ -57,10 +59,8 @@ const getStatusBadge = (status: string) => {
   );
 };
 
-export default function InventoryAlerts({ inventory }: InventoryAlertsProps) {
-  const alertItems = inventory.filter(
-    (item) => item.status === "lowStock" || item.status === "outOfStock"
-  );
+export default function InventoryAlerts({ alerts }: InventoryAlertsProps) {
+  const alertItems = alerts;
 
   return (
     <motion.div

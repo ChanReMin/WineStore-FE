@@ -89,7 +89,9 @@ export default function CartStep() {
               <h3 className="text-xs md:text-sm lg:text-base xl:text-lg font-semibold text-[#3b4417] mb-0.5 truncate">
                 {item.productName}
               </h3>
-              <p className="text-[10px] md:text-[11px] lg:text-xs text-neutral-500 mb-0.5 md:mb-1">SKU: {item.sku}</p>
+              <p className="text-[10px] md:text-[11px] lg:text-xs text-neutral-500 mb-0.5 md:mb-1">
+                SKU: {item.sku}
+              </p>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg font-semibold text-[#3b4417]">
                 {formatCurrency(item.unitPrice)}
               </p>
@@ -102,7 +104,10 @@ export default function CartStep() {
                 onClick={() => handleRemove(item.id)}
                 className="text-red-500 hover:text-red-700 transition-colors"
               >
-                <Trash2 size={14} className="md:w-4 md:h-4 lg:w-[18px] lg:h-[18px]" />
+                <Trash2
+                  size={14}
+                  className="md:w-4 md:h-4 lg:w-[18px] lg:h-[18px]"
+                />
               </motion.button>
 
               <div className="flex items-center gap-0.5 md:gap-1 border border-[#d4d6b4]">
@@ -115,7 +120,10 @@ export default function CartStep() {
                   disabled={item.quantity <= 1}
                   className="p-0.5 md:p-1 lg:p-1.5 xl:p-2 hover:bg-[#f5f3e8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 >
-                  <Minus size={10} className="md:w-[11px] md:h-[11px] lg:w-[13px] lg:h-[13px]" />
+                  <Minus
+                    size={10}
+                    className="md:w-[11px] md:h-[11px] lg:w-[13px] lg:h-[13px]"
+                  />
                 </motion.button>
                 <span className="w-6 md:w-8 lg:w-10 xl:w-12 text-center text-[11px] md:text-xs lg:text-sm font-semibold">
                   {item.quantity}
@@ -129,7 +137,10 @@ export default function CartStep() {
                   disabled={item.quantity >= item.stockAvailable}
                   className="p-0.5 md:p-1 lg:p-1.5 xl:p-2 hover:bg-[#f5f3e8] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 >
-                  <Plus size={10} className="md:w-[11px] md:h-[11px] lg:w-[13px] lg:h-[13px]" />
+                  <Plus
+                    size={10}
+                    className="md:w-[11px] md:h-[11px] lg:w-[13px] lg:h-[13px]"
+                  />
                 </motion.button>
               </div>
 
@@ -148,7 +159,9 @@ export default function CartStep() {
         className="bg-[#f5f3e8] p-2 md:p-2.5 lg:p-4 xl:p-6 border border-[#d4d6b4]"
       >
         <div className="flex justify-between items-center mb-2 md:mb-2.5 lg:mb-3">
-          <span className="text-xs md:text-sm lg:text-base xl:text-lg text-neutral-600">{t("subtotal")}</span>
+          <span className="text-xs md:text-sm lg:text-base xl:text-lg text-neutral-600">
+            {t("subtotal")}
+          </span>
           <span className="text-sm md:text-base lg:text-lg xl:text-2xl font-bold text-[#3b4417]">
             {formatCurrency(subtotal)}
           </span>

@@ -33,14 +33,15 @@ export default function InventoryLogsTable({ logs }: InventoryLogsTableProps) {
   };
 
   const getQuantityDisplay = (type: string, quantity: number) => {
-    const isPositive = type === "IN" || type === "RETURN";
-    const prefix = isPositive ? "+" : "-";
+    // Use the actual sign from the API data
+    const isPositive = quantity >= 0;
+    const prefix = isPositive ? "+" : "";
     const color = isPositive ? "text-emerald-600" : "text-red-600";
 
     return (
       <span className={`font-bold text-lg ${color}`}>
         {prefix}
-        {Math.abs(quantity)}
+        {quantity}
       </span>
     );
   };

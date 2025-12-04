@@ -26,6 +26,8 @@ import {
   fetchPromotionDetail,
 } from "@/services/promotionService";
 import { getErrorMessage } from "@/lib/errorHandler";
+import { LoaderOne } from "@/components/ui/loader";
+import { useTranslations } from "next-intl";
 
 interface PromotionFormModalProps {
   isOpen: boolean;
@@ -38,6 +40,7 @@ export default function PromotionFormModal({
   onClose,
   promotionId,
 }: PromotionFormModalProps) {
+  const t = useTranslations("seller.promotions.form");
   const isEdit = promotionId !== null && promotionId !== undefined;
 
   const [formData, setFormData] = useState<PromotionFormData>({
@@ -100,7 +103,7 @@ export default function PromotionFormModal({
       });
     } catch (error: any) {
       console.error("Error loading promotion:", error);
-      toast.error(getErrorMessage(error, "Không thể tải thông tin khuyến mãi"));
+      toast.error(getErrorMessage(error, t("errors.loadFailed")));
       onClose();
     } finally {
       setIsLoading(false);
@@ -156,16 +159,17 @@ export default function PromotionFormModal({
       if (isEdit && promotionId) {
         // Update existing promotion
         await updatePromotion(promotionId, formattedData);
-        toast.success("Cập nhật khuyến mãi thành công");
+        toast.success(t("success.updated"));
       } else {
         // Create new promotion
         await createPromotion(formattedData);
-        toast.success("Tạo khuyến mãi thành công");
+        toast.success(t("success.created"));
       }
       onClose();
     } catch (error: any) {
       console.error("Error saving promotion:", error);
-      toast.error(getErrorMessage(error, "Không thể lưu khuyến mãi"));
+      const tDelete = useTranslations("seller.promotions.delete");
+      toast.error(getErrorMessage(error, tDelete("error")));
     } finally {
       setIsSubmitting(false);
     }
@@ -209,9 +213,8 @@ export default function PromotionFormModal({
           {/* Header */}
           <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#d4d6b4] bg-[#f5f3e8] px-6 py-4">
             {isLoading ? (
-              <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417]"></div>
-                <p className="text-[#7a8451]">Đang tải...</p>
+              <div className="flex h-screen items-center justify-center bg-neutral-50">
+                <LoaderOne />
               </div>
             ) : (
               <>
@@ -221,12 +224,10 @@ export default function PromotionFormModal({
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[#3b4417]">
-                      {isEdit ? "Chỉnh sửa khuyến mãi" : "Tạo khuyến mãi mới"}
+                      {isEdit ? t("editTitle") : t("createTitle")}
                     </h2>
                     <p className="text-sm text-[#7a8451]">
-                      {isEdit
-                        ? "Cập nhật thông tin khuyến mãi"
-                        : "Điền thông tin để tạo khuyến mãi"}
+                      {isEdit ? t("editSubtitle") : t("createSubtitle")}
                     </p>
                   </div>
                 </div>
@@ -246,7 +247,7 @@ export default function PromotionFormModal({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="code" className="text-[#3b4417] font-semibold">
-                  Mã khuyến mãi *
+                  {t("code")} {t("required")}
                 </Label>
                 <div className="relative">
                   <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
@@ -256,7 +257,7 @@ export default function PromotionFormModal({
                     onChange={(e) =>
                       handleChange("code", e.target.value.toUpperCase())
                     }
-                    placeholder="VD: SUMMER2024"
+                    placeholder={t("codePlaceholder")}
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417] font-mono"
                     disabled={isEdit}
                   />
@@ -268,13 +269,13 @@ export default function PromotionFormModal({
 
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-[#3b4417] font-semibold">
-                  Tên khuyến mãi *
+                  {t("name")} {t("required")}
                 </Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
-                  placeholder="VD: Giảm giá mùa hè"
+                  placeholder={t("namePlaceholder")}
                   className="border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                 />
                 {errors.name && (
@@ -289,13 +290,13 @@ export default function PromotionFormModal({
                 htmlFor="description"
                 className="text-[#3b4417] font-semibold"
               >
-                Mô tả
+                {t("description")}
               </Label>
               <Textarea
                 id="description"
                 value={formData.description}
                 onChange={(e) => handleChange("description", e.target.value)}
-                placeholder="Mô tả chi tiết về chương trình khuyến mãi..."
+                placeholder={t("descriptionPlaceholder")}
                 rows={3}
                 className="border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417] resize-none"
               />
@@ -308,7 +309,7 @@ export default function PromotionFormModal({
                   htmlFor="discount_type"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Loại giảm giá *
+                  {t("discountType")} {t("required")}
                 </Label>
                 <Select
                   value={formData.discount_type.toString()}
@@ -323,13 +324,13 @@ export default function PromotionFormModal({
                     <SelectItem value="0">
                       <div className="flex items-center gap-2">
                         <Percent className="h-4 w-4 text-[#d4af37]" />
-                        Phần trăm (%)
+                        {t("discountTypePercent")}
                       </div>
                     </SelectItem>
                     <SelectItem value="1">
                       <div className="flex items-center gap-2">
                         <DollarSign className="h-4 w-4 text-[#d4af37]" />
-                        Số tiền cố định (VNĐ)
+                        {t("discountTypeFixed")}
                       </div>
                     </SelectItem>
                   </SelectContent>
@@ -341,7 +342,7 @@ export default function PromotionFormModal({
                   htmlFor="discount_value"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Giá trị giảm *
+                  {t("discountValue")} {t("required")}
                 </Label>
                 <div className="relative">
                   {formData.discount_type === 0 ? (
@@ -357,7 +358,7 @@ export default function PromotionFormModal({
                       handleChange("discount_value", parseFloat(e.target.value))
                     }
                     placeholder={
-                      formData.discount_type === 0 ? "VD: 10" : "VD: 100000"
+                      formData.discount_type === 0 ? t("discountValuePlaceholder") : t("discountValuePlaceholderFixed")
                     }
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="0"
@@ -379,12 +380,12 @@ export default function PromotionFormModal({
                   htmlFor="start_date"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Ngày bắt đầu *
+                  {t("startDate")} {t("required")}
                 </Label>
                 <DatePicker
                   value={formData.start_date}
                   onChange={(date) => handleChange("start_date", date)}
-                  placeholder="Chọn ngày bắt đầu"
+                  placeholder={t("startDatePlaceholder")}
                   error={errors.start_date}
                 />
               </div>
@@ -394,12 +395,12 @@ export default function PromotionFormModal({
                   htmlFor="end_date"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Ngày kết thúc *
+                  {t("endDate")} {t("required")}
                 </Label>
                 <DatePicker
                   value={formData.end_date}
                   onChange={(date) => handleChange("end_date", date)}
-                  placeholder="Chọn ngày kết thúc"
+                  placeholder={t("endDatePlaceholder")}
                   minDate={formData.start_date || undefined}
                   error={errors.end_date}
                 />
@@ -413,7 +414,7 @@ export default function PromotionFormModal({
                   htmlFor="max_usage"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Số lượt sử dụng tối đa *
+                  {t("maxUsage")} {t("required")}
                 </Label>
                 <div className="relative">
                   <Package className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#7a8451]" />
@@ -424,7 +425,7 @@ export default function PromotionFormModal({
                     onChange={(e) =>
                       handleChange("max_usage", parseInt(e.target.value))
                     }
-                    placeholder="VD: 1000"
+                    placeholder={t("maxUsagePlaceholder")}
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="0"
                   />
@@ -439,7 +440,7 @@ export default function PromotionFormModal({
                   htmlFor="status"
                   className="text-[#3b4417] font-semibold"
                 >
-                  Trạng thái
+                  {t("status")}
                 </Label>
                 <Select
                   value={formData.status?.toString() || "1"}
@@ -451,8 +452,8 @@ export default function PromotionFormModal({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">Hoạt động</SelectItem>
-                    <SelectItem value="0">Không hoạt động</SelectItem>
+                    <SelectItem value="1">{t("statusActive")}</SelectItem>
+                    <SelectItem value="0">{t("statusInactive")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -466,7 +467,7 @@ export default function PromotionFormModal({
                 onClick={onClose}
                 className="border-[#d4d6b4] text-[#3b4417] hover:bg-[#f5f3e8]"
               >
-                Hủy
+                {t("cancel")}
               </Button>
               <Button
                 type="submit"
@@ -486,12 +487,12 @@ export default function PromotionFormModal({
                     >
                       <Save className="h-4 w-4" />
                     </motion.div>
-                    Đang lưu...
+                    {t("saving")}
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    {isEdit ? "Cập nhật" : "Tạo mới"}
+                    {isEdit ? t("update") : t("create")}
                   </>
                 )}
               </Button>

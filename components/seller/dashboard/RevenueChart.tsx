@@ -35,12 +35,14 @@ interface RevenueChartProps {
   data: ChartDataPoint[];
   totalRevenue: number;
   totalOrders: number;
+  period?: string;
 }
 
 export default function RevenueChart({
   data,
   totalRevenue,
   totalOrders,
+  period = "week",
 }: RevenueChartProps) {
   const t = useTranslations("seller.dashboard.revenue");
 
@@ -53,7 +55,7 @@ export default function RevenueChart({
       label: t("ordersLabel"),
       color: "#d4af37",
     },
-  } satisfies ChartConfig;
+  } as ChartConfig;
   const formattedData = data.map((item) => ({
     ...item,
     date: new Date(item.date).toLocaleDateString("vi-VN", {

@@ -127,7 +127,7 @@ export default function ChangeStatusModal({
                     className="w-12 h-12 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
+                  <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold">
                     {seller.name ? seller.name.charAt(0).toUpperCase() : "S"}
                   </div>
                 )}

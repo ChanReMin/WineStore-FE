@@ -140,7 +140,7 @@ export default function OrderDetailModal({
                     <OrderStatusCard
                       status={order.status}
                       totalAmount={order.finalAmount}
-                      paymentMethod={order.paymentMethod.name}
+                      paymentMethod={order.paymentMethod?.name || "N/A"}
                       isPaid={order.paymentStatus === 1}
                       orderCode={order.orderCode}
                       onPaymentClick={() => {
@@ -304,7 +304,7 @@ export default function OrderDetailModal({
                             {t("paymentMethod")}
                           </span>
                           <span className="font-medium">
-                            {order.paymentMethod.name}
+                            {order.paymentMethod?.name || "N/A"}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm">

@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useTranslations } from "next-intl";
 import {
   Package,
@@ -26,11 +28,22 @@ import {
 } from "@/components/ui/select";
 import { fetchProducts } from "@/services/productService";
 import type { Product, Summary } from "@/types/product";
-import ProductDetailModal from "./ProductDetailModal";
-import ApproveModal from "./ApproveModal";
-import RejectModal from "./RejectModal";
 
-export default function ProductApprovalList() {
+// ✅ Dynamic import cho Modals (không cần SSR)
+const ProductDetailModal = dynamic(() => import("./ProductDetailModal"), {
+  ssr: false,
+});
+
+const ApproveModal = dynamic(() => import("./ApproveModal"), {
+  ssr: false,
+});
+
+const RejectModal = dynamic(() => import("./RejectModal"), {
+  ssr: false,
+});
+import { LoaderOne } from "@/components/ui/loader";
+
+function ProductApprovalList() {
   const t = useTranslations("admin.productApproval");
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
@@ -48,8 +61,18 @@ export default function ProductApprovalList() {
 
   // Filters
   const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<number | "all">("all");
+  const [isSearching, setIsSearching] = useState(false);
+  
+  // Refs for canceling requests
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Memoized search handler for smooth input
+  const handleSearchInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value); // Update immediately for UI responsiveness
+  }, []);
 
   // Modals
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -57,9 +80,22 @@ export default function ProductApprovalList() {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
 
-  const loadData = async (page = 1) => {
+  const loadData = useCallback(async (page = 1, searchTerm = "", isSearch = false) => {
     try {
-      setLoading(true);
+      // Cancel previous request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      
+      // Create new abort controller
+      abortControllerRef.current = new AbortController();
+      
+      if (isSearch) {
+        setIsSearching(true);
+      } else {
+        setLoading(true);
+      }
+      
       const params: any = {
         page,
         limit: 10,
@@ -70,35 +106,61 @@ export default function ProductApprovalList() {
         params.status = statusFilter;
       }
 
-      const response = await fetchProducts(params);
+      // Add search query to API params
+      if (searchTerm.trim()) {
+        params.search = searchTerm.trim();
+      }
+
+      const response = await fetchProducts(params, { 
+        signal: abortControllerRef.current.signal 
+      });
 
       setProducts(response.data.products);
       setPagination(response.data.pagination);
       setSummary(response.data.summary);
-      console.log(response.data.summary);
-    } catch (error) {
-      console.error("Error loading products:", error);
+    } catch (error: any) {
+      if (error.name !== 'AbortError') {
+        console.error("Error loading products:", error);
+      }
     } finally {
       setLoading(false);
+      setIsSearching(false);
     }
-  };
-
-  // Debounce search query
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    loadData();
   }, [statusFilter]);
 
-  const handlePageChange = (newPage: number) => {
-    loadData(newPage);
-  };
+  // Simple debounced search with timeout
+  useEffect(() => {
+    // Clear previous timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Set new timeout
+    searchTimeoutRef.current = setTimeout(() => {
+      loadData(1, searchQuery, true);
+    }, 250); // Even faster for better UX
+    
+    // Cleanup
+    return () => {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [searchQuery]); // Remove loadData from deps to prevent loops
+
+  // Handle status filter changes (immediate)
+  useEffect(() => {
+    loadData(1, searchQuery);
+  }, [statusFilter]);
+
+  // Initial load
+  useEffect(() => {
+    loadData();
+  }, []); // Keep empty deps for initial load only
+
+  const handlePageChange = useCallback((newPage: number) => {
+    loadData(newPage, searchQuery);
+  }, [searchQuery]); // Remove loadData dep
 
   const handleViewDetail = (product: Product) => {
     setSelectedProduct(product);
@@ -115,9 +177,9 @@ export default function ProductApprovalList() {
     setShowRejectModal(true);
   };
 
-  const handleActionComplete = () => {
-    loadData(pagination.currentPage);
-  };
+  const handleActionComplete = useCallback(() => {
+    loadData(pagination.currentPage, searchQuery);
+  }, [pagination.currentPage, searchQuery]); // Remove loadData dep
 
   const getStatusBadge = (
     status: number | undefined,
@@ -157,25 +219,13 @@ export default function ProductApprovalList() {
     );
   };
 
-  const filteredProducts = useMemo(
-    () =>
-      products.filter((product) =>
-        product.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-      ),
-    [products, debouncedSearchQuery]
-  );
+  // No need for client-side filtering since API handles search
+  const filteredProducts = products;
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#fdfbf5]">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-[#7a8451]">{t("loading")}</p>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }
@@ -298,9 +348,17 @@ export default function ProductApprovalList() {
               <Input
                 placeholder={t("searchPlaceholder")}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                onChange={handleSearchInputChange}
+                className="pl-10 pr-10 transition-all duration-150 ease-out focus:ring-2 focus:ring-amber-500/20"
+                disabled={loading}
+                autoComplete="off"
+                spellCheck={false}
               />
+              {isSearching && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <div className="w-4 h-4 border-2 border-neutral-200 border-t-amber-500 rounded-full animate-spin"></div>
+                </div>
+              )}
             </div>
 
             <div className="w-48 flex-1">
@@ -516,3 +574,5 @@ export default function ProductApprovalList() {
     </div>
   );
 }
+
+export default React.memo(ProductApprovalList);

@@ -30,27 +30,21 @@
     "myOrders": "My Orders",
     "sellerDashboard": "Seller Dashboard",
     "adminPanel": "Admin Panel",
-    "becomeSeller": "Become a Seller",
     "manageOrders": "Manage Orders",
     "products": "Products",
     "seller": "Seller",
     "admin": "Admin",
     "logout": "Logout"
   },
-  "becomeSeller": {
-    "title": "Become a Seller",
-    "subtitle": "Expand your business with us",
-    "confirmTitle": "Ready to become a seller?",
-    "confirmMessage": "Send your request to become a seller on our platform. Our admin team will review and contact you soon.",
-    "note": "Note",
-    "noteMessage": "Your request will be sent to the administrator for review. We will contact you within 24-48 hours.",
-    "cancel": "Cancel",
-    "submit": "Send Request",
-    "submitting": "Sending...",
-    "successMessage": "Your request has been submitted successfully! We will contact you soon.",
-    "errorMessage": "An error occurred. Please try again later."
-  },
   "auth": {
+    "social": {
+      "facebook": "Continue with Facebook",
+      "google": "Continue with Google",
+      "github": "Continue with GitHub"
+    },
+    "protected": {
+      "checking": "Checking permissions..."
+    },
     "login": {
       "title": "Welcome Back",
       "subtitle": "Sign in to your account"
@@ -144,6 +138,7 @@
       "cannotClearCart": "Cannot clear cart"
     },
     "success": {
+      "itemAdded": "Product added successfully!",
       "itemRemoved": "Item removed from cart",
       "cartCleared": "Cart cleared successfully"
     }
@@ -157,6 +152,101 @@
     "loginRequired": "Please login to add items to cart",
     "success": "Added {quantity} {productName} to cart",
     "error": "Cannot add to cart"
+  },
+  "buyNow": {
+    "buyNow": "Buy Now",
+    "buyNowFull": "Buy Now",
+    "adding": "Adding...",
+    "loginRequired": "Please login to purchase",
+    "error": "Cannot process purchase"
+  },
+  "checkout": {
+    "progress": {
+      "cart": "Cart",
+      "address": "Address",
+      "payment": "Payment",
+      "review": "Review"
+    },
+    "cart": {
+      "title": "Your Cart",
+      "items": "items",
+      "subtotal": "Subtotal:",
+      "continue": "Continue",
+      "empty": {
+        "title": "Cart is Empty",
+        "description": "Add some products to your cart",
+        "button": "Continue Shopping"
+      }
+    },
+    "address": {
+      "title": "Shipping Address",
+      "default": "Default",
+      "addNew": "Add New Address",
+      "back": "Back",
+      "continue": "Continue",
+      "form": {
+        "fullName": "Address Name",
+        "phoneNumber": "Phone Number",
+        "addressLine": "Address Line",
+        "ward": "Ward",
+        "district": "District",
+        "city": "City",
+        "country": "Country",
+        "addressType": "Address Type",
+        "addressTypes": {
+          "home": "Home",
+          "office": "Office",
+          "other": "Other"
+        },
+        "isDefault": "Set as default address",
+        "required": "*",
+        "cancel": "Cancel",
+        "save": "Save Address",
+        "saving": "Saving..."
+      },
+      "errors": {
+        "loadFailed": "Cannot load address list",
+        "addFailed": "Cannot add address"
+      },
+      "success": {
+        "added": "Address added successfully"
+      }
+    },
+    "payment": {
+      "title": "Payment Method",
+      "back": "Back",
+      "continue": "Continue"
+    },
+    "review": {
+      "title": "Order Review",
+      "products": "Products",
+      "shippingAddress": "Shipping Address",
+      "paymentMethod": "Payment Method",
+      "summary": {
+        "title": "Order Summary",
+        "subtotal": "Subtotal",
+        "total": "Total"
+      },
+      "quantity": "Quantity",
+      "placeOrder": "Place Order",
+      "processing": "Processing...",
+      "back": "Back",
+      "errors": {
+        "missingInfo": "Please select address and payment method",
+        "orderFailed": "Order failed. Please try again."
+      },
+      "success": {
+        "redirecting": "Redirecting to payment...",
+        "orderPlaced": "Order placed successfully!"
+      }
+    },
+    "success": {
+      "title": "Order Successful!",
+      "thankYou": "Thank you for trusting and shopping at Wine Store",
+      "orderCode": "Your order code:",
+      "viewOrders": "View Orders",
+      "backHome": "Back to Home"
+    }
   },
   "home": {
     "hero": {
@@ -343,6 +433,7 @@
       "3": "Paid",
       "4": "Delivered",
       "5": "Cancelled",
+      "6": "Cancelled",
       "pending": "Pending Confirmation",
       "confirmed": "Confirmed",
       "paid": "Paid",
@@ -351,8 +442,20 @@
     "paymentStatus": {
       "0": "Unpaid",
       "1": "Paid",
-      "2": "Refunded"
+      "2": "Refunded",
+      "3": "Failed"
     },
+    "backToOrders": "Back to Orders",
+    "orderDetail": "Order Details",
+    "shippingAddress": "Shipping Address",
+    "paymentInfo": "Payment Information",
+    "paymentMethod": "Payment Method",
+    "orderItems": "Order Items",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "notes": "Notes",
+    "error": "Unable to load order information",
     "timeline": {
       "pendingLabel": "Pending Confirmation",
       "pendingDesc": "Order is waiting for confirmation",
@@ -404,8 +507,7 @@
       "payAction": "Pay Now",
       "viewAction": "View Details",
       "reorderAction": "Reorder"
-    },
-    "error": "Unable to load orders"
+    }
   },
   "shop": {
     "hero": {
@@ -907,16 +1009,81 @@
           "assignWarning": "Promotion \"{promotion}\" is already assigned to this product!",
           "removeSuccess": "Removed promotion \"{promotion}\" from \"{product}\""
         }
+      },
+      "detail": {
+        "title": "Promotion Details",
+        "subtitle": "Detailed information and statistics",
+        "loading": "Loading...",
+        "close": "Close",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "used": "Used",
+        "remaining": "Remaining",
+        "errors": {
+          "loadFailed": "Cannot load promotion information"
+        }
+      },
+      "form": {
+        "createTitle": "Create New Promotion",
+        "editTitle": "Edit Promotion",
+        "createSubtitle": "Fill in the information to create a promotion",
+        "editSubtitle": "Update promotion information",
+        "code": "Promotion Code",
+        "codePlaceholder": "E.g: SUMMER2024",
+        "name": "Promotion Name",
+        "namePlaceholder": "E.g: Summer Sale",
+        "description": "Description",
+        "descriptionPlaceholder": "Detailed description of the promotion...",
+        "discountType": "Discount Type",
+        "discountTypePercent": "Percentage (%)",
+        "discountTypeFixed": "Fixed Amount (VND)",
+        "discountValue": "Discount Value",
+        "discountValuePlaceholder": "E.g: 10",
+        "discountValuePlaceholderFixed": "E.g: 100000",
+        "startDate": "Start Date",
+        "startDatePlaceholder": "Select start date",
+        "endDate": "End Date",
+        "endDatePlaceholder": "Select end date",
+        "maxUsage": "Maximum Usage",
+        "maxUsagePlaceholder": "E.g: 1000",
+        "status": "Status",
+        "statusActive": "Active",
+        "statusInactive": "Inactive",
+        "required": "*",
+        "cancel": "Cancel",
+        "create": "Create",
+        "update": "Update",
+        "saving": "Saving...",
+        "errors": {
+          "loadFailed": "Cannot load promotion information"
+        },
+        "success": {
+          "created": "Promotion created successfully",
+          "updated": "Promotion updated successfully"
+        }
+      },
+      "delete": {
+        "title": "Delete Promotion",
+        "description": "Are you sure you want to delete this promotion? All related data will be permanently deleted.",
+        "success": "Promotion deleted successfully",
+        "error": "Cannot delete promotion"
       }
     },
     "dashboard": {
       "title": "Dashboard",
       "subtitle": "Business activity overview",
+      "loading": "Loading...",
+      "noData": "No data available",
+      "refresh": "Refresh",
       "overview": {
         "totalRevenue": "Total Revenue",
         "orders": "Orders",
         "products": "Products",
-        "stockAlerts": "Stock Alerts"
+        "stockAlerts": "Stock Alerts",
+        "completed": "completed",
+        "pending": "pending",
+        "cancelled": "Cancelled",
+        "cancelledOrders": "Cancelled orders"
       },
       "revenue": {
         "title": "Revenue in the last 7 days",
@@ -925,10 +1092,18 @@
         "revenueLabel": "Revenue",
         "ordersLabel": "Orders"
       },
+      "period": {
+        "select": "Select period",
+        "day": "Today",
+        "week": "This Week",
+        "month": "This Month",
+        "year": "This Year"
+      },
       "latestOrders": {
         "title": "Latest Orders",
         "orderId": "Order ID",
         "customer": "Customer",
+        "items": "Items",
         "status": "Status",
         "paymentStatus": "Payment Status",
         "totalAmount": "Total Amount",
@@ -1062,10 +1237,17 @@
       "afterOpening": "After Opening"
     },
     "quantity": "Quantity",
+    "availability": "Availability",
     "addToCart": "Add to Cart",
     "buyNow": "Buy Now",
     "save": "Save",
-    "unavailable": "Coming Soon",
+    "or": "Or",
+    "unavailable": "Out of Stock",
+    "unavailableDescription": "This product is currently out of stock. Please check back later.",
+    "buyNowInfo": {
+      "title": "Buy Now - Quick Checkout",
+      "description": "Click 'Buy Now' to add this product to your cart and proceed directly to checkout."
+    },
     "trust": {
       "authentic": "Authentic Guarantee",
       "freeShipping": "Free Shipping",
@@ -1148,7 +1330,7 @@
       "modal": {
         "titleAdd": "Add New Address",
         "titleEdit": "Edit Address",
-        "fullName": "Full Name",
+        "fullName": "Address Name",
         "phoneNumber": "Phone Number",
         "addressLine": "Address",
         "addressPlaceholder": "Street address",
@@ -1928,7 +2110,16 @@
         "delivered": "Delivered"
       }
     },
+    "modal": {
+      "title": "Admin Modal"
+    },
     "sellerRequests": {
+      "title": "Seller Request",
+      "requestId": "Request ID",
+      "approve": "Approve",
+      "reject": "Reject"
+    },
+    "sellerRequestsManagement": {
       "title": "Seller Request Management",
       "subtitle": "Review and approve seller upgrade requests",
       "loading": "Loading...",
@@ -2174,7 +2365,7 @@
         "view": "View Details",
         "edit": "Edit",
         "activate": "Activate",
-        "deactivate": "Deactivate"
+        "deactivate": "Change Status"
       },
       "pagination": {
         "showing": "Showing",
@@ -2448,7 +2639,7 @@
         "edit": "Edit",
         "changeRole": "Change Role",
         "activate": "Activate",
-        "deactivate": "Deactivate"
+        "deactivate": "Change Status"
       },
       "pagination": {
         "showing": "Showing",
@@ -2556,96 +2747,94 @@
       }
     }
   },
-  "checkout": {
-    "progress": {
-      "cart": "Cart",
-      "address": "Address",
-      "payment": "Payment",
-      "review": "Review"
+  "forms": {
+    "imageUploader": {
+      "clickToUpload": "Click to upload",
+      "dragAndDrop": "or drag and drop",
+      "fileTypes": "PNG, JPG, GIF up to {maxFiles} files"
     },
-    "cart": {
-      "title": "Your Cart",
-      "empty": {
-        "title": "Cart is Empty",
-        "description": "Add some products to your cart",
-        "button": "Continue Shopping"
-      },
-      "items": "items",
-      "subtotal": "Subtotal:",
-      "continue": "Continue"
+    "richTextEditor": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "placeholder": "Enter text..."
+    }
+  },
+  "products": {
+    "priceRangeFilter": {
+      "title": "Price Range",
+      "min": "Min",
+      "max": "Max"
     },
-    "address": {
-      "title": "Shipping Address",
-      "default": "Default",
-      "addNew": "Add New Address",
-      "form": {
-        "fullName": "Full Name",
-        "phoneNumber": "Phone Number",
-        "addressLine": "Address Line",
-        "ward": "Ward",
-        "district": "District",
-        "city": "City/Province",
-        "country": "Country",
-        "addressType": "Address Type",
-        "addressTypes": {
-          "home": "Home",
-          "office": "Office",
-          "other": "Other"
-        },
-        "isDefault": "Set as default address",
-        "required": "*",
-        "cancel": "Cancel",
-        "save": "Save Address",
-        "saving": "Saving..."
-      },
-      "back": "Back",
-      "continue": "Continue"
+    "advancedFilters": {
+      "title": "Advanced Filters",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "redWine": "Red Wine",
+      "whiteWine": "White Wine",
+      "priceRange": "Price Range"
     },
-    "payment": {
-      "title": "Payment Method",
-      "back": "Back",
-      "continue": "Continue"
+    "productDetailModal": {
+      "title": "Product Details",
+      "productId": "Product ID"
+    }
+  },
+  "analytics": {
+    "orderAnalytics": {
+      "title": "Order Analytics",
+      "loading": "Loading analytics...",
+      "placeholder": "Order analytics placeholder"
+    }
+  },
+  "charts": {
+    "inventoryChart": {
+      "title": "Inventory Chart",
+      "loading": "Loading chart...",
+      "placeholder": "Inventory chart placeholder"
     },
-    "review": {
-      "title": "Order Review",
-      "products": "Products",
-      "shippingAddress": "Shipping Address",
-      "paymentMethod": "Payment Method",
-      "shipping": "Shipping",
-      "calculatingShipping": "Calculating...",
-      "shippingFee": "Shipping Fee:",
-      "estimatedDelivery": "Estimated delivery: {days} days",
-      "summary": {
-        "title": "Total",
-        "subtotal": "Subtotal:",
-        "discount": "Discount:",
-        "shippingFee": "Shipping Fee:",
-        "total": "Total:"
-      },
-      "placeOrder": "Place Order",
-      "processing": "Processing...",
-      "back": "Back"
+    "salesChart": {
+      "title": "Sales Chart",
+      "loading": "Loading chart...",
+      "placeholder": "Sales chart placeholder"
     },
-    "success": {
-      "title": "Order Successful!",
-      "thankYou": "Thank you for trusting and shopping at Wine Store",
-      "orderCode": "Your order code:",
-      "status": {
-        "processing": {
-          "title": "Processing",
-          "description": "Your order is being prepared"
-        },
-        "email": {
-          "title": "Confirmation Email",
-          "description": "We've sent you an order confirmation email"
-        },
-        "delivery": {
-          "title": "Delivery",
-          "description": "Estimated delivery in 3-5 business days"
-        }
-      },
-      "viewOrders": "View Orders",
-      "backHome": "Back to Home"
+    "revenueChart": {
+      "title": "Revenue Chart",
+      "loading": "Loading chart...",
+      "placeholder": "Revenue chart placeholder"
+    }
+  },
+  "recommendations": {
+    "personalizedSuggestions": {
+      "title": "Personalized for You",
+      "suggestedWine": "Suggested Wine",
+      "basedOnPreferences": "Based on your preferences"
+    },
+    "wineRecommendations": {
+      "title": "Wine Recommendations"
+    }
+  },
+  "utils": {
+    "pdfGenerator": {
+      "button": "Generate PDF"
+    },
+    "excelExporter": {
+      "button": "Export to Excel"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unreadCount": "{count} unread notifications",
+    "noNotifications": "No notifications",
+    "markAsRead": "Mark as read",
+    "markAllRead": "Mark all read",
+    "clear": "Clear",
+    "viewDetails": "View details",
+    "viewAll": "View all notifications",
+    "time": {
+      "justNow": "Just now",
+      "minutesAgo": "{count}m ago",
+      "hoursAgo": "{count}h ago",
+      "daysAgo": "{count}d ago"
     }
   }
 }

@@ -25,13 +25,11 @@ interface PaymentMethodsChartProps {
 
 const COLORS = {
   COD: "#3b4417",
-  VNPAY: "#d4af37",
   MOMO: "#7a8451",
 };
 
 const ICONS = {
   COD: Wallet,
-  VNPAY: CreditCard,
   MOMO: Smartphone,
 };
 

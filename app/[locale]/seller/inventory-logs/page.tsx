@@ -22,6 +22,7 @@ import InventoryLogsTable from "@/components/seller/inventory/InventoryLogsTable
 import InventoryPagination from "@/components/seller/inventory/InventoryPagination";
 import ExportModal from "@/components/seller/inventory/ExportModal";
 import { toast } from "react-toastify";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function InventoryLogsPage() {
   const t = useTranslations("seller.inventory.logs");
@@ -66,7 +67,6 @@ export default function InventoryLogsPage() {
         }));
         setWarehouses(warehouseList);
       } catch (error) {
-        console.error("Error fetching warehouses:", error);
         toast.error("Không thể tải danh sách kho hàng");
       }
     };
@@ -96,7 +96,6 @@ export default function InventoryLogsPage() {
           setSummary(response.data.summary);
         }
       } catch (error) {
-        console.error("Error fetching inventory logs:", error);
         toast.error("Không thể tải dữ liệu logs");
         setLogsData([]);
       } finally {
@@ -139,8 +138,8 @@ export default function InventoryLogsPage() {
 
       {/* Logs Table */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        <div className="flex h-screen items-center justify-center bg-neutral-50">
+          <LoaderOne />
         </div>
       ) : (
         <InventoryLogsTable logs={logsData} />

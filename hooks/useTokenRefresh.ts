@@ -27,7 +27,6 @@ export const useTokenRefresh = () => {
       try {
         // Kiểm tra nếu token sắp hết hạn (trong vòng 5 phút)
         if (isTokenExpiringSoon(accessToken, 300)) {
-
           const response = await authService.refreshToken(refreshToken);
           setAccessToken(response.data.access_token);
         }

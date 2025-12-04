@@ -64,7 +64,7 @@ export default function OrderReviewStep() {
                       {item.productName}
                     </h4>
                     <p className="text-xs md:text-sm text-neutral-500">
-                      Số lượng: {item.quantity}
+                      {t("quantity")}: {item.quantity}
                     </p>
                   </div>
                   <div className="text-right">
@@ -155,10 +155,6 @@ export default function OrderReviewStep() {
                   {formatCurrency(subtotal)}
                 </span>
               </div>
-              <div className="flex justify-between text-xs md:text-sm text-green-600">
-                <span>{t("summary.shippingFee")}</span>
-                <span className="font-semibold">Miễn phí</span>
-              </div>
               <div className="border-t border-[#d4d6b4] pt-2 md:pt-3 flex justify-between">
                 <span className="text-sm md:text-base lg:text-lg font-semibold text-[#3b4417]">
                   {t("summary.total")}
@@ -179,7 +175,10 @@ export default function OrderReviewStep() {
               >
                 {isCreatingOrder ? (
                   <>
-                    <Loader2 size={16} className="md:w-[18px] md:h-[18px] animate-spin" />
+                    <Loader2
+                      size={16}
+                      className="md:w-[18px] md:h-[18px] animate-spin"
+                    />
                     {t("processing")}
                   </>
                 ) : (

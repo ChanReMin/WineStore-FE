@@ -94,36 +94,10 @@ export default function QuickStats({
         },
       ],
     },
-    {
-      title: t("orderStatus"),
-      items: [
-        {
-          label: t("confirmed"),
-          value: orders.byStatus?.confirmed || orders.byStatus?.CONFIRMED || 0,
-          icon: CheckCircle,
-          color: "text-emerald-600",
-          bgColor: "bg-emerald-50",
-        },
-        {
-          label: t("shipping"),
-          value: orders.byStatus?.shipping || orders.byStatus?.SHIPPING || 0,
-          icon: Package,
-          color: "text-blue-600",
-          bgColor: "bg-blue-50",
-        },
-        {
-          label: t("delivered"),
-          value: orders.byStatus?.delivered || orders.byStatus?.DELIVERED || 0,
-          icon: CheckCircle,
-          color: "text-green-600",
-          bgColor: "bg-green-50",
-        },
-      ],
-    },
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
       {stats.map((section, sectionIndex) => (
         <motion.div
           key={section.title}

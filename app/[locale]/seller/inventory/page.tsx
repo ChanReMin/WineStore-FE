@@ -17,6 +17,7 @@ import AddProductToWarehouseModal from "@/components/seller/inventory/AddProduct
 import { Button } from "@/components/ui/button";
 import type { InventoryItem } from "@/types/inventory";
 import { toast } from "react-toastify";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function InventoryPage() {
   const t = useTranslations("seller.inventory");
@@ -62,7 +63,6 @@ export default function InventoryPage() {
         }));
         setWarehouses(warehouseList);
       } catch (error) {
-        console.error("Error fetching warehouses:", error);
         toast.error("Không thể tải danh sách kho hàng");
       }
     };
@@ -93,7 +93,6 @@ export default function InventoryPage() {
         });
         setPagination(response.data.pagination);
       } catch (error) {
-        console.error("Error fetching inventory:", error);
         toast.error("Không thể tải dữ liệu inventory");
         setInventoryData([]);
       } finally {
@@ -168,7 +167,6 @@ export default function InventoryPage() {
         totalValue: response.data.summary.totalValue,
       });
     } catch (error) {
-      console.error("Error updating inventory:", error);
       toast.error("Không thể cập nhật inventory");
     }
   };
@@ -280,8 +278,8 @@ export default function InventoryPage() {
 
       {/* Inventory Table */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        <div className="flex h-screen items-center justify-center bg-neutral-50">
+          <LoaderOne />
         </div>
       ) : (
         <InventoryTable
@@ -346,7 +344,6 @@ export default function InventoryPage() {
               totalValue: response.data.summary.totalValue,
             });
           } catch (error) {
-            console.error("Error transferring inventory:", error);
             toast.error("Không thể chuyển kho");
           }
         }}
@@ -391,7 +388,6 @@ export default function InventoryPage() {
               totalValue: response.data.summary.totalValue,
             });
           } catch (error) {
-            console.error("Error adding product to warehouse:", error);
             toast.error("Không thể thêm sản phẩm vào kho");
             throw error;
           }

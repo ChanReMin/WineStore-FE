@@ -30,27 +30,21 @@
     "myOrders": "Đơn hàng của tôi",
     "sellerDashboard": "Bảng điều khiển người bán",
     "adminPanel": "Bảng điều khiển Quản trị viên",
-    "becomeSeller": "Trở thành người bán",
     "manageOrders": "Quản lý đơn hàng",
     "products": "Sản phẩm",
     "seller": "Người bán",
     "admin": "Quản trị viên",
     "logout": "Đăng xuất"
   },
-  "becomeSeller": {
-    "title": "Trở thành người bán",
-    "subtitle": "Mở rộng kinh doanh của bạn với chúng tôi",
-    "confirmTitle": "Sẵn sàng trở thành người bán?",
-    "confirmMessage": "Gửi yêu cầu để trở thành người bán trên nền tảng của chúng tôi. Đội ngũ quản trị sẽ xem xét và liên hệ với bạn sớm.",
-    "note": "Lưu ý",
-    "noteMessage": "Yêu cầu của bạn sẽ được gửi đến quản trị viên để xem xét. Chúng tôi sẽ liên hệ với bạn trong vòng 24-48 giờ.",
-    "cancel": "Hủy",
-    "submit": "Gửi yêu cầu",
-    "submitting": "Đang gửi...",
-    "successMessage": "Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ sớm.",
-    "errorMessage": "Có lỗi xảy ra. Vui lòng thử lại sau."
-  },
   "auth": {
+    "social": {
+      "facebook": "Tiếp tục với Facebook",
+      "google": "Tiếp tục với Google",
+      "github": "Tiếp tục với GitHub"
+    },
+    "protected": {
+      "checking": "Đang kiểm tra quyền..."
+    },
     "login": {
       "title": "Chào mừng trở lại",
       "subtitle": "Đăng nhập vào tài khoản của bạn"
@@ -144,6 +138,7 @@
       "cannotClearCart": "Không thể xóa giỏ hàng"
     },
     "success": {
+      "itemAdded": "Đã thêm sản phẩm thành công!",
       "itemRemoved": "Đã xóa sản phẩm khỏi giỏ hàng",
       "cartCleared": "Đã xóa toàn bộ giỏ hàng"
     }
@@ -157,6 +152,101 @@
     "loginRequired": "Vui lòng đăng nhập để thêm vào giỏ hàng",
     "success": "Đã thêm {quantity} {productName} vào giỏ hàng",
     "error": "Không thể thêm vào giỏ hàng"
+  },
+  "buyNow": {
+    "buyNow": "Mua ngay",
+    "buyNowFull": "Mua ngay",
+    "adding": "Đang thêm...",
+    "loginRequired": "Vui lòng đăng nhập để mua hàng",
+    "error": "Không thể thực hiện mua hàng"
+  },
+  "checkout": {
+    "progress": {
+      "cart": "Giỏ hàng",
+      "address": "Địa chỉ",
+      "payment": "Thanh toán",
+      "review": "Xác nhận"
+    },
+    "cart": {
+      "title": "Giỏ hàng của bạn",
+      "items": "sản phẩm",
+      "subtotal": "Tạm tính:",
+      "continue": "Tiếp tục",
+      "empty": {
+        "title": "Giỏ hàng trống",
+        "description": "Hãy thêm sản phẩm vào giỏ hàng của bạn",
+        "button": "Tiếp tục mua sắm"
+      }
+    },
+    "address": {
+      "title": "Địa chỉ giao hàng",
+      "default": "Mặc định",
+      "addNew": "Thêm địa chỉ mới",
+      "back": "Quay lại",
+      "continue": "Tiếp tục",
+      "form": {
+        "fullName": "Tên Địa Chỉ",
+        "phoneNumber": "Số điện thoại",
+        "addressLine": "Địa chỉ",
+        "ward": "Phường/Xã",
+        "district": "Quận/Huyện",
+        "city": "Tỉnh/Thành phố",
+        "country": "Quốc gia",
+        "addressType": "Loại địa chỉ",
+        "addressTypes": {
+          "home": "Nhà riêng",
+          "office": "Văn phòng",
+          "other": "Khác"
+        },
+        "isDefault": "Đặt làm địa chỉ mặc định",
+        "required": "*",
+        "cancel": "Hủy",
+        "save": "Lưu địa chỉ",
+        "saving": "Đang lưu..."
+      },
+      "errors": {
+        "loadFailed": "Không thể tải danh sách địa chỉ",
+        "addFailed": "Không thể thêm địa chỉ"
+      },
+      "success": {
+        "added": "Đã thêm địa chỉ mới"
+      }
+    },
+    "payment": {
+      "title": "Phương thức thanh toán",
+      "back": "Quay lại",
+      "continue": "Tiếp tục"
+    },
+    "review": {
+      "title": "Xem lại đơn hàng",
+      "products": "Sản phẩm",
+      "shippingAddress": "Địa chỉ giao hàng",
+      "paymentMethod": "Phương thức thanh toán",
+      "summary": {
+        "title": "Tóm tắt đơn hàng",
+        "subtotal": "Tạm tính",
+        "total": "Tổng cộng"
+      },
+      "quantity": "Số lượng",
+      "placeOrder": "Đặt hàng",
+      "processing": "Đang xử lý...",
+      "back": "Quay lại",
+      "errors": {
+        "missingInfo": "Vui lòng chọn đầy đủ địa chỉ và phương thức thanh toán",
+        "orderFailed": "Đặt hàng thất bại. Vui lòng thử lại."
+      },
+      "success": {
+        "redirecting": "Đang chuyển đến trang thanh toán...",
+        "orderPlaced": "Đặt hàng thành công!"
+      }
+    },
+    "success": {
+      "title": "Đặt hàng thành công!",
+      "thankYou": "Cảm ơn bạn đã tin tưởng và mua sắm tại Wine Store",
+      "orderCode": "Mã đơn hàng của bạn:",
+      "viewOrders": "Xem đơn hàng",
+      "backHome": "Về trang chủ"
+    }
   },
   "home": {
     "hero": {
@@ -342,6 +432,7 @@
       "3": "Đã thanh toán",
       "4": "Đã giao hàng",
       "5": "Đã hủy",
+      "6": "Đã hủy",
       "pending": "Chờ xác nhận",
       "confirmed": "Đã xác nhận",
       "paid": "Đã thanh toán",
@@ -350,8 +441,20 @@
     "paymentStatus": {
       "0": "Chưa thanh toán",
       "1": "Đã thanh toán",
-      "2": "Đã hoàn tiền"
+      "2": "Đã hoàn tiền",
+      "3": "Thất bại"
     },
+    "backToOrders": "Quay lại danh sách đơn hàng",
+    "orderDetail": "Chi tiết đơn hàng",
+    "shippingAddress": "Địa chỉ giao hàng",
+    "paymentInfo": "Thông tin thanh toán",
+    "paymentMethod": "Phương thức thanh toán",
+    "orderItems": "Sản phẩm đã đặt",
+    "quantity": "Số lượng",
+    "subtotal": "Tạm tính",
+    "total": "Tổng cộng",
+    "notes": "Ghi chú",
+    "error": "Không thể tải thông tin đơn hàng",
     "timeline": {
       "pendingLabel": "Chờ xác nhận thông tin",
       "pendingDesc": "Đơn hàng đang chờ được xác nhận",
@@ -403,20 +506,7 @@
       "payAction": "Thanh toán ngay",
       "viewAction": "Xem chi tiết",
       "reorderAction": "Đặt lại"
-    },
-    "error": "Không thể tải danh sách đơn hàng",
-    "backToOrders": "Quay lại danh sách đơn hàng",
-    "orderDetail": "Chi tiết đơn hàng",
-    "shippingAddress": "Địa chỉ giao hàng",
-    "paymentInfo": "Thông tin thanh toán",
-    "paymentMethod": "Phương thức thanh toán",
-    "paymentStatus": "Trạng thái thanh toán",
-    "orderItems": "Sản phẩm đã đặt",
-    "quantity": "Số lượng",
-    "subtotal": "Tạm tính",
-    "discount": "Giảm giá",
-    "total": "Tổng cộng",
-    "notes": "Ghi chú"
+    }
   },
   "shop": {
     "hero": {
@@ -917,16 +1007,81 @@
           "assignWarning": "Khuyến mãi \"{promotion}\" đã được gán cho sản phẩm này!",
           "removeSuccess": "Đã xóa khuyến mãi \"{promotion}\" khỏi \"{product}\""
         }
+      },
+      "detail": {
+        "title": "Chi tiết khuyến mãi",
+        "subtitle": "Thông tin và thống kê chi tiết",
+        "loading": "Đang tải...",
+        "close": "Đóng",
+        "startDate": "Ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "used": "Đã sử dụng",
+        "remaining": "Còn lại",
+        "errors": {
+          "loadFailed": "Không thể tải thông tin khuyến mãi"
+        }
+      },
+      "form": {
+        "createTitle": "Tạo khuyến mãi mới",
+        "editTitle": "Chỉnh sửa khuyến mãi",
+        "createSubtitle": "Điền thông tin để tạo khuyến mãi",
+        "editSubtitle": "Cập nhật thông tin khuyến mãi",
+        "code": "Mã khuyến mãi",
+        "codePlaceholder": "VD: SUMMER2024",
+        "name": "Tên khuyến mãi",
+        "namePlaceholder": "VD: Giảm giá mùa hè",
+        "description": "Mô tả",
+        "descriptionPlaceholder": "Mô tả chi tiết về chương trình khuyến mãi...",
+        "discountType": "Loại giảm giá",
+        "discountTypePercent": "Phần trăm (%)",
+        "discountTypeFixed": "Số tiền cố định (VNĐ)",
+        "discountValue": "Giá trị giảm",
+        "discountValuePlaceholder": "VD: 10",
+        "discountValuePlaceholderFixed": "VD: 100000",
+        "startDate": "Ngày bắt đầu",
+        "startDatePlaceholder": "Chọn ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "endDatePlaceholder": "Chọn ngày kết thúc",
+        "maxUsage": "Số lượt sử dụng tối đa",
+        "maxUsagePlaceholder": "VD: 1000",
+        "status": "Trạng thái",
+        "statusActive": "Hoạt động",
+        "statusInactive": "Không hoạt động",
+        "required": "*",
+        "cancel": "Hủy",
+        "create": "Tạo mới",
+        "update": "Cập nhật",
+        "saving": "Đang lưu...",
+        "errors": {
+          "loadFailed": "Không thể tải thông tin khuyến mãi"
+        },
+        "success": {
+          "created": "Tạo khuyến mãi thành công",
+          "updated": "Cập nhật khuyến mãi thành công"
+        }
+      },
+      "delete": {
+        "title": "Xóa khuyến mãi",
+        "description": "Bạn có chắc chắn muốn xóa khuyến mãi này? Tất cả dữ liệu liên quan sẽ bị xóa vĩnh viễn.",
+        "success": "Xóa khuyến mãi thành công",
+        "error": "Không thể xóa khuyến mãi"
       }
     },
     "dashboard": {
       "title": "Bảng điều khiển",
       "subtitle": "Tổng quan hoạt động kinh doanh",
+      "loading": "Đang tải...",
+      "noData": "Không có dữ liệu",
+      "refresh": "Làm mới",
       "overview": {
         "totalRevenue": "Tổng doanh thu",
         "orders": "Đơn hàng",
         "products": "Sản phẩm",
-        "stockAlerts": "Cảnh báo tồn kho"
+        "stockAlerts": "Cảnh báo tồn kho",
+        "completed": "hoàn thành",
+        "pending": "chờ xử lý",
+        "cancelled": "Đơn hủy",
+        "cancelledOrders": "Đơn hàng đã hủy"
       },
       "revenue": {
         "title": "Doanh thu 7 ngày qua",
@@ -935,10 +1090,18 @@
         "revenueLabel": "Doanh thu",
         "ordersLabel": "Đơn hàng"
       },
+      "period": {
+        "select": "Chọn khoảng thời gian",
+        "day": "Hôm nay",
+        "week": "Tuần này",
+        "month": "Tháng này",
+        "year": "Năm nay"
+      },
       "latestOrders": {
         "title": "Đơn hàng mới nhất",
         "orderId": "Mã đơn",
         "customer": "Khách hàng",
+        "items": "Sản phẩm",
         "status": "Trạng thái",
         "paymentStatus": "Thanh toán",
         "totalAmount": "Tổng tiền",
@@ -1072,10 +1235,17 @@
       "afterOpening": "Sau khi mở"
     },
     "quantity": "Số lượng",
+    "availability": "Tình trạng",
     "addToCart": "Thêm vào giỏ",
     "buyNow": "Mua ngay",
     "save": "Lưu",
-    "unavailable": "Hàng sắp tới",
+    "or": "Hoặc",
+    "unavailable": "Hết hàng",
+    "unavailableDescription": "Sản phẩm này hiện đang hết hàng. Vui lòng quay lại sau.",
+    "buyNowInfo": {
+      "title": "Mua ngay - Thanh toán nhanh",
+      "description": "Nhấn 'Mua ngay' để thêm sản phẩm vào giỏ hàng và chuyển thẳng đến trang thanh toán."
+    },
     "trust": {
       "authentic": "Đảm bảo chính hãng",
       "freeShipping": "Miễn phí vận chuyển",
@@ -1158,7 +1328,7 @@
       "modal": {
         "titleAdd": "Thêm địa chỉ mới",
         "titleEdit": "Chỉnh sửa địa chỉ",
-        "fullName": "Họ và tên",
+        "fullName": "Tên Địa Chỉ",
         "phoneNumber": "Số điện thoại",
         "addressLine": "Địa chỉ",
         "addressPlaceholder": "Số nhà, tên đường",
@@ -1938,7 +2108,16 @@
         "delivered": "Đã giao"
       }
     },
+    "modal": {
+      "title": "Quản trị viên"
+    },
     "sellerRequests": {
+      "title": "Yêu cầu người bán",
+      "requestId": "Mã yêu cầu",
+      "approve": "Phê duyệt",
+      "reject": "Từ chối"
+    },
+    "sellerRequestsManagement": {
       "title": "Quản lý yêu cầu người bán",
       "subtitle": "Xem xét và phê duyệt yêu cầu nâng cấp tài khoản",
       "loading": "Đang tải...",
@@ -2307,7 +2486,7 @@
         "view": "Xem chi tiết",
         "edit": "Chỉnh sửa",
         "activate": "Kích hoạt",
-        "deactivate": "Tạm ngưng"
+        "deactivate": "Đổi vai trò"
       },
       "pagination": {
         "showing": "Hiển thị",
@@ -2458,7 +2637,7 @@
         "edit": "Chỉnh sửa",
         "changeRole": "Đổi vai trò",
         "activate": "Kích hoạt",
-        "deactivate": "Tạm ngưng"
+        "deactivate": "Đổi vai trò"
       },
       "pagination": {
         "showing": "Hiển thị",
@@ -2566,96 +2745,94 @@
       }
     }
   },
-  "checkout": {
-    "progress": {
-      "cart": "Giỏ hàng",
-      "address": "Địa chỉ",
-      "payment": "Thanh toán",
-      "review": "Xác nhận"
+  "forms": {
+    "imageUploader": {
+      "clickToUpload": "Nhấp để tải lên",
+      "dragAndDrop": "hoặc kéo và thả",
+      "fileTypes": "PNG, JPG, GIF tối đa {maxFiles} tệp"
     },
-    "cart": {
-      "title": "Giỏ hàng của bạn",
-      "empty": {
-        "title": "Giỏ hàng trống",
-        "description": "Hãy thêm sản phẩm vào giỏ hàng của bạn",
-        "button": "Tiếp tục mua sắm"
-      },
-      "items": "sản phẩm",
-      "subtotal": "Tạm tính:",
-      "continue": "Tiếp tục"
+    "richTextEditor": {
+      "bold": "Đậm",
+      "italic": "Nghiêng",
+      "underline": "Gạch chân",
+      "placeholder": "Nhập văn bản..."
+    }
+  },
+  "products": {
+    "priceRangeFilter": {
+      "title": "Khoảng giá",
+      "min": "Tối thiểu",
+      "max": "Tối đa"
     },
-    "address": {
-      "title": "Địa chỉ giao hàng",
-      "default": "Mặc định",
-      "addNew": "Thêm địa chỉ mới",
-      "form": {
-        "fullName": "Họ và tên",
-        "phoneNumber": "Số điện thoại",
-        "addressLine": "Địa chỉ chi tiết",
-        "ward": "Phường/Xã",
-        "district": "Quận/Huyện",
-        "city": "Tỉnh/Thành phố",
-        "country": "Quốc gia",
-        "addressType": "Loại địa chỉ",
-        "addressTypes": {
-          "home": "Nhà riêng",
-          "office": "Văn phòng",
-          "other": "Khác"
-        },
-        "isDefault": "Đặt làm địa chỉ mặc định",
-        "required": "*",
-        "cancel": "Hủy",
-        "save": "Lưu địa chỉ",
-        "saving": "Đang lưu..."
-      },
-      "back": "Quay lại",
-      "continue": "Tiếp tục"
+    "advancedFilters": {
+      "title": "Bộ lọc nâng cao",
+      "category": "Danh mục",
+      "allCategories": "Tất cả danh mục",
+      "redWine": "Rượu vang đỏ",
+      "whiteWine": "Rượu vang trắng",
+      "priceRange": "Khoảng giá"
     },
-    "payment": {
-      "title": "Phương thức thanh toán",
-      "back": "Quay lại",
-      "continue": "Tiếp tục"
+    "productDetailModal": {
+      "title": "Chi tiết sản phẩm",
+      "productId": "Mã sản phẩm"
+    }
+  },
+  "analytics": {
+    "orderAnalytics": {
+      "title": "Phân tích đơn hàng",
+      "loading": "Đang tải phân tích...",
+      "placeholder": "Nội dung phân tích đơn hàng"
+    }
+  },
+  "charts": {
+    "inventoryChart": {
+      "title": "Biểu đồ tồn kho",
+      "loading": "Đang tải biểu đồ...",
+      "placeholder": "Nội dung biểu đồ tồn kho"
     },
-    "review": {
-      "title": "Xác nhận đơn hàng",
-      "products": "Sản phẩm",
-      "shippingAddress": "Địa chỉ giao hàng",
-      "paymentMethod": "Phương thức thanh toán",
-      "shipping": "Vận chuyển",
-      "calculatingShipping": "Đang tính phí...",
-      "shippingFee": "Phí vận chuyển:",
-      "estimatedDelivery": "Dự kiến giao: {days} ngày",
-      "summary": {
-        "title": "Tổng cộng",
-        "subtotal": "Tạm tính:",
-        "discount": "Giảm giá:",
-        "shippingFee": "Phí vận chuyển:",
-        "total": "Tổng:"
-      },
-      "placeOrder": "Đặt hàng",
-      "processing": "Đang xử lý...",
-      "back": "Quay lại"
+    "salesChart": {
+      "title": "Biểu đồ doanh số",
+      "loading": "Đang tải biểu đồ...",
+      "placeholder": "Nội dung biểu đồ doanh số"
     },
-    "success": {
-      "title": "Đặt hàng thành công!",
-      "thankYou": "Cảm ơn bạn đã tin tưởng và mua sắm tại Wine Store",
-      "orderCode": "Mã đơn hàng của bạn:",
-      "status": {
-        "processing": {
-          "title": "Đang xử lý",
-          "description": "Đơn hàng của bạn đang được chuẩn bị"
-        },
-        "email": {
-          "title": "Email xác nhận",
-          "description": "Chúng tôi đã gửi email xác nhận đơn hàng"
-        },
-        "delivery": {
-          "title": "Giao hàng",
-          "description": "Dự kiến giao trong 3-5 ngày làm việc"
-        }
-      },
-      "viewOrders": "Xem đơn hàng",
-      "backHome": "Về trang chủ"
+    "revenueChart": {
+      "title": "Biểu đồ doanh thu",
+      "loading": "Đang tải biểu đồ...",
+      "placeholder": "Nội dung biểu đồ doanh thu"
+    }
+  },
+  "recommendations": {
+    "personalizedSuggestions": {
+      "title": "Dành riêng cho bạn",
+      "suggestedWine": "Rượu vang gợi ý",
+      "basedOnPreferences": "Dựa trên sở thích của bạn"
+    },
+    "wineRecommendations": {
+      "title": "Gợi ý rượu vang"
+    }
+  },
+  "utils": {
+    "pdfGenerator": {
+      "button": "Tạo PDF"
+    },
+    "excelExporter": {
+      "button": "Xuất Excel"
+    }
+  },
+  "notifications": {
+    "title": "Thông báo",
+    "unreadCount": "{count} thông báo chưa đọc",
+    "noNotifications": "Không có thông báo",
+    "markAsRead": "Đánh dấu đã đọc",
+    "markAllRead": "Đánh dấu tất cả đã đọc",
+    "clear": "Xóa",
+    "viewDetails": "Xem chi tiết",
+    "viewAll": "Xem tất cả thông báo",
+    "time": {
+      "justNow": "Vừa xong",
+      "minutesAgo": "{count} phút trước",
+      "hoursAgo": "{count} giờ trước",
+      "daysAgo": "{count} ngày trước"
     }
   }
 }

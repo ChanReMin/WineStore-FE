@@ -25,12 +25,15 @@ import ProductsGrid from "@/components/products/ProductsGrid";
 import Pagination from "@/components/products/Pagination";
 import MobileFilterDrawer from "@/components/products/MobileFilterDrawer";
 import RangeSlider from "@/components/products/RangeSlider";
-import { fetchShopProducts } from "@/services/productService";
-import { fetchCategories } from "@/services/categoryService";
-import { fetchBrands } from "@/services/brandService";
 import type { Product } from "@/types/product";
 import { Playfair_Display } from "next/font/google";
 import { useDebounce } from "@/hooks/useDebounce";
+import { LoaderOne } from "@/components/ui/loader";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useCategories";
+import { useBrands } from "@/hooks/useBrands";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchShopProducts } from "@/services/productService";
 
 const displaySerif = Playfair_Display({
   subsets: ["latin"],
@@ -55,16 +58,8 @@ interface ProductFilters {
 function ShopContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-
-  // API data states
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [brands, setBrands] = useState<any[]>([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
 
   // Filters synced from URL (for API calls)
   const [filters, setFilters] = useState<ProductFilters>({
@@ -92,10 +87,41 @@ function ShopContent() {
     localFiltersRef.current = localFilters;
   }, [localFilters]);
 
+  // React Query hooks - tự động fetch và cache data
+  const {
+    data: productsData,
+    isLoading: isLoadingProducts,
+    isFetching: isFetchingProducts,
+    error: productsError,
+  } = useProducts({
+    page: filters.page,
+    limit: filters.limit,
+    search: filters.search || undefined,
+    categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+    brandId: filters.brandId ? Number(filters.brandId) : undefined,
+    priceFrom: filters.priceFrom,
+    priceTo: filters.priceTo,
+    concentrationFrom: filters.concentrationFrom,
+    concentrationTo: filters.concentrationTo,
+  });
+
+  const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
+  const { data: brands = [], isLoading: isLoadingBrands } = useBrands();
+
+  // Extract data từ React Query response
+  const products = productsData?.data?.products || [];
+  const totalItems = productsData?.data?.pagination?.totalItems || 0;
+  const totalPages = productsData?.data?.pagination?.totalPages || 0;
+  const currentPage = productsData?.data?.pagination?.currentPage || 1;
+  const isLoading = isLoadingProducts || isLoadingCategories || isLoadingBrands;
+
   // Debounced function to push filters to URL (for text inputs like search)
-  const debouncedPushFiltersToURL = useDebounce((filtersToApply: ProductFilters) => {
-    pushFiltersToURL(filtersToApply);
-  }, 300); // 300ms debounce for search and range inputs
+  const debouncedPushFiltersToURL = useDebounce(
+    (filtersToApply: ProductFilters) => {
+      pushFiltersToURL(filtersToApply);
+    },
+    300
+  ); // 300ms debounce for search and range inputs
 
   // Sync filters with URL params
   useEffect(() => {
@@ -120,95 +146,46 @@ function ShopContent() {
       page: searchParams.get("page") ? Number(searchParams.get("page")) : 1,
       limit: 9,
     };
-    console.log("URL sync - searchParams changed, new page:", urlFilters.page);
     setFilters(urlFilters);
     setLocalFilters(urlFilters);
   }, [searchParams]); // Sync with URL changes
 
-  // Fetch categories and brands on mount
+  // Prefetch next page khi user ở gần cuối trang hiện tại
   useEffect(() => {
-    const loadFiltersData = async () => {
-      try {
-        const [categoriesRes, brandsRes] = await Promise.all([
-          fetchCategories(),
-          fetchBrands(),
-        ]);
-        setCategories(categoriesRes.data.categories);
-        setBrands(brandsRes.data.brands);
-      } catch (error) {
-        console.error("Error loading filters data:", error);
-        // Set empty arrays on error
-        setCategories([]);
-        setBrands([]);
-      }
-    };
-    loadFiltersData();
-  }, []);
-
-  // Fetch products when filters change
-  useEffect(() => {
-    let isCancelled = false;
-
-    const loadProducts = async () => {
-      setIsLoading(true);
-      console.log("Fetching products with page:", filters.page);
-      try {
-        const response = await fetchShopProducts({
-          page: filters.page,
-          limit: filters.limit,
-          search: filters.search || undefined,
-          categoryId: filters.categoryId
-            ? Number(filters.categoryId)
-            : undefined,
-          brandId: filters.brandId ? Number(filters.brandId) : undefined,
-          priceFrom: filters.priceFrom,
-          priceTo: filters.priceTo,
-          concentrationFrom: filters.concentrationFrom,
-          concentrationTo: filters.concentrationTo,
-        });
-
-        if (!isCancelled) {
-          console.log(
-            "API Response - currentPage:",
-            response.data.pagination.currentPage
-          );
-          setProducts(response.data.products);
-          setTotalItems(response.data.pagination.totalItems);
-          setTotalPages(response.data.pagination.totalPages);
-          setCurrentPage(response.data.pagination.currentPage);
-        }
-      } catch (error) {
-        if (!isCancelled) {
-          console.error("Error fetching products:", error);
-          // Set empty array on error
-          setProducts([]);
-          setTotalItems(0);
-          setTotalPages(0);
-          setCurrentPage(1);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    loadProducts();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [
-    filters.page,
-    filters.limit,
-    filters.search,
-    filters.categoryId,
-    filters.brandId,
-    filters.priceFrom,
-    filters.priceTo,
-    filters.concentrationFrom,
-    filters.concentrationTo,
-  ]);
+    if (currentPage < totalPages && productsData) {
+      // Prefetch trang tiếp theo để navigation mượt mà hơn
+      const nextPage = currentPage + 1;
+      queryClient.prefetchQuery({
+        queryKey: [
+          "products",
+          {
+            page: nextPage,
+            limit: filters.limit,
+            search: filters.search,
+            categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+            brandId: filters.brandId ? Number(filters.brandId) : undefined,
+            priceFrom: filters.priceFrom,
+            priceTo: filters.priceTo,
+            concentrationFrom: filters.concentrationFrom,
+            concentrationTo: filters.concentrationTo,
+          },
+        ],
+        queryFn: async () => {
+          return await fetchShopProducts({
+            page: nextPage,
+            limit: filters.limit,
+            search: filters.search || undefined,
+            categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+            brandId: filters.brandId ? Number(filters.brandId) : undefined,
+            priceFrom: filters.priceFrom,
+            priceTo: filters.priceTo,
+            concentrationFrom: filters.concentrationFrom,
+            concentrationTo: filters.concentrationTo,
+          });
+        },
+      });
+    }
+  }, [currentPage, totalPages, filters, queryClient, productsData]);
 
   // Products are now fetched from API, no need for client-side filtering
   const filteredProducts = products;
@@ -245,7 +222,6 @@ function ShopContent() {
 
       if (newParamsString !== currentParamsString) {
         const newUrl = newParamsString ? `?${newParamsString}` : "?";
-        console.log("Pushing URL:", newUrl, "with page:", filtersToApply.page);
         router.replace(newUrl, { scroll: false });
       }
     },
@@ -255,7 +231,6 @@ function ShopContent() {
   // Immediate filter change (no debounce) - for dropdowns and pagination
   const handleFilterChangeImmediate = useCallback(
     (newFilters: Partial<ProductFilters>) => {
-      console.log("handleFilterChangeImmediate called with:", newFilters);
 
       const currentFilters = localFiltersRef.current;
 
@@ -280,8 +255,6 @@ function ShopContent() {
         }
       }
 
-      console.log("updatedFilters:", updatedFilters);
-
       // Update local state immediately
       setLocalFilters(updatedFilters);
 
@@ -295,12 +268,6 @@ function ShopContent() {
   // Using useCallback without localFilters dependency to prevent SearchBar re-triggering
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>, immediate = false) => {
-      console.log(
-        "handleFilterChange called with:",
-        newFilters,
-        "immediate:",
-        immediate
-      );
 
       // Capture current filters BEFORE updating state
       const currentFilters = localFiltersRef.current;
@@ -329,13 +296,10 @@ function ShopContent() {
 
       // If immediate (pagination, dropdowns, checkboxes), push to URL right away
       if (immediate) {
-        console.log("Immediate filter change, pushing to URL:", updatedFilters);
         pushFiltersToURL(updatedFilters);
         return;
       }
 
-      // For text inputs and range sliders, use debounced push
-      console.log("Debounced filter change, scheduling URL push:", updatedFilters);
       debouncedPushFiltersToURL(updatedFilters);
     },
     [pushFiltersToURL, debouncedPushFiltersToURL]
@@ -361,7 +325,6 @@ function ShopContent() {
 
   const handlePageChange = useCallback(
     (page: number) => {
-      console.log("handlePageChange called with page:", page);
       if (page !== currentPage) {
         handleFilterChangeImmediate({ page }); // Use immediate function directly
         // Scroll after a short delay to ensure page change has been processed
@@ -996,7 +959,6 @@ function ShopContent() {
                     localFilters.priceTo || 2000000,
                   ]}
                   onChange={([min, max]) => {
-                    console.log("Price range changed:", min, max);
                     handleFilterChange(
                       {
                         priceFrom: min > 0 ? min : undefined,
@@ -1024,7 +986,6 @@ function ShopContent() {
                     localFilters.concentrationTo || 100,
                   ]}
                   onChange={([min, max]) => {
-                    console.log("ABV range changed:", min, max);
                     handleFilterChange(
                       {
                         concentrationFrom: min > 0 ? min : undefined,
@@ -1091,11 +1052,8 @@ export default function ShopPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#fdfbf5] flex items-center justify-center">
-          <div className="text-center">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
-            <p className="mt-4 text-sm text-neutral-600">Loading...</p>
-          </div>
+        <div className="flex h-screen items-center justify-center bg-neutral-50">
+          <LoaderOne />
         </div>
       }
     >

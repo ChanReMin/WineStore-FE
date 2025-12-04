@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -15,10 +16,16 @@ import ProductSummaryCards from "@/components/seller/dashboard/ProductSummaryCar
 import ProductFilters from "@/components/seller/dashboard/ProductFilters";
 import ProductsTable from "@/components/seller/dashboard/ProductsTable";
 import ProductPagination from "@/components/seller/dashboard/ProductPagination";
-import ProductFormModal from "@/components/seller/dashboard/ProductFormModal";
+
+// ✅ Dynamic import cho Modal (không cần SSR)
+const ProductFormModal = dynamic(
+  () => import("@/components/seller/dashboard/ProductFormModal"),
+  { ssr: false }
+);
 import type { ProductFormData } from "@/types/productForm";
 import { toast } from "react-toastify";
 import { getErrorMessage } from "@/lib/errorHandler";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function ProductsPage() {
   const t = useTranslations("seller.products");
@@ -112,7 +119,6 @@ export default function ProductsPage() {
         setSummary(response.data.summary);
         setPagination(response.data.pagination);
       } catch (error) {
-        console.error("Error fetching products:", error);
         toast.error(getErrorMessage(error, "Không thể tải danh sách sản phẩm"));
         setProducts([]);
       } finally {
@@ -214,10 +220,11 @@ export default function ProductsPage() {
       setSummary(response.data.summary);
       setPagination(response.data.pagination);
     } catch (error) {
-      console.error("Error creating product:", error);
       toast.error(
         getErrorMessage(error, "Không thể tạo sản phẩm. Vui lòng thử lại!")
       );
+      // Throw lỗi để ProductFormModal không đóng form
+      throw error;
     }
   };
 
@@ -226,7 +233,7 @@ export default function ProductsPage() {
       // Ensure images is always provided for update
       if (!data.images) {
         toast.error("Lỗi: Không tìm thấy URL ảnh hiện tại");
-        return;
+        throw new Error("Missing image URL");
       }
 
       await updateProduct(id, {
@@ -283,10 +290,11 @@ export default function ProductsPage() {
       setSummary(response.data.summary);
       setPagination(response.data.pagination);
     } catch (error) {
-      console.error("Error updating product:", error);
       toast.error(
         getErrorMessage(error, "Không thể cập nhật sản phẩm. Vui lòng thử lại!")
       );
+      // Throw lỗi để ProductFormModal không đóng form
+      throw error;
     }
   };
 
@@ -325,7 +333,6 @@ export default function ProductsPage() {
       setSummary(response.data.summary);
       setPagination(response.data.pagination);
     } catch (error) {
-      console.error("Error deleting product:", error);
       toast.error(
         getErrorMessage(error, "Không thể xóa sản phẩm. Vui lòng thử lại!")
       );
@@ -393,8 +400,8 @@ export default function ProductsPage() {
 
       {/* Products Table */}
       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        <div className="flex h-screen items-center justify-center bg-neutral-50">
+          <LoaderOne />
         </div>
       ) : (
         <ProductsTable

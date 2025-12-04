@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
@@ -22,10 +23,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ProductStatusBadge from "./ProductStatusBadge";
-import ProductDetailModal from "./ProductDetailModal";
-import ProductFormModal from "./ProductFormModal";
-import DeleteProductModal from "./DeleteProductModal";
-import AddPromotionToProductModal from "./AddPromotionToProductModal";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const ProductDetailModal = dynamic(() => import("./ProductDetailModal"), {
+  ssr: false,
+});
+
+const ProductFormModal = dynamic(() => import("./ProductFormModal"), {
+  ssr: false,
+});
+
+const DeleteProductModal = dynamic(() => import("./DeleteProductModal"), {
+  ssr: false,
+});
+
+const AddPromotionToProductModal = dynamic(
+  () => import("./AddPromotionToProductModal"),
+  { ssr: false }
+);
 import type { Product } from "@/types/product";
 import type { ProductFormData } from "@/types/productForm";
 
@@ -295,7 +310,10 @@ export default function ProductsTable({
                 name: selectedProduct.name,
                 price: selectedProduct.price,
                 winetype: selectedProduct.winetype || "",
-                countryOfProduction: selectedProduct.countryOfProduction || selectedProduct.originCountry || "",
+                countryOfProduction:
+                  selectedProduct.countryOfProduction ||
+                  selectedProduct.originCountry ||
+                  "",
                 grapeVariety: selectedProduct.grapeVariety || "",
                 concentration: selectedProduct.concentration || 0,
                 productionArea: selectedProduct.productionArea || "",

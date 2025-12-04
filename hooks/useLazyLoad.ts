@@ -8,13 +8,13 @@ interface UseLazyLoadOptions {
 
 /**
  * Custom hook for lazy loading with Intersection Observer
- * 
+ *
  * @param options Configuration for intersection observer
  * @returns Object with ref, isInView state, and hasBeenInView flag
- * 
+ *
  * @example
  * const { ref, isInView } = useLazyLoad({ rootMargin: "100px" });
- * 
+ *
  * <div ref={ref}>
  *   {isInView && <img src="..." />}
  * </div>
@@ -22,11 +22,7 @@ interface UseLazyLoadOptions {
 export function useLazyLoad<T extends HTMLElement = HTMLDivElement>(
   options: UseLazyLoadOptions = {}
 ) {
-  const {
-    threshold = 0,
-    rootMargin = "50px",
-    triggerOnce = true,
-  } = options;
+  const { threshold = 0, rootMargin = "50px", triggerOnce = true } = options;
 
   const [isInView, setIsInView] = useState(false);
   const [hasBeenInView, setHasBeenInView] = useState(false);
@@ -75,10 +71,10 @@ export function useLazyLoad<T extends HTMLElement = HTMLDivElement>(
 
 /**
  * Hook to preload an image
- * 
+ *
  * @param src Image source URL
  * @returns Loading state and error state
- * 
+ *
  * @example
  * const { isLoading, hasError } = useImagePreload("/image.jpg");
  */
@@ -114,31 +110,29 @@ export function useImagePreload(src: string) {
 
 /**
  * Hook to lazy load multiple images with priority
- * 
+ *
  * @param images Array of image URLs
  * @param priorityCount Number of images to load with priority
  * @returns Map of image URLs to their loading states
- * 
+ *
  * @example
  * const loadingStates = useLazyLoadImages([img1, img2, img3], 1);
- * 
+ *
  * loadingStates.get(img1) // { isLoading: false, hasError: false, priority: true }
  */
-export function useLazyLoadImages(
-  images: string[],
-  priorityCount: number = 3
-) {
+export function useLazyLoadImages(images: string[], priorityCount: number = 3) {
   const [loadingStates, setLoadingStates] = useState(
-    () => new Map(
-      images.map((src, index) => [
-        src,
-        {
-          isLoading: true,
-          hasError: false,
-          priority: index < priorityCount,
-        },
-      ])
-    )
+    () =>
+      new Map(
+        images.map((src, index) => [
+          src,
+          {
+            isLoading: true,
+            hasError: false,
+            priority: index < priorityCount,
+          },
+        ])
+      )
   );
 
   useEffect(() => {

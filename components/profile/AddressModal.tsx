@@ -62,6 +62,20 @@ export default function AddressModal({
     }
   }, [editAddress, isOpen]);
 
+  const resetForm = () => {
+    setFormData({
+      fullName: "",
+      phoneNumber: "",
+      addressLine: "",
+      ward: "",
+      district: "",
+      city: "",
+      country: "Việt Nam",
+      isDefault: false,
+      addressType: "HOME",
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -81,6 +95,7 @@ export default function AddressModal({
         await profileService.addAddress(formData);
         toast.success(t("addSuccess"));
       }
+      resetForm(); // Clear form after successful submission
       onSuccess();
       onClose();
     } catch (error) {
@@ -332,7 +347,10 @@ export default function AddressModal({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="button"
-                    onClick={onClose}
+                    onClick={() => {
+                      resetForm();
+                      onClose();
+                    }}
                     disabled={isLoading}
                     className="flex-1 rounded-md border border-neutral-300 px-6 py-2.5 text-neutral-700 transition-colors hover:bg-neutral-50 disabled:opacity-50"
                   >

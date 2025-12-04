@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Client } from "@stomp/stompjs";
 import { useAuth } from "@/hooks/useAuth";
-import { notificationService, type NotificationResponse } from "@/services/notificationService";
+import {
+  notificationService,
+  type NotificationResponse,
+} from "@/services/notificationService";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { getWebSocketUrl } from "@/lib/websocketUrl";
 import { Bell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import SockJS from "sockjs-client";
+import { LoaderOne } from "../ui/loader";
+import { useTranslations } from "next-intl";
 
 interface NotificationMessage extends NotificationResponse {
   timestamp?: Date;
@@ -19,7 +24,8 @@ interface NotificationMessage extends NotificationResponse {
 export default function NotificationClient() {
   const router = useRouter();
   const { getAccessToken, isAuthenticated } = useAuth();
-  
+  const t = useTranslations('notifications');
+
   // Store
   const {
     messages,
@@ -53,7 +59,11 @@ export default function NotificationClient() {
       const storageData = localStorage.getItem("notification-store");
       if (storageData) {
         const parsed = JSON.parse(storageData);
-        if (parsed.state && parsed.state.messages && parsed.state.messages.length > 0) {
+        if (
+          parsed.state &&
+          parsed.state.messages &&
+          parsed.state.messages.length > 0
+        ) {
           setMessages(parsed.state.messages);
           setIsLoaded(true);
           return;
@@ -93,7 +103,7 @@ export default function NotificationClient() {
       return;
     }
     // const wsUrl = getWebSocketUrl(token);
-    
+
     // const stompClient = new Client({
     //   webSocketFactory: () => new SockJS(wsUrl),
     //   reconnectDelay: 5000,
@@ -118,7 +128,6 @@ export default function NotificationClient() {
     // });
 
     stompClient.onConnect = () => {
-      console.log('connected');
       setConnected(true);
 
       stompClient.subscribe("/user/queue/notifications", (msg) => {
@@ -132,8 +141,7 @@ export default function NotificationClient() {
           addMessage(notificationData);
           incrementUnreadCount();
 
-          toast.info(`New notification: ${notificationData.title}`)
-          
+          toast.info(`New notification: ${notificationData.title}`);
         } catch (error) {
           console.error("Failed to parse notification:", error);
         }
@@ -151,9 +159,11 @@ export default function NotificationClient() {
     stompClient.activate();
 
     return () => {
-      stompClient.deactivate().catch((err) =>
-        console.error("Failed to deactivate STOMP client", err)
-      );
+      stompClient
+        .deactivate()
+        .catch((err) =>
+          console.error("Failed to deactivate STOMP client", err)
+        );
     };
   }, []);
 
@@ -163,7 +173,7 @@ export default function NotificationClient() {
         await notificationService.markAsRead(id);
         updateMessage(id, { read: true, isRead: true });
 
-        const msg = messages.find(m => m.id === id);
+        const msg = messages.find((m) => m.id === id);
         if (msg && !msg.isRead) {
           const currentUnread = await notificationService.getUnreadCount();
           setUnreadCount(currentUnread.data || 0);
@@ -201,24 +211,24 @@ export default function NotificationClient() {
     const date = new Date(dateString);
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
-    if (seconds < 60) return "Just now";
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
+    if (seconds < 60) return t('time.justNow');
+    if (seconds < 3600) return t('time.minutesAgo', { count: Math.floor(seconds / 60) });
+    if (seconds < 86400) return t('time.hoursAgo', { count: Math.floor(seconds / 3600) });
+    return t('time.daysAgo', { count: Math.floor(seconds / 86400) });
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "bg-green-50 border-l-4 border-green-500";
+        return "border-l-4 border-[#3b4417]";
       case "ERROR":
-        return "bg-red-50 border-l-4 border-red-500";
+        return "border-l-4 border-red-500";
       case "WARNING":
-        return "bg-yellow-50 border-l-4 border-yellow-500";
+        return "border-l-4 border-orange-500";
       case "INFO":
-        return "bg-blue-50 border-l-4 border-blue-500";
+        return "border-l-4 border-blue-500";
       default:
-        return "bg-neutral-50 border-l-4 border-neutral-500";
+        return "border-l-4 border-[#3b4417]/30";
     }
   };
 
@@ -246,23 +256,23 @@ export default function NotificationClient() {
         onClick={() => {
           setShowNotifications(!showNotifications);
         }}
-        className="relative rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100"
-        title={`${unreadCount} unread notifications`}
+        className="relative rounded-lg p-2.5 text-[#3b4417] transition-all hover:bg-[#3b4417]/10 hover:scale-105 active:scale-95"
+        title={t('unreadCount', { count: unreadCount })}
       >
-        <Bell size={20} />
+        <Bell size={20} strokeWidth={2.5} />
         {unreadCount > 0 && (
           <>
             <span className="absolute right-1 top-1 flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#3b4417] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#3b4417]" />
             </span>
-            <span className="absolute -right-1 -top-1 inline-flex items-center justify-center h-5 w-5 rounded-full bg-red-500 text-white text-xs font-bold">
+            <span className="absolute -right-1 -top-1 inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#3b4417] text-white text-[10px] font-bold shadow-md">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           </>
         )}
         {connected && (
-          <span className="absolute bottom-1 right-1 inline-flex h-2 w-2 rounded-full bg-green-500" />
+          <span className="absolute bottom-1.5 right-1.5 inline-flex h-2 w-2 rounded-full bg-[#3b4417] ring-2 ring-white" />
         )}
       </button>
 
@@ -274,18 +284,23 @@ export default function NotificationClient() {
               onClick={() => setShowNotifications(false)}
             />
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="absolute right-0 top-12 z-20 w-96 rounded-lg border border-neutral-200 bg-white shadow-lg"
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="absolute right-0 top-12 z-20 w-96 rounded-xl border-2 border-[#3b4417]/20 bg-white shadow-2xl overflow-hidden backdrop-blur-sm"
             >
               {/* Header */}
-              <div className="border-b border-neutral-200 p-4 flex justify-between items-center bg-neutral-50">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-semibold text-neutral-900">Notifications</h3>
+              <div className="border-b-2 border-[#3b4417]/20 p-4 flex justify-between items-center bg-[#3b4417]/5">
+                <div className="flex items-center gap-3">
+                  <div className="h-8 w-8 rounded-lg bg-[#3b4417] flex items-center justify-center shadow-md">
+                    <Bell size={16} className="text-white" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="font-bold text-[#3b4417] tracking-wide text-sm uppercase">
+                    {t('title')}
+                  </h3>
                   {unreadCount > 0 && (
-                    <span className="px-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full">
+                    <span className="px-2.5 py-0.5 text-xs font-bold text-white bg-[#3b4417] rounded-full shadow-sm">
                       {unreadCount}
                     </span>
                   )}
@@ -295,18 +310,18 @@ export default function NotificationClient() {
                     <button
                       type="button"
                       onClick={() => handleMarkAsRead()}
-                      className="text-xs text-blue-600 hover:text-blue-800 underline font-medium"
+                      className="text-xs text-[#3b4417] hover:opacity-70 font-semibold transition-opacity"
                     >
-                      Mark all read
+                      {t('markAllRead')}
                     </button>
                   )}
                   {messages.length > 0 && (
                     <button
                       type="button"
                       onClick={handleClearMessages}
-                      className="text-xs text-neutral-500 hover:text-neutral-700 underline"
+                      className="text-xs text-[#3b4417]/70 hover:text-[#3b4417] font-medium transition-colors"
                     >
-                      Clear
+                      {t('clear')}
                     </button>
                   )}
                 </div>
@@ -316,37 +331,39 @@ export default function NotificationClient() {
               <div className="max-h-96 overflow-y-auto">
                 {!isLoaded ? (
                   <div className="p-4 text-center text-neutral-500">
-                    <p>Loading notifications...</p>
+                    <div className="flex h-screen items-center justify-center bg-neutral-50">
+                      <LoaderOne />
+                    </div>
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="p-4 text-center text-neutral-500">
-                    <p>No notifications</p>
+                    <p>{t('noNotifications')}</p>
                   </div>
                 ) : (
                   messages.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`border-b border-neutral-100 p-4 transition-colors ${
-                        !notification.isRead ? "bg-blue-50/30" : ""
+                      className={`border-b border-[#3b4417]/10 p-4 transition-all hover:bg-[#3b4417]/5 ${
+                        !notification.isRead ? "bg-[#3b4417]/5" : ""
                       } ${getStatusColor(notification.status)} group cursor-pointer`}
                     >
                       <div className="flex justify-between items-start gap-3">
                         <div className="flex-1">
                           {/* Title with status */}
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-lg">
+                          <div className="flex items-center gap-2 mb-1.5">
+                            <span className="text-base font-semibold">
                               {getStatusIcon(notification.status)}
                             </span>
-                            <h4 className="font-semibold text-sm text-neutral-900">
+                            <h4 className="font-bold text-sm text-[#3b4417] tracking-wide">
                               {notification.title}
                             </h4>
                             {!notification.isRead && (
-                              <span className="inline-flex h-2 w-2 rounded-full bg-blue-500 ml-auto" />
+                              <span className="inline-flex h-2 w-2 rounded-full bg-[#3b4417] ml-auto shadow-sm" />
                             )}
                           </div>
 
                           {/* Message */}
-                          <p className="text-sm text-neutral-700 mb-2">
+                          <p className="text-sm text-[#3b4417]/70 mb-2 leading-relaxed">
                             {notification.message}
                           </p>
 
@@ -357,9 +374,9 @@ export default function NotificationClient() {
                               target="_blank"
                               rel="noopener noreferrer"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-xs text-blue-600 hover:text-blue-800 underline"
+                              className="inline-flex items-center gap-1 text-xs text-[#3b4417] hover:opacity-70 font-semibold transition-opacity"
                             >
-                              View details →
+                              {t('viewDetails')} <span>→</span>
                             </a>
                           )}
 
@@ -372,15 +389,15 @@ export default function NotificationClient() {
                                   e.stopPropagation();
                                   handleMarkAsRead(notification.id);
                                 }}
-                                className="text-xs px-2 py-1 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded"
+                                className="text-xs px-3 py-1.5 bg-[#3b4417] text-white hover:bg-[#3b4417]/80 rounded-md font-medium transition-all shadow-sm hover:shadow-md"
                               >
-                                Mark as read
+                                {t('markAsRead')}
                               </button>
                             )}
                           </div>
 
                           {/* Time */}
-                          <p className="mt-2 text-xs text-neutral-500">
+                          <p className="mt-2 text-xs text-[#3b4417]/60 italic">
                             {getTimeAgo(notification.createdAt)}
                           </p>
                         </div>
@@ -392,7 +409,7 @@ export default function NotificationClient() {
                             e.preventDefault();
                             handleDeleteMessage(notification.id);
                           }}
-                          className="text-neutral-400 hover:text-neutral-600 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                          className="text-[#3b4417]/50 hover:text-[#3b4417] opacity-0 group-hover:opacity-100 transition-all shrink-0 hover:scale-110"
                           title="Delete"
                         >
                           ✕
@@ -405,16 +422,16 @@ export default function NotificationClient() {
 
               {/* Footer */}
               {messages.length > 0 && (
-                <div className="border-t border-neutral-200 p-3 text-center bg-neutral-50">
+                <div className="border-t-2 border-[#3b4417]/20 p-3 text-center bg-[#3b4417]/5">
                   <button
                     type="button"
-                    className="text-sm font-medium text-neutral-700 hover:text-neutral-900 hover:underline"
+                    className="text-sm font-bold text-[#3b4417] hover:opacity-70 tracking-wide uppercase transition-opacity"
                     onClick={() => {
                       setShowNotifications(false);
                       router.push("/notifications");
                     }}
                   >
-                    View all notifications
+                    {t('viewAll')} →
                   </button>
                 </div>
               )}

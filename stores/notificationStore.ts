@@ -18,11 +18,11 @@ interface NotificationStore {
   updateMessage: (id: number, updates: Partial<NotificationMessage>) => void;
   deleteMessage: (id: number) => void;
   clearMessages: () => void;
-  
+
   setUnreadCount: (count: number) => void;
   incrementUnreadCount: () => void;
   decrementUnreadCount: () => void;
-  
+
   setIsLoaded: (loaded: boolean) => void;
   setConnected: (connected: boolean) => void;
 }
@@ -36,13 +36,13 @@ export const useNotificationStore = create<NotificationStore>()(
       connected: false,
 
       setMessages: (messages) => set({ messages }),
-      
+
       addMessage: (message) => {
         set((state) => ({
           messages: [message, ...state.messages],
         }));
       },
-      
+
       updateMessage: (id, updates) => {
         set((state) => ({
           messages: state.messages.map((msg) =>
@@ -50,31 +50,31 @@ export const useNotificationStore = create<NotificationStore>()(
           ),
         }));
       },
-      
+
       deleteMessage: (id) => {
         set((state) => ({
           messages: state.messages.filter((msg) => msg.id !== id),
         }));
       },
-      
+
       clearMessages: () => set({ messages: [], unreadCount: 0 }),
-      
+
       setUnreadCount: (count) => set({ unreadCount: count }),
-      
+
       incrementUnreadCount: () => {
         set((state) => ({
           unreadCount: state.unreadCount + 1,
         }));
       },
-      
+
       decrementUnreadCount: () => {
         set((state) => ({
           unreadCount: Math.max(0, state.unreadCount - 1),
         }));
       },
-      
+
       setIsLoaded: (loaded) => set({ isLoaded: loaded }),
-      
+
       setConnected: (connected) => set({ connected }),
     }),
     {

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
+// @ts-ignore -- side-effect CSS imports don't have type declarations in some setups
 import "../globals.css";
 import {
   absoluteUrl,
@@ -11,17 +12,14 @@ import {
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ToastContainer } from "react-toastify";
+// @ts-ignore -- react-toastify CSS has no type declarations
 import "react-toastify/dist/ReactToastify.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import DevLogin from "@/components/dev/DevLogin";
-import ChatbotWrapper from "@/components/ChatbotWrapper";
-
-// ✅ MONITORING TOOLS - Performance tracking
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import DynamicChatbot from "@/components/DynamicChatbot";
+import QueryProvider from "@/providers/QueryProvider";
 
 const geistSans = Inter({
   variable: "--font-geist-sans",
@@ -128,7 +126,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <html lang={locale}>
@@ -141,32 +139,28 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>
-            <ConditionalLayout>
-              {children}
-              <ChatbotWrapper />
-            </ConditionalLayout>
-            <ToastContainer
-              position="top-right"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              limit={3}
-            />
-            {/* Dev Login - Only in development */}
-            {/* {process.env.NODE_ENV !== "production" && <DevLogin />} */}
-          </AuthProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <ConditionalLayout>
+                {children}
+                <DynamicChatbot />
+              </ConditionalLayout>
+              <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                limit={3}
+              />
+            </AuthProvider>
+          </QueryProvider>
         </NextIntlClientProvider>
-
-        {/* ✅ MONITORING - Track performance và analytics */}
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

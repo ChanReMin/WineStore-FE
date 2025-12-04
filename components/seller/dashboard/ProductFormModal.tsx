@@ -121,11 +121,14 @@ export default function ProductFormModal({
     } else {
       // Edit mode: Either keep existing images OR upload new ones
       // If user deleted existing images, they must upload new ones
-      const hasExistingImages = formData.images && formData.images.trim() !== "";
+      const hasExistingImages =
+        formData.images && formData.images.trim() !== "";
       const hasNewImages = formData.image && formData.image.length > 0;
-      
+
       if (!hasExistingImages && !hasNewImages) {
-        toast.error("Sản phẩm phải có ảnh. Vui lòng tải lên ảnh mới hoặc giữ ảnh hiện tại");
+        toast.error(
+          "Sản phẩm phải có ảnh. Vui lòng tải lên ảnh mới hoặc giữ ảnh hiện tại"
+        );
         return;
       }
     }
@@ -133,9 +136,11 @@ export default function ProductFormModal({
     setIsSubmitting(true);
     try {
       await onSubmit(formData);
+      // Chỉ đóng form khi submit thành công
       onClose();
     } catch (error) {
       console.error("Error submitting form:", error);
+      // Không đóng form khi có lỗi, để người dùng có thể sửa và thử lại
     } finally {
       setIsSubmitting(false);
     }
@@ -543,7 +548,11 @@ export default function ProductFormModal({
                               imagePreview: previews,
                               image: files,
                               // If user deletes existing image (both arrays are empty), clear the images field
-                              images: (previews.length === 0 && (!files || files.length === 0)) ? "" : prev.images,
+                              images:
+                                previews.length === 0 &&
+                                (!files || files.length === 0)
+                                  ? ""
+                                  : prev.images,
                             }))
                           }
                           maxFiles={5}

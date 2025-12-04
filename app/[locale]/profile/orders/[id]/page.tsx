@@ -10,6 +10,7 @@ import orderService from "@/services/orderService";
 import type { OrderDetail, OrderItem } from "@/types/order";
 import { ArrowLeft, Package, MapPin, CreditCard, Clock } from "lucide-react";
 import OrderTimeline from "@/components/orders/OrderTimeline";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function OrderDetailPage() {
   const t = useTranslations("orders");
@@ -54,14 +55,8 @@ export default function OrderDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-amber-50 py-12">
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="h-10 w-64 animate-pulse rounded bg-neutral-200 mb-8" />
-          <div className="space-y-4">
-            <div className="h-48 animate-pulse rounded-lg bg-neutral-200" />
-            <div className="h-96 animate-pulse rounded-lg bg-neutral-200" />
-          </div>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }
@@ -190,7 +185,7 @@ export default function OrderDetailPage() {
               <div className="flex justify-between">
                 <span>{t("paymentMethod")}</span>
                 <span className="font-medium text-neutral-900">
-                  {order.paymentMethod.name}
+                  {order.paymentMethod?.name || "N/A"}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -262,7 +257,7 @@ export default function OrderDetailPage() {
             </div>
             {order.discountAmount > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-neutral-600">{t("discount")}</span>
+                <span className="text-neutral-600">{t("card.discount")}</span>
                 <span className="font-medium text-green-600">
                   -{order.discountAmount.toLocaleString("vi-VN")}₫
                 </span>

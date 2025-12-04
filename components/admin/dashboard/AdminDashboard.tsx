@@ -13,6 +13,7 @@ import {
   fetchSystemOverview,
   fetchRevenueAnalytics,
 } from "@/lib/adminDashboard";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function AdminDashboard() {
   const t = useTranslations("admin.dashboard");
@@ -24,7 +25,7 @@ export default function AdminDashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
-      
+
       // Calculate date range (last 30 days by default)
       const endDate = new Date().toISOString().split("T")[0];
       const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
@@ -35,7 +36,7 @@ export default function AdminDashboard() {
         fetchSystemOverview({ startDate, endDate }),
         fetchRevenueAnalytics({ startDate, endDate, groupBy: "day" }),
       ]);
-      
+
       setSystemData(system.data);
       setRevenueData(revenue.data);
     } catch (error) {
@@ -58,15 +59,8 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#fdfbf5]">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-[#7a8451]">{t("loading")}</p>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }
@@ -136,7 +130,6 @@ export default function AdminDashboard() {
         orders={systemData.orders}
         inventory={systemData.inventory}
       />
-
     </div>
   );
 }

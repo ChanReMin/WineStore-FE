@@ -52,36 +52,14 @@ export default function OrderDetailModal({
     });
   };
 
-  // Mock data for items if not available
-  const orderItems = (order as any).items || [
-    {
-      id: 1,
-      productId: 1,
-      productName: "Château Margaux 2015",
-      quantity: 2,
-      price: 5_940_000,
-      total: 11_880_000,
-    },
-    {
-      id: 2,
-      productId: 2,
-      productName: "Bordeaux 2018",
-      quantity: 1,
-      price: 3_500_000,
-      total: 3_500_000,
-    },
-  ];
+  // Get data from API response with safe fallbacks
+  const orderItems = order.items || [];
+  const shippingAddress = order.shipping_address || null;
 
-  const shippingAddress = (order as any).shippingAddress || {
-    fullName: "N/A",
-    phoneNumber: "N/A",
-    addressLine: "N/A",
-    city: "N/A",
-  };
-
-  const subtotal = (order as any).subtotal || order.finalAmount;
-  const shippingFee = (order as any).shippingFee || 0;
-  const discountAmount = order.discountAmount || 0;
+  const totalAmount = order.total_amount || 0;
+  const discountAmount = order.discount_amount || 0;
+  const finalAmount = order.final_amount || 0;
+  const totalProfit = order.total_profit || 0;
 
   return (
     <AnimatePresence>
@@ -114,7 +92,7 @@ export default function OrderDetailModal({
                     <h2 className="text-2xl font-bold text-[#3b4417]">
                       {t("detail.title")}
                     </h2>
-                    <p className="text-sm text-[#7a8451]">{order.orderCode}</p>
+                    <p className="text-sm text-[#7a8451]">{order.order_code}</p>
                   </div>
                 </div>
                 <button
@@ -135,60 +113,51 @@ export default function OrderDetailModal({
                     </p>
                     <OrderStatusBadge
                       status={order.status}
-                      statusText={order.statusText}
+                      statusText={order.status_text}
                     />
                   </div>
                   <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
                     <p className="text-sm text-[#7a8451] mb-2 font-medium">
-                      {t("detail.paymentStatus")}
+                      {t("detail.customerInfo")}
                     </p>
-                    <PaymentStatusBadge status={order.paymentStatus} />
-                  </div>
-                </div>
-
-                {/* Customer Info */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
-                    <User className="w-5 h-5" />
-                    {t("detail.customerInfo")}
-                  </h3>
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <User className="w-4 h-4 text-[#7a8451]" />
-                      <span className="text-[#3b4417] font-medium">
-                        {shippingAddress.fullName}
-                      </span>
+                    <div className="space-y-1">
+                      <p className="text-[#3b4417] font-medium">
+                        {order.customer?.name || "N/A"}
+                      </p>
+                      <p className="text-sm text-[#7a8451]">
+                        {order.customer?.email || "N/A"}
+                      </p>
+                      <p className="text-sm text-[#7a8451]">
+                        {order.customer?.phone || "N/A"}
+                      </p>
                     </div>
-                    {shippingAddress.phoneNumber && (
-                      <div className="flex items-center gap-3">
-                        <Phone className="w-4 h-4 text-[#7a8451]" />
-                        <span className="text-[#3b4417]">
-                          {shippingAddress.phoneNumber}
-                        </span>
-                      </div>
-                    )}
                   </div>
                 </div>
 
                 {/* Shipping Address */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5" />
-                    {t("detail.shippingAddress")}
-                  </h3>
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-2">
-                    <p className="font-medium text-[#3b4417]">
-                      {shippingAddress.fullName}
-                    </p>
-                    <p className="text-[#7a8451] flex items-center gap-2">
-                      <Phone className="w-4 h-4" />
-                      {shippingAddress.phoneNumber}
-                    </p>
-                    <p className="text-[#3b4417]">
-                      {shippingAddress.addressLine}, {shippingAddress.city}
-                    </p>
+                {shippingAddress && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
+                      <MapPin className="w-5 h-5" />
+                      {t("detail.shippingAddress")}
+                    </h3>
+                    <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4 space-y-2">
+                      <p className="font-medium text-[#3b4417]">
+                        {shippingAddress.fullName}
+                      </p>
+                      <p className="text-[#7a8451] flex items-center gap-2">
+                        <Phone className="w-4 h-4" />
+                        {shippingAddress.phoneNumber}
+                      </p>
+                      <p className="text-[#3b4417]">
+                        {shippingAddress.addressLine}
+                        {shippingAddress.city && `, ${shippingAddress.city}`}
+                        {shippingAddress.state && `, ${shippingAddress.state}`}
+                        {shippingAddress.country && `, ${shippingAddress.country}`}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Order Items */}
                 <div>
@@ -226,27 +195,48 @@ export default function OrderDetailModal({
                               }`}
                             >
                               <td className="p-4">
-                                <div className="flex items-center gap-3">
-                                  {item.productImage && (
-                                    <img
-                                      src={item.productImage}
-                                      alt={item.productName}
-                                      className="w-12 h-12 object-cover rounded border border-[#e8e6dc]"
-                                    />
-                                  )}
+                                <div className="flex flex-col gap-1">
                                   <span className="font-medium text-[#3b4417]">
                                     {item.productName}
                                   </span>
+                                  {item.productSku && (
+                                    <span className="text-xs text-[#7a8451]">
+                                      SKU: {item.productSku}
+                                    </span>
+                                  )}
+                                  {item.warehouseId && (
+                                    <span className="text-xs text-blue-600">
+                                      Kho: #{item.warehouseId}
+                                    </span>
+                                  )}
                                 </div>
                               </td>
                               <td className="p-4 text-center text-[#3b4417]">
                                 x{item.quantity}
                               </td>
-                              <td className="p-4 text-right text-[#3b4417]">
-                                {formatPrice(item.price)}
+                              <td className="p-4 text-right">
+                                <div className="flex flex-col gap-1">
+                                  <span className="text-[#3b4417]">
+                                    {formatPrice(item.unitPrice)}
+                                  </span>
+                                  {item.costPrice !== undefined && (
+                                    <span className="text-xs text-[#7a8451]">
+                                      Giá vốn: {formatPrice(item.costPrice)}
+                                    </span>
+                                  )}
+                                </div>
                               </td>
-                              <td className="p-4 text-right font-semibold text-[#3b4417]">
-                                {formatPrice(item.total)}
+                              <td className="p-4 text-right">
+                                <div className="flex flex-col gap-1">
+                                  <span className="font-semibold text-[#3b4417]">
+                                    {formatPrice(item.lineTotal)}
+                                  </span>
+                                  {item.profit !== undefined && (
+                                    <span className="text-xs text-emerald-600 font-medium">
+                                      +{formatPrice(item.profit)}
+                                    </span>
+                                  )}
+                                </div>
                               </td>
                             </tr>
                           ))}
@@ -259,20 +249,9 @@ export default function OrderDetailModal({
                       <div className="flex justify-between text-[#3b4417]">
                         <span>{t("detail.subtotal")}:</span>
                         <span className="font-medium">
-                          {formatPrice(subtotal)}
+                          {formatPrice(totalAmount)}
                         </span>
                       </div>
-                      {shippingFee > 0 && (
-                        <div className="flex justify-between text-[#3b4417]">
-                          <span className="flex items-center gap-2">
-                            <Truck className="w-4 h-4" />
-                            {t("detail.shippingFee")}:
-                          </span>
-                          <span className="font-medium">
-                            {formatPrice(shippingFee)}
-                          </span>
-                        </div>
-                      )}
                       {discountAmount > 0 && (
                         <div className="flex justify-between text-emerald-600">
                           <span>{t("detail.discount")}:</span>
@@ -284,49 +263,48 @@ export default function OrderDetailModal({
                       <div className="flex justify-between text-lg font-bold text-[#3b4417] pt-2 border-t border-[#e8e6dc]">
                         <span>{t("detail.total")}:</span>
                         <span className="text-[#d4af37]">
-                          {formatPrice(order.finalAmount)}
+                          {formatPrice(finalAmount)}
                         </span>
                       </div>
+                      {totalProfit > 0 && (
+                        <div className="flex justify-between text-emerald-600 pt-2 border-t border-[#e8e6dc]">
+                          <span className="font-semibold">Lợi nhuận:</span>
+                          <span className="font-bold">
+                            {formatPrice(totalProfit)}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* Payment & Dates */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CreditCard className="w-4 h-4 text-[#7a8451]" />
-                      <span className="text-sm font-medium text-[#7a8451]">
-                        {t("detail.paymentMethod")}
-                      </span>
-                    </div>
-                    <p className="text-[#3b4417] font-medium">
-                      {order.paymentMethod || t("detail.cod")}
-                    </p>
-                  </div>
-                  <div className="bg-[#fdfbf5] border border-[#e8e6dc] rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Calendar className="w-4 h-4 text-[#7a8451]" />
-                      <span className="text-sm font-medium text-[#7a8451]">
-                        {t("detail.orderDate")}
-                      </span>
-                    </div>
-                    <p className="text-[#3b4417] font-medium">
-                      {formatDate(order.createdAt)}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Note */}
-                {order.note && (
-                  <div>
-                    <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
-                      <FileText className="w-5 h-5" />
-                      Ghi chú
-                    </h3>
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                      <p className="text-[#3b4417]">{order.note}</p>
-                    </div>
+                {/* Notes */}
+                {(order.note || order.internal_note) && (
+                  <div className="space-y-4">
+                    {order.note && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
+                          <FileText className="w-5 h-5" />
+                          Ghi chú khách hàng
+                        </h3>
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                          <p className="text-[#3b4417]">{order.note}</p>
+                        </div>
+                      </div>
+                    )}
+                    {order.internal_note && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-[#3b4417] mb-4 flex items-center gap-2">
+                          <FileText className="w-5 h-5" />
+                          Ghi chú nội bộ
+                        </h3>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                          <p className="text-[#3b4417]">
+                            {order.internal_note}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

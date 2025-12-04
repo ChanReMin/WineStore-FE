@@ -1,14 +1,30 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Search, Filter, Download } from "lucide-react";
 import { useTranslations } from "next-intl";
 import PromotionsTable from "./PromotionsTable";
-import PromotionFormModal from "./PromotionFormModal";
-import PromotionDetailModal from "./PromotionDetailModal";
-import PromotionAnalyticsCharts from "./PromotionAnalyticsCharts";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const PromotionFormModal = dynamic(() => import("./PromotionFormModal"), {
+  ssr: false,
+});
+
+const PromotionDetailModal = dynamic(() => import("./PromotionDetailModal"), {
+  ssr: false,
+});
+
+const ConfirmDeleteModal = dynamic(() => import("./ConfirmDeleteModal"), {
+  ssr: false,
+});
+
+// ✅ Dynamic import cho Charts (heavy library)
+const PromotionAnalyticsCharts = dynamic(
+  () => import("./PromotionAnalyticsCharts"),
+  { ssr: false }
+);
 import type { Promotion } from "@/types/promotion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,9 +38,11 @@ import {
 import { fetchPromotions, deletePromotion } from "@/services/promotionService";
 import { toast } from "react-toastify";
 import { getErrorMessage } from "@/lib/errorHandler";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function PromotionsManagement() {
   const t = useTranslations("seller.promotions");
+  const tDelete = useTranslations("seller.promotions.delete");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -113,14 +131,14 @@ export default function PromotionsManagement() {
 
     try {
       await deletePromotion(promotionToDelete.id);
-      toast.success("Xóa khuyến mãi thành công");
+      toast.success(tDelete("success"));
       setIsDeleteModalOpen(false);
       setPromotionToDelete(null);
       // Reload promotions
       loadPromotions();
     } catch (error: any) {
       console.error("Error deleting promotion:", error);
-      toast.error(getErrorMessage(error, "Không thể xóa khuyến mãi"));
+      toast.error(getErrorMessage(error, tDelete("error")));
     } finally {
       setIsDeleting(false);
     }
@@ -266,9 +284,8 @@ export default function PromotionsManagement() {
         transition={{ delay: 0.4 }}
       >
         {isLoading ? (
-          <div className="bg-white rounded-lg shadow-sm border border-[#d4d6b4] p-8 text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417] mx-auto"></div>
-            <p className="text-[#7a8451] mt-4">Đang tải...</p>
+          <div className="flex h-screen items-center justify-center bg-neutral-50">
+            <LoaderOne />
           </div>
         ) : (
           <PromotionsTable
@@ -307,8 +324,8 @@ export default function PromotionsManagement() {
             isOpen={isDeleteModalOpen}
             onClose={handleCloseDeleteModal}
             onConfirm={handleConfirmDelete}
-            title="Xóa khuyến mãi"
-            description="Bạn có chắc chắn muốn xóa khuyến mãi này? Tất cả dữ liệu liên quan sẽ bị xóa vĩnh viễn."
+            title={tDelete("title")}
+            description={tDelete("description")}
             itemName={`${promotionToDelete.code} - ${promotionToDelete.name}`}
             isDeleting={isDeleting}
           />

@@ -10,6 +10,7 @@ import type { Product } from "@/types/product";
 import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { LoaderOne } from "@/components/ui/loader";
 
 interface ProductWithPromotions {
   id: number;
@@ -97,7 +98,6 @@ export default function PromotionAssignmentPage() {
 
       setProducts(productsWithPromotions);
     } catch (error: any) {
-      console.error("Error loading data:", error);
 
       // Set empty data on error to prevent crashes
       setPromotions([]);
@@ -128,19 +128,8 @@ export default function PromotionAssignmentPage() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex flex-col bg-gray-50">
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="max-w-[1800px] mx-auto">
-            <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
-            <p className="text-sm text-gray-600 mt-1">{t("subtitle")}</p>
-          </div>
-        </div>
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
-            <p className="text-gray-600 mt-4">Đang tải...</p>
-          </div>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }

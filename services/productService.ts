@@ -1,5 +1,10 @@
 import axiosInstance from "@/lib/axios";
 import type { Product, ProductResponse } from "@/types/product";
+import type { AxiosRequestConfig } from "axios";
+
+export interface RequestConfig extends AxiosRequestConfig {
+  signal?: AbortSignal;
+}
 
 export interface ProductDetailResponse {
   success: boolean;
@@ -18,7 +23,7 @@ export interface UpdateProductStatusResponse {
 }
 
 /**
- * Lấy danh sách sản phẩm cho shop (chỉ approved products)
+ * Lấy danh sách sản phẩm cho shop (public API - chỉ approved products)
  */
 export const fetchShopProducts = async (params?: {
   page?: number;
@@ -46,7 +51,6 @@ export const fetchShopProducts = async (params?: {
   const queryParams = new URLSearchParams();
   queryParams.append("page", page.toString());
   queryParams.append("limit", limit.toString());
-  queryParams.append("status", "1"); // Only approved products for shop
 
   // Add optional filters
   if (search) queryParams.append("search", search);
@@ -61,7 +65,7 @@ export const fetchShopProducts = async (params?: {
     queryParams.append("concentrationTo", concentrationTo.toString());
 
   const response = await axiosInstance.get<ProductResponse>(
-    `/api/v1/products?${queryParams.toString()}`
+    `/api/v1/products/public?${queryParams.toString()}`
   );
 
   return response.data;
@@ -82,7 +86,7 @@ export const fetchProducts = async (params?: {
   priceTo?: number;
   concentrationFrom?: number;
   concentrationTo?: number;
-}): Promise<ProductResponse> => {
+}, config?: RequestConfig): Promise<ProductResponse> => {
   const {
     page = 1,
     limit = 10,
@@ -116,20 +120,34 @@ export const fetchProducts = async (params?: {
     queryParams.append("concentrationTo", concentrationTo.toString());
 
   const response = await axiosInstance.get<ProductResponse>(
-    `/api/v1/products?${queryParams.toString()}`
+    `/api/v1/products?${queryParams.toString()}`,
+    config
   );
 
   return response.data;
 };
 
 /**
- * Lấy chi tiết một sản phẩm
+ * Lấy chi tiết một sản phẩm (cho admin/seller)
  */
 export const fetchProductDetail = async (
   productId: number
 ): Promise<ProductDetailResponse> => {
   const response = await axiosInstance.get<ProductDetailResponse>(
     `/api/v1/products/${productId}`
+  );
+
+  return response.data;
+};
+
+/**
+ * Lấy chi tiết một sản phẩm (public API - cho shop/customer)
+ */
+export const fetchPublicProductDetail = async (
+  productId: number
+): Promise<ProductDetailResponse> => {
+  const response = await axiosInstance.get<ProductDetailResponse>(
+    `/api/v1/products/${productId}/public`
   );
 
   return response.data;

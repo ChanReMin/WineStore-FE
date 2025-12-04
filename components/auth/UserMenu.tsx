@@ -6,13 +6,11 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import BecomeSellerModal from "./BecomeSellerModal";
 
 interface MenuItem {
   label: string;
   href: string;
   icon: React.ReactNode;
-  isAction?: boolean;
 }
 
 interface UserMenuProps {
@@ -23,7 +21,6 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [isSellerModalOpen, setIsSellerModalOpen] = useState(false);
   const t = useTranslations("userMenu");
 
   const handleLogout = async () => {
@@ -94,31 +91,6 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
       ),
     }
   );
-
-  // Add "Become a Seller" option for customers only
-  if (user?.role === "CUSTOMER") {
-    menuItems.push({
-      label: t("becomeSeller"),
-      href: "#",
-      isAction: true,
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          />
-        </svg>
-      ),
-    });
-  }
 
   // Seller menu items
   if (user?.role === "SELLER") {
@@ -195,30 +167,16 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
         {/* Menu Items */}
         <div className="space-y-1">
           {menuItems.map((item) => (
-            <div key={item.href}>
-              {item.isAction ? (
-                <button
-                  type="button"
-                  onClick={() => setIsSellerModalOpen(true)}
-                  className="group flex w-full items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-emerald-50/60 hover:text-emerald-700 rounded-md"
-                >
-                  <span className="text-neutral-500 transition-colors group-hover:text-emerald-600">
-                    {item.icon}
-                  </span>
-                  {item.label}
-                </button>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="group flex items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d] rounded-md"
-                >
-                  <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
-                    {item.icon}
-                  </span>
-                  {item.label}
-                </Link>
-              )}
-            </div>
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group flex items-center gap-3 px-3 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d] rounded-md"
+            >
+              <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
+                {item.icon}
+              </span>
+              {item.label}
+            </Link>
           ))}
 
           {/* Logout Button */}
@@ -244,12 +202,6 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
             {t("logout")}
           </button>
         </div>
-
-        {/* Become Seller Modal */}
-        <BecomeSellerModal
-          isOpen={isSellerModalOpen}
-          onClose={() => setIsSellerModalOpen(false)}
-        />
       </div>
     );
   }
@@ -344,7 +296,7 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
               <div className="p-2">
                 {/* Customer Menu Items */}
                 {menuItems
-                  .slice(0, user?.role === "CUSTOMER" ? 3 : 2)
+                  .slice(0, 2)
                   .map((item, index) => (
                     <motion.div
                       key={item.href}
@@ -352,60 +304,30 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
                     >
-                      {item.isAction ? (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsOpen(false);
-                            setIsSellerModalOpen(true);
-                          }}
-                          className="group flex w-full items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-emerald-50/60 hover:text-emerald-700"
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsOpen(false)}
+                        className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
+                      >
+                        <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
+                          {item.icon}
+                        </span>
+                        {item.label}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
                         >
-                          <span className="text-neutral-500 transition-colors group-hover:text-emerald-600">
-                            {item.icon}
-                          </span>
-                          {item.label}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          onClick={() => setIsOpen(false)}
-                          className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
-                        >
-                          <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
-                            {item.icon}
-                          </span>
-                          {item.label}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </Link>
-                      )}
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </Link>
                     </motion.div>
                   ))}
 
@@ -492,12 +414,6 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
           </>
         )}
       </AnimatePresence>
-
-      {/* Become Seller Modal */}
-      <BecomeSellerModal
-        isOpen={isSellerModalOpen}
-        onClose={() => setIsSellerModalOpen(false)}
-      />
     </div>
   );
 };

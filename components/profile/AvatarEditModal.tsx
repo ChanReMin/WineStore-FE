@@ -140,10 +140,10 @@ export default function AvatarEditModal({
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={handleClose}
-        className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60]"
+        className="fixed inset-0 bg-black/60 backdrop-blur-md z-60"
       />
 
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 40 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -156,7 +156,7 @@ export default function AvatarEditModal({
           className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="relative px-4 sm:px-6 py-4 border-b border-[#e8e6dc]/50 bg-gradient-to-r from-[#fdfbf5] via-[#f5f3e8] to-[#fdfbf5]">
+          <div className="relative px-4 sm:px-6 py-4 border-b border-[#e8e6dc]/50 bg-linear-to-r from-[#fdfbf5] via-[#f5f3e8] to-[#fdfbf5]">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg sm:text-xl font-bold text-[#3b4417]">
@@ -294,7 +294,7 @@ export default function AvatarEditModal({
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
               <div className="flex gap-2">
-                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 shrink-0 mt-0.5" />
                 <div className="text-xs sm:text-sm text-blue-900">
                   <p className="font-medium mb-1">{t("edit.info.title")}</p>
                   <ul className="list-disc list-inside space-y-0.5 text-blue-700">
@@ -309,7 +309,7 @@ export default function AvatarEditModal({
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 border-t border-[#e8e6dc]/50 bg-gradient-to-r from-[#fdfbf5] via-white to-[#fdfbf5]">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 border-t border-[#e8e6dc]/50 bg-linear-to-r from-[#fdfbf5] via-white to-[#fdfbf5]">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -329,7 +329,7 @@ export default function AvatarEditModal({
               }}
               onClick={handleSave}
               disabled={!previewUrl || isLoading}
-              className="flex items-center gap-1.5 px-4 sm:px-6 py-2 sm:py-2.5 text-sm bg-gradient-to-r from-[#3b4417] to-[#4c5b23] text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 px-4 sm:px-6 py-2 sm:py-2.5 text-sm bg-linear-to-r from-[#3b4417] to-[#4c5b23] text-white rounded-lg hover:shadow-lg transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>

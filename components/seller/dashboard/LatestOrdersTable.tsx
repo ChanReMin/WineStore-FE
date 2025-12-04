@@ -12,24 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-interface Order {
-  id: number;
-  orderCode: string;
-  customer: {
-    id: number;
-    name: string;
-    email: string;
-  };
-  status: number;
-  statusText: string;
-  paymentStatus: number;
-  finalAmount: number;
-  createdAt: string;
-}
+import type { SellerOrder } from "@/types/sellerOrder";
 
 interface LatestOrdersTableProps {
-  orders: Order[];
+  orders: SellerOrder[];
 }
 
 const getStatusColor = (status: number) => {
@@ -52,9 +38,7 @@ const getStatusColor = (status: number) => {
 export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
   const t = useTranslations("seller.dashboard.latestOrders");
 
-  const getPaymentStatusText = (status: number) => {
-    return status === 1 ? t("paid") : t("unpaid");
-  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -78,11 +62,11 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
                     {t("customer")}
                   </TableHead>
-                  <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    {t("status")}
+                  <TableHead className="text-center text-[#7a8451] uppercase text-[11px] tracking-wider">
+                    {t("items") || "Items"}
                   </TableHead>
                   <TableHead className="text-[#7a8451] uppercase text-[11px] tracking-wider">
-                    {t("paymentStatus")}
+                    {t("status")}
                   </TableHead>
                   <TableHead className="text-right text-[#7a8451] uppercase text-[11px] tracking-wider">
                     {t("totalAmount")}
@@ -99,7 +83,7 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                     className="hover:bg-[#fdfbf5] transition-colors border-[#d4d6b4]"
                   >
                     <TableCell className="font-medium text-[#3b4417]">
-                      {order.orderCode}
+                      {order.order_code}
                     </TableCell>
                     <TableCell>
                       <div>
@@ -111,30 +95,24 @@ export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
                         </p>
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <Badge className={getStatusColor(order.status)}>
-                        {order.statusText}
-                      </Badge>
+                    <TableCell className="text-center">
+                      <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#f5f3e8] text-[#3b4417] font-semibold text-sm">
+                        {order.items_count}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        className={
-                          order.paymentStatus === 1
-                            ? "bg-[#3b4417] text-white border-[#3b4417]"
-                            : "bg-gray-100 text-gray-700 border-gray-300"
-                        }
-                      >
-                        {getPaymentStatusText(order.paymentStatus)}
+                      <Badge className={getStatusColor(order.status)}>
+                        {order.status_text}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right font-medium text-[#3b4417]">
                       {new Intl.NumberFormat("vi-VN", {
                         style: "currency",
                         currency: "VND",
-                      }).format(order.finalAmount)}
+                      }).format(order.final_amount)}
                     </TableCell>
                     <TableCell className="text-[#7a8451] text-sm">
-                      {new Date(order.createdAt).toLocaleDateString("vi-VN", {
+                      {new Date(order.created_at).toLocaleDateString("vi-VN", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",

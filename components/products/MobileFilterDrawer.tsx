@@ -3,8 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { MOCK_BRANDS, MOCK_CATEGORIES } from "@/lib/mockData";
 import RangeSlider from "./RangeSlider";
+import type { Brand } from "@/services/brandService";
+import type { Category } from "@/services/categoryService";
 
 interface ProductFilters {
   q?: string;
@@ -26,6 +27,8 @@ interface MobileFilterDrawerProps {
   filters: ProductFilters;
   onFilterChange: (filters: Partial<ProductFilters>, apply?: boolean) => void;
   onReset: () => void;
+  brands?: Brand[];
+  categories?: Category[];
 }
 
 export default function MobileFilterDrawer({
@@ -34,6 +37,8 @@ export default function MobileFilterDrawer({
   filters,
   onFilterChange,
   onReset,
+  brands = [],
+  categories = [],
 }: MobileFilterDrawerProps) {
   const t = useTranslations("shop.filters");
 
@@ -107,7 +112,7 @@ export default function MobileFilterDrawer({
                   className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
                 >
                   <option value="">{t("allBrands")}</option>
-                  {MOCK_BRANDS.map((brand) => (
+                  {brands.map((brand) => (
                     <option key={brand.id} value={brand.id}>
                       {brand.name}
                     </option>
@@ -128,15 +133,10 @@ export default function MobileFilterDrawer({
                   className="w-full border border-neutral-300 bg-white px-4 py-3 text-[14px] text-neutral-800 transition-all focus:border-[#3b4417] focus:outline-none focus:ring-2 focus:ring-[#3b4417]/10"
                 >
                   <option value="">{t("allCategories")}</option>
-                  {MOCK_CATEGORIES.map((category) => (
-                    <optgroup key={category.id} label={category.name}>
-                      <option value={category.id}>{category.name}</option>
-                      {category.children?.map((child) => (
-                        <option key={child.id} value={child.id}>
-                          &nbsp;&nbsp;{child.name}
-                        </option>
-                      ))}
-                    </optgroup>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
                   ))}
                 </select>
               </div>

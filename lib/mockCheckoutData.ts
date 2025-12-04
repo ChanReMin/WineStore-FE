@@ -74,18 +74,20 @@ export const MOCK_PAYMENT_METHODS: PaymentMethod[] = [
     description: "Thanh toán bằng tiền mặt khi nhận hàng",
     isActive: true,
   },
-  {
-    id: 2,
-    code: "VNPAY",
-    name: "Thanh toán qua VNPAY",
-    description: "Thanh toán online qua cổng VNPAY - Chuyển hướng sang trang thanh toán",
-    isActive: true,
-  },
+  // {
+  //   id: 2,
+  //   code: "VNPAY",
+  //   name: "Thanh toán qua VNPAY",
+  //   description:
+  //     "Thanh toán online qua cổng VNPAY - Chuyển hướng sang trang thanh toán",
+  //   isActive: true,
+  // },
   {
     id: 3,
     code: "MOMO",
     name: "Ví điện tử MoMo",
-    description: "Thanh toán qua ví điện tử MoMo - Chuyển hướng sang ứng dụng MoMo",
+    description:
+      "Thanh toán qua ví điện tử MoMo - Chuyển hướng sang ứng dụng MoMo",
     isActive: true,
   },
 ];

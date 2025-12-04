@@ -77,7 +77,7 @@ export default function OrderTimeline({ status }: OrderTimelineProps) {
   ];
 
   // If cancelled, show different timeline
-  if (status === 5) {
+  if (status === 5 || status === 6) {
     return (
       <div className="rounded-lg bg-red-50 p-6">
         <div className="flex items-center justify-center gap-3">

@@ -64,7 +64,7 @@ export interface Order {
   note?: string;
   items: OrderItem[];
   shippingAddress: OrderAddress;
-  paymentMethod: OrderPaymentMethod;
+  paymentMethod?: OrderPaymentMethod;
   coupon?: OrderCoupon;
   shippingInfo?: OrderShippingInfo;
   timeline: OrderTimelineItem[];
@@ -124,34 +124,74 @@ export enum PaymentStatus {
 }
 
 // Seller order types
+export interface SellerOrderCustomer {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  totalOrders: number;
+}
+
 export interface SellerOrderListItem {
   id: number;
-  orderCode: string;
+  customer: SellerOrderCustomer;
   status: number;
-  statusText: string;
-  paymentStatus: number;
-  paymentStatusText: string;
-  totalAmount: number;
-  discountAmount: number;
-  shippingFee: number;
-  finalAmount: number;
-  createdAt: string;
-  itemCount?: number;
-  customer?: {
-    name: string;
-    email: string;
-    phone?: string;
-  };
+  order_code: string;
+  status_text: string;
+  payment_status: number;
+  payment_status_text: string;
+  total_amount: number;
+  discount_amount: number;
+  final_amount: number;
+  items_count: number;
+  created_at: string;
+  time_remaining_to_confirm: number;
 }
 
 export interface SellerOrdersResponse {
+  orders: SellerOrderListItem[];
   pagination: {
     currentPage: number;
     totalPages: number;
     totalItems: number;
     perPage: number;
   };
-  orders: SellerOrderListItem[];
+  summary: {
+    pending: number;
+    confirmed: number;
+    paid: number;
+    cancelled: number;
+  };
+}
+
+// Seller order detail types
+export interface SellerOrderItemDetail {
+  id: number;
+  productId: number;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  costPrice: number;
+  lineTotal: number;
+  profit: number;
+  warehouseId: number;
+}
+
+export interface SellerOrderDetail {
+  id: number;
+  customer: SellerOrderCustomer;
+  status: number;
+  items: SellerOrderItemDetail[];
+  note: string;
+  order_code: string;
+  status_text: string;
+  total_amount: number;
+  discount_amount: number;
+  final_amount: number;
+  total_profit: number;
+  shipping_address: OrderAddress;
+  internal_note: string;
 }
 
 // Re-export OrderDetail type alias

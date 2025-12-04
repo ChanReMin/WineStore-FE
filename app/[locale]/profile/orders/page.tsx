@@ -120,7 +120,7 @@ export default function OrdersPage() {
               className="mb-6 overflow-hidden rounded-lg border-l-4 border-amber-500 bg-amber-50 shadow-md"
             >
               <div className="flex items-start gap-4 p-5">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <motion.div
                     animate={{
                       scale: [1, 1.2, 1],
@@ -211,7 +211,7 @@ export default function OrdersPage() {
                   onClick={() => {
                     // You can add a dismiss functionality here if needed
                   }}
-                  className="flex-shrink-0 text-amber-400 hover:text-amber-600 transition-colors"
+                  className="shrink-0 text-amber-400 hover:text-amber-600 transition-colors"
                 >
                   <svg
                     className="h-5 w-5"
