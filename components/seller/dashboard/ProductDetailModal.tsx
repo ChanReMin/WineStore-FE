@@ -169,40 +169,6 @@ export default function ProductDetailModal({
                           </div>
                         )}
                       </div>
-
-                      {/* Quick Stats */}
-                      <div className="grid grid-cols-3 gap-3">
-                        <motion.div
-                          whileHover={{ y: -4 }}
-                          className="bg-white rounded-xl p-4 text-center shadow-md border border-[#e8e6dc]/50"
-                        >
-                          <Star className="w-5 h-5 text-[#d4af37] mx-auto mb-2" />
-                          <p className="text-2xl font-bold text-[#3b4417]">
-                            {product.ratingAverage.toFixed(1)}
-                          </p>
-                          <p className="text-xs text-[#7a8451] mt-1">Rating</p>
-                        </motion.div>
-                        <motion.div
-                          whileHover={{ y: -4 }}
-                          className="bg-white rounded-xl p-4 text-center shadow-md border border-[#e8e6dc]/50"
-                        >
-                          <TrendingUp className="w-5 h-5 text-emerald-600 mx-auto mb-2" />
-                          <p className="text-2xl font-bold text-[#3b4417]">
-                            {product.soldCount}
-                          </p>
-                          <p className="text-xs text-[#7a8451] mt-1">Sold</p>
-                        </motion.div>
-                        <motion.div
-                          whileHover={{ y: -4 }}
-                          className="bg-white rounded-xl p-4 text-center shadow-md border border-[#e8e6dc]/50"
-                        >
-                          <Box className="w-5 h-5 text-blue-600 mx-auto mb-2" />
-                          <p className="text-2xl font-bold text-[#3b4417]">
-                            {product.totalInventory}
-                          </p>
-                          <p className="text-xs text-[#7a8451] mt-1">Stock</p>
-                        </motion.div>
-                      </div>
                     </div>
                   </motion.div>
 
