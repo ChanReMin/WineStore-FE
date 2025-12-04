@@ -65,8 +65,6 @@ export const useCartStore = create<CartState>()(
           return;
         }
 
-        console.log("Updating cart item:", { cartItemId, quantity });
-
         // Find the item to check constraints
         const item = cart.items.find((i) => i.id === cartItemId);
         if (!item) {
@@ -128,19 +126,16 @@ export const useCartStore = create<CartState>()(
         const existingTimer = pendingUpdates.get(cartItemId);
         if (existingTimer) {
           clearTimeout(existingTimer);
-          console.log("Cancelled previous update for item:", cartItemId);
         }
 
         // Schedule new API call after 800ms of inactivity
         const timer = setTimeout(async () => {
-          console.log("Syncing with server for item:", cartItemId);
           set({ isLoading: true });
 
           try {
             const updatedCart = await cartService.updateCartItem(cartItemId, {
               quantity,
             });
-            console.log("Server sync successful");
 
             // Remove from pending updates
             const newPendingUpdates = new Map(get().pendingUpdates);
@@ -264,7 +259,6 @@ export const useCartStore = create<CartState>()(
 
         // Fetch fresh cart from server
         if (pendingUpdates.size > 0) {
-          console.log("Flushing pending updates, fetching fresh cart");
           await get().fetchCart();
         }
       },

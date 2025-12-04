@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { fetchShopProducts } from "@/services/productService";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
 import type { Product } from "@/types/product";
+import { LoaderOne } from "../ui/loader";
 
 // ✅ OPTIMIZED: Giảm complexity và thời gian animation
 const containerVariants: Variants = {
@@ -95,8 +96,8 @@ export default function FeaturedProducts() {
 
         {/* Products Grid */}
         {isLoading ? (
-          <div className="mt-16 flex justify-center">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
+          <div className="flex h-screen items-center justify-center bg-neutral-50">
+            <LoaderOne />
           </div>
         ) : (
           <motion.div

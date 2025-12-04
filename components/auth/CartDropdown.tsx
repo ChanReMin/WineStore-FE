@@ -349,13 +349,6 @@ export default function CartDropdown() {
                                       whileHover={{ scale: 1.1 }}
                                       whileTap={{ scale: 0.9 }}
                                       onClick={() => {
-                                        console.log("Plus clicked (dropdown):", {
-                                          itemId: item.id,
-                                          currentQuantity: item.quantity,
-                                          newQuantity: item.quantity + 1,
-                                          maxQuantity: item.product.maxQuantity,
-                                          isLoading,
-                                        });
                                         handleUpdateQuantity(
                                           item.id,
                                           item.quantity + 1

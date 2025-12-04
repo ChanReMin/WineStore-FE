@@ -224,14 +224,10 @@ export default function CartPage() {
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
                               onClick={() => {
-                                console.log("Plus clicked:", {
-                                  itemId: item.id,
-                                  currentQuantity: item.quantity,
-                                  newQuantity: item.quantity + 1,
-                                  maxQuantity: item.product.maxQuantity,
-                                  isLoading,
-                                });
-                                handleUpdateQuantity(item.id, item.quantity + 1);
+                                handleUpdateQuantity(
+                                  item.id,
+                                  item.quantity + 1
+                                );
                               }}
                               disabled={
                                 item.quantity >= item.product.maxQuantity ||

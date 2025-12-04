@@ -58,7 +58,6 @@ const refreshAccessToken = async (): Promise<string | null> => {
     }
 
     if (!refreshToken) {
-      console.warn("⚠️ No refresh token available. User needs to re-login.");
       throw new Error("Session expired. Please login again.");
     }
 
@@ -76,10 +75,8 @@ const refreshAccessToken = async (): Promise<string | null> => {
     // Xử lý các request đang chờ
     processQueue(null, access_token);
 
-    console.log("✅ Token refreshed successfully");
     return access_token;
   } catch (refreshError) {
-    console.error("❌ Token refresh failed:", refreshError);
     processQueue(refreshError as Error, null);
 
     // Xóa token và redirect về login
@@ -108,7 +105,6 @@ axiosInstance.interceptors.request.use(
 
     // Kiểm tra nếu token sắp hết hạn (trong vòng 5 phút)
     if (token && isTokenExpiringSoon(token, 300)) {
-      console.log("⏰ Token expiring soon, refreshing...");
       const newToken = await refreshAccessToken();
       token = newToken || token;
     }

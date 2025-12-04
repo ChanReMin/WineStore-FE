@@ -40,6 +40,7 @@ import CreateUserModal from "./CreateUserModal";
 import EditUserModal from "./EditUserModal";
 import ChangeStatusModal from "./ChangeStatusModal";
 import ChangeRoleModal from "./ChangeRoleModal";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function UserManagementList() {
   const t = useTranslations("admin.userManagement");
@@ -256,15 +257,8 @@ export default function UserManagementList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#fdfbf5]">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-[#7a8451]">{t("loading")}</p>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }
@@ -758,7 +752,7 @@ export default function UserManagementList() {
                 <CardContent className="p-4">
                   {/* User Header */}
                   <div className="flex items-start gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold shrink-0">
+                    <div className="w-12 h-12 rounded-full bg-linear-to-br from-[#3b4417] to-[#7a8451] flex items-center justify-center text-white font-semibold shrink-0">
                       {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                     </div>
                     <div className="flex-1 min-w-0">

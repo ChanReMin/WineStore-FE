@@ -40,9 +40,19 @@ import {
   Line,
   LineChart,
 } from "recharts";
+import dynamic from "next/dynamic";
 import PromotionStatusBadge from "@/components/seller/promotion/PromotionStatusBadge";
-import PromotionFormModal from "@/components/seller/promotion/PromotionFormModal";
-import ConfirmDeleteModal from "@/components/seller/promotion/ConfirmDeleteModal";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const PromotionFormModal = dynamic(
+  () => import("@/components/seller/promotion/PromotionFormModal"),
+  { ssr: false }
+);
+
+const ConfirmDeleteModal = dynamic(
+  () => import("@/components/seller/promotion/ConfirmDeleteModal"),
+  { ssr: false }
+);
 import {
   fetchPromotions,
   fetchPromotionStatistics,
@@ -74,7 +84,6 @@ export default function PromotionDetailPage() {
       setPromotion(promotionRes.data.promotions[0]);
       setStatistics(statsRes.data);
     } catch (error) {
-      console.error("Error loading data:", error);
     } finally {
       setIsLoading(false);
     }

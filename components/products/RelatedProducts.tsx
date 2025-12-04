@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import type { Product } from "@/types/product";
 import { Sparkles } from "lucide-react";
+import { LoaderOne } from "../ui/loader";
 
 interface RelatedProductsProps {
   products: Product[];
@@ -16,16 +17,9 @@ export default function RelatedProducts({
 }: RelatedProductsProps) {
   if (isLoading) {
     return (
-      <section className="bg-[#fdfbf5] py-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center">
-            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
-            <p className="mt-4 text-sm text-neutral-600">
-              Đang tải sản phẩm liên quan...
-            </p>
-          </div>
-        </div>
-      </section>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
+      </div>
     );
   }
 

@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-	Eye,
-	Edit,
-	Calendar,
-	User,
-	Wine,
-	Receipt,
-} from "lucide-react";
+import { Eye, Edit, Calendar, User, Wine, Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import {
@@ -102,7 +95,7 @@ export default function OrdersTable({
                 <TableCell className="font-medium text-[#3b4417]">
                   <div className="flex items-center gap-2">
                     <Receipt className="w-4 h-4 text-[#7a8451]" />
-                    <span>{order.orderCode}</span>
+                    <span>{order.order_code}</span>
                   </div>
                 </TableCell>
                 <TableCell>
@@ -110,10 +103,12 @@ export default function OrdersTable({
                     <User className="w-4 h-4 text-[#7a8451] mt-1" />
                     <div>
                       <p className="font-medium text-[#3b4417]">
-                        {order.shippingAddress?.fullName || "N/A"}
+                        {order.customer?.name || "N/A"}
                       </p>
                       <p className="text-sm text-[#7a8451]">
-                        {order.shippingAddress?.phoneNumber || "N/A"}
+                        {order.customer?.phone ||
+                          order.customer?.email ||
+                          "N/A"}
                       </p>
                     </div>
                   </div>
@@ -121,17 +116,17 @@ export default function OrdersTable({
                 <TableCell>
                   <OrderStatusBadge
                     status={order.status}
-                    statusText={order.statusText}
+                    statusText={order.status_text}
                   />
                 </TableCell>
                 <TableCell className="font-semibold text-[#3b4417]">
-                  {formatPrice(order.finalAmount)}
+                  {formatPrice(order.final_amount)}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2 text-[#7a8451]">
                     <Calendar className="w-4 h-4" />
                     <span className="text-sm">
-                      {formatDate(order.createdAt)}
+                      {formatDate(order.created_at)}
                     </span>
                   </div>
                 </TableCell>

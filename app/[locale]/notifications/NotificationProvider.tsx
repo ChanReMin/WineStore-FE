@@ -14,11 +14,8 @@ import { toast } from "react-toastify";
  */
 export function NotificationSocketProvider() {
   const { getAccessToken, isAuthenticated } = useAuth();
-  const {
-    addMessage,
-    incrementUnreadCount,
-    setConnected,
-  } = useNotificationStore();
+  const { addMessage, incrementUnreadCount, setConnected } =
+    useNotificationStore();
 
   const stompClientRef = useRef<Client | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -38,7 +35,7 @@ export function NotificationSocketProvider() {
       console.log("🧹 Cleaning up WebSocket");
       stompClientRef.current.deactivate().catch(() => {});
     }
-    
+
     setConnected(false);
     isCleaningUpRef.current = false;
   };
@@ -109,7 +106,7 @@ export function NotificationSocketProvider() {
 
           console.log("📝 Adding message to store:", message.id, message.title);
           addMessage(message);
-          
+
           if (!message.isRead) {
             incrementUnreadCount();
           }
@@ -128,7 +125,7 @@ export function NotificationSocketProvider() {
     newStompClient.onDisconnect = () => {
       console.log("❌ WebSocket Disconnected");
       setConnected(false);
-      
+
       // Attempt reconnect sau 5 giây
       if (!isCleaningUpRef.current && isAuthenticated) {
         console.log("🔄 Scheduling reconnect in 5 seconds...");

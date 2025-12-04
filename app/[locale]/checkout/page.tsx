@@ -61,9 +61,7 @@ function CheckoutContent() {
         );
 
         // Use mock payment methods (no API call needed)
-        const { MOCK_PAYMENT_METHODS } = await import(
-          "@/lib/mockCheckoutData"
-        );
+        const { MOCK_PAYMENT_METHODS } = await import("@/lib/mockCheckoutData");
 
         // Initialize cart and payment methods
         checkoutContext.initializeData(

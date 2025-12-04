@@ -143,38 +143,27 @@ export default function Hero() {
               alt={currentTitle}
               fill
               priority={index === 0} // Priority for first image
-              quality={90}
+              quality={index === 0 ? 95 : 85}
               sizes="100vw"
               className="object-cover pointer-events-none"
               style={{
                 willChange: "transform, opacity", // GPU acceleration hint
               }}
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxOTIwIiBoZWlnaHQ9IjEwODAiIGZpbGw9IiMyYTJmMTgiLz48L3N2Zz4="
             />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Preload next and previous images */}
-      <div className="hidden">
-        <Image
-          src={SLIDE_IMAGES[(index + 1) % SLIDE_IMAGES.length]}
-          alt="preload next"
-          width={1920}
-          height={1080}
-          priority
-        />
-        <Image
-          src={
-            SLIDE_IMAGES[
-              (index - 1 + SLIDE_IMAGES.length) % SLIDE_IMAGES.length
-            ]
-          }
-          alt="preload prev"
-          width={1920}
-          height={1080}
-          priority
-        />
-      </div>
+      {/* Preload next image only (more efficient) */}
+      <link
+        rel="preload"
+        as="image"
+        href={SLIDE_IMAGES[(index + 1) % SLIDE_IMAGES.length]}
+        // @ts-ignore
+        fetchpriority="low"
+      />
 
       {/* TEXT GIỮA MỖI SLIDE */}
       <div className="relative flex h-full w-full items-center justify-center px-4 z-10">

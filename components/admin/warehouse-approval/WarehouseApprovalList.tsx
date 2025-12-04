@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
@@ -32,11 +33,28 @@ import {
   fetchWarehouseRequests,
   type WarehouseRequest,
 } from "@/services/warehouseApprovalService";
-import WarehouseDetailModal from "./WarehouseDetailModal";
-import ApproveWarehouseModal from "./ApproveWarehouseModal";
-import RejectWarehouseModal from "./RejectWarehouseModal";
-import BanWarehouseModal from "./BanWarehouseModal";
-import UnbanWarehouseModal from "./UnbanWarehouseModal";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const WarehouseDetailModal = dynamic(() => import("./WarehouseDetailModal"), {
+  ssr: false,
+});
+
+const ApproveWarehouseModal = dynamic(() => import("./ApproveWarehouseModal"), {
+  ssr: false,
+});
+
+const RejectWarehouseModal = dynamic(() => import("./RejectWarehouseModal"), {
+  ssr: false,
+});
+
+const BanWarehouseModal = dynamic(() => import("./BanWarehouseModal"), {
+  ssr: false,
+});
+
+const UnbanWarehouseModal = dynamic(() => import("./UnbanWarehouseModal"), {
+  ssr: false,
+});
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function WarehouseApprovalList() {
   const t = useTranslations("admin.warehouseApproval");
@@ -178,15 +196,8 @@ export default function WarehouseApprovalList() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#fdfbf5]">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-12 h-12 border-4 border-[#3b4417] border-t-transparent rounded-full mx-auto mb-4"
-          />
-          <p className="text-[#7a8451]">{t("loading")}</p>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }

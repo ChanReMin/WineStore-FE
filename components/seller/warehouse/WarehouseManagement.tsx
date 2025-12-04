@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Plus, Search, Filter, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,12 +15,24 @@ import {
 } from "@/components/ui/select";
 import WarehouseStatCards from "./WarehouseStatCards";
 import WarehouseList from "./WarehouseList";
-import CreateWarehouseModal from "./CreateWarehouseModal";
-import EditWarehouseModal from "./EditWarehouseModal";
-import WarehouseDetailModal from "./WarehouseDetailModal";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const CreateWarehouseModal = dynamic(() => import("./CreateWarehouseModal"), {
+  ssr: false,
+});
+
+const EditWarehouseModal = dynamic(() => import("./EditWarehouseModal"), {
+  ssr: false,
+});
+
+const WarehouseDetailModal = dynamic(() => import("./WarehouseDetailModal"), {
+  ssr: false,
+});
+
 import { warehouseService, type Warehouse } from "@/services/warehouseService";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
+import { LoaderOne } from "@/components/ui/loader";
 
 export default function WarehouseManagement() {
   const t = useTranslations("seller.warehouses");
@@ -156,8 +169,8 @@ export default function WarehouseManagement() {
         transition={{ delay: 0.5 }}
       >
         {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-[#3b4417]" />
+          <div className="flex h-screen items-center justify-center bg-neutral-50">
+            <LoaderOne />
           </div>
         ) : (
           <WarehouseList

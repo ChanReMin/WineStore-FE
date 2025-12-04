@@ -8,13 +8,15 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 import AddToCartButton from "@/components/cart/AddToCartButton";
+import BuyNowButton from "@/components/products/BuyNowButton";
 import {
-  fetchProductDetail,
+  fetchPublicProductDetail,
   fetchRelatedProducts,
 } from "@/services/productService";
 import type { Product } from "@/types/product";
 import RelatedProducts from "@/components/products/RelatedProducts";
 import ImageWithFallback from "@/components/ui/ImageWithFallback";
+import { LoaderOne } from "@/components/ui/loader";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -59,10 +61,9 @@ export default function ProductDetailPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetchProductDetail(Number(productId));
+        const response = await fetchPublicProductDetail(Number(productId));
         setProduct(response.data);
       } catch (err) {
-        console.error("Error fetching product:", err);
         setError("Không thể tải thông tin sản phẩm");
         // Fallback to mock data
         setProduct(MOCK_PRODUCT_DETAIL as any);
@@ -84,7 +85,6 @@ export default function ProductDetailPage() {
         const response = await fetchRelatedProducts(Number(productId));
         setRelatedProducts(response.data.products);
       } catch (err) {
-        console.error("Error fetching related products:", err);
         setRelatedProducts([]);
       } finally {
         setIsLoadingRelated(false);
@@ -97,11 +97,8 @@ export default function ProductDetailPage() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-[#3b4417] border-r-transparent"></div>
-          <p className="mt-4 text-sm text-neutral-600">Đang tải sản phẩm...</p>
-        </div>
+      <div className="flex h-screen items-center justify-center bg-neutral-50">
+        <LoaderOne />
       </div>
     );
   }
@@ -644,37 +641,69 @@ export default function ProductDetailPage() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Luxury Quantity & Purchase Section */}
+            {/* Action Buttons Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0 }}
               className="space-y-6 border-t border-neutral-200/50 pt-8"
             >
-              {/* Premium Action Buttons */}
               {(product.totalInventory ?? 0) > 0 ? (
                 <div className="space-y-4">
-                  {/* Add to Cart with Quantity */}
+                  {/* Stock Info */}
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-neutral-600">
+                      {t("availability")}:
+                    </span>
+                    <span className="font-semibold text-emerald-600">
+                      {product.totalInventory} {t("inStock")}
+                    </span>
+                  </div>
+
+                  {/* Add to Cart Button - Full Width */}
                   <AddToCartButton
                     productId={product.id}
                     productName={product.name}
                     maxQuantity={product.totalInventory || 99}
                   />
 
-                  {/* Secondary Actions */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className="border border-neutral-300 bg-white py-4 text-sm font-medium uppercase tracking-[0.15em] text-neutral-700 transition-all hover:border-neutral-400 hover:bg-neutral-50"
-                    >
-                      {t("buyNow")}
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className="flex items-center justify-center gap-2 border border-neutral-300 bg-white py-4 text-sm font-medium uppercase tracking-[0.15em] text-neutral-700 transition-all hover:border-neutral-400 hover:text-rose-600"
-                    >
+                  {/* Divider with "OR" */}
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-neutral-200" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-[#faf8f5] px-4 text-neutral-500 tracking-wider">
+                        {t("or")}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Buy Now Button - Compact Style */}
+                  <BuyNowButton
+                    productId={product.id}
+                    productName={product.name}
+                    maxQuantity={product.totalInventory || 99}
+                    variant="compact"
+                    className="w-full"
+                  />
+                </div>
+              ) : (
+                <div className="rounded-lg border border-rose-200 bg-rose-50 p-6 text-center">
+                  <p className="text-sm font-semibold text-rose-700 mb-1">
+                    {t("unavailable")}
+                  </p>
+                  <p className="text-xs text-rose-600">
+                    {t("unavailableDescription")}
+                  </p>
+                </div>
+              )}
+
+              {/* Trust Indicators */}
+              <div className="grid grid-cols-2 gap-3 border-t border-neutral-200/50 pt-6">
+                {[
+                  {
+                    icon: (
                       <svg
                         className="h-5 w-5"
                         fill="none"
@@ -684,35 +713,78 @@ export default function ProductDetailPage() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          strokeWidth={2}
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      {t("save")}
-                    </motion.button>
-                  </div>
-                </div>
-              ) : (
-                <div className="border border-rose-200 bg-rose-50 p-4 text-center text-sm font-medium text-rose-700">
-                  {t("unavailable")}
-                </div>
-              )}
-
-              {/* Trust Indicators */}
-              <div className="grid grid-cols-2 gap-4 border-t border-neutral-200/50 pt-6">
-                {[
-                  { icon: "✓", text: t("trust.authentic") },
-                  { icon: "🚚", text: t("trust.freeShipping") },
-                  { icon: "↺", text: t("trust.returns") },
-                  { icon: "🔒", text: t("trust.securePayment") },
+                    ),
+                    text: t("trust.authentic"),
+                  },
+                  {
+                    icon: (
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                        />
+                      </svg>
+                    ),
+                    text: t("trust.freeShipping"),
+                  },
+                  {
+                    icon: (
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                    ),
+                    text: t("trust.returns"),
+                  },
+                  {
+                    icon: (
+                      <svg
+                        className="h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                        />
+                      </svg>
+                    ),
+                    text: t("trust.securePayment"),
+                  },
                 ].map((item, i) => (
-                  <div
+                  <motion.div
                     key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.1 + i * 0.05 }}
                     className="flex items-center gap-2 text-xs text-neutral-600"
                   >
-                    <span className="text-sm text-[#8b7355]">{item.icon}</span>
+                    <span className="text-[#8b7355]">{item.icon}</span>
                     <span>{item.text}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>

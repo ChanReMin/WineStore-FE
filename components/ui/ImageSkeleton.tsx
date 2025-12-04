@@ -32,7 +32,7 @@ export default function ImageSkeleton({
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
         />
       )}
-      
+
       {/* Wine bottle icon placeholder */}
       <div className="absolute inset-0 flex items-center justify-center">
         <svg

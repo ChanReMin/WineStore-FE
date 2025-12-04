@@ -140,7 +140,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
     } catch (error) {
       console.error("Failed to load addresses:", error);
       const { toast } = await import("react-toastify");
-      toast.error("Không thể tải danh sách địa chỉ");
+      toast.error("Failed to load addresses");
     } finally {
       setIsLoadingAddresses(false);
     }
@@ -180,12 +180,12 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
         setAddresses((prev) => [...prev, newAddress]);
         setSelectedAddress(newAddress);
 
-        toast.success("Đã thêm địa chỉ mới");
+        toast.success("Address added successfully");
       } catch (error: any) {
         console.error("Failed to add address:", error);
         const { toast } = await import("react-toastify");
         const message =
-          error.response?.data?.message || "Không thể thêm địa chỉ";
+          error.response?.data?.message || "Failed to add address";
         toast.error(message);
         throw error;
       } finally {
@@ -207,7 +207,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
 
       // Validate address & payment method
       if (!selectedAddress || !selectedPaymentMethod) {
-        toast.error("Vui lòng chọn đầy đủ địa chỉ và phương thức thanh toán");
+        toast.error("Please select shipping address and payment method");
         return;
       }
 
@@ -221,6 +221,8 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
         couponCode: "",
         note: undefined,
       });
+
+      console.log("Order created:", orderResponse);
 
       // Set order ID
       setOrderId(orderResponse.orderCode);
@@ -237,15 +239,22 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
       if (orderResponse.paymentUrl) {
         // For online payment methods (paymentMethodId 2: VNPAY, 3: MOMO)
         // Redirect to payment gateway URL immediately
-        toast.success("Đang chuyển đến trang thanh toán...");
-        window.location.href = orderResponse.paymentUrl;
+        toast.success("Redirecting to payment gateway...");
+
+        console.log("Redirecting to:", orderResponse.paymentUrl);
+
+        // Use window.location.replace() to prevent back navigation
+        // This replaces current history entry, user cannot go back to checkout page
+        setTimeout(() => {
+          window.location.replace(orderResponse.paymentUrl!);
+        }, 500); // Small delay to show toast message
         return; // Stop execution, browser will redirect
       }
 
       // For COD (paymentMethodId 1) - No payment URL needed
       // Show success page directly
       setCurrentStep("success");
-      toast.success("Đặt hàng thành công!");
+      toast.success("Order placed successfully!");
     } catch (error: any) {
       console.error("Order creation failed:", error);
 
@@ -253,7 +262,7 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
       const message =
         error.response?.data?.message ||
         error.message ||
-        "Đặt hàng thất bại. Vui lòng thử lại.";
+        "Failed to create order";
       toast.error(message);
 
       throw error;

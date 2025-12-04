@@ -19,6 +19,46 @@ export interface OrderItem {
   lineTotal: number;
 }
 
+// Seller Order Item Interface
+export interface SellerOrderItem {
+  id: number;
+  productId: number;
+  productName: string;
+  productSku: string;
+  quantity: number;
+  unitPrice: number;
+  costPrice?: number;
+  lineTotal: number;
+  profit?: number;
+  warehouseId?: number;
+}
+
+// Seller Order Customer Interface
+export interface SellerOrderCustomer {
+  id: number;
+  name: string;
+  email?: string;
+  phone?: string;
+  totalOrders?: number;
+}
+
+// Seller Order Detail Interface
+export interface SellerOrderDetail {
+  id: number;
+  customer: SellerOrderCustomer;
+  status: number;
+  items: SellerOrderItem[];
+  note?: string;
+  order_code: string;
+  status_text: string;
+  total_amount: number;
+  discount_amount?: number;
+  final_amount: number;
+  total_profit?: number;
+  shipping_address?: OrderAddress;
+  internal_note?: string;
+}
+
 export interface OrderAddress {
   fullName: string;
   phoneNumber: string;
@@ -107,12 +147,22 @@ export interface OrderListItem {
 }
 
 const orderService = {
-  // Create new order
+  // Create new order from cart
   createOrder: async (
     data: CreateOrderRequest
   ): Promise<CreateOrderResponse> => {
     try {
-      const response = await api.post("api/v1/orders", data);
+      const response = await api.post("/api/v1/orders", data);
+      return response.data.data;
+    } catch (error) {
+      throw handleApiError(error);
+    }
+  },
+
+  // Get payment methods
+  getPaymentMethods: async (): Promise<any[]> => {
+    try {
+      const response = await api.get("/api/v1/payment-methods");
       return response.data.data;
     } catch (error) {
       throw handleApiError(error);
@@ -143,7 +193,7 @@ const orderService = {
     };
   }> => {
     try {
-      const response = await api.get("api/v1/orders", { params });
+      const response = await api.get("/api/v1/orders", { params });
       return response.data.data;
     } catch (error) {
       throw handleApiError(error);
@@ -153,7 +203,10 @@ const orderService = {
   // Cancel order
   cancelOrder: async (orderId: number, reason?: string): Promise<void> => {
     try {
-      await api.post(`api/v1/orders/${orderId}/cancel`, { reason });
+      await api.patch(`api/v1/orders/${orderId}/status`, {
+        status: 6, // Cancel status
+        note: reason,
+      });
     } catch (error) {
       throw handleApiError(error);
     }
@@ -171,16 +224,22 @@ const orderService = {
       toDate?: string;
       search?: string;
     }): Promise<{
+      orders: any[];
       pagination: {
         currentPage: number;
         totalPages: number;
         totalItems: number;
         perPage: number;
       };
-      orders: any[];
+      summary: {
+        pending: number;
+        confirmed: number;
+        paid: number;
+        cancelled: number;
+      };
     }> => {
       try {
-        const response = await api.get("api/v1/orders", { params });
+        const response = await api.get("/api/v1/orders/seller", { params });
         return response.data.data;
       } catch (error) {
         throw handleApiError(error);
@@ -188,9 +247,9 @@ const orderService = {
     },
 
     // Get seller order detail
-    getOrderDetail: async (orderId: number): Promise<OrderDetail> => {
+    getOrderDetail: async (orderId: number): Promise<SellerOrderDetail> => {
       try {
-        const response = await api.get(`api/v1/orders/${orderId}`);
+        const response = await api.get(`/api/v1/orders/${orderId}/seller`);
         return response.data.data;
       } catch (error) {
         throw handleApiError(error);

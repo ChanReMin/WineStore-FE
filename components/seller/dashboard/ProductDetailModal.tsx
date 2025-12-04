@@ -364,13 +364,15 @@ export default function ProductDetailModal({
                         Wine Details
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {(product.countryOfProduction || product.originCountry) && (
+                        {(product.countryOfProduction ||
+                          product.originCountry) && (
                           <div>
                             <p className="text-xs text-[#7a8451] mb-1 font-medium">
                               Country of Production
                             </p>
                             <p className="text-sm text-[#3b4417] font-semibold">
-                              {product.countryOfProduction || product.originCountry}
+                              {product.countryOfProduction ||
+                                product.originCountry}
                             </p>
                           </div>
                         )}
@@ -384,16 +386,17 @@ export default function ProductDetailModal({
                             </p>
                           </div>
                         )}
-                        {product.concentration !== null && product.concentration !== undefined && (
-                          <div>
-                            <p className="text-xs text-[#7a8451] mb-1 font-medium">
-                              Concentration
-                            </p>
-                            <p className="text-sm text-[#3b4417] font-semibold">
-                              {product.concentration}%
-                            </p>
-                          </div>
-                        )}
+                        {product.concentration !== null &&
+                          product.concentration !== undefined && (
+                            <div>
+                              <p className="text-xs text-[#7a8451] mb-1 font-medium">
+                                Concentration
+                              </p>
+                              <p className="text-sm text-[#3b4417] font-semibold">
+                                {product.concentration}%
+                              </p>
+                            </div>
+                          )}
                         {product.grapeVariety && (
                           <div>
                             <p className="text-xs text-[#7a8451] mb-1 font-medium">
@@ -428,9 +431,13 @@ export default function ProductDetailModal({
                     </motion.div>
 
                     {/* Storage Conditions */}
-                    {(product.idealtemperature || product.humidity || product.avoidLight || 
-                      product.placeTheBottleHorizontally || product.avoidVibration || 
-                      product.openedWine || product.useWineCabinet) && (
+                    {(product.idealtemperature ||
+                      product.humidity ||
+                      product.avoidLight ||
+                      product.placeTheBottleHorizontally ||
+                      product.avoidVibration ||
+                      product.openedWine ||
+                      product.useWineCabinet) && (
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

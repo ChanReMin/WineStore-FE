@@ -27,6 +27,7 @@ import {
   fetchPromotionStatistics,
 } from "@/services/promotionService";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 interface PromotionDetailModalProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ export default function PromotionDetailModal({
   onClose,
   promotionId,
 }: PromotionDetailModalProps) {
+  const t = useTranslations("seller.promotions.detail");
   const [promotion, setPromotion] = useState<PromotionDetail | null>(null);
   const [statistics, setStatistics] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,9 +62,7 @@ export default function PromotionDetailModal({
       setStatistics(statisticsResponse.data);
     } catch (error: any) {
       console.error("Error loading promotion detail:", error);
-      toast.error(
-        error?.response?.data?.message || "Không thể tải thông tin khuyến mãi"
-      );
+      toast.error(error?.response?.data?.message || t("errors.loadFailed"));
       onClose();
     } finally {
       setIsLoading(false);
@@ -110,7 +110,7 @@ export default function PromotionDetailModal({
           >
             <div className="flex flex-col items-center gap-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#3b4417]"></div>
-              <p className="text-[#7a8451]">Đang tải...</p>
+              <p className="text-[#7a8451]">{t("loading")}</p>
             </div>
           </motion.div>
         </div>
@@ -145,11 +145,9 @@ export default function PromotionDetailModal({
               </div>
               <div>
                 <h2 className="text-xl font-bold text-[#3b4417]">
-                  Chi tiết khuyến mãi
+                  {t("title")}
                 </h2>
-                <p className="text-sm text-[#7a8451]">
-                  Thông tin và thống kê chi tiết
-                </p>
+                <p className="text-sm text-[#7a8451]">{t("subtitle")}</p>
               </div>
             </div>
             <button
@@ -182,11 +180,6 @@ export default function PromotionDetailModal({
                   <p className="text-[#7a8451] mt-1">{promotion.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  {promotion.discount_type === 0 ? (
-                    <Percent className="h-8 w-8 text-[#d4af37]" />
-                  ) : (
-                    <DollarSign className="h-8 w-8 text-[#d4af37]" />
-                  )}
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
                       promotion.discount_type,
@@ -199,7 +192,7 @@ export default function PromotionDetailModal({
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-[#d4d6b4]">
                 <div>
                   <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Ngày bắt đầu
+                    {t("startDate")}
                   </p>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
@@ -210,7 +203,7 @@ export default function PromotionDetailModal({
                 </div>
                 <div>
                   <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Ngày kết thúc
+                    {t("endDate")}
                   </p>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#7a8451]" />
@@ -221,7 +214,7 @@ export default function PromotionDetailModal({
                 </div>
                 <div>
                   <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Đã sử dụng
+                    {t("used")}
                   </p>
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-[#7a8451]" />
@@ -232,7 +225,7 @@ export default function PromotionDetailModal({
                 </div>
                 <div>
                   <p className="text-xs text-[#7a8451] uppercase mb-1">
-                    Còn lại
+                    {t("remaining")}
                   </p>
                   <div className="flex items-center gap-2">
                     <Package className="h-4 w-4 text-[#7a8451]" />
@@ -252,7 +245,7 @@ export default function PromotionDetailModal({
               onClick={onClose}
               className="w-full bg-[#3b4417] hover:bg-[#2a2f18] text-amber-50"
             >
-              Đóng
+              {t("close")}
             </Button>
           </div>
         </motion.div>

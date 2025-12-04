@@ -59,9 +59,17 @@ export default function CheckoutProgress({
                   }`}
                 >
                   {isCompleted ? (
-                    <Check size={16} className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6" strokeWidth={3} />
+                    <Check
+                      size={16}
+                      className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6"
+                      strokeWidth={3}
+                    />
                   ) : (
-                    <Icon size={16} className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6" strokeWidth={isActive ? 2 : 1.5} />
+                    <Icon
+                      size={16}
+                      className="md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 xl:w-6 xl:h-6"
+                      strokeWidth={isActive ? 2 : 1.5}
+                    />
                   )}
                 </motion.div>
 

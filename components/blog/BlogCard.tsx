@@ -44,12 +44,12 @@ export default function BlogCard({ post, index }: BlogCardProps) {
             transition={{ duration: 0.6 }}
             className="h-full w-full"
           >
-            <ImageWithFallback 
-              src={post.image} 
-              alt={title} 
-              fill 
+            <ImageWithFallback
+              src={post.image}
+              alt={title}
+              fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover" 
+              className="object-cover"
               priority={index < 3}
             />
           </motion.div>

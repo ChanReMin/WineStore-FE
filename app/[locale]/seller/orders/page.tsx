@@ -1,15 +1,26 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import OrderFilters from "@/components/seller/order/OrderFilters";
 import OrdersTable from "@/components/seller/order/OrdersTable";
 import OrderPagination from "@/components/seller/order/OrderPagination";
-import UpdateOrderStatusModal from "@/components/seller/order/UpdateOrderStatusModal";
-import OrderDetailModal from "@/components/seller/order/OrderDetailModal";
 import { toast } from "react-toastify";
 import orderService from "@/services/orderService";
 import { OrderStatus } from "@/types/order";
+import { LoaderOne } from "@/components/ui/loader";
+
+// ✅ Dynamic import cho Modals (không cần SSR)
+const UpdateOrderStatusModal = dynamic(
+  () => import("@/components/seller/order/UpdateOrderStatusModal"),
+  { ssr: false }
+);
+
+const OrderDetailModal = dynamic(
+  () => import("@/components/seller/order/OrderDetailModal"),
+  { ssr: false }
+);
 
 export default function OrdersPage() {
   const t = useTranslations("seller.orders");
@@ -67,29 +78,21 @@ export default function OrdersPage() {
       setOrders(response.orders);
       setPagination(response.pagination);
 
-      // Calculate summary from all orders (you might want to get this from a separate API)
-      calculateSummary(response.orders);
+      // Use summary from API response
+      if (response.summary) {
+        setSummary({
+          total: response.pagination.totalItems,
+          pending: response.summary.pending,
+          confirmed: response.summary.confirmed,
+          paid: response.summary.paid,
+          cancelled: response.summary.cancelled,
+        });
+      }
     } catch (error: any) {
       toast.error(error.message || "Không thể tải danh sách đơn hàng");
     } finally {
       setLoading(false);
     }
-  };
-
-  // Calculate summary stats
-  const calculateSummary = (ordersList: any[]) => {
-    setSummary({
-      total: ordersList.length,
-      pending: ordersList.filter((o: any) => o.status === OrderStatus.PENDING)
-        .length,
-      confirmed: ordersList.filter(
-        (o: any) => o.status === OrderStatus.CONFIRMED
-      ).length,
-      paid: ordersList.filter((o: any) => o.status === OrderStatus.PAID).length,
-      cancelled: ordersList.filter(
-        (o: any) => o.status === OrderStatus.CANCELLED
-      ).length,
-    });
   };
 
   // Fetch orders when filters or pagination change
@@ -242,16 +245,12 @@ export default function OrdersPage() {
             className="bg-white border border-[#d4d6b4] rounded-lg p-4"
           >
             <div className="flex items-center justify-between mb-2">
-              <div className={stat.iconColor}>
-                {stat.IconComponent}
-              </div>
+              <div className={stat.iconColor}>{stat.IconComponent}</div>
               <p className={`text-2xl font-bold ${stat.iconColor}`}>
                 {stat.value}
               </p>
             </div>
-            <p className="text-sm text-[#7a8451]">
-              {t(stat.labelKey)}
-            </p>
+            <p className="text-sm text-[#7a8451]">{t(stat.labelKey)}</p>
           </div>
         ))}
       </div>
@@ -270,8 +269,8 @@ export default function OrdersPage() {
 
       {/* Loading State */}
       {loading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#3b4417]"></div>
+        <div className="flex h-screen items-center justify-center bg-neutral-50">
+          <LoaderOne />
         </div>
       ) : (
         <>

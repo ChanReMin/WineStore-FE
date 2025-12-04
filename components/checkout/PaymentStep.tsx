@@ -7,7 +7,6 @@ import { useCheckout } from "@/contexts/CheckoutContext";
 
 const PAYMENT_ICONS: Record<string, any> = {
   COD: Banknote,
-  VNPAY: CreditCard,
   MOMO: Wallet,
 };
 
@@ -39,7 +38,7 @@ export default function PaymentStep() {
       </motion.div>
 
       <div className="space-y-2 md:space-y-3 lg:space-y-4">
-        {paymentMethods.map((method, index) => {
+        {paymentMethods.map((method: any, index: number) => {
           const Icon = PAYMENT_ICONS[method.code] || CreditCard;
           const isSelected = selectedPaymentMethod?.id === method.id;
 
@@ -65,7 +64,11 @@ export default function PaymentStep() {
                   }`}
                 >
                   {isSelected && (
-                    <Check size={12} className="md:w-3.5 md:h-3.5 text-white" strokeWidth={3} />
+                    <Check
+                      size={12}
+                      className="md:w-3.5 md:h-3.5 text-white"
+                      strokeWidth={3}
+                    />
                   )}
                 </div>
 

@@ -1,9 +1,10 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { ShoppingBag, MapPin, Star, Sparkles } from "lucide-react";
+import { ShoppingBag, MapPin } from "lucide-react";
 import { toast } from "react-toastify";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,8 +18,15 @@ interface ProductCardProps {
   index: number;
 }
 
-export default function ProductCard({ product, index }: ProductCardProps) {
+// Memoized component để tránh re-render không cần thiết
+const ProductCard = React.memo(function ProductCard({
+  product,
+  index,
+}: ProductCardProps) {
   const t = useTranslations("shop.product");
+  const tCommon = useTranslations("common");
+  const tProduct = useTranslations("productDetail");
+  const tAddToCart = useTranslations("addToCart");
   const { isAuthenticated } = useAuth();
   const router = useRouter();
   const { addToCart } = useCartStore();
@@ -27,7 +35,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
   const imageUrl =
     product.thumbnail || product.images || "/placeholder-wine.jpg";
   const country =
-    product.countryOfProduction || product.originCountry || "Unknown";
+    product.countryOfProduction || product.originCountry || tCommon("unknown");
   const basePrice = product.basePrice || product.price;
   const discount = product.basePrice
     ? Math.round(
@@ -35,23 +43,26 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       )
     : 0;
 
+  // Check if product is out of stock
+  const isOutOfStock = product.totalInventory <= 0;
+
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!isAuthenticated) {
-      toast.info("Vui lòng đăng nhập để thêm vào giỏ hàng");
+      toast.info(tAddToCart("loginRequired"));
       router.push("/");
       return;
     }
 
     try {
       await addToCart(product.id, 1);
-      toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Không thể thêm vào giỏ hàng"
+      toast.success(
+        tAddToCart("success", { quantity: 1, productName: product.name })
       );
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : tAddToCart("error"));
     }
   };
 
@@ -74,7 +85,21 @@ export default function ProductCard({ product, index }: ProductCardProps) {
         <div className="absolute right-0 bottom-0 h-12 w-12 border-r-2 border-b-2 border-[#d4af37]/0 transition-all duration-500 group-hover:border-[#d4af37]/60 z-10" />
 
         {/* Badge */}
-        {discount > 0 && (
+        {isOutOfStock ? (
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: index * 0.08 + 0.3 }}
+            className="absolute left-4 top-4 z-20"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-neutral-600 blur-sm" />
+              <span className="relative block bg-linear-to-br from-neutral-700 to-neutral-800 px-4 py-2 text-[10px] tracking-[0.25em] text-white uppercase shadow-lg">
+                {tProduct("unavailable")}
+              </span>
+            </div>
+          </motion.div>
+        ) : discount > 0 ? (
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -88,7 +113,7 @@ export default function ProductCard({ product, index }: ProductCardProps) {
               </span>
             </div>
           </motion.div>
-        )}
+        ) : null}
 
         {/* Image Container */}
         <div className="relative aspect-3/4 overflow-hidden bg-linear-to-br from-neutral-100 to-neutral-50">
@@ -96,9 +121,12 @@ export default function ProductCard({ product, index }: ProductCardProps) {
             src={imageUrl}
             alt={product.name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-all duration-700 group-hover:scale-110"
-            priority={index < 6}
+            priority={index < 4}
+            quality={index < 4 ? 90 : 75}
+            showLoadingState={true}
+            placeholderSrc="/placeholder-wine.jpg"
           />
 
           {/* Gradient Overlay */}
@@ -113,25 +141,27 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           />
 
           {/* Quick Add Button */}
-          <motion.button
-            onClick={handleAddToCart}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="
-              absolute bottom-6 left-1/2 
-              flex -translate-x-1/2 items-center gap-2 
-              bg-white px-8 py-4
-              text-[11px] tracking-[0.25em] 
-              text-[#3b4417] opacity-0 
-              transition-all duration-500 
-              group-hover:opacity-100 uppercase
-              whitespace-nowrap shadow-xl
-              border border-[#d4af37]/20
-              hover:bg-[#3b4417] hover:text-white"
-          >
-            <ShoppingBag size={14} strokeWidth={1.5} />
-            {t("addToCart")}
-          </motion.button>
+          {!isOutOfStock && (
+            <motion.button
+              onClick={handleAddToCart}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="
+                absolute bottom-6 left-1/2 
+                flex -translate-x-1/2 items-center gap-2 
+                bg-white px-8 py-4
+                text-[11px] tracking-[0.25em] 
+                text-[#3b4417] opacity-0 
+                transition-all duration-500 
+                group-hover:opacity-100 uppercase
+                whitespace-nowrap shadow-xl
+                border border-[#d4af37]/20
+                hover:bg-[#3b4417] hover:text-white"
+            >
+              <ShoppingBag size={14} strokeWidth={1.5} />
+              {t("addToCart")}
+            </motion.button>
+          )}
         </div>
 
         {/* Content */}
@@ -152,13 +182,21 @@ export default function ProductCard({ product, index }: ProductCardProps) {
           {/* Price Section */}
           <div className="mt-5 flex items-center justify-between border-t border-[#d4af37]/10 pt-4">
             <div className="flex flex-col">
-              <span className="text-[24px] font-bold tracking-wide text-[#3b4417]">
-                {product.price.toLocaleString("vi-VN")}₫
-              </span>
-              {discount > 0 && (
-                <span className="text-[13px] text-neutral-400 line-through">
-                  {basePrice.toLocaleString("vi-VN")}₫
+              {isOutOfStock ? (
+                <span className="text-[18px] font-bold tracking-wide text-neutral-600">
+                  {tProduct("unavailable")}
                 </span>
+              ) : (
+                <>
+                  <span className="text-[24px] font-bold tracking-wide text-[#3b4417]">
+                    {product.price.toLocaleString("vi-VN")}₫
+                  </span>
+                  {discount > 0 && (
+                    <span className="text-[13px] text-neutral-400 line-through">
+                      {basePrice.toLocaleString("vi-VN")}₫
+                    </span>
+                  )}
+                </>
               )}
             </div>
 
@@ -187,4 +225,9 @@ export default function ProductCard({ product, index }: ProductCardProps) {
       </motion.div>
     </Link>
   );
-}
+});
+
+// Export với displayName cho debugging
+ProductCard.displayName = "ProductCard";
+
+export default ProductCard;
