@@ -145,30 +145,9 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>
-            <NotificationSocketProvider />
-            <ConditionalLayout>
-              {children}
-              <ChatbotWrapper />
-            </ConditionalLayout>
-            <ToastContainer
-              position="top-right"
-              autoClose={2000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              limit={3}
-            />
-            {/* Dev Login - Only in development */}
-            {/* {process.env.NODE_ENV !== "production" && <DevLogin />} */}
-          </AuthProvider>
           <QueryProvider>
             <AuthProvider>
+            <NotificationSocketProvider />
               <ConditionalLayout>
                 {children}
                 <DynamicChatbot />

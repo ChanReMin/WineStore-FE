@@ -17,7 +17,6 @@ export default function PDFGenerator({
   const t = useTranslations("utils.pdfGenerator");
 
   const handleGenerate = () => {
-    console.log("Generating PDF:", filename);
     onGenerate?.();
   };
 

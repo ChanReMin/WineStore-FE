@@ -111,36 +111,48 @@ export const DroppableProductItem = memo(function DroppableProductItem({
 
             {/* Promotions List */}
             <div className="space-y-1.5 rounded-lg">
-              {product.promotions.map((promotion) => (
-                <div
-                  key={promotion.id}
-                  className="group/item bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-2 flex items-center gap-2 hover:shadow-sm transition-all animate-in fade-in slide-in-from-top-1 duration-200"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="font-semibold text-xs text-gray-900 truncate">
-                        {promotion.name}
-                      </span>
-                      <span className="bg-green-500 text-white px-1.5 py-0.5 rounded text-xs font-bold flex-shrink-0">
-                        {promotion.discount_type === 0
-                          ? `${promotion.discount_value || 0}%`
-                          : `${(promotion.discount_value || 0).toLocaleString()}đ`}
-                      </span>
-                    </div>
-                    <span className="text-xs text-gray-500 font-mono">
-                      {promotion.code}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleRemovePromotion(promotion.id)}
-                    className="opacity-0 group-hover/item:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded flex-shrink-0"
-                    title={t("removePromotion")}
+              {product.promotions.map((promotion) => {
+                const discountValue = promotion.discountValue || promotion.discount_value || 0;
+                
+                // Backend trả về discountValue là số tiền được giảm (discount amount)
+                // Không phải phần trăm, bất kể discountType là gì
+                const finalPrice = product.price - discountValue;
+                
+                return (
+                  <div
+                    key={promotion.id}
+                    className="group/item bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-2 flex items-center gap-2 hover:shadow-sm transition-all animate-in fade-in slide-in-from-top-1 duration-200"
                   >
-                    <X className="w-3.5 h-3.5 text-red-500" />
-                  </button>
-                </div>
-              ))}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 mb-0.5">
+                        <span className="font-semibold text-xs text-gray-900 truncate">
+                          {promotion.name}
+                        </span>
+                        <span className="bg-green-500 text-white px-1.5 py-0.5 rounded text-xs font-bold flex-shrink-0">
+                          {Math.round(finalPrice).toLocaleString()}đ
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs text-gray-500 font-mono">
+                          {promotion.code}
+                        </span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs text-red-500 line-through">
+                          {product.price.toLocaleString()}đ
+                        </span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemovePromotion(promotion.id)}
+                      className="opacity-0 group-hover/item:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded flex-shrink-0"
+                      title={t("removePromotion")}
+                    >
+                      <X className="w-3.5 h-3.5 text-red-500" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

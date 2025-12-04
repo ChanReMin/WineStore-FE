@@ -1,6 +1,7 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
 import type { RefreshTokenResponse } from "@/types/auth";
 import { isTokenExpiringSoon } from "./tokenUtils";
+import { getRefreshTokenCookie } from "./cookies";
 
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -47,15 +48,8 @@ const refreshAccessToken = async (): Promise<string | null> => {
   isRefreshing = true;
 
   try {
-    // Lấy refreshToken từ auth-storage trong localStorage
-    let refreshToken: string | null = null;
-    if (typeof window !== "undefined") {
-      const authStorageString = localStorage.getItem("auth-storage");
-      if (authStorageString) {
-        const authStorage = JSON.parse(authStorageString);
-        refreshToken = authStorage.state?.refreshToken || null;
-      }
-    }
+    // Lấy refreshToken từ cookie
+    const refreshToken = typeof window !== "undefined" ? getRefreshTokenCookie() : null;
 
     if (!refreshToken) {
       throw new Error("Session expired. Please login again.");

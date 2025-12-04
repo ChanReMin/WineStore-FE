@@ -195,11 +195,9 @@ export default function ProfileHeader({
       <AvatarPreviewModal
         isOpen={isPreviewOpen}
         onClose={() => {
-          console.log("Closing preview modal");
           setIsPreviewOpen(false);
         }}
         onEdit={() => {
-          console.log("Edit button clicked - closing preview and opening edit");
           setIsPreviewOpen(false);
           setIsEditOpen(true);
         }}
@@ -210,7 +208,6 @@ export default function ProfileHeader({
       <AvatarEditModal
         isOpen={isEditOpen}
         onClose={() => {
-          console.log("Closing edit modal");
           setIsEditOpen(false);
         }}
         onSave={handleAvatarSave}

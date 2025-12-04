@@ -49,7 +49,7 @@ export default function Hero() {
     firstImageLink.rel = "preload";
     firstImageLink.as = "image";
     firstImageLink.href = SLIDE_IMAGES[0];
-    firstImageLink.setAttribute("fetchpriority", "high");
+    firstImageLink.setAttribute("fetchPriority", "high");
     document.head.appendChild(firstImageLink);
 
     // 2. Preload ảnh thứ 2 (sẽ hiển thị tiếp theo)
@@ -105,6 +105,23 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [imagesLoaded]);
 
+  // Preload next image dynamically
+  useEffect(() => {
+    const nextImageUrl = SLIDE_IMAGES[(index + 1) % SLIDE_IMAGES.length];
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = nextImageUrl;
+    link.setAttribute("fetchPriority", "low");
+    document.head.appendChild(link);
+
+    return () => {
+      if (link.parentNode) {
+        document.head.removeChild(link);
+      }
+    };
+  }, [index]);
+
   const currentImage = SLIDE_IMAGES[index];
   const currentTitle = t(`slides.${index}.title`);
   const currentTagline = t(`slides.${index}.tagline`);
@@ -155,15 +172,6 @@ export default function Hero() {
           </motion.div>
         </AnimatePresence>
       </div>
-
-      {/* Preload next image only (more efficient) */}
-      <link
-        rel="preload"
-        as="image"
-        href={SLIDE_IMAGES[(index + 1) % SLIDE_IMAGES.length]}
-        // @ts-ignore
-        fetchpriority="low"
-      />
 
       {/* TEXT GIỮA MỖI SLIDE */}
       <div className="relative flex h-full w-full items-center justify-center px-4 z-10">

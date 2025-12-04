@@ -89,10 +89,6 @@ export function useDynamicComponentPerformance(componentName: string) {
         const measure = performance.getEntriesByName(measureName)[0];
         const loadTime = endTime - startTime;
 
-        // Log performance metrics
-        console.group(`🚀 Dynamic Component Performance: ${componentName}`);
-        console.log(`Load Time: ${loadTime.toFixed(2)}ms`);
-        console.log(`Render Duration: ${measure?.duration?.toFixed(2)}ms`);
         console.groupEnd();
 
         // Send to analytics if needed

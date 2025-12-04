@@ -222,8 +222,6 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
         note: undefined,
       });
 
-      console.log("Order created:", orderResponse);
-
       // Set order ID
       setOrderId(orderResponse.orderCode);
 
@@ -240,8 +238,6 @@ export const CheckoutProvider: React.FC<{ children: React.ReactNode }> = ({
         // For online payment methods (paymentMethodId 2: VNPAY, 3: MOMO)
         // Redirect to payment gateway URL immediately
         toast.success("Redirecting to payment gateway...");
-
-        console.log("Redirecting to:", orderResponse.paymentUrl);
 
         // Use window.location.replace() to prevent back navigation
         // This replaces current history entry, user cannot go back to checkout page

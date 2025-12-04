@@ -153,7 +153,7 @@ export function preloadImages(
     link.rel = "preload";
     link.as = "image";
     link.href = url;
-    link.setAttribute("fetchpriority", priority);
+    link.setAttribute("fetchPriority", priority);
     document.head.appendChild(link);
   });
 }

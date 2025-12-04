@@ -63,7 +63,8 @@ export function useDashboard(period: string = "week"): UseDashboardReturn {
 
       // Handle inventory alerts
       if (results[2].status === "fulfilled") {
-        setInventoryAlerts(results[2].value);
+        // Lấy 10 items đầu tiên bằng slice
+        setInventoryAlerts(results[2].value.slice(0, 10));
       } else {
         console.error("Error fetching inventory alerts:", results[2].reason);
       }
