@@ -11,6 +11,8 @@ interface NotificationStore {
   unreadCount: number;
   isLoaded: boolean;
   connected: boolean;
+  // Thêm flag để trigger re-render khi có message mới từ WebSocket
+  lastMessageId: number | null;
 
   // Actions
   setMessages: (messages: NotificationMessage[]) => void;
@@ -34,13 +36,21 @@ export const useNotificationStore = create<NotificationStore>()(
       unreadCount: 0,
       isLoaded: false,
       connected: false,
+      lastMessageId: null,
 
       setMessages: (messages) => set({ messages }),
       
       addMessage: (message) => {
-        set((state) => ({
-          messages: [message, ...state.messages],
-        }));
+        set((state) => {
+          // Kiểm tra message đã tồn tại chưa (tránh duplicate)
+          const exists = state.messages.some(msg => msg.id === message.id);
+          if (exists) return state;
+
+          return {
+            messages: [message, ...state.messages],
+            lastMessageId: message.id, // Cập nhật flag để trigger component
+          };
+        });
       },
       
       updateMessage: (id, updates) => {
@@ -57,7 +67,7 @@ export const useNotificationStore = create<NotificationStore>()(
         }));
       },
       
-      clearMessages: () => set({ messages: [], unreadCount: 0 }),
+      clearMessages: () => set({ messages: [], unreadCount: 0, lastMessageId: null }),
       
       setUnreadCount: (count) => set({ unreadCount: count }),
       
@@ -81,7 +91,8 @@ export const useNotificationStore = create<NotificationStore>()(
       name: "notification-store",
       partialize: (state) => ({
         messages: state.messages,
-        unreadCount: state.unreadCount,
+        // Không persist unreadCount - luôn fetch fresh từ API
+        // Không persist lastMessageId - chỉ dùng trong session
       }),
     }
   )

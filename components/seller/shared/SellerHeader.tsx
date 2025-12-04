@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import NotificationClient from "@/components/auth/NotificationClient";
 
 const languages = [
   { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
@@ -99,70 +100,7 @@ export default function SellerHeader() {
           </AnimatePresence>
         </div>
 
-        {/* Notifications */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="relative rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100"
-          >
-            <Bell size={20} />
-            <span className="absolute right-1 top-1 flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
-            </span>
-          </button>
-
-          <AnimatePresence>
-            {showNotifications && (
-              <>
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setShowNotifications(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute right-0 top-12 z-20 w-80 rounded-lg border border-neutral-200 bg-white shadow-lg"
-                >
-                  <div className="border-b border-neutral-200 p-4">
-                    <h3 className="font-semibold text-neutral-900">
-                      {t("notifications")}
-                    </h3>
-                  </div>
-                  <div className="dropdown-content max-h-96 overflow-y-auto">
-                    <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50 bg-blue-50/50">
-                      <p className="text-sm text-neutral-900">
-                        {t("newOrders", { count: 5 })}
-                      </p>
-                      <p className="mt-1 text-xs text-neutral-500">
-                        {t("minutesAgo", { count: 5 })}
-                      </p>
-                    </div>
-                    <div className="border-b border-neutral-100 p-4 transition-colors hover:bg-neutral-50 bg-blue-50/50">
-                      <p className="text-sm text-neutral-900">
-                        {t("pendingProducts", { count: 15 })}
-                      </p>
-                      <p className="mt-1 text-xs text-neutral-500">
-                        {t("hoursAgo", { count: 1 })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="border-t border-neutral-200 p-3 text-center">
-                    <button
-                      type="button"
-                      className="text-sm font-medium text-[#33391d] hover:underline"
-                    >
-                      {t("viewAll")}
-                    </button>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+        <NotificationClient />
 
         {/* User Menu */}
         <div className="relative">
