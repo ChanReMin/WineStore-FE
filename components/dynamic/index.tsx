@@ -38,7 +38,6 @@ export function usePerformanceMonitor(componentName: string) {
         const entries = list.getEntries();
         entries.forEach((entry) => {
           if (entry.name.includes(componentName)) {
-            console.log(`${entry.name}: ${entry.duration}ms`);
           }
         });
       });

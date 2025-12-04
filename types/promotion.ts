@@ -4,9 +4,11 @@ export interface Promotion {
   code: string;
   name: string;
   description: string;
-  discount_type: number; // 0: Percentage, 1: Fixed amount
+  discountType: "PERCENTAGE" | "FIXED_AMOUNT"; // API returns string enum
+  discount_type?: number; // Legacy: 0: Percentage, 1: Fixed amount (for backward compatibility)
   discount_type_text?: string;
-  discount_value: number;
+  discountValue: number;
+  discount_value?: number; // Legacy (for backward compatibility)
   start_date: string;
   end_date: string;
   max_usage: number;

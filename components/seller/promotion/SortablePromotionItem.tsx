@@ -51,9 +51,9 @@ export function SortablePromotionItem({
               {promotion.name}
             </span>
             <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">
-              {promotion.discount_type === 0
-                ? `${promotion.discount_value || 0}%`
-                : `${(promotion.discount_value || 0).toLocaleString()}đ`}
+              {(promotion.discountType === "PERCENTAGE" || promotion.discount_type === 0)
+                ? `${promotion.discountValue || promotion.discount_value || 0}%`
+                : `${(promotion.discountValue || promotion.discount_value || 0).toLocaleString()}đ`}
             </span>
           </div>
           <span className="text-xs text-gray-500 font-mono">

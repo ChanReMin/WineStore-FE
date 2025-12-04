@@ -38,7 +38,6 @@ export default function AvatarEditModal({
 
   React.useEffect(() => {
     if (isOpen) {
-      console.log("AvatarEditModal opened");
       setPreviewUrl(null);
       setSelectedFile(null);
       setError(null);

@@ -17,7 +17,6 @@ export default function ExcelExporter({
   const t = useTranslations("utils.excelExporter");
 
   const handleExport = () => {
-    console.log("Exporting to Excel:", filename);
     onExport?.();
   };
 

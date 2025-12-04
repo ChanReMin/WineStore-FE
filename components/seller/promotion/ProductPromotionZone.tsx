@@ -42,9 +42,6 @@ export function ProductPromotionZone({
     "all" | "assigned" | "unassigned"
   >("all");
 
-  // Debug log
-  console.log("ProductPromotionZone - productPagination:", productPagination);
-
   // Memoize filtered products (only filter by assignment status, search is handled by API)
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -222,7 +219,6 @@ export function ProductPromotionZone({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  console.log("Previous page clicked");
                   productPagination.onPageChange(
                     productPagination.currentPage - 1
                   );
@@ -239,7 +235,6 @@ export function ProductPromotionZone({
                 variant="outline"
                 size="sm"
                 onClick={() => {
-                  console.log("Next page clicked");
                   productPagination.onPageChange(
                     productPagination.currentPage + 1
                   );

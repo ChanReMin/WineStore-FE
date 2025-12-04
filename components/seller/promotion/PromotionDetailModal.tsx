@@ -84,9 +84,10 @@ export default function PromotionDetailModal({
     }).format(value);
   };
 
-  const formatDiscount = (type: number, value: number) => {
-    if (type === 0) return `${value}%`;
-    return formatCurrency(value);
+  const formatDiscount = (type: number | string | undefined, value: number | undefined) => {
+    const safeValue = value || 0;
+    if (type === 0 || type === "PERCENTAGE") return `${Math.round(safeValue)}%`;
+    return formatCurrency(Math.round(safeValue));
   };
 
   if (!isOpen) return null;
@@ -182,8 +183,8 @@ export default function PromotionDetailModal({
                 <div className="flex items-center gap-2">
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
-                      promotion.discount_type,
-                      promotion.discount_value
+                      promotion.discountType || promotion.discount_type,
+                      promotion.discountValue || promotion.discount_value
                     )}
                   </span>
                 </div>

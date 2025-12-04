@@ -6,6 +6,7 @@ import { authService } from "@/services/authService";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import type { LoginRequest, RegisterRequest } from "@/types/auth";
+import { getAccessTokenCookie, getRefreshTokenCookie } from "@/lib/cookies";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -24,11 +25,6 @@ export const useAuth = () => {
         const { user, access_token, refresh_token } = response.data as any;
 
         setAuth(user, access_token, refresh_token);
-
-        // 🔍 DEBUG: Kiểm tra localStorage sau khi setAuth
-        setTimeout(() => {
-          const stored = localStorage.getItem("auth-storage");
-        }, 100);
 
         toast.success(response.message || "Login successful!");
         router.push("/");
@@ -91,27 +87,11 @@ export const useAuth = () => {
   };
 
   const getAccessToken = (): string | null => {
-    try {
-      const authStorage = localStorage.getItem("auth-storage");
-      if (!authStorage) return null;
-
-      const parsed = JSON.parse(authStorage);
-      return parsed.state?.accessToken || null;
-    } catch (error) {
-      return null;
-    }
+    return getAccessTokenCookie();
   };
 
   const getRefreshToken = (): string | null => {
-    try {
-      const authStorage = localStorage.getItem("auth-storage");
-      if (!authStorage) return null;
-
-      const parsed = JSON.parse(authStorage);
-      return parsed.state?.refreshToken || null;
-    } catch (error) {
-      return null;
-    }
+    return getRefreshTokenCookie();
   };
 
   return {

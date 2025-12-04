@@ -40,14 +40,15 @@ export default function PromotionsTable({
     });
   };
 
-  const formatDiscount = (type: number, value: number) => {
-    if (type === 0) {
-      return `${value}%`;
+  const formatDiscount = (type: number | string | undefined, value: number | undefined) => {
+    const safeValue = value || 0;
+    if (type === 0 || type === "PERCENTAGE") {
+      return `${Math.round(safeValue)}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(value);
+    }).format(Math.round(safeValue));
   };
 
   const getUsagePercentage = (used: number, max: number) => {
@@ -131,8 +132,8 @@ export default function PromotionsTable({
                       <Percent className="w-4 h-4 text-[#d4af37]" />
                       <span className="font-bold text-lg text-[#d4af37]">
                         {formatDiscount(
-                          promo.discount_type,
-                          promo.discount_value
+                          promo.discountType || promo.discount_type,
+                          promo.discountValue || promo.discount_value
                         )}
                       </span>
                     </div>

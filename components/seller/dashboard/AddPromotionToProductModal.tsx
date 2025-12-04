@@ -101,13 +101,18 @@ export default function AddPromotionToProductModal({
   };
 
   const getDiscountText = (promotion: Promotion) => {
-    if (promotion.discount_type === 0) {
-      return `${promotion.discount_value}%`;
+    const discountType = promotion.discountType || promotion.discount_type;
+    const discountValue = promotion.discountValue || promotion.discount_value || 0;
+    
+    const isPercentage = discountType === "PERCENTAGE" || (typeof discountType === "number" && discountType === 0);
+    
+    if (isPercentage) {
+      return `${Math.round(discountValue)}%`;
     }
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
       currency: "VND",
-    }).format(promotion.discount_value);
+    }).format(Math.round(discountValue));
   };
 
   if (!isOpen || !product) return null;
@@ -262,7 +267,7 @@ export default function AddPromotionToProductModal({
                             {/* Discount Badge */}
                             <div className="shrink-0 text-right">
                               <div className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#d4af37] text-white rounded-lg font-bold">
-                                {promotion.discount_type === 0 ? (
+                                {(promotion.discountType === "PERCENTAGE" || promotion.discount_type === 0) ? (
                                   <Percent className="h-4 w-4" />
                                 ) : (
                                   <DollarSign className="h-4 w-4" />
