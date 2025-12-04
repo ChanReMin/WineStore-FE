@@ -1,24 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Client } from "@stomp/stompjs";
 import { notificationService, type NotificationResponse } from "@/services/notificationService";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotificationStore } from "@/stores/notificationStore";
-import { getWebSocketUrl } from "@/lib/websocketUrl";
 import { toast } from "react-toastify";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import SockJS from "sockjs-client";
 
 export default function NotificationsPage() {
-  const { getAccessToken, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
+  
   const { 
-    messages,
-    unreadCount,
-    addMessage, 
     updateMessage,
     setUnreadCount,
     clearMessages,
+    messages: storeMessages,
+    lastMessageId, // Theo dõi message mới từ WebSocket
+    connected,
   } = useNotificationStore();
 
   const [notifications, setNotifications] = useState<NotificationResponse[]>([]);
@@ -26,107 +24,61 @@ export default function NotificationsPage() {
   const [size, setSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [connected, setConnected] = useState(false);
 
+  // Fetch notifications từ API khi page/size thay đổi
   useEffect(() => {
     if (isAuthenticated) {
       fetchNotifications();
     }
   }, [isAuthenticated, page, size]);
 
-  // WebSocket setup - separate useEffect with empty dependency array
+  // ✅ Khi có tin nhắn mới từ WebSocket (lastMessageId thay đổi)
+  // Nếu đang ở trang đầu, thêm vào danh sách hiển thị
   useEffect(() => {
-    if (isAuthenticated) {
-      const cleanup = setupWebSocket();
-      return cleanup;
+    if (lastMessageId !== null && page === 0) {
+      console.log("🆕 Mới có message từ WebSocket, id:", lastMessageId);
+      
+      const newMessage = storeMessages.find(msg => msg.id === lastMessageId);
+      if (newMessage) {
+        // Kiểm tra message đã tồn tại trong list không
+        const exists = notifications.some(n => n.id === newMessage.id);
+        
+        if (!exists) {
+          console.log("📝 Thêm message mới vào danh sách hiển thị");
+          setNotifications(prev => [newMessage, ...prev]);
+        }
+      }
     }
-  }, [isAuthenticated]);
+  }, [lastMessageId, page, storeMessages, notifications]);
 
   const fetchNotifications = async () => {
     try {
       setLoading(true);
       const response = await notificationService.getNotificationsWithPaging(page, size);
+      
       if (response.data) {
-        setNotifications(response.data.content);
+        if (page === 0) {
+          // Kết hợp với store messages để có real-time data
+          const apiIds = new Set(response.data.content.map(n => n.id));
+          const uniqueStoreMessages = storeMessages.filter(msg => !apiIds.has(msg.id));
+          setNotifications([...uniqueStoreMessages, ...response.data.content]);
+        } else {
+          setNotifications(response.data.content);
+        }
         setTotalPages(response.data.totalPages);
       }
     } catch (error) {
+      console.error("Failed to load notifications:", error);
       toast.error("Failed to load notifications");
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Setup WebSocket để realtime updates
-  const setupWebSocket = () => {
-const token = getAccessToken();
-    if (!token) {
-      return;
-    }
-    const wsUrl = getWebSocketUrl(token);
-    
-    const stompClient = new Client({
-      webSocketFactory: () => new SockJS(wsUrl),
-      reconnectDelay: 5000,
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl), // SockJS sẽ gọi /ws/info?token=...
-    //   reconnectDelay: 5000,
-    // });
-
-    stompClient.onConnect = () => {
-      console.log("✅ Connected to WebSocket on notifications page");
-      setConnected(true);
-
-      stompClient.subscribe("/user/queue/notifications", (msg) => {
-        console.log("📨 New notification received on notifications page:", msg.body);
-
-        try {
-          const parsedMsg = JSON.parse(msg.body) as NotificationResponse;
-          const notificationData: NotificationResponse = {
-            ...parsedMsg,
-          };
-
-          // ✅ Add to top of list
-          setNotifications((prev) => [notificationData, ...prev]);
-
-          toast.info(`New: ${notificationData.title}`);
-        } catch (error) {
-          console.error("Failed to parse notification:", error);
-        }
-      });
-    };
-
-    stompClient.onStompError = (frame) => {
-      console.error("❌ STOMP error:", frame);
-      setConnected(false);
-    };
-
-    stompClient.onDisconnect = () => {
-      console.warn("⚠️ Disconnected from WebSocket");
-      setConnected(false);
-    };
-
-    console.log("🚀 Activating STOMP client...");
-    stompClient.activate();
-
-    // Return cleanup function
-    return () => {
-      console.log("🔌 Cleaning up WebSocket on notifications page");
-      stompClient.deactivate().catch((err) =>
-        console.error("Failed to deactivate STOMP client", err)
-      );
-    };
-  };
-
   const handleMarkAsRead = async (id: number) => {
     try {
       await notificationService.markAsRead(id);
-      setNotifications((prev) =>
+      setNotifications(prev =>
         prev.map((n) =>
           n.id === id ? { ...n, read: true, isRead: true } : n
         )
@@ -134,6 +86,7 @@ const token = getAccessToken();
       updateMessage(id, { read: true, isRead: true });
       toast.success("Marked as read");
     } catch (error) {
+      console.error("Failed to mark notification as read:", error);
       toast.error("Failed to mark notification as read");
     }
   };
@@ -141,16 +94,14 @@ const token = getAccessToken();
   const handleMarkAllAsRead = async () => {
     try {
       await notificationService.markAllAsRead();
-      setNotifications((prev) =>
+      setNotifications(prev =>
         prev.map((n) => ({ ...n, read: true, isRead: true }))
       );
-      messages.forEach((msg) => {
-        updateMessage(msg.id, { read: true, isRead: true });
-      });
       setUnreadCount(0);
       
       toast.success("All notifications marked as read");
     } catch (error) {
+      console.error("Failed to mark all notifications as read:", error);
       toast.error("Failed to mark all notifications as read");
     }
   };
@@ -163,6 +114,7 @@ const token = getAccessToken();
       setPage(0);
       toast.success("All notifications cleared");
     } catch (error) {
+      console.error("Failed to clear notifications:", error);
       toast.error("Failed to clear notifications");
     }
   };
@@ -195,7 +147,7 @@ const token = getAccessToken();
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "✓";
+        return "✔";
       case "ERROR":
         return "✕";
       case "WARNING":

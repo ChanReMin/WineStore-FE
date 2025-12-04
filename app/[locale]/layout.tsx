@@ -18,6 +18,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import DevLogin from "@/components/dev/DevLogin";
 import ChatbotWrapper from "@/components/ChatbotWrapper";
+import { NotificationSocketProvider } from "@/app/[locale]/notifications/NotificationProvider";
 
 // ✅ MONITORING TOOLS - Performance tracking
 import { Analytics } from "@vercel/analytics/react";
@@ -142,6 +143,7 @@ export default async function LocaleLayout({
         />
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
+            <NotificationSocketProvider />
             <ConditionalLayout>
               {children}
               <ChatbotWrapper />

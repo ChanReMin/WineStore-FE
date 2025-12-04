@@ -2,160 +2,80 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Client } from "@stomp/stompjs";
 import { useAuth } from "@/hooks/useAuth";
 import { notificationService, type NotificationResponse } from "@/services/notificationService";
 import { useNotificationStore } from "@/stores/notificationStore";
-import { getWebSocketUrl } from "@/lib/websocketUrl";
 import { Bell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
-import SockJS from "sockjs-client";
-
-interface NotificationMessage extends NotificationResponse {
-  timestamp?: Date;
-}
 
 export default function NotificationClient() {
   const router = useRouter();
-  const { getAccessToken, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   
-  // Store
+  // Store - subscribe tới toàn bộ store
+  const store = useNotificationStore();
   const {
     messages,
     unreadCount,
     isLoaded,
     connected,
+    lastMessageId, // Theo dõi message mới từ WebSocket
     setMessages,
-    addMessage,
     updateMessage,
     deleteMessage,
     clearMessages,
     setUnreadCount,
-    incrementUnreadCount,
     setIsLoaded,
-    setConnected,
-  } = useNotificationStore();
+  } = store;
 
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Fetch initial notifications when user logs in (only once)
+  // Fetch initial data khi authenticate
   useEffect(() => {
-    if (isAuthenticated && !isLoaded) {
-      fetchNotifications();
-      fetchUnreadCount();
+    if (isAuthenticated) {
+      console.log("🔔 NotificationClient: fetching initial data");
+      fetchInitialData();
     }
-  }, [isAuthenticated, isLoaded]);
+  }, [isAuthenticated]);
 
-  const fetchNotifications = async () => {
+  // Lắng nghe khi có message mới từ WebSocket (lastMessageId thay đổi)
+  useEffect(() => {
+    if (lastMessageId !== null) {
+      console.log("🆕 Mới có message từ WebSocket, id:", lastMessageId);
+      // Message đã được add vào store bởi NotificationProvider
+      // Component sẽ tự động re-render do hook subscription
+    }
+  }, [lastMessageId]);
+
+  const fetchInitialData = async () => {
     try {
-      // Check localStorage first
-      const storageData = localStorage.getItem("notification-store");
-      if (storageData) {
-        const parsed = JSON.parse(storageData);
-        if (parsed.state && parsed.state.messages && parsed.state.messages.length > 0) {
-          setMessages(parsed.state.messages);
-          setIsLoaded(true);
-          return;
-        }
-      }
+      const response = await notificationService.getNotificationsWithPaging(0, 20);
+      const notifications = response.data.content || [];
+      
+      if (Array.isArray(notifications)) {
+        const fetchedMessages = notifications.map((msg: NotificationResponse) => ({
+          ...msg,
+          timestamp: new Date(msg.createdAt),
+        }));
 
-      // If no localStorage data, fetch from server (NEW API - no paging)
-      const response = await notificationService.getAllNotifications();
-      if (response.data && Array.isArray(response.data)) {
-        setMessages(
-          response.data.map((msg: NotificationMessage) => ({
-            ...msg,
-            timestamp: new Date(),
-          }))
+        fetchedMessages.sort((a: any, b: any) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
+
+        setMessages(fetchedMessages);
         setIsLoaded(true);
+        
+        const unreadCount = fetchedMessages.filter(msg => !msg.isRead).length;
+        setUnreadCount(unreadCount);
+        
+        console.log(`🔔 Loaded ${fetchedMessages.length} notifications, ${unreadCount} unread`);
       }
     } catch (error) {
-      setMessages([]);
+      console.error("Failed to fetch initial notification data:", error);
       setIsLoaded(true);
     }
   };
-
-  const fetchUnreadCount = async () => {
-    try {
-      const response = await notificationService.getUnreadCount();
-      setUnreadCount(response.data || 0);
-    } catch (error) {
-      setUnreadCount(0);
-    }
-  };
-
-  // WebSocket connection
-  useEffect(() => {
-    const token = getAccessToken();
-    if (!token) {
-      return;
-    }
-    // const wsUrl = getWebSocketUrl(token);
-    
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl),
-    //   reconnectDelay: 5000,
-    //   connectHeaders: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-
-    // const wsUrl = "https://api.dev.winestore.id.vn/ws";
-    const wsUrl = "http://localhost:8080/ws";
-    const stompClient = new Client({
-      webSocketFactory: () => new SockJS(wsUrl),
-      reconnectDelay: 5000,
-      connectHeaders: {
-        Authorization: `Bearer ${token}`, // use header for auth
-      },
-    });
-
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl), // SockJS sẽ gọi /ws/info?token=...
-    //   reconnectDelay: 5000,
-    // });
-
-    stompClient.onConnect = () => {
-      console.log('connected');
-      setConnected(true);
-
-      stompClient.subscribe("/user/queue/notifications", (msg) => {
-        try {
-          const parsedMsg = JSON.parse(msg.body) as NotificationMessage;
-          const notificationData: NotificationMessage = {
-            ...parsedMsg,
-            timestamp: new Date(),
-          };
-
-          addMessage(notificationData);
-          incrementUnreadCount();
-
-          toast.info(`New notification: ${notificationData.title}`)
-          
-        } catch (error) {
-          console.error("Failed to parse notification:", error);
-        }
-      });
-    };
-
-    stompClient.onStompError = (frame) => {
-      setConnected(false);
-    };
-
-    stompClient.onDisconnect = () => {
-      setConnected(false);
-    };
-
-    stompClient.activate();
-
-    return () => {
-      stompClient.deactivate().catch((err) =>
-        console.error("Failed to deactivate STOMP client", err)
-      );
-    };
-  }, []);
 
   const handleMarkAsRead = async (id?: number) => {
     try {
@@ -225,7 +145,7 @@ export default function NotificationClient() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "✓";
+        return "✔";
       case "ERROR":
         return "✕";
       case "WARNING":
@@ -244,6 +164,7 @@ export default function NotificationClient() {
       <button
         type="button"
         onClick={() => {
+          console.log("📊 Store state:", { messages, unreadCount, isLoaded, connected });
           setShowNotifications(!showNotifications);
         }}
         className="relative rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100"
@@ -290,7 +211,15 @@ export default function NotificationClient() {
                     </span>
                   )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
+                  <button
+                    type="button"
+                    onClick={() => fetchInitialData()}
+                    className="text-xs text-neutral-500 hover:text-neutral-700 underline"
+                    title="Refresh notifications"
+                  >
+                    Refresh
+                  </button>
                   {unreadCount > 0 && (
                     <button
                       type="button"
@@ -323,7 +252,7 @@ export default function NotificationClient() {
                     <p>No notifications</p>
                   </div>
                 ) : (
-                  messages.map((notification) => (
+                  messages.slice(0, 10).map((notification) => (
                     <div
                       key={notification.id}
                       className={`border-b border-neutral-100 p-4 transition-colors ${
@@ -332,7 +261,6 @@ export default function NotificationClient() {
                     >
                       <div className="flex justify-between items-start gap-3">
                         <div className="flex-1">
-                          {/* Title with status */}
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-lg">
                               {getStatusIcon(notification.status)}
@@ -345,12 +273,10 @@ export default function NotificationClient() {
                             )}
                           </div>
 
-                          {/* Message */}
                           <p className="text-sm text-neutral-700 mb-2">
                             {notification.message}
                           </p>
 
-                          {/* Link if exists */}
                           {notification.itemUrl && (
                             <a
                               href={notification.itemUrl}
@@ -363,7 +289,6 @@ export default function NotificationClient() {
                             </a>
                           )}
 
-                          {/* Actions */}
                           <div className="mt-3 flex gap-2">
                             {!notification.isRead && (
                               <button
@@ -379,13 +304,11 @@ export default function NotificationClient() {
                             )}
                           </div>
 
-                          {/* Time */}
                           <p className="mt-2 text-xs text-neutral-500">
                             {getTimeAgo(notification.createdAt)}
                           </p>
                         </div>
 
-                        {/* Delete button */}
                         <button
                           type="button"
                           onClick={(e) => {
