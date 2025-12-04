@@ -8,8 +8,6 @@ export interface CreateOrderRequest {
   note?: string;
 }
 
-
-
 export interface OrderItem {
   id: number;
   productId: number;
@@ -205,9 +203,9 @@ const orderService = {
   // Cancel order
   cancelOrder: async (orderId: number, reason?: string): Promise<void> => {
     try {
-      await api.patch(`api/v1/orders/${orderId}/status`, { 
+      await api.patch(`api/v1/orders/${orderId}/status`, {
         status: 6, // Cancel status
-        note: reason 
+        note: reason,
       });
     } catch (error) {
       throw handleApiError(error);

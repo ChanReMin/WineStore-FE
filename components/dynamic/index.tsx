@@ -1,10 +1,10 @@
 "use client";
 
-import React from 'react';
+import React from "react";
 
 // Export all dynamic components for easy importing
-export * from './dashboard';
-export * from './modals';
+export * from "./dashboard";
+export * from "./modals";
 
 // Re-export skeletons for convenience
 export {
@@ -15,8 +15,8 @@ export {
   AnalyticsSkeleton,
   FilterSkeleton,
   PaymentSkeleton,
-  RecommendationSkeleton
-} from '../skeletons';
+  RecommendationSkeleton,
+} from "../skeletons";
 
 // Utility types for dynamic imports
 export interface DynamicComponentProps {
@@ -33,7 +33,7 @@ export interface PerformanceMetrics {
 // Performance monitoring hook
 export function usePerformanceMonitor(componentName: string) {
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && window.performance) {
+    if (typeof window !== "undefined" && window.performance) {
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         entries.forEach((entry) => {
@@ -42,9 +42,9 @@ export function usePerformanceMonitor(componentName: string) {
           }
         });
       });
-      
-      observer.observe({ entryTypes: ['measure'] });
-      
+
+      observer.observe({ entryTypes: ["measure"] });
+
       return () => observer.disconnect();
     }
   }, [componentName]);
@@ -52,16 +52,18 @@ export function usePerformanceMonitor(componentName: string) {
 
 // Bundle size analyzer helper
 export function analyzeBundleSize() {
-  if (typeof window !== 'undefined' && 'performance' in window) {
-    const entries = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-    const jsEntries = entries.filter(entry => 
-      entry.name.includes('.js') && 
-      !entry.name.includes('node_modules')
-    );
-    
-    const totalSize = jsEntries.reduce((total, entry) => 
-      total + (entry.transferSize || 0), 0
+  if (typeof window !== "undefined" && "performance" in window) {
+    const entries = performance.getEntriesByType(
+      "resource"
+    ) as PerformanceResourceTiming[];
+    const jsEntries = entries.filter(
+      (entry) =>
+        entry.name.includes(".js") && !entry.name.includes("node_modules")
     );
 
+    const totalSize = jsEntries.reduce(
+      (total, entry) => total + (entry.transferSize || 0),
+      0
+    );
   }
 }

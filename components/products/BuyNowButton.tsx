@@ -40,7 +40,7 @@ export default function BuyNowButton({
     try {
       // Add to cart
       await addToCart(productId, quantity);
-      
+
       // Navigate to checkout page
       router.push("/checkout");
     } catch (error) {

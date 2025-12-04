@@ -8,7 +8,7 @@ import AuthModal from "./auth/AuthModal";
 import { UserMenu } from "./auth/UserMenu";
 import CartDropdown from "./auth/CartDropdown";
 import LanguageSwitcher from "./LanguageSwitcher";
-import NotificationClient from "./auth/Notification";
+import NotificationClient from "./auth/NotificationClient";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 

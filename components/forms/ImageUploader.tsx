@@ -1,16 +1,19 @@
 "use client";
 
-import React from 'react';
-import { useTranslations } from 'next-intl';
+import React from "react";
+import { useTranslations } from "next-intl";
 
 interface ImageUploaderProps {
   onUpload?: (files: File[]) => void;
   maxFiles?: number;
 }
 
-export default function ImageUploader({ onUpload, maxFiles = 5 }: ImageUploaderProps) {
-  const t = useTranslations('forms.imageUploader');
-  
+export default function ImageUploader({
+  onUpload,
+  maxFiles = 5,
+}: ImageUploaderProps) {
+  const t = useTranslations("forms.imageUploader");
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     onUpload?.(files);
@@ -24,7 +27,7 @@ export default function ImageUploader({ onUpload, maxFiles = 5 }: ImageUploaderP
         </div>
         <div>
           <label className="cursor-pointer text-blue-600 hover:text-blue-700">
-            {t('clickToUpload')}
+            {t("clickToUpload")}
             <input
               type="file"
               multiple
@@ -33,11 +36,9 @@ export default function ImageUploader({ onUpload, maxFiles = 5 }: ImageUploaderP
               className="hidden"
             />
           </label>
-          <p className="text-sm text-gray-500 mt-1">{t('dragAndDrop')}</p>
+          <p className="text-sm text-gray-500 mt-1">{t("dragAndDrop")}</p>
         </div>
-        <p className="text-xs text-gray-500">
-          {t('fileTypes', { maxFiles })}
-        </p>
+        <p className="text-xs text-gray-500">{t("fileTypes", { maxFiles })}</p>
       </div>
     </div>
   );

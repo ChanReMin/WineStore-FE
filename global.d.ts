@@ -9,7 +9,10 @@ declare global {
       config?: Record<string, any>
     ) => void;
     requestIdleCallback?: (
-      callback: (deadline: { didTimeout: boolean; timeRemaining: () => number }) => void,
+      callback: (deadline: {
+        didTimeout: boolean;
+        timeRemaining: () => number;
+      }) => void,
       options?: { timeout?: number }
     ) => number;
     cancelIdleCallback?: (id: number) => void;

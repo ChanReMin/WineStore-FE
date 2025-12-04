@@ -295,41 +295,39 @@ export const UserMenu = ({ isMobile = false }: UserMenuProps) => {
               {/* Menu Items */}
               <div className="p-2">
                 {/* Customer Menu Items */}
-                {menuItems
-                  .slice(0, 2)
-                  .map((item, index) => (
-                    <motion.div
-                      key={item.href}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.05 }}
+                {menuItems.slice(0, 2).map((item, index) => (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
                     >
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className="group flex items-center gap-3 px-4 py-2.5 text-[13px] uppercase tracking-[0.15em] text-neutral-700 transition-all hover:bg-white/60 hover:text-[#33391d]"
+                      <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
+                        {item.icon}
+                      </span>
+                      {item.label}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth="2"
                       >
-                        <span className="text-neutral-500 transition-colors group-hover:text-[#33391d]">
-                          {item.icon}
-                        </span>
-                        {item.label}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="ml-auto h-3.5 w-3.5 opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  </motion.div>
+                ))}
 
                 {/* Seller/Admin Menu Items */}
                 {(user?.role === "SELLER" || user?.role === "ADMIN") &&

@@ -358,7 +358,9 @@ export default function PromotionFormModal({
                       handleChange("discount_value", parseFloat(e.target.value))
                     }
                     placeholder={
-                      formData.discount_type === 0 ? t("discountValuePlaceholder") : t("discountValuePlaceholderFixed")
+                      formData.discount_type === 0
+                        ? t("discountValuePlaceholder")
+                        : t("discountValuePlaceholderFixed")
                     }
                     className="pl-10 border-[#d4d6b4] focus:border-[#3b4417] focus:ring-[#3b4417]"
                     min="0"

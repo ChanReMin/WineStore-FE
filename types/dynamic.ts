@@ -47,7 +47,7 @@ export interface DynamicImportState<T = any> {
 
 // Component-specific props
 export interface DashboardProps {
-  userRole: 'admin' | 'seller' | 'user';
+  userRole: "admin" | "seller" | "user";
   userId?: string;
 }
 
@@ -165,7 +165,7 @@ export interface CheckoutData {
   tax: number;
   shipping: number;
   total: number;
-  paymentMethod: 'card' | 'paypal' | 'bank';
+  paymentMethod: "card" | "paypal" | "bank";
 }
 
 // Form Types

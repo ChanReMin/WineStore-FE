@@ -62,9 +62,7 @@ export default function PromotionDetailModal({
       setStatistics(statisticsResponse.data);
     } catch (error: any) {
       console.error("Error loading promotion detail:", error);
-      toast.error(
-        error?.response?.data?.message || t("errors.loadFailed")
-      );
+      toast.error(error?.response?.data?.message || t("errors.loadFailed"));
       onClose();
     } finally {
       setIsLoading(false);
@@ -149,9 +147,7 @@ export default function PromotionDetailModal({
                 <h2 className="text-xl font-bold text-[#3b4417]">
                   {t("title")}
                 </h2>
-                <p className="text-sm text-[#7a8451]">
-                  {t("subtitle")}
-                </p>
+                <p className="text-sm text-[#7a8451]">{t("subtitle")}</p>
               </div>
             </div>
             <button
@@ -184,7 +180,6 @@ export default function PromotionDetailModal({
                   <p className="text-[#7a8451] mt-1">{promotion.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  
                   <span className="text-3xl font-bold text-[#d4af37]">
                     {formatDiscount(
                       promotion.discount_type,

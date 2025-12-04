@@ -74,19 +74,22 @@ export const fetchShopProducts = async (params?: {
 /**
  * Lấy danh sách tất cả sản phẩm với phân trang và filters (for seller/admin)
  */
-export const fetchProducts = async (params?: {
-  page?: number;
-  limit?: number;
-  search?: string;
-  status?: number; // 0: pending, 1: approved, 2: banned
-  categoryId?: number;
-  warehouseId?: number;
-  brandId?: number;
-  priceFrom?: number;
-  priceTo?: number;
-  concentrationFrom?: number;
-  concentrationTo?: number;
-}, config?: RequestConfig): Promise<ProductResponse> => {
+export const fetchProducts = async (
+  params?: {
+    page?: number;
+    limit?: number;
+    search?: string;
+    status?: number; // 0: pending, 1: approved, 2: banned
+    categoryId?: number;
+    warehouseId?: number;
+    brandId?: number;
+    priceFrom?: number;
+    priceTo?: number;
+    concentrationFrom?: number;
+    concentrationTo?: number;
+  },
+  config?: RequestConfig
+): Promise<ProductResponse> => {
   const {
     page = 1,
     limit = 10,

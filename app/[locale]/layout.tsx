@@ -18,6 +18,12 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import ChatbotWrapper from "@/components/ChatbotWrapper";
+import { NotificationSocketProvider } from "@/app/[locale]/notifications/NotificationProvider";
+
+// ✅ MONITORING TOOLS - Performance tracking
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import DynamicChatbot from "@/components/DynamicChatbot";
 import QueryProvider from "@/providers/QueryProvider";
 
@@ -139,6 +145,28 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
         <NextIntlClientProvider messages={messages}>
+          <AuthProvider>
+            <NotificationSocketProvider />
+            <ConditionalLayout>
+              {children}
+              <ChatbotWrapper />
+            </ConditionalLayout>
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              limit={3}
+            />
+            {/* Dev Login - Only in development */}
+            {/* {process.env.NODE_ENV !== "production" && <DevLogin />} */}
+          </AuthProvider>
           <QueryProvider>
             <AuthProvider>
               <ConditionalLayout>

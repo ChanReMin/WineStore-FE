@@ -153,7 +153,8 @@ export default function OrderDetailModal({
                         {shippingAddress.addressLine}
                         {shippingAddress.city && `, ${shippingAddress.city}`}
                         {shippingAddress.state && `, ${shippingAddress.state}`}
-                        {shippingAddress.country && `, ${shippingAddress.country}`}
+                        {shippingAddress.country &&
+                          `, ${shippingAddress.country}`}
                       </p>
                     </div>
                   </div>

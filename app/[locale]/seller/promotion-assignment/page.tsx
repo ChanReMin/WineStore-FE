@@ -98,7 +98,6 @@ export default function PromotionAssignmentPage() {
 
       setProducts(productsWithPromotions);
     } catch (error: any) {
-
       // Set empty data on error to prevent crashes
       setPromotions([]);
       setProducts([]);

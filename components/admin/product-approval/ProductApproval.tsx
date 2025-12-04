@@ -1,4 +1,4 @@
 "use client";
 
 // Re-export the ProductApprovalList component
-export { default } from './ProductApprovalList';
+export { default } from "./ProductApprovalList";

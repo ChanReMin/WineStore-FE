@@ -37,7 +37,7 @@ interface InventoryAlertsProps {
 
 const getStatusBadge = (status: string) => {
   const statusLower = status.toLowerCase();
-  
+
   if (statusLower.includes("out") || statusLower === "outofstock") {
     return (
       <Badge className="bg-red-50 text-red-700 border border-red-300">

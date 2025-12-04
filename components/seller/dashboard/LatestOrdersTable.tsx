@@ -38,7 +38,6 @@ const getStatusColor = (status: number) => {
 export default function LatestOrdersTable({ orders }: LatestOrdersTableProps) {
   const t = useTranslations("seller.dashboard.latestOrders");
 
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

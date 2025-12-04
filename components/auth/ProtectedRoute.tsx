@@ -46,7 +46,7 @@ export const ProtectedRoute = ({
     return () => clearTimeout(timer);
   }, [isAuthenticated, user, requiredRole, allowedRoles, router]);
 
-  const t = useTranslations('auth.protected');
+  const t = useTranslations("auth.protected");
 
   // Show loading while checking
   if (isChecking) {
@@ -54,7 +54,7 @@ export const ProtectedRoute = ({
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent" />
-          <p className="text-gray-600">{t('checking')}</p>
+          <p className="text-gray-600">{t("checking")}</p>
         </div>
       </div>
     );

@@ -19,7 +19,10 @@ interface ProductCardProps {
 }
 
 // Memoized component để tránh re-render không cần thiết
-const ProductCard = React.memo(function ProductCard({ product, index }: ProductCardProps) {
+const ProductCard = React.memo(function ProductCard({
+  product,
+  index,
+}: ProductCardProps) {
   const t = useTranslations("shop.product");
   const tCommon = useTranslations("common");
   const tProduct = useTranslations("productDetail");
@@ -39,7 +42,7 @@ const ProductCard = React.memo(function ProductCard({ product, index }: ProductC
         ((product.basePrice - product.price) / product.basePrice) * 100
       )
     : 0;
-  
+
   // Check if product is out of stock
   const isOutOfStock = product.totalInventory <= 0;
 
@@ -55,11 +58,11 @@ const ProductCard = React.memo(function ProductCard({ product, index }: ProductC
 
     try {
       await addToCart(product.id, 1);
-      toast.success(tAddToCart("success", { quantity: 1, productName: product.name }));
-    } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : tAddToCart("error")
+      toast.success(
+        tAddToCart("success", { quantity: 1, productName: product.name })
       );
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : tAddToCart("error"));
     }
   };
 

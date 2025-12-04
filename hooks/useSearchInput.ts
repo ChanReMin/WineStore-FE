@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from "react";
 
 interface UseSearchInputOptions {
   delay?: number;
@@ -13,18 +13,21 @@ export function useSearchInput({
   minLength = 0,
   onSearch,
   onSearchStart,
-  onSearchEnd
+  onSearchEnd,
 }: UseSearchInputOptions = {}) {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   // Memoized input handler
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-  }, []);
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setQuery(value);
+    },
+    []
+  );
 
   // Search effect with debounce
   useEffect(() => {
@@ -69,7 +72,7 @@ export function useSearchInput({
 
   // Clear search
   const clearSearch = useCallback(() => {
-    setQuery('');
+    setQuery("");
     setIsSearching(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -90,6 +93,6 @@ export function useSearchInput({
     handleInputChange,
     clearSearch,
     getAbortSignal,
-    setQuery
+    setQuery,
   };
 }

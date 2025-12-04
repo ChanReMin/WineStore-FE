@@ -2,170 +2,90 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Client } from "@stomp/stompjs";
 import { useAuth } from "@/hooks/useAuth";
 import {
   notificationService,
   type NotificationResponse,
 } from "@/services/notificationService";
 import { useNotificationStore } from "@/stores/notificationStore";
-import { getWebSocketUrl } from "@/lib/websocketUrl";
 import { Bell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
-import SockJS from "sockjs-client";
 import { LoaderOne } from "../ui/loader";
 import { useTranslations } from "next-intl";
 
-interface NotificationMessage extends NotificationResponse {
-  timestamp?: Date;
-}
-
 export default function NotificationClient() {
   const router = useRouter();
-  const { getAccessToken, isAuthenticated } = useAuth();
-  const t = useTranslations('notifications');
-
-  // Store
+  const { isAuthenticated } = useAuth();
+  const t = useTranslations("notifications");
+  // Store - subscribe tới toàn bộ store
+  const store = useNotificationStore();
   const {
     messages,
     unreadCount,
     isLoaded,
     connected,
+    lastMessageId, // Theo dõi message mới từ WebSocket
     setMessages,
-    addMessage,
     updateMessage,
     deleteMessage,
     clearMessages,
     setUnreadCount,
-    incrementUnreadCount,
     setIsLoaded,
-    setConnected,
-  } = useNotificationStore();
+  } = store;
 
   const [showNotifications, setShowNotifications] = useState(false);
 
-  // Fetch initial notifications when user logs in (only once)
+  // Fetch initial data khi authenticate
   useEffect(() => {
-    if (isAuthenticated && !isLoaded) {
-      fetchNotifications();
-      fetchUnreadCount();
+    if (isAuthenticated) {
+      console.log("🔔 NotificationClient: fetching initial data");
+      fetchInitialData();
     }
-  }, [isAuthenticated, isLoaded]);
+  }, [isAuthenticated]);
 
-  const fetchNotifications = async () => {
+  // Lắng nghe khi có message mới từ WebSocket (lastMessageId thay đổi)
+  useEffect(() => {
+    if (lastMessageId !== null) {
+      console.log("🆕 Mới có message từ WebSocket, id:", lastMessageId);
+      // Message đã được add vào store bởi NotificationProvider
+      // Component sẽ tự động re-render do hook subscription
+    }
+  }, [lastMessageId]);
+
+  const fetchInitialData = async () => {
     try {
-      // Check localStorage first
-      const storageData = localStorage.getItem("notification-store");
-      if (storageData) {
-        const parsed = JSON.parse(storageData);
-        if (
-          parsed.state &&
-          parsed.state.messages &&
-          parsed.state.messages.length > 0
-        ) {
-          setMessages(parsed.state.messages);
-          setIsLoaded(true);
-          return;
-        }
-      }
-
-      // If no localStorage data, fetch from server (NEW API - no paging)
-      const response = await notificationService.getAllNotifications();
-      if (response.data && Array.isArray(response.data)) {
-        setMessages(
-          response.data.map((msg: NotificationMessage) => ({
+      const response = await notificationService.getNotificationsWithPaging(
+        0,
+        20
+      );
+      const notifications = response.data.content || [];
+      if (Array.isArray(notifications)) {
+        const fetchedMessages = notifications.map(
+          (msg: NotificationResponse) => ({
             ...msg,
-            timestamp: new Date(),
-          }))
+            timestamp: new Date(msg.createdAt),
+          })
         );
+
+        fetchedMessages.sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setMessages(fetchedMessages);
         setIsLoaded(true);
+        const unreadCount = fetchedMessages.filter((msg) => !msg.isRead).length;
+        setUnreadCount(unreadCount);
+        console.log(
+          `🔔 Loaded ${fetchedMessages.length} notifications, ${unreadCount} unread`
+        );
       }
     } catch (error) {
-      setMessages([]);
+      console.error("Failed to fetch initial notification data:", error);
       setIsLoaded(true);
     }
   };
-
-  const fetchUnreadCount = async () => {
-    try {
-      const response = await notificationService.getUnreadCount();
-      setUnreadCount(response.data || 0);
-    } catch (error) {
-      setUnreadCount(0);
-    }
-  };
-
-  // WebSocket connection
-  useEffect(() => {
-    const token = getAccessToken();
-    if (!token) {
-      return;
-    }
-    // const wsUrl = getWebSocketUrl(token);
-
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl),
-    //   reconnectDelay: 5000,
-    //   connectHeaders: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-
-    // const wsUrl = "https://api.dev.winestore.id.vn/ws";
-    const wsUrl = "http://localhost:8080/ws";
-    const stompClient = new Client({
-      webSocketFactory: () => new SockJS(wsUrl),
-      reconnectDelay: 5000,
-      connectHeaders: {
-        Authorization: `Bearer ${token}`, // use header for auth
-      },
-    });
-
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl), // SockJS sẽ gọi /ws/info?token=...
-    //   reconnectDelay: 5000,
-    // });
-
-    stompClient.onConnect = () => {
-      setConnected(true);
-
-      stompClient.subscribe("/user/queue/notifications", (msg) => {
-        try {
-          const parsedMsg = JSON.parse(msg.body) as NotificationMessage;
-          const notificationData: NotificationMessage = {
-            ...parsedMsg,
-            timestamp: new Date(),
-          };
-
-          addMessage(notificationData);
-          incrementUnreadCount();
-
-          toast.info(`New notification: ${notificationData.title}`);
-        } catch (error) {
-          console.error("Failed to parse notification:", error);
-        }
-      });
-    };
-
-    stompClient.onStompError = (frame) => {
-      setConnected(false);
-    };
-
-    stompClient.onDisconnect = () => {
-      setConnected(false);
-    };
-
-    stompClient.activate();
-
-    return () => {
-      stompClient
-        .deactivate()
-        .catch((err) =>
-          console.error("Failed to deactivate STOMP client", err)
-        );
-    };
-  }, []);
 
   const handleMarkAsRead = async (id?: number) => {
     try {
@@ -211,31 +131,31 @@ export default function NotificationClient() {
     const date = new Date(dateString);
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
-    if (seconds < 60) return t('time.justNow');
-    if (seconds < 3600) return t('time.minutesAgo', { count: Math.floor(seconds / 60) });
-    if (seconds < 86400) return t('time.hoursAgo', { count: Math.floor(seconds / 3600) });
-    return t('time.daysAgo', { count: Math.floor(seconds / 86400) });
+    if (seconds < 60) return "Just now";
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "border-l-4 border-[#3b4417]";
+        return "bg-green-50 border-l-4 border-green-500";
       case "ERROR":
-        return "border-l-4 border-red-500";
+        return "bg-red-50 border-l-4 border-red-500";
       case "WARNING":
-        return "border-l-4 border-orange-500";
+        return "bg-yellow-50 border-l-4 border-yellow-500";
       case "INFO":
-        return "border-l-4 border-blue-500";
+        return "bg-blue-50 border-l-4 border-blue-500";
       default:
-        return "border-l-4 border-[#3b4417]/30";
+        return "bg-neutral-50 border-l-4 border-neutral-500";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "✓";
+        return "✔";
       case "ERROR":
         return "✕";
       case "WARNING":
@@ -257,7 +177,7 @@ export default function NotificationClient() {
           setShowNotifications(!showNotifications);
         }}
         className="relative rounded-lg p-2.5 text-[#3b4417] transition-all hover:bg-[#3b4417]/10 hover:scale-105 active:scale-95"
-        title={t('unreadCount', { count: unreadCount })}
+       title={`${unreadCount} unread notifications`}
       >
         <Bell size={20} strokeWidth={2.5} />
         {unreadCount > 0 && (
@@ -297,7 +217,7 @@ export default function NotificationClient() {
                     <Bell size={16} className="text-white" strokeWidth={2.5} />
                   </div>
                   <h3 className="font-bold text-[#3b4417] tracking-wide text-sm uppercase">
-                    {t('title')}
+                    {t("title")}
                   </h3>
                   {unreadCount > 0 && (
                     <span className="px-2.5 py-0.5 text-xs font-bold text-white bg-[#3b4417] rounded-full shadow-sm">
@@ -312,7 +232,7 @@ export default function NotificationClient() {
                       onClick={() => handleMarkAsRead()}
                       className="text-xs text-[#3b4417] hover:opacity-70 font-semibold transition-opacity"
                     >
-                      {t('markAllRead')}
+                      {t("markAllRead")}
                     </button>
                   )}
                   {messages.length > 0 && (
@@ -321,7 +241,7 @@ export default function NotificationClient() {
                       onClick={handleClearMessages}
                       className="text-xs text-[#3b4417]/70 hover:text-[#3b4417] font-medium transition-colors"
                     >
-                      {t('clear')}
+                      {t("clear")}
                     </button>
                   )}
                 </div>
@@ -337,7 +257,7 @@ export default function NotificationClient() {
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="p-4 text-center text-neutral-500">
-                    <p>{t('noNotifications')}</p>
+                    <p>{t("noNotifications")}</p>
                   </div>
                 ) : (
                   messages.map((notification) => (
@@ -376,7 +296,7 @@ export default function NotificationClient() {
                               onClick={(e) => e.stopPropagation()}
                               className="inline-flex items-center gap-1 text-xs text-[#3b4417] hover:opacity-70 font-semibold transition-opacity"
                             >
-                              {t('viewDetails')} <span>→</span>
+                              {t("viewDetails")} <span>→</span>
                             </a>
                           )}
 
@@ -391,7 +311,7 @@ export default function NotificationClient() {
                                 }}
                                 className="text-xs px-3 py-1.5 bg-[#3b4417] text-white hover:bg-[#3b4417]/80 rounded-md font-medium transition-all shadow-sm hover:shadow-md"
                               >
-                                {t('markAsRead')}
+                                {t("markAsRead")}
                               </button>
                             )}
                           </div>
@@ -431,7 +351,7 @@ export default function NotificationClient() {
                       router.push("/notifications");
                     }}
                   >
-                    {t('viewAll')} →
+                    {t("viewAll")} →
                   </button>
                 </div>
               )}

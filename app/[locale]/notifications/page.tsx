@@ -1,28 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Client } from "@stomp/stompjs";
 import {
   notificationService,
   type NotificationResponse,
 } from "@/services/notificationService";
 import { useAuth } from "@/hooks/useAuth";
 import { useNotificationStore } from "@/stores/notificationStore";
-import { getWebSocketUrl } from "@/lib/websocketUrl";
 import { toast } from "react-toastify";
 import { Bell, ChevronLeft, ChevronRight } from "lucide-react";
-import SockJS from "sockjs-client";
 import { LoaderOne } from "@/components/ui/loader";
 
 export default function NotificationsPage() {
-  const { getAccessToken, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const {
-    messages,
-    unreadCount,
-    addMessage,
     updateMessage,
     setUnreadCount,
     clearMessages,
+    messages: storeMessages,
+    lastMessageId, // Theo dõi message mới từ WebSocket
+    connected,
   } = useNotificationStore();
 
   const [notifications, setNotifications] = useState<NotificationResponse[]>(
@@ -32,21 +29,30 @@ export default function NotificationsPage() {
   const [size, setSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [connected, setConnected] = useState(false);
 
+  // Fetch notifications từ API khi page/size thay đổi
   useEffect(() => {
     if (isAuthenticated) {
       fetchNotifications();
     }
   }, [isAuthenticated, page, size]);
 
-  // WebSocket setup - separate useEffect with empty dependency array
+  // ✅ Khi có tin nhắn mới từ WebSocket (lastMessageId thay đổi)
+  // Nếu đang ở trang đầu, thêm vào danh sách hiển thị
   useEffect(() => {
-    if (isAuthenticated) {
-      const cleanup = setupWebSocket();
-      return cleanup;
+    if (lastMessageId !== null && page === 0) {
+      console.log("🆕 Mới có message từ WebSocket, id:", lastMessageId);
+      const newMessage = storeMessages.find((msg) => msg.id === lastMessageId);
+      if (newMessage) {
+        // Kiểm tra message đã tồn tại trong list không
+        const exists = notifications.some((n) => n.id === newMessage.id);
+        if (!exists) {
+          console.log("📝 Thêm message mới vào danh sách hiển thị");
+          setNotifications((prev) => [newMessage, ...prev]);
+        }
+      }
     }
-  }, [isAuthenticated]);
+  }, [lastMessageId, page, storeMessages, notifications]);
 
   const fetchNotifications = async () => {
     try {
@@ -56,85 +62,24 @@ export default function NotificationsPage() {
         size
       );
       if (response.data) {
-        setNotifications(response.data.content);
+        if (page === 0) {
+          // Kết hợp với store messages để có real-time data
+          const apiIds = new Set(response.data.content.map((n) => n.id));
+          const uniqueStoreMessages = storeMessages.filter(
+            (msg) => !apiIds.has(msg.id)
+          );
+          setNotifications([...uniqueStoreMessages, ...response.data.content]);
+        } else {
+          setNotifications(response.data.content);
+        }
         setTotalPages(response.data.totalPages);
       }
     } catch (error) {
+      console.error("Failed to load notifications:", error);
       toast.error("Failed to load notifications");
     } finally {
       setLoading(false);
     }
-  };
-
-  // ✅ Setup WebSocket để realtime updates
-  const setupWebSocket = () => {
-    const token = getAccessToken();
-    if (!token) {
-      return;
-    }
-    const wsUrl = getWebSocketUrl(token);
-
-    const stompClient = new Client({
-      webSocketFactory: () => new SockJS(wsUrl),
-      reconnectDelay: 5000,
-      connectHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // const stompClient = new Client({
-    //   webSocketFactory: () => new SockJS(wsUrl), // SockJS sẽ gọi /ws/info?token=...
-    //   reconnectDelay: 5000,
-    // });
-
-    stompClient.onConnect = () => {
-      console.log("✅ Connected to WebSocket on notifications page");
-      setConnected(true);
-
-      stompClient.subscribe("/user/queue/notifications", (msg) => {
-        console.log(
-          "📨 New notification received on notifications page:",
-          msg.body
-        );
-
-        try {
-          const parsedMsg = JSON.parse(msg.body) as NotificationResponse;
-          const notificationData: NotificationResponse = {
-            ...parsedMsg,
-          };
-
-          // ✅ Add to top of list
-          setNotifications((prev) => [notificationData, ...prev]);
-
-          toast.info(`New: ${notificationData.title}`);
-        } catch (error) {
-          console.error("Failed to parse notification:", error);
-        }
-      });
-    };
-
-    stompClient.onStompError = (frame) => {
-      console.error("❌ STOMP error:", frame);
-      setConnected(false);
-    };
-
-    stompClient.onDisconnect = () => {
-      console.warn("⚠️ Disconnected from WebSocket");
-      setConnected(false);
-    };
-
-    console.log("🚀 Activating STOMP client...");
-    stompClient.activate();
-
-    // Return cleanup function
-    return () => {
-      console.log("🔌 Cleaning up WebSocket on notifications page");
-      stompClient
-        .deactivate()
-        .catch((err) =>
-          console.error("Failed to deactivate STOMP client", err)
-        );
-    };
   };
 
   const handleMarkAsRead = async (id: number) => {
@@ -146,6 +91,7 @@ export default function NotificationsPage() {
       updateMessage(id, { read: true, isRead: true });
       toast.success("Marked as read");
     } catch (error) {
+      console.error("Failed to mark notification as read:", error);
       toast.error("Failed to mark notification as read");
     }
   };
@@ -156,13 +102,10 @@ export default function NotificationsPage() {
       setNotifications((prev) =>
         prev.map((n) => ({ ...n, read: true, isRead: true }))
       );
-      messages.forEach((msg) => {
-        updateMessage(msg.id, { read: true, isRead: true });
-      });
       setUnreadCount(0);
-
       toast.success("All notifications marked as read");
     } catch (error) {
+      console.error("Failed to mark all notifications as read:", error);
       toast.error("Failed to mark all notifications as read");
     }
   };
@@ -175,6 +118,7 @@ export default function NotificationsPage() {
       setPage(0);
       toast.success("All notifications cleared");
     } catch (error) {
+      console.error("Failed to clear notifications:", error);
       toast.error("Failed to clear notifications");
     }
   };
@@ -192,22 +136,22 @@ export default function NotificationsPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "border-l-4 border-[#3b4417]";
+        return "bg-green-50 border-l-4 border-green-500";
       case "ERROR":
-        return "border-l-4 border-red-500";
+        return "bg-red-50 border-l-4 border-red-500";
       case "WARNING":
-        return "border-l-4 border-orange-500";
+        return "bg-yellow-50 border-l-4 border-yellow-500";
       case "INFO":
-        return "border-l-4 border-blue-500";
+        return "bg-blue-50 border-l-4 border-blue-500";
       default:
-        return "border-l-4 border-[#3b4417]/30";
+        return "bg-neutral-50 border-l-4 border-neutral-500";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "SUCCESS":
-        return "✓";
+        return "✔";
       case "ERROR":
         return "✕";
       case "WARNING":
@@ -239,8 +183,12 @@ export default function NotificationsPage() {
                   <Bell size={24} className="text-white" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-white tracking-wide uppercase">Notifications</h1>
-                  <p className="text-white/70 text-sm mt-1">Stay updated with your latest activities</p>
+                  <h1 className="text-3xl font-bold text-white tracking-wide uppercase">
+                    Notifications
+                  </h1>
+                  <p className="text-white/70 text-sm mt-1">
+                    Stay updated with your latest activities
+                  </p>
                 </div>
                 {connected && (
                   <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 text-white rounded-full text-xs font-semibold">
@@ -274,7 +222,9 @@ export default function NotificationsPage() {
             <div className="flex items-center justify-center py-20">
               <div className="text-center">
                 <LoaderOne />
-                <p className="mt-4 text-[#3b4417]/70 font-medium">Loading notifications...</p>
+                <p className="mt-4 text-[#3b4417]/70 font-medium">
+                  Loading notifications...
+                </p>
               </div>
             </div>
           )}
@@ -284,8 +234,12 @@ export default function NotificationsPage() {
               <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-[#3b4417]/10 mb-4">
                 <Bell size={40} className="text-[#3b4417]" strokeWidth={2} />
               </div>
-              <h3 className="text-xl font-bold text-[#3b4417] mb-2">No notifications yet</h3>
-              <p className="text-[#3b4417]/70">You're all caught up! Check back later for updates.</p>
+              <h3 className="text-xl font-bold text-[#3b4417] mb-2">
+                No notifications yet
+              </h3>
+              <p className="text-[#3b4417]/70">
+                You're all caught up! Check back later for updates.
+              </p>
             </div>
           )}
 
@@ -305,7 +259,7 @@ export default function NotificationsPage() {
                     {!notification.isRead && (
                       <div className="absolute top-0 right-0 h-full w-1.5 bg-[#3b4417] rounded-r-xl" />
                     )}
-                    
+
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1">
                         <div className="flex items-start gap-3 mb-3">
@@ -315,7 +269,7 @@ export default function NotificationsPage() {
                               {getStatusIcon(notification.status)}
                             </span>
                           </div>
-                          
+
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className="font-bold text-[#3b4417] text-base tracking-wide">
@@ -338,8 +292,10 @@ export default function NotificationsPage() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-sm text-[#3b4417] hover:opacity-70 font-semibold mb-3 group/link transition-opacity"
                           >
-                            View details 
-                            <span className="group-hover/link:translate-x-1 transition-transform">→</span>
+                            View details
+                            <span className="group-hover/link:translate-x-1 transition-transform">
+                              →
+                            </span>
                           </a>
                         )}
 
@@ -347,7 +303,9 @@ export default function NotificationsPage() {
                           <div className="flex items-center gap-3">
                             {!notification.isRead && (
                               <button
-                                onClick={() => handleMarkAsRead(notification.id)}
+                                onClick={() =>
+                                  handleMarkAsRead(notification.id)
+                                }
                                 className="text-xs px-4 py-2 bg-[#3b4417] text-white hover:bg-[#3b4417]/80 rounded-lg font-semibold transition-all shadow-sm hover:shadow-md uppercase tracking-wide"
                               >
                                 Mark as read

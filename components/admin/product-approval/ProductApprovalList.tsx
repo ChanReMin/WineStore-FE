@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  useRef,
+} from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -63,16 +69,19 @@ function ProductApprovalList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<number | "all">("all");
   const [isSearching, setIsSearching] = useState(false);
-  
+
   // Refs for canceling requests
   const abortControllerRef = useRef<AbortController | null>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Memoized search handler for smooth input
-  const handleSearchInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchQuery(value); // Update immediately for UI responsiveness
-  }, []);
+  const handleSearchInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setSearchQuery(value); // Update immediately for UI responsiveness
+    },
+    []
+  );
 
   // Modals
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -80,53 +89,56 @@ function ProductApprovalList() {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
 
-  const loadData = useCallback(async (page = 1, searchTerm = "", isSearch = false) => {
-    try {
-      // Cancel previous request
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-      
-      // Create new abort controller
-      abortControllerRef.current = new AbortController();
-      
-      if (isSearch) {
-        setIsSearching(true);
-      } else {
-        setLoading(true);
-      }
-      
-      const params: any = {
-        page,
-        limit: 10,
-      };
+  const loadData = useCallback(
+    async (page = 1, searchTerm = "", isSearch = false) => {
+      try {
+        // Cancel previous request
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
 
-      // Add status filter to API params
-      if (statusFilter !== "all") {
-        params.status = statusFilter;
-      }
+        // Create new abort controller
+        abortControllerRef.current = new AbortController();
 
-      // Add search query to API params
-      if (searchTerm.trim()) {
-        params.search = searchTerm.trim();
-      }
+        if (isSearch) {
+          setIsSearching(true);
+        } else {
+          setLoading(true);
+        }
 
-      const response = await fetchProducts(params, { 
-        signal: abortControllerRef.current.signal 
-      });
+        const params: any = {
+          page,
+          limit: 10,
+        };
 
-      setProducts(response.data.products);
-      setPagination(response.data.pagination);
-      setSummary(response.data.summary);
-    } catch (error: any) {
-      if (error.name !== 'AbortError') {
-        console.error("Error loading products:", error);
+        // Add status filter to API params
+        if (statusFilter !== "all") {
+          params.status = statusFilter;
+        }
+
+        // Add search query to API params
+        if (searchTerm.trim()) {
+          params.search = searchTerm.trim();
+        }
+
+        const response = await fetchProducts(params, {
+          signal: abortControllerRef.current.signal,
+        });
+
+        setProducts(response.data.products);
+        setPagination(response.data.pagination);
+        setSummary(response.data.summary);
+      } catch (error: any) {
+        if (error.name !== "AbortError") {
+          console.error("Error loading products:", error);
+        }
+      } finally {
+        setLoading(false);
+        setIsSearching(false);
       }
-    } finally {
-      setLoading(false);
-      setIsSearching(false);
-    }
-  }, [statusFilter]);
+    },
+    [statusFilter]
+  );
 
   // Simple debounced search with timeout
   useEffect(() => {
@@ -134,12 +146,12 @@ function ProductApprovalList() {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current);
     }
-    
+
     // Set new timeout
     searchTimeoutRef.current = setTimeout(() => {
       loadData(1, searchQuery, true);
     }, 250); // Even faster for better UX
-    
+
     // Cleanup
     return () => {
       if (searchTimeoutRef.current) {
@@ -158,9 +170,12 @@ function ProductApprovalList() {
     loadData();
   }, []); // Keep empty deps for initial load only
 
-  const handlePageChange = useCallback((newPage: number) => {
-    loadData(newPage, searchQuery);
-  }, [searchQuery]); // Remove loadData dep
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      loadData(newPage, searchQuery);
+    },
+    [searchQuery]
+  ); // Remove loadData dep
 
   const handleViewDetail = (product: Product) => {
     setSelectedProduct(product);

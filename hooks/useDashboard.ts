@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 import dashboardService from "@/services/dashboardService";
 import orderService from "@/services/orderService";
-import type { DashboardOverview, DashboardRevenue, InventoryAlert } from "@/types/dashboard";
+import type {
+  DashboardOverview,
+  DashboardRevenue,
+  InventoryAlert,
+} from "@/types/dashboard";
 import type { SellerOrder } from "@/types/sellerOrder";
 
 interface UseDashboardReturn {

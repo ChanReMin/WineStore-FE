@@ -14,7 +14,8 @@ import PeriodSelector from "../dashboard/PeriodSelector";
 export default function SellerDashboard() {
   const t = useTranslations("seller.dashboard");
   const [period, setPeriod] = useState("week");
-  const { overview, revenue, inventoryAlerts, orders, loading, refresh } = useDashboard(period);
+  const { overview, revenue, inventoryAlerts, orders, loading, refresh } =
+    useDashboard(period);
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {
@@ -49,7 +50,9 @@ export default function SellerDashboard() {
           <h1 className="text-2xl md:text-3xl font-bold mb-2 text-[#3b4417] tracking-wide">
             {t("title") || "Dashboard"}
           </h1>
-          <p className="text-[#7a8451]">{t("subtitle") || "Overview of business activities"}</p>
+          <p className="text-[#7a8451]">
+            {t("subtitle") || "Overview of business activities"}
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <PeriodSelector value={period} onChange={setPeriod} />
@@ -59,7 +62,9 @@ export default function SellerDashboard() {
             variant="outline"
             className="border-[#3b4417] text-[#3b4417] hover:bg-[#3b4417] hover:text-white"
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`}
+            />
             {t("refresh") || "Refresh"}
           </Button>
         </div>

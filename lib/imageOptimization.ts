@@ -6,7 +6,7 @@
 /**
  * Tạo blur placeholder SVG với màu tùy chỉnh
  * @param width - Chiều rộng SVG
- * @param height - Chiều cao SVG  
+ * @param height - Chiều cao SVG
  * @param color - Màu nền (hex format)
  * @returns Base64 encoded SVG data URL
  */
@@ -20,8 +20,8 @@ export function getBlurDataURL(
       <rect width="${width}" height="${height}" fill="${color}"/>
     </svg>
   `;
-  
-  const base64 = Buffer.from(svg).toString('base64');
+
+  const base64 = Buffer.from(svg).toString("base64");
   return `data:image/svg+xml;base64,${base64}`;
 }
 
@@ -47,8 +47,8 @@ export function getWineBlurPlaceholder(
       <rect width="${width}" height="${height}" fill="url(#wineGradient)"/>
     </svg>
   `;
-  
-  const base64 = Buffer.from(svg).toString('base64');
+
+  const base64 = Buffer.from(svg).toString("base64");
   return `data:image/svg+xml;base64,${base64}`;
 }
 
@@ -76,8 +76,8 @@ export function getShimmerPlaceholder(
       <rect width="${width}" height="${height}" fill="url(#shimmer)"/>
     </svg>
   `;
-  
-  const base64 = Buffer.from(shimmer).toString('base64');
+
+  const base64 = Buffer.from(shimmer).toString("base64");
   return `data:image/svg+xml;base64,${base64}`;
 }
 
@@ -86,24 +86,26 @@ export function getShimmerPlaceholder(
  * @param type - Loại component (card, hero, thumbnail, etc.)
  * @returns sizes string cho Next.js Image component
  */
-export function getOptimizedSizes(type: 'card' | 'hero' | 'thumbnail' | 'detail' | 'full'): string {
+export function getOptimizedSizes(
+  type: "card" | "hero" | "thumbnail" | "detail" | "full"
+): string {
   const sizesMap = {
     // Product cards trong grid
-    card: '(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw',
-    
+    card: "(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw",
+
     // Hero banners
-    hero: '100vw',
-    
+    hero: "100vw",
+
     // Thumbnails nhỏ
-    thumbnail: '(max-width: 640px) 20vw, (max-width: 1024px) 15vw, 10vw',
-    
+    thumbnail: "(max-width: 640px) 20vw, (max-width: 1024px) 15vw, 10vw",
+
     // Product detail page
-    detail: '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw',
-    
+    detail: "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw",
+
     // Full width images
-    full: '100vw',
+    full: "100vw",
   };
-  
+
   return sizesMap[type];
 }
 
@@ -113,7 +115,10 @@ export function getOptimizedSizes(type: 'card' | 'hero' | 'thumbnail' | 'detail'
  * @param threshold - Số item được ưu tiên (mặc định: 4)
  * @returns boolean
  */
-export function shouldPrioritize(index: number, threshold: number = 4): boolean {
+export function shouldPrioritize(
+  index: number,
+  threshold: number = 4
+): boolean {
   return index < threshold;
 }
 
@@ -123,7 +128,10 @@ export function shouldPrioritize(index: number, threshold: number = 4): boolean 
  * @param isHero - Có phải hero image không
  * @returns Quality number (1-100)
  */
-export function getImageQuality(isPriority: boolean = false, isHero: boolean = false): number {
+export function getImageQuality(
+  isPriority: boolean = false,
+  isHero: boolean = false
+): number {
   if (isHero) return 95; // Hero images cần quality cao nhất
   if (isPriority) return 85; // Priority images dùng quality cao
   return 75; // Normal images dùng quality trung bình
@@ -134,15 +142,18 @@ export function getImageQuality(isPriority: boolean = false, isHero: boolean = f
  * @param imageUrls - Array of image URLs to preload
  * @param priority - Priority level ('high' | 'low')
  */
-export function preloadImages(imageUrls: string[], priority: 'high' | 'low' = 'low'): void {
-  if (typeof window === 'undefined') return;
-  
+export function preloadImages(
+  imageUrls: string[],
+  priority: "high" | "low" = "low"
+): void {
+  if (typeof window === "undefined") return;
+
   imageUrls.forEach((url) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
     link.href = url;
-    link.setAttribute('fetchpriority', priority);
+    link.setAttribute("fetchpriority", priority);
     document.head.appendChild(link);
   });
 }
@@ -152,9 +163,12 @@ export function preloadImages(imageUrls: string[], priority: 'high' | 'low' = 'l
  * @param imageUrls - Array of image URLs to lazy load
  * @param delay - Delay in ms before loading (mặc định: 2000)
  */
-export function lazyPreloadImages(imageUrls: string[], delay: number = 2000): void {
-  if (typeof window === 'undefined') return;
-  
+export function lazyPreloadImages(
+  imageUrls: string[],
+  delay: number = 2000
+): void {
+  if (typeof window === "undefined") return;
+
   setTimeout(() => {
     imageUrls.forEach((url) => {
       const img = new Image();
@@ -169,29 +183,33 @@ export function lazyPreloadImages(imageUrls: string[], delay: number = 2000): vo
  * @returns boolean
  */
 export function isExternalImage(url: string): boolean {
-  return url.startsWith('http://') || url.startsWith('https://');
+  return url.startsWith("http://") || url.startsWith("https://");
 }
 
 /**
  * Get optimal image format based on browser support
  * @returns 'avif' | 'webp' | 'jpeg'
  */
-export function getOptimalImageFormat(): 'avif' | 'webp' | 'jpeg' {
-  if (typeof window === 'undefined') return 'jpeg';
-  
+export function getOptimalImageFormat(): "avif" | "webp" | "jpeg" {
+  if (typeof window === "undefined") return "jpeg";
+
   // Check AVIF support
-  const avifSupport = document.createElement('canvas')
-    .toDataURL('image/avif')
-    .indexOf('data:image/avif') === 0;
-  
-  if (avifSupport) return 'avif';
-  
+  const avifSupport =
+    document
+      .createElement("canvas")
+      .toDataURL("image/avif")
+      .indexOf("data:image/avif") === 0;
+
+  if (avifSupport) return "avif";
+
   // Check WebP support
-  const webpSupport = document.createElement('canvas')
-    .toDataURL('image/webp')
-    .indexOf('data:image/webp') === 0;
-  
-  if (webpSupport) return 'webp';
-  
-  return 'jpeg';
+  const webpSupport =
+    document
+      .createElement("canvas")
+      .toDataURL("image/webp")
+      .indexOf("data:image/webp") === 0;
+
+  if (webpSupport) return "webp";
+
+  return "jpeg";
 }

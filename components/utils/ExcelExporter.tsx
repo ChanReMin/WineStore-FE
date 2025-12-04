@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { useTranslations } from 'next-intl';
+import React from "react";
+import { useTranslations } from "next-intl";
 
 interface ExcelExporterProps {
   data?: any[];
@@ -9,11 +9,15 @@ interface ExcelExporterProps {
   onExport?: () => void;
 }
 
-export default function ExcelExporter({ data, filename = 'export.xlsx', onExport }: ExcelExporterProps) {
-  const t = useTranslations('utils.excelExporter');
-  
+export default function ExcelExporter({
+  data,
+  filename = "export.xlsx",
+  onExport,
+}: ExcelExporterProps) {
+  const t = useTranslations("utils.excelExporter");
+
   const handleExport = () => {
-    console.log('Exporting to Excel:', filename);
+    console.log("Exporting to Excel:", filename);
     onExport?.();
   };
 
@@ -23,7 +27,7 @@ export default function ExcelExporter({ data, filename = 'export.xlsx', onExport
       className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
     >
       <span>📊</span>
-      {t('button')}
+      {t("button")}
     </button>
   );
 }

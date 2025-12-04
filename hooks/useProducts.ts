@@ -1,4 +1,8 @@
-import { useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query";
+import {
+  useQuery,
+  keepPreviousData,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { fetchShopProducts } from "@/services/productService";
 import type { ProductResponse } from "@/types/product";
 
@@ -78,8 +82,11 @@ export const useProducts = (params: UseProductsParams = {}) => {
  */
 export const usePrefetchProducts = () => {
   const queryClient = useQueryClient();
-  
-  const prefetchNextPage = async (params: UseProductsParams, nextPage: number) => {
+
+  const prefetchNextPage = async (
+    params: UseProductsParams,
+    nextPage: number
+  ) => {
     await queryClient.prefetchQuery({
       queryKey: [
         "products",

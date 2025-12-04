@@ -14,7 +14,8 @@ import PeriodSelector from "./PeriodSelector";
 export default function SellerDashboard() {
   const t = useTranslations("seller.dashboard");
   const [period, setPeriod] = useState("week");
-  const { overview, revenue, inventoryAlerts, orders, loading, refresh } = useDashboard(period);
+  const { overview, revenue, inventoryAlerts, orders, loading, refresh } =
+    useDashboard(period);
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {
@@ -42,8 +43,6 @@ export default function SellerDashboard() {
     );
   }
 
-
-
   return (
     <div className="space-y-6 p-4 md:p-6 bg-[#fdfbf5] min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -61,7 +60,9 @@ export default function SellerDashboard() {
             variant="outline"
             className="border-[#3b4417] text-[#3b4417] hover:bg-[#3b4417] hover:text-white"
           >
-            <RefreshCw className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`w-4 h-4 mr-2 ${refreshing ? "animate-spin" : ""}`}
+            />
             {t("refresh") || "Refresh"}
           </Button>
         </div>

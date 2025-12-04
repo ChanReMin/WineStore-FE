@@ -105,7 +105,8 @@ function ShopContent() {
     concentrationTo: filters.concentrationTo,
   });
 
-  const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
+  const { data: categories = [], isLoading: isLoadingCategories } =
+    useCategories();
   const { data: brands = [], isLoading: isLoadingBrands } = useBrands();
 
   // Extract data từ React Query response
@@ -162,7 +163,9 @@ function ShopContent() {
             page: nextPage,
             limit: filters.limit,
             search: filters.search,
-            categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+            categoryId: filters.categoryId
+              ? Number(filters.categoryId)
+              : undefined,
             brandId: filters.brandId ? Number(filters.brandId) : undefined,
             priceFrom: filters.priceFrom,
             priceTo: filters.priceTo,
@@ -175,7 +178,9 @@ function ShopContent() {
             page: nextPage,
             limit: filters.limit,
             search: filters.search || undefined,
-            categoryId: filters.categoryId ? Number(filters.categoryId) : undefined,
+            categoryId: filters.categoryId
+              ? Number(filters.categoryId)
+              : undefined,
             brandId: filters.brandId ? Number(filters.brandId) : undefined,
             priceFrom: filters.priceFrom,
             priceTo: filters.priceTo,
@@ -231,7 +236,6 @@ function ShopContent() {
   // Immediate filter change (no debounce) - for dropdowns and pagination
   const handleFilterChangeImmediate = useCallback(
     (newFilters: Partial<ProductFilters>) => {
-
       const currentFilters = localFiltersRef.current;
 
       // Merge with current local filters
@@ -268,7 +272,6 @@ function ShopContent() {
   // Using useCallback without localFilters dependency to prevent SearchBar re-triggering
   const handleFilterChange = useCallback(
     (newFilters: Partial<ProductFilters>, immediate = false) => {
-
       // Capture current filters BEFORE updating state
       const currentFilters = localFiltersRef.current;
 

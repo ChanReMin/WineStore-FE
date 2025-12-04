@@ -26,7 +26,7 @@ export default function OverviewCards({
 }: OverviewCardsProps) {
   const t = useTranslations("seller.dashboard.overview");
   const stockAlerts = lowStockProducts + outOfStockProducts;
-  
+
   const cards = [
     {
       title: t("totalRevenue"),

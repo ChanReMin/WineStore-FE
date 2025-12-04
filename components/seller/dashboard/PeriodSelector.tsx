@@ -14,7 +14,10 @@ interface PeriodSelectorProps {
   onChange: (value: string) => void;
 }
 
-export default function PeriodSelector({ value, onChange }: PeriodSelectorProps) {
+export default function PeriodSelector({
+  value,
+  onChange,
+}: PeriodSelectorProps) {
   const t = useTranslations("seller.dashboard.period");
 
   const periods = [

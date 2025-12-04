@@ -3,7 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
-import { getWineBlurPlaceholder, getOptimizedSizes, getImageQuality } from "@/lib/imageOptimization";
+import {
+  getWineBlurPlaceholder,
+  getOptimizedSizes,
+  getImageQuality,
+} from "@/lib/imageOptimization";
 
 interface OptimizedImageProps {
   src: string;
@@ -13,7 +17,7 @@ interface OptimizedImageProps {
   height?: number;
   className?: string;
   priority?: boolean;
-  type?: 'card' | 'hero' | 'thumbnail' | 'detail' | 'full';
+  type?: "card" | "hero" | "thumbnail" | "detail" | "full";
   placeholderColor?: string;
   onError?: () => void;
   quality?: number;
@@ -21,14 +25,14 @@ interface OptimizedImageProps {
 
 /**
  * OptimizedImage Component
- * 
+ *
  * Component tối ưu hóa hình ảnh với:
  * - Tự động blur placeholder
  * - Responsive sizes
  * - Lazy loading
  * - Fallback handling
  * - Quality optimization
- * 
+ *
  * @example
  * ```tsx
  * <OptimizedImage
@@ -47,7 +51,7 @@ const OptimizedImage = React.memo(function OptimizedImage({
   height,
   className = "",
   priority = false,
-  type = 'card',
+  type = "card",
   placeholderColor,
   onError,
   quality,
@@ -74,7 +78,9 @@ const OptimizedImage = React.memo(function OptimizedImage({
   // Show fallback if image failed to load
   if (hasError) {
     return (
-      <div className={`flex items-center justify-center bg-linear-to-br from-neutral-100 to-neutral-200 ${className}`}>
+      <div
+        className={`flex items-center justify-center bg-linear-to-br from-neutral-100 to-neutral-200 ${className}`}
+      >
         <div className="text-center">
           <ImageIcon className="w-12 h-12 text-neutral-400 mx-auto mb-2 opacity-50" />
           <p className="text-xs text-neutral-500">Image unavailable</p>
@@ -85,7 +91,7 @@ const OptimizedImage = React.memo(function OptimizedImage({
 
   // Get optimized settings
   const sizes = getOptimizedSizes(type);
-  const imageQuality = quality || getImageQuality(priority, type === 'hero');
+  const imageQuality = quality || getImageQuality(priority, type === "hero");
   const blurDataURL = getWineBlurPlaceholder(width || 400, height || 600);
 
   return (
@@ -94,7 +100,7 @@ const OptimizedImage = React.memo(function OptimizedImage({
       {isLoading && (
         <div className="absolute inset-0 bg-linear-to-br from-neutral-100 to-neutral-200 animate-pulse z-10" />
       )}
-      
+
       {/* Optimized Image */}
       <Image
         src={src}

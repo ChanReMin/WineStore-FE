@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { useTranslations } from 'next-intl';
+import React from "react";
+import { useTranslations } from "next-intl";
 
 interface PriceRangeFilterProps {
   min?: number;
@@ -9,22 +9,26 @@ interface PriceRangeFilterProps {
   onChange?: (min: number, max: number) => void;
 }
 
-export default function PriceRangeFilter({ min = 0, max = 1000, onChange }: PriceRangeFilterProps) {
-  const t = useTranslations('products.priceRangeFilter');
-  
+export default function PriceRangeFilter({
+  min = 0,
+  max = 1000,
+  onChange,
+}: PriceRangeFilterProps) {
+  const t = useTranslations("products.priceRangeFilter");
+
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium">{t('title')}</label>
+      <label className="block text-sm font-medium">{t("title")}</label>
       <div className="flex gap-2">
         <input
           type="number"
-          placeholder={t('min')}
+          placeholder={t("min")}
           className="w-full border rounded px-3 py-2"
           defaultValue={min}
         />
         <input
           type="number"
-          placeholder={t('max')}
+          placeholder={t("max")}
           className="w-full border rounded px-3 py-2"
           defaultValue={max}
         />

@@ -1,6 +1,6 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig = {
   // Tắt export mode để support dynamic routes [id]
@@ -20,7 +20,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 86400, // Cache ảnh 24 giờ (tăng từ 60s để giảm tải server)
     dangerouslyAllowSVG: true, // Cho phép SVG từ external sources
-    contentDispositionType: 'attachment', // Bảo mật cho SVG
+    contentDispositionType: "attachment", // Bảo mật cho SVG
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // CSP cho SVG
     remotePatterns: [
       {
@@ -58,7 +58,7 @@ const nextConfig = {
       "@radix-ui/react-select",
       "recharts",
       "react-toastify",
-      "@tanstack/react-query"
+      "@tanstack/react-query",
     ],
 
     // Enable webpack build worker for faster builds
@@ -84,45 +84,45 @@ const nextConfig = {
       config.optimization = {
         ...config.optimization,
         splitChunks: {
-          chunks: 'all',
+          chunks: "all",
           cacheGroups: {
             // Vendor libraries
             vendor: {
               test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
+              name: "vendors",
+              chunks: "all",
               priority: 10,
             },
             // React and related
             react: {
               test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-              name: 'react',
-              chunks: 'all',
+              name: "react",
+              chunks: "all",
               priority: 20,
             },
             // Charts library
             charts: {
               test: /[\\/]node_modules[\\/](recharts)[\\/]/,
-              name: 'charts',
-              chunks: 'all',
+              name: "charts",
+              chunks: "all",
               priority: 15,
             },
             // UI libraries
             ui: {
               test: /[\\/]node_modules[\\/](@radix-ui|framer-motion|lucide-react)[\\/]/,
-              name: 'ui',
-              chunks: 'all',
+              name: "ui",
+              chunks: "all",
               priority: 15,
             },
             // Common chunks
             common: {
-              name: 'common',
+              name: "common",
               minChunks: 2,
-              chunks: 'all',
+              chunks: "all",
               priority: 5,
-            }
-          }
-        }
+            },
+          },
+        },
       };
     }
 
@@ -135,8 +135,8 @@ const nextConfig = {
     removeConsole:
       process.env.NODE_ENV === "production"
         ? {
-          exclude: ["error", "warn"], // Keep error and warn
-        }
+            exclude: ["error", "warn"], // Keep error and warn
+          }
         : false,
   },
 };
