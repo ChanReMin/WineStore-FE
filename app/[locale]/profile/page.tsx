@@ -98,11 +98,9 @@ export default function ProfilePage() {
           isDefault: addr.id === id,
         }))
       );
-      toast.success(
-        tAddresses("card.setDefaultSuccess") || "Đã đặt làm mặc định"
-      );
+      toast.success(tAddresses("card.setDefaultSuccess"));
     } catch (error) {
-      toast.error(tAddresses("card.setDefaultError") || "Lỗi khi đặt mặc định");
+      toast.error(tAddresses("card.setDefaultError"));
     }
   };
 

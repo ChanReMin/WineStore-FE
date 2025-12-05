@@ -27,8 +27,13 @@ export const useAuth = () => {
         setAuth(user, access_token, refresh_token);
 
         toast.success(response.message || "Login successful!");
-        router.push("/");
+        // Don't redirect here, let the modal handle it
         return { success: true };
+      } else {
+        // Handle unsuccessful response
+        const errorMessage = response.message || "Login failed";
+        toast.error(errorMessage);
+        return { success: false, error: errorMessage };
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Login failed";

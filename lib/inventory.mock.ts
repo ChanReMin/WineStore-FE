@@ -9,7 +9,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 1, name: "Château Margaux 2015", price: 5_940_000 },
       quantityOnHand: 50,
       safetyStock: 10,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-01T00:00:00Z",
     },
     {
@@ -22,7 +22,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 2, name: "Bordeaux 2018", price: 3_500_000 },
       quantityOnHand: 120,
       safetyStock: 15,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-02T11:20:00Z",
     },
     {
@@ -35,7 +35,7 @@ export const mockInventoryList: InventoryResponse = {
       },
       quantityOnHand: 8,
       safetyStock: 10,
-      status: "low_Stock",
+      status: "low_stock",
       lastUpdatedAt: "2024-01-03T09:10:00Z",
     },
     {
@@ -44,7 +44,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 4, name: "Barolo DOCG 2017", price: 4_700_000 },
       quantityOnHand: 0,
       safetyStock: 5,
-      status: "out_Of_Stock",
+      status: "out_of_stock",
       lastUpdatedAt: "2024-01-04T13:50:00Z",
     },
     {
@@ -57,7 +57,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 5, name: "Brunello di Montalcino 2016", price: 3_900_000 },
       quantityOnHand: 34,
       safetyStock: 10,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-05T16:00:00Z",
     },
     {
@@ -66,7 +66,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 6, name: "Penfolds Grange 2019", price: 6_300_000 },
       quantityOnHand: 5,
       safetyStock: 10,
-      status: "low_Stock",
+      status: "low_stock",
       lastUpdatedAt: "2024-01-06T14:00:00Z",
     },
     {
@@ -79,7 +79,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 7, name: "Opus One 2018", price: 9_200_000 },
       quantityOnHand: 60,
       safetyStock: 20,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-07T12:30:00Z",
     },
     {
@@ -92,7 +92,7 @@ export const mockInventoryList: InventoryResponse = {
       },
       quantityOnHand: 18,
       safetyStock: 10,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-08T08:10:00Z",
     },
     {
@@ -109,7 +109,7 @@ export const mockInventoryList: InventoryResponse = {
       },
       quantityOnHand: 0,
       safetyStock: 10,
-      status: "out_Of_Stock",
+      status: "out_of_stock",
       lastUpdatedAt: "2024-01-09T10:45:00Z",
     },
     {
@@ -118,7 +118,7 @@ export const mockInventoryList: InventoryResponse = {
       product: { id: 10, name: "Trapiche Malbec 2021", price: 950_000 },
       quantityOnHand: 200,
       safetyStock: 20,
-      status: "in_Stock",
+      status: "in_stock",
       lastUpdatedAt: "2024-01-10T15:00:00Z",
     },
   ],

@@ -124,6 +124,12 @@ axiosInstance.interceptors.response.use(
       _retry?: boolean;
     };
 
+    // Bỏ qua refresh token cho login/register endpoints
+    if (originalRequest.url?.includes("/auth/login") || 
+        originalRequest.url?.includes("/auth/register")) {
+      return Promise.reject(error);
+    }
+
     // Nếu lỗi 401 và chưa retry
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {

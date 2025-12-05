@@ -1321,11 +1321,19 @@
       },
       "card": {
         "default": "Default",
+        "setDefault": "Set as Default",
         "edit": "Edit",
         "delete": "Delete",
         "deleteConfirm": "Are you sure you want to delete this address?",
         "deleteSuccess": "Address deleted successfully!",
-        "deleteError": "An error occurred. Please try again!"
+        "deleteError": "An error occurred. Please try again!",
+        "setDefaultSuccess": "Set as default address successfully",
+        "setDefaultError": "Failed to set default address",
+        "addressTypes": {
+          "home": "Home",
+          "office": "Office",
+          "other": "Other"
+        }
       },
       "modal": {
         "titleAdd": "Add New Address",
