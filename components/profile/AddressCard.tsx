@@ -54,12 +54,9 @@ export default function AddressCard({
               {address.addressType === "OFFICE" && "🏢"}
               {address.addressType === "OTHER" && "📍"}
               <span className="ml-1">
-                {address.addressType === "HOME" &&
-                  (t("addressTypes.home") || "Nhà riêng")}
-                {address.addressType === "OFFICE" &&
-                  (t("addressTypes.office") || "Văn phòng")}
-                {address.addressType === "OTHER" &&
-                  (t("addressTypes.other") || "Khác")}
+                {address.addressType === "HOME" && t("addressTypes.home")}
+                {address.addressType === "OFFICE" && t("addressTypes.office")}
+                {address.addressType === "OTHER" && t("addressTypes.other")}
               </span>
             </span>
           )}
@@ -117,7 +114,7 @@ export default function AddressCard({
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              {t("setDefault") || "Đặt mặc định"}
+              {t("setDefault")}
             </motion.button>
           )}
           <motion.button

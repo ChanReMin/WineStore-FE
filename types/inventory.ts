@@ -17,7 +17,7 @@ export interface InventoryItem {
   product: InventoryProduct;
   quantityOnHand: number;
   safetyStock: number;
-  status: "in_Stock" | "low_Stock" | "out_Of_Stock";
+  status: "in_stock" | "low_stock" | "out_of_stock";
   lastUpdatedAt: string;
 }
 

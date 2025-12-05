@@ -1319,11 +1319,19 @@
       },
       "card": {
         "default": "Mặc định",
+        "setDefault": "Đặt mặc định",
         "edit": "Sửa",
         "delete": "Xóa",
         "deleteConfirm": "Bạn có chắc muốn xóa địa chỉ này?",
         "deleteSuccess": "Xóa địa chỉ thành công!",
-        "deleteError": "Có lỗi xảy ra. Vui lòng thử lại!"
+        "deleteError": "Có lỗi xảy ra. Vui lòng thử lại!",
+        "setDefaultSuccess": "Đã đặt làm địa chỉ mặc định",
+        "setDefaultError": "Lỗi khi đặt địa chỉ mặc định",
+        "addressTypes": {
+          "home": "Nhà riêng",
+          "office": "Văn phòng",
+          "other": "Khác"
+        }
       },
       "modal": {
         "titleAdd": "Thêm địa chỉ mới",

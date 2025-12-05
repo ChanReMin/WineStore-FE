@@ -27,9 +27,9 @@ export default function InventoryFilters({
 
   const statusOptions = [
     { value: "all", label: t("all") },
-    { value: "in_Stock", label: t("inStock") },
-    { value: "low_Stock", label: t("lowStock") },
-    { value: "out_Of_Stock", label: t("outOfStock") },
+    { value: "in_stock", label: t("inStock") },
+    { value: "low_stock", label: t("lowStock") },
+    { value: "out_of_stock", label: t("outOfStock") },
   ];
 
   return (

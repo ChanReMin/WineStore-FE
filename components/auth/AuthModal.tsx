@@ -821,7 +821,7 @@ export default function AuthModal({
                   </div>
                 )}
 
-                {/* Google Sign In Button - Only show in login mode */}
+                {/* Google Sign In Button - Only show in login mode
                 {mode === "login" && (
                   <motion.button
                     type="button"
@@ -857,7 +857,7 @@ export default function AuthModal({
                       {t("buttons.signInWithGoogle")}
                     </span>
                   </motion.button>
-                )}
+                )} */}
 
                 {/* Switch mode */}
                 <div className="mt-6 text-center">
